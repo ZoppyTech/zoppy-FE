@@ -23,11 +23,8 @@ jobs:
             - name: Install
               run: npm install
 
-            - name: Lint
-              run: npm run lint
-
             - name: Test
-              run: npm run test
+              run: npm run test:headless
 
             - name: Build
               run: npm run build
