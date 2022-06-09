@@ -39,14 +39,5 @@ jobs:
               run: |
                   aws s3 cp \
                     --recursive \
-                    --region ap-northeast-2 \
+                    --region us-east-1 \
                     dist s3://${{ secrets.AWS_S3_BUCKET }}
-
-            - name: Notification
-              uses: 8398a7/action-slack@v2.6.0
-              with:
-                  status: ${{ job.status }}
-                  author_name: [slack chatbot name]
-              env:
-                  GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-                  SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
