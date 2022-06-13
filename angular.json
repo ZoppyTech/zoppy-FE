@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "resume": {
+    "zoppy-FE": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -20,7 +20,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
-            "outputPath": "dist/resume",
+            "outputPath": "dist/zoppy-FE",
             "index": "src/index.html",
             "main": "src/main.ts",
             "polyfills": "src/polyfills.ts",
@@ -72,10 +72,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "browserTarget": "resume:build:production"
+              "browserTarget": "zoppy-FE:build:production"
             },
             "development": {
-              "browserTarget": "resume:build:development"
+              "browserTarget": "zoppy-FE:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -83,7 +83,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "resume:build"
+            "browserTarget": "zoppy-FE:build"
           }
         },
         "test": {
@@ -116,7 +116,7 @@
       }
     }
   },
-  "defaultProject": "resume",
+  "defaultProject": "zoppy-FE",
   "cli": {
     "defaultCollection": "@angular-eslint/schematics"
   }
