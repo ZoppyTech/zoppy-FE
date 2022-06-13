@@ -36,8 +36,4 @@ jobs:
 
             - name: Deploy
               if: success()
-<<<<<<< Updated upstream
-              run: aws s3 sync ./dist/resume s3://lroscoe-resume
-=======
-              run: aws s3 sync ./dist/zoppy-FE s3://zoppy-FE
->>>>>>> Stashed changes
+              run: aws s3 sync ./dist/zoppy-FE s3://${{ secrets.AWS_S3_BUCKET }}
