@@ -1,16 +1,18 @@
-import { Component, OnInit } from '@angular/core';
-import { environment } from 'src/environments/environment';
-import { io } from 'socket.io';
+import { Component } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
     selector: 'app-root',
     templateUrl: './app.component.html',
     styleUrls: ['./app.component.scss']
 })
-export class AppComponent implements OnInit {
-
-    public ngOnInit(): void {
-        const socket: WebSocket = io(environment.apiUrl);
-    }
+export class AppComponent {
     public title: string = 'Zoppy';
+
+    public constructor(private socket: Socket) {}
+
+    public emitEvent() {
+        debugger;
+        this.socket.emit('msgToServer', 'teste');
+    }
 }
