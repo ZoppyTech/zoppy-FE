@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { Socket } from 'ngx-socket-io';
 
 @Component({
     selector: 'app-root',
@@ -7,4 +8,11 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
     public title: string = 'Zoppy';
+
+    public constructor(private socket: Socket) {}
+
+    public emitEvent() {
+        debugger;
+        this.socket.emit('msgToServer', 'teste');
+    }
 }
