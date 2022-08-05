@@ -7,7 +7,6 @@ import { AppComponent } from './app.component';
 
 console.log(environment.apiUrl);
 const config: SocketIoConfig = { url: environment.apiUrl, options: {} };
-debugger;
 
 @NgModule({
     declarations: [AppComponent],
@@ -15,4 +14,4 @@ debugger;
     providers: [],
     bootstrap: [AppComponent]
 })
-export class AppModule { }
+export class AppModule {}
