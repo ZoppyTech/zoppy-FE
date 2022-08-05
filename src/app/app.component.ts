@@ -12,7 +12,6 @@ export class AppComponent {
     public constructor(private socket: Socket) {}
 
     public emitEvent() {
-        debugger;
         this.socket.emit('msgToServer', 'teste');
     }
 }
