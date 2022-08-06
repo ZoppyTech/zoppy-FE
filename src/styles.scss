@@ -1,5 +1,5 @@
 @import '@lucarrloliveira/visual-identity/assets/styles.css';
-@import "@fontsource/inter";
+@import '@fontsource/inter';
 
 html,
 body {
@@ -22,11 +22,11 @@ body {
     top: 0;
     bottom: 0;
     margin: 0;
-    font-family: "Inter";
+    font-family: 'Inter';
 }
 
 input {
-  font-family: "Inter" !important;
+    font-family: 'Inter' !important;
 }
 
 .margin {
@@ -58,19 +58,19 @@ th {
 }
 
 .hidden {
-  display: none !important;
+    display: none !important;
 }
 
 .flex-center {
-  display: flex;
-  align-items: center;
-  justify-content: center;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .text--center {
-  text-align: center;
+    text-align: center;
 }
 
 h4 {
-  margin: unset;
+    margin: unset;
 }

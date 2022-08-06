@@ -12,7 +12,8 @@
         "lint": "ng lint",
         "format": "prettier src/**/*.ts --write",
         "pretty": "npx prettier --write ./src",
-        "pre-commit": "npm run pretty && npm run lint && git add -A"
+        "pre-commit": "npm run pretty && npm run lint && git add -A",
+        "prepare": "husky install"
     },
     "private": true,
     "dependencies": {
