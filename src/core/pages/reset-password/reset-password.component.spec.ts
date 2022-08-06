@@ -1,9 +1,14 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
 
 import { ResetPasswordComponent } from './reset-password.component';
+import { ToastService } from '@lucarrloliveira/toast';
+import { RouterTestingModule } from '@angular/router/testing';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { ButtonModule } from '@lucarrloliveira/button';
+import { IconModule } from '@lucarrloliveira/icon';
+import { InputModule } from '@lucarrloliveira/input';
+import { CarrosselModule } from 'src/shared/components/carrossel/carrossel.module';
 
 describe('ResetPasswordComponent', () => {
     let component: ResetPasswordComponent;
@@ -11,7 +16,9 @@ describe('ResetPasswordComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ResetPasswordComponent]
+            declarations: [ResetPasswordComponent],
+            imports: [RouterTestingModule, HttpClientTestingModule, IconModule, ButtonModule, InputModule, CarrosselModule],
+            providers: [ToastService]
         }).compileComponents();
     }));
 

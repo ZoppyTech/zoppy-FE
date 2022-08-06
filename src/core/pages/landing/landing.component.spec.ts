@@ -4,6 +4,9 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { LandingComponent } from './landing.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { Storage } from 'src/shared/utils/storage';
 
 describe('LandingComponent', () => {
     let component: LandingComponent;
@@ -11,7 +14,9 @@ describe('LandingComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [LandingComponent]
+            declarations: [LandingComponent],
+            imports: [RouterTestingModule, HttpClientTestingModule],
+            providers: [Storage]
         }).compileComponents();
     }));
 
