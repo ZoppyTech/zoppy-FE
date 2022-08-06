@@ -1,0 +1,9 @@
+<div class="carrossel">
+    <div class="carrossel-item" [ngStyle]="style" #item *ngFor="let item of items">
+        <img [src]="item.image" alt="" />
+        <div class="labels">
+            <h3 class="text--100">{{ item.title }}</h3>
+            <div class="subtitle text text--100" [innerHTML]="item.subtitle"></div>
+        </div>
+    </div>
+</div>
