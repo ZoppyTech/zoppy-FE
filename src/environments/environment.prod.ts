@@ -1,4 +1,4 @@
 export const environment: any = {
     production: true,
-    apiUrl: 'http://localhost/8080'
+    apiUrl: 'https://dev-api.zoppy.com.br'
 };
