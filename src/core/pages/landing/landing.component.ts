@@ -21,7 +21,6 @@ export class LandingComponent implements OnInit {
     }
 
     private async fetchCredentials(): Promise<void> {
-        debugger;
         if (!this.storage.getToken()) {
             this.router.navigate([Navigation.routes.login]);
             return;

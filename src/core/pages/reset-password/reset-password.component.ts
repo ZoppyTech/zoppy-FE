@@ -36,9 +36,7 @@ export class ResetPasswordComponent implements OnInit {
             const request: SendResetPasswordRequest = {
                 email: this.emailField.model
             };
-            debugger;
             const response: boolean = await this.publicService.sendResetPasswordEmail(request);
-            debugger;
             if (response) this.sent = true;
         } catch (ex: any) {
             this.emailField.errors = ['error'];

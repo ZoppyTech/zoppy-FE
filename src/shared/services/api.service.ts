@@ -119,13 +119,10 @@ export abstract class ApiService {
             : responseError.error.message || '';
         const error: ZoppyException = responseError.error as ZoppyException;
         error.message = errorMessage as string;
-        debugger;
-
         if (error.statusCode === 401) {
             localStorage.clear();
             this.router.navigate([Navigation.routes.login]);
         }
-
         return throwError(error);
     }
 }

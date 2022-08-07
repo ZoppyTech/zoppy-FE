@@ -31,7 +31,6 @@ export class CarrosselComponent implements OnInit {
                 };
             });
             this.itemVisible = 1;
-            debugger;
         } else {
             setTimeout(() => {
                 this.style = {
