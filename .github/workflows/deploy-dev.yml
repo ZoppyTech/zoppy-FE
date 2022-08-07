@@ -24,7 +24,6 @@ jobs:
               with:
                   node-version: 14
 
-
             - name: Install dependencies
               run: npm install
 
@@ -32,7 +31,7 @@ jobs:
               run: npm run test:headless
 
             - name: Build
-              run: npm run build:prod
+              run: npm run build:dev
 
             - name: Deploy
               if: success()
