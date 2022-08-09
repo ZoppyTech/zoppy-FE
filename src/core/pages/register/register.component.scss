@@ -1,0 +1,87 @@
+@import 'src/styles.scss';
+
+.register {
+    width: 100vw;
+    height: 100vh;
+
+    &__content {
+        flex-grow: 1;
+        z-index: 2;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: calc(100vw - 87vh);
+        min-width: 350px;
+        background-color: var(--neutral-100);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        max-height: 100vh;
+        overflow: auto;
+
+        .logo-content {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+        }
+        .logo {
+            height: 20px;
+        }
+
+        .text--center {
+            width: 100%;
+            text-align: center;
+        }
+
+        .form {
+            display: flex;
+            justify-content: space-between;
+            width: 500px;
+            flex-grow: 1;
+            align-items: center;
+            max-width: calc(100vh - 64px);
+            flex-wrap: wrap;
+
+            .field {
+                width: 100%;
+                span {
+                    line-height: 32px;
+                }
+            }
+
+            .checkbox {
+                display: flex;
+                align-items: center;
+            }
+
+            .half-size {
+                width: calc(50% - 8px);
+            }
+        }
+
+        .button-content {
+            padding-top: 32px;
+            width: 100%;
+            ps-button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1200px) {
+    .register {
+        &__content {
+            width: 100vw;
+            .form {
+                width: calc(100vw - 64px);
+            }
+        }
+    }
+
+    app-carrossel {
+        display: none;
+    }
+}

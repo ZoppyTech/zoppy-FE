@@ -28,7 +28,7 @@
         "@angular/router": "~14.1.0",
         "@fontsource/inter": "^4.5.11",
         "@lucarrloliveira/button": "^0.0.13",
-        "@lucarrloliveira/checkbox": "^0.0.7",
+        "@lucarrloliveira/checkbox": "^0.0.8",
         "@lucarrloliveira/confirm-action": "^0.0.2",
         "@lucarrloliveira/icon": "^0.0.5",
         "@lucarrloliveira/input": "^0.0.10",

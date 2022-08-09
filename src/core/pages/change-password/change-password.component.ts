@@ -13,18 +13,7 @@ import { Navigation } from 'src/shared/utils/navigation';
 export class ChangePasswordComponent implements OnInit {
     public loading: boolean = false;
     public token: string = '';
-    public passwordField: Field = {
-        errors: [],
-        model: '',
-        icon: 'icon-lock',
-        placeholder: 'Digite sua senha'
-    };
-    public passwordConfirmationField: Field = {
-        errors: [],
-        model: '',
-        icon: 'icon-lock',
-        placeholder: 'Digite novamente sua senha'
-    };
+    public fields: Field[] = [];
 
     public constructor(
         private readonly publicService: PublicService,
@@ -35,6 +24,7 @@ export class ChangePasswordComponent implements OnInit {
 
     public ngOnInit() {
         this.initForm();
+        this.initFields();
         this.route.paramMap.subscribe((paramMap: any) => {
             this.token = paramMap.get('token');
         });
@@ -48,15 +38,15 @@ export class ChangePasswordComponent implements OnInit {
         try {
             this.loading = true;
             const request: ResetPasswordRequest = {
-                newPassword: this.passwordField.model,
+                newPassword: this.fields[0].model,
                 hash: this.token
             };
             await this.publicService.resetPassword(request);
             this.toast.success('Senha atualizada com sucesso!', 'Tudo certo');
             this.goBack();
         } catch (ex: any) {
-            this.passwordField.errors = ['error'];
-            this.passwordConfirmationField.errors = ['error'];
+            this.fields[0].errors = ['error'];
+            this.fields[1].errors = ['error'];
             this.toast.error(ex.message, 'Erro');
         } finally {
             this.loading = false;
@@ -67,14 +57,31 @@ export class ChangePasswordComponent implements OnInit {
         this.router.navigate([Navigation.routes.login]);
     }
 
+    private initFields(): void {
+        this.fields = [
+            {
+                errors: [],
+                model: '',
+                icon: 'icon-lock',
+                placeholder: 'Digite sua senha',
+                title: 'Nova senha',
+                type: 'password'
+            },
+            {
+                errors: [],
+                model: '',
+                icon: 'icon-lock',
+                placeholder: 'Digite novamente sua senha',
+                title: 'Confirme sua nova senha',
+                type: 'password'
+            }
+        ];
+    }
+
     private validFields(): boolean {
-        if (
-            !this.passwordConfirmationField.model ||
-            !this.passwordField.model ||
-            this.passwordConfirmationField.model !== this.passwordField.model
-        ) {
-            this.passwordField.errors = ['error'];
-            this.passwordConfirmationField.errors = ['error'];
+        if (!this.fields[1].model || !this.fields[0].model || this.fields[1].model !== this.fields[0].model) {
+            this.fields[0].errors = ['error'];
+            this.fields[1].errors = ['error'];
             this.toast.error('Campos de senha não conferem', 'Erro');
             return false;
         }
@@ -95,4 +102,6 @@ class Field {
     public model: string = '';
     public icon: string = '';
     public placeholder: string = '';
+    public title: string = '';
+    public type: string = '';
 }

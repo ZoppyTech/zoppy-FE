@@ -7,28 +7,16 @@
             <h4 class="text--primary">Acesse sua conta Zoppy</h4>
             <span class="text text--800 margin-bottom-3 margin-top-2">Clientes fidelizados através de benefícios</span>
 
-            <div class="field">
-                <span class="text text--bold text--800" [ngClass]="{ 'text--negative': emailField.errors.length > 0 }">E-mail</span>
+            <div class="field" *ngFor="let field of fields">
+                <span class="text text--bold text--800" [ngClass]="{ 'text--negative': field.errors.length > 0 }">{{ field.title }}</span>
                 <ps-input
-                    placeholder="Digite seu e-mail"
-                    [(ngModel)]="emailField.model"
-                    [errors]="emailField.errors"
-                    (onFocus)="emailField.errors = []"
-                    [ngClass]="{ 'text--negative': emailField.errors.length > 0 }"
-                    type="email"
-                    [icon]="emailField.icon"
-                ></ps-input>
-            </div>
-            <div class="field">
-                <span class="text text--bold text--800" [ngClass]="{ 'text--negative': emailField.errors.length > 0 }">Senha</span>
-                <ps-input
-                    placeholder="Digite sua senha"
-                    [(ngModel)]="passwordField.model"
-                    [errors]="passwordField.errors"
-                    (onFocus)="passwordField.errors = []"
-                    [ngClass]="{ 'text--negative': passwordField.errors.length > 0 }"
-                    type="password"
-                    [icon]="passwordField.icon"
+                    [placeholder]="field.placeholder"
+                    [(ngModel)]="field.model"
+                    [errors]="field.errors"
+                    (onFocus)="field.errors = []"
+                    [ngClass]="{ 'text--negative': field.errors.length > 0 }"
+                    [type]="field.type"
+                    [icon]="field.icon"
                 ></ps-input>
             </div>
             <div class="forgot-password">

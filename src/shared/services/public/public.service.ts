@@ -2,8 +2,10 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { LoginRequest } from 'src/shared/models/requests/public/login.request';
 import { RefreshTokenRequest } from 'src/shared/models/requests/public/refresh-token.request';
+import { RegisterRequest } from 'src/shared/models/requests/public/register.request';
 import { ResetPasswordRequest } from 'src/shared/models/requests/public/reset-password.request';
 import { SendResetPasswordRequest } from 'src/shared/models/requests/public/send-request-password.request';
 import { LoginResponse } from 'src/shared/models/responses/public/login.response';
@@ -53,6 +55,16 @@ export class PublicService extends ApiService {
         const promise: Promise<LoginResponse> = new Promise((resolve: any, reject: any) => {
             this.put<LoginResponse, RefreshTokenRequest>(`${this.url}/refresh-token`, request).subscribe(
                 (response: LoginResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async register(request: RegisterRequest): Promise<UserEntity> {
+        const promise: Promise<UserEntity> = new Promise((resolve: any, reject: any) => {
+            this.post<UserEntity, RegisterRequest>(`${this.url}/register`, request).subscribe(
+                (response: UserEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

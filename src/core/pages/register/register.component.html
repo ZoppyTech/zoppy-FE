@@ -1,1 +1,46 @@
-<p>register works!</p>
+<div class="register">
+    <div class="register__content">
+        <div class="logo-content">
+            <img class="logo" src="./assets/imgs/logo.png" alt="" />
+        </div>
+        <form (keydown.enter)="register()" class="form" id="registerForm">
+            <h4 class="text--primary margin-bottom-3 text--center">Faça seu cadastro</h4>
+
+            <div class="field {{ field.class }}" *ngFor="let field of fields">
+                <span class="text text--bold text--800" [ngClass]="{ 'text--negative': field.errors.length > 0 }">{{ field.title }}</span>
+                <ps-input
+                    [placeholder]="field.placeholder"
+                    [(ngModel)]="field.model"
+                    [errors]="field.errors"
+                    (onFocus)="field.errors = []"
+                    [ngClass]="{ 'text--negative': field.errors.length > 0 }"
+                    [type]="field.type"
+                    [icon]="field.icon || ''"
+                    [mask]="field.mask || ''"
+                ></ps-input>
+            </div>
+
+            <div class="field checkbox">
+                <ps-checkbox [(active)]="acceptTerms"> </ps-checkbox>
+                <span class="text-800">
+                    Eu aceito os
+                    <a class="text--primary text--bold text--link">Termos e Condições </a>
+                    da Zoppy.
+                </span>
+            </div>
+
+            <div class="button-content">
+                <ps-button (onClick)="register()" [loading]="loading" [wide]="true" type="secondary"
+                    ><span class="text text--100">Acessar</span>
+                </ps-button>
+            </div>
+
+            <div class="margin-top-2 wide">
+                <p class="text-800 text--center">
+                    Já é um cliente Zoppy?&nbsp;<a [routerLink]="'/login'" class="text--primary text--bold text--link">Acesse sua conta</a>
+                </p>
+            </div>
+        </form>
+    </div>
+    <app-carrossel></app-carrossel>
+</div>

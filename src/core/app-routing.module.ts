@@ -16,6 +16,10 @@ const routes: Routes = [
         loadChildren: () => import('./pages/login/login.module').then((m: any) => m.LoginModule)
     },
     {
+        path: 'login/:email',
+        loadChildren: () => import('./pages/login/login.module').then((m: any) => m.LoginModule)
+    },
+    {
         path: 'change-password/:token',
         loadChildren: () => import('./pages/change-password/change-password.module').then((m: any) => m.ChangePasswordModule)
     },

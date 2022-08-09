@@ -1,7 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@lucarrloliveira/toast';
-import { CarrosselItem } from 'src/shared/components/carrossel/carrossel.component';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { LoginRequest } from 'src/shared/models/requests/public/login.request';
@@ -17,26 +16,23 @@ import { Storage } from 'src/shared/utils/storage';
     styleUrls: ['./login.component.scss']
 })
 export class LoginComponent implements OnInit {
-    public emailField: Field = {
-        errors: [],
-        model: '',
-        icon: 'icon-alternate_email'
-    };
-    public passwordField: Field = {
-        errors: [],
-        model: '',
-        icon: 'icon-lock'
-    };
+    public fields: Field[] = [];
     public loading: boolean = false;
+    public email: string = '';
 
     public constructor(
         private readonly publicService: PublicService,
         private readonly toast: ToastService,
         private readonly storage: Storage,
-        private readonly router: Router
+        private readonly router: Router,
+        private readonly route: ActivatedRoute
     ) {}
 
     public ngOnInit() {
+        this.route.paramMap.subscribe((paramMap: any) => {
+            this.email = paramMap.get('email') ?? '';
+        });
+        this.initFields();
         this.initForm();
     }
 
@@ -44,8 +40,8 @@ export class LoginComponent implements OnInit {
         try {
             this.loading = true;
             const request: LoginRequest = {
-                email: this.emailField.model,
-                password: this.passwordField.model
+                email: this.fields[0].model,
+                password: this.fields[1].model
             };
             const response: LoginResponse = await this.publicService.login(request);
             this.storage.setCompany(response.company as CompanyEntity);
@@ -54,12 +50,33 @@ export class LoginComponent implements OnInit {
             this.router.navigate([Navigation.routes.dashboard]);
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.emailField.errors = ['error'];
-            this.passwordField.errors = ['error'];
+            this.fields[0].errors = ['error'];
+            this.fields[1].errors = ['error'];
             this.toast.error(ex.message, 'Não foi possível efetuar o login');
         } finally {
             this.loading = false;
         }
+    }
+
+    private initFields(): void {
+        this.fields = [
+            {
+                errors: [],
+                model: this.email,
+                icon: 'icon-alternate_email',
+                title: 'E-mail',
+                placeholder: 'Digite seu e-mail',
+                type: 'email'
+            },
+            {
+                errors: [],
+                model: '',
+                icon: 'icon-lock',
+                title: 'Senha',
+                placeholder: 'Digite sua senha',
+                type: 'placeholder'
+            }
+        ];
     }
 
     private initForm(): void {
@@ -74,4 +91,7 @@ class Field {
     public errors: string[] = [];
     public model: string = '';
     public icon: string = '';
+    public title: string = '';
+    public type: string = '';
+    public placeholder: string = '';
 }
