@@ -5,8 +5,20 @@ export class Navigation {
         'change-password': '/change-password',
         'reset-password': '/reset-password',
         dashboard: '/dashboard',
-        register: '/register'
+        register: '/register',
+        configuration: '/configuration',
+        'my-company': '/my-company',
+        reports: '/reports'
     };
 }
 
-export type Pages = 'login' | 'landing' | 'change-password' | 'reset-password' | 'dashboard' | 'register';
+export type Pages =
+    | 'login'
+    | 'landing'
+    | 'change-password'
+    | 'reset-password'
+    | 'dashboard'
+    | 'register'
+    | `configuration`
+    | 'my-company'
+    | 'reports';

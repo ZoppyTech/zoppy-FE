@@ -1,0 +1,32 @@
+<div class="top-bar flex-grow flex">
+    <div class="flex flex-grow"></div>
+    <div class="flex-center flex">
+        <div class="padding-2 flex flex-center">
+            <ps-icon icon="icon-chat_bubble"></ps-icon>
+        </div>
+        <div class="padding-2 flex flex-center">
+            <ps-icon icon="icon-notifications"></ps-icon>
+        </div>
+        <ps-contact class="margin-left-2" [tooltip]="false" [name]="user?.name ?? ''" [email]="user?.email ?? ''"></ps-contact>
+        <div class="flex flex-start flex-column margin-left-2">
+            <span class="text text--primary text--bold">
+                {{ user?.name }}
+            </span>
+            <span class="text text--600 text--small">
+                {{ user?.email }}
+            </span>
+        </div>
+        <ps-mini-menu class="margin-left-2">
+            <ul>
+                <li class="flex flex-start">
+                    <ps-icon class="margin-right-2" icon="icon-group"></ps-icon>
+                    <span class="text">Meu Perfil</span>
+                </li>
+                <li class="flex flex-start">
+                    <ps-icon class="margin-right-2" icon="icon-logout"></ps-icon>
+                    <span class="text"> Sair </span>
+                </li>
+            </ul>
+        </ps-mini-menu>
+    </div>
+</div>

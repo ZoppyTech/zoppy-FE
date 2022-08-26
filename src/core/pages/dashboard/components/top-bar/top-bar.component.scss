@@ -1,0 +1,19 @@
+.top-bar {
+    width: 100%;
+    padding: 16px 32px;
+
+    ul {
+        min-width: 180px;
+
+        li {
+            ps-icon {
+                font-size: 16px;
+                color: var(--neutral-600);
+            }
+        }
+    }
+
+    ps-icon {
+        font-size: 24px;
+    }
+}

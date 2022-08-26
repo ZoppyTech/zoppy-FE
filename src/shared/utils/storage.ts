@@ -43,10 +43,14 @@ export class Storage {
     }
 
     public setUser(user: UserEntity): void {
-        localStorage.setItem(Storage.keys.company, JSON.stringify(user));
+        localStorage.setItem(Storage.keys.user, JSON.stringify(user));
     }
 
     public setCompany(company: CompanyEntity): void {
         localStorage.setItem(Storage.keys.company, JSON.stringify(company));
+    }
+
+    public clearAll(): void {
+        localStorage.clear();
     }
 }

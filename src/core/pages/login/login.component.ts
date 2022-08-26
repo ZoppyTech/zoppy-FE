@@ -44,10 +44,7 @@ export class LoginComponent implements OnInit {
                 password: this.fields[1].model
             };
             const response: LoginResponse = await this.publicService.login(request);
-            this.storage.setCompany(response.company as CompanyEntity);
-            this.storage.setUser(response.user as UserEntity);
-            this.storage.setToken(response.token as string);
-            this.router.navigate([Navigation.routes.dashboard]);
+            this.publicService.handleLoginSuccess(response);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.fields[0].errors = ['error'];
@@ -74,7 +71,7 @@ export class LoginComponent implements OnInit {
                 icon: 'icon-lock',
                 title: 'Senha',
                 placeholder: 'Digite sua senha',
-                type: 'placeholder'
+                type: 'password'
             }
         ];
     }
