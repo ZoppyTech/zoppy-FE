@@ -1,0 +1,36 @@
+<div class="side-menu" [ngClass]="{ open: open }">
+    <div class="flex padding-2 header padding-top-3" [ngClass]="{ 'flex-center': !open, 'flex-start padding-x-3 padding-2': open }">
+        <img src="./assets/imgs/logo.png" *ngIf="open" alt="" />
+        <img src="./assets/imgs/mini-logo.png" class="padding-x-2" *ngIf="!open" alt="" />
+    </div>
+
+    <div class="separator"></div>
+
+    <ul class="flex flex-column flex-grow">
+        <li
+            [routerLink]="item.route"
+            [ngClass]="{ 'justify-center': !open, 'flex-start': open }"
+            class="padding-2 flex align-center"
+            *ngFor="let item of menuItems"
+            tooltipWidth="180"
+            appTooltip
+            [tooltipText]="item.label"
+            [tooltipHidden]="open"
+            tooltipDirection="right"
+        >
+            <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': open }">
+                <ps-icon [icon]="item.icon"></ps-icon>
+            </div>
+            <span [ngClass]="{ hidden: !open }" class="text label">{{ item.label }}</span>
+        </li>
+    </ul>
+
+    <div class="separator"></div>
+
+    <div class="footer padding-2 padding-bottom-3" [ngClass]="{ 'justify-center': !open, 'flex-start': open }">
+        <ps-icon class="clickable" (click)="open = !open" icon="icon-logout"></ps-icon>
+        <a [ngClass]="{ hidden: !open }" class="text text--link text--primary margin-left-2"> Sair </a>
+    </div>
+</div>
+
+<ps-tooltip></ps-tooltip>

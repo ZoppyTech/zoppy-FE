@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { LoginRequest } from 'src/shared/models/requests/public/login.request';
 import { RefreshTokenRequest } from 'src/shared/models/requests/public/refresh-token.request';
@@ -9,6 +10,8 @@ import { RegisterRequest } from 'src/shared/models/requests/public/register.requ
 import { ResetPasswordRequest } from 'src/shared/models/requests/public/reset-password.request';
 import { SendResetPasswordRequest } from 'src/shared/models/requests/public/send-request-password.request';
 import { LoginResponse } from 'src/shared/models/responses/public/login.response';
+import { Navigation } from 'src/shared/utils/navigation';
+import { Storage } from 'src/shared/utils/storage';
 import { ApiService, ZoppyException } from '../api.service';
 
 @Injectable({
@@ -17,7 +20,11 @@ import { ApiService, ZoppyException } from '../api.service';
 export class PublicService extends ApiService {
     public override url: string = `${environment.apiUrl}/api`;
 
-    public constructor(public override readonly http: HttpClient, public override readonly router: Router) {
+    public constructor(
+        public override readonly http: HttpClient,
+        public override readonly router: Router,
+        private readonly storage: Storage
+    ) {
         super(http, router);
     }
 
@@ -69,5 +76,17 @@ export class PublicService extends ApiService {
             );
         });
         return promise;
+    }
+
+    public handleLoginSuccess(loginResponse: LoginResponse): void {
+        this.storage.setToken(loginResponse.token);
+        this.storage.setUser(loginResponse.user as UserEntity);
+        this.storage.setCompany(loginResponse.company as CompanyEntity);
+        this.router.navigate([Navigation.routes.dashboard]);
+    }
+
+    public logout(): void {
+        this.storage.clearAll();
+        this.router.navigate([Navigation.routes.login]);
     }
 }
