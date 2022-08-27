@@ -4,10 +4,12 @@
             <img class="logo" src="./assets/imgs/logo.png" alt="" />
         </div>
         <form (keydown.enter)="register()" class="form" id="registerForm">
-            <h4 class="text--primary margin-bottom-3 text--center">Faça seu cadastro</h4>
+            <h4 class="text--primary margin-bottom-3 text--center text--bold">Faça seu cadastro</h4>
 
             <div class="field {{ field.class }}" *ngFor="let field of fields">
-                <span class="text text--bold text--800" [ngClass]="{ 'text--negative': field.errors.length > 0 }">{{ field.title }}</span>
+                <span class="text--small text--bold text--800" [ngClass]="{ 'text--negative': field.errors.length > 0 }">{{
+                    field.title
+                }}</span>
                 <ps-input
                     [placeholder]="field.placeholder"
                     [(ngModel)]="field.model"
