@@ -1,8 +1,5 @@
 /* tslint:disable:no-unused-variable */
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
-import { DebugElement } from '@angular/core';
-
 import { SideMenuComponent } from './side-menu.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { IconModule } from '@lucarrloliveira/icon';
