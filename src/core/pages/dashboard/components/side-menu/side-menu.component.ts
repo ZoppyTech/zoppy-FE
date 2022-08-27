@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { PublicService } from 'src/shared/services/public/public.service';
 
 @Component({
     selector: 'app-side-menu',
@@ -8,7 +9,7 @@ import { Component, OnInit } from '@angular/core';
 export class SideMenuComponent implements OnInit {
     public open: boolean = false;
     public menuItems: MenuItem[] = [];
-    public constructor() {}
+    public constructor(public publicService: PublicService) {}
 
     public ngOnInit() {
         this.menuItems = [

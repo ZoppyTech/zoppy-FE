@@ -29,7 +29,9 @@
 
     <div class="footer padding-2 padding-bottom-3" [ngClass]="{ 'justify-center': !open, 'flex-start': open }">
         <ps-icon class="clickable" (click)="open = !open" icon="icon-logout"></ps-icon>
-        <a [ngClass]="{ hidden: !open }" class="text text--link text--primary margin-left-2"> Sair </a>
+        <a (click)="publicService.confirmLogout()" [ngClass]="{ hidden: !open }" class="text text--link text--primary margin-left-2">
+            Sair
+        </a>
     </div>
 </div>
 

@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
+import { PublicService } from 'src/shared/services/public/public.service';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -10,7 +11,7 @@ import { Storage } from 'src/shared/utils/storage';
 export class TopBarComponent implements OnInit {
     public user: UserEntity | undefined = undefined;
 
-    public constructor(private readonly storage: Storage) {}
+    public constructor(private readonly storage: Storage, public publicService: PublicService) {}
 
     public ngOnInit() {
         this.user = this.storage.getUser() as UserEntity;

@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
 import { environment } from 'src/environments/environment';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
@@ -23,7 +24,8 @@ export class PublicService extends ApiService {
     public constructor(
         public override readonly http: HttpClient,
         public override readonly router: Router,
-        private readonly storage: Storage
+        private readonly storage: Storage,
+        public confirmActionService: ConfirmActionService
     ) {
         super(http, router);
     }
@@ -88,5 +90,11 @@ export class PublicService extends ApiService {
     public logout(): void {
         this.storage.clearAll();
         this.router.navigate([Navigation.routes.login]);
+    }
+
+    public confirmLogout(): void {
+        this.confirmActionService.open('Sair', 'Tem certeza que deseja sair?', (result: boolean) => {
+            if (result) this.logout();
+        });
     }
 }
