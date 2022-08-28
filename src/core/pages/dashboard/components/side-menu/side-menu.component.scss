@@ -17,6 +17,28 @@
         width: 40px;
     }
 
+    ul {
+        .marker {
+            border-left: 6px solid var(--secondary);
+        }
+    }
+
+    .subitems {
+        transform: scaleX(0);
+        ps-icon {
+            font-size: 24px;
+            transform: rotateY(180deg);
+        }
+
+        .marker {
+            border-left: unset;
+        }
+    }
+
+    .subItems-open {
+        transform: scaleX(1);
+    }
+
     .label {
         transition-duration: 300ms;
         transition-delay: 300ms;

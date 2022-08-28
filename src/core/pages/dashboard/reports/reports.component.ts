@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 
 @Component({
     selector: 'app-reports',
@@ -6,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
-    public constructor() {}
+    public constructor(public sideMenuService: SideMenuService) {}
 
     public ngOnInit() {
-        console.log(`do nothing`);
+        this.sideMenuService.change(`reports`);
     }
 }

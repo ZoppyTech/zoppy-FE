@@ -18,7 +18,6 @@ export class CarrosselComponent implements OnInit {
         setInterval(() => {
             if (this.itemVisible === 3) this.itemVisible = 1;
             else this.itemVisible++;
-            console.log(this.itemVisible);
         }, 12000);
     }
 

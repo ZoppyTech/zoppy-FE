@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 
 @Component({
     selector: 'app-my-company',
@@ -6,9 +7,9 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./my-company.component.scss']
 })
 export class MyCompanyComponent implements OnInit {
-    public constructor() {}
+    public constructor(public sideMenuService: SideMenuService) {}
 
     public ngOnInit() {
-        console.log(`do nothing`);
+        this.sideMenuService.change(`my-company`);
     }
 }

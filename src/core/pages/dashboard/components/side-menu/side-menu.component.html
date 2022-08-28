@@ -6,29 +6,61 @@
 
     <div class="separator"></div>
 
-    <ul class="flex flex-column flex-grow">
-        <li
-            [routerLink]="item.route"
-            [ngClass]="{ 'justify-center': !open, 'flex-start': open }"
-            class="padding-2 flex align-center"
-            *ngFor="let item of menuItems"
-            tooltipWidth="180"
-            appTooltip
-            [tooltipText]="item.label"
-            [tooltipHidden]="open"
-            tooltipDirection="right"
-        >
-            <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': open }">
-                <ps-icon [icon]="item.icon"></ps-icon>
-            </div>
-            <span [ngClass]="{ hidden: !open }" class="text label">{{ item.label }}</span>
-        </li>
+    <ul class="flex flex-column flex-grow padding-top-3">
+        <div *ngFor="let item of menuItems">
+            <li
+                [routerLink]="item.route"
+                [ngClass]="{ 'justify-center': !open, 'flex-start': open, marker: sideMenuService.selected === item.id }"
+                class="padding-2 flex align-center"
+                tooltipWidth="180"
+                appTooltip
+                [tooltipText]="item.label"
+                (click)="item.subItemsOpened = !item.subItemsOpened"
+                [tooltipHidden]="open"
+                tooltipDirection="right"
+            >
+                <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': open }">
+                    <ps-icon icon="{{ item.icon }} {{ sideMenuService.selected === item.id ? 'text--secondary' : 'text--500' }}"></ps-icon>
+                </div>
+                <span [ngClass]="{ hidden: !open, 'text--secondary': sideMenuService.selected === item.id }" class="text text--500 label">{{
+                    item.label
+                }}</span>
+            </li>
+            <ul *ngIf="item.subItems" class="subitems" [ngClass]="{ 'subItems-open': item.subItemsOpened }">
+                <li
+                    *ngFor="let subItem of item.subItems"
+                    tooltipWidth="180"
+                    class="subitem flex"
+                    [routerLink]="subItem.route"
+                    appTooltip
+                    [tooltipText]="subItem.label"
+                    [tooltipHidden]="open"
+                    tooltipDirection="right"
+                    [ngClass]="{ 'justify-center': !open, 'flex-start': open, marker: sideMenuService.subSelected === subItem.id }"
+                >
+                    <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': open }">
+                        <ps-icon
+                            icon="{{ subItem.icon }} {{ sideMenuService.subSelected === subItem.id ? 'text--800' : 'text--500' }}"
+                        ></ps-icon>
+                    </div>
+                    <span
+                        class="label"
+                        [ngClass]="{
+                            hidden: !open,
+                            'text--800': sideMenuService.subSelected === subItem.id,
+                            'text--500': sideMenuService.subSelected !== subItem.id
+                        }"
+                        >{{ subItem.label }}</span
+                    >
+                </li>
+            </ul>
+        </div>
     </ul>
 
     <div class="separator"></div>
 
     <div class="footer padding-2 padding-bottom-3" [ngClass]="{ 'justify-center': !open, 'flex-start': open }">
-        <ps-icon class="clickable" (click)="open = !open" icon="icon-logout"></ps-icon>
+        <ps-icon class="clickable" (click)="open = !open" icon="icon-logout text--800"></ps-icon>
         <a (click)="publicService.confirmLogout()" [ngClass]="{ hidden: !open }" class="text text--link text--primary margin-left-2">
             Sair
         </a>
