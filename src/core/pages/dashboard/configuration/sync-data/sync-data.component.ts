@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 
 @Component({
-    selector: 'app-configuration',
-    templateUrl: './configuration.component.html',
-    styleUrls: ['./configuration.component.scss']
+    selector: 'app-sync-data',
+    templateUrl: './sync-data.component.html',
+    styleUrls: ['./sync-data.component.scss']
 })
-export class ConfigurationComponent implements OnInit {
+export class SyncDataComponent implements OnInit {
     public constructor(public sideMenuService: SideMenuService) {}
 
     public ngOnInit() {
-        this.sideMenuService.change(`configurations`);
+        this.sideMenuService.changeSub(`sync-data`);
     }
 }

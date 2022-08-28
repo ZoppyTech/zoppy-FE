@@ -6,7 +6,26 @@ import { RouterModule, Routes } from '@angular/router';
 const routes: Routes = [
     {
         path: '',
-        component: ConfigurationComponent
+        component: ConfigurationComponent,
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'access-tokens'
+            },
+            {
+                path: 'access-tokens',
+                loadChildren: () => import('./access-tokens/access-tokens.module').then((m: any) => m.AccessTokensModule)
+            },
+            {
+                path: 'access-keys',
+                loadChildren: () => import('./access-keys/access-keys.module').then((m: any) => m.AccessKeysModule)
+            },
+            {
+                path: 'sync-data',
+                loadChildren: () => import('./sync-data/sync-data.module').then((m: any) => m.SyncDataModule)
+            }
+        ]
     }
 ];
 

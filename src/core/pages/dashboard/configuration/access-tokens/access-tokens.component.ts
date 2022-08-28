@@ -2,14 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 
 @Component({
-    selector: 'app-configuration',
-    templateUrl: './configuration.component.html',
-    styleUrls: ['./configuration.component.scss']
+    selector: 'app-access-tokens',
+    templateUrl: './access-tokens.component.html',
+    styleUrls: ['./access-tokens.component.scss']
 })
-export class ConfigurationComponent implements OnInit {
+export class AccessTokensComponent implements OnInit {
     public constructor(public sideMenuService: SideMenuService) {}
 
     public ngOnInit() {
-        this.sideMenuService.change(`configurations`);
+        this.sideMenuService.changeSub(`access-tokens`);
     }
 }
