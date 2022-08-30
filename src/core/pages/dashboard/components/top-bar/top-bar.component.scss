@@ -2,6 +2,13 @@
     width: 100%;
     padding: 16px 32px;
 
+    .breadcrumb {
+        padding-top: 8px;
+        a {
+            text-decoration: none;
+        }
+    }
+
     ul {
         min-width: 180px;
 

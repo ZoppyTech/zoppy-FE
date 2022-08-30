@@ -1,1 +1,18 @@
-<p>access-tokens works!</p>
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold">Tokens de Acesso</h5>
+    </div>
+    <div class="title">
+        <h6 class="text text--bold">Gerador de tokens</h6>
+        <span class="text">Você pode gerar até 8 tokens de acesso para inserir no WooCommerce e autenticar nossa plataforma.</span>
+    </div>
+
+    <div class="body">
+        <div *ngFor="let token of tokens; let index = index" class="field">
+            <p class="text">Token {{ index + 1 }}</p>
+            <ps-input [disabled]="true" [(ngModel)]="token.hash"></ps-input>
+            <ps-switch [(active)]="token.active"></ps-switch>
+            <ps-icon icon=""></ps-icon>
+        </div>
+    </div>
+</div>

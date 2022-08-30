@@ -1,5 +1,17 @@
 <div class="top-bar flex-grow flex">
-    <div class="flex flex-grow"></div>
+    <div class="flex flex-grow">
+        <div class="breadcrumb" *ngFor="let item of breadcrumb.items; let index = index">
+            <a class="text--small text--500" [attr.href]="item.route" class="flex flex-center">
+                <span
+                    class="text--small"
+                    [ngClass]="{ 'text--800': index === breadcrumb.items.length - 1, 'text--500': index !== breadcrumb.items.length - 1 }"
+                >
+                    {{ item.name }} &nbsp;
+                </span>
+                <span class="text--small text--500" *ngIf="index !== breadcrumb.items.length - 1"> >&nbsp; </span>
+            </a>
+        </div>
+    </div>
     <div class="flex-center flex">
         <div class="padding-2 flex flex-center">
             <ps-icon icon="icon-chat_bubble text--500"></ps-icon>
