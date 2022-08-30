@@ -1,0 +1,63 @@
+.carrossel {
+    z-index: 1;
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    display: grid;
+
+    .carrossel-item {
+        grid-row: 1;
+        grid-column: 1;
+        opacity: 1;
+        height: 100vh;
+        display: grid;
+        transition-duration: 1000ms;
+
+        img {
+            height: 100vh;
+            grid-row: 1;
+            grid-column: 1;
+        }
+
+        .labels {
+            height: 100%;
+            width: 100%;
+            padding-left: 40px;
+            padding-top: 120px;
+            display: flex;
+            flex-direction: column;
+            grid-row: 1;
+            grid-column: 1;
+            h4 {
+                margin-bottom: 16px;
+            }
+
+            .subtitle {
+                width: 540px;
+                line-height: 24px;
+                max-width: calc(100% - 32px);
+            }
+
+            .indicator-container {
+                padding-top: 32px;
+                display: flex;
+                .item-indicator {
+                    height: 8px;
+                    width: 8px;
+                    border-radius: 8px;
+                    background-color: var(--neutral-100);
+                    margin: 0 4px;
+                }
+
+                .selected {
+                    width: 24px;
+                }
+            }
+        }
+    }
+
+    .item-hidden {
+        opacity: 0;
+    }
+}

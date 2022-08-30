@@ -1,0 +1,17 @@
+<div class="carrossel">
+    <div class="carrossel-item" [ngClass]="{ 'item-hidden': item.id !== itemVisible }" #item *ngFor="let item of items">
+        <img [src]="item.image" alt="" />
+        <div class="labels">
+            <h4 class="text--100 text--bold">{{ item.title }}</h4>
+            <div class="subtitle text text--100" [innerHTML]="item.subtitle"></div>
+            <div class="indicator-container">
+                <div
+                    class="item-indicator clickable"
+                    (click)="select(indicator)"
+                    *ngFor="let indicator of items"
+                    [ngClass]="{ selected: indicator.id === itemVisible }"
+                ></div>
+            </div>
+        </div>
+    </div>
+</div>

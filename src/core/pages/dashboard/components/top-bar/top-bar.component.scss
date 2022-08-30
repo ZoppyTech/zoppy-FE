@@ -1,0 +1,26 @@
+.top-bar {
+    width: 100%;
+    padding: 16px 32px;
+
+    .breadcrumb {
+        padding-top: 8px;
+        a {
+            text-decoration: none;
+        }
+    }
+
+    ul {
+        min-width: 180px;
+
+        li {
+            ps-icon {
+                font-size: 16px;
+                color: var(--neutral-600);
+            }
+        }
+    }
+
+    ps-icon {
+        font-size: 24px;
+    }
+}

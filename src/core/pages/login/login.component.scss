@@ -1,0 +1,81 @@
+@import 'src/styles.scss';
+
+.login {
+    width: 100vw;
+    height: 100vh;
+
+    &__content {
+        flex-grow: 1;
+        z-index: 2;
+        position: absolute;
+        left: 0;
+        top: 0;
+        bottom: 0;
+        width: calc(100vw - 87vh);
+        min-width: 350px;
+        background-color: var(--neutral-100);
+        padding: 32px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        .logo-content {
+            display: flex;
+            width: 100%;
+            justify-content: flex-start;
+        }
+        .logo {
+            height: 20px;
+        }
+
+        .form {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            width: 500px;
+            max-width: calc(100vh - 64px);
+            flex-grow: 1;
+            align-items: center;
+            transform: translateX();
+            transition-duration: 500ms;
+
+            .field {
+                padding: 8px 0;
+                width: 100%;
+                span {
+                    line-height: 32px;
+                }
+            }
+        }
+
+        .forgot-password {
+            display: flex;
+            width: 100%;
+            justify-content: flex-end;
+            padding: 16px 0;
+        }
+
+        .button-content {
+            padding-top: 32px;
+            width: 100%;
+            ps-button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1400px) {
+    .login {
+        &__content {
+            width: 100vw;
+            .form {
+                width: calc(100vw - 64px);
+            }
+        }
+    }
+
+    app-carrossel {
+        display: none;
+    }
+}

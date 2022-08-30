@@ -1,0 +1,44 @@
+<div class="login">
+    <div class="login__content">
+        <div class="logo-content">
+            <img class="logo" src="./assets/imgs/logo.png" alt="" />
+        </div>
+        <form (keydown.enter)="login()" class="form" id="loginForm">
+            <h4 class="text--primary text--bold">Acesse sua conta Zoppy</h4>
+            <span class="text text--800 margin-bottom-3 margin-top-2">Clientes fidelizados através de benefícios</span>
+
+            <div class="field" *ngFor="let field of fields">
+                <span class="text--bold text--800 text--small" [ngClass]="{ 'text--negative': field.errors.length > 0 }">{{
+                    field.title
+                }}</span>
+                <ps-input
+                    [placeholder]="field.placeholder"
+                    [(ngModel)]="field.model"
+                    [errors]="field.errors"
+                    (onFocus)="field.errors = []"
+                    [ngClass]="{ 'text--negative': field.errors.length > 0 }"
+                    [type]="field.type"
+                    [icon]="field.icon"
+                ></ps-input>
+            </div>
+            <div class="forgot-password">
+                <a [routerLink]="'/reset-password'" class="text--secondary text--link text--bold">Esqueci minha senha</a>
+            </div>
+
+            <div class="button-content">
+                <ps-button (onClick)="login()" [loading]="loading" [wide]="true" type="secondary"
+                    ><span class="text text--100">Acessar</span></ps-button
+                >
+            </div>
+
+            <div class="margin-top-2">
+                <p class="text-800">
+                    Ainda não é um cliente Zoppy?&nbsp;<a [routerLink]="'/register'" class="text--primary text--bold text--link"
+                        >Cadastre-se agora</a
+                    >
+                </p>
+            </div>
+        </form>
+    </div>
+    <app-carrossel></app-carrossel>
+</div>
