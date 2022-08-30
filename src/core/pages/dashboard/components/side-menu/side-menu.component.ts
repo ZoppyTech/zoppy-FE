@@ -30,7 +30,7 @@ export class SideMenuComponent implements OnInit {
                 id: `configurations`,
                 icon: 'icon-tune',
                 label: 'Configurações',
-                route: null,
+                route: '/dashboard/configurations',
                 subItems: [
                     {
                         id: `access-keys`,
@@ -49,6 +49,12 @@ export class SideMenuComponent implements OnInit {
                         icon: 'icon-arrow',
                         label: 'Sincronizacão',
                         route: '/dashboard/configurations/sync-data'
+                    },
+                    {
+                        id: `giftback`,
+                        icon: 'icon-arrow',
+                        label: 'Configuração de Giftback',
+                        route: '/dashboard/configurations/giftback'
                     }
                 ]
             }

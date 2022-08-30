@@ -40,8 +40,8 @@ export class LoginComponent implements OnInit {
         try {
             this.loading = true;
             const request: LoginRequest = {
-                email: this.fields[0].model,
-                password: this.fields[1].model
+                email: this.fields[0].model.toString(),
+                password: this.fields[1].model.toString()
             };
             const response: LoginResponse = await this.publicService.login(request);
             this.publicService.handleLoginSuccess(response);
@@ -86,7 +86,7 @@ export class LoginComponent implements OnInit {
 
 class Field {
     public errors: string[] = [];
-    public model: string = '';
+    public model: string | number = '';
     public icon: string = '';
     public title: string = '';
     public type: string = '';

@@ -34,7 +34,7 @@ export class ResetPasswordComponent implements OnInit {
         try {
             this.loading = true;
             const request: SendResetPasswordRequest = {
-                email: this.emailField.model
+                email: this.emailField.model.toString()
             };
             const response: boolean = await this.publicService.sendResetPasswordEmail(request);
             if (response) this.sent = true;
@@ -60,6 +60,6 @@ export class ResetPasswordComponent implements OnInit {
 
 class Field {
     public errors: string[] = [];
-    public model: string = '';
+    public model: string | number = '';
     public icon: string = '';
 }

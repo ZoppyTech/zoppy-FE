@@ -42,11 +42,11 @@ export class RegisterComponent implements OnInit {
         try {
             this.loading = true;
             const request: RegisterRequest = {
-                name: this.fields[0].model,
-                phone: this.fields[1].model,
-                email: this.fields[2].model,
-                companyName: this.fields[2].model,
-                password: this.fields[2].model
+                name: this.fields[0].model.toString(),
+                phone: this.fields[1].model.toString(),
+                email: this.fields[2].model.toString(),
+                companyName: this.fields[2].model.toString(),
+                password: this.fields[2].model.toString()
             };
             const thisUser: UserEntity = await this.publicService.register(request);
             this.toast.success('Seu usuário foi registrado com sucesso!', 'Tudo certo!');
@@ -135,12 +135,12 @@ export class RegisterComponent implements OnInit {
             }
         });
 
-        if (this.fields[1].model.length !== 11) {
+        if (this.fields[1].model.toString().length !== 11) {
             this.fields[1].errors = ['error'];
             countErrors++;
         }
 
-        if (!StringUtil.validateEmail(this.fields[2].model)) {
+        if (!StringUtil.validateEmail(this.fields[2].model.toString())) {
             this.fields[2].errors = ['error'];
             countErrors++;
         }
@@ -157,7 +157,7 @@ export class RegisterComponent implements OnInit {
 
 class Field {
     public errors: string[] = [];
-    public model: string = '';
+    public model: string | number = '';
     public icon?: string = '';
     public placeholder: string = '';
     public title: string = '';

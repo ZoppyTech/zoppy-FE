@@ -38,7 +38,7 @@ export class ChangePasswordComponent implements OnInit {
         try {
             this.loading = true;
             const request: ResetPasswordRequest = {
-                newPassword: this.fields[0].model,
+                newPassword: this.fields[0].model.toString(),
                 hash: this.token
             };
             await this.publicService.resetPassword(request);
@@ -99,7 +99,7 @@ export class ChangePasswordComponent implements OnInit {
 
 class Field {
     public errors: string[] = [];
-    public model: string = '';
+    public model: string | number = '';
     public icon: string = '';
     public placeholder: string = '';
     public title: string = '';

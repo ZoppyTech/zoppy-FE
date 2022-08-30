@@ -11,19 +11,23 @@ const routes: Routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: 'access-tokens'
-            },
-            {
-                path: 'access-tokens',
-                loadChildren: () => import('./access-tokens/access-tokens.module').then((m: any) => m.AccessTokensModule)
+                redirectTo: 'access-keys'
             },
             {
                 path: 'access-keys',
                 loadChildren: () => import('./access-keys/access-keys.module').then((m: any) => m.AccessKeysModule)
             },
             {
+                path: 'access-tokens',
+                loadChildren: () => import('./access-tokens/access-tokens.module').then((m: any) => m.AccessTokensModule)
+            },
+            {
                 path: 'sync-data',
                 loadChildren: () => import('./sync-data/sync-data.module').then((m: any) => m.SyncDataModule)
+            },
+            {
+                path: 'giftback',
+                loadChildren: () => import('./giftback-config/giftback-config.module').then((m: any) => m.GiftbackConfigModule)
             }
         ]
     }
