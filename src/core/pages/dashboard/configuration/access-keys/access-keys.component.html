@@ -1,1 +1,50 @@
-<p>access-keys works!</p>
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold">Tokens de Acesso</h5>
+    </div>
+    <div class="title">
+        <h6 class="text text--bold">Cadastre suas chaves</h6>
+        <span class="text">Insira nos campos abaixo suas chaves Secret, Key e a URL do seu E-commerce na plataforma WooCommerce</span>
+    </div>
+
+    <div class="body">
+        <div class="field">
+            <p class="text text--bold">Secret</p>
+            <div class="flex-center flex">
+                <ps-input
+                    icon="{{ key.visible ? 'icon-visibility_off-1' : 'icon-visibility' }}"
+                    placeholder="Insira aqui a sua Secret"
+                    type="{{ key.visible ? 'text' : 'password' }}"
+                    [(ngModel)]="key.secret"
+                ></ps-input>
+                <ps-icon icon="icon-copy" class="text--primary clickable"></ps-icon>
+            </div>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Key</p>
+            <div class="flex-center flex">
+                <ps-input
+                    placeholder="Insira aqui a sua Key"
+                    type="{{ key.visible ? 'text' : 'password' }}"
+                    icon="{{ key.visible ? 'icon-visibility_off-1' : 'icon-visibility' }}"
+                    type="password"
+                    [(ngModel)]="key.key"
+                ></ps-input>
+                <ps-icon icon="icon-copy" class="text--primary clickable"></ps-icon>
+            </div>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Url do seu E-commerce</p>
+            <div class="flex-center flex">
+                <ps-input placeholder="Insira aqui a URL do seu E-commerce" type="url" [(ngModel)]="key.url"></ps-input>
+                <ps-icon icon="icon-copy" class="text--primary clickable"></ps-icon>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <ps-button [wide]="true" (onClick)="save()" type="secondary" [disabled]="getSaveDisabled()">
+            <span class="text--100">Salvar</span>
+        </ps-button>
+    </div>
+</div>

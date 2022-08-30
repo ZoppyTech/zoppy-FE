@@ -9,10 +9,10 @@
 
     <div class="body">
         <div *ngFor="let token of tokens; let index = index" class="field">
-            <p class="text">Token {{ index + 1 }}</p>
+            <p class="text text--bold">Token {{ index + 1 }}</p>
             <ps-input [disabled]="true" [(ngModel)]="token.hash"></ps-input>
             <ps-switch [(active)]="token.active"></ps-switch>
-            <ps-icon icon=""></ps-icon>
+            <ps-icon icon="icon-copy" [ngClass]="{ 'text--primary clickable': token.active, 'text--500': !token.active }"></ps-icon>
         </div>
     </div>
 </div>
