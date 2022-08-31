@@ -5,6 +5,8 @@ import { Routes, RouterModule } from '@angular/router';
 import { ButtonModule } from '@lucarrloliveira/button';
 import { IconModule } from '@lucarrloliveira/icon';
 import { VisualIdentityModule } from '@lucarrloliveira/visual-identity';
+import { CheckboxModule } from '@lucarrloliveira/checkbox';
+import { DatepickerModule } from '@lucarrloliveira/datepicker';
 
 const routes: Routes = [
     {
@@ -14,7 +16,15 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, IconModule, ButtonModule],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        VisualIdentityModule,
+        IconModule,
+        ButtonModule,
+        CheckboxModule,
+        DatepickerModule
+    ],
     declarations: [SyncDataComponent],
     exports: [SyncDataComponent]
 })
