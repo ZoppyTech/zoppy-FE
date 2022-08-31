@@ -14,7 +14,8 @@ export class Storage {
 
     public getToken(): string | null {
         try {
-            return localStorage.getItem(Storage.keys.token);
+            const token: string | null = localStorage.getItem(Storage.keys.token);
+            return token;
         } catch (ex) {
             return null;
         }

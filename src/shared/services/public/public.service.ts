@@ -24,10 +24,10 @@ export class PublicService extends ApiService {
     public constructor(
         public override readonly http: HttpClient,
         public override readonly router: Router,
-        private readonly storage: Storage,
+        public override readonly storage: Storage,
         public confirmActionService: ConfirmActionService
     ) {
-        super(http, router);
+        super(http, router, storage);
     }
 
     public async login(request: LoginRequest): Promise<LoginResponse> {

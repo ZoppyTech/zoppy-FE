@@ -1,6 +1,10 @@
-export class wcKeyRequest {
-    public declare key: string | number;
-    public declare secret: string | number;
-    public declare url: string | number;
-    public declare visible: boolean;
+import { WcKeyEntity } from '../../entities/wc-key.entity';
+
+export interface wcKeyRequest {
+    id?: string;
+    key?: string | number;
+    secret?: string | number;
+    url?: string | number;
+    keyVisible?: boolean;
+    secretVisible?: boolean;
 }

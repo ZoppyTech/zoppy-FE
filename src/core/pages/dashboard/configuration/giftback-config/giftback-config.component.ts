@@ -1,7 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ToastService } from '@lucarrloliveira/toast';
+import { WcGiftbackConfigEntity } from 'src/shared/models/entities/wc-giftback-config.entity';
 import { GiftbackRequest } from 'src/shared/models/requests/giftback/giftback.request';
+import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { WcGiftbackService } from 'src/shared/services/wc-giftback/wc-giftback.service';
 
 @Component({
     selector: 'app-giftback-config',
@@ -9,11 +13,58 @@ import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service
     styleUrls: ['./giftback-config.component.scss']
 })
 export class GiftbackConfigComponent implements OnInit {
-    public giftback: GiftbackRequest = new GiftbackRequest();
+    public giftback: GiftbackRequest = {};
+    public loading: boolean = false;
 
-    public constructor(public sideMenuService: SideMenuService, public breadcrumb: BreadcrumbService) {}
+    public constructor(
+        private readonly toast: ToastService,
+        public sideMenuService: SideMenuService,
+        public breadcrumb: BreadcrumbService,
+        public giftbackService: WcGiftbackService
+    ) {}
 
-    public ngOnInit() {
+    public async ngOnInit() {
+        this.setBreadcrumb();
+        this.sideMenuService.changeSub(`giftback`);
+        await this.fetchData();
+    }
+
+    public async fetchData(): Promise<void> {
+        try {
+            this.giftback = ((await this.giftbackService.find()) as GiftbackRequest) || {};
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Não foi possível obter seu token de acesso');
+        }
+    }
+
+    public async save(): Promise<void> {
+        try {
+            this.loading = true;
+            const request: GiftbackRequest = {
+                id: this.giftback.id,
+                percentValue: parseInt(this.giftback.percentValue?.toString() ?? ''),
+                maxPercentValue: parseInt(this.giftback.maxPercentValue?.toString() ?? ''),
+                expirationDays: parseInt(this.giftback.expirationDays?.toString() ?? '')
+            };
+            const response: WcGiftbackConfigEntity = this.giftback.id
+                ? await this.giftbackService.update(request)
+                : await this.giftbackService.create(request);
+            this.giftback = response as GiftbackRequest;
+            this.toast.success(`Informações salvas!`, `Sucesso!`);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Não foi possível salvas as informações');
+        } finally {
+            this.loading = false;
+        }
+    }
+
+    public getSaveDisabled(): boolean {
+        return !this.giftback.maxPercentValue || !this.giftback.percentValue || !this.giftback.expirationDays;
+    }
+
+    private setBreadcrumb(): void {
         this.breadcrumb.items = [
             {
                 name: `Início`,
@@ -28,14 +79,5 @@ export class GiftbackConfigComponent implements OnInit {
                 route: `/dashboard/configurations/giftback`
             }
         ];
-        this.sideMenuService.changeSub(`giftback`);
-    }
-
-    public save() {
-        console.log(`saved`);
-    }
-
-    public getSaveDisabled(): boolean {
-        return !this.giftback.maxPercentValue || !this.giftback.percentValue || !this.giftback.expirationDays;
     }
 }
