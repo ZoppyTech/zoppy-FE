@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { SyncDataComponent } from './sync-data.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SyncDataComponent', () => {
     let component: SyncDataComponent;
@@ -11,6 +13,7 @@ describe('SyncDataComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule, RouterTestingModule],
             declarations: [SyncDataComponent]
         }).compileComponents();
     }));
