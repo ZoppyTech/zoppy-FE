@@ -1,11 +1,14 @@
 .top-bar {
     width: 100%;
     padding: 16px 32px;
+    .left-content {
+        align-items: center;
 
-    .breadcrumb {
-        padding-top: 8px;
-        a {
-            text-decoration: none;
+        .breadcrumb {
+            padding-top: 8px;
+            a {
+                text-decoration: none;
+            }
         }
     }
 
