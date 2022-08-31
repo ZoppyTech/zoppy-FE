@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 
@@ -8,6 +9,15 @@ import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service
     styleUrls: ['./sync-data.component.scss']
 })
 export class SyncDataComponent implements OnInit {
+    public key: wcKeyRequest | undefined = undefined;
+    public loading: boolean = false;
+    public expirationDate: Date | undefined = undefined;
+
+    public syncClients: boolean = true;
+    public syncProducts: boolean = true;
+    public syncCupons: boolean = true;
+    public syncOrders: boolean = true;
+
     public constructor(public sideMenuService: SideMenuService, public breadcrumb: BreadcrumbService) {}
 
     public ngOnInit() {
@@ -27,4 +37,6 @@ export class SyncDataComponent implements OnInit {
         ];
         this.sideMenuService.changeSub(`sync-data`);
     }
+
+    public async syncData(): Promise<void> {}
 }

@@ -1,1 +1,46 @@
-<p>sync-data works!</p>
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold">Sincronização</h5>
+    </div>
+
+    <div class="title">
+        <div class="flex main-title">
+            <h6 class="text text--bold">Sincronizar todos os dados &nbsp;</h6>
+            <ps-datepicker type="icon" [(model)]="expirationDate"></ps-datepicker>
+        </div>
+        <span class="text">Clique no calendário para selecionar uma data de início para a importação de dados do WooCommerce.</span>
+    </div>
+
+    <div class="body">
+        <div class="padding-bottom-2">
+            <ps-checkbox [disabled]="!key || !expirationDate" [active]="syncClients"
+                ><span class="text">Sincronização de clientes</span></ps-checkbox
+            >
+        </div>
+
+        <div class="padding-bottom-2">
+            <ps-checkbox [disabled]="!key || !expirationDate" [active]="syncProducts"
+                ><span class="text">Sincronização de produtos</span></ps-checkbox
+            >
+        </div>
+
+        <div class="padding-bottom-2">
+            <ps-checkbox [disabled]="!key || !expirationDate" [active]="syncCupons"
+                ><span class="text">Sincronização de cupons</span></ps-checkbox
+            >
+        </div>
+
+        <div>
+            <ps-checkbox [disabled]="!key || !expirationDate" [active]="syncOrders"
+                ><span class="text">Sincronização de pedidos</span></ps-checkbox
+            >
+        </div>
+    </div>
+
+    <div class="sync">
+        <ps-button [loading]="loading" [wide]="true" (onClick)="syncData()" type="secondary" [disabled]="!key || !expirationDate">
+            <span class="text--100">Iniciar Sincronização</span>
+        </ps-button>
+    </div>
+    <div class="footer"></div>
+</div>
