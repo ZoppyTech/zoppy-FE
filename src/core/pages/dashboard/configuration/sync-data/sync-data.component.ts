@@ -62,6 +62,7 @@ export class SyncDataComponent implements OnInit {
     }
 
     private async syncCustomers(request: WcSyncRequest): Promise<void> {
+        this.setInProgress('customer');
         try {
             const result: BooleanResponse = await this.syncDataService.syncCustomers(request);
             this.setResult(result.result, `customer`);
@@ -74,6 +75,7 @@ export class SyncDataComponent implements OnInit {
 
     private async syncProducts(request: WcSyncRequest): Promise<void> {
         try {
+            this.setInProgress('product');
             const result: BooleanResponse = await this.syncDataService.syncProducts(request);
             this.setResult(result.result, `product`);
         } catch (ex: any) {
@@ -85,6 +87,7 @@ export class SyncDataComponent implements OnInit {
 
     private async syncCupons(request: WcSyncRequest): Promise<void> {
         try {
+            this.setInProgress('coupon');
             const result: BooleanResponse = await this.syncDataService.syncCoupons(request);
             this.setResult(result.result, `coupon`);
         } catch (ex: any) {
@@ -96,6 +99,7 @@ export class SyncDataComponent implements OnInit {
 
     private async syncOrders(request: WcSyncRequest): Promise<void> {
         try {
+            this.setInProgress('order');
             const result: BooleanResponse = await this.syncDataService.syncOrders(request);
             this.setResult(result.result, `order`);
         } catch (ex: any) {
@@ -109,6 +113,14 @@ export class SyncDataComponent implements OnInit {
         this.steppers.forEach((stepper: Stepper) => {
             if (stepper.id === entity) {
                 stepper.state = result ? 'success' : 'error';
+            }
+        });
+    }
+
+    private setInProgress(entity: SyncEntity) {
+        this.steppers.forEach((stepper: Stepper) => {
+            if (stepper.id === entity) {
+                stepper.state = 'in-progress';
             }
         });
     }
