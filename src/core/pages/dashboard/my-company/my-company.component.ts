@@ -50,7 +50,8 @@ export class MyCompanyComponent implements OnInit {
                 revenueRecord: this.company.revenueRecord,
                 email: this.company.email
             };
-            await this.companyService.update(request);
+            const company: CompanyEntity = await this.companyService.update(request);
+            this.storage.setCompany(company);
             this.toast.success(`Informações salvas!`, `Sucesso!`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
