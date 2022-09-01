@@ -13,8 +13,8 @@ describe('MyCompanyComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            imports: [HttpClientTestingModule, RouterTestingModule],
-            declarations: [MyCompanyComponent]
+            declarations: [MyCompanyComponent],
+            imports: [HttpClientTestingModule, RouterTestingModule]
         }).compileComponents();
     }));
 

@@ -26,7 +26,7 @@ export class MyCompanyComponent implements OnInit {
     ) {}
 
     public ngOnInit() {
-        this.company = this.storage.getCompany() as CompanyEntity;
+        this.company = (this.storage.getCompany() as CompanyEntity) || new CompanyEntity();
         this.breadcrumb.items = [
             {
                 name: `Início`,
