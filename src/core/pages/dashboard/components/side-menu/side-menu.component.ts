@@ -23,7 +23,7 @@ export class SideMenuComponent implements OnInit {
             {
                 id: `my-company`,
                 icon: 'icon-group',
-                label: 'Usuários',
+                label: 'Minha empresa',
                 route: '/dashboard/my-company'
             },
             {
