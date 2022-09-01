@@ -3,16 +3,25 @@
         <h5 class="text--primary text--bold">Tokens de Acesso</h5>
     </div>
     <div class="title">
-        <h6 class="text text--bold">Gerador de tokens</h6>
-        <span class="text">Você pode gerar até 8 tokens de acesso para inserir no WooCommerce e autenticar nossa plataforma.</span>
+        <h6 class="text text--bold">Gerador de token</h6>
+        <span class="text"
+            >Você pode gerar o token de acesso para inserir no WooCommerce, esse token pode ser usado na integração dos webhooks.</span
+        >
     </div>
 
     <div class="body">
-        <div *ngFor="let token of tokens; let index = index" class="field">
-            <p class="text text--bold">Token {{ index + 1 }}</p>
+        <div class="field">
+            <p class="text text--bold">Token</p>
             <ps-input [disabled]="true" [(ngModel)]="token.hash"></ps-input>
-            <ps-switch [(active)]="token.active"></ps-switch>
-            <ps-icon icon="icon-copy" [ngClass]="{ 'text--primary clickable': token.active, 'text--500': !token.active }"></ps-icon>
+            <ps-icon (click)="copyToClipboard()" icon="icon-copy" class="text--primary clickable"></ps-icon>
+        </div>
+        <div class="buttons">
+            <ps-button [loading]="loading" *ngIf="token.id" [wide]="true" (onClick)="deleteToken()" type="cancel">
+                <span class="text--800">Deletar Token</span>
+            </ps-button>
+            <ps-button [loading]="loading" [wide]="true" (onClick)="generateToken()" type="secondary" *ngIf="!token.id">
+                <span class="text--100">Gerar token</span>
+            </ps-button>
         </div>
     </div>
 </div>
