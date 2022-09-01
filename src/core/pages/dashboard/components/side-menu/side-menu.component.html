@@ -7,14 +7,13 @@
     <div class="separator"></div>
 
     <ul class="flex flex-column flex-grow padding-top-3">
-        <div *ngFor="let item of menuItems">
+        <div *ngFor="let item of menuItems" (mouseenter)="item.subItemsOpened = true" (mouseleave)="item.subItemsOpened = false">
             <li
                 [ngClass]="{ 'justify-center': !open, 'flex-start': open, marker: sideMenuService.selected === item.id }"
                 class="padding-2 flex align-center"
                 tooltipWidth="180"
                 appTooltip
                 [tooltipText]="item.label"
-                (click)="item.subItemsOpened = !item.subItemsOpened"
                 [tooltipHidden]="open"
                 tooltipDirection="right"
             >
