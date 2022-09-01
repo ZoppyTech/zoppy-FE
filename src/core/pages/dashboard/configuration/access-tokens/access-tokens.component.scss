@@ -37,12 +37,14 @@
         flex-wrap: wrap;
         justify-content: space-between;
         padding-right: 0;
+        display: flex;
+        flex-direction: column;
 
         .field {
-            width: 50%;
             padding-right: 32px;
             display: grid;
-            grid-template-columns: 1fr 72px 32px;
+            column-gap: 32px;
+            grid-template-columns: 1fr 32px;
             grid-template-rows: 1fr 32px;
             align-items: center;
             padding-bottom: 16px;
@@ -58,15 +60,21 @@
                 grid-column: 1;
             }
 
-            ps-switch {
-                grid-row: 2;
-                grid-column: 2;
-            }
-
             ps-icon {
                 grid-row: 2;
-                grid-column: 3;
+                grid-column: 2;
                 font-size: 20px;
+            }
+        }
+
+        .buttons {
+            padding: 32px 0 0 0;
+            display: flex;
+            flex-wrap: wrap;
+
+            ps-button {
+                width: 220px;
+                margin-right: 32px;
             }
         }
     }

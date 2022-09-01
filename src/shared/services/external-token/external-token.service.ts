@@ -6,7 +6,7 @@ import { environment } from 'src/environments/environment';
 import { ExternalTokenEntity } from 'src/shared/models/entities/external-token.entity';
 import { ExternalTokenRequest } from 'src/shared/models/requests/external-token/external-token.request';
 import { Storage } from 'src/shared/utils/storage';
-import { ApiService, ZoppyException } from '../api.service';
+import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
 
 @Injectable({
     providedIn: 'root'
@@ -22,9 +22,9 @@ export class ExternalTokenService extends ApiService {
         super(http, router, storage);
     }
 
-    public async create(request: ExternalTokenRequest): Promise<ExternalTokenEntity> {
+    public async create(): Promise<ExternalTokenEntity> {
         const promise: Promise<ExternalTokenEntity> = new Promise((resolve: any, reject: any) => {
-            this.post<ExternalTokenEntity, ExternalTokenRequest>(`${this.url}`, request).subscribe(
+            this.post<ExternalTokenEntity, {}>(`${this.url}`).subscribe(
                 (response: ExternalTokenEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -56,6 +56,16 @@ export class ExternalTokenService extends ApiService {
         const promise: Promise<ExternalTokenEntity> = new Promise((resolve: any, reject: any) => {
             this.put<ExternalTokenEntity, ExternalTokenRequest>(`${this.url}/activate/${id}`).subscribe(
                 (response: ExternalTokenEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async destroy(id: string): Promise<BooleanResponse> {
+        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
+            this.delete<BooleanResponse>(`${this.url}/${id}`).subscribe(
+                (response: BooleanResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
