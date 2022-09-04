@@ -3,31 +3,31 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin: 32px;
+    margin: 2rem;
     margin-top: 0px;
     background-color: var(--neutral-100);
     border: 1px solid var(--neutral-300);
     box-shadow: $box-shadow-1;
     border-radius: 12px;
-    margin-bottom: 32px;
+    margin-bottom: 2rem;
 
     .header {
         border-bottom: 1px solid var(--neutral-300);
-        padding: 0 32px;
+        padding: 0 2rem;
     }
 
     .title {
-        padding: 0 32px;
-        margin-bottom: 16px;
+        padding: 0 2rem;
+        margin-bottom: 1rem;
         h6 {
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
         }
-        padding-bottom: 16px;
+        padding-bottom: 1rem;
     }
 
     .body {
-        margin: 0 32px;
-        padding: 16px;
+        margin: 0 2rem;
+        padding: 1rem;
         border: 1px solid var(--neutral-300);
         background-color: #fafbff;
         border-radius: 12px;
@@ -35,12 +35,12 @@
         flex-wrap: wrap;
 
         .field {
-            padding: 16px 8px;
+            padding: 1rem 0.5rem;
             min-width: 200px;
             width: 25%;
 
             span {
-                line-height: 32px;
+                line-height: 2rem;
             }
         }
     }
@@ -49,10 +49,16 @@
         width: 100%;
         display: flex;
         align-items: center;
-        padding: 32px;
+        padding: 2rem;
 
         ps-button {
             width: 180px;
         }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .container {
+        margin: 1rem;
     }
 }
