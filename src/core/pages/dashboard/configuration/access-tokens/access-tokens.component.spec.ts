@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { AccessTokensComponent } from './access-tokens.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AccessTokensComponent', () => {
     let component: AccessTokensComponent;
@@ -11,6 +13,7 @@ describe('AccessTokensComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule, RouterTestingModule],
             declarations: [AccessTokensComponent]
         }).compileComponents();
     }));

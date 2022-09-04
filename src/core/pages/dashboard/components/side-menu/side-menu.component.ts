@@ -8,7 +8,6 @@ import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/sid
     styleUrls: ['./side-menu.component.scss']
 })
 export class SideMenuComponent implements OnInit {
-    public open: boolean = false;
     public menuItems: SideMenuItem[] = [];
     public constructor(public publicService: PublicService, public sideMenuService: SideMenuService) {}
 
@@ -22,15 +21,15 @@ export class SideMenuComponent implements OnInit {
             },
             {
                 id: `my-company`,
-                icon: 'icon-group',
-                label: 'Usuários',
+                icon: 'icon-location_away',
+                label: 'Minha empresa',
                 route: '/dashboard/my-company'
             },
             {
                 id: `configurations`,
                 icon: 'icon-tune',
                 label: 'Configurações',
-                route: '/dashboard/configurations',
+                route: null,
                 subItems: [
                     {
                         id: `access-keys`,
@@ -59,5 +58,12 @@ export class SideMenuComponent implements OnInit {
                 ]
             }
         ];
+    }
+
+    public itemClicked(item: SideMenuItem): void {
+        if (item.route && window.screen.width < 576) {
+            console.log('asd');
+            this.sideMenuService.open = false;
+        }
     }
 }

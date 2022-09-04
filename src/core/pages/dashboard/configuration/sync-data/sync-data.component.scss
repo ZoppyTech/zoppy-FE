@@ -1,0 +1,124 @@
+@import 'src/styles.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 32px;
+    margin-top: 0px;
+    background-color: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    box-shadow: $box-shadow-1;
+    border-radius: 12px;
+    margin-bottom: 32px;
+
+    .header {
+        border-bottom: 1px solid var(--neutral-300);
+        padding: 0 32px;
+    }
+
+    .title {
+        padding: 0 32px;
+        margin-bottom: 16px;
+        padding-top: 32px;
+        h6 {
+            margin-bottom: unset;
+            margin: unset;
+        }
+
+        .main-title {
+            display: flex;
+            align-items: center;
+            margin-bottom: 16px;
+        }
+        padding-bottom: 16px;
+    }
+
+    .body-warning {
+        padding: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: flex-start;
+        background-color: rgba(#ffad4e, 0.1);
+        border: 2px solid var(--warning);
+        border-radius: 8px;
+        margin: 0 32px 32px 32px;
+
+        ps-icon {
+            color: var(--warning);
+        }
+
+        a {
+            color: var(--warning);
+            font-weight: bold;
+            text-decoration: none;
+        }
+    }
+
+    .body {
+        margin: 0 32px;
+        padding: 16px;
+        border: 1px solid var(--neutral-300);
+        background-color: #fafbff;
+        border-radius: 12px;
+
+        ps-checkbox {
+            margin-bottom: 16px;
+        }
+    }
+
+    .sync {
+        padding: 2rem;
+        width: 360px;
+        max-width: 100%;
+        padding-bottom: 4rem;
+    }
+
+    .footer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 16px;
+        border-top: 1px solid var(--neutral-300);
+        flex-wrap: wrap;
+
+        .sync-step {
+            flex-grow: 1;
+            display: flex;
+            align-items: center;
+            padding: 16px;
+
+            .step {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 100%;
+                margin-right: 16px;
+            }
+
+            .success {
+                background-color: var(--success);
+            }
+
+            .waiting {
+                background-color: var(--neutral-400);
+            }
+
+            .in-progress {
+                background-color: var(--secondary);
+            }
+
+            .error {
+                background-color: var(--negative);
+            }
+
+            .separator {
+                height: 1px;
+                flex-grow: 1;
+                margin: 0 16px;
+                background-color: var(--neutral-400);
+            }
+        }
+    }
+}

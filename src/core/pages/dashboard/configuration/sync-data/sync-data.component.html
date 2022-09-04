@@ -1,1 +1,61 @@
-<p>sync-data works!</p>
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold margin-y-3">Sincronização</h5>
+    </div>
+
+    <div class="title">
+        <div class="flex main-title">
+            <span class="flex clickable padding-y-1" (click)="openInfoModal()">
+                <h6 class="text text--bold">Sincronizar todos os dados &nbsp;</h6>
+                <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+            </span>
+        </div>
+        <div class="flex align-center">
+            <span class="text">Clique no calendário para selecionar uma data de início para a importação de dados do WooCommerce.</span>
+            <ps-datepicker class="margin-left-1" type="icon" [(model)]="expirationDate"></ps-datepicker>
+            <span class="text text--600 margin-left-1 desktop" *ngIf="expirationDate">{{ expirationDate | date: 'dd/MM/yyyy' }}</span>
+        </div>
+    </div>
+
+    <div class="body-warning" *ngIf="loaded && !key">
+        <ps-icon icon="icon-info"></ps-icon> &nbsp; &nbsp; <span class="text text--bold">Atenção: </span>&nbsp;
+        <span class="text">você precisa ter configurado suas chaves do WooCommerce para poder ativar a sincronização de dados. </span>&nbsp;
+        <a [routerLink]="'/dashboard/configurations/access-keys'" class="text">Clique aqui </a>&nbsp;
+        <span class="text">para configurar. </span>
+    </div>
+
+    <div class="body">
+        <div class="padding-bottom-2" *ngFor="let step of steppers">
+            <ps-checkbox [(active)]="step.visible" [disabled]="!key || !expirationDate"
+                ><span class="text">{{ step.label }}</span></ps-checkbox
+            >
+        </div>
+    </div>
+
+    <div class="sync">
+        <ps-button [loading]="loading" [wide]="true" (onClick)="syncData()" type="secondary" [disabled]="!key || !expirationDate">
+            <span class="text--100">Iniciar Sincronização</span>
+        </ps-button>
+    </div>
+    <div class="footer">
+        <div class="sync-step" *ngFor="let step of steppers" [ngClass]="{ hidden: !step.visible }">
+            <div
+                class="step"
+                [ngClass]="{
+                    success: step.state === 'success',
+                    waiting: step.state === 'waiting',
+                    'in-progress': step.state === 'in-progress',
+                    error: step.state === 'error'
+                }"
+            >
+                <h5 class="text text--100">
+                    {{ getStepIndex(step) }}
+                </h5>
+            </div>
+            <span class="text" [ngClass]="{ 'text--500': step.state === 'in-progress' }">
+                {{ step.label }}
+            </span>
+            <div class="separator"></div>
+        </div>
+    </div>
+</div>

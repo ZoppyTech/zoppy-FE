@@ -1,30 +1,48 @@
-<div class="side-menu" [ngClass]="{ open: open }">
-    <div class="flex padding-2 header padding-top-3" [ngClass]="{ 'flex-center': !open, 'flex-start padding-x-3 padding-2': open }">
-        <img src="./assets/imgs/logo.png" *ngIf="open" alt="" />
-        <img src="./assets/imgs/mini-logo.png" class="padding-x-2" *ngIf="!open" alt="" />
+<div class="background mobile" *ngIf="sideMenuService.open" (click)="sideMenuService.open = false"></div>
+
+<div
+    class="side-menu"
+    [ngClass]="{ open: sideMenuService.open }"
+    (mouseenter)="sideMenuService.open = true"
+    (mouseleave)="sideMenuService.open = false"
+>
+    <div
+        class="flex padding-2 header padding-top-3"
+        [ngClass]="{ 'flex-center': !sideMenuService.open, 'flex-start padding-x-3 padding-2': sideMenuService.open }"
+    >
+        <img src="./assets/imgs/logo.png" *ngIf="sideMenuService.open" alt="" />
+        <img src="./assets/imgs/mini-logo.png" class="padding-x-2" *ngIf="!sideMenuService.open" alt="" />
     </div>
 
     <div class="separator"></div>
 
     <ul class="flex flex-column flex-grow padding-top-3">
-        <div *ngFor="let item of menuItems">
+        <div *ngFor="let item of menuItems" (mouseenter)="item.subItemsOpened = true" (mouseleave)="item.subItemsOpened = false">
             <li
-                [routerLink]="item.route"
-                [ngClass]="{ 'justify-center': !open, 'flex-start': open, marker: sideMenuService.selected === item.id }"
+                [ngClass]="{
+                    'justify-center': !sideMenuService.open,
+                    'flex-start': sideMenuService.open,
+                    marker: sideMenuService.selected === item.id
+                }"
                 class="padding-2 flex align-center"
                 tooltipWidth="180"
                 appTooltip
                 [tooltipText]="item.label"
-                (click)="item.subItemsOpened = !item.subItemsOpened"
-                [tooltipHidden]="open"
+                [tooltipHidden]="sideMenuService.open"
                 tooltipDirection="right"
             >
-                <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': open }">
-                    <ps-icon icon="{{ item.icon }} {{ sideMenuService.selected === item.id ? 'text--secondary' : 'text--500' }}"></ps-icon>
-                </div>
-                <span [ngClass]="{ hidden: !open, 'text--secondary': sideMenuService.selected === item.id }" class="text text--500 label">{{
-                    item.label
-                }}</span>
+                <a [attr.href]="item.route" (click)="itemClicked(item)">
+                    <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
+                        <ps-icon
+                            icon="{{ item.icon }} {{ sideMenuService.selected === item.id ? 'text--secondary' : 'text--500' }}"
+                        ></ps-icon>
+                    </div>
+                    <span
+                        [ngClass]="{ hidden: !sideMenuService.open, 'text--secondary': sideMenuService.selected === item.id }"
+                        class="text text--500 label"
+                        >{{ item.label }}</span
+                    >
+                </a>
             </li>
             <ul *ngIf="item.subItems" class="subitems" [ngClass]="{ 'subItems-open': item.subItemsOpened }">
                 <li
@@ -32,26 +50,33 @@
                     tooltipWidth="180"
                     class="subitem flex"
                     [routerLink]="subItem.route"
+                    (click)="itemClicked(subItem)"
                     appTooltip
                     [tooltipText]="subItem.label"
-                    [tooltipHidden]="open"
+                    [tooltipHidden]="sideMenuService.open"
                     tooltipDirection="right"
-                    [ngClass]="{ 'justify-center': !open, 'flex-start': open, marker: sideMenuService.subSelected === subItem.id }"
+                    [ngClass]="{
+                        'justify-center': !sideMenuService.open,
+                        'flex-start': sideMenuService.open,
+                        marker: sideMenuService.subSelected === subItem.id
+                    }"
                 >
-                    <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': open }">
-                        <ps-icon
-                            icon="{{ subItem.icon }} {{ sideMenuService.subSelected === subItem.id ? 'text--800' : 'text--500' }}"
-                        ></ps-icon>
-                    </div>
-                    <span
-                        class="label"
-                        [ngClass]="{
-                            hidden: !open,
-                            'text--800': sideMenuService.subSelected === subItem.id,
-                            'text--500': sideMenuService.subSelected !== subItem.id
-                        }"
-                        >{{ subItem.label }}</span
-                    >
+                    <a [attr.href]="subItem.route">
+                        <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
+                            <ps-icon
+                                icon="{{ subItem.icon }} {{ sideMenuService.subSelected === subItem.id ? 'text--800' : 'text--500' }}"
+                            ></ps-icon>
+                        </div>
+                        <span
+                            class="label"
+                            [ngClass]="{
+                                hidden: !sideMenuService.open,
+                                'text--800': sideMenuService.subSelected === subItem.id,
+                                'text--500': sideMenuService.subSelected !== subItem.id
+                            }"
+                            >{{ subItem.label }}</span
+                        >
+                    </a>
                 </li>
             </ul>
         </div>
@@ -59,10 +84,20 @@
 
     <div class="separator"></div>
 
-    <div class="footer padding-2 padding-bottom-3" [ngClass]="{ 'justify-center': !open, 'flex-start': open }">
-        <ps-icon class="clickable" (click)="open = !open" icon="icon-logout text--800"></ps-icon>
-        <a (click)="publicService.confirmLogout()" [ngClass]="{ hidden: !open }" class="text text--link text--primary margin-left-2">
-            Sair
+    <div
+        class="footer padding-2 padding-bottom-3 flex"
+        [ngClass]="{ 'justify-center': !sideMenuService.open, 'flex-start': sideMenuService.open }"
+    >
+        <div [ngClass]="{ inverted: sideMenuService.open }">
+            <ps-icon class="clickable text--primary" (click)="sideMenuService.open = !sideMenuService.open" icon="icon-logout"></ps-icon>
+        </div>
+
+        <a
+            (click)="sideMenuService.open = false"
+            [ngClass]="{ hidden: !sideMenuService.open }"
+            class="text text--link text--primary margin-left-2"
+        >
+            Fechar menu
         </a>
     </div>
 </div>
