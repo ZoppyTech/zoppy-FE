@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from '@lucarrloliveira/toast';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { WcKeyEntity } from 'src/shared/models/entities/wc-key.entity';
 import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -18,15 +19,24 @@ export class AccessKeysComponent implements OnInit {
 
     public constructor(
         private readonly toast: ToastService,
+        private readonly wcKeyService: WcKeyService,
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
-        private readonly wcKeyService: WcKeyService
+        public modal: ModalService
     ) {}
 
     public async ngOnInit() {
         this.setBreadcrumb();
         this.sideMenuService.changeSub(`access-keys`);
         await this.fetchData();
+    }
+
+    public openInfoModal(): void {
+        this.modal.open(Modal.IDENTIFIER.INFO, {
+            title: 'Cadastrando suas chaves de Acesso?',
+            button: 'Entendi',
+            description: `Aqui é quando acontece a permissão para que possamos criar cupons personalizados para seus clientes sem te dar trabalho manual. Lembrando que toda essa criação vai de acordo com o modelo que você desejar de giftback e é <b>totalmente transparente</b>, sempre de forma <b>automatizada!</b>`
+        });
     }
 
     public async save(): Promise<void> {

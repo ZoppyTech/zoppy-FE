@@ -7,6 +7,7 @@ import { IconModule } from '@lucarrloliveira/icon';
 import { VisualIdentityModule } from '@lucarrloliveira/visual-identity';
 import { CheckboxModule } from '@lucarrloliveira/checkbox';
 import { DatepickerModule } from '@lucarrloliveira/datepicker';
+import { ComponentsModule } from 'src/shared/components/components.module';
 
 const routes: Routes = [
     {

@@ -15,7 +15,7 @@ main {
         display: flex;
     }
 
-    .content {
+    .dashboard-content {
         display: flex;
         flex-grow: 1;
         overflow: hidden;
@@ -27,7 +27,7 @@ main {
     main {
         display: flex;
         flex-direction: column;
-        .content {
+        .dashboard-content {
             padding: 0;
             display: flex;
             flex-direction: row;

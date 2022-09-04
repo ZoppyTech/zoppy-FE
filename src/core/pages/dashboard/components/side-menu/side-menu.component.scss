@@ -22,6 +22,7 @@
             display: flex;
             align-items: center;
             text-decoration: none;
+            padding: 8px;
         }
 
         .marker {
@@ -45,10 +46,20 @@
         transform: scaleX(1);
     }
 
+    ps-icon {
+        transform: rotateY(0deg);
+        transition-duration: 300ms;
+    }
+
     .separator {
         margin: 16px 16px;
         height: 1px;
         background-color: var(--neutral-300);
+    }
+
+    .inverted {
+        transform: rotateY(180deg);
+        transition-duration: 300ms;
     }
 }
 

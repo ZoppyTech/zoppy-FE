@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
 import { ToastService } from '@lucarrloliveira/toast';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { ExternalTokenEntity } from 'src/shared/models/entities/external-token.entity';
 import { ExternalTokenRequest } from 'src/shared/models/requests/external-token/external-token.request';
 import { BooleanResponse, ZoppyException } from 'src/shared/services/api.service';
@@ -24,9 +25,20 @@ export class AccessTokensComponent implements OnInit {
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
         public confirmActionService: ConfirmActionService,
+        public modal: ModalService,
         private readonly externalTokenService: ExternalTokenService,
         private readonly toast: ToastService
     ) {}
+
+    public openInfoModal(): void {
+        this.modal.open(Modal.IDENTIFIER.INFO, {
+            title: 'Cadastrando suas chaves de Acesso?',
+            button: 'Entendi',
+            description: `Nada melhor do que ter uma <b>solução personalizada</b> pro seu
+              negócio e <b>totalmente automatizada</b>, né? Essa etapa vem
+              para concretizar isso, auziliando a Zoppy a entender mais sobre como funcionam as vendas no seu ecommerce.`
+        });
+    }
 
     public async ngOnInit(): Promise<void> {
         this.sideMenuService.changeSub(`access-tokens`);

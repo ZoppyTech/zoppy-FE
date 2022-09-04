@@ -75,8 +75,15 @@ th {
     width: 100%;
 }
 
-h4 {
+h4,
+h5,
+h6 {
     margin: unset;
+}
+
+.justify {
+    text-align: justify;
+    text-justify: inter-word;
 }
 
 $box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);

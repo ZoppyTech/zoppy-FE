@@ -1,9 +1,12 @@
 <div class="container">
     <div class="header">
-        <h5 class="text--primary text--bold">Tokens de Acesso</h5>
+        <h5 class="text--primary text--bold margin-y-3">Tokens de Acesso</h5>
     </div>
     <div class="title">
-        <h6 class="text text--bold">Cadastre suas chaves</h6>
+        <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
+            <h6 class="text text--bold">Cadastre suas chaves &nbsp;</h6>
+            <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+        </div>
         <span class="text">Insira nos campos abaixo suas chaves Secret, Key e a URL do seu E-commerce na plataforma WooCommerce</span>
     </div>
 
