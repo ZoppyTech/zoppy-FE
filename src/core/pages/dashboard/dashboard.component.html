@@ -1,7 +1,9 @@
-<main class="full-height full-width no-scroll flex flex-row">
-    <app-side-menu class="flex"></app-side-menu>
-    <div class="flex flex-column flex-grow no-scroll">
-        <app-top-bar></app-top-bar>
+<main>
+    <app-side-menu class="desktop"></app-side-menu>
+    <app-top-bar class="mobile"></app-top-bar>
+    <div class="content">
+        <app-side-menu class="mobile"></app-side-menu>
+        <app-top-bar class="desktop"></app-top-bar>
         <router-outlet></router-outlet>
     </div>
 </main>

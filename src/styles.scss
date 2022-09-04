@@ -79,14 +79,16 @@ h4 {
     margin: unset;
 }
 
-::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
-}
-
-::-webkit-scrollbar-thumb {
-    border-radius: 5px;
-    background: var(--neutral-400);
-}
-
 $box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
+
+@media only screen and (max-width: 576px) {
+    ::-webkit-scrollbar {
+        width: 4px;
+        height: 4px;
+    }
+
+    ::-webkit-scrollbar-thumb {
+        border-radius: 3px;
+        background: var(--neutral-400);
+    }
+}
