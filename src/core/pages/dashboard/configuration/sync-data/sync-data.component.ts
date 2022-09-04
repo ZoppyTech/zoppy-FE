@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from '@lucarrloliveira/toast';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { WcSyncRequest } from 'src/shared/models/requests/wc-sync/wc-sync.request';
 import { BooleanResponse, ZoppyException } from 'src/shared/services/api.service';
@@ -24,6 +25,7 @@ export class SyncDataComponent implements OnInit {
     public constructor(
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
+        public modal: ModalService,
         private readonly syncDataService: WcSyncService,
         private readonly wcKeyService: WcKeyService,
         private readonly toast: ToastService
@@ -35,6 +37,15 @@ export class SyncDataComponent implements OnInit {
         this.sideMenuService.changeSub(`sync-data`);
         await this.fetchKey();
         this.loaded = true;
+    }
+
+    public openInfoModal(): void {
+        this.modal.open(Modal.IDENTIFIER.INFO, {
+            title: 'Para que serve a sincronização?',
+            button: 'Entendi',
+            description:
+                'Serve para que possamos ser uma ferramente que automatiza tudo e não te da nenhum trabalho no dia a dia. <br> Essa sincronização auxilia na criação de dashboards mais personalizados. Basta deixar todas as caixas preenchidas, sincronizar e ver a mágina acontecer!'
+        });
     }
 
     public async fetchKey(): Promise<void> {
@@ -54,6 +65,9 @@ export class SyncDataComponent implements OnInit {
         await this.syncProducts(request);
         await this.syncCupons(request);
         await this.syncOrders(request);
+        const allSuccess: boolean = !this.steppers.find((step: Stepper) => step.state !== 'success');
+
+        if (allSuccess) this.toast.success('Todos os dados foram sincronizados com sucesso', 'Sucesso!');
     }
 
     public getStepIndex(step: Stepper): number {

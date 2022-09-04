@@ -31,7 +31,7 @@
                 [tooltipHidden]="sideMenuService.open"
                 tooltipDirection="right"
             >
-                <a [routerLink]="item.route" (click)="itemClicked(item)">
+                <a [attr.href]="item.route" (click)="itemClicked(item)">
                     <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
                         <ps-icon
                             icon="{{ item.icon }} {{ sideMenuService.selected === item.id ? 'text--secondary' : 'text--500' }}"
@@ -61,20 +61,22 @@
                         marker: sideMenuService.subSelected === subItem.id
                     }"
                 >
-                    <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
-                        <ps-icon
-                            icon="{{ subItem.icon }} {{ sideMenuService.subSelected === subItem.id ? 'text--800' : 'text--500' }}"
-                        ></ps-icon>
-                    </div>
-                    <span
-                        class="label"
-                        [ngClass]="{
-                            hidden: !sideMenuService.open,
-                            'text--800': sideMenuService.subSelected === subItem.id,
-                            'text--500': sideMenuService.subSelected !== subItem.id
-                        }"
-                        >{{ subItem.label }}</span
-                    >
+                    <a [attr.href]="subItem.route">
+                        <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
+                            <ps-icon
+                                icon="{{ subItem.icon }} {{ sideMenuService.subSelected === subItem.id ? 'text--800' : 'text--500' }}"
+                            ></ps-icon>
+                        </div>
+                        <span
+                            class="label"
+                            [ngClass]="{
+                                hidden: !sideMenuService.open,
+                                'text--800': sideMenuService.subSelected === subItem.id,
+                                'text--500': sideMenuService.subSelected !== subItem.id
+                            }"
+                            >{{ subItem.label }}</span
+                        >
+                    </a>
                 </li>
             </ul>
         </div>
@@ -83,10 +85,13 @@
     <div class="separator"></div>
 
     <div
-        class="footer padding-2 padding-bottom-3"
+        class="footer padding-2 padding-bottom-3 flex"
         [ngClass]="{ 'justify-center': !sideMenuService.open, 'flex-start': sideMenuService.open }"
     >
-        <ps-icon class="clickable text--primary" (click)="sideMenuService.open = !sideMenuService.open" icon="icon-logout"></ps-icon>
+        <div [ngClass]="{ inverted: sideMenuService.open }">
+            <ps-icon class="clickable text--primary" (click)="sideMenuService.open = !sideMenuService.open" icon="icon-logout"></ps-icon>
+        </div>
+
         <a
             (click)="sideMenuService.open = false"
             [ngClass]="{ hidden: !sideMenuService.open }"

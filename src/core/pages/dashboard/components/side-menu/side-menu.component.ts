@@ -21,7 +21,7 @@ export class SideMenuComponent implements OnInit {
             },
             {
                 id: `my-company`,
-                icon: 'icon-group',
+                icon: 'icon-location_away',
                 label: 'Minha empresa',
                 route: '/dashboard/my-company'
             },
@@ -62,8 +62,8 @@ export class SideMenuComponent implements OnInit {
 
     public itemClicked(item: SideMenuItem): void {
         if (item.route && window.screen.width < 576) {
+            console.log('asd');
             this.sideMenuService.open = false;
-            console.log(`executou`);
         }
     }
 }

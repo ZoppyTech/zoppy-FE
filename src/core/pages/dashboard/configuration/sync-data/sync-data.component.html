@@ -1,14 +1,20 @@
 <div class="container">
     <div class="header">
-        <h5 class="text--primary text--bold">Sincronização</h5>
+        <h5 class="text--primary text--bold margin-y-3">Sincronização</h5>
     </div>
 
     <div class="title">
         <div class="flex main-title">
-            <h6 class="text text--bold">Sincronizar todos os dados &nbsp;</h6>
-            <ps-datepicker type="icon" [(model)]="expirationDate"></ps-datepicker>
+            <span class="flex clickable padding-y-1" (click)="openInfoModal()">
+                <h6 class="text text--bold">Sincronizar todos os dados &nbsp;</h6>
+                <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+            </span>
         </div>
-        <span class="text">Clique no calendário para selecionar uma data de início para a importação de dados do WooCommerce.</span>
+        <div class="flex align-center">
+            <span class="text">Clique no calendário para selecionar uma data de início para a importação de dados do WooCommerce.</span>
+            <ps-datepicker class="margin-left-1" type="icon" [(model)]="expirationDate"></ps-datepicker>
+            <span class="text text--600 margin-left-1 desktop" *ngIf="expirationDate">{{ expirationDate | date: 'dd/MM/yyyy' }}</span>
+        </div>
     </div>
 
     <div class="body-warning" *ngIf="loaded && !key">
