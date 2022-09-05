@@ -3,6 +3,8 @@
 .login {
     width: 100vw;
     height: 100vh;
+    display: flex;
+    flex-direction: column;
 
     &__content {
         flex-grow: 1;
@@ -81,6 +83,17 @@
 }
 
 @media only screen and (max-width: 576px) {
+    .login {
+        &__content {
+            align-items: center;
+
+            .logo-content {
+                align-items: center;
+                justify-content: center;
+            }
+        }
+    }
+
     .text-center-mobile {
         text-align: center;
     }

@@ -110,6 +110,13 @@
                 padding: 0 32px;
                 .field {
                     padding: 8px;
+                    span {
+                        line-height: 24px;
+                    }
+                }
+
+                .checkbox {
+                    font-size: 14px;
                 }
 
                 .half-size {
