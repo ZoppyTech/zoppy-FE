@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { GiftbackConfigComponent } from './giftback-config.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('GiftbackConfigComponent', () => {
     let component: GiftbackConfigComponent;
@@ -11,6 +13,7 @@ describe('GiftbackConfigComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
+            imports: [HttpClientTestingModule, RouterTestingModule],
             declarations: [GiftbackConfigComponent]
         }).compileComponents();
     }));

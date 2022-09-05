@@ -4,8 +4,8 @@
             <img class="logo" src="./assets/imgs/logo.png" alt="" />
         </div>
         <form (keydown.enter)="login()" class="form" id="loginForm">
-            <h4 class="text--primary text--bold">Acesse sua conta Zoppy</h4>
-            <span class="text text--800 margin-bottom-3 margin-top-2">Clientes fidelizados através de benefícios</span>
+            <h4 class="text--primary text--bold text-center-mobile">Acesse sua conta Zoppy</h4>
+            <span class="text text--800 margin-bottom-3 margin-top-2 text-center-mobile">Clientes fidelizados através de benefícios</span>
 
             <div class="field" *ngFor="let field of fields">
                 <span class="text--bold text--800 text--small" [ngClass]="{ 'text--negative': field.errors.length > 0 }">{{
@@ -32,8 +32,13 @@
             </div>
 
             <div class="margin-top-2">
-                <p class="text-800">
+                <p class="text-800 text-center-mobile desktop">
                     Ainda não é um cliente Zoppy?&nbsp;<a [routerLink]="'/register'" class="text--primary text--bold text--link"
+                        >Cadastre-se agora</a
+                    >
+                </p>
+                <p class="text-800 text-center-mobile mobile">
+                    Ainda não é um cliente Zoppy?&nbsp; <br /><a [routerLink]="'/register'" class="text--primary text--bold text--link"
                         >Cadastre-se agora</a
                     >
                 </p>

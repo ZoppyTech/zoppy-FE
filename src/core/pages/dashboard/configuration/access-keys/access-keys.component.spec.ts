@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { AccessKeysComponent } from './access-keys.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('AccessKeysComponent', () => {
     let component: AccessKeysComponent;
@@ -11,7 +13,8 @@ describe('AccessKeysComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [AccessKeysComponent]
+            declarations: [AccessKeysComponent],
+            imports: [HttpClientTestingModule, RouterTestingModule]
         }).compileComponents();
     }));
 

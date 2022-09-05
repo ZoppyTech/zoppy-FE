@@ -79,3 +79,9 @@
         display: none;
     }
 }
+
+@media only screen and (max-width: 576px) {
+    .text-center-mobile {
+        text-align: center;
+    }
+}

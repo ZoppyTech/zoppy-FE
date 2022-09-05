@@ -1,1 +1,57 @@
-<p>access-keys works!</p>
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold margin-y-3">Tokens de Acesso</h5>
+    </div>
+    <div class="title">
+        <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
+            <h6 class="text text--bold">Cadastre suas chaves &nbsp;</h6>
+            <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+        </div>
+        <span class="text">Insira nos campos abaixo suas chaves Secret, Key e a URL do seu E-commerce na plataforma WooCommerce</span>
+    </div>
+
+    <div class="body">
+        <div class="field">
+            <p class="text text--bold">Secret</p>
+            <div class="flex-center flex">
+                <ps-input
+                    icon="{{ key.keyVisible ? 'icon-visibility_off-1' : 'icon-visibility' }}"
+                    placeholder="Insira aqui a sua Secret"
+                    type="{{ key.keyVisible ? 'text' : 'password' }}"
+                    [(ngModel)]="key.secret"
+                    [iconClick]="true"
+                    (onIconClicked)="key.keyVisible = !key.keyVisible"
+                ></ps-input>
+                <ps-icon (click)="copyToClipboard('secret')" icon="icon-copy" class="text--primary clickable"></ps-icon>
+            </div>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Key</p>
+            <div class="flex-center flex">
+                <ps-input
+                    placeholder="Insira aqui a sua Key"
+                    type="{{ key.secretVisible ? 'text' : 'password' }}"
+                    icon="{{ key.secretVisible ? 'icon-visibility_off-1' : 'icon-visibility' }}"
+                    (onIconClicked)="key.secretVisible = !key.secretVisible"
+                    [iconClick]="true"
+                    type="password"
+                    [(ngModel)]="key.key"
+                ></ps-input>
+                <ps-icon (click)="copyToClipboard('key')" icon="icon-copy" class="text--primary clickable"></ps-icon>
+            </div>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Url do seu E-commerce</p>
+            <div class="flex-center flex">
+                <ps-input placeholder="Insira aqui a URL do seu E-commerce" type="url" [(ngModel)]="key.url"></ps-input>
+                <ps-icon (click)="copyToClipboard('url')" icon="icon-copy" class="text--primary clickable"></ps-icon>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary" [disabled]="getSaveDisabled()">
+            <span class="text--100">Salvar</span>
+        </ps-button>
+    </div>
+</div>

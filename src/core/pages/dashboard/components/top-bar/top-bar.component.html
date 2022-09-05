@@ -1,5 +1,7 @@
 <div class="top-bar flex-grow flex">
-    <div class="flex flex-grow">
+    <ps-icon class="mobile" icon="icon-menu" (click)="sideMenuService.open = !sideMenuService.open"></ps-icon>
+
+    <div class="flex flex-grow left-content desktop">
         <div class="breadcrumb" *ngFor="let item of breadcrumb.items; let index = index">
             <a class="text--small text--500" [attr.href]="item.route" class="flex flex-center">
                 <span
@@ -13,14 +15,11 @@
         </div>
     </div>
     <div class="flex-center flex">
-        <div class="padding-2 flex flex-center">
+        <div class="padding-2 flex flex-center desktop">
             <ps-icon icon="icon-chat_bubble text--500"></ps-icon>
         </div>
-        <div class="padding-2 flex flex-center">
-            <ps-icon icon="icon-notifications text--500"></ps-icon>
-        </div>
         <ps-contact class="margin-left-2" [tooltip]="false" [name]="user?.name ?? ''" [email]="user?.email ?? ''"></ps-contact>
-        <div class="flex flex-start flex-column margin-left-2">
+        <div class="flex flex-start flex-column margin-left-2 desktop">
             <span class="text text--primary text--bold">
                 {{ user?.name }}
             </span>
@@ -31,12 +30,12 @@
         <ps-mini-menu class="margin-left-2">
             <ul>
                 <li class="flex flex-start">
-                    <ps-icon class="margin-right-2" icon="icon-group text--800"></ps-icon>
-                    <span class="text">Meu Perfil</span>
+                    <ps-icon class="margin-right-2" icon="icon-user text--600"></ps-icon>
+                    <span class="text text--600">Meu Perfil</span>
                 </li>
                 <li class="flex flex-start" (click)="publicService.confirmLogout()">
-                    <ps-icon class="margin-right-2" icon="icon-logout text--800"></ps-icon>
-                    <span class="text"> Sair </span>
+                    <ps-icon class="margin-right-2" icon="icon-logout text--600"></ps-icon>
+                    <span class="text text--600"> Sair </span>
                 </li>
             </ul>
         </ps-mini-menu>

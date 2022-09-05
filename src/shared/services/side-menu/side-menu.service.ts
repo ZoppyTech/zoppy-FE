@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class SideMenuService {
     public selected: SideMenu = `reports`;
     public subSelected: SideMenu = 'access-keys';
+    public open: boolean = false;
     public constructor() {}
 
     public change(selected: SideMenu): void {

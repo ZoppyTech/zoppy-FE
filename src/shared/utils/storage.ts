@@ -14,7 +14,8 @@ export class Storage {
 
     public getToken(): string | null {
         try {
-            return localStorage.getItem(Storage.keys.token);
+            const token: string | null = localStorage.getItem(Storage.keys.token);
+            return token;
         } catch (ex) {
             return null;
         }
@@ -31,8 +32,8 @@ export class Storage {
 
     public getCompany(): CompanyEntity | null {
         try {
-            const user: CompanyEntity = JSON.parse(localStorage.getItem(Storage.keys.company) as string) as CompanyEntity;
-            return user;
+            const company: CompanyEntity = JSON.parse(localStorage.getItem(Storage.keys.company) as string) as CompanyEntity;
+            return company;
         } catch (ex) {
             return null;
         }

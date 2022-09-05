@@ -7,13 +7,12 @@
     margin-top: 0px;
     background-color: var(--neutral-100);
     border: 1px solid var(--neutral-300);
-    box-shadow: 0px 16px 40px -8px var(--neutral-200);
+    box-shadow: $box-shadow-1;
     border-radius: 12px;
     margin-bottom: 32px;
 
     .header {
         border-bottom: 1px solid var(--neutral-300);
-        padding: 0 32px;
     }
 
     .title {
@@ -51,5 +50,11 @@
         ps-button {
             width: 180px;
         }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .container {
+        margin: 1rem;
     }
 }

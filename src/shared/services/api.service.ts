@@ -4,14 +4,17 @@ import { Observable, throwError } from 'rxjs';
 import { catchError, map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Navigation } from '../utils/navigation';
+import { Storage } from '../utils/storage';
 import { StringUtil } from '../utils/string.util';
 
 export abstract class ApiService {
     public url: string = `${environment.apiUrl}/api`;
 
-    public constructor(public readonly http: HttpClient, public readonly router: Router) {}
+    public constructor(public readonly http: HttpClient, public readonly router: Router, public readonly storage: Storage) {}
 
     public get<Response>(uri: string, params?: HttpParams, headers?: HttpHeaders): Observable<Response> {
+        headers = this.setHeaders(headers);
+
         const httpOptions: any = { headers: headers || new HttpHeaders(), params: params || new HttpParams() };
         return this.http.get(uri, httpOptions).pipe(
             map((response: any) => {
@@ -25,6 +28,8 @@ export abstract class ApiService {
     }
 
     public post<Response, Request>(uri: string, request?: Request, params?: HttpParams, headers?: HttpHeaders): Observable<Response> {
+        headers = this.setHeaders(headers);
+
         const httpOptions: any = { headers: headers || new HttpHeaders(), params: params || new HttpParams() };
         return this.http.post(uri, request, httpOptions).pipe(
             map((response: any) => {
@@ -38,6 +43,8 @@ export abstract class ApiService {
     }
 
     public put<Response, Request>(uri: string, request?: Request, params?: HttpParams, headers?: HttpHeaders): Observable<Response> {
+        headers = this.setHeaders(headers);
+
         const httpOptions: any = { headers: headers || new HttpHeaders(), params: params || new HttpParams() };
         return this.http.put(uri, request, httpOptions).pipe(
             map((response: any) => {
@@ -51,6 +58,8 @@ export abstract class ApiService {
     }
 
     public delete<Response>(uri: string, params?: HttpParams, headers?: HttpHeaders): Observable<Response> {
+        headers = this.setHeaders(headers);
+
         const httpOptions: any = { headers: headers || new HttpHeaders(), params: params || new HttpParams() };
         return this.http.delete(uri, httpOptions).pipe(
             map((response: any) => {
@@ -64,6 +73,8 @@ export abstract class ApiService {
     }
 
     public download<Response>(uri: string, params?: HttpParams | Object, headers?: HttpHeaders): Observable<Response> {
+        headers = this.setHeaders(headers);
+
         const httpOptions: any = {
             headers: headers || new HttpHeaders(),
             params: params || new HttpParams(),
@@ -81,6 +92,8 @@ export abstract class ApiService {
     }
 
     public downloadBase64<Response>(uri: string, params?: HttpParams | Object, headers?: HttpHeaders): Observable<Response> {
+        headers = this.setHeaders(headers);
+
         const httpOptions: any = {
             headers: headers || new HttpHeaders(),
             params: params || new HttpParams(),
@@ -98,6 +111,7 @@ export abstract class ApiService {
     }
 
     public downloadMany<Response>(uri: string, body: Object, headers?: HttpHeaders): Observable<Response> {
+        headers = this.setHeaders(headers);
         const httpOptions: any = {
             headers: headers || new HttpHeaders({ 'Content-Type': 'application/json' }),
             responseType: 'blob' as 'json'
@@ -125,10 +139,20 @@ export abstract class ApiService {
         }
         return throwError(error);
     }
+
+    private setHeaders(headers?: HttpHeaders): HttpHeaders {
+        if (!headers) headers = new HttpHeaders();
+        if (this.storage.getToken()) headers = headers.append(`Authorization`, `Bearer ${this.storage.getToken()}`);
+        return headers;
+    }
 }
 
 export class ZoppyException extends Error {
     public declare statusCode: number;
     public declare message: string;
     public declare error: string;
+}
+
+export interface BooleanResponse {
+    result: boolean;
 }

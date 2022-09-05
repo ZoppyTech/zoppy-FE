@@ -5,6 +5,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { VisualIdentityModule } from '@lucarrloliveira/visual-identity';
 import { IconModule } from '@lucarrloliveira/icon';
 import { ButtonModule } from '@lucarrloliveira/button';
+import { InputModule } from '@lucarrloliveira/input';
 
 const routes: Routes = [
     {
@@ -14,7 +15,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, IconModule, ButtonModule],
+    imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, IconModule, ButtonModule, InputModule],
     declarations: [AccessKeysComponent],
     exports: [AccessKeysComponent]
 })
