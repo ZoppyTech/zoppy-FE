@@ -34,6 +34,7 @@ export class SyncDataComponent implements OnInit {
     public async ngOnInit() {
         this.setBreadcrumbItems();
         this.setSteppers();
+        this.sideMenuService.change('configurations');
         this.sideMenuService.changeSub(`sync-data`);
         await this.fetchKey();
         this.loaded = true;

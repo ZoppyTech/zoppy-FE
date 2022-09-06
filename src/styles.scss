@@ -33,20 +33,37 @@ input {
     margin: 1rem;
 }
 
+table {
+    border-radius: 8px;
+}
+
 table,
 th,
 td {
+    text-align: start;
     border: 1px solid var(--neutral-400);
     border-collapse: collapse;
 }
 
 td {
-    padding: 0.75rem 0.25rem;
+    padding: 2rem;
     height: 100%;
+    border: none;
+}
+
+thead {
+    border: 1px solid var(--neutral-300);
+}
+
+tr {
+    border: 1px solid var(--neutral-300);
 }
 
 th {
-    padding: 0.75rem 0.25rem;
+    padding: 1rem 2rem;
+    background-color: #fafbff;
+    border-radius: 8px 8px 0px 0px;
+    border: none;
 }
 
 .content {
@@ -98,4 +115,18 @@ $box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
         border-radius: 3px;
         background: var(--neutral-400);
     }
+
+    td {
+        padding: 2rem 1rem;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 5px;
+    background: var(--neutral-400);
 }

@@ -18,7 +18,16 @@ export class SideMenuService {
     }
 }
 
-export type SideMenu = 'reports' | `my-company` | `configurations` | `access-keys` | `access-tokens` | `sync-data` | `giftback`;
+export type SideMenu =
+    | 'reports'
+    | `my-company`
+    | `configurations`
+    | `access-keys`
+    | `access-tokens`
+    | `sync-data`
+    | `giftback`
+    | 'my-company-config'
+    | 'my-company-users';
 
 export interface SideMenuItem {
     id: SideMenu;
