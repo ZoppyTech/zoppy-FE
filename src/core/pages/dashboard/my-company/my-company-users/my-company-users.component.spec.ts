@@ -4,6 +4,11 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { MyCompanyUsersComponent } from './my-company-users.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ButtonModule } from '@lucarrloliveira/button';
+import { IconModule } from '@lucarrloliveira/icon';
+import { InputModule } from '@lucarrloliveira/input';
 
 describe('MyCompanyUsersComponent', () => {
     let component: MyCompanyUsersComponent;
@@ -11,7 +16,8 @@ describe('MyCompanyUsersComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [MyCompanyUsersComponent]
+            declarations: [MyCompanyUsersComponent],
+            imports: [RouterTestingModule, HttpClientTestingModule, IconModule, ButtonModule, InputModule]
         }).compileComponents();
     }));
 

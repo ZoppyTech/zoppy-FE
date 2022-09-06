@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { MyCompanyUserConfigComponent } from './my-company-user-config.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('MyCompanyUserConfigComponent', () => {
     let component: MyCompanyUserConfigComponent;
@@ -11,7 +13,8 @@ describe('MyCompanyUserConfigComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [MyCompanyUserConfigComponent]
+            declarations: [MyCompanyUserConfigComponent],
+            imports: [HttpClientTestingModule, RouterTestingModule]
         }).compileComponents();
     }));
 
