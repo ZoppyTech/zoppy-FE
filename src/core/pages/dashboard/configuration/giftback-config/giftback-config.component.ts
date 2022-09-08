@@ -26,6 +26,7 @@ export class GiftbackConfigComponent implements OnInit {
     public async ngOnInit() {
         this.setBreadcrumb();
         this.sideMenuService.changeSub(`giftback`);
+        this.sideMenuService.change('configurations');
         await this.fetchData();
     }
 

@@ -42,6 +42,7 @@ export class AccessTokensComponent implements OnInit {
 
     public async ngOnInit(): Promise<void> {
         this.sideMenuService.changeSub(`access-tokens`);
+        this.sideMenuService.change('configurations');
         this.generateBreadcrumb();
         await this.fetchData();
     }

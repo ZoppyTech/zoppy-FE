@@ -6,9 +6,13 @@ export class Navigation {
         'reset-password': '/reset-password',
         dashboard: '/dashboard',
         register: '/register',
-        configuration: '/configuration',
-        'my-company': '/my-company',
-        reports: '/reports'
+        configuration: 'dashboard/configuration',
+        profile: 'dashboard/profile',
+        'my-company': 'dashboard/my-company',
+        'my-company-config': 'dashboard/my-company/config',
+        'my-company-users': 'dashboard/my-company/users',
+        'user-config': 'dashboard/my-company/users/config',
+        reports: 'dashboard//reports'
     };
 }
 
@@ -20,5 +24,9 @@ export type Pages =
     | 'dashboard'
     | 'register'
     | `configuration`
+    | 'profile'
     | 'my-company'
+    | 'my-company-config'
+    | 'my-company-users'
+    | 'user-config'
     | 'reports';

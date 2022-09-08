@@ -29,11 +29,11 @@
         </div>
         <ps-mini-menu class="margin-left-2">
             <ul>
-                <li class="flex flex-start">
+                <li class="flex flex-start clickable" (click)="navigateToProfile()">
                     <ps-icon class="margin-right-2" icon="icon-user text--600"></ps-icon>
                     <span class="text text--600">Meu Perfil</span>
                 </li>
-                <li class="flex flex-start" (click)="publicService.confirmLogout()">
+                <li class="flex flex-start clickable" (click)="publicService.confirmLogout()">
                     <ps-icon class="margin-right-2" icon="icon-logout text--600"></ps-icon>
                     <span class="text text--600"> Sair </span>
                 </li>

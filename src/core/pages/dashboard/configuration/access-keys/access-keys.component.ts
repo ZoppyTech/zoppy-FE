@@ -28,6 +28,7 @@ export class AccessKeysComponent implements OnInit {
     public async ngOnInit() {
         this.setBreadcrumb();
         this.sideMenuService.changeSub(`access-keys`);
+        this.sideMenuService.change('configurations');
         await this.fetchData();
     }
 

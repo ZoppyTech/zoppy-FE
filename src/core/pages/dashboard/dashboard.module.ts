@@ -29,6 +29,10 @@ const routes: Routes = [
             {
                 path: 'my-company',
                 loadChildren: () => import('./my-company/my-company.module').then((m: any) => m.MyCompanyModule)
+            },
+            {
+                path: 'profile',
+                loadChildren: () => import('./my-profile/my-profile.module').then((m: any) => m.MyProfileModule)
             }
         ]
     }

@@ -11,6 +11,10 @@ export class SideMenuService {
 
     public change(selected: SideMenu): void {
         this.selected = selected;
+
+        if (!['configurations', 'my-profile'].includes(this.selected)) {
+            this.changeSub('none');
+        }
     }
 
     public changeSub(selected: SideMenu): void {
@@ -18,7 +22,18 @@ export class SideMenuService {
     }
 }
 
-export type SideMenu = 'reports' | `my-company` | `configurations` | `access-keys` | `access-tokens` | `sync-data` | `giftback`;
+export type SideMenu =
+    | 'reports'
+    | `my-company`
+    | `configurations`
+    | `access-keys`
+    | `access-tokens`
+    | `sync-data`
+    | `giftback`
+    | `my-profile`
+    | 'my-company-config'
+    | 'my-company-users'
+    | 'none';
 
 export interface SideMenuItem {
     id: SideMenu;

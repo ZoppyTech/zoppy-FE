@@ -3,26 +3,26 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { ConfigurationComponent } from './configuration.component';
+import { MyCompanyUsersComponent } from './my-company-users.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { ButtonModule } from '@lucarrloliveira/button';
 import { IconModule } from '@lucarrloliveira/icon';
 import { InputModule } from '@lucarrloliveira/input';
 
-describe('ConfigurationComponent', () => {
-    let component: ConfigurationComponent;
-    let fixture: ComponentFixture<ConfigurationComponent>;
+describe('MyCompanyUsersComponent', () => {
+    let component: MyCompanyUsersComponent;
+    let fixture: ComponentFixture<MyCompanyUsersComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ConfigurationComponent],
+            declarations: [MyCompanyUsersComponent],
             imports: [RouterTestingModule, HttpClientTestingModule, IconModule, ButtonModule, InputModule]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ConfigurationComponent);
+        fixture = TestBed.createComponent(MyCompanyUsersComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

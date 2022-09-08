@@ -1,52 +1,63 @@
 @import 'src/styles.scss';
 
 :host {
-    flex-grow: 1;
-    min-height: 0;
     display: flex;
+    flex-grow: 1;
 }
 
 .container {
     display: flex;
     flex-direction: column;
-    margin: 2rem;
+    margin: 32px;
     margin-top: 0px;
     background-color: var(--neutral-100);
     border: 1px solid var(--neutral-300);
     box-shadow: $box-shadow-1;
     border-radius: 12px;
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
+    flex-grow: 1;
 
     .header {
         border-bottom: 1px solid var(--neutral-300);
-        padding: 0 2rem;
     }
 
     .title {
-        padding: 0 2rem;
-        margin-bottom: 1rem;
-        h6 {
-            margin-bottom: 0.5rem;
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        padding: 0 32px;
+
+        a {
+            text-decoration: none;
+
+            ps-icon {
+                font-size: 20px;
+            }
         }
-        padding-bottom: 1rem;
+
+        margin-bottom: 16px;
+        h6 {
+            margin-bottom: 8px;
+        }
+        padding-bottom: 16px;
     }
 
     .body {
-        margin: 0 2rem;
-        padding: 1rem;
+        margin: 0 32px;
+        padding: 32px;
         border: 1px solid var(--neutral-300);
+        padding-bottom: 32px;
         background-color: #fafbff;
         border-radius: 12px;
-        display: flex;
-        flex-wrap: wrap;
+        flex-grow: 1;
+        min-height: 0;
+        overflow: auto;
 
         .field {
-            padding: 1rem 0.5rem;
-            min-width: 200px;
-            width: 25%;
+            padding-bottom: 16px;
 
             span {
-                line-height: 2rem;
+                line-height: 32px;
             }
         }
     }
@@ -55,7 +66,7 @@
         width: 100%;
         display: flex;
         align-items: center;
-        padding: 2rem;
+        padding: 32px;
 
         ps-button {
             width: 180px;

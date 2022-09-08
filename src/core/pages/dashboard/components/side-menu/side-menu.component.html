@@ -44,7 +44,7 @@
                     >
                 </a>
             </li>
-            <ul *ngIf="item.subItems" class="subitems" [ngClass]="{ 'subItems-open': item.subItemsOpened }">
+            <ul *ngIf="item.subItems && item.subItemsOpened" class="subitems" [ngClass]="{ 'subItems-open': item.subItemsOpened }">
                 <li
                     *ngFor="let subItem of item.subItems"
                     tooltipWidth="180"

@@ -1,0 +1,57 @@
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold margin-y-3">Minha empresa</h5>
+    </div>
+
+    <div class="title margin-y-3">
+        <h6 class="text text--bold">Usuários</h6>
+        <span class="text">Edição e adição de usuários.</span>
+    </div>
+
+    <div class="body">
+        <table>
+            <thead>
+                <th class="desktop"><span class="text text--primary text--bold desktop">Nome</span></th>
+                <th><span class="text text--primary text--bold">E-mail</span></th>
+                <th class="desktop"><span class="text text--primary text--bold desktop">Telefone</span></th>
+                <th class="desktop"><span class="text text--primary text--bold desktop">Data de nascimento</span></th>
+                <th><span class="text text--primary text--bold"></span></th>
+            </thead>
+            <tbody>
+                <tr class="item" *ngFor="let user of users">
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !user.name }" class="text text--600 desktop">{{ user.name || 'vazio' }}</span>
+                    </td>
+                    <td class="mobile-email">
+                        <span [ngClass]="{ 'text--400': !user.email }" class="text text--600">{{ user.email || 'vazio' }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !user.phone }" class="text text--600 desktop">{{ user.phone || 'vazio' }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !user.birthDate }" class="text text--600 desktop">{{
+                            (user.birthDate | date: 'dd/MM/yyyy') || 'vazio'
+                        }}</span>
+                    </td>
+                    <td>
+                        <div class="flex flex-center">
+                            <ps-icon
+                                (click)="navigate(user)"
+                                [attr.href]="getEditHref(user)"
+                                class="primary clickable"
+                                icon="icon-pencil"
+                            ></ps-icon>
+                            <ps-icon (click)="destroy(user)" class="margin-left-1 primary clickable" icon="icon-bin"></ps-icon>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+
+    <div class="footer">
+        <ps-button (onClick)="createUser()" [wide]="true" type="secondary">
+            <span class="text--100">Criar novo usuário</span>
+        </ps-button>
+    </div>
+</div>

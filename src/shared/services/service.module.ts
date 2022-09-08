@@ -3,11 +3,21 @@ import { BreadcrumbService } from './breadcrumb/breadcrumb.service';
 import { ExternalTokenService } from './external-token/external-token.service';
 import { PublicService } from './public/public.service';
 import { SideMenuService } from './side-menu/side-menu.service';
+import { UserService } from './user/user.service';
 import { WcGiftbackService } from './wc-giftback/wc-giftback.service';
 import { WcKeyService } from './wc-key/wc-key.service';
 import { WcSyncService } from './wc-sync/wc-sync.service';
 
 @NgModule({
-    providers: [PublicService, SideMenuService, BreadcrumbService, WcGiftbackService, WcKeyService, WcSyncService, ExternalTokenService]
+    providers: [
+        PublicService,
+        SideMenuService,
+        BreadcrumbService,
+        WcGiftbackService,
+        WcKeyService,
+        WcSyncService,
+        ExternalTokenService,
+        UserService
+    ]
 })
 export class ServiceModule {}

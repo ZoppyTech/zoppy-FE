@@ -3,26 +3,23 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { ConfigurationComponent } from './configuration.component';
+import { MyProfileComponent } from './my-profile.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { IconModule } from '@lucarrloliveira/icon';
-import { InputModule } from '@lucarrloliveira/input';
 
-describe('ConfigurationComponent', () => {
-    let component: ConfigurationComponent;
-    let fixture: ComponentFixture<ConfigurationComponent>;
+describe('MyProfileComponent', () => {
+    let component: MyProfileComponent;
+    let fixture: ComponentFixture<MyProfileComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ConfigurationComponent],
-            imports: [RouterTestingModule, HttpClientTestingModule, IconModule, ButtonModule, InputModule]
+            declarations: [MyProfileComponent],
+            imports: [HttpClientTestingModule, RouterTestingModule]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(ConfigurationComponent);
+        fixture = TestBed.createComponent(MyProfileComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });
