@@ -1,0 +1,72 @@
+@import 'src/styles.scss';
+
+:host {
+    display: flex;
+    flex-grow: 1;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 32px;
+    margin-top: 0px;
+    background-color: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    box-shadow: $box-shadow-1;
+    border-radius: 12px;
+    margin-bottom: 32px;
+    flex-grow: 1;
+
+    .header {
+        border-bottom: 1px solid var(--neutral-300);
+    }
+
+    .title {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
+        padding: 0 32px;
+        margin-bottom: 16px;
+        h6 {
+            margin-bottom: 8px;
+        }
+        padding-bottom: 16px;
+    }
+
+    .body {
+        margin: 0 32px;
+        padding: 32px;
+        border: 1px solid var(--neutral-300);
+        padding-bottom: 32px;
+        background-color: #fafbff;
+        border-radius: 12px;
+        flex-grow: 1;
+        min-height: 0;
+        overflow: auto;
+
+        .field {
+            padding-bottom: 16px;
+
+            span {
+                line-height: 32px;
+            }
+        }
+    }
+
+    .footer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 32px;
+
+        ps-button {
+            width: 180px;
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .container {
+        margin: 1rem;
+    }
+}

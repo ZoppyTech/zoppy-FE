@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
+import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
 import { ToastService } from '@lucarrloliveira/toast';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
@@ -6,6 +8,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { UserService } from 'src/shared/services/user/user.service';
+import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
     selector: 'app-my-company-users',
@@ -19,7 +22,9 @@ export class MyCompanyUsersComponent implements OnInit {
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
         public userService: UserService,
-        public toast: ToastService
+        public toast: ToastService,
+        private readonly confirmActionService: ConfirmActionService,
+        private readonly router: Router
     ) {}
 
     public async ngOnInit() {
@@ -49,5 +54,35 @@ export class MyCompanyUsersComponent implements OnInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os usuários');
         }
+    }
+
+    public getEditHref(user: UserEntity): string {
+        return `/dashboard/my-company/users/config/${user.id}`;
+    }
+
+    public navigate(user: UserEntity): void {
+        this.router.navigate([Navigation.routes['user-config'], user.id]);
+    }
+
+    public createUser(): void {
+        this.router.navigate([Navigation.routes['user-config']]);
+    }
+
+    public async destroy(user: UserEntity): Promise<void> {
+        this.confirmActionService.open(
+            'Deletar o usuário',
+            'Tem certeza que deseja deletar esse usuário? Essa ação nao poderá ser desfeita.',
+            async (result: boolean) => {
+                if (!result) return;
+                try {
+                    await this.userService.destroy(user.id as string);
+                    await this.fetchUsers();
+                    this.toast.success('Esse usuário foi removido e não pode ser mais usado', 'Sucesso!');
+                } catch (ex: any) {
+                    ex = ex as ZoppyException;
+                    this.toast.error(ex.message, 'Não foi possível deletar esse usuário');
+                }
+            }
+        );
     }
 }

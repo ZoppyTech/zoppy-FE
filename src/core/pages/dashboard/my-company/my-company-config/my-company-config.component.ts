@@ -59,7 +59,6 @@ export class MyCompanyConfigComponent implements OnInit {
             this.storage.setCompany(company);
             this.toast.success(`Informações salvas!`, `Sucesso!`);
         } catch (ex: any) {
-            debugger;
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível salvas as informações');
         } finally {

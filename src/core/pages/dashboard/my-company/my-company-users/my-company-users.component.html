@@ -35,8 +35,13 @@
                     </td>
                     <td>
                         <div class="flex flex-center">
-                            <ps-icon class="primary clickable" icon="icon-pencil"></ps-icon>
-                            <ps-icon class="margin-left-1 primary clickable" icon="icon-bin"></ps-icon>
+                            <ps-icon
+                                (click)="navigate(user)"
+                                [attr.href]="getEditHref(user)"
+                                class="primary clickable"
+                                icon="icon-pencil"
+                            ></ps-icon>
+                            <ps-icon (click)="destroy(user)" class="margin-left-1 primary clickable" icon="icon-bin"></ps-icon>
                         </div>
                     </td>
                 </tr>
@@ -45,7 +50,7 @@
     </div>
 
     <div class="footer">
-        <ps-button [wide]="true" type="secondary">
+        <ps-button (onClick)="createUser()" [wide]="true" type="secondary">
             <span class="text--100">Criar novo usuário</span>
         </ps-button>
     </div>
