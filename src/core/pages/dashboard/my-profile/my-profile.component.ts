@@ -28,7 +28,7 @@ export class MyProfileComponent implements OnInit {
     public loading: boolean = false;
 
     public ngOnInit() {
-        this.user = this.storage.getUser() as UserEntity;
+        this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
         this.setBreadcrumb();
         this.sideMenuService.change(`my-profile`);
         this.sideMenuService.changeSub(`none`);

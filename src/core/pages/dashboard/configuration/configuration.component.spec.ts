@@ -4,6 +4,11 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { ConfigurationComponent } from './configuration.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ButtonModule } from '@lucarrloliveira/button';
+import { IconModule } from '@lucarrloliveira/icon';
+import { InputModule } from '@lucarrloliveira/input';
 
 describe('ConfigurationComponent', () => {
     let component: ConfigurationComponent;
@@ -11,7 +16,8 @@ describe('ConfigurationComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [ConfigurationComponent]
+            declarations: [ConfigurationComponent],
+            imports: [RouterTestingModule, HttpClientTestingModule, IconModule, ButtonModule, InputModule]
         }).compileComponents();
     }));
 
