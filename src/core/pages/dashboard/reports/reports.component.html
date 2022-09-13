@@ -101,7 +101,7 @@
             <div class="blog" *ngFor="let post of posts; let index = index" [ngClass]="{ hidden: index !== visiblePost }">
                 <img class="" src="{{ post.image }}" alt="" />
                 <div class="bottom">
-                    <span class="text">{{ post.title }}</span> {{ visiblePost }}
+                    <span class="text">{{ post.title }}</span>
                     <div class="flex margin-top-1">
                         <span class="text--600 text--small">Ler artigo </span>
                         <ps-icon class="icon-chevron ic-right"></ps-icon>
