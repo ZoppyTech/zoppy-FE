@@ -3,11 +3,19 @@
 .top-bar {
     width: 100%;
     padding: 16px 32px;
+
     .left-content {
         align-items: center;
+        padding-top: 8px;
+
+        .circle {
+            width: 8px;
+            height: 8px;
+            background-color: var(--secondary);
+            border-radius: 100%;
+        }
 
         .breadcrumb {
-            padding-top: 8px;
             a {
                 text-decoration: none;
             }
