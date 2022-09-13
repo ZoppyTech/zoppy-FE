@@ -92,6 +92,9 @@ th {
     width: 100%;
 }
 
+h1,
+h2,
+h3,
 h4,
 h5,
 h6 {
@@ -118,6 +121,10 @@ $box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
 
     td {
         padding: 2rem 1rem;
+    }
+
+    h1 {
+        font-size: 32px;
     }
 }
 

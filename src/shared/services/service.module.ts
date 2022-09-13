@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BreadcrumbService } from './breadcrumb/breadcrumb.service';
+import { DashboardService } from './dashboard/dashboard.service';
 import { ExternalTokenService } from './external-token/external-token.service';
 import { PublicService } from './public/public.service';
 import { SideMenuService } from './side-menu/side-menu.service';
@@ -17,7 +18,8 @@ import { WcSyncService } from './wc-sync/wc-sync.service';
         WcKeyService,
         WcSyncService,
         ExternalTokenService,
-        UserService
+        UserService,
+        DashboardService
     ]
 })
 export class ServiceModule {}

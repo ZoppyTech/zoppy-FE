@@ -12,7 +12,11 @@ export class Navigation {
         'my-company-config': 'dashboard/my-company/config',
         'my-company-users': 'dashboard/my-company/users',
         'user-config': 'dashboard/my-company/users/config',
-        reports: 'dashboard//reports'
+        reports: 'dashboard/reports',
+        'access-keys': 'dashboard/configurations/access-keys',
+        'access-tokens': 'dashboard/configurations/access-tokens',
+        giftback: 'dashboard/configurations/giftback',
+        'sync-data': 'dashboard/configurations/sync-data'
     };
 }
 
@@ -29,4 +33,8 @@ export type Pages =
     | 'my-company-config'
     | 'my-company-users'
     | 'user-config'
-    | 'reports';
+    | 'reports'
+    | 'access-keys'
+    | 'access-tokens'
+    | 'giftback'
+    | 'sync-data';
