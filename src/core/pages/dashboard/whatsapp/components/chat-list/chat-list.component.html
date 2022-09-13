@@ -15,12 +15,14 @@
     </div>
 
     <div *ngIf="contacts.length > 0" class="conversations">
-        <div *ngFor="let contact of contacts" class="item">
-            <div class="item-header">
-                <h6 class="text text--bold">{{ contact.name }}</h6>
-                <h6 class="text--small text--400">{{ contact.sentAt }}</h6>
+        <div *ngFor="let contact of contacts">
+            <div class="item" (click)="conversationSelected.emit(contact)">
+                <div class="item-header">
+                    <h6 class="text text--bold">{{ contact.name }}</h6>
+                    <h6 class="text--small text--400">{{ contact.sentAt }}</h6>
+                </div>
+                <span class="item-content">{{ contact.lastMessage }} </span>
             </div>
-            <span class="item-content">{{ contact.lastMessage }} </span>
         </div>
     </div>
 </div>

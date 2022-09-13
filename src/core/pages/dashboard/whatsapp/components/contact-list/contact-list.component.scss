@@ -36,7 +36,7 @@
 
             ps-icon {
                 font-size: 14px;
-                font-weight: 400;
+                font-weight: 700;
             }
         }
     }
@@ -85,6 +85,10 @@
             border-bottom: 1px solid var(--neutral-300);
             cursor: pointer;
             padding: 24px;
+
+            &:hover {
+                background-color: rgba($color: #cdd6ff, $alpha: 0.3);
+            }
 
             .item-header {
                 width: 100%;

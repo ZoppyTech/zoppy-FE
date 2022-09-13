@@ -86,6 +86,10 @@
             border-bottom: 1px solid var(--neutral-300);
             cursor: pointer;
 
+            &:hover {
+                background-color: rgba($color: #cdd6ff, $alpha: 0.3);
+            }
+
             .item-header {
                 width: 100%;
                 display: flex;
@@ -103,6 +107,10 @@
                 align-items: baseline;
                 justify-content: flex-start;
                 padding: 0px 40px;
+
+                font-size: 16px;
+                font-weight: 400;
+                color: #363636;
             }
         }
     }

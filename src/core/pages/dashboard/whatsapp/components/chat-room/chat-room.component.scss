@@ -1,115 +1,66 @@
-// @import 'src/styles.scss';
+@import 'src/styles.scss';
 
-// :host {
-//     flex-grow: 1;
-//     min-height: 0;
-// }
+:host {
+    flex-grow: 1;
+    min-height: 0;
+}
 
-// .container {
-//     height: 100%;
-//     width: 100%;
-//     display: flex;
-//     flex-direction: column;
+.container {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    background-color: #fafbff;
 
-//     .header {
-//         min-height: 112px;
-//         max-height: 112px;
-//         display: flex;
-//         flex-direction: row;
-//         align-items: center;
-//         justify-content: space-between;
-//         border-bottom: 1px solid var(--neutral-300);
-//         padding: 16px 32px;
+    .header {
+        min-height: 112px;
+        max-height: 112px;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        justify-content: center;
+        border-bottom: 1px solid var(--neutral-300);
+        padding: 24px 32px;
+        background-color: #ffffff;
 
-//         .button-plus {
-//             display: flex;
-//             flex-direction: row;
-//             align-items: center;
-//             justify-content: center;
-//             width: 32px;
-//             height: 32px;
-//             border-radius: 50%;
-//             border: 1px solid var(--neutral-300);
-//             cursor: pointer;
-//             background-color: #fafbff;
-//             padding: 18px;
+        h6 {
+            font-size: 16px;
+            font-weight: 400;
+            color: #363636;
+        }
+    }
 
-//             span {
-//                 font-size: 24px;
-//                 font-weight: 400;
-//             }
-//         }
-//     }
+    .body {
+        flex-wrap: nowrap;
+        flex-grow: 1;
+        flex-direction: column;
+        height: 100%;
+        width: 100%;
+        max-height: fit-content;
+        overflow: auto;
+        overflow-y: auto;
+    }
 
-//     .empty-list {
-//         flex-grow: 1;
-//         padding: 0px 42px;
-//         min-height: 0;
-//         height: 100%;
-//         display: flex;
-//         flex-direction: column;
-//         align-items: center;
-//         justify-content: center;
+    .footer {
+        min-height: 88px;
+        max-height: 88px;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 18px 16px;
+        border: 1px solid var(--neutral-300);
+        background-color: #ffffff;
 
-//         img {
-//             width: 123.64px;
-//             height: 114.62px;
-//         }
+        ps-button {
+            margin-left: 2rem;
+            width: 116px;
+        }
+    }
+}
 
-//         span {
-//             text-align: center;
-
-//             img {
-//                 width: 16px;
-//                 height: 16px;
-//             }
-//         }
-//     }
-
-//     .conversations {
-//         flex-wrap: nowrap;
-//         flex-grow: 1;
-//         flex-direction: column;
-//         height: 100%;
-//         width: 100%;
-//         max-height: fit-content;
-//         overflow: auto;
-//         overflow-y: auto;
-
-//         .item {
-//             height: 8rem;
-//             width: 100%;
-//             display: flex;
-//             flex-direction: column;
-//             align-items: center;
-//             justify-content: center;
-//             border-bottom: 1px solid var(--neutral-300);
-//             cursor: pointer;
-
-//             .item-header {
-//                 width: 100%;
-//                 display: flex;
-//                 flex-direction: row;
-//                 align-items: baseline;
-//                 justify-content: space-between;
-//                 margin-bottom: 1rem;
-//                 padding: 0px 40px;
-//             }
-
-//             .item-content {
-//                 width: 100%;
-//                 display: flex;
-//                 flex-direction: row;
-//                 align-items: baseline;
-//                 justify-content: flex-start;
-//                 padding: 0px 40px;
-//             }
-//         }
-//     }
-// }
-
-// @media only screen and (max-width: 576px) {
-//     .container {
-//         margin: 1rem;
-//     }
-// }
+@media only screen and (max-width: 576px) {
+    .container {
+        margin: 1rem;
+    }
+}

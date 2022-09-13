@@ -1,13 +1,17 @@
 <div class="container">
     <div class="left-panel">
-        <chat-list *ngIf="currentSubcomponent === subcomponents.ChatList" [(currentSubcomponent)]="currentSubcomponent"></chat-list>
+        <chat-list
+            *ngIf="currentSubcomponent === subcomponents.ChatList"
+            [(currentSubcomponent)]="currentSubcomponent"
+            (conversationSelected)="onContactSelected($event)"
+        ></chat-list>
         <contact-list
             *ngIf="currentSubcomponent === subcomponents.ContactList"
             [(currentSubcomponent)]="currentSubcomponent"
         ></contact-list>
     </div>
     <div class="right-panel">
-        <welcome-chat></welcome-chat>
-        <!-- <chat-room></chat-room> -->
+        <welcome-chat *ngIf="!chatRoom"></welcome-chat>
+        <chat-room *ngIf="chatRoom" [(chatRoom)]="chatRoom"></chat-room>
     </div>
 </div>

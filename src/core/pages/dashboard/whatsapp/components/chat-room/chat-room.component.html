@@ -1,24 +1,23 @@
-<!-- <div class="container">
+<div class="container">
     <div class="header">
-        <h5 class="text--primary text--bold margin-y-3">Mensagens</h5>
-        <div (click)="newMessage()" class="button-plus">
-            <span class="text text--primary">+</span>
-        </div>
+        <h5 class="text--800 text--bold margin-y-1">{{ chatRoom?.contact?.name }}</h5>
+        <h6 class="text--small text--800">{{ chatRoom?.contact?.displayPhone }}</h6>
     </div>
 
-    <div *ngIf="messages.length <= 0" class="empty-list">
-        <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
-        <span class="text text--primary"
-            >Você não tem um histórico de mensagens. <br />
-            Clique em <img [src]="NEW_MESSAGE_IMAGE_DIR" alt="" /> para iniciar uma conversa.</span
-        >
-    </div>
-
-    <div *ngIf="messages.length > 0" class="messages">
-        
-    </div>
+    <!-- *ngIf="messages.length > 0" -->
+    <div class="body"></div>
 
     <div class="footer">
-        
+        <ps-input
+            [placeholder]="inputComponentParams.placeholder"
+            [(ngModel)]="inputComponentParams.model"
+            [icon]="inputComponentParams.icon"
+            [errors]="inputComponentParams.errors"
+            (onFocus)="inputComponentParams.errors = []"
+            [type]="inputComponentParams.type"
+        ></ps-input>
+        <ps-button [loading]="false" [wide]="true" (onClick)="sendMessage()" type="secondary">
+            <span class="text--100">Enviar</span>
+        </ps-button>
     </div>
-</div> -->
+</div>
