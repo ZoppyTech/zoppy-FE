@@ -2,6 +2,7 @@
     <ps-icon class="mobile" icon="icon-menu" (click)="sideMenuService.open = !sideMenuService.open"></ps-icon>
 
     <div class="flex flex-grow left-content desktop">
+        <div class="circle margin-right-1"></div>
         <div class="breadcrumb" *ngFor="let item of breadcrumb.items; let index = index">
             <a class="text--small text--500" [attr.href]="item.route" class="flex flex-center">
                 <span
