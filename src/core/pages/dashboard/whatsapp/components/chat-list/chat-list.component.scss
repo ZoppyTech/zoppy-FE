@@ -20,6 +20,25 @@
         justify-content: space-between;
         border-bottom: 1px solid var(--neutral-300);
         padding: 16px 32px;
+
+        .button-plus {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            border: 1px solid var(--neutral-300);
+            cursor: pointer;
+            background-color: #fafbff;
+            padding: 18px;
+
+            span {
+                font-size: 24px;
+                font-weight: 400;
+            }
+        }
     }
 
     .empty-list {
@@ -54,7 +73,6 @@
         height: 100%;
         width: 100%;
         max-height: fit-content;
-        background-color: aquamarine;
         overflow: auto;
         overflow-y: auto;
 
@@ -66,7 +84,7 @@
             align-items: center;
             justify-content: center;
             border-bottom: 1px solid var(--neutral-300);
-            background-color: blueviolet;
+            cursor: pointer;
 
             .item-header {
                 width: 100%;

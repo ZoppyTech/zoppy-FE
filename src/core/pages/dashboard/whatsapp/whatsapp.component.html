@@ -1,7 +1,13 @@
 <div class="container">
     <div class="left-panel">
-        <chat-list></chat-list>
+        <chat-list *ngIf="currentSubcomponent === subcomponents.ChatList" [(currentSubcomponent)]="currentSubcomponent"></chat-list>
+        <contact-list
+            *ngIf="currentSubcomponent === subcomponents.ContactList"
+            [(currentSubcomponent)]="currentSubcomponent"
+        ></contact-list>
     </div>
-
-    <div class="right-panel"></div>
+    <div class="right-panel">
+        <welcome-chat></welcome-chat>
+        <!-- <chat-room></chat-room> -->
+    </div>
 </div>

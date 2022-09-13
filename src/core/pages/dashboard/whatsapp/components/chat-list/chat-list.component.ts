@@ -1,4 +1,5 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Subcomponents } from '../../whatsapp.component';
 
 @Component({
     selector: 'chat-list',
@@ -6,6 +7,9 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./chat-list.component.scss']
 })
 export class ChatListComponent implements OnInit {
+    @Input() public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
+    @Output() public currentSubcomponentChange: EventEmitter<Subcomponents> = new EventEmitter<Subcomponents>();
+
     public readonly EMPTY_lIST_IMAGE_DIR: string = './../../../../../../assets/imgs/empty-chat-list.png';
     public readonly NEW_MESSAGE_IMAGE_DIR: string = './../../../../../../assets/imgs/new-message.png';
     public contacts: Array<ContactView> = [];
@@ -120,7 +124,7 @@ export class ChatListComponent implements OnInit {
     }
 
     public newMessage(): void {
-        //not implemented
+        this.currentSubcomponentChange.emit(Subcomponents.ContactList);
     }
 }
 

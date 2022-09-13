@@ -1,1 +1,25 @@
-<p>contact-list works!</p>
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold margin-y-3">Contatos</h5>
+        <div (click)="goBack()" class="button-go-back">
+            <ps-icon icon="icon-times"></ps-icon>
+        </div>
+    </div>
+
+    <div *ngIf="contacts.length <= 0" class="empty-list">
+        <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
+        <span class="text text--primary">Você não tem nenhum contato sincronizado. </span>
+        <ps-button [loading]="syncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
+            <span class="text--100">Sincronizar contatos</span>
+        </ps-button>
+    </div>
+
+    <div *ngIf="contacts.length > 0" class="contacts">
+        <div *ngFor="let contact of contacts; let i = index" class="item">
+            <div *ngIf="contact.hasIndex" class="item-header">
+                <h6 class="text--primary text--bold">{{ contact.name.substring(0, 1).toUpperCase() }}</h6>
+            </div>
+            <span class="item-content">{{ contact.name }} </span>
+        </div>
+    </div>
+</div>
