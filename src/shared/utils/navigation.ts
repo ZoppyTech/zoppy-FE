@@ -13,10 +13,10 @@ export class Navigation {
         'my-company-users': 'dashboard/my-company/users',
         'user-config': 'dashboard/my-company/users/config',
         reports: 'dashboard/reports',
-        'access-keys': 'dashboard/access-keys',
-        'access-tokens': 'dashboard/access-tokens',
-        giftback: 'dashboard/giftback',
-        'sync-data': 'dashboard/sync-data'
+        'access-keys': 'dashboard/configurations/access-keys',
+        'access-tokens': 'dashboard/configurations/access-tokens',
+        giftback: 'dashboard/configurations/giftback',
+        'sync-data': 'dashboard/configurations/sync-data'
     };
 }
 

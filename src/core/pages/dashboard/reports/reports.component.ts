@@ -42,7 +42,8 @@ export class ReportsComponent implements OnInit {
 
     public navigate(item: Item): void {
         if (!item.route) return;
-        this.router.navigate([Navigation.routes[item.route]]);
+        const route: string = Navigation.routes[item.route];
+        this.router.navigate([route]);
     }
 
     private async fetchDashboardData(): Promise<void> {
