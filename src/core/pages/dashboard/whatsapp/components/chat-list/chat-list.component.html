@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold margin-y-3">Mensagens</h5>
+        <ps-button [wide]="true" (onClick)="newMessage()" type="secondary">
+            <span class="text--100">Add</span>
+        </ps-button>
+    </div>
+
+    <div *ngIf="contacts.length <= 0" class="empty-list">
+        <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
+        <span class="text text--primary"
+            >Você não tem um histórico de mensagens. <br />
+            Sincronize seus contatos e clique em <img [src]="NEW_MESSAGE_IMAGE_DIR" alt="" /> para iniciar uma conversa.</span
+        >
+    </div>
+
+    <div *ngIf="contacts.length > 0" class="conversations">
+        <div *ngFor="let contact of contacts" class="item">
+            <div class="item-header">
+                <h6 class="text text--bold">{{ contact.name }}</h6>
+                <h6 class="text">{{ contact.sentAt }}</h6>
+            </div>
+            <span class="item-content">{{ contact.lastMessage }} </span>
+        </div>
+    </div>
+</div>

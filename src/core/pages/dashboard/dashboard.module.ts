@@ -33,6 +33,10 @@ const routes: Routes = [
             {
                 path: 'profile',
                 loadChildren: () => import('./my-profile/my-profile.module').then((m: any) => m.MyProfileModule)
+            },
+            {
+                path: 'whatsapp',
+                loadChildren: () => import('./whatsapp/whatsapp.module').then((m: any) => m.WhatsappModule)
             }
         ]
     }
