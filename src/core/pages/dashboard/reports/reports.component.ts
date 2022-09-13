@@ -34,7 +34,7 @@ export class ReportsComponent implements OnInit {
     public percent: number = 0;
 
     public async ngOnInit() {
-        this.user = this.storage.getUser() as UserEntity;
+        this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
         this.sideMenuService.change(`reports`);
         this.setBreadcrumb();
         await this.fetchDashboardData();
