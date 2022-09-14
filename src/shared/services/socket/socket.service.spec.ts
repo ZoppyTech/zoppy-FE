@@ -1,12 +1,13 @@
 /* tslint:disable:no-unused-variable */
 
 import { TestBed, async, inject } from '@angular/core/testing';
+import { Socket } from 'ngx-socket-io';
 import { SocketService } from './socket.service';
 
 describe('Service: Socket', () => {
     beforeEach(() => {
         TestBed.configureTestingModule({
-            providers: [SocketService]
+            providers: [SocketService, { provide: Socket, useClass: SocketStub }]
         });
     });
 
@@ -14,3 +15,5 @@ describe('Service: Socket', () => {
         expect(service).toBeTruthy();
     }));
 });
+
+class SocketStub {}
