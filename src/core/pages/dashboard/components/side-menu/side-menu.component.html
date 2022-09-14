@@ -10,8 +10,8 @@
         class="flex padding-2 header padding-top-3"
         [ngClass]="{ 'flex-center': !sideMenuService.open, 'flex-start padding-x-3 padding-2': sideMenuService.open }"
     >
-        <img src="./assets/imgs/logo.png" *ngIf="sideMenuService.open" alt="" />
-        <img src="./assets/imgs/mini-logo.png" class="padding-x-2" *ngIf="!sideMenuService.open" alt="" />
+        <img (click)="goToInitial()" src="./assets/imgs/logo.png" *ngIf="sideMenuService.open" class="clickable" alt="" />
+        <img (click)="goToInitial()" src="./assets/imgs/mini-logo.png" class="clickable padding-x-2" *ngIf="!sideMenuService.open" alt="" />
     </div>
 
     <div class="separator"></div>

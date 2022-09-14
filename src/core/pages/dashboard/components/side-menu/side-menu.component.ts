@@ -1,6 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
     selector: 'app-side-menu',
@@ -9,14 +11,18 @@ import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/sid
 })
 export class SideMenuComponent implements OnInit {
     public menuItems: SideMenuItem[] = [];
-    public constructor(public publicService: PublicService, public sideMenuService: SideMenuService) {}
+    public constructor(public publicService: PublicService, public sideMenuService: SideMenuService, public router: Router) {}
+
+    public goToInitial(): void {
+        this.router.navigate([Navigation.routes.dashboard]);
+    }
 
     public ngOnInit() {
         this.menuItems = [
             {
                 id: `reports`,
                 icon: 'icon-inventory',
-                label: 'Relatórios',
+                label: 'Início',
                 route: '/dashboard/reports'
             },
             {
