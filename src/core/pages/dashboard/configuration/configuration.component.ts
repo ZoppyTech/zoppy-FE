@@ -8,9 +8,7 @@ import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service
     styleUrls: ['./configuration.component.scss']
 })
 export class ConfigurationComponent implements OnInit {
-    public constructor(public sideMenuService: SideMenuService, public breadcrumb: BreadcrumbService) {
-        console.log(`entrou aqui??`);
-    }
+    public constructor(public sideMenuService: SideMenuService, public breadcrumb: BreadcrumbService) {}
 
     public ngOnInit() {
         this.sideMenuService.change(`configurations`);
