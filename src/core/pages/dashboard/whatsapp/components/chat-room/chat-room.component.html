@@ -4,18 +4,17 @@
         <h6 class="text--small text--800">{{ chatRoom?.contact?.displayPhone }}</h6>
     </div>
 
-    <!-- *ngIf="messages.length > 0" -->
-    <div class="body"></div>
+    <div *ngIf="loadingMessages"></div>
+    <div *ngIf="!loadingMessages" id="panel-scrollable" class="chat-content">
+        <!-- <span class="text"
+            >Para iniciar a conversa, é preciso clicar no ícone abaixo de hashtag e selecionar uma mensagem automática para enviar. Após
+            enviar a mensagem, você poderá conversar com seu cliente escrevendo o que desejar na barra de mensagens.</span
+        > -->
+    </div>
 
     <div class="footer">
-        <ps-input
-            [placeholder]="inputComponentParams.placeholder"
-            [(ngModel)]="inputComponentParams.model"
-            [icon]="inputComponentParams.icon"
-            [errors]="inputComponentParams.errors"
-            (onFocus)="inputComponentParams.errors = []"
-            [type]="inputComponentParams.type"
-        ></ps-input>
+        <ps-input type="text" placeholder="Escreva sua mensagem" [(ngModel)]="theadMessage.text"></ps-input>
+
         <ps-button [loading]="false" [wide]="true" (onClick)="sendMessage()" type="secondary">
             <span class="text--100">Enviar</span>
         </ps-button>

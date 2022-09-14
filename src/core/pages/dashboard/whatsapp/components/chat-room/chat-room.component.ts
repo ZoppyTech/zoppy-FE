@@ -10,14 +10,10 @@ export class ChatRoomComponent implements OnInit {
     @Input() public chatRoom: ChatRoom | null = null;
     @Output() public chatRoomChange: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
     public messages: Array<any> = [];
-    public inputComponentParams: any = {
-        errors: [],
-        model: '',
-        icon: 'icon-lock',
-        placeholder: 'Escreva sua mensagem',
-        title: '',
-        type: 'password'
+    public theadMessage: any = {
+        text: ''
     };
+    public loadingMessages: boolean = false;
 
     public constructor() {
         //no content

@@ -30,14 +30,14 @@
         }
     }
 
-    .body {
+    .chat-content {
         flex-wrap: nowrap;
         flex-grow: 1;
         flex-direction: column;
         height: 100%;
         width: 100%;
-        max-height: fit-content;
-        overflow: auto;
+        max-height: 100%;
+        overflow-x: hidden;
         overflow-y: auto;
     }
 

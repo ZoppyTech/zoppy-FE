@@ -9,7 +9,7 @@
     <div *ngIf="contacts.length <= 0" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
         <span class="text text--primary">Você não tem nenhum contato sincronizado. </span>
-        <ps-button [loading]="syncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
+        <ps-button class="margin-y-3" [loading]="syncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
             <span class="text--100">Sincronizar contatos</span>
         </ps-button>
     </div>
