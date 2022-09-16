@@ -16,7 +16,7 @@
         </div>
     </div>
     <div class="flex-center flex">
-        <div class="padding-2 flex flex-center desktop">
+        <div class="padding-2 flex flex-center desktop clickable" (click)="navigateToWhatsapp()">
             <ps-icon icon="icon-chat_bubble text--500"></ps-icon>
         </div>
         <ps-contact class="margin-left-2" [tooltip]="false" [name]="user?.name ?? ''" [email]="user?.email ?? ''"></ps-contact>
@@ -28,7 +28,7 @@
                 {{ user?.email }}
             </span>
         </div>
-        <ps-mini-menu class="margin-left-2">
+        <ps-mini-menu class="margin-left-2 clickable">
             <ul>
                 <li class="flex flex-start clickable" (click)="navigateToProfile()">
                     <ps-icon class="margin-right-2" icon="icon-user text--600"></ps-icon>

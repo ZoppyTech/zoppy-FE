@@ -11,7 +11,7 @@
         ></contact-list>
     </div>
     <div class="right-panel">
-        <welcome-chat *ngIf="!chatRoom"></welcome-chat>
-        <chat-room *ngIf="chatRoom" [(chatRoom)]="chatRoom"></chat-room>
+        <welcome-chat *ngIf="!contactSelected"></welcome-chat>
+        <chat-room *ngIf="contactSelected" [(chatRoom)]="chatRoomSelected"></chat-room>
     </div>
 </div>

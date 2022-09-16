@@ -30,4 +30,8 @@ export class TopBarComponent implements OnInit {
     public navigateToProfile(): void {
         this.router.navigate([Navigation.routes.profile]);
     }
+
+    public navigateToWhatsapp(): void {
+        this.router.navigate([Navigation.routes.whatsapp]);
+    }
 }

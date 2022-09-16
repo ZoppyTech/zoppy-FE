@@ -13,10 +13,10 @@ export class WhatsappComponent implements OnInit {
     public user: UserEntity = new UserEntity();
     public readonly subcomponents = Subcomponents;
     public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
-    public conversationSelected: any = null;
+    public contactSelected: any = null;
 
     //TODO: Change to WhatsappChat
-    public chatRoom: ChatRoom = new ChatRoom();
+    public chatRoomSelected: ChatRoom = new ChatRoom();
 
     public constructor(public sideMenuService: SideMenuService, public breadcrumb: BreadcrumbService, public storage: Storage) {
         //no content
@@ -32,10 +32,11 @@ export class WhatsappComponent implements OnInit {
     }
 
     public onContactSelected(event: any): void {
-        this.chatRoom.manager = new WhatsappManager();
-        this.chatRoom.contact = new WhatsappContact();
-        this.chatRoom.contact.name = event.name;
-        this.chatRoom.contact.displayPhone = event.displayPhone;
+        this.contactSelected = event;
+        this.chatRoomSelected.manager = new WhatsappManager();
+        this.chatRoomSelected.contact = new WhatsappContact();
+        this.chatRoomSelected.contact.name = event.name;
+        this.chatRoomSelected.contact.displayPhone = event.displayPhone;
     }
 
     private setBreadcrumb(): void {
