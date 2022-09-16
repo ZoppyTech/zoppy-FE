@@ -42,6 +42,7 @@
     }
 
     .footer {
+        position: relative;
         min-height: 88px;
         max-height: 88px;
         display: flex;
@@ -52,7 +53,43 @@
         border: 1px solid var(--neutral-300);
         background-color: #ffffff;
 
-        ps-button {
+        .see-last-message-button {
+            width: 48px;
+            height: 48px;
+            display: flex;
+            flex-wrap: nowrap;
+            flex-direction: row;
+            position: absolute;
+            bottom: 100px;
+            right: 24px;
+            border-radius: 50%;
+            border: 1px solid var(--neutral-300);
+            cursor: pointer;
+            background-color: #fafbff;
+            box-shadow: 0 1px 1px 0 rgba(#363636, 0.06), 0 2px 5px 0 rgba(#363636, 0.2);
+
+            ps-icon {
+                display: flex;
+                flex-direction: column-reverse;
+                font-size: 32px;
+                font-weight: 700;
+                rotate: -90deg;
+            }
+        }
+
+        .show-templates-button {
+            width: 64px;
+            height: fit-content;
+            margin-right: 12px;
+
+            span {
+                font-size: 32px;
+                font-weight: 700;
+                color: var(--neutral-300);
+            }
+        }
+
+        .send-button {
             margin-left: 2rem;
             width: 116px;
         }

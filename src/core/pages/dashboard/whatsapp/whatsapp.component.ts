@@ -11,7 +11,7 @@ export class WhatsappComponent implements OnInit {
     public conversationSelected: any = null;
 
     //TODO: Change to WhatsappChat
-    public chatRoom: ChatRoom | null = null;
+    public chatRoom: ChatRoom = new ChatRoom();
 
     public constructor() {
         //no content
@@ -22,7 +22,6 @@ export class WhatsappComponent implements OnInit {
     }
 
     public onContactSelected(event: any): void {
-        this.chatRoom = new ChatRoom();
         this.chatRoom.manager = new WhatsappManager();
         this.chatRoom.contact = new WhatsappContact();
         this.chatRoom.contact.name = event.name;
@@ -36,9 +35,9 @@ export enum Subcomponents {
 }
 
 export class ChatRoom {
-    public manager: WhatsappManager | null = null;
-    public contact: WhatsappContact | null = null;
-    public messages: Array<any> = [];
+    public manager: WhatsappManager = new WhatsappManager();
+    public contact: WhatsappContact = new WhatsappContact();
+    public threads: Array<ThreadMessage> = [];
 }
 
 export class WhatsappManager {
@@ -49,4 +48,30 @@ export class WhatsappManager {
 export class WhatsappContact {
     public name: string = 'Daniel Cardoso';
     public displayPhone: string = '+55 31 98399-7508';
+}
+
+export class ThreadMessage {
+    public id: string = '';
+    public type: WhatsappMessageType = WhatsappMessageType.Template;
+    public message: string = '';
+    public status: WhatsappMessageStatus = WhatsappMessageStatus.Sent;
+    public isBusiness: boolean = true;
+    public isFirstMessageOfDay: boolean = false;
+    public createdAt: Date = new Date();
+    public updatedAt: Date = new Date();
+    public deletedAt: Date | null = null;
+}
+
+export enum WhatsappMessageStatus {
+    Deleted = 'deleted',
+    Delivered = 'delivered',
+    Failed = 'failed',
+    Read = 'read',
+    Sent = 'sent',
+    Warning = 'warning'
+}
+
+export enum WhatsappMessageType {
+    Text = 'text',
+    Template = 'template'
 }

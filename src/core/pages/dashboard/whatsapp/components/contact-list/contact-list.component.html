@@ -1,6 +1,6 @@
 <div class="container">
     <div class="header">
-        <h5 class="text--primary text--bold margin-y-3">Contatos</h5>
+        <h5 class="text--primary text--bold margin-y-3">Nova Conversa</h5>
         <div (click)="goBack()" class="button-go-back">
             <ps-icon icon="icon-times"></ps-icon>
         </div>
@@ -10,7 +10,7 @@
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
         <span class="text text--primary">Você não tem nenhum contato sincronizado. </span>
         <ps-button class="margin-y-3" [loading]="syncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
-            <span class="text--100">Sincronizar contatos</span>
+            <span class="text--100 text--bold">Sincronizar contatos</span>
         </ps-button>
     </div>
 

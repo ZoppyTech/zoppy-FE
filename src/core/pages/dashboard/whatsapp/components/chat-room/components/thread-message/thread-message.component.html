@@ -1,1 +1,31 @@
-<p>thread-message works!</p>
+<div
+    class="thread-message-container"
+    [ngStyle]="{ 'flex-direction': !thread.isBusiness ? 'row' : 'row-reverse' }"
+    (mouseover)="isHovered = true"
+    (mouseleave)="isHovered = false"
+>
+    <div class="thread-message-container__body">
+        <div
+            class="thread-message-container__body__content"
+            [ngClass]="{
+                'thread-message-container__body__content--business-user': thread.isBusiness,
+                'thread-message-container__body__content--custumer-user': !thread.isBusiness
+            }"
+        >
+            <div class="card-header">
+                <div [hidden]="thread.deletedAt || (!replyEnabled && !deleteEnabled)" class="card-header__options more-actions"></div>
+            </div>
+            <div class="card-body">
+                <ng-content select="[thread-message-content]"></ng-content>
+            </div>
+            <div class="card-footer">
+                <span *ngIf="thread?.createdAt !== null && !thread.deletedAt" class="text--500 datetime">{{
+                    thread.createdAt | date: 'h:mm a'
+                }}</span>
+            </div>
+        </div>
+        <div *ngIf="thread?.type === 'template'" class="thread-message-container__body__outline-content">
+            <span class="text">Mensagem automática</span>
+        </div>
+    </div>
+</div>

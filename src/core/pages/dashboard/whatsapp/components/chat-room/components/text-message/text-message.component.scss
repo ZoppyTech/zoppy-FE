@@ -1,0 +1,29 @@
+@import './../../../../../../../../styles.scss';
+
+.text-message-container {
+    height: 100%;
+    width: 100%;
+    padding: 0.125rem 0.35rem 0rem 0rem;
+    word-wrap: break-word;
+
+    .truncate-multiple-lines {
+        display: -webkit-box;
+        -webkit-line-clamp: 8;
+        -webkit-box-orient: vertical;
+        text-overflow: ellipsis;
+        overflow: hidden;
+    }
+
+    .text-message {
+        font-size: 16px;
+        font-weight: 400;
+    }
+
+    .deleted-message {
+        border-radius: 2rem;
+        padding: 0.125rem 0.5rem;
+        background-color: rgba($color: #363636, $alpha: 0.05);
+        font-style: italic;
+        color: #363636;
+    }
+}

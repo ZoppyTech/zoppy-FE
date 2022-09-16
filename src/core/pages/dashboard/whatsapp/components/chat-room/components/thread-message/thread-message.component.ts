@@ -1,11 +1,17 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+import { ThreadMessage } from '../../../../whatsapp.component';
 
 @Component({
-    selector: 'app-thread-message',
+    selector: 'thread-message',
     templateUrl: './thread-message.component.html',
     styleUrls: ['./thread-message.component.scss']
 })
 export class ThreadMessageComponent implements OnInit {
+    @Input() public thread: ThreadMessage = new ThreadMessage();
+    @Input() public replyEnabled: boolean = false;
+    @Input() public deleteEnabled: boolean = false;
+    public isHovered: boolean = false;
+
     public constructor() {
         //no content
     }

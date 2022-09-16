@@ -58,7 +58,6 @@ export class ContactListComponent implements OnInit {
                 name: 'Lucas Marques'
             }
         ];
-
         this.contacts = this.sortAndGroup(this.contacts);
     }
 

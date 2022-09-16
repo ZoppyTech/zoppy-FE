@@ -1,11 +1,11 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { BubbleInfoComponent } from './bubble-info.component';
+import { SplitterDateComponent } from './splitter-date.component';
 
 @NgModule({
-    declarations: [BubbleInfoComponent],
+    declarations: [SplitterDateComponent],
     imports: [CommonModule],
-    exports: [BubbleInfoComponent],
+    exports: [SplitterDateComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
-export class BubbleInfoModule {}
+export class SplitterDateModule {}

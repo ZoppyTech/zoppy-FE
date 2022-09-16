@@ -1,0 +1,8 @@
+<div *ngIf="visible" class="splitter-date-container">
+    <span *ngIf="isToday" class="text text--extra-small text--white">Hoje</span>
+    <span *ngIf="isYesterday" class="text text--extra-small text--white">Ontem</span>
+    <span *ngIf="thread?.createdAt !== null && !isToday && !isYesterday" class="text text--extra-small text--white">{{
+        thread.createdAt | date: 'dd/MM/yyyy'
+    }}</span>
+    <div class="horizontal-line margin-left-1"></div>
+</div>

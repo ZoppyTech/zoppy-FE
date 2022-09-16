@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 @Component({
-    selector: 'app-bubble-info',
+    selector: 'bubble-info',
     templateUrl: './bubble-info.component.html',
     styleUrls: ['./bubble-info.component.scss']
 })
