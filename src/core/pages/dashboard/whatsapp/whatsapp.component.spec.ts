@@ -1,4 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 import { WhatsappComponent } from './whatsapp.component';
 
@@ -8,9 +10,16 @@ describe('WhatsappComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [WhatsappComponent]
+            declarations: [WhatsappComponent],
+            imports: [HttpClientTestingModule, RouterTestingModule]
         }).compileComponents();
 
+        fixture = TestBed.createComponent(WhatsappComponent);
+        component = fixture.componentInstance;
+        fixture.detectChanges();
+    });
+
+    beforeEach(() => {
         fixture = TestBed.createComponent(WhatsappComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();

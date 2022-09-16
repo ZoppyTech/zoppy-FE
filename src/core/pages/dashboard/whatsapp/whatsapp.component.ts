@@ -1,10 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ToastService } from '@lucarrloliveira/toast';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
-import { UserService } from 'src/shared/services/user/user.service';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -21,14 +18,7 @@ export class WhatsappComponent implements OnInit {
     //TODO: Change to WhatsappChat
     public chatRoom: ChatRoom = new ChatRoom();
 
-    public constructor(
-        public sideMenuService: SideMenuService,
-        public breadcrumb: BreadcrumbService,
-        private route: ActivatedRoute,
-        private readonly userService: UserService,
-        private readonly toast: ToastService,
-        private readonly storage: Storage
-    ) {
+    public constructor(public sideMenuService: SideMenuService, public breadcrumb: BreadcrumbService, public storage: Storage) {
         //no content
     }
 
