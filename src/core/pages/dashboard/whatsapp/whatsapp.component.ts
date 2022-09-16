@@ -1,4 +1,11 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
+import { ToastService } from '@lucarrloliveira/toast';
+import { UserEntity } from 'src/shared/models/entities/user.entity';
+import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
+import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { UserService } from 'src/shared/services/user/user.service';
+import { Storage } from 'src/shared/utils/storage';
 
 @Component({
     selector: 'app-whatsapp',
@@ -6,6 +13,7 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./whatsapp.component.scss']
 })
 export class WhatsappComponent implements OnInit {
+    public user: UserEntity = new UserEntity();
     public readonly subcomponents = Subcomponents;
     public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
     public conversationSelected: any = null;
@@ -13,12 +21,24 @@ export class WhatsappComponent implements OnInit {
     //TODO: Change to WhatsappChat
     public chatRoom: ChatRoom = new ChatRoom();
 
-    public constructor() {
+    public constructor(
+        public sideMenuService: SideMenuService,
+        public breadcrumb: BreadcrumbService,
+        private route: ActivatedRoute,
+        private readonly userService: UserService,
+        private readonly toast: ToastService,
+        private readonly storage: Storage
+    ) {
         //no content
     }
 
     public ngOnInit(): void {
-        console.log('init');
+        console.log('Whatsapp loading...');
+        this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
+        this.setBreadcrumb();
+        this.sideMenuService.change('whatsapp');
+        this.sideMenuService.changeSub('none');
+        console.log('Whatsapp initialized!');
     }
 
     public onContactSelected(event: any): void {
@@ -26,6 +46,19 @@ export class WhatsappComponent implements OnInit {
         this.chatRoom.contact = new WhatsappContact();
         this.chatRoom.contact.name = event.name;
         this.chatRoom.contact.displayPhone = event.displayPhone;
+    }
+
+    private setBreadcrumb(): void {
+        this.breadcrumb.items = [
+            {
+                name: 'Início',
+                route: '/dashboard/reports'
+            },
+            {
+                name: 'Whatsapp',
+                route: '/dashboard/whatsapp'
+            }
+        ];
     }
 }
 
