@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { WhatsappComponent } from './whatsapp.component';
 import { RouterModule, Routes } from '@angular/router';
@@ -17,6 +17,7 @@ const routes: Routes = [
 @NgModule({
     declarations: [WhatsappComponent],
     imports: [CommonModule, RouterModule.forChild(routes), ChatListModule, ContactListModule, ChatRoomModule, WelcomeChatModule],
-    exports: [WhatsappComponent]
+    exports: [WhatsappComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class WhatsappModule {}
