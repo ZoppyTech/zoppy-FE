@@ -59,6 +59,7 @@ export class SyncDataComponent implements OnInit {
     }
 
     public async syncData(): Promise<void> {
+        this.loading = true;
         const request: WcSyncRequest = {
             after: this.expirationDate as Date
         };
@@ -67,6 +68,7 @@ export class SyncDataComponent implements OnInit {
         await this.syncCupons(request);
         await this.syncOrders(request);
         const allSuccess: boolean = !this.steppers.find((step: Stepper) => step.state !== 'success');
+        this.loading = false;
 
         if (allSuccess) this.toast.success('Todos os dados foram sincronizados com sucesso', 'Sucesso!');
     }
@@ -77,8 +79,9 @@ export class SyncDataComponent implements OnInit {
     }
 
     private async syncCustomers(request: WcSyncRequest): Promise<void> {
-        this.setInProgress('customer');
         try {
+            if (!this.isVisible('customer')) return;
+            this.setInProgress('customer');
             const result: BooleanResponse = await this.syncDataService.syncCustomers(request);
             this.setResult(result.result, `customer`);
         } catch (ex: any) {
@@ -90,6 +93,7 @@ export class SyncDataComponent implements OnInit {
 
     private async syncProducts(request: WcSyncRequest): Promise<void> {
         try {
+            if (!this.isVisible('product')) return;
             this.setInProgress('product');
             const result: BooleanResponse = await this.syncDataService.syncProducts(request);
             this.setResult(result.result, `product`);
@@ -102,6 +106,7 @@ export class SyncDataComponent implements OnInit {
 
     private async syncCupons(request: WcSyncRequest): Promise<void> {
         try {
+            if (!this.isVisible('coupon')) return;
             this.setInProgress('coupon');
             const result: BooleanResponse = await this.syncDataService.syncCoupons(request);
             this.setResult(result.result, `coupon`);
@@ -114,6 +119,7 @@ export class SyncDataComponent implements OnInit {
 
     private async syncOrders(request: WcSyncRequest): Promise<void> {
         try {
+            if (!this.isVisible('order')) return;
             this.setInProgress('order');
             const result: BooleanResponse = await this.syncDataService.syncOrders(request);
             this.setResult(result.result, `order`);
@@ -122,6 +128,10 @@ export class SyncDataComponent implements OnInit {
             this.toast.error(ex.message, 'Não foi possível sincronizar os pedidos, tente com uma data mais recente.');
             this.setResult(false, `order`);
         }
+    }
+
+    private isVisible(entity: SyncEntity): boolean {
+        return this.steppers.find((step: Stepper) => step.id === entity)?.visible ?? false;
     }
 
     private setResult(result: boolean, entity: SyncEntity) {
