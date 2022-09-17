@@ -3,6 +3,8 @@ export class WhatsappAccountEntity {
     public declare businessName: string;
     public declare wabaId: string;
     public declare appId: string;
+    public declare webhookVerifyToken: string;
+    public declare active: boolean;
     public declare createdAt: Date;
     public declare updatedAt: Date;
     public declare deletedAt: Date;

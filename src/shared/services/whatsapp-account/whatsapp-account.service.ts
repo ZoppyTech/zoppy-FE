@@ -32,7 +32,7 @@ export class WhatsappAccountService extends ApiService {
 
     public async create(request: WhatsappAccountRequest): Promise<WhatsappAccountEntity> {
         const promise: Promise<WhatsappAccountEntity> = new Promise((resolve: any, reject: any) => {
-            this.put<WhatsappAccountEntity, WhatsappAccountRequest>(`${this.url}`, request).subscribe(
+            this.post<WhatsappAccountEntity, WhatsappAccountRequest>(`${this.url}`, request).subscribe(
                 (response: WhatsappAccountEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
