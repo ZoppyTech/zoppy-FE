@@ -21,10 +21,10 @@
         </div>
         <div class="buttons">
             <ps-button [loading]="loading" *ngIf="token.id" [wide]="true" (onClick)="deleteToken()" type="cancel">
-                <span class="text--800">Deletar Token</span>
+                <span class="text--800 text--bold">Deletar Token</span>
             </ps-button>
             <ps-button [loading]="loading" [wide]="true" (onClick)="generateToken()" type="secondary" *ngIf="!token.id">
-                <span class="text--100">Gerar token</span>
+                <span class="text--100 text--bold">Gerar token</span>
             </ps-button>
         </div>
     </div>

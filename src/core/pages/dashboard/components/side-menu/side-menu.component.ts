@@ -79,7 +79,7 @@ export class SideMenuComponent implements OnInit {
             },
             {
                 id: `whatsapp`,
-                icon: 'icon-chat_bubble',
+                icon: 'icon-wpp',
                 label: 'Whatsapp',
                 route: '/dashboard/whatsapp'
             }
