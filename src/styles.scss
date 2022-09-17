@@ -84,12 +84,25 @@ th {
     justify-content: center;
 }
 
+.flex-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
 .text--center {
     text-align: center;
 }
 
 .wide {
     width: 100%;
+}
+
+.truncate {
+    display: block !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis !important;
 }
 
 h1,

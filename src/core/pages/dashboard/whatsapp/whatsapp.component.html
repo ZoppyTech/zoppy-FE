@@ -1,0 +1,17 @@
+<div class="container">
+    <div class="left-panel">
+        <chat-list
+            *ngIf="currentSubcomponent === subcomponents.ChatList"
+            [(currentSubcomponent)]="currentSubcomponent"
+            (conversationSelected)="onContactSelected($event)"
+        ></chat-list>
+        <contact-list
+            *ngIf="currentSubcomponent === subcomponents.ContactList"
+            [(currentSubcomponent)]="currentSubcomponent"
+        ></contact-list>
+    </div>
+    <div class="right-panel">
+        <welcome-chat *ngIf="!contactSelected"></welcome-chat>
+        <chat-room *ngIf="contactSelected" [(chatRoom)]="chatRoomSelected"></chat-room>
+    </div>
+</div>

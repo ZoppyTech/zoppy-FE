@@ -8,6 +8,12 @@ import { UserService } from './user/user.service';
 import { WcGiftbackService } from './wc-giftback/wc-giftback.service';
 import { WcKeyService } from './wc-key/wc-key.service';
 import { WcSyncService } from './wc-sync/wc-sync.service';
+import { WhatsappAccountManagerService } from './whatsapp-account-manager/whatsapp-account-manager.service';
+import { WhatsappAccountPhoneNumberService } from './whatsapp-account-phone-number/whatsapp-account-phone-number.service';
+import { WhatsappAccountService } from './whatsapp-account/whatsapp-account.service';
+import { WhatsappBusinessManagementService } from './whatsapp-business-management/whatsapp-business-management.service';
+import { WhatsappContactService } from './whatsapp-contact/whatsapp-contact.service';
+import { WhatsappMessageService } from './whatsapp-message/whatsapp-message.service';
 
 @NgModule({
     providers: [
@@ -19,7 +25,13 @@ import { WcSyncService } from './wc-sync/wc-sync.service';
         WcSyncService,
         ExternalTokenService,
         UserService,
-        DashboardService
+        DashboardService,
+        WhatsappAccountService,
+        WhatsappAccountManagerService,
+        WhatsappAccountPhoneNumberService,
+        WhatsappBusinessManagementService,
+        WhatsappContactService,
+        WhatsappMessageService
     ]
 })
 export class ServiceModule {}

@@ -16,7 +16,8 @@ export class Navigation {
         'access-keys': 'dashboard/configurations/access-keys',
         'access-tokens': 'dashboard/configurations/access-tokens',
         giftback: 'dashboard/configurations/giftback',
-        'sync-data': 'dashboard/configurations/sync-data'
+        'sync-data': 'dashboard/configurations/sync-data',
+        whatsapp: 'dashboard/whatsapp'
     };
 }
 
@@ -37,4 +38,5 @@ export type Pages =
     | 'access-keys'
     | 'access-tokens'
     | 'giftback'
-    | 'sync-data';
+    | 'sync-data'
+    | 'whatsapp';

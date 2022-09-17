@@ -26,6 +26,7 @@ export type SideMenu =
     | 'reports'
     | `my-company`
     | `configurations`
+    | `whatsapp`
     | `access-keys`
     | `access-tokens`
     | `sync-data`

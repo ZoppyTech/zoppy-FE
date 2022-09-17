@@ -76,6 +76,12 @@ export class SideMenuComponent implements OnInit {
                         route: '/dashboard/configurations/giftback'
                     }
                 ]
+            },
+            {
+                id: `whatsapp`,
+                icon: 'icon-chat_bubble',
+                label: 'Whatsapp',
+                route: '/dashboard/whatsapp'
             }
         ];
     }
