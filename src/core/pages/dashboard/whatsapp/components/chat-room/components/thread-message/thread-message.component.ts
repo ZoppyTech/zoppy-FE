@@ -1,5 +1,5 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ThreadMessage } from '../../../../whatsapp.component';
+import { ThreadMessage } from '../../../../models/thread-message';
 
 @Component({
     selector: 'thread-message',

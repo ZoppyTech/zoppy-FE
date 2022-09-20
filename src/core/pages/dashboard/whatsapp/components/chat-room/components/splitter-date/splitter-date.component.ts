@@ -1,5 +1,4 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ThreadMessage } from '../../../../whatsapp.component';
 
 @Component({
     selector: 'splitter-date',
@@ -7,14 +6,14 @@ import { ThreadMessage } from '../../../../whatsapp.component';
     styleUrls: ['./splitter-date.component.scss']
 })
 export class SplitterDateComponent implements OnInit {
-    @Input() public thread: ThreadMessage = new ThreadMessage();
+    @Input() public date: Date = new Date();
     @Input() public visible: boolean = false;
 
     public isToday: boolean = false;
     public isYesterday: boolean = false;
 
     public constructor() {
-        // private dateProviderService: DateProviderService
+        //no content
     }
 
     public ngOnInit(): void {
@@ -22,19 +21,18 @@ export class SplitterDateComponent implements OnInit {
     }
 
     public validateDatetime(): void {
-        // debugger;
-        // const differenceInDays: number = this.calculateDiff(this.thread.createdAt);
-        // if (differenceInDays === 0) this.isToday = true;
-        // if (differenceInDays === 1) this.isYesterday = true;
+        const differenceInDays: number = this.calculateDiff(this.date);
+        if (differenceInDays === 0) this.isToday = true;
+        if (differenceInDays === 1) this.isYesterday = true;
     }
 
-    // private calculateDiff(dateSent: Date): number {
-    //     let currentDate = new Date();
-    //     dateSent = new Date(dateSent);
-    //     return Math.floor(
-    //         (Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) -
-    //             Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate())) /
-    //             (1000 * 60 * 60 * 24)
-    //     );
-    // }
+    private calculateDiff(dateSent: Date): number {
+        const currentDate: Date = new Date();
+        dateSent = new Date(dateSent);
+        return Math.floor(
+            (Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) -
+                Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate())) /
+                (1000 * 60 * 60 * 24)
+        );
+    }
 }

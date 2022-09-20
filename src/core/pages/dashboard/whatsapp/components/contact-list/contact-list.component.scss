@@ -8,6 +8,8 @@
 .container {
     height: 100%;
     width: 100%;
+    min-width: 528px;
+    max-width: 528px;
     display: flex;
     flex-direction: column;
 
@@ -39,6 +41,17 @@
                 font-weight: 700;
             }
         }
+    }
+
+    .loading {
+        flex-grow: 1;
+        padding: 0px 42px;
+        min-height: 0;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
     }
 
     .empty-list {
@@ -105,6 +118,7 @@
             }
 
             .item-content {
+                max-width: 528px;
                 width: 100%;
                 display: flex;
                 flex-direction: row;

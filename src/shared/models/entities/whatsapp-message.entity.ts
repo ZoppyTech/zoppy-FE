@@ -1,3 +1,5 @@
+import { WhatsappContactEntity } from './whatsapp-contact.entity';
+
 export class WhatsappMessageEntity {
     public declare id: string;
     public declare type: string;
@@ -14,4 +16,7 @@ export class WhatsappMessageEntity {
     public declare updatedAt: Date;
     public declare deletedAt: Date;
     public declare companyId: string;
+
+    /** Includes */
+    public declare wppContact: WhatsappContactEntity;
 }

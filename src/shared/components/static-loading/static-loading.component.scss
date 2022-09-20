@@ -1,0 +1,23 @@
+:host {
+    width: 100%;
+}
+.static-loading {
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+
+    span {
+        font-size: 16px;
+        font-weight: 700;
+        margin-right: 12px;
+        color: #004374;
+    }
+
+    img {
+        height: 2rem;
+        width: 2rem;
+    }
+}

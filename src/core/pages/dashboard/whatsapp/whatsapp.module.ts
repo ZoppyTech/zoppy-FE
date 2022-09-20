@@ -6,6 +6,7 @@ import { ChatListModule } from './components/chat-list/chat-list.module';
 import { ContactListModule } from './components/contact-list/contact-list.module';
 import { ChatRoomModule } from './components/chat-room/chat-room.module';
 import { WelcomeChatModule } from './components/welcome-chat/welcome-chat.module';
+import { ChatLoadingModule } from './components/chat-loading/chat-loading.module';
 
 const routes: Routes = [
     {
@@ -16,7 +17,15 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [WhatsappComponent],
-    imports: [CommonModule, RouterModule.forChild(routes), ChatListModule, ContactListModule, ChatRoomModule, WelcomeChatModule],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        ChatLoadingModule,
+        ChatListModule,
+        ContactListModule,
+        ChatRoomModule,
+        WelcomeChatModule
+    ],
     exports: [WhatsappComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

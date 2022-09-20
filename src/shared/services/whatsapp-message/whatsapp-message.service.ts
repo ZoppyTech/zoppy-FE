@@ -23,7 +23,7 @@ export class WhatsappMessageService extends ApiService {
 
     public async listByPhoneNumberId(phoneNumberId: string): Promise<Array<WhatsappMessageEntity>> {
         const promise: Promise<Array<WhatsappMessageEntity>> = new Promise((resolve: any, reject: any) => {
-            this.get<Array<WhatsappMessageEntity>>(`${this.url}/phoneNumberId`).subscribe(
+            this.get<Array<WhatsappMessageEntity>>(`${this.url}/${phoneNumberId}`).subscribe(
                 (response: Array<WhatsappMessageEntity>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

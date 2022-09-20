@@ -1,6 +1,14 @@
 import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { ChatRoom, WhatsappMessageStatus, WhatsappMessageType } from '../../whatsapp.component';
+import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
+import { ToastService } from '@lucarrloliveira/toast';
+import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
+import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
+import { ZoppyException } from 'src/shared/services/api.service';
+import { WhatsappBusinessManagementService } from 'src/shared/services/whatsapp-business-management/whatsapp-business-management.service';
+import { ChatRoom } from '../../models/chat-room';
+import { ThreadMessage } from '../../models/thread-message';
 import { ChatUtility } from './helpers/chat-utility';
+import { ChatMessageTemplate } from './models/chat-message-template';
 
 @Component({
     selector: 'chat-room',
@@ -10,164 +18,37 @@ import { ChatUtility } from './helpers/chat-utility';
 export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() public chatRoom: ChatRoom = new ChatRoom();
     @Output() public chatRoomChange: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
+    @Output() public sendMessageEvent: EventEmitter<ThreadMessage> = new EventEmitter<ThreadMessage>();
+    public isHovered: boolean = false;
+    public templateMessageListVisible: boolean = false;
+    public messageTemplates: Array<ChatMessageTemplate> = [];
+    public templateMessagesLoading: boolean = true;
+    public messageTemplateSelected: ChatMessageTemplate | null = null;
 
-    public loadingMessages: boolean = false;
-    public newMessage: any;
+    public messagesLoading: boolean = false;
     public isLastMessage: boolean = false;
 
-    private scrollerElement: HTMLElement | null = null;
-    private scrollerHandler: any = null;
+    //public newMessage: ThreadMessage | null = null;
 
+    public messageInput: string = '';
+
+    public scrollerElement: HTMLElement | null = null;
+    public scrollerHandler: any = null;
     public readonly panelScrollableElementId: string = 'panel-scrollable';
 
-    public constructor(private chatUtility: ChatUtility) {}
+    public constructor(
+        public readonly wppBusinessManagementService: WhatsappBusinessManagementService,
+        public readonly toast: ToastService,
+        public readonly confirmActionService: ConfirmActionService,
+        private readonly chatUtility: ChatUtility
+    ) {}
 
-    public ngOnInit(): void {
-        console.log('init');
-        this.chatRoom.threads = [
-            {
-                id: '1',
-                type: WhatsappMessageType.Template,
-                message:
-                    'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).',
-                status: WhatsappMessageStatus.Sent,
-                isBusiness: true,
-                isFirstMessageOfDay: true,
-                createdAt: new Date('2022-09-13T08:46:24.000Z'),
-                updatedAt: new Date('2022-09-13T08:46:24.000Z'),
-                deletedAt: null
-            },
-
-            {
-                id: '2',
-                type: WhatsappMessageType.Text,
-                message: 'Anima jogar um Catan hj?',
-                status: WhatsappMessageStatus.Sent,
-                isBusiness: true,
-                isFirstMessageOfDay: false,
-                createdAt: new Date('2022-09-13T09:22:24.000Z'),
-                updatedAt: new Date('2022-09-13T09:22:24.000Z'),
-                deletedAt: null
-            },
-            {
-                id: '3',
-                type: WhatsappMessageType.Text,
-                message: 'E ai mano, tudo certo e com vc?',
-                status: WhatsappMessageStatus.Delivered,
-                isBusiness: false,
-                isFirstMessageOfDay: false,
-                createdAt: new Date('2022-09-13T18:46:24.000Z'),
-                updatedAt: new Date('2022-09-13T18:46:24.000Z'),
-                deletedAt: null
-            },
-            {
-                id: '4',
-                type: WhatsappMessageType.Text,
-                message: 'Animo demais!',
-                status: WhatsappMessageStatus.Read,
-                isBusiness: false,
-                isFirstMessageOfDay: false,
-                createdAt: new Date('2022-09-13T18:47:24.000Z'),
-                updatedAt: new Date('2022-09-13T18:47:24.000Z'),
-                deletedAt: null
-            },
-            {
-                id: '5',
-                type: WhatsappMessageType.Text,
-                message:
-                    'It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using Content here, content here, making it look like readable English. Many desktop publishing packages and web page editors now use Lorem Ipsum as their default model text, and a search for lorem ipsum will uncover many web sites still in their infancy. Various versions have evolved over the years, sometimes by accident, sometimes on purpose (injected humour and the like).',
-                status: WhatsappMessageStatus.Delivered,
-                isBusiness: false,
-                isFirstMessageOfDay: false,
-                createdAt: new Date('2022-09-13T19:46:24.000Z'),
-                updatedAt: new Date('2022-09-13T19:46:24.000Z'),
-                deletedAt: null
-            },
-            {
-                id: '6',
-                type: WhatsappMessageType.Text,
-                message: 'Seguraaaaaaaaaa que o bicho ta vindooooo!',
-                status: WhatsappMessageStatus.Delivered,
-                isBusiness: false,
-                isFirstMessageOfDay: true,
-                createdAt: new Date('2022-09-14T14:16:24.000Z'),
-                updatedAt: new Date('2022-09-14T14:16:24.000Z'),
-                deletedAt: null
-            },
-            {
-                id: '7',
-                type: WhatsappMessageType.Text,
-                message:
-                    'Fala meu caro tudo bem? Estou fazendo uns testes na Cloud Api do Meta e estou precisando de um número de WhatsApp pra poder realizar mais testes',
-                status: WhatsappMessageStatus.Delivered,
-                isBusiness: false,
-                isFirstMessageOfDay: false,
-                createdAt: new Date('2022-09-14T15:54:24.000Z'),
-                updatedAt: new Date('2022-09-14T15:54:24.000Z'),
-                deletedAt: null
-            },
-            {
-                id: '8',
-                type: WhatsappMessageType.Text,
-                message: 'Vc tem algum número disponível aí?',
-                status: WhatsappMessageStatus.Delivered,
-                isBusiness: false,
-                isFirstMessageOfDay: false,
-                createdAt: new Date('2022-09-15T16:46:24.000Z'),
-                updatedAt: new Date('2022-09-15T16:46:24.000Z'),
-                deletedAt: null
-            },
-            {
-                id: '9',
-                type: WhatsappMessageType.Text,
-                message: 'Não sei como tá seu dia hoje, se animar entrar numa call seria otimo!',
-                status: WhatsappMessageStatus.Delivered,
-                isBusiness: false,
-                isFirstMessageOfDay: false,
-                createdAt: new Date('2022-09-15T21:01:24.000Z'),
-                updatedAt: new Date('2022-09-15T21:01:24.000Z'),
-                deletedAt: null
-            },
-            {
-                id: '10',
-                type: WhatsappMessageType.Template,
-                message:
-                    'Ei Daniel, tudo certo?\nSou eu de novo, o(a) Zoppy! \nMuito obrigado por comprar conosco, você ganhou o cupom ZOPPY10 de 10% que poderá ser usado para compras acima de R$100,00, aproveite ;)\nEsse cupom é válido até o dia 10/10/2022.\nEntre em nosso site e aproveite!',
-                status: WhatsappMessageStatus.Delivered,
-                isBusiness: true,
-                isFirstMessageOfDay: true,
-                createdAt: new Date('2022-09-15T22:51:24.000Z'),
-                updatedAt: new Date('2022-09-15T22:51:24.000Z'),
-                deletedAt: null
-            },
-            {
-                id: '11',
-                type: WhatsappMessageType.Text,
-                message:
-                    'There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which dont look even slightly believable. If you are going to use a passage of Lorem Ipsum, you need to be sure there isnt anything embarrassing hidden in the middle of text. All the Lorem Ipsum generators on the Internet tend to repeat predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful of model sentence structures, to generate Lorem Ipsum which looks reasonable. The generated Lorem Ipsum is therefore always free from repetition, injected humour, or non-characteristic words etc.',
-                status: WhatsappMessageStatus.Delivered,
-                isBusiness: true,
-                isFirstMessageOfDay: false,
-                createdAt: new Date('2022-09-15T23:59:24.000Z'),
-                updatedAt: new Date('2022-09-15T23:59:24.000Z'),
-                deletedAt: null
-            },
-            {
-                id: '12',
-                type: WhatsappMessageType.Template,
-                message:
-                    'Welcome and congratulations!! This message demonstrates your ability to send a message notification from WhatsApp Business Platforms Cloud API. Thank you for taking the time to test with us.',
-                status: WhatsappMessageStatus.Delivered,
-                isBusiness: true,
-                isFirstMessageOfDay: true,
-                createdAt: new Date('2022-09-16T06:09:03.431Z'),
-                updatedAt: new Date('2022-09-16T06:09:03.431Z'),
-                deletedAt: null
-            }
-        ];
-        //this.chatRoom.threads = [];
+    public async ngOnInit(): Promise<void> {
         debugger;
+        console.log(this.chatRoom);
         this.seeLastMessage();
+        await this.loadTemplateMessages();
+        console.log('Chat Room initialized!');
     }
 
     public ngAfterViewInit(): void {
@@ -178,6 +59,26 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         //this.closeChatSocket();
         //this.clearUnreadMessages();
         this.removeWheelEventListener();
+    }
+
+    public async loadTemplateMessages(): Promise<void> {
+        try {
+            this.templateMessagesLoading = true;
+            console.log('Loading Template messages!');
+            const entities: WhatsappMessageTemplateEntity[] = await this.wppBusinessManagementService.list();
+            this.messageTemplates = entities.map((entity: WhatsappMessageTemplateEntity) => {
+                return {
+                    ...entity,
+                    isSuggested: false
+                };
+            });
+            console.log(this.messageTemplates);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+        } finally {
+            this.templateMessagesLoading = false;
+        }
     }
 
     public addWheelEventListener(): void {
@@ -200,11 +101,27 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public sendMessage(): void {
-        //not implemented
+        if (this.messageTemplateSelected) {
+            this.sendMessageEvent.emit(this.buildTemplateMessage());
+            this.messageTemplateSelected = null;
+            this.clearMessageInput();
+            return;
+        }
+        if (!this.messageInput.trim()) return;
+        this.sendMessageEvent.emit(this.buildTextMessage());
+        this.clearMessageInput();
     }
 
-    public showMessageTemplates(): void {
-        //not implemented
+    public selectMessageTemplate(messageTemplate: ChatMessageTemplate): void {
+        console.log('Message template selected');
+        console.log(messageTemplate);
+        this.messageTemplateSelected = messageTemplate;
+        this.messageInput = messageTemplate.content;
+        this.toggleMessageTemplatesVisibility();
+    }
+
+    public toggleMessageTemplatesVisibility(): void {
+        this.templateMessageListVisible = !this.templateMessageListVisible;
     }
 
     public seeLastMessage(): void {
@@ -212,5 +129,32 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             this.isLastMessage = true;
             this.chatUtility.scrollToBottom(this.panelScrollableElementId);
         });
+    }
+
+    public clearMessageInput(): void {
+        this.messageInput = '';
+    }
+
+    private buildTemplateMessage(): ThreadMessage {
+        return {
+            type: WhatsappConstants.MessageType.Template,
+            templateName: this.messageTemplateSelected?.name,
+            content: this.messageTemplateSelected?.content ?? '',
+            status: WhatsappConstants.MessageStatus.Sent,
+            isBusiness: true,
+            isFirstMessageOfDay: false,
+            createdAt: new Date()
+        };
+    }
+
+    private buildTextMessage(): ThreadMessage {
+        return {
+            type: WhatsappConstants.MessageType.Text,
+            content: this.messageInput,
+            status: WhatsappConstants.MessageStatus.Sent,
+            isBusiness: true,
+            isFirstMessageOfDay: false,
+            createdAt: new Date()
+        };
     }
 }
