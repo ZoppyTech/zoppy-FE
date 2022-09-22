@@ -85,9 +85,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     }
 
     public setWebSocket(): void {
-        debugger;
         this.webSocketService.fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE).subscribe((socketData: ChatSocketData) => {
-            debugger;
             switch (socketData.action) {
                 case WebSocketConstants.CHAT_ACTIONS.CREATE:
                     const messageIndex: number = this.chatRoomSelected.threads.findIndex((thread: ThreadMessage) => {
@@ -112,7 +110,6 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     }
 
     public onSendingMessage(thread: ThreadMessage): void {
-        debugger;
         const socketData: ChatSocketData = { action: 'create', message: new WhatsappMessageEntity() };
         socketData.message =
             thread.type === WhatsappConstants.MessageType.Template
