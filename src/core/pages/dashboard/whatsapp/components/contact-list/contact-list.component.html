@@ -5,21 +5,20 @@
             <ps-icon icon="icon-times"></ps-icon>
         </div>
     </div>
-
-    <div *ngIf="contacts.length <= 0" class="empty-list">
+    <static-loading *ngIf="hasContactsLoading" [isLoading]="true" class="loading"></static-loading>
+    <div *ngIf="!hasContactsLoading && contacts.length <= 0" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
         <span class="text text--primary">Você não tem nenhum contato sincronizado. </span>
-        <ps-button class="margin-y-3" [loading]="syncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
+        <ps-button class="margin-y-3" [loading]="hasSyncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
             <span class="text--100 text--bold">Sincronizar contatos</span>
         </ps-button>
     </div>
-
-    <div *ngIf="contacts.length > 0" class="contacts">
-        <div *ngFor="let contact of contacts; let i = index" class="item">
+    <div *ngIf="!hasContactsLoading && contacts.length > 0" class="contacts">
+        <div *ngFor="let contact of contacts; let i = index" class="item" (click)="selectContact(contact)">
             <div *ngIf="contact.hasIndex" class="item-header">
                 <h6 class="text--primary text--bold">{{ contact.name.substring(0, 1).toUpperCase() }}</h6>
             </div>
-            <span class="item-content">{{ contact.name }} </span>
+            <span class="item-content truncate">{{ contact.name }} </span>
         </div>
     </div>
 </div>

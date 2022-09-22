@@ -1,5 +1,6 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { RouterTestingModule } from '@angular/router/testing';
 import { ChatRoomComponent } from './chat-room.component';
 
 describe('ChatRoomComponent', () => {
@@ -8,7 +9,8 @@ describe('ChatRoomComponent', () => {
 
     beforeEach(async () => {
         await TestBed.configureTestingModule({
-            declarations: [ChatRoomComponent]
+            declarations: [ChatRoomComponent],
+            imports: [HttpClientTestingModule, RouterTestingModule]
         }).compileComponents();
 
         fixture = TestBed.createComponent(ChatRoomComponent);

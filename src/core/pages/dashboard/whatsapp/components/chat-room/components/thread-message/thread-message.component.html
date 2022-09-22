@@ -9,7 +9,7 @@
             class="thread-message-container__body__content"
             [ngClass]="{
                 'thread-message-container__body__content--business-user': thread.isBusiness,
-                'thread-message-container__body__content--custumer-user': !thread.isBusiness
+                'thread-message-container__body__content--customer-user': !thread.isBusiness
             }"
         >
             <div class="card-header">
@@ -19,6 +19,23 @@
                 <ng-content select="[thread-message-content]"></ng-content>
             </div>
             <div class="card-footer">
+                <span
+                    class="viewed-icon"
+                    [ngClass]="{
+                        'viewed-icon--business-user': thread.isBusiness,
+                        'viewed-icon--customer-user': !thread.isBusiness
+                    }"
+                >
+                    <ps-icon
+                        *ngIf="thread.wamId"
+                        [ngClass]="{
+                            'viewed-icon--status-sent': thread.status === 'sent',
+                            'viewed-icon--status-delivered': thread.status === 'delivered'
+                        }"
+                        icon="icon-done_all"
+                    ></ps-icon>
+                    <static-loading *ngIf="!thread.wamId" [isLoading]="true" [onlyLoading]="true"></static-loading>
+                </span>
                 <span *ngIf="thread?.createdAt !== null && !thread.deletedAt" class="text--500 datetime">{{
                     thread.createdAt | date: 'h:mm a'
                 }}</span>

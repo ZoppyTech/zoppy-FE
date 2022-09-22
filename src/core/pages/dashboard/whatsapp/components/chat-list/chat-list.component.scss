@@ -8,6 +8,8 @@
 .container {
     height: 100%;
     width: 100%;
+    min-width: 528px;
+    max-width: 528px;
     display: flex;
     flex-direction: column;
 
@@ -98,10 +100,15 @@
                 justify-content: space-between;
                 margin-bottom: 1rem;
                 padding: 0px 40px;
+
+                h5 {
+                    max-width: 316px;
+                }
             }
 
             .item-content {
                 width: 100%;
+                max-width: 528px;
                 display: flex;
                 flex-direction: row;
                 align-items: baseline;

@@ -6,7 +6,7 @@
         </div>
     </div>
 
-    <div *ngIf="contacts.length <= 0" class="empty-list">
+    <div *ngIf="conversations.length <= 0" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
         <span class="text text--primary"
             >Você não tem um histórico de mensagens. <br />
@@ -14,14 +14,18 @@
         >
     </div>
 
-    <div *ngIf="contacts.length > 0" class="conversations">
-        <div *ngFor="let contact of contacts">
-            <div class="item" (click)="conversationSelected.emit(contact)">
+    <div *ngIf="conversations.length > 0" class="conversations">
+        <div *ngFor="let conversation of conversations">
+            <div class="item" (click)="selectedConversationEvent.emit(conversation[1])">
                 <div class="item-header">
-                    <h6 class="text text--bold">{{ contact.name }}</h6>
-                    <h6 class="text--small text--400">{{ contact.sentAt }}</h6>
+                    <h5 class="text text--bold truncate">{{ conversation[1].contact.name }}</h5>
+                    <h6 *ngIf="conversation[1].threads.length > 0" class="text--small text--400">
+                        {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
+                    </h6>
                 </div>
-                <span class="item-content">{{ contact.lastMessage }} </span>
+                <span *ngIf="conversation[1].threads.length > 0" class="item-content truncate"
+                    >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
+                </span>
             </div>
         </div>
     </div>

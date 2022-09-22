@@ -20,10 +20,19 @@
     margin-bottom: 32px;
     flex-grow: 1;
 
+    chat-loading {
+        flex-grow: 1;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: center;
+    }
+
     .left-panel {
         display: flex;
         justify-content: space-between;
         width: 528px;
+        max-width: 528px;
         height: 100%;
         min-height: 0;
     }

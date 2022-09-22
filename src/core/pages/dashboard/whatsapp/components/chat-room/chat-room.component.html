@@ -4,17 +4,17 @@
         <h6 class="text--small text--800">{{ chatRoom.contact.displayPhone }}</h6>
     </div>
 
-    <div *ngIf="loadingMessages"></div>
-    <div *ngIf="!loadingMessages" id="panel-scrollable" class="chat-content">
-        <bubble-info class="flex-bottom" *ngIf="this.chatRoom.threads.length <= 0"></bubble-info>
+    <div *ngIf="messagesLoading"></div>
+    <div *ngIf="!messagesLoading" id="panel-scrollable" class="chat-content">
+        <bubble-info class="flex-center" *ngIf="this.chatRoom.threads.length <= 0"></bubble-info>
         <div *ngFor="let thread of this.chatRoom.threads">
-            <splitter-date [thread]="thread" [visible]="thread.isFirstMessageOfDay"></splitter-date>
+            <splitter-date [date]="thread.createdAt" [visible]="thread.isFirstMessageOfDay"></splitter-date>
             <thread-message
                 class="flex-row wide margin-bottom-1"
                 [ngStyle]="{ 'justify-content': !thread.isBusiness ? 'flex-start' : 'flex-end' }"
                 [thread]="thread"
             >
-                <text-message thread-message-content [text]="thread.message"></text-message>
+                <text-message thread-message-content [text]="thread.content"></text-message>
             </thread-message>
         </div>
     </div>
@@ -23,11 +23,35 @@
         <div *ngIf="!isLastMessage" class="see-last-message-button clickable" (click)="seeLastMessage()">
             <ps-icon class="arrow-icon" icon="icon-chevron text--primary"></ps-icon>
         </div>
-        <ps-button class="show-templates-button" [loading]="false" [wide]="true" (onClick)="showMessageTemplates()" type="clean">
-            <span class="text--800 text--bold">#</span>
-        </ps-button>
-        <ps-input type="text" placeholder="Escreva sua mensagem" [(ngModel)]="newMessage"></ps-input>
-        <ps-button class="send-button" [loading]="false" [wide]="true" (onClick)="sendMessage()" type="secondary">
+        <div
+            (mouseover)="templateMessageListVisible = true"
+            (mouseleave)="templateMessageListVisible = false"
+            *ngIf="templateMessageListVisible"
+            class="message-template-list"
+        >
+            <div *ngFor="let templateMessage of messageTemplates" (click)="selectMessageTemplate(templateMessage)" class="item clickable">
+                <span>{{ templateMessage.content }}</span>
+            </div>
+        </div>
+        <div class="templates-button clickable" (click)="toggleMessageTemplatesVisibility()">
+            <span class="text--800 text--bold" [ngClass]="{ 'active-color': templateMessageListVisible }">#</span>
+        </div>
+        <ps-input
+            icon="{{ 'icon-times' }}"
+            (onIconClicked)="clearMessageInput()"
+            [iconClick]="true"
+            type="text"
+            placeholder="Escreva sua mensagem"
+            [(ngModel)]="messageInput"
+        ></ps-input>
+        <ps-button
+            [disabled]="!messageInput"
+            class="send-button"
+            [loading]="false"
+            [wide]="true"
+            (onClick)="sendMessage()"
+            type="secondary"
+        >
             <span class="text--100 text--bold">Enviar</span>
         </ps-button>
     </div>

@@ -20,9 +20,9 @@ export class WhatsappAccountService extends ApiService {
         super(http, router, storage);
     }
 
-    public async findByCompany(): Promise<WhatsappAccountEntity> {
+    public async getRegisteredByCompany(): Promise<WhatsappAccountEntity> {
         const promise: Promise<WhatsappAccountEntity> = new Promise((resolve: any, reject: any) => {
-            this.get<WhatsappAccountEntity>(`${this.url}`).subscribe(
+            this.get<WhatsappAccountEntity>(`${this.url}/registered`).subscribe(
                 (response: WhatsappAccountEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
