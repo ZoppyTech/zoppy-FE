@@ -172,6 +172,18 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         }
     }
 
+    public async loadConversations(): Promise<void> {
+        try {
+            const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByPhoneNumberId(this.manager.phoneNumberId);
+            this.conversations = WhatsappMapper.mapConversations(this.manager, entities);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+        } finally {
+            this.whatsappPercentLoading = 100;
+        }
+    }
+
     private buildTemplateMessageFromThread(thread: ThreadMessage): WhatsappMessageEntity {
         return {
             type: WhatsappConstants.MessageType.Template,
@@ -201,18 +213,6 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             updatedAt: new Date(),
             companyId: this.user.companyId
         };
-    }
-
-    public async loadConversations(): Promise<void> {
-        try {
-            const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByPhoneNumberId(this.manager.phoneNumberId);
-            this.conversations = WhatsappMapper.mapConversations(this.manager, entities);
-        } catch (ex: any) {
-            ex = ex as ZoppyException;
-            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
-        } finally {
-            this.whatsappPercentLoading = 100;
-        }
     }
 
     private setLoggedUser(): void {

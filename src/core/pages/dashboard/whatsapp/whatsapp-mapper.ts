@@ -41,7 +41,9 @@ export class WhatsappMapper {
         const firstMessageFromContact: WhatsappMessageEntity | undefined = messages.find((message: WhatsappMessageEntity) => {
             return message.wppContactId === contactId;
         });
-        if (!firstMessageFromContact || !firstMessageFromContact.wppContact) return new ChatContact();
+        if (!firstMessageFromContact || !firstMessageFromContact.wppContact) {
+            return this.createEmptyContact();
+        }
         return this.mapContact(firstMessageFromContact.wppContact);
     }
 
@@ -85,5 +87,13 @@ export class WhatsappMapper {
             thread.isFirstMessageOfDay = true;
             firstMessageDate = new Date(thread.createdAt);
         }
+    }
+
+    private static createEmptyContact(): ChatContact {
+        const contact: ChatContact = new ChatContact();
+        contact.id = '';
+        contact.name = 'Contato removido';
+        contact.displayPhone = 'Telefone indisponível';
+        return contact;
     }
 }
