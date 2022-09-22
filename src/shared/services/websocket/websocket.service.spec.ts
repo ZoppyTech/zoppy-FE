@@ -1,5 +1,5 @@
 import { TestBed, async, inject } from '@angular/core/testing';
-import { Socket } from 'ngx-socket-io';
+import { Socket } from 'socket.io-client';
 import { WebSocketService } from './websocket.service';
 
 describe('Service: Socket', () => {
