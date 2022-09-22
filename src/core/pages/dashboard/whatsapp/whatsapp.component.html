@@ -5,7 +5,7 @@
             *ngIf="currentSubcomponent === subcomponents.ChatList"
             [(currentSubcomponent)]="currentSubcomponent"
             (selectedConversationEvent)="onConversationSelected($event)"
-            [conversations]="conversations"
+            [conversations]="getConversations()"
         ></chat-list>
         <contact-list
             *ngIf="currentSubcomponent === subcomponents.ContactList"
@@ -15,6 +15,11 @@
     </div>
     <div *ngIf="!whatsappLoading" class="right-panel">
         <welcome-chat *ngIf="!chatRoomSelected"></welcome-chat>
-        <chat-room *ngIf="chatRoomSelected" [(chatRoom)]="chatRoomSelected" (sendMessageEvent)="onSendingMessage($event)"></chat-room>
+        <chat-room
+            *ngIf="chatRoomSelected"
+            [events]="scrollDownEvent.asObservable()"
+            [(chatRoom)]="chatRoomSelected"
+            (sendMessageEvent)="onSendingMessage($event)"
+        ></chat-room>
     </div>
 </div>

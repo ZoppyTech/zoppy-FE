@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ChatList } from '../../models/chat-list';
 import { ChatRoom } from '../../models/chat-room';
 import { Subcomponents } from '../../models/subcomponents';
+import { ThreadMessage } from '../../models/thread-message';
 
 @Component({
     selector: 'chat-list',
@@ -12,7 +13,7 @@ export class ChatListComponent implements OnInit {
     @Input() public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
     @Output() public currentSubcomponentChange: EventEmitter<Subcomponents> = new EventEmitter<Subcomponents>();
     @Output() public selectedConversationEvent: EventEmitter<any> = new EventEmitter<any>();
-    @Input() public conversations: Map<string, ChatRoom> = new Map();
+    @Input() public conversations: Array<[string, ChatRoom]> = new Array<[string, ChatRoom]>();
 
     public readonly EMPTY_lIST_IMAGE_DIR: string = './../../../../../../assets/imgs/empty-chat-list.png';
     public readonly NEW_MESSAGE_IMAGE_DIR: string = './../../../../../../assets/imgs/new-message.png';

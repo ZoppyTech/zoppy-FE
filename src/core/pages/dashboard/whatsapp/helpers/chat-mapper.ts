@@ -1,15 +1,20 @@
+import { Injectable } from '@angular/core';
 import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
 import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
 import { DateUtil } from 'src/shared/utils/date.util';
-import { ChatContact } from './models/chat-contact';
-import { ChatManager } from './models/chat-manager';
-import { ChatRoom } from './models/chat-room';
-import { ThreadMessage } from './models/thread-message';
-import { WhatsappUtil } from './utils/whatsapp.util';
+import { ChatContact } from '../models/chat-contact';
+import { ChatManager } from '../models/chat-manager';
+import { ChatRoom } from '../models/chat-room';
+import { ThreadMessage } from '../models/thread-message';
+import { WhatsappUtil } from '../utils/whatsapp.util';
 
-export class WhatsappMapper {
-    public static mapConversations(manager: ChatManager, messages: WhatsappMessageEntity[] = []): Map<string, ChatRoom> {
+//TODO: Use this class as Service, after remove WhatsappMapper class
+@Injectable({
+    providedIn: 'root'
+})
+export class ChatMapper {
+    public mapConversations(manager: ChatManager, messages: WhatsappMessageEntity[] = []): Map<string, ChatRoom> {
         if (!manager || messages.length <= 0) new Map();
         const whatsappConversations: Map<string, ChatRoom> = new Map<string, ChatRoom>();
         for (let conversation of this.groupConversationsByContact(messages).entries()) {
@@ -23,7 +28,7 @@ export class WhatsappMapper {
         return whatsappConversations;
     }
 
-    public static groupConversationsByContact(messages: WhatsappMessageEntity[]): Map<string, Array<ThreadMessage>> {
+    public groupConversationsByContact(messages: WhatsappMessageEntity[]): Map<string, Array<ThreadMessage>> {
         const conversationsFromContact: Map<string, Array<ThreadMessage>> = new Map();
         for (const message of messages) {
             if (conversationsFromContact.has(message.wppContactId)) {
@@ -37,7 +42,7 @@ export class WhatsappMapper {
         return conversationsFromContact;
     }
 
-    public static mapContactFromMessages(contactId: string, messages: WhatsappMessageEntity[]): ChatContact {
+    public mapContactFromMessages(contactId: string, messages: WhatsappMessageEntity[]): ChatContact {
         const firstMessageFromContact: WhatsappMessageEntity | undefined = messages.find((message: WhatsappMessageEntity) => {
             return message.wppContactId === contactId;
         });
@@ -45,7 +50,7 @@ export class WhatsappMapper {
         return this.mapContact(firstMessageFromContact.wppContact);
     }
 
-    public static mapMessage(messageEntity: WhatsappMessageEntity): ThreadMessage {
+    public mapMessage(messageEntity: WhatsappMessageEntity): ThreadMessage {
         const threadMessage: ThreadMessage = new ThreadMessage();
         threadMessage.id = messageEntity.id;
         threadMessage.type = messageEntity.type;
@@ -53,13 +58,12 @@ export class WhatsappMapper {
         threadMessage.status = messageEntity.status;
         threadMessage.isBusiness = messageEntity.origin === WhatsappConstants.MessageOrigin.BusinessInitiated;
         threadMessage.isFirstMessageOfDay = false;
-        threadMessage.wamId = messageEntity.wamId;
         threadMessage.createdAt = messageEntity.createdAt;
         threadMessage.deletedAt = messageEntity.deletedAt;
         return threadMessage;
     }
 
-    public static mapContact(contactEntity: WhatsappContactEntity): ChatContact {
+    public mapContact(contactEntity: WhatsappContactEntity): ChatContact {
         const contact: ChatContact = new ChatContact();
         contact.id = contactEntity.id;
         contact.name = contactEntity.name;
@@ -75,7 +79,7 @@ export class WhatsappMapper {
         return contact;
     }
 
-    public static setFirstMessagesOfDay(threads: Array<ThreadMessage>): void {
+    public setFirstMessagesOfDay(threads: Array<ThreadMessage>): void {
         if (threads.length <= 0) return;
         const firstMessage: ThreadMessage = threads[0];
         firstMessage.isFirstMessageOfDay = true;

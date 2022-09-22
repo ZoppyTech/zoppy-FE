@@ -1,6 +1,7 @@
-import { AfterViewInit, Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
 import { ToastService } from '@lucarrloliveira/toast';
+import { Observable, Subscription } from 'rxjs';
 import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -16,22 +17,20 @@ import { ChatMessageTemplate } from './models/chat-message-template';
     styleUrls: ['./chat-room.component.scss']
 })
 export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
+    private eventsSubscription: Subscription = new Subscription();
     @Input() public chatRoom: ChatRoom = new ChatRoom();
     @Output() public chatRoomChange: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
     @Output() public sendMessageEvent: EventEmitter<ThreadMessage> = new EventEmitter<ThreadMessage>();
+    @Input() public events: Observable<void> = new Observable();
+
     public isHovered: boolean = false;
     public templateMessageListVisible: boolean = false;
     public messageTemplates: Array<ChatMessageTemplate> = [];
     public templateMessagesLoading: boolean = true;
     public messageTemplateSelected: ChatMessageTemplate | null = null;
-
     public messagesLoading: boolean = false;
     public isLastMessage: boolean = false;
-
-    //public newMessage: ThreadMessage | null = null;
-
     public messageInput: string = '';
-
     public scrollerElement: HTMLElement | null = null;
     public scrollerHandler: any = null;
     public readonly panelScrollableElementId: string = 'panel-scrollable';
@@ -45,6 +44,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         debugger;
+        this.eventsSubscription = this.events.subscribe(() => this.seeLastMessage());
         console.log(this.chatRoom);
         this.seeLastMessage();
         await this.loadTemplateMessages();
@@ -56,8 +56,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        //this.closeChatSocket();
         //this.clearUnreadMessages();
+        this.eventsSubscription.unsubscribe();
         this.removeWheelEventListener();
     }
 
@@ -88,7 +88,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public onWheelEventListener(event: WheelEvent): void {
-        const scrolls: number = Math.abs(event.deltaY * 10);
+        const scrolls: number = Math.abs(event.deltaY * 3);
         if (!this.scrollerElement) return;
         this.isLastMessage = !(
             this.scrollerElement?.scrollHeight - this.scrollerElement?.scrollTop >=
@@ -103,7 +103,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public sendMessage(): void {
         if (this.messageTemplateSelected) {
             this.sendMessageEvent.emit(this.buildTemplateMessage());
-            this.messageTemplateSelected = null;
             this.clearMessageInput();
             return;
         }
@@ -113,8 +112,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public selectMessageTemplate(messageTemplate: ChatMessageTemplate): void {
-        console.log('Message template selected');
-        console.log(messageTemplate);
         this.messageTemplateSelected = messageTemplate;
         this.messageInput = messageTemplate.content;
         this.toggleMessageTemplatesVisibility();
@@ -132,6 +129,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public clearMessageInput(): void {
+        this.messageTemplateSelected = null;
         this.messageInput = '';
     }
 
@@ -156,5 +154,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             isFirstMessageOfDay: false,
             createdAt: new Date()
         };
+    }
+
+    @HostListener('document:keydown.enter', ['$event']) public onKeydownHandler(event: KeyboardEvent) {
+        if (!this.messageInput || this.messageInput === '') return;
+        this.sendMessage();
     }
 }

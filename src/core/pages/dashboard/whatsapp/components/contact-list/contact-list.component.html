@@ -5,8 +5,8 @@
             <ps-icon icon="icon-times"></ps-icon>
         </div>
     </div>
-    <static-loading *ngIf="hasContactsLoading" [isLoading]="true" class="loading"></static-loading>
-    <div *ngIf="!hasContactsLoading && contacts.length <= 0" class="empty-list">
+    <static-loading *ngIf="true" [isLoading]="true" class="loading"></static-loading>
+    <!-- <div *ngIf="!hasContactsLoading && contacts.length <= 0" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
         <span class="text text--primary">Você não tem nenhum contato sincronizado. </span>
         <ps-button class="margin-y-3" [loading]="hasSyncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
@@ -20,5 +20,5 @@
             </div>
             <span class="item-content truncate">{{ contact.name }} </span>
         </div>
-    </div>
+    </div> -->
 </div>

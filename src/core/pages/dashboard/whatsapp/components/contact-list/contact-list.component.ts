@@ -32,7 +32,6 @@ export class ContactListComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         console.log('Contact list loading...');
         await this.loadContacts();
-        console.log(this.contacts);
         console.log('Contact list initialized!');
     }
 
@@ -89,9 +88,3 @@ export class ContactListComponent implements OnInit {
         }
     }
 }
-
-//TODO: Change ChatContact to WhatsappContactView
-// export class ContactListView {
-//     public hasIndex: boolean = false;
-//     public name: string = '';
-// }
