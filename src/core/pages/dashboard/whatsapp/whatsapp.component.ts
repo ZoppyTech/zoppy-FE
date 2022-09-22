@@ -85,28 +85,34 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     }
 
     public setWebSocket(): void {
-        this.webSocketService.fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE).subscribe((socketData: ChatSocketData) => {
-            switch (socketData.action) {
-                case WebSocketConstants.CHAT_ACTIONS.CREATE:
-                    const messageIndex: number = this.chatRoomSelected.threads.findIndex((thread: ThreadMessage) => {
-                        return !thread.wamId;
-                    });
-                    if (messageIndex < 0) return;
-                    this.chatRoomSelected.threads.splice(messageIndex, 1);
-                    this.chatRoomSelected.threads.splice(messageIndex, 0, WhatsappMapper.mapMessage(socketData.message));
-                    WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
-                    this.scrollDownEvent.next();
-                    break;
-                case WebSocketConstants.CHAT_ACTIONS.UPDATE:
-                    throw new Error('Not Implemented');
-                    break;
-                case WebSocketConstants.CHAT_ACTIONS.RECEIVE:
-                    this.chatRoomSelected.threads.push(WhatsappMapper.mapMessage(socketData.message));
-                    WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
-                    this.scrollDownEvent.next();
-                    break;
-            }
-        });
+        try {
+            this.webSocketService
+                .fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE)
+                .subscribe((socketData: ChatSocketData) => {
+                    switch (socketData.action) {
+                        case WebSocketConstants.CHAT_ACTIONS.CREATE:
+                            const messageIndex: number = this.chatRoomSelected.threads.findIndex((thread: ThreadMessage) => {
+                                return !thread.wamId;
+                            });
+                            if (messageIndex < 0) return;
+                            this.chatRoomSelected.threads.splice(messageIndex, 1);
+                            this.chatRoomSelected.threads.splice(messageIndex, 0, WhatsappMapper.mapMessage(socketData.message));
+                            WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
+                            this.scrollDownEvent.next();
+                            break;
+                        case WebSocketConstants.CHAT_ACTIONS.UPDATE:
+                            throw new Error('Not Implemented');
+                            break;
+                        case WebSocketConstants.CHAT_ACTIONS.RECEIVE:
+                            this.chatRoomSelected.threads.push(WhatsappMapper.mapMessage(socketData.message));
+                            WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
+                            this.scrollDownEvent.next();
+                            break;
+                    }
+                });
+        } catch (ex: any) {
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+        }
     }
 
     public onSendingMessage(thread: ThreadMessage): void {

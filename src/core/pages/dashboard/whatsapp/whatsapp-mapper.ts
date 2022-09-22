@@ -16,7 +16,9 @@ export class WhatsappMapper {
             const chatRoom: ChatRoom = new ChatRoom();
             chatRoom.manager = manager;
             chatRoom.threads = conversation[1];
-            chatRoom.contact = this.mapContactFromMessages(conversation[0], messages);
+            const contact: ChatContact | undefined = this.mapContactFromMessages(conversation[0], messages);
+            if (!contact) continue;
+            chatRoom.contact = contact;
             whatsappConversations.set(conversation[0], chatRoom);
             this.setFirstMessagesOfDay(chatRoom.threads);
         }
@@ -37,12 +39,12 @@ export class WhatsappMapper {
         return conversationsFromContact;
     }
 
-    public static mapContactFromMessages(contactId: string, messages: WhatsappMessageEntity[]): ChatContact {
+    public static mapContactFromMessages(contactId: string, messages: WhatsappMessageEntity[]): ChatContact | undefined {
         const firstMessageFromContact: WhatsappMessageEntity | undefined = messages.find((message: WhatsappMessageEntity) => {
             return message.wppContactId === contactId;
         });
         if (!firstMessageFromContact || !firstMessageFromContact.wppContact) {
-            return this.createEmptyContact();
+            return undefined;
         }
         return this.mapContact(firstMessageFromContact.wppContact);
     }
