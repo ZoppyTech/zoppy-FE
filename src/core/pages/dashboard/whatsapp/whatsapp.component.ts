@@ -96,6 +96,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
                             if (messageIndex < 0 || messageIndex >= this.chatRoomSelected.threads.length) return;
                             this.chatRoomSelected.threads.splice(messageIndex, 1);
                             this.chatRoomSelected.threads.splice(messageIndex, 0, WhatsappMapper.mapMessage(socketData.message));
+                            WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
                             break;
                         case WebSocketConstants.CHAT_ACTIONS.UPDATE:
                             throw new Error('Not Implemented');
