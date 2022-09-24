@@ -22,9 +22,6 @@ export class ChatListComponent implements OnInit {
 
     public ngOnInit(): void {
         console.log('Start Chat List Component');
-        console.log(this.conversations);
-        //TODO: Map conversations
-        //this.chatList = ChatList.map(conversations);
     }
 
     public newMessage(): void {

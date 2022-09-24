@@ -9,7 +9,7 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class WebSocketService {
     private socket: Socket;
-    public url: string = environment.apiUrl;
+    public url: string = `${environment.apiUrl}`;
 
     public constructor(public readonly storage: Storage) {
         this.socket = io(this.url, this.getSocketOptions());
@@ -45,12 +45,9 @@ export class WebSocketService {
             reconnectionDelay: 15000,
             reconnectionDelayMax: 60000,
             randomizationFactor: 0.1,
-            transportOptions: {
-                polling: {
-                    extraHeaders: {
-                        Authorization: authorization
-                    }
-                }
+            withCredentials: true,
+            extraHeaders: {
+                Authorization: authorization
             }
         };
     }

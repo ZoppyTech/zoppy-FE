@@ -26,6 +26,7 @@ import { ChatRoom } from './models/chat-room';
 import { ChatSocketData } from './models/chat-socket-data';
 import { Subcomponents } from './models/subcomponents';
 import { ThreadMessage } from './models/thread-message';
+import { WhatsappUtil } from './utils/whatsapp.util';
 import { WhatsappMapper } from './whatsapp-mapper';
 
 @Component({
@@ -91,14 +92,10 @@ export class WhatsappComponent implements OnInit, OnDestroy {
                 .subscribe((socketData: ChatSocketData) => {
                     switch (socketData.action) {
                         case WebSocketConstants.CHAT_ACTIONS.CREATE:
-                            const messageIndex: number = this.chatRoomSelected.threads.findIndex((thread: ThreadMessage) => {
-                                return !thread.wamId;
-                            });
-                            if (messageIndex < 0) return;
+                            const messageIndex: number = WhatsappUtil.findLastIndexOfMessageSent(this.chatRoomSelected.threads);
+                            if (messageIndex < 0 || messageIndex >= this.chatRoomSelected.threads.length) return;
                             this.chatRoomSelected.threads.splice(messageIndex, 1);
                             this.chatRoomSelected.threads.splice(messageIndex, 0, WhatsappMapper.mapMessage(socketData.message));
-                            WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
-                            this.scrollDownEvent.next();
                             break;
                         case WebSocketConstants.CHAT_ACTIONS.UPDATE:
                             throw new Error('Not Implemented');
@@ -139,10 +136,12 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             this.conversations = new Map(sortByMostRecent);
         }
         this.chatRoomSelected = this.conversations.get(this.contactSelected.id) ?? new ChatRoom();
+        this.scrollDownEvent.next();
     }
 
     public onConversationSelected(chatRoom: ChatRoom): void {
         this.chatRoomSelected = chatRoom;
+        this.scrollDownEvent.next();
     }
 
     public async loadRegisteredWhatsappAccount(): Promise<void> {

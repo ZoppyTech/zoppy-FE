@@ -3,10 +3,11 @@
 :host {
     flex-grow: 1;
     min-height: 0;
-    display: flex;
+    margin: 0px 32px 32px 32px;
 }
 
 .container {
+    min-height: 100%;
     max-width: 100%;
     max-height: 100%;
     display: flex;
@@ -31,17 +32,15 @@
     .left-panel {
         display: flex;
         justify-content: space-between;
-        width: 528px;
-        max-width: 528px;
-        height: 100%;
-        min-height: 0;
+        width: 480px;
+        max-width: 480px;
+        min-height: 100%;
     }
 
     .right-panel {
+        min-height: 100%;
         flex-grow: 1;
         width: 100%;
-        height: 100%;
-        min-height: 0;
         margin: 0;
         border-left: 1px solid var(--neutral-300);
         border-top-right-radius: 12px;
