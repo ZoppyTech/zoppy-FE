@@ -41,7 +41,7 @@
         "@lucarrloliveira/switch": "^0.0.5",
         "@lucarrloliveira/toast": "^0.0.9",
         "@lucarrloliveira/tooltip": "^0.0.5",
-        "@lucarrloliveira/visual-identity": "^0.0.45",
+        "@lucarrloliveira/visual-identity": "^0.0.47",
         "@types/socket.io-client": "^3.0.0",
         "ngx-currency": "^2.5.3",
         "ngx-mask": "^14.0.3",
