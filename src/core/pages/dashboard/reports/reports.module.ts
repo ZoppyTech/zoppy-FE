@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ReportsComponent } from './reports.component';
 import { Routes, RouterModule } from '@angular/router';
-import { IconModule } from '@lucarrloliveira/icon';
+import { IconModule } from '@ZoppyTech/icon';
 
 const routes: Routes = [
     {

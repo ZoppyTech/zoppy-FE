@@ -2,11 +2,11 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccessTokensComponent } from './access-tokens.component';
 import { Routes, RouterModule } from '@angular/router';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { IconModule } from '@lucarrloliveira/icon';
-import { VisualIdentityModule } from '@lucarrloliveira/visual-identity';
-import { SwitchModule } from '@lucarrloliveira/switch';
-import { InputModule } from '@lucarrloliveira/input';
+import { ButtonModule } from '@ZoppyTech/button';
+import { IconModule } from '@ZoppyTech/icon';
+import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
+import { SwitchModule } from '@ZoppyTech/switch';
+import { InputModule } from '@ZoppyTech/input';
 
 const routes: Routes = [
     {

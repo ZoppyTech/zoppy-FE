@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
+import { ToastService } from '@ZoppyTech/toast';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { ExternalTokenEntity } from 'src/shared/models/entities/external-token.entity';
 import { ExternalTokenRequest } from 'src/shared/models/requests/external-token/external-token.request';

@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { environment } from 'src/environments/environment';
 import { ExternalTokenEntity } from 'src/shared/models/entities/external-token.entity';
 import { ExternalTokenRequest } from 'src/shared/models/requests/external-token/external-token.request';

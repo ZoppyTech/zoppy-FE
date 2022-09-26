@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Route, Router } from '@angular/router';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ToastService } from '@ZoppyTech/toast';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { DashboardResponse } from 'src/shared/models/responses/dashboard/dashboard.response';
 import { ZoppyException } from 'src/shared/services/api.service';

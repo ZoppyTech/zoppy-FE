@@ -1,9 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { InfoComponent } from './info.component';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { IconModule } from '@lucarrloliveira/icon';
-import { VisualIdentityModule } from '@lucarrloliveira/visual-identity';
+import { ButtonModule } from '@ZoppyTech/button';
+import { IconModule } from '@ZoppyTech/icon';
+import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 
 @NgModule({
     imports: [CommonModule, ButtonModule, IconModule, VisualIdentityModule],

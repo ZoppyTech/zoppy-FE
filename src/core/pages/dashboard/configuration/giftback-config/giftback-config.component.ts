@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ToastService } from '@ZoppyTech/toast';
 import { WcGiftbackConfigEntity } from 'src/shared/models/entities/wc-giftback-config.entity';
 import { GiftbackRequest } from 'src/shared/models/requests/giftback/giftback.request';
 import { ZoppyException } from 'src/shared/services/api.service';

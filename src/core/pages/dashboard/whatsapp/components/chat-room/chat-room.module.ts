@@ -1,9 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule, Provider } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatRoomComponent } from './chat-room.component';
-import { InputModule } from '@lucarrloliveira/input';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { IconModule } from '@lucarrloliveira/icon';
+import { InputModule } from '@ZoppyTech/input';
+import { ButtonModule } from '@ZoppyTech/button';
+import { IconModule } from '@ZoppyTech/icon';
 import { TextMessageModule } from './components/text-message/text-message.module';
 import { BubbleInfoModule } from './components/bubble-info/bubble-info.module';
 import { ThreadMessageModule } from './components/thread-message/thread-message.module';

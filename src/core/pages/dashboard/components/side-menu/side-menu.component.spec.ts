@@ -2,8 +2,8 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { SideMenuComponent } from './side-menu.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { IconModule } from '@lucarrloliveira/icon';
-import { VisualIdentityModule } from '@lucarrloliveira/visual-identity';
+import { IconModule } from '@ZoppyTech/icon';
+import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { RouterTestingModule } from '@angular/router/testing';
 
 describe('SideMenuComponent', () => {

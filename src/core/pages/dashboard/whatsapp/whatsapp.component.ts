@@ -1,6 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
+import { ToastService } from '@ZoppyTech/toast';
 import { Subject } from 'rxjs';
 import { WebSocketConstants } from 'src/shared/constants/websocket.constants';
 import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
@@ -61,9 +61,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         public readonly breadcrumb: BreadcrumbService,
         public readonly storage: Storage,
         public readonly webSocketService: WebSocketService
-    ) {
-        //no content
-    }
+    ) {}
 
     public async ngOnInit(): Promise<void> {
         console.log('Whatsapp loading...');
@@ -90,6 +88,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             this.webSocketService
                 .fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE)
                 .subscribe((socketData: ChatSocketData) => {
+                    console.log('entrou no receive');
                     switch (socketData.action) {
                         case WebSocketConstants.CHAT_ACTIONS.CREATE:
                             const messageIndex: number = WhatsappUtil.findLastIndexOfMessageSent(this.chatRoomSelected.threads);
@@ -122,6 +121,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.chatRoomSelected.threads.push(WhatsappMapper.mapMessage(socketData.message));
         WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
         this.scrollDownEvent.next();
+        console.log('emitou o send');
         this.webSocketService.emit(WebSocketConstants.CHAT_EVENTS.CREATE, socketData);
     }
 

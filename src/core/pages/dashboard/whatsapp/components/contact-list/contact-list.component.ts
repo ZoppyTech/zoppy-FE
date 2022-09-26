@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
+import { ToastService } from '@ZoppyTech/toast';
 import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
 import { ZoppyException } from 'src/shared/services/api.service';

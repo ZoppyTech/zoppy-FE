@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccessKeysComponent } from './access-keys.component';
 import { RouterModule, Routes } from '@angular/router';
-import { VisualIdentityModule } from '@lucarrloliveira/visual-identity';
-import { IconModule } from '@lucarrloliveira/icon';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { InputModule } from '@lucarrloliveira/input';
+import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
+import { IconModule } from '@ZoppyTech/icon';
+import { ButtonModule } from '@ZoppyTech/button';
+import { InputModule } from '@ZoppyTech/input';
 
 const routes: Routes = [
     {

@@ -2,9 +2,9 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MyCompanyUsersComponent } from './my-company-users.component';
 import { RouterModule, Routes } from '@angular/router';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { InputModule } from '@lucarrloliveira/input';
-import { IconModule } from '@lucarrloliveira/icon';
+import { ButtonModule } from '@ZoppyTech/button';
+import { InputModule } from '@ZoppyTech/input';
+import { IconModule } from '@ZoppyTech/icon';
 
 const routes: Routes = [
     {

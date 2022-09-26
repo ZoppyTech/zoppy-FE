@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MyProfileComponent } from './my-profile.component';
 import { RouterModule, Routes } from '@angular/router';
-import { IconModule } from '@lucarrloliveira/icon';
-import { InputModule } from '@lucarrloliveira/input';
-import { DatepickerModule } from '@lucarrloliveira/datepicker';
-import { ButtonModule } from '@lucarrloliveira/button';
+import { IconModule } from '@ZoppyTech/icon';
+import { InputModule } from '@ZoppyTech/input';
+import { DatepickerModule } from '@ZoppyTech/datepicker';
+import { ButtonModule } from '@ZoppyTech/button';
 
 const routes: Routes = [
     {

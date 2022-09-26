@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ToastService } from '@ZoppyTech/toast';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { LoginRequest } from 'src/shared/models/requests/public/login.request';
