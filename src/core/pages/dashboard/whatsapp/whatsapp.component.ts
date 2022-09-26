@@ -41,11 +41,11 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     public whatsappPercentLoading: number = 0;
     public whatsappLoading: boolean = true;
     public scrollDownEvent: Subject<void> = new Subject<void>();
-    public contacts: Array<ChatContact> = [];
     public declare contactSelected: ChatContact;
-    public declare chatList: Array<any>;
-    public conversations: Map<string, ChatRoom> = new Map();
     public declare chatRoomSelected: ChatRoom;
+    public declare chatList: Array<any>;
+    public contacts: Array<ChatContact> = [];
+    public conversations: Map<string, ChatRoom> = new Map();
     public manager: ChatManager = new ChatManager();
     public account: ChatAccount = new ChatAccount();
 
@@ -90,20 +90,25 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             this.webSocketService
                 .fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE)
                 .subscribe((socketData: ChatSocketData) => {
+                    debugger;
+                    let targetChatRoom: ChatRoom | undefined = undefined;
                     switch (socketData.action) {
                         case WebSocketConstants.CHAT_ACTIONS.CREATE:
-                            const messageIndex: number = WhatsappUtil.findLastIndexOfMessageSent(this.chatRoomSelected.threads);
-                            if (messageIndex < 0 || messageIndex >= this.chatRoomSelected.threads.length) return;
-                            this.chatRoomSelected.threads.splice(messageIndex, 1);
-                            this.chatRoomSelected.threads.splice(messageIndex, 0, WhatsappMapper.mapMessage(socketData.message));
-                            WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
+                            targetChatRoom = this.conversations.get(socketData.message.wppContactId);
+                            if (!targetChatRoom) return;
+                            const messageIndex: number = WhatsappUtil.findLastIndexOfMessageSent(targetChatRoom.threads);
+                            if (messageIndex < 0 || messageIndex >= targetChatRoom.threads.length) return;
+                            targetChatRoom.threads.splice(messageIndex, 1);
+                            targetChatRoom.threads.splice(messageIndex, 0, WhatsappMapper.mapMessage(socketData.message));
+                            WhatsappMapper.setFirstMessagesOfDay(targetChatRoom.threads);
                             break;
                         case WebSocketConstants.CHAT_ACTIONS.UPDATE:
                             throw new Error('Not Implemented');
-                            break;
                         case WebSocketConstants.CHAT_ACTIONS.RECEIVE:
-                            this.chatRoomSelected.threads.push(WhatsappMapper.mapMessage(socketData.message));
-                            WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
+                            targetChatRoom = this.conversations.get(socketData.message.wppContactId);
+                            if (!targetChatRoom) return;
+                            targetChatRoom.threads.push(WhatsappMapper.mapMessage(socketData.message));
+                            WhatsappMapper.setFirstMessagesOfDay(targetChatRoom.threads);
                             this.scrollDownEvent.next();
                             break;
                     }
@@ -181,7 +186,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     public async loadConversations(): Promise<void> {
         try {
             const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByPhoneNumberId(this.manager.phoneNumberId);
-            this.conversations = WhatsappMapper.mapConversations(this.manager, entities);
+            this.conversations = WhatsappMapper.mapConversations(this.account, this.manager, entities);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -199,7 +204,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             wppContactId: this.chatRoomSelected.contact.id,
             wppPhoneNumberId: this.manager.phoneNumberId,
             userId: this.user.id,
-            parameters: [],
+            parameters: WhatsappUtil.getMessageTemplateParams(thread.templateName ?? '', this.chatRoomSelected),
             createdAt: new Date(),
             updatedAt: new Date(),
             companyId: this.user.companyId
