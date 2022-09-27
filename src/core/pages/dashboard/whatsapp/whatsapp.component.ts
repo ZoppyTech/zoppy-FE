@@ -41,11 +41,11 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     public whatsappPercentLoading: number = 0;
     public whatsappLoading: boolean = true;
     public scrollDownEvent: Subject<void> = new Subject<void>();
-    public contacts: Array<ChatContact> = [];
     public declare contactSelected: ChatContact;
-    public declare chatList: Array<any>;
-    public conversations: Map<string, ChatRoom> = new Map();
     public declare chatRoomSelected: ChatRoom;
+    public declare chatList: Array<any>;
+    public contacts: Array<ChatContact> = [];
+    public conversations: Map<string, ChatRoom> = new Map();
     public manager: ChatManager = new ChatManager();
     public account: ChatAccount = new ChatAccount();
 
@@ -88,21 +88,25 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             this.webSocketService
                 .fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE)
                 .subscribe((socketData: ChatSocketData) => {
-                    console.log('entrou no receive');
+                    let targetChatRoom: ChatRoom | undefined = undefined;
                     switch (socketData.action) {
                         case WebSocketConstants.CHAT_ACTIONS.CREATE:
-                            const messageIndex: number = WhatsappUtil.findLastIndexOfMessageSent(this.chatRoomSelected.threads);
-                            if (messageIndex < 0 || messageIndex >= this.chatRoomSelected.threads.length) return;
-                            this.chatRoomSelected.threads.splice(messageIndex, 1);
-                            this.chatRoomSelected.threads.splice(messageIndex, 0, WhatsappMapper.mapMessage(socketData.message));
-                            WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
+                            targetChatRoom = this.conversations.get(socketData.message.wppContactId);
+                            if (!targetChatRoom) return;
+                            const messageIndex: number = WhatsappUtil.findLastIndexOfMessageSent(targetChatRoom.threads);
+                            if (messageIndex < 0 || messageIndex >= targetChatRoom.threads.length) return;
+                            targetChatRoom.threads.splice(messageIndex, 1);
+                            targetChatRoom.threads.splice(messageIndex, 0, WhatsappMapper.mapMessage(socketData.message));
+                            WhatsappMapper.setFirstMessagesOfDay(targetChatRoom.threads);
                             break;
                         case WebSocketConstants.CHAT_ACTIONS.UPDATE:
                             throw new Error('Not Implemented');
-                            break;
                         case WebSocketConstants.CHAT_ACTIONS.RECEIVE:
-                            this.chatRoomSelected.threads.push(WhatsappMapper.mapMessage(socketData.message));
-                            WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
+                            targetChatRoom = this.conversations.get(socketData.message.wppContactId);
+                            if (!targetChatRoom) return;
+                            this.setRoomAsMostRecent(targetChatRoom);
+                            targetChatRoom.threads.push(WhatsappMapper.mapMessage(socketData.message));
+                            WhatsappMapper.setFirstMessagesOfDay(targetChatRoom.threads);
                             this.scrollDownEvent.next();
                             break;
                     }
@@ -123,6 +127,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.scrollDownEvent.next();
         console.log('emitou o send');
         this.webSocketService.emit(WebSocketConstants.CHAT_EVENTS.CREATE, socketData);
+        this.setRoomAsMostRecent(this.chatRoomSelected);
     }
 
     public onContactSelected(contact: ChatContact): void {
@@ -132,9 +137,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             newChatRoom.contact = this.contactSelected;
             newChatRoom.manager = this.manager;
             newChatRoom.threads = [];
-            const sortByMostRecent: Array<[string, ChatRoom]> = Array.from(this.conversations.entries());
-            sortByMostRecent.unshift([this.contactSelected.id, newChatRoom]);
-            this.conversations = new Map(sortByMostRecent);
+            this.setRoomAsMostRecent(newChatRoom);
         }
         this.chatRoomSelected = this.conversations.get(this.contactSelected.id) ?? new ChatRoom();
         this.scrollDownEvent.next();
@@ -181,7 +184,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     public async loadConversations(): Promise<void> {
         try {
             const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByPhoneNumberId(this.manager.phoneNumberId);
-            this.conversations = WhatsappMapper.mapConversations(this.manager, entities);
+            this.conversations = WhatsappMapper.mapConversations(this.account, this.manager, entities);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -199,7 +202,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             wppContactId: this.chatRoomSelected.contact.id,
             wppPhoneNumberId: this.manager.phoneNumberId,
             userId: this.user.id,
-            parameters: [],
+            parameters: WhatsappUtil.getMessageTemplateParams(thread.templateName ?? '', this.chatRoomSelected),
             createdAt: new Date(),
             updatedAt: new Date(),
             companyId: this.user.companyId
@@ -219,6 +222,13 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             updatedAt: new Date(),
             companyId: this.user.companyId
         };
+    }
+
+    private setRoomAsMostRecent(chatRoom: ChatRoom): void {
+        this.conversations.delete(chatRoom.contact.id);
+        const sortByMostRecent: Array<[string, ChatRoom]> = Array.from(this.conversations.entries());
+        sortByMostRecent.unshift([chatRoom.contact.id, chatRoom]);
+        this.conversations = new Map(sortByMostRecent);
     }
 
     private setLoggedUser(): void {

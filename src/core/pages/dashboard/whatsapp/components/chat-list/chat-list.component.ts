@@ -1,8 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { ChatList } from '../../models/chat-list';
 import { ChatRoom } from '../../models/chat-room';
 import { Subcomponents } from '../../models/subcomponents';
-import { ThreadMessage } from '../../models/thread-message';
 
 @Component({
     selector: 'chat-list',

@@ -2,6 +2,7 @@ import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
 import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
 import { DateUtil } from 'src/shared/utils/date.util';
+import { ChatAccount } from './models/chat-account';
 import { ChatContact } from './models/chat-contact';
 import { ChatManager } from './models/chat-manager';
 import { ChatRoom } from './models/chat-room';
@@ -9,11 +10,16 @@ import { ThreadMessage } from './models/thread-message';
 import { WhatsappUtil } from './utils/whatsapp.util';
 
 export class WhatsappMapper {
-    public static mapConversations(manager: ChatManager, messages: WhatsappMessageEntity[] = []): Map<string, ChatRoom> {
+    public static mapConversations(
+        account: ChatAccount,
+        manager: ChatManager,
+        messages: WhatsappMessageEntity[] = []
+    ): Map<string, ChatRoom> {
         if (!manager || messages.length <= 0) new Map();
         const whatsappConversations: Map<string, ChatRoom> = new Map<string, ChatRoom>();
         for (let conversation of this.groupConversationsByContact(messages).entries()) {
             const chatRoom: ChatRoom = new ChatRoom();
+            chatRoom.account = account;
             chatRoom.manager = manager;
             chatRoom.threads = conversation[1];
             const contact: ChatContact | undefined = this.mapContactFromMessages(conversation[0], messages);
