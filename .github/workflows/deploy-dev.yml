@@ -9,6 +9,10 @@ jobs:
     deploy:
         runs-on: ubuntu-latest
         steps:
+            - name: Use .npmrc
+              uses: bduff9/use-npmrc@v1.1
+              with:
+                  dot-npmrc: ${{ secrets.DOT_NPMRC }}
             - name: Invalidate CloudFront
               uses: chetan/invalidate-cloudfront-action@v2
               env:
