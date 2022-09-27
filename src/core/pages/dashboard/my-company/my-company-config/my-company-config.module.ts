@@ -1,8 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MyCompanyConfigComponent } from './my-company-config.component';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { InputModule } from '@lucarrloliveira/input';
+import { ButtonModule } from '@ZoppyTech/button';
+import { InputModule } from '@ZoppyTech/input';
 import { RouterModule, Routes } from '@angular/router';
 
 const routes: Routes = [

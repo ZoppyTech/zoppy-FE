@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ToastService } from '@ZoppyTech/toast';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { WcKeyEntity } from 'src/shared/models/entities/wc-key.entity';
 import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';

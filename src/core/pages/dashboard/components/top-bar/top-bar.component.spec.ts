@@ -3,12 +3,12 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { TopBarComponent } from './top-bar.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { IconModule } from '@lucarrloliveira/icon';
-import { InputModule } from '@lucarrloliveira/input';
+import { ButtonModule } from '@ZoppyTech/button';
+import { IconModule } from '@ZoppyTech/icon';
+import { InputModule } from '@ZoppyTech/input';
 import { CarrosselModule } from 'src/shared/components/carrossel/carrossel.module';
-import { ContactModule } from '@lucarrloliveira/contact';
-import { MiniMenuModule } from '@lucarrloliveira/mini-menu';
+import { ContactModule } from '@ZoppyTech/contact';
+import { MiniMenuModule } from '@ZoppyTech/mini-menu';
 
 describe('TopBarComponent', () => {
     let component: TopBarComponent;

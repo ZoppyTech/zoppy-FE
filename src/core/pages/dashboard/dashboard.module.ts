@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { DashboardComponent } from './dashboard.component';
 import { RouterModule, Routes } from '@angular/router';
-import { VisualIdentityModule } from '@lucarrloliveira/visual-identity';
+import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { SideMenuModule } from './components/side-menu/side-menu.module';
 import { TopBarModule } from './components/top-bar/top-bar.module';
 import { DashboardGuard } from 'src/shared/guards/dashboard.guard';

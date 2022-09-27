@@ -6,9 +6,9 @@ import { DebugElement } from '@angular/core';
 import { MyCompanyUsersComponent } from './my-company-users.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { IconModule } from '@lucarrloliveira/icon';
-import { InputModule } from '@lucarrloliveira/input';
+import { ButtonModule } from '@ZoppyTech/button';
+import { IconModule } from '@ZoppyTech/icon';
+import { InputModule } from '@ZoppyTech/input';
 
 describe('MyCompanyUsersComponent', () => {
     let component: MyCompanyUsersComponent;

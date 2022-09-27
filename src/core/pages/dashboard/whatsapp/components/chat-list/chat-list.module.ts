@@ -1,9 +1,9 @@
 import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ChatListComponent } from './chat-list.component';
-import { InputModule } from '@lucarrloliveira/input';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { IconModule } from '@lucarrloliveira/icon';
+import { InputModule } from '@ZoppyTech/input';
+import { ButtonModule } from '@ZoppyTech/button';
+import { IconModule } from '@ZoppyTech/icon';
 
 @NgModule({
     declarations: [ChatListComponent],

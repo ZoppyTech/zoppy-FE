@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ToastService } from '@ZoppyTech/toast';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { RegisterRequest } from 'src/shared/models/requests/public/register.request';
 import { PublicService } from 'src/shared/services/public/public.service';

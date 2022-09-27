@@ -6,10 +6,10 @@ import { DebugElement } from '@angular/core';
 import { LoginComponent } from './login.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { IconModule } from '@lucarrloliveira/icon';
-import { InputModule } from '@lucarrloliveira/input';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ButtonModule } from '@ZoppyTech/button';
+import { IconModule } from '@ZoppyTech/icon';
+import { InputModule } from '@ZoppyTech/input';
+import { ToastService } from '@ZoppyTech/toast';
 import { CarrosselModule } from 'src/shared/components/carrossel/carrossel.module';
 
 describe('LoginComponent', () => {

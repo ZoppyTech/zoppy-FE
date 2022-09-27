@@ -2,10 +2,10 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MyCompanyUserConfigComponent } from './my-company-user-config.component';
 import { RouterModule, Routes } from '@angular/router';
-import { ButtonModule } from '@lucarrloliveira/button';
-import { InputModule } from '@lucarrloliveira/input';
-import { DatepickerModule } from '@lucarrloliveira/datepicker';
-import { IconModule } from '@lucarrloliveira/icon';
+import { ButtonModule } from '@ZoppyTech/button';
+import { InputModule } from '@ZoppyTech/input';
+import { DatepickerModule } from '@ZoppyTech/datepicker';
+import { IconModule } from '@ZoppyTech/icon';
 
 const routes: Routes = [
     {

@@ -42,8 +42,8 @@
                         ],
                         "styles": [
                             "src/styles.scss",
-                            "node_modules/@lucarrloliveira/icon/assets/icomoon/style.css",
-                            "node_modules/@lucarrloliveira/visual-identity/assets/styles.css"
+                            "node_modules/@ZoppyTech/icon/assets/icomoon/style.css",
+                            "node_modules/@ZoppyTech/visual-identity/assets/styles.css"
                         ],
                         "scripts": []
                     },

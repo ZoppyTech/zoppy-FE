@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
-import { ToastService } from '@lucarrloliveira/toast';
-import { Pallete, VisualIdentityService } from '@lucarrloliveira/visual-identity';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
+import { ToastService } from '@ZoppyTech/toast';
+import { Pallete, VisualIdentityService } from '@ZoppyTech/visual-identity';
 import { StyleUtil } from 'src/shared/utils/style.util';
 
 @Component({

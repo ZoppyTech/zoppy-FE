@@ -1,6 +1,6 @@
 import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
-import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
+import { ToastService } from '@ZoppyTech/toast';
 import { Observable, Subscription } from 'rxjs';
 import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
