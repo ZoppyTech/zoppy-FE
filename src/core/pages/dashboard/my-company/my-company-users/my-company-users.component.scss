@@ -1,11 +1,11 @@
+@import 'src/styles.scss';
+
 :host {
     flex-grow: 1;
     min-height: 0;
     display: flex;
     flex-direction: column;
 }
-
-@import 'src/styles.scss';
 
 .container {
     display: flex;

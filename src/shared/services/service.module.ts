@@ -3,6 +3,7 @@ import { BreadcrumbService } from './breadcrumb/breadcrumb.service';
 import { DashboardService } from './dashboard/dashboard.service';
 import { ExternalTokenService } from './external-token/external-token.service';
 import { PublicService } from './public/public.service';
+import { ReportService } from './reports/report.service';
 import { SideMenuService } from './side-menu/side-menu.service';
 import { UserService } from './user/user.service';
 import { WcGiftbackService } from './wc-giftback/wc-giftback.service';
@@ -21,6 +22,7 @@ import { WhatsappMessageService } from './whatsapp-message/whatsapp-message.serv
         WebSocketService,
         PublicService,
         SideMenuService,
+        ReportService,
         BreadcrumbService,
         WcGiftbackService,
         WcKeyService,

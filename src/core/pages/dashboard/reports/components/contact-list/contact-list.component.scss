@@ -1,0 +1,8 @@
+@import 'src/styles.scss';
+
+.container {
+    height: 600px;
+    overflow: auto;
+    overflow-x: hidden;
+    max-height: 80vh;
+}

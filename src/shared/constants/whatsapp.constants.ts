@@ -29,10 +29,12 @@ export class WhatsappConstants {
 
     public static MessageTemplates = {
         GREETINGS_TO_USER: 'greetings_to_user',
-        SEND_GIFTBACK: 'send_giftback',
         WELCOME_TO_THE_COMPANY: 'welcome_to_the_company',
         OUT_OF_BUSINESS_HOURS: 'out_of_business_hours',
         WAITING_A_FEW_MINUTES: 'waiting_a_few_minutes',
-        SAMPLE_ISSUE_RESOLUTION: 'issue_resolution'
+        SAMPLE_ISSUE_RESOLUTION: 'issue_resolution',
+        GIFTBACK_SEND: 'giftback_send',
+        GIFTBACK_MISSED_REMINDER: 'giftback_missed_reminder',
+        GIFTBACK_MISSED_CLOSE_REMINDER: 'giftback_missed_close_reminder'
     };
 }

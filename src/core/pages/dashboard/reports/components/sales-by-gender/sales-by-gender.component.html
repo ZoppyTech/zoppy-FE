@@ -1,0 +1,4 @@
+<div class="chart-container" [ngClass]="{ 'flex-center': isLoading, 'flex-end': !isLoading }">
+    <canvas id="sales-by-gender" *ngIf="!isLoading"></canvas>
+    <img [src]="logo" alt="" *ngIf="isLoading" />
+</div>
