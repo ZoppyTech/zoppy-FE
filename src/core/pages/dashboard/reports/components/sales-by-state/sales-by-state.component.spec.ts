@@ -4,6 +4,11 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { SalesByStateComponent } from './sales-by-state.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ButtonModule } from '@ZoppyTech/button';
+import { IconModule } from '@ZoppyTech/icon';
+import { InputModule } from '@ZoppyTech/input';
 
 describe('SalesByStateComponent', () => {
     let component: SalesByStateComponent;
@@ -11,7 +16,8 @@ describe('SalesByStateComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [SalesByStateComponent]
+            declarations: [SalesByStateComponent],
+            imports: [RouterTestingModule, HttpClientTestingModule, IconModule, ButtonModule, InputModule]
         }).compileComponents();
     }));
 
