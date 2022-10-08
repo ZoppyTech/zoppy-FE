@@ -17,7 +17,6 @@ export class SalesByGenderComponent implements AfterViewInit {
     public doughnutChartOptions: any = {
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#dddddd', '#ffb2ff'],
         plugins: {
             legend: {
                 display: false
@@ -25,9 +24,10 @@ export class SalesByGenderComponent implements AfterViewInit {
         }
     };
     public doughnutChartLabels: string[] = [];
-    public doughnutChartLegend: boolean = true;
+    public doughnutChartLegend: boolean = false;
     public doughnutChartData: any[] = [{ data: [], label: 'Compras por estado' }];
     public data: ReportsGenderDistributionResponse | undefined;
+    public legends: Legend[] = [];
 
     public chart: any;
 
@@ -46,6 +46,7 @@ export class SalesByGenderComponent implements AfterViewInit {
 
     public async ngAfterViewInit(): Promise<void> {
         await this.fetchData();
+        this.setLegend();
         setTimeout(() => this.configureGender());
     }
 
@@ -57,14 +58,14 @@ export class SalesByGenderComponent implements AfterViewInit {
                 datasets: [
                     {
                         data: [this.data?.male, this.data?.female, this.data?.notRegisted],
-                        backgroundColor: ['#68e9ff', '#ffb2ff', '#dddddd']
+                        backgroundColor: ['#D0F0FD', '#E3D6FD', '#CAD3E1']
                     }
                 ]
             },
             options: {
                 plugins: {
                     legend: {
-                        display: true
+                        display: false
                     },
                     tooltip: {
                         enabled: true
@@ -74,14 +75,25 @@ export class SalesByGenderComponent implements AfterViewInit {
         });
     }
 
-    public getSales() {
-        return {
-            Masculino: {
-                value: '19,96%'
+    public setLegend(): void {
+        this.legends = [
+            {
+                value: 'Feminino',
+                color: '#E3D6FD'
             },
-            Feminino: {
-                value: '80,04%'
+            {
+                value: 'Masculino',
+                color: '#D0F0FD'
+            },
+            {
+                value: 'Não registrado',
+                color: '#CAD3E1'
             }
-        };
+        ];
     }
+}
+
+interface Legend {
+    color: string;
+    value: string;
 }

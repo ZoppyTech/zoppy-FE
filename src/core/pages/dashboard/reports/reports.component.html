@@ -1,19 +1,32 @@
 <main>
     <div class="card">
         <span class="text text--bold text--primary margin-bottom-2">Compras por estado</span>
-        <app-sales-by-state class="card--sales-by-state"></app-sales-by-state>
+        <app-sales-by-state class="card--default"></app-sales-by-state>
     </div>
 
     <div class="card">
         <span class="text text--bold text--primary margin-bottom-2">Compras por gênero</span>
-        <app-sales-by-gender class="card--sales-by-gender"></app-sales-by-gender>
+        <app-sales-by-gender class="card--default"></app-sales-by-gender>
     </div>
 
     <div class="card">
         <app-report-card></app-report-card>
     </div>
 
-    <div class="customers">
-        <app-contact-list></app-contact-list>
+    <div class="card card--long">
+        <div class="flex wide container">
+            <div class="flex-start">
+                <span class="text text--bold text--primary margin-bottom-2">Faturamento por mês</span>
+                <app-monthly-invoices class="card--default"></app-monthly-invoices>
+            </div>
+            <div class="flex-start margin-left-3">
+                <span class="text text--bold text--primary margin-bottom-2">Faturamento por mês</span>
+                <app-monthly-invoices class="card--default"></app-monthly-invoices>
+            </div>
+        </div>
     </div>
+
+    <!-- <div class="customers">
+        <app-contact-list></app-contact-list>
+    </div> -->
 </main>

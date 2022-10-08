@@ -18,7 +18,7 @@ export class SalesByStateComponent implements AfterViewInit {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#dddddd', '#cdd6ff', '#ffb2ff', '#68e9ff', '#00e0c9'],
+        backgroundColor: ['#CAD3E1', '#E3D6FD', '#D0F0FD', '##CAFDF8'],
         plugins: {
             legend: {
                 display: false
@@ -27,7 +27,7 @@ export class SalesByStateComponent implements AfterViewInit {
     };
     public barChartLabels: string[] = [];
     public barChartType: string = 'bar';
-    public barChartLegend: boolean = true;
+    public barChartLegend: boolean = false;
 
     public barChartData: any[] = [{ data: [], label: 'Compras por estado' }];
 
@@ -54,31 +54,5 @@ export class SalesByStateComponent implements AfterViewInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de vendas por estado');
         }
-    }
-
-    public getSales() {
-        return {
-            MG: {
-                value: '12'
-            },
-            SP: {
-                value: '14'
-            },
-            ES: {
-                value: '5'
-            },
-            PA: {
-                value: '2'
-            },
-            MT: {
-                value: '4'
-            },
-            MS: {
-                value: '3'
-            },
-            AM: {
-                value: '10'
-            }
-        };
     }
 }

@@ -1,13 +1,14 @@
-<div class="chart-container">
+<div class="card-view" [ngClass]="{ 'flex-center': isLoading }">
     <img [src]="logo" alt="" *ngIf="isLoading" />
-    <canvas
-        height="300"
-        baseChart
-        [datasets]="barChartData"
-        [labels]="barChartLabels"
-        [options]="barChartOptions"
-        [legend]="barChartLegend"
-        type="bar"
-        *ngIf="!isLoading"
-    ></canvas>
+    <div class="chart-content" *ngIf="!isLoading">
+        <canvas
+            height="300"
+            baseChart
+            [datasets]="barChartData"
+            [labels]="barChartLabels"
+            [options]="barChartOptions"
+            [legend]="barChartLegend"
+            type="bar"
+        ></canvas>
+    </div>
 </div>

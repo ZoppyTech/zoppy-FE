@@ -33,6 +33,7 @@
         "@ZoppyTech/confirm-action": "^0.1.2",
         "@ZoppyTech/contact": "^0.1.1",
         "@ZoppyTech/datepicker": "^0.1.1",
+        "@ZoppyTech/dropdown": "^0.1.1",
         "@ZoppyTech/icon": "^0.1.1",
         "@ZoppyTech/input": "^0.1.1",
         "@ZoppyTech/mini-menu": "^0.1.1",

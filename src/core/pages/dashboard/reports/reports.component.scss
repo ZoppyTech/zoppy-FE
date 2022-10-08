@@ -13,23 +13,36 @@ main {
     display: flex;
     flex-direction: row;
     align-items: flex-start;
+    flex-wrap: wrap;
     .card {
         margin: 1rem;
-        padding: 1rem;
+        padding: 1.5rem;
         background-color: #fdfdfd;
         border: 1px solid var(--neutral-300);
-        border-radius: 8px;
+        border-radius: 12px;
         display: flex;
         flex-direction: column;
         max-width: calc(100% - 2rem);
-        height: 370px;
+        height: 400px;
         box-shadow: 0px 16px 24px #edeff2;
 
-        &--sales-by-state,
-        &--sales-by-gender {
+        &--default {
             width: 450px;
             max-width: 100%;
             flex-grow: 1;
+            min-height: 0;
+        }
+    }
+
+    .card--long {
+        width: 1200px;
+        max-width: calc(100% - 2rem);
+        display: flex;
+        flex-wrap: wrap;
+
+        .flex-start {
+            width: 550px;
+            max-width: calc(100% - 2rem);
         }
     }
 
@@ -40,5 +53,29 @@ main {
         border-radius: 8px;
         background-color: #fdfdfd;
         box-shadow: 0px 16px 24px #edeff2;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    main {
+        .card {
+            &--default {
+                width: 450px;
+                max-width: 100%;
+            }
+        }
+        .card--long {
+            flex-wrap: wrap;
+            height: unset;
+
+            .flex-start {
+                max-width: 100%;
+                margin-left: 0;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+        }
     }
 }

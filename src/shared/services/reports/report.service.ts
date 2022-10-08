@@ -64,10 +64,10 @@ export class ReportService extends ApiService {
         return promise;
     }
 
-    public async getMonthlyInvoices(): Promise<Array<MonthlyInvoiceResponse>> {
-        const promise: Promise<Array<MonthlyInvoiceResponse>> = new Promise((resolve: any, reject: any) => {
-            this.get<Array<MonthlyInvoiceResponse>>(`${this.url}/gender-distribution`).subscribe(
-                (response: Array<MonthlyInvoiceResponse>) => resolve(response),
+    public async getMonthlyInvoices(): Promise<MonthlyInvoiceResponse> {
+        const promise: Promise<MonthlyInvoiceResponse> = new Promise((resolve: any, reject: any) => {
+            this.get<MonthlyInvoiceResponse>(`${this.url}/monthly-invoices`).subscribe(
+                (response: MonthlyInvoiceResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
