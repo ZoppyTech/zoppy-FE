@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { DailySalesComponent } from './daily-sales.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('DailySalesComponent', () => {
     let component: DailySalesComponent;
@@ -11,7 +13,8 @@ describe('DailySalesComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [DailySalesComponent]
+            declarations: [DailySalesComponent],
+            imports: [RouterTestingModule, HttpClientTestingModule]
         }).compileComponents();
     }));
 
