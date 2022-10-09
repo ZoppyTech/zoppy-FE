@@ -1,23 +1,22 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
-import { MonthInvoice, MonthlyInvoiceResponse } from 'src/shared/models/responses/reports/monthly-invoice.response';
+import { DailySale, DailySalesResponse } from 'src/shared/models/responses/reports/daily-sales.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
-import { DateUtil } from 'src/shared/utils/date.util';
 
 @Component({
-    selector: 'app-monthly-invoices',
-    templateUrl: './monthly-invoices.component.html',
-    styleUrls: ['./monthly-invoices.component.scss']
+    selector: 'app-daily-sales',
+    templateUrl: './daily-sales.component.html',
+    styleUrls: ['./daily-sales.component.scss']
 })
-export class MonthlyInvoicesComponent implements OnInit {
+export class DailySalesComponent implements OnInit {
     public constructor(private readonly reportService: ReportService, private readonly toast: ToastService) {}
 
-    public data: MonthlyInvoiceResponse = new MonthlyInvoiceResponse();
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public legends: Legend[] = [];
+    public data: DailySalesResponse = new DailySalesResponse();
 
     public chartOptions: any = {
         scaleShowVerticalLines: false,
@@ -27,6 +26,21 @@ export class MonthlyInvoicesComponent implements OnInit {
             legend: {
                 display: false
             }
+        },
+        scales: {
+            y: {
+                type: 'linear',
+                display: true,
+                position: 'left'
+            },
+            y1: {
+                type: 'linear',
+                display: true,
+                position: 'right',
+                grid: {
+                    drawOnChartArea: false
+                }
+            }
         }
     };
     public chartLabels: string[] = [];
@@ -35,16 +49,18 @@ export class MonthlyInvoicesComponent implements OnInit {
         {
             type: 'line',
             label: 'Line Dataset',
+            yAxisID: 'y',
             data: [],
-            borderColor: '#7b3dff',
-            pointBackgroundColor: '#7b3dff',
-            pointBorderColor: '#7b3dff'
+            borderColor: '#002E73',
+            pointBackgroundColor: '#002E73',
+            pointBorderColor: '#002E73'
         },
         {
             type: 'bar',
             label: 'Bar Dataset',
+            yAxisID: 'y1',
             data: [],
-            backgroundColor: ['#E3D6FD']
+            backgroundColor: ['#CAD3E1']
         }
     ];
 
@@ -57,23 +73,23 @@ export class MonthlyInvoicesComponent implements OnInit {
     public setLegends(): void {
         this.legends = [
             {
-                value: 'Faturamento mensal',
-                color: '#E3D6FD'
+                value: 'Número de vendas',
+                color: '#CAD3E1'
             },
             {
-                value: 'Receita direta com a Zoppy',
-                color: '#7B3DFF'
+                value: 'Ticket médio',
+                color: '#002E73'
             }
         ];
     }
 
     public async fetchData(): Promise<void> {
         try {
-            this.data = await this.reportService.getMonthlyInvoices();
-            this.data.invoices.forEach((invoice: MonthInvoice) => {
+            this.data = await this.reportService.getDailySales();
+            this.data.invoices.forEach((invoice: DailySale) => {
                 this.chartLabels.push(invoice.name);
-                this.chartData[1].data.push(invoice.invoice);
-                this.chartData[0].data.push(invoice.zoppyInvoice as number);
+                this.chartData[1].data.push(invoice.sales);
+                this.chartData[0].data.push(invoice.avgTicket);
             });
         } catch (ex: any) {
             ex = ex as ZoppyException;

@@ -8,6 +8,7 @@ import { SalesByGenderModule } from './components/sales-by-gender/sales-by-gende
 import { ContactListModule } from './components/contact-list/contact-list.module';
 import { ReportCardModule } from './components/report-card/report-card.module';
 import { MonthlyInvoicesModule } from './components/monthly-invoices/monthly-invoices.module';
+import { DailySalesModule } from './components/daily-sales/daily-sales.module';
 
 const routes: Routes = [
     {
@@ -25,7 +26,8 @@ const routes: Routes = [
         SalesByGenderModule,
         ContactListModule,
         ReportCardModule,
-        MonthlyInvoicesModule
+        MonthlyInvoicesModule,
+        DailySalesModule
     ],
     declarations: [ReportsComponent],
     exports: [ReportsComponent]

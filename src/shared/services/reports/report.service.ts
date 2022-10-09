@@ -9,6 +9,7 @@ import { ReportsGenderDistributionResponse } from 'src/shared/models/responses/r
 import { ReportOverviewCardResponse } from 'src/shared/models/responses/reports/report-overview-card.response';
 import { MonthlyInvoiceResponse } from 'src/shared/models/responses/reports/monthly-invoice.response';
 import { ReportSaleByStateResponse } from 'src/shared/models/responses/reports/report-sale-by-state.response';
+import { DailySalesResponse } from 'src/shared/models/responses/reports/daily-sales.response';
 
 @Injectable({
     providedIn: 'root'
@@ -68,6 +69,16 @@ export class ReportService extends ApiService {
         const promise: Promise<MonthlyInvoiceResponse> = new Promise((resolve: any, reject: any) => {
             this.get<MonthlyInvoiceResponse>(`${this.url}/monthly-invoices`).subscribe(
                 (response: MonthlyInvoiceResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getDailySales(): Promise<DailySalesResponse> {
+        const promise: Promise<DailySalesResponse> = new Promise((resolve: any, reject: any) => {
+            this.get<DailySalesResponse>(`${this.url}/daily-sales`).subscribe(
+                (response: DailySalesResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
