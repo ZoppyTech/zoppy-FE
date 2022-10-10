@@ -4,7 +4,7 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class SideMenuService {
-    public selected: SideMenu = `reports`;
+    public selected: SideMenu = `home`;
     public subSelected: SideMenu = 'access-keys';
     public open: boolean = false;
     public constructor() {}
@@ -23,6 +23,7 @@ export class SideMenuService {
 }
 
 export type SideMenu =
+    | 'home'
     | 'reports'
     | `my-company`
     | `configurations`

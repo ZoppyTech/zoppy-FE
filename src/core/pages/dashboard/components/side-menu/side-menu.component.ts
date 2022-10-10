@@ -20,9 +20,15 @@ export class SideMenuComponent implements OnInit {
     public ngOnInit() {
         this.menuItems = [
             {
+                id: `home`,
+                icon: 'icon-home',
+                label: 'Início',
+                route: '/dashboard/home'
+            },
+            {
                 id: `reports`,
                 icon: 'icon-inventory',
-                label: 'Início',
+                label: 'Relatórios',
                 route: '/dashboard/reports'
             },
             {

@@ -1,113 +1,41 @@
-<div class="main">
-    <h4 class="text--primary text--bold">Seja bem-vindo, {{ user.name }}</h4>
-    <p class="text margin-y-3 desktop">
-        Ficamos muito felizes em ter você por aqui e estamos prontos para escalar o seu negócio através de fidelização! Como próximos
-        passos, siga as instruções abaixo para desfrutar da melhor experiência possível em nossa plataforma e prosseguir com a sua
-        <b>ativação</b>. Vamos lá?
-    </p>
+<ps-dropdown
+    class="margin-left-2 margin-top-2"
+    [enableSearch]="false"
+    [propertyValue]="'value'"
+    [(value)]="view"
+    [propertyLabel]="'label'"
+    [items]="items"
+></ps-dropdown>
 
-    <div class="alert desktop" *ngIf="percent === 100">
-        <ps-icon icon="icon-info"></ps-icon>&nbsp;
-        <span class="text text--bold">Informação: </span>
-        <span class="text"
-            >nossa plataforma está em desenvolvimento e em breve estaremos exibindo mais informações sobre seu negócio aqui na página
-            inicial, aguarde para novidades!</span
-        >
+<main *ngIf="view === 1">
+    <div class="card">
+        <span class="text text--bold text--primary margin-bottom-2">Compras por estado</span>
+        <app-sales-by-state class="card--default"></app-sales-by-state>
     </div>
 
-    <div class="progress-title" *ngIf="percent !== 100">
-        <span class="text text--bold">Você está quase lá!</span>
-        <span class="text text--bold">{{ percent }}% completo</span>
+    <div class="card">
+        <span class="text text--bold text--primary margin-bottom-2">Compras por gênero</span>
+        <app-sales-by-gender class="card--default"></app-sales-by-gender>
     </div>
 
-    <div class="progress-bar margin-top-2 margin-bottom-2" *ngIf="percent !== 100">
-        <div class="filled" [ngStyle]="{ width: percent + '%' }"></div>
+    <div class="card">
+        <app-report-card></app-report-card>
     </div>
 
-    <div class="items" *ngIf="percent !== 100">
-        <div class="item padding-3 flex flex-wrap" *ngFor="let item of items" [ngClass]="{ completed: item.completed }">
-            <span class="text text--bold">
-                {{ item.title }}
-            </span>
-            <span class="text margin-y-2 label">
-                {{ item.label }}
-            </span>
-
-            <span class="route clickable" (click)="navigate(item)">
-                <div class="ic-content margin-right-1" [ngClass]="{ 'bg-success': item.completed }">
-                    <ps-icon icon="icon-approval"></ps-icon>
-                </div>
-                <span class="text" [ngClass]="{ 'text--500': !item.completed }">
-                    {{ item.completed ? 'Completo' : 'Configurar' }}
-                </span>
-                &nbsp;
-                <ps-icon class="arrow-ic text--500" icon="icon-chevron" *ngIf="!item.completed"></ps-icon>
-            </span>
-        </div>
-    </div>
-
-    <div class="cards">
-        <div class="card" *ngFor="let card of cards">
-            <img [src]="card.image" class="desktop bg-img" alt="" />
-            <img [src]="card.imageMobile" class="mobile bg-img" alt="" />
-
-            <div class="content">
-                <div class="header padding-top-2 padding-left-3">
-                    <span class="text neutral-800">{{ card.title }}</span>
-                    <ps-icon icon="icon-visibility_off" class="neutral-800 margin-left-1 margin-top-1"></ps-icon>
-                </div>
-
-                <div class="body padding-top-2">
-                    <h1 class="primary">{{ percent === 100 ? card.value : '....' }}</h1>
-                    <h1 class="primary"></h1>
-                </div>
-
-                <div class="footer">
-                    <span class="text text--bold margin-bottom-1 text--600">Atenção</span>
-                    <span class="text text--small text--600">Você precisa completar sua ativação para ver essa informação</span>
-                </div>
+    <div class="card card--long">
+        <div class="flex wide container">
+            <div class="flex-start">
+                <span class="text text--bold text--primary margin-bottom-2">Faturamento por mês</span>
+                <app-monthly-invoices class="card--default"></app-monthly-invoices>
+            </div>
+            <div class="flex-start margin-left-3">
+                <span class="text text--bold text--primary margin-bottom-2">Faturamento por mês</span>
+                <app-daily-sales class="card--default"></app-daily-sales>
             </div>
         </div>
     </div>
+</main>
 
-    <div class="cards">
-        <div class="card rush">
-            <div class="left padding-3">
-                <h4 class="text--primary padding-bottom-3">A pressa é inimiga da perfeição</h4>
-                <div class="flex">
-                    <span class="text"
-                        >A gente sabe que tem muito mais dados pra Zoppy te ajudar a <b>escalar seu negócio!</b> Logo mais teremos mais
-                        visualizações pra voce poder fazer análises! &nbsp;
-                        <i class="icon-sentiment_very_satisfied"></i>
-                    </span>
-                </div>
-            </div>
-            <img src="./assets/imgs/dashboard_3.png" alt="" class="right" />
-        </div>
-
-        <div class="post">
-            <div class="left">
-                <span class="text text--600 text--bold">Cases de sucesso</span>
-                <div class="text text--600 label">Confira os cases ao lado que irão ate ajudar ainda mais a impulsionar o seu negócio!</div>
-                <div class="buttons">
-                    <div class="button clickable" (click)="visiblePost = 0" [ngClass]="{ enabled: visiblePost === 1 }">
-                        <ps-icon icon="icon-chevron"></ps-icon>
-                    </div>
-                    <div class="button clickable ic-right" (click)="visiblePost = 1" [ngClass]="{ enabled: visiblePost === 0 }">
-                        <ps-icon icon="icon-chevron"></ps-icon>
-                    </div>
-                </div>
-            </div>
-            <div class="blog" *ngFor="let post of posts; let index = index" [ngClass]="{ hidden: index !== visiblePost }">
-                <img class="" src="{{ post.image }}" alt="" />
-                <div class="bottom">
-                    <span class="text">{{ post.title }}</span>
-                    <div class="flex margin-top-1">
-                        <span class="text--600 text--small">Ler artigo </span>
-                        <ps-icon class="icon-chevron ic-right"></ps-icon>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
+<main *ngIf="view === 2">
+    <app-matrix-rfm></app-matrix-rfm>
+</main>

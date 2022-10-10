@@ -4,4 +4,5 @@ export class CompanyRequest {
     public phone?: string;
     public revenueRecord?: string;
     public email?: string;
+    public plan?: string;
 }

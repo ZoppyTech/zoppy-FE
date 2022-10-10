@@ -1,0 +1,79 @@
+<main>
+    <div class="matrix">
+        <div class="box radius-top-left cant-lose" (click)="setFilter(positions.cantLose)">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-top-1 padding-right-1">Não pode perder</span>
+            <span class="text text--caption text--primary padding-right-1 padding-bottom-1">{{ calculate(positions.cantLose) }}</span>
+        </div>
+        <div class="box at-risk" (click)="setFilter(positions.atRisk)">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-top-1 padding-right-1">Em risco</span>
+            <span class="text text--caption text--primary padding-right-1 padding-bottom-1">{{ calculate(positions.atRisk) }}</span>
+        </div>
+        <div class="box loyal" (click)="setFilter(positions.loyal)">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-top-1 padding-right-1">Fidelizados</span>
+            <span class="text text--caption text--primary padding-right-1 padding-bottom-1">{{ calculate(positions.loyal) }}</span>
+        </div>
+        <div class="box radius-top-right champion" (click)="setFilter(positions.champion)">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-top-1 padding-right-1">Campeões</span>
+            <span class="text text--caption text--primary padding-right-1 padding-bottom-1">{{ calculate(positions.champion) }}</span>
+        </div>
+        <div class="box need-attention" (click)="setFilter(positions.needAttention)">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-top-1 padding-right-1">Precisa de atenção</span>
+            <span class="text text--caption text--primary padding-right-1 padding-bottom-1">{{ calculate(positions.needAttention) }}</span>
+        </div>
+        <div class="box possible-loyal" (click)="setFilter(positions.possibleLoyal)">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-top-1 padding-right-1">Possíveis leais</span>
+            <span class="text text--caption text--primary padding-right-1 padding-bottom-1">{{ calculate(positions.possibleLoyal) }}</span>
+        </div>
+        <div class="box radius-bottom-left sleeping" (click)="setFilter(positions.sleeping)">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primar padding-top-1 padding-right-1">Hibernando</span>
+            <span class="text text--caption text--primary padding-right-1 padding-bottom-1">{{ calculate(positions.sleeping) }}</span>
+        </div>
+        <div class="box almost-sleeping" (click)="setFilter(positions.almostSleeping)">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-top-1 padding-right-1">Quase hibernando</span>
+            <span class="text text--caption text--primary padding-right-1 padding-bottom-1">{{ calculate(positions.almostSleeping) }}</span>
+        </div>
+        <div class="box promising" (click)="setFilter(positions.promising)">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-top-1 padding-right-1">Promissores</span>
+            <span class="text text--caption text--primary padding-right-1 padding-bottom-1">{{ calculate(positions.promising) }}</span>
+        </div>
+        <div class="box radius-bottom-right new" (click)="setFilter(positions.new)">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-top-1 padding-right-1">Novos</span>
+            <span class="text text--caption text--primary padding-right-1 padding-bottom-1">{{ calculate(positions.new) }}</span>
+        </div>
+    </div>
+    <div class="content-box">
+        <h5 class="text--primary text--bold margin-bottom-3">Listagem de clientes</h5>
+        <div class="table">
+            <table *ngIf="!isLoading">
+                <thead>
+                    <th><span class="text text--primary text--bold">Nome</span></th>
+                    <th class="desktop"><span class="text text--primary text--bold">E-mail</span></th>
+                    <th><span class="text text--primary text--bold">Telefone</span></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let customer of customers" [ngClass]="{ hidden: customer.hidden }">
+                        <td>
+                            <span class="text">{{ customer.name }}</span>
+                        </td>
+                        <td class="desktop">
+                            <span class="text">{{ customer.email }}</span>
+                        </td>
+                        <td>
+                            <span class="text">{{ customer.phoneMasked }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>
