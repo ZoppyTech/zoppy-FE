@@ -6,7 +6,14 @@
                 <span class="text text--small">{{ legend.value }}</span>
             </div>
         </div>
-        <canvas id="sales-by-gender"></canvas>
+        <canvas
+            baseChart
+            [datasets]="doughnutChartData"
+            [labels]="doughnutChartLabels"
+            [options]="doughnutChartOptions"
+            [legend]="doughnutChartLegend"
+            type="doughnut"
+        ></canvas>
     </div>
     <img [src]="logo" alt="" *ngIf="isLoading" />
 </div>

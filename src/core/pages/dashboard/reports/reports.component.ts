@@ -11,7 +11,7 @@ import { Storage } from 'src/shared/utils/storage';
     styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
-    public view: View = 2;
+    public view: View = 1;
     public items: Array<Item> = [
         {
             label: 'Dashboard inicial',

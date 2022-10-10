@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
-import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
 import { ReportsGenderDistributionResponse } from 'src/shared/models/responses/reports/reports.gender.distribution.response';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -16,12 +15,15 @@ export class SalesByGenderComponent implements AfterViewInit {
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public doughnutChartOptions: any = {
         responsive: true,
-        indexAxis: 'y',
         plugins: {
             legend: {
                 display: false
+            },
+            tooltip: {
+                enabled: true
             }
-        }
+        },
+        backgroundColor: ['#D0F0FD', '#E3D6FD', '#CAD3E1']
     };
     public doughnutChartLabels: string[] = [];
     public doughnutChartLegend: boolean = false;
@@ -51,28 +53,8 @@ export class SalesByGenderComponent implements AfterViewInit {
     }
 
     public configureGender(): void {
-        this.chart = new Chart('sales-by-gender', {
-            type: 'doughnut',
-            data: {
-                labels: ['Masculino', 'Feminino', 'Não registrado'],
-                datasets: [
-                    {
-                        data: [this.data?.male, this.data?.female, this.data?.notRegisted],
-                        backgroundColor: ['#D0F0FD', '#E3D6FD', '#CAD3E1']
-                    }
-                ]
-            },
-            options: {
-                plugins: {
-                    legend: {
-                        display: false
-                    },
-                    tooltip: {
-                        enabled: true
-                    }
-                }
-            }
-        });
+        this.doughnutChartData[0].data = [this.data?.male, this.data?.female, this.data?.notRegisted];
+        this.doughnutChartLabels = ['Masculino', 'Feminino', 'Não registrado'];
     }
 
     public setLegend(): void {
