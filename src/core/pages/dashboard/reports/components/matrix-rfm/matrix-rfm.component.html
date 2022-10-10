@@ -1,1 +1,69 @@
-<p>matrix-rfm works!</p>
+<main>
+    <div class="matrix">
+        <div class="box radius-top-left cant-lose">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-1">Não pode perder</span>
+        </div>
+        <div class="box at-risk">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-1">Em risco</span>
+        </div>
+        <div class="box loyal">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-1">Fidelizados</span>
+        </div>
+        <div class="box radius-top-right champion">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-1">Campeões</span>
+        </div>
+        <div class="box need-attention">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-1">Precisa de atenção</span>
+        </div>
+        <div class="box possible-loyal">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-1">Possíveis leais</span>
+        </div>
+        <div class="box radius-bottom-left sleeping">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-1">Hibernando</span>
+        </div>
+        <div class="box almost-sleeping">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-1">Quase hibernando</span>
+        </div>
+        <div class="box promising">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-1">Promissores</span>
+        </div>
+        <div class="box radius-bottom-right new">
+            <div class="overlay"></div>
+            <span class="text text--caption text--primary padding-1">Novos</span>
+        </div>
+    </div>
+    <div class="content-box">
+        <h5 class="text--primary text--bold margin-bottom-3">Listagem de clientes</h5>
+        <div class="table">
+            <table *ngIf="!isLoading">
+                <thead>
+                    <th><span class="text text--primary text--bold">Nome</span></th>
+                    <th class="desktop"><span class="text text--primary text--bold">E-mail</span></th>
+                    <th><span class="text text--primary text--bold">Telefone</span></th>
+                </thead>
+                <tbody>
+                    <tr *ngFor="let customer of customers">
+                        <td>
+                            <span class="text">{{ customer.name }}</span>
+                        </td>
+                        <td class="desktop">
+                            <span class="text">{{ customer.email }}</span>
+                        </td>
+                        <td>
+                            <span class="text">{{ customer.phoneMasked }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</main>

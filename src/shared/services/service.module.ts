@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { BreadcrumbService } from './breadcrumb/breadcrumb.service';
+import { BroadcastService } from './broadcast/broadcast.service';
 import { DashboardService } from './dashboard/dashboard.service';
 import { ExternalTokenService } from './external-token/external-token.service';
 import { PublicService } from './public/public.service';
@@ -19,6 +20,7 @@ import { WhatsappMessageService } from './whatsapp-message/whatsapp-message.serv
 
 @NgModule({
     providers: [
+        BroadcastService,
         WebSocketService,
         PublicService,
         SideMenuService,

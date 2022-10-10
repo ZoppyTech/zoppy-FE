@@ -1,4 +1,13 @@
-<main>
+<ps-dropdown
+    class="margin-left-2 margin-top-2"
+    [enableSearch]="false"
+    [propertyValue]="'value'"
+    [(value)]="view"
+    [propertyLabel]="'label'"
+    [items]="items"
+></ps-dropdown>
+
+<main *ngIf="view === 1">
     <div class="card">
         <span class="text text--bold text--primary margin-bottom-2">Compras por estado</span>
         <app-sales-by-state class="card--default"></app-sales-by-state>
@@ -25,8 +34,8 @@
             </div>
         </div>
     </div>
+</main>
 
-    <!-- <div class="customers">
-        <app-contact-list></app-contact-list>
-    </div> -->
+<main *ngIf="view === 2">
+    <app-matrix-rfm></app-matrix-rfm>
 </main>
