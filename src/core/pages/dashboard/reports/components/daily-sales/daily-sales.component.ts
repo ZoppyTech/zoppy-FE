@@ -48,7 +48,7 @@ export class DailySalesComponent implements OnInit {
     public chartData: any[] = [
         {
             type: 'line',
-            label: 'Line Dataset',
+            label: 'Ticket médio',
             yAxisID: 'y',
             data: [],
             borderColor: '#002E73',
@@ -57,7 +57,7 @@ export class DailySalesComponent implements OnInit {
         },
         {
             type: 'bar',
-            label: 'Bar Dataset',
+            label: 'Número de vendas',
             yAxisID: 'y1',
             data: [],
             backgroundColor: ['#CAD3E1']

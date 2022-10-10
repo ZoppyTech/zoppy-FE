@@ -34,7 +34,7 @@ export class MonthlyInvoicesComponent implements OnInit {
     public chartData: any[] = [
         {
             type: 'line',
-            label: 'Line Dataset',
+            label: 'Receita direta com a Zoppy',
             data: [],
             borderColor: '#7b3dff',
             pointBackgroundColor: '#7b3dff',
@@ -42,7 +42,7 @@ export class MonthlyInvoicesComponent implements OnInit {
         },
         {
             type: 'bar',
-            label: 'Bar Dataset',
+            label: 'Faturamento mensal',
             data: [],
             backgroundColor: ['#E3D6FD']
         }
