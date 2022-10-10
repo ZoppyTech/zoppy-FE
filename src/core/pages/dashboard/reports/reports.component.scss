@@ -36,6 +36,10 @@ main {
         }
     }
 
+    .state {
+        width: 380px;
+    }
+
     .card--long {
         width: 1200px;
         max-width: calc(100% - 2rem);
