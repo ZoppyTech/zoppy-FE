@@ -17,4 +17,5 @@ export type Position =
     | 'sleeping'
     | 'almost-sleeping'
     | 'promising'
-    | 'new';
+    | 'new'
+    | 'all';

@@ -50,6 +50,7 @@ main {
             display: flex;
             justify-content: flex-end;
             position: relative;
+            flex-direction: column;
 
             span {
                 text-align: end;
