@@ -52,6 +52,12 @@ export class SideMenuComponent implements OnInit {
                 ]
             },
             {
+                id: `whatsapp`,
+                icon: 'icon-wpp',
+                label: 'Whatsapp',
+                route: '/dashboard/whatsapp'
+            },
+            {
                 id: `configurations`,
                 icon: 'icon-tune',
                 label: 'Configurações',
@@ -82,12 +88,6 @@ export class SideMenuComponent implements OnInit {
                         route: '/dashboard/configurations/giftback'
                     }
                 ]
-            },
-            {
-                id: `whatsapp`,
-                icon: 'icon-wpp',
-                label: 'Whatsapp',
-                route: '/dashboard/whatsapp'
             }
         ];
     }
