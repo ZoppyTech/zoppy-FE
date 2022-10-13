@@ -14,7 +14,7 @@ export class AuthInterceptor implements HttpInterceptor {
             tap(
                 () => {},
                 (err: any) => {
-                    //if (err instanceof HttpErrorResponse && err.status === 401) this.publicService.logout();
+                    if (err instanceof HttpErrorResponse && err.status === 401) this.publicService.logout();
                     return;
                 }
             )
