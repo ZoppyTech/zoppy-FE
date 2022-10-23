@@ -20,7 +20,7 @@ export class MonthlyInvoiceResponse {
 }
 
 export class MonthInvoice {
-    public invoice?: number = 0;
+    public invoice: number = 0;
     public zoppyInvoice?: number = 0;
     public invoiceCurrency?: string = '';
     public zoppyInvoiceCurrency?: string = '';

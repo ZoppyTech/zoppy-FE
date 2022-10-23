@@ -1,23 +1,27 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
+import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
 import { MonthInvoice, MonthlyInvoiceResponse } from 'src/shared/models/responses/reports/monthly-invoice.response';
 import { ZoppyException } from 'src/shared/services/api.service';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
-import { DateUtil } from 'src/shared/utils/date.util';
 
 @Component({
     selector: 'app-monthly-invoices',
     templateUrl: './monthly-invoices.component.html',
     styleUrls: ['./monthly-invoices.component.scss']
 })
-export class MonthlyInvoicesComponent implements OnInit {
+export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
     public constructor(private readonly reportService: ReportService, private readonly toast: ToastService) {}
 
     public data: MonthlyInvoiceResponse = new MonthlyInvoiceResponse();
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public legends: Legend[] = [];
+    @Input() public reportRequest: GetReportRequest = {
+        period: 30 as ReportPeriod
+    };
 
     public chartOptions: any = {
         scaleShowVerticalLines: false,
@@ -48,10 +52,20 @@ export class MonthlyInvoicesComponent implements OnInit {
         }
     ];
 
+    public ngOnDestroy(): void {
+        BroadcastService.dispose(this);
+    }
+
     public async ngOnInit() {
+        await this.initializeData();
+        this.setEvents();
+    }
+
+    public async initializeData(): Promise<void> {
+        this.isLoading = true;
         await this.fetchData();
-        this.isLoading = false;
         this.setLegends();
+        this.isLoading = false;
     }
 
     public setLegends(): void {
@@ -69,11 +83,13 @@ export class MonthlyInvoicesComponent implements OnInit {
 
     public async fetchData(): Promise<void> {
         try {
-            this.data = await this.reportService.getMonthlyInvoices();
+            this.data = await this.reportService.getMonthlyInvoices(this.reportRequest);
             this.data.invoices.forEach((invoice: MonthInvoice) => {
-                this.chartLabels.push(invoice.name);
-                this.chartData[1].data.push(invoice.invoice);
-                this.chartData[0].data.push(invoice.zoppyInvoice as number);
+                if (invoice.invoice > 0) {
+                    this.chartLabels.push(invoice.name);
+                    this.chartData[1].data.push(invoice.invoice);
+                    this.chartData[0].data.push(invoice.zoppyInvoice as number);
+                }
             });
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -81,6 +97,13 @@ export class MonthlyInvoicesComponent implements OnInit {
         } finally {
             this.isLoading = false;
         }
+    }
+
+    public setEvents(): void {
+        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
+            this.reportRequest.period = period;
+            await this.initializeData();
+        });
     }
 }
 

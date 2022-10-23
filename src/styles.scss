@@ -90,6 +90,11 @@ th {
     justify-content: flex-end;
 }
 
+.space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
 .text--center {
     text-align: center;
 }
@@ -149,4 +154,17 @@ $box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
 ::-webkit-scrollbar-thumb {
     border-radius: 5px;
     background: var(--neutral-400);
+}
+
+.menu-content {
+    position: relative;
+
+    ul {
+        margin-top: 1rem;
+        box-shadow: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
+        border-radius: 12px;
+        background-color: var(--neutral-100);
+        position: absolute;
+        z-index: 3;
+    }
 }
