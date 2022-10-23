@@ -29,6 +29,7 @@
                         "assets": [
                             "src/favicon.ico",
                             "src/assets",
+                            "src/assets/svg/*",
                             {
                                 "glob": "*",
                                 "input": "node_modules/@lucarroliveira",

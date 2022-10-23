@@ -1,9 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
+import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
 import { Position } from 'src/shared/models/responses/reports/matrix-rfm.response';
 import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer..response';
 import { ZoppyException } from 'src/shared/services/api.service';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
 import { FormatUtils } from 'src/shared/utils/format.util';
 
@@ -12,21 +14,35 @@ import { FormatUtils } from 'src/shared/utils/format.util';
     templateUrl: './matrix-rfm.component.html',
     styleUrls: ['./matrix-rfm.component.scss']
 })
-export class MatrixRfmComponent implements OnInit {
+export class MatrixRfmComponent implements OnInit, OnDestroy {
     public customers: Array<ReportCustomerResponseDto> = [];
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public positions: CustomerPositions = new CustomerPositions();
+    @Input() public reportRequest: GetReportRequest = {
+        period: 30 as ReportPeriod
+    };
 
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
+    public ngOnDestroy(): void {
+        BroadcastService.dispose(this);
+    }
+
     public async ngOnInit(): Promise<void> {
+        await this.initializeData();
+        this.setEvents();
+    }
+
+    public async initializeData(): Promise<void> {
+        this.isLoading = true;
         await this.fetchData();
+        this.isLoading = false;
     }
 
     public async fetchData(): Promise<void> {
         try {
-            this.customers = (await this.reportsService.getCustomers()) as ReportCustomerResponseDto[];
+            this.customers = (await this.reportsService.getCustomers(this.reportRequest)) as ReportCustomerResponseDto[];
             this.setPositions();
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -82,6 +98,13 @@ export class MatrixRfmComponent implements OnInit {
     public setFilter(position: CustomerPosition) {
         this.customers.forEach((customer: ReportCustomerResponseDto) => {
             customer.hidden = customer.matrixRFM?.position !== position.position;
+        });
+    }
+
+    public setEvents(): void {
+        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
+            this.reportRequest.period = period;
+            await this.initializeData();
         });
     }
 }

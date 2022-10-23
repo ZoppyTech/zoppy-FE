@@ -10,6 +10,7 @@ import { ReportOverviewCardResponse } from 'src/shared/models/responses/reports/
 import { MonthlyInvoiceResponse } from 'src/shared/models/responses/reports/monthly-invoice.response';
 import { ReportSaleByStateResponse } from 'src/shared/models/responses/reports/report-sale-by-state.response';
 import { DailySalesResponse } from 'src/shared/models/responses/reports/daily-sales.response';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 
 @Injectable({
     providedIn: 'root'
@@ -25,9 +26,9 @@ export class ReportService extends ApiService {
         super(http, router, storage);
     }
 
-    public async getCustomers(): Promise<Array<ReportCustomerResponse>> {
+    public async getCustomers(request: GetReportRequest): Promise<Array<ReportCustomerResponse>> {
         const promise: Promise<Array<ReportCustomerResponse>> = new Promise((resolve: any, reject: any) => {
-            this.get<Array<ReportCustomerResponse>>(`${this.url}/customers`).subscribe(
+            this.get<Array<ReportCustomerResponse>>(`${this.url}/customers/${request.period}`).subscribe(
                 (response: Array<ReportCustomerResponse>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -35,9 +36,9 @@ export class ReportService extends ApiService {
         return promise;
     }
 
-    public async getGenderDistribuion(): Promise<ReportsGenderDistributionResponse> {
+    public async getGenderDistribuion(request: GetReportRequest): Promise<ReportsGenderDistributionResponse> {
         const promise: Promise<ReportsGenderDistributionResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<ReportsGenderDistributionResponse>(`${this.url}/gender-distribution`).subscribe(
+            this.get<ReportsGenderDistributionResponse>(`${this.url}/gender-distribution/${request.period}`).subscribe(
                 (response: ReportsGenderDistributionResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -45,9 +46,9 @@ export class ReportService extends ApiService {
         return promise;
     }
 
-    public async getSalesByState(): Promise<ReportSaleByStateResponse[]> {
+    public async getSalesByState(request: GetReportRequest): Promise<ReportSaleByStateResponse[]> {
         const promise: Promise<ReportSaleByStateResponse[]> = new Promise((resolve: any, reject: any) => {
-            this.get<ReportSaleByStateResponse[]>(`${this.url}/sales-by-state`).subscribe(
+            this.get<ReportSaleByStateResponse[]>(`${this.url}/sales-by-state/${request.period}`).subscribe(
                 (response: ReportSaleByStateResponse[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -55,9 +56,9 @@ export class ReportService extends ApiService {
         return promise;
     }
 
-    public async getOverviewCard(): Promise<ReportOverviewCardResponse> {
+    public async getOverviewCard(request: GetReportRequest): Promise<ReportOverviewCardResponse> {
         const promise: Promise<ReportOverviewCardResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<ReportOverviewCardResponse>(`${this.url}/overview-card`).subscribe(
+            this.get<ReportOverviewCardResponse>(`${this.url}/overview-card/${request.period}`).subscribe(
                 (response: ReportOverviewCardResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -65,9 +66,9 @@ export class ReportService extends ApiService {
         return promise;
     }
 
-    public async getMonthlyInvoices(): Promise<MonthlyInvoiceResponse> {
+    public async getMonthlyInvoices(request: GetReportRequest): Promise<MonthlyInvoiceResponse> {
         const promise: Promise<MonthlyInvoiceResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<MonthlyInvoiceResponse>(`${this.url}/monthly-invoices`).subscribe(
+            this.get<MonthlyInvoiceResponse>(`${this.url}/monthly-invoices/${request.period}`).subscribe(
                 (response: MonthlyInvoiceResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -75,9 +76,9 @@ export class ReportService extends ApiService {
         return promise;
     }
 
-    public async getDailySales(): Promise<DailySalesResponse> {
+    public async getDailySales(request: GetReportRequest): Promise<DailySalesResponse> {
         const promise: Promise<DailySalesResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<DailySalesResponse>(`${this.url}/daily-sales`).subscribe(
+            this.get<DailySalesResponse>(`${this.url}/daily-sales/${request.period}`).subscribe(
                 (response: DailySalesResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
