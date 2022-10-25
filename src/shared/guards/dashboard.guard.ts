@@ -1,7 +1,3 @@
-/*
-https://docs.nestjs.com/guards#guards
-*/
-
 import { Injectable } from '@angular/core';
 import { CanActivate } from '@angular/router';
 import { PublicService } from '../services/public/public.service';
