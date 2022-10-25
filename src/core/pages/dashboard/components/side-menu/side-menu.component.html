@@ -17,7 +17,12 @@
     <div class="separator"></div>
 
     <ul class="flex flex-column flex-grow padding-top-3">
-        <div *ngFor="let item of menuItems" (mouseenter)="item.subItemsOpened = true" (mouseleave)="item.subItemsOpened = false">
+        <div
+            *ngFor="let item of menuItems"
+            (mouseenter)="item.subItemsOpened = true"
+            (mouseleave)="item.subItemsOpened = false"
+            [ngClass]="{ hidden: !item.visible }"
+        >
             <li
                 [ngClass]="{
                     'justify-center': !sideMenuService.open,

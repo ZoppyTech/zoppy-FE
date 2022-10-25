@@ -42,6 +42,7 @@ export interface SideMenuItem {
     icon: string;
     label: string;
     route: string | null;
+    visible: boolean;
     subItems?: Array<SideMenuItem>;
     subItemsOpened?: boolean;
 }

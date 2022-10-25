@@ -5,4 +5,8 @@ export class AppConstants {
         Development: 'development',
         Production: 'production'
     };
+    public static Plan = {
+        premium: 'premium',
+        standard: 'standard'
+    };
 }
