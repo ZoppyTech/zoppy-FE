@@ -6,6 +6,7 @@ import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { SideMenuModule } from './components/side-menu/side-menu.module';
 import { TopBarModule } from './components/top-bar/top-bar.module';
 import { DashboardGuard } from 'src/shared/guards/dashboard.guard';
+import { PremiumGuard } from 'src/shared/guards/premium.guard';
 
 const routes: Routes = [
     {
@@ -40,6 +41,7 @@ const routes: Routes = [
             },
             {
                 path: 'whatsapp',
+                canActivate: [PremiumGuard],
                 loadChildren: () => import('./whatsapp/whatsapp.module').then((m: any) => m.WhatsappModule)
             }
         ]
@@ -50,6 +52,6 @@ const routes: Routes = [
     imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, SideMenuModule, TopBarModule],
     declarations: [DashboardComponent],
     exports: [DashboardComponent],
-    providers: [DashboardGuard]
+    providers: [DashboardGuard, PremiumGuard]
 })
 export class DashboardModule {}
