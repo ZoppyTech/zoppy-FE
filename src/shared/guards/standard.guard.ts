@@ -12,7 +12,7 @@ export class StandardGuard implements CanActivate {
     public canActivate(): boolean {
         const isStandard: boolean = CompanyUtil.isStandard(this.storage.getCompany() as CompanyEntity);
         if (!isStandard) {
-            this.router.navigate([Navigation.routes.dashboard]);
+            this.router.navigate([Navigation.routes.landing]);
         }
         return isStandard;
     }

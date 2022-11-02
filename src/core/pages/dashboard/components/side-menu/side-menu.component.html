@@ -63,7 +63,8 @@
                     [ngClass]="{
                         'justify-center': !sideMenuService.open,
                         'flex-start': sideMenuService.open,
-                        marker: sideMenuService.subSelected === subItem.id
+                        marker: sideMenuService.subSelected === subItem.id,
+                        hidden: !subItem.visible
                     }"
                 >
                     <a [attr.href]="subItem.route">

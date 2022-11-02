@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfigurationComponent } from './configuration.component';
 import { RouterModule, Routes } from '@angular/router';
+import { StandardGuard } from 'src/shared/guards/standard.guard';
 
 const routes: Routes = [
     {
@@ -31,6 +32,7 @@ const routes: Routes = [
             },
             {
                 path: 'letalk',
+                canActivate: [StandardGuard],
                 loadChildren: () => import('./letalk-config/letalk-config.module').then((m: any) => m.LetalkConfigModule)
             }
         ]
@@ -40,6 +42,7 @@ const routes: Routes = [
 @NgModule({
     imports: [CommonModule, RouterModule.forChild(routes)],
     declarations: [ConfigurationComponent],
-    exports: [ConfigurationComponent]
+    exports: [ConfigurationComponent],
+    providers: [StandardGuard]
 })
 export class ConfigurationModule {}

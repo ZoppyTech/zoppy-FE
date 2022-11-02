@@ -7,6 +7,7 @@ import { SideMenuModule } from './components/side-menu/side-menu.module';
 import { TopBarModule } from './components/top-bar/top-bar.module';
 import { DashboardGuard } from 'src/shared/guards/dashboard.guard';
 import { PremiumGuard } from 'src/shared/guards/premium.guard';
+import { StandardGuard } from 'src/shared/guards/standard.guard';
 
 const routes: Routes = [
     {
@@ -56,6 +57,6 @@ const routes: Routes = [
     imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, SideMenuModule, TopBarModule],
     declarations: [DashboardComponent],
     exports: [DashboardComponent],
-    providers: [DashboardGuard, PremiumGuard]
+    providers: [DashboardGuard, PremiumGuard, StandardGuard]
 })
 export class DashboardModule {}
