@@ -107,6 +107,13 @@ export class SideMenuComponent implements OnInit {
                         label: 'Configuração de Giftback',
                         route: '/dashboard/configurations/giftback',
                         visible: true
+                    },
+                    {
+                        id: `letalk`,
+                        icon: 'icon-arrow',
+                        label: 'Configuração da Letalk',
+                        route: '/dashboard/configurations/letalk',
+                        visible: CompanyUtil.isStandard(this.company)
                     }
                 ]
             },

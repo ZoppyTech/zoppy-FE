@@ -28,6 +28,10 @@ const routes: Routes = [
             {
                 path: 'giftback',
                 loadChildren: () => import('./giftback-config/giftback-config.module').then((m: any) => m.GiftbackConfigModule)
+            },
+            {
+                path: 'letalk',
+                loadChildren: () => import('./letalk-config/letalk-config.module').then((m: any) => m.LetalkConfigModule)
             }
         ]
     }

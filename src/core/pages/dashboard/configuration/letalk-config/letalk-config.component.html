@@ -1,0 +1,67 @@
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold margin-y-3">Letalk</h5>
+    </div>
+
+    <div class="title margin-top-3">
+        <h6 class="text text--bold margin-bottom-2">Preencha os dados para integração</h6>
+        <span class="text">Insira nos campos abaixo os dados solicitados para integrar com o Letalk.</span>
+    </div>
+
+    <div class="body">
+        <div class="field">
+            <p class="text text--bold">Aviso de giftback</p>
+            <div class="flex flex-column">
+                <ps-input
+                    placeholder="Digite aqui sua mensagem para o cliente. Exemplo: Olá! Aqui é da Zoppy, estou passando para te dar uma ótima notícia! Recebemos a confirmação do seu pedido em nosso site e liberamos um saldo em cashback no valor de R$30 reais para a sua próxima compra! Esse valor pode ser utilizado até 24/11/2022 e deve representar até 30% da sua compra. Obrigada pela preferência!"
+                    type="text"
+                    [(ngModel)]="config.sendGiftbackUrl"
+                    [rows]="3"
+                ></ps-input>
+                <span class="text--small text--500 padding-top-1"
+                    >Mensagem automática que será enviada para o seu cliente informando o cashback.</span
+                >
+            </div>
+        </div>
+        <div class="field">
+            <p class="text text--bold">
+                Lembrete de giftback
+                <span class="text text--secondary text--small">&nbsp;(Enviado na metade do prazo do giftback)</span>
+            </p>
+            <div class="flex flex-column">
+                <ps-input
+                    placeholder="Digite aqui o lembrete de giftback para o cliente. Exemplo: Olá! Aqui é da Zoppy, estou passando para lembrar que restam 21 dias para você usufruir do nosso cupom de cashback. Não vai perder essa, né?"
+                    type="text"
+                    [(ngModel)]="config.sendGiftbackReminderUrl"
+                    [rows]="3"
+                ></ps-input>
+                <span class="text--small text--500 padding-top-1">
+                    Mensagem automática que será enviada para o seu cliente informando que faltam 21 dias para o cashback expirar.
+                </span>
+            </div>
+        </div>
+        <div class="field">
+            <p class="text text--bold">
+                Lembrete de giftback
+                <span class="text text--secondary text--small">&nbsp;(Enviado 3 dias antes do vencimento do giftback)</span>
+            </p>
+            <div class="flex flex-column">
+                <ps-input
+                    placeholder="Digite aqui o lembrete de giftback para o cliente. Exemplo: Olá! Aqui é da Zoppy, estou passando para lembrar que restam apenas 3 dias para você usufruir do nosso cupom de cashback. Não vai perder essa, né?"
+                    type="text"
+                    [(ngModel)]="config.sendGiftbackCloseReminderUrl"
+                    [rows]="3"
+                ></ps-input>
+                <span class="text--small text--500 padding-top-1">
+                    Mensagem automática que será enviada para o seu cliente informando que faltam 3 dias para o cashback expirar.
+                </span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary" [disabled]="getSaveDisabled()">
+            <span class="text--100 text--bold">Salvar</span>
+        </ps-button>
+    </div>
+</div>

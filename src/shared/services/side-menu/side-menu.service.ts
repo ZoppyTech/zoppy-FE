@@ -30,6 +30,7 @@ export type SideMenu =
     | `whatsapp`
     | `access-keys`
     | `access-tokens`
+    | `letalk`
     | `sync-data`
     | `giftback`
     | `my-profile`
