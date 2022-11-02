@@ -6,6 +6,7 @@ import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { IconModule } from '@ZoppyTech/icon';
 import { ButtonModule } from '@ZoppyTech/button';
 import { InputModule } from '@ZoppyTech/input';
+import { CheckboxModule } from '@ZoppyTech/checkbox';
 
 const routes: Routes = [
     {
@@ -15,7 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, IconModule, ButtonModule, InputModule],
+    imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, IconModule, ButtonModule, InputModule, CheckboxModule],
     declarations: [AccessKeysComponent],
     exports: [AccessKeysComponent]
 })

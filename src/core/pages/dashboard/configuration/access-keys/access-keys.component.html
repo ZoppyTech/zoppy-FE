@@ -47,6 +47,12 @@
                 <ps-icon (click)="copyToClipboard('url')" icon="icon-copy" class="text--primary clickable"></ps-icon>
             </div>
         </div>
+
+        <div class="field">
+            <ps-checkbox [(active)]="sendWebhook">
+                <span class="text">Configurar webhooks</span>
+            </ps-checkbox>
+        </div>
     </div>
 
     <div class="footer">

@@ -40,6 +40,10 @@ const routes: Routes = [
                 loadChildren: () => import('./my-profile/my-profile.module').then((m: any) => m.MyProfileModule)
             },
             {
+                path: 'customers',
+                loadChildren: () => import('./customer/customer.module').then((m: any) => m.CustomerModule)
+            },
+            {
                 path: 'whatsapp',
                 canActivate: [PremiumGuard],
                 loadChildren: () => import('./whatsapp/whatsapp.module').then((m: any) => m.WhatsappModule)
