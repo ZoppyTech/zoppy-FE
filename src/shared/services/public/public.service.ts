@@ -1,4 +1,4 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
@@ -28,6 +28,14 @@ export class PublicService extends ApiService {
         public confirmActionService: ConfirmActionService
     ) {
         super(http, router, storage);
+    }
+
+    public downloadPublicFile(path: string, fileName: string, type: string): any {
+        const params: HttpParams = new HttpParams().append('path', path).append('fileName', fileName).append('type', type);
+        return this.http.get(`${this.url}/download`, {
+            params,
+            responseType: 'text'
+        });
     }
 
     public async login(request: LoginRequest): Promise<LoginResponse> {

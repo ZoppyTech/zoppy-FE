@@ -1,4 +1,4 @@
-export class WcOrderEntityEntity {
+export class WcOrderEntity {
     public declare id: string;
     public declare wcId: number;
     public declare wcCustomerId: number;

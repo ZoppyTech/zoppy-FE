@@ -31,10 +31,11 @@ export class CrmProductService extends ApiService {
     }
 
     public async upload(file: any): Promise<BooleanResponse> {
-        const params: HttpParams = new HttpParams();
+        const params: any = new FormData();
         params.append('file', file);
+
         const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
-            this.post<BooleanResponse, HttpParams>(`${this.url}`, params).subscribe(
+            this.post<BooleanResponse, HttpParams>(`${this.url}/import`, params).subscribe(
                 (response: BooleanResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
