@@ -36,7 +36,9 @@ export type SideMenu =
     | `my-profile`
     | 'my-company-config'
     | 'my-company-users'
-    | 'customers'
+    | 'membership'
+    | 'register-sale'
+    | 'products'
     | 'none';
 
 export interface SideMenuItem {

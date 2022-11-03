@@ -1,0 +1,26 @@
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold margin-y-3">Tokens de Acesso</h5>
+    </div>
+    <div class="title">
+        <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
+            <h6 class="text text--bold">Cadastre seus produtos &nbsp;</h6>
+            <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+        </div>
+        <span class="text"
+            >Para cadastrar seus produtos baixe a planilha abaixo em seu computador, preencha com as respectivas informações e depois faça o
+            envio da planilha nesta página.
+        </span>
+    </div>
+
+    <div class="body"></div>
+
+    <div class="footer">
+        <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary">
+            <span class="text--100 text--bold">Baixar planilha</span>
+        </ps-button>
+        <ps-button [wide]="true" (onClick)="save()" type="secondary-border">
+            <span class="text--secondary text--bold">Enviar planilha</span>
+        </ps-button>
+    </div>
+</div>

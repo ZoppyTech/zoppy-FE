@@ -74,6 +74,27 @@ export class SideMenuComponent implements OnInit {
                 visible: CompanyUtil.isPremium(this.company)
             },
             {
+                id: `membership`,
+                icon: 'icon-group_add',
+                label: 'Área de membros',
+                route: '/dashboard/membership',
+                visible: true
+            },
+            {
+                id: `register-sale`,
+                icon: 'icon-group_add',
+                label: 'Lançamento de venda',
+                route: '/dashboard/sales',
+                visible: true
+            },
+            {
+                id: `products`,
+                icon: 'icon-group_add',
+                label: 'Cadastro de produtos',
+                route: '/dashboard/products',
+                visible: true
+            },
+            {
                 id: `configurations`,
                 icon: 'icon-tune',
                 label: 'Configurações',
@@ -116,13 +137,6 @@ export class SideMenuComponent implements OnInit {
                         visible: CompanyUtil.isStandard(this.company)
                     }
                 ]
-            },
-            {
-                id: `customers`,
-                icon: 'icon-group_add',
-                label: 'Cadastro de clientes',
-                route: '/dashboard/customers',
-                visible: true
             }
         ];
     }

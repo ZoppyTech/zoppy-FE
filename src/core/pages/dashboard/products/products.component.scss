@@ -3,42 +3,42 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin: 2rem;
+    margin: 32px;
     margin-top: 0px;
     background-color: var(--neutral-100);
     border: 1px solid var(--neutral-300);
     box-shadow: $box-shadow-1;
     border-radius: 12px;
-    margin-bottom: 2rem;
+    margin-bottom: 32px;
 
     .header {
         border-bottom: 1px solid var(--neutral-300);
-        padding: 0 2rem;
+        padding: 0 32px;
     }
 
     .title {
-        padding: 0 2rem;
-        margin-bottom: 1rem;
-        padding-bottom: 1rem;
+        padding: 0 32px;
+        margin-bottom: 16px;
+        padding-bottom: 16px;
     }
 
     .body {
-        margin: 0 2rem;
-        padding: 2rem;
+        margin: 0 32px;
+        padding: 32px;
         border: 1px solid var(--neutral-300);
-        padding-bottom: 2rem;
+        padding-bottom: 32px;
         background-color: #fafbff;
         border-radius: 12px;
 
         .field {
-            padding-bottom: 1rem;
+            padding-bottom: 16px;
 
             span {
-                line-height: 2rem;
+                line-height: 32px;
             }
 
             ps-icon {
-                padding-left: 1rem;
+                padding-left: 16px;
             }
         }
     }
@@ -47,7 +47,7 @@
         width: 100%;
         display: flex;
         align-items: center;
-        padding: 2rem;
+        padding: 32px;
 
         ps-button {
             width: 180px;

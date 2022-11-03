@@ -41,8 +41,16 @@ const routes: Routes = [
                 loadChildren: () => import('./my-profile/my-profile.module').then((m: any) => m.MyProfileModule)
             },
             {
-                path: 'customers',
-                loadChildren: () => import('./customer/customer.module').then((m: any) => m.CustomerModule)
+                path: 'membership',
+                loadChildren: () => import('./membership/membership.module').then((m: any) => m.MembershipModule)
+            },
+            {
+                path: 'sales',
+                loadChildren: () => import('./register-sales/register-sales.module').then((m: any) => m.RegisterSalesModule)
+            },
+            {
+                path: 'products',
+                loadChildren: () => import('./products/products.module').then((m: any) => m.ProductsModule)
             },
             {
                 path: 'whatsapp',
