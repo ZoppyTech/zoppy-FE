@@ -20,6 +20,16 @@ export class CrmAddressService extends ApiService {
         super(http, router, storage);
     }
 
+    public async findByPhone(phone: string): Promise<CrmAddressResponse> {
+        const promise: Promise<CrmAddressResponse> = new Promise((resolve: any, reject: any) => {
+            this.get<CrmAddressResponse>(`${this.url}/${phone}`).subscribe(
+                (response: CrmAddressResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async findAll(): Promise<CrmAddressResponse[]> {
         const promise: Promise<CrmAddressResponse[]> = new Promise((resolve: any, reject: any) => {
             this.get<CrmAddressResponse[]>(`${this.url}`).subscribe(

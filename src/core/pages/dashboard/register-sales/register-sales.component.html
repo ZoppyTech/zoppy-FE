@@ -1,1 +1,92 @@
-<p>register-sales works!</p>
+<div class="container" *ngIf="state === 1">
+    <div class="header">
+        <h5 class="text--primary text--bold margin-y-3">Tokens de Acesso</h5>
+    </div>
+    <div class="title">
+        <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
+            <h6 class="text text--bold">Selecionar um cliente</h6>
+            &nbsp;
+            <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+        </div>
+        <span class="text">
+            Para realizar o lançamento de venda forneça os dados do seu cliente preenchendo os campos abaixo e após clique em prosseguir.
+        </span>
+    </div>
+
+    <div class="body" *ngIf="!loadingAddress">
+        <div class="field">
+            <p class="text text--bold">Telefone do seu cliente</p>
+            <ps-input
+                mask="(00) 00000-0000"
+                [debounce]="800"
+                (ngModelChange)="fetchCustomer($event)"
+                placeholder="Digite aqui seu telefone com DDD"
+                [(ngModel)]="customer.phone"
+            ></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Sexo do seu cliente</p>
+            <ps-dropdown
+                class="wide"
+                [wide]="true"
+                [enableSearch]="false"
+                [propertyValue]="'value'"
+                [(value)]="customer.gender"
+                [disabled]="!customer.phone"
+                [propertyLabel]="'label'"
+                [items]="genders"
+                noDataText="Selecionar"
+            ></ps-dropdown>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Primeiro Nome</p>
+            <ps-input [disabled]="!customer.phone" placeholder="Digite aqui seu nome" [(ngModel)]="customer.firstName"></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">CEP do cliente</p>
+            <ps-input
+                [disabled]="!customer.phone"
+                mask="00.000-000"
+                [debounce]="800"
+                placeholder="Digite aqui seu CEP"
+                [(ngModel)]="customer.postcode"
+                (ngModelChange)="fetchZipcode($event)"
+            ></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Sobrenome</p>
+            <ps-input [disabled]="!customer.phone" placeholder="Digite aqui seu sobrenome" [(ngModel)]="customer.lastName"></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Cidade e UF do seu cliente</p>
+            <ps-input
+                [disabled]="!customer.phone || !customer.postcode"
+                placeholder="Digite aqui seu CEP"
+                [(ngModel)]="customer.state"
+            ></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">E-mail do cliente</p>
+            <ps-input [disabled]="!customer.phone" placeholder="Digite seu email" type="email" [(ngModel)]="customer.email"></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Data de nascimento do seu cliente</p>
+            <ps-datepicker [displayTop]="true" type="input" [(model)]="customer.birthDate" placeholder="DD/MM/AAAA"></ps-datepicker>
+        </div>
+    </div>
+
+    <div class="loading flex-center" *ngIf="loadingAddress">
+        <img [src]="logo" alt="" class="loading-logo" />
+    </div>
+    <div class="buttons padding-3 flex-end flex">
+        <ps-button
+            [wide]="true"
+            [loading]="loading"
+            (onClick)="changeState(2)"
+            type="secondary"
+            [disabled]="!customer.phone || !customer.firstName || !customer.email"
+        >
+            <span class="text--100 text--bold">Prosseguir</span>
+        </ps-button>
+    </div>
+</div>
