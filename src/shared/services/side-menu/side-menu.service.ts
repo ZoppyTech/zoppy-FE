@@ -39,6 +39,7 @@ export type SideMenu =
     | 'membership'
     | 'register-sale'
     | 'products'
+    | 'customers'
     | 'none';
 
 export interface SideMenuItem {

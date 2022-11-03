@@ -2,15 +2,14 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { CrmAddressResponse } from 'src/shared/models/responses/crm/crm-address.response';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
 
 @Injectable({
     providedIn: 'root'
 })
-export class CrmAddressService extends ApiService {
-    public override url: string = `${environment.apiUrl}/api/crm-addresses`;
+export class CrmCustomerService extends ApiService {
+    public override url: string = `${environment.apiUrl}/api/crm-customers`;
 
     public constructor(
         public override readonly http: HttpClient,
@@ -18,16 +17,6 @@ export class CrmAddressService extends ApiService {
         public override readonly storage: Storage
     ) {
         super(http, router, storage);
-    }
-
-    public async findAll(): Promise<CrmAddressResponse[]> {
-        const promise: Promise<CrmAddressResponse[]> = new Promise((resolve: any, reject: any) => {
-            this.get<CrmAddressResponse[]>(`${this.url}`).subscribe(
-                (response: CrmAddressResponse[]) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
     }
 
     public async upload(file: any): Promise<BooleanResponse> {

@@ -53,6 +53,10 @@ const routes: Routes = [
                 loadChildren: () => import('./products/products.module').then((m: any) => m.ProductsModule)
             },
             {
+                path: 'customers',
+                loadChildren: () => import('./customers/customers.module').then((m: any) => m.CustomersModule)
+            },
+            {
                 path: 'whatsapp',
                 canActivate: [PremiumGuard],
                 loadChildren: () => import('./whatsapp/whatsapp.module').then((m: any) => m.WhatsappModule)

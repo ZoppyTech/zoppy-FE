@@ -95,6 +95,13 @@ export class SideMenuComponent implements OnInit {
                 visible: true
             },
             {
+                id: `customers`,
+                icon: 'icon-group_add',
+                label: 'Cadastro de clientes',
+                route: '/dashboard/customers',
+                visible: true
+            },
+            {
                 id: `configurations`,
                 icon: 'icon-tune',
                 label: 'Configurações',
