@@ -4,6 +4,7 @@ export class WcProductEntity {
     public declare wcId: number;
     public declare type: string;
     public declare status: string;
+    public declare quantity: number;
     public declare price: number;
     public declare categories: any[];
     public declare createdAt: Date;

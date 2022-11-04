@@ -7,6 +7,7 @@ import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
 import { WcCustomerEntity } from 'src/shared/models/entities/wc-customer.entity';
 import { CrmAddressRequest } from 'src/shared/models/requests/crm/crm-address.request';
 import { CrmOrderRequest } from 'src/shared/models/requests/crm/crm-order.request';
+import { CrmLineItemResponse } from 'src/shared/models/responses/crm/crm-line-item.response';
 import { CrmProductResponse } from 'src/shared/models/responses/crm/crm-product.response';
 import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -40,6 +41,8 @@ export class RegisterSalesComponent implements OnInit {
     public useExistingCoupon: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public products: CrmProductResponse[] = [];
+    public productsSelected: CrmProductResponse[] = [];
+    public lineItems: CrmProductResponse[] = [];
     public genders: Item[] = [
         {
             label: 'Masculino',
@@ -178,6 +181,19 @@ export class RegisterSalesComponent implements OnInit {
                 route: undefined
             }
         ];
+    }
+
+    public selectPRoduct(values: Array<string>) {
+        setTimeout(() => {
+            this.lineItems = [];
+            values.forEach((id: string) => {
+                const product: CrmProductResponse | undefined = this.products.find((product: CrmProductResponse) => product.id === id);
+                if (product) {
+                    product.quantity = 1;
+                    this.lineItems.push(product);
+                }
+            });
+        });
     }
 }
 

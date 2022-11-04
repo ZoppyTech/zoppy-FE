@@ -89,11 +89,34 @@
     }
 
     .body-2 {
-        flex-direction: column;
+        flex-direction: row;
         justify-content: flex-start;
         align-items: flex-start;
         padding: 1rem;
         flex-wrap: unset;
+
+        ul {
+            border-radius: 0.75rem;
+            &:hover {
+                background-color: var(--neutral-100);
+            }
+            li {
+                &:hover {
+                    background-color: unset;
+                }
+                display: flex;
+                p {
+                    flex-grow: 1;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 50%;
+                }
+                ps-input {
+                    width: 50%;
+                }
+            }
+        }
     }
 
     .loading {

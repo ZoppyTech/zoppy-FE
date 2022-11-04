@@ -11,6 +11,7 @@ import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { DatepickerModule } from '@ZoppyTech/datepicker';
 import { RadioButtonModule } from '@ZoppyTech/radio-button';
 import { CheckboxModule } from '@ZoppyTech/checkbox';
+import { MultiSelectModule } from '@ZoppyTech/multi-select';
 
 const routes: Routes = [
     {
@@ -31,6 +32,7 @@ const routes: Routes = [
         SwitchModule,
         InputModule,
         DatepickerModule,
+        MultiSelectModule,
         RadioButtonModule
     ],
     declarations: [RegisterSalesComponent],

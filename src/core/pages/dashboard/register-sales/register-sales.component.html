@@ -134,10 +134,35 @@
                     noDataText="Selecionar"
                 ></ps-dropdown>
             </div>
+        </div>
 
+        <div>
             <div class="field-2">
-                <p class="text text--bold">`Operação</p>
+                <p class="text text--bold">Produtos</p>
+                <ps-multi-select
+                    [disabled]="false"
+                    propertyLabel="name"
+                    [selectAll]="false"
+                    propertyValue="id"
+                    [items]="products"
+                    [values]="productsSelected"
+                    (valuesChange)="selectPRoduct($event)"
+                ></ps-multi-select>
             </div>
+
+            <ul class="padding-2 margin-2">
+                <li class="header padding-2">
+                    <p class="text text--bold">Nome</p>
+                    <p class="text text--bold">Quantidade</p>
+                </li>
+                <li *ngFor="let lineItem of lineItems">
+                    <p class="text">{{ lineItem.name }}</p>
+                    <ps-input type="number" [(ngModel)]="lineItem.quantity"></ps-input>
+                </li>
+                <li *ngIf="!lineItems || lineItems.length === 0" class="flex-center padding-3">
+                    <p class="text--600">Lista vazia</p>
+                </li>
+            </ul>
         </div>
     </div>
 
