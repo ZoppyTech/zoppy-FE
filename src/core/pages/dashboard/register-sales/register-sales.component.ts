@@ -6,10 +6,13 @@ import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
 import { WcCustomerEntity } from 'src/shared/models/entities/wc-customer.entity';
 import { CrmAddressRequest } from 'src/shared/models/requests/crm/crm-address.request';
+import { CrmOrderRequest } from 'src/shared/models/requests/crm/crm-order.request';
+import { CrmProductResponse } from 'src/shared/models/responses/crm/crm-product.response';
 import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.service';
+import { CrmProductService } from 'src/shared/services/crm-product/crm-product.service';
 import { ExternalTokenService } from 'src/shared/services/external-token/external-token.service';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
@@ -22,11 +25,22 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class RegisterSalesComponent implements OnInit {
     public loading: boolean = false;
-    public state: State = 1;
-    public customer: CrmAddressRequest = {};
+    public state: State = 2;
+    public order: CrmOrderRequest = {
+        address: {},
+        coupon: {
+            amount: 0
+        },
+        lineItems: [],
+        total: 0
+    };
     public loadingAddress: boolean = false;
+    public couponType: string = '';
+    public couponAmount: number = 0;
+    public useExistingCoupon: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
-    public genders: Gender[] = [
+    public products: CrmProductResponse[] = [];
+    public genders: Item[] = [
         {
             label: 'Masculino',
             value: 'M'
@@ -41,6 +55,28 @@ export class RegisterSalesComponent implements OnInit {
         }
     ];
 
+    public couponTypes: Item[] = [
+        {
+            label: 'Porcentagem',
+            value: 'percent'
+        },
+        {
+            label: 'Reais',
+            value: 'value'
+        }
+    ];
+
+    public operations: Item[] = [
+        {
+            label: 'Showroom',
+            value: 'show-room'
+        },
+        {
+            label: 'E-commerce',
+            value: 'e-commerce'
+        }
+    ];
+
     public constructor(
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
@@ -48,6 +84,7 @@ export class RegisterSalesComponent implements OnInit {
         public confirmActionService: ConfirmActionService,
         public modal: ModalService,
         private readonly crmAddressService: CrmAddressService,
+        private readonly crmProductService: CrmProductService,
         private readonly publicService: PublicService,
         private readonly toast: ToastService
     ) {}
@@ -60,18 +97,32 @@ export class RegisterSalesComponent implements OnInit {
         });
     }
 
-    public ngOnInit() {
+    public async ngOnInit() {
         this.sideMenuService.change('register-sale');
         this.setBreadcrumb();
+        await this.fetchProducts();
     }
 
     public changeState(state: State): void {
         this.state = state;
     }
 
+    public async fetchProducts(): Promise<void> {
+        try {
+            this.loadingAddress = true;
+            const products: CrmProductResponse[] = await this.crmProductService.findAll();
+            this.products = products;
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Não foi possível obter o telefone');
+        } finally {
+            this.loadingAddress = false;
+        }
+    }
+
     public async fetchCustomer(phone: string) {
         if (phone.length !== 11) {
-            this.customer.phone = '';
+            this.order.address.phone = '';
             this.toast.error('Telefone no formato incorreto', 'Corrija o formato do telefone');
             return;
         }
@@ -80,7 +131,7 @@ export class RegisterSalesComponent implements OnInit {
             this.loadingAddress = true;
             const address: CrmAddressRequest = await this.crmAddressService.findByPhone(phone);
             if (address) {
-                this.customer = address;
+                this.order.address = address;
                 this.toast.success(`Contato carregado!`, `Sucesso!`);
             } else {
                 this.toast.alert(`Preencha as informações do cliente`, `Cliente não encontrado!`);
@@ -95,7 +146,7 @@ export class RegisterSalesComponent implements OnInit {
 
     public async fetchZipcode(zipcode: string) {
         if (zipcode.length !== 8) {
-            this.customer.postcode = '';
+            this.order.address.postcode = '';
             this.toast.error('Cep no formato incorreto', 'Corrija o formato do CEP');
             return;
         }
@@ -104,10 +155,10 @@ export class RegisterSalesComponent implements OnInit {
             this.loadingAddress = true;
             const zipcodeResponse: ZipcodeResponse = await this.publicService.fetchZipcode(zipcode);
             if (zipcodeResponse) {
-                this.customer.address1 = `${zipcodeResponse.logradouro}, ${zipcodeResponse.complemento}`;
-                this.customer.address2 = zipcodeResponse.bairro;
-                this.customer.city = zipcodeResponse.localidade;
-                this.customer.state = zipcodeResponse.uf;
+                this.order.address.address1 = `${zipcodeResponse.logradouro}, ${zipcodeResponse.complemento}`;
+                this.order.address.address2 = zipcodeResponse.bairro;
+                this.order.address.city = zipcodeResponse.localidade;
+                this.order.address.state = zipcodeResponse.uf;
                 this.toast.success(`Contato carregado!`, `Sucesso!`);
             } else {
                 this.toast.alert(`Preencha as informações do CEP`, `CEP não encontrado!`);
@@ -131,8 +182,8 @@ export class RegisterSalesComponent implements OnInit {
 }
 
 type State = 1 | 2;
-
-interface Gender {
+type CouponType = 'percent' | 'fixed-cart';
+interface Item {
     label: string;
     value: string | null;
 }

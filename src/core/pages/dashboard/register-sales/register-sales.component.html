@@ -1,8 +1,13 @@
-<div class="container" *ngIf="state === 1">
+<div class="container">
     <div class="header">
-        <h5 class="text--primary text--bold margin-y-3">Tokens de Acesso</h5>
+        <div class="tab" [ngClass]="{ selected: state === 1 }">
+            <h6 [ngClass]="{ 'text--primary': state === 1 }" class="text--bold text--500 text margin-y-3">Seleção de cliente</h6>
+        </div>
+        <div class="tab" [ngClass]="{ selected: state !== 1 }">
+            <h6 [ngClass]="{ 'text--primary': state !== 1 }" class="text--bold text--500 text margin-y-3">Lançamento de venda</h6>
+        </div>
     </div>
-    <div class="title">
+    <div class="title" *ngIf="state === 1">
         <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
             <h6 class="text text--bold">Selecionar um cliente</h6>
             &nbsp;
@@ -12,8 +17,16 @@
             Para realizar o lançamento de venda forneça os dados do seu cliente preenchendo os campos abaixo e após clique em prosseguir.
         </span>
     </div>
+    <div class="title" *ngIf="state !== 1">
+        <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
+            <h6 class="text text--bold">Lançamento de venda</h6>
+            &nbsp;
+            <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+        </div>
+        <span class="text"> Agora você deverá preencher os campos abaixo para registrar a venda. </span>
+    </div>
 
-    <div class="body" *ngIf="!loadingAddress">
+    <div class="body" *ngIf="!loadingAddress && state === 1">
         <div class="field">
             <p class="text text--bold">Telefone do seu cliente</p>
             <ps-input
@@ -21,7 +34,7 @@
                 [debounce]="800"
                 (ngModelChange)="fetchCustomer($event)"
                 placeholder="Digite aqui seu telefone com DDD"
-                [(ngModel)]="customer.phone"
+                [(ngModel)]="order.address.phone"
             ></ps-input>
         </div>
         <div class="field">
@@ -31,8 +44,8 @@
                 [wide]="true"
                 [enableSearch]="false"
                 [propertyValue]="'value'"
-                [(value)]="customer.gender"
-                [disabled]="!customer.phone"
+                [(value)]="order.address.gender"
+                [disabled]="!order.address.phone"
                 [propertyLabel]="'label'"
                 [items]="genders"
                 noDataText="Selecionar"
@@ -40,38 +53,91 @@
         </div>
         <div class="field">
             <p class="text text--bold">Primeiro Nome</p>
-            <ps-input [disabled]="!customer.phone" placeholder="Digite aqui seu nome" [(ngModel)]="customer.firstName"></ps-input>
+            <ps-input [disabled]="!order.address.phone" placeholder="Digite aqui seu nome" [(ngModel)]="order.address.firstName"></ps-input>
         </div>
         <div class="field">
             <p class="text text--bold">CEP do cliente</p>
             <ps-input
-                [disabled]="!customer.phone"
+                [disabled]="!order.address.phone"
                 mask="00.000-000"
                 [debounce]="800"
                 placeholder="Digite aqui seu CEP"
-                [(ngModel)]="customer.postcode"
+                [(ngModel)]="order.address.postcode"
                 (ngModelChange)="fetchZipcode($event)"
             ></ps-input>
         </div>
         <div class="field">
             <p class="text text--bold">Sobrenome</p>
-            <ps-input [disabled]="!customer.phone" placeholder="Digite aqui seu sobrenome" [(ngModel)]="customer.lastName"></ps-input>
+            <ps-input
+                [disabled]="!order.address.phone"
+                placeholder="Digite aqui seu sobrenome"
+                [(ngModel)]="order.address.lastName"
+            ></ps-input>
         </div>
         <div class="field">
             <p class="text text--bold">Cidade e UF do seu cliente</p>
             <ps-input
-                [disabled]="!customer.phone || !customer.postcode"
+                [disabled]="!order.address.phone || !order.address.postcode"
                 placeholder="Digite aqui seu CEP"
-                [(ngModel)]="customer.state"
+                [(ngModel)]="order.address.state"
             ></ps-input>
         </div>
         <div class="field">
             <p class="text text--bold">E-mail do cliente</p>
-            <ps-input [disabled]="!customer.phone" placeholder="Digite seu email" type="email" [(ngModel)]="customer.email"></ps-input>
+            <ps-input
+                [disabled]="!order.address.phone"
+                placeholder="Digite seu email"
+                type="email"
+                [(ngModel)]="order.address.email"
+            ></ps-input>
         </div>
         <div class="field">
             <p class="text text--bold">Data de nascimento do seu cliente</p>
-            <ps-datepicker [displayTop]="true" type="input" [(model)]="customer.birthDate" placeholder="DD/MM/AAAA"></ps-datepicker>
+            <ps-datepicker [displayTop]="true" type="input" [(model)]="order.address.birthDate" placeholder="DD/MM/AAAA"></ps-datepicker>
+        </div>
+    </div>
+
+    <div class="body body-2" *ngIf="!loadingAddress && state !== 1">
+        <div>
+            <div class="field-2">
+                <p class="text text--bold">Total (R$)</p>
+                <ps-input type="number" [debounce]="800" [(ngModel)]="order.address.phone"></ps-input>
+            </div>
+            <div class="field-2">
+                <p class="text text--bold">`Valor do desconto</p>
+                <ps-radio-button
+                    [propertyValue]="'value'"
+                    [propertyLabel]="'label'"
+                    class="margin-y-1"
+                    [vertical]="false"
+                    [items]="couponTypes"
+                    [(value)]="couponType"
+                ></ps-radio-button>
+                <ps-input class="margin-y-1" type="number" placeholder="R$350,00" [(ngModel)]="order.coupon.amount"></ps-input>
+                <ps-input class="margin-y-1" type="number" placeholder="30,00%" [(ngModel)]="order.coupon.amount"></ps-input>
+                <ps-checkbox class="margin-y-1" [(active)]="useExistingCoupon">
+                    <span class="text">Giftback encontrado. Clique na caixa à esquerda se deseja utilizá-lo.</span>
+                </ps-checkbox>
+            </div>
+
+            <div class="field-2">
+                <p class="text text--bold">`Operação</p>
+                <ps-dropdown
+                    class="wide"
+                    [wide]="true"
+                    [enableSearch]="false"
+                    [propertyValue]="'value'"
+                    [(value)]="order.operation"
+                    [propertyLabel]="'label'"
+                    [items]="operations"
+                    [displayTop]="true"
+                    noDataText="Selecionar"
+                ></ps-dropdown>
+            </div>
+
+            <div class="field-2">
+                <p class="text text--bold">`Operação</p>
+            </div>
         </div>
     </div>
 
@@ -84,7 +150,7 @@
             [loading]="loading"
             (onClick)="changeState(2)"
             type="secondary"
-            [disabled]="!customer.phone || !customer.firstName || !customer.email"
+            [disabled]="!order.address.phone || !order.address.firstName || !order.address.email"
         >
             <span class="text--100 text--bold">Prosseguir</span>
         </ps-button>

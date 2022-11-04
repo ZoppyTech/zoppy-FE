@@ -4,7 +4,10 @@ import { CrmLineItemRequest } from './crm-line-item.request';
 
 export interface CrmOrderRequest {
     total: number;
-    coupon?: CrmCouponRequest;
-    address?: CrmAddressRequest;
+    operation?: Operations;
+    coupon: CrmCouponRequest;
+    address: CrmAddressRequest;
     lineItems?: CrmLineItemRequest[];
 }
+
+export type Operations = 'show-room' | 'e-commerce';

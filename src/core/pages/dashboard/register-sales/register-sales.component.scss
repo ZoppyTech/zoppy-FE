@@ -21,7 +21,18 @@
 
     .header {
         border-bottom: 1px solid var(--neutral-300);
-        padding: 0 2rem;
+        padding: 0 1rem;
+        display: flex;
+
+        .tab {
+            height: 100%;
+            margin: 0 1rem;
+        }
+
+        .selected {
+            border-bottom: 4px solid var(--primary);
+            margin: 0 1rem;
+        }
     }
 
     .title {
@@ -43,6 +54,14 @@
         display: flex;
         flex-direction: row;
         overflow: auto;
+
+        .field-2 {
+            display: flex;
+            flex-direction: column;
+            padding: 1rem;
+            width: 40rem;
+            max-width: 100%;
+        }
 
         .field {
             display: flex;
@@ -67,6 +86,14 @@
                 font-size: 20px;
             }
         }
+    }
+
+    .body-2 {
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-start;
+        padding: 1rem;
+        flex-wrap: unset;
     }
 
     .loading {

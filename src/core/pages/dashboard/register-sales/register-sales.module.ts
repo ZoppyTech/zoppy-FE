@@ -9,6 +9,8 @@ import { InputModule } from '@ZoppyTech/input';
 import { SwitchModule } from '@ZoppyTech/switch';
 import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { DatepickerModule } from '@ZoppyTech/datepicker';
+import { RadioButtonModule } from '@ZoppyTech/radio-button';
+import { CheckboxModule } from '@ZoppyTech/checkbox';
 
 const routes: Routes = [
     {
@@ -24,10 +26,12 @@ const routes: Routes = [
         RouterModule.forChild(routes),
         DropdownModule,
         VisualIdentityModule,
+        CheckboxModule,
         ButtonModule,
         SwitchModule,
         InputModule,
-        DatepickerModule
+        DatepickerModule,
+        RadioButtonModule
     ],
     declarations: [RegisterSalesComponent],
     exports: [RegisterSalesComponent]
