@@ -9,8 +9,8 @@ export class WcCouponEntity {
     public declare individualUse: boolean;
     public declare usageLimit: string;
     public declare expiryDate: Date;
-    public declare minimumAmount: number;
-    public declare maximumAmount: number;
+    public declare minPurchaseValue: number;
+    public declare maxPurchaseValue: number;
     public declare description: string;
     public declare createdAt: Date;
     public declare updatedAt: Date | null;

@@ -6,13 +6,18 @@ import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
 import { WcCustomerEntity } from 'src/shared/models/entities/wc-customer.entity';
 import { CrmAddressRequest } from 'src/shared/models/requests/crm/crm-address.request';
+import { CrmCouponRequest } from 'src/shared/models/requests/crm/crm-coupon.request';
 import { CrmOrderRequest } from 'src/shared/models/requests/crm/crm-order.request';
+import { CrmCouponResponse } from 'src/shared/models/responses/crm/crm-coupon.response';
 import { CrmLineItemResponse } from 'src/shared/models/responses/crm/crm-line-item.response';
+import { CrmOrderResponse } from 'src/shared/models/responses/crm/crm-order.response';
 import { CrmProductResponse } from 'src/shared/models/responses/crm/crm-product.response';
 import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.service';
+import { CrmCouponService } from 'src/shared/services/crm-coupon/crm-coupon.service';
+import { CrmOrderService } from 'src/shared/services/crm-order/crm-order.service';
 import { CrmProductService } from 'src/shared/services/crm-product/crm-product.service';
 import { ExternalTokenService } from 'src/shared/services/external-token/external-token.service';
 import { PublicService } from 'src/shared/services/public/public.service';
@@ -26,7 +31,7 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class RegisterSalesComponent implements OnInit {
     public loading: boolean = false;
-    public state: State = 2;
+    public state: State = 1;
     public order: CrmOrderRequest = {
         address: {},
         coupon: {
@@ -36,13 +41,12 @@ export class RegisterSalesComponent implements OnInit {
         total: 0
     };
     public loadingAddress: boolean = false;
-    public couponType: string = '';
+    public defaultCouponType: CouponType = 'fixed-cart';
     public couponAmount: number = 0;
     public useExistingCoupon: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public products: CrmProductResponse[] = [];
     public productsSelected: CrmProductResponse[] = [];
-    public lineItems: CrmProductResponse[] = [];
     public genders: Item[] = [
         {
             label: 'Masculino',
@@ -65,7 +69,7 @@ export class RegisterSalesComponent implements OnInit {
         },
         {
             label: 'Reais',
-            value: 'value'
+            value: 'fixed-cart'
         }
     ];
 
@@ -80,14 +84,18 @@ export class RegisterSalesComponent implements OnInit {
         }
     ];
 
+    public backupCoupon: CrmCouponResponse | undefined;
+
     public constructor(
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
         public storage: Storage,
         public confirmActionService: ConfirmActionService,
         public modal: ModalService,
+        private readonly crmCouponService: CrmCouponService,
         private readonly crmAddressService: CrmAddressService,
         private readonly crmProductService: CrmProductService,
+        private readonly crmOrderService: CrmOrderService,
         private readonly publicService: PublicService,
         private readonly toast: ToastService
     ) {}
@@ -106,8 +114,26 @@ export class RegisterSalesComponent implements OnInit {
         await this.fetchProducts();
     }
 
-    public changeState(state: State): void {
-        this.state = state;
+    public async toggleState(): Promise<void> {
+        if (this.state === 1) {
+            this.state = 2;
+            return;
+        }
+        await this.save();
+    }
+
+    public async save(): Promise<void> {
+        try {
+            this.loading = true;
+            this.order.total = parseInt(this.order.total.toString());
+            const order: CrmOrderResponse = await this.crmOrderService.create(this.order);
+            this.order = order as CrmOrderRequest;
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Não foi possível salvar seu pedido');
+        } finally {
+            this.loadingAddress = false;
+        }
     }
 
     public async fetchProducts(): Promise<void> {
@@ -136,6 +162,11 @@ export class RegisterSalesComponent implements OnInit {
             if (address) {
                 this.order.address = address;
                 this.toast.success(`Contato carregado!`, `Sucesso!`);
+                const existingCoupon: CrmCouponResponse = await this.crmCouponService.findByPhone(this.order.address.phone as string);
+                if (existingCoupon) {
+                    this.order.coupon = existingCoupon as CrmCouponRequest;
+                    this.useExistingCoupon = true;
+                }
             } else {
                 this.toast.alert(`Preencha as informações do cliente`, `Cliente não encontrado!`);
             }
@@ -157,20 +188,51 @@ export class RegisterSalesComponent implements OnInit {
         try {
             this.loadingAddress = true;
             const zipcodeResponse: ZipcodeResponse = await this.publicService.fetchZipcode(zipcode);
-            if (zipcodeResponse) {
+            if (zipcodeResponse && zipcodeResponse.cep) {
                 this.order.address.address1 = `${zipcodeResponse.logradouro}, ${zipcodeResponse.complemento}`;
                 this.order.address.address2 = zipcodeResponse.bairro;
                 this.order.address.city = zipcodeResponse.localidade;
                 this.order.address.state = zipcodeResponse.uf;
                 this.toast.success(`Contato carregado!`, `Sucesso!`);
             } else {
-                this.toast.alert(`Preencha as informações do CEP`, `CEP não encontrado!`);
+                this.toast.error(`Preencha as informações do CEP`, `CEP não encontrado!`);
             }
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o telefone');
         } finally {
             this.loadingAddress = false;
+        }
+    }
+
+    public selectPRoduct(values: Array<string>) {
+        setTimeout(() => {
+            this.order.lineItems = [];
+            values.forEach((id: string) => {
+                const product: CrmProductResponse | undefined = this.products.find((product: CrmProductResponse) => product.id === id);
+                if (product) {
+                    product.quantity = 1;
+                    this.order.lineItems?.push({
+                        quantity: 1,
+                        productId: product.id,
+                        name: product.name,
+                        wcProductId: product.wcId
+                    });
+                }
+            });
+        });
+    }
+
+    public toggleUseCoupon(active: boolean) {
+        if (!active) {
+            this.backupCoupon = this.order.coupon;
+            this.order.coupon = {
+                amount: 0,
+                type: this.defaultCouponType,
+                phone: this.order.address.phone
+            };
+        } else {
+            this.order.coupon = this.backupCoupon as CrmCouponRequest;
         }
     }
 
@@ -181,19 +243,6 @@ export class RegisterSalesComponent implements OnInit {
                 route: undefined
             }
         ];
-    }
-
-    public selectPRoduct(values: Array<string>) {
-        setTimeout(() => {
-            this.lineItems = [];
-            values.forEach((id: string) => {
-                const product: CrmProductResponse | undefined = this.products.find((product: CrmProductResponse) => product.id === id);
-                if (product) {
-                    product.quantity = 1;
-                    this.lineItems.push(product);
-                }
-            });
-        });
     }
 }
 

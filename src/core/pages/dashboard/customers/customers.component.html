@@ -54,10 +54,10 @@
     </div>
 
     <div class="footer">
-        <ps-button [loading]="loading" class="margin-right-2" [wide]="true" (onClick)="download()" type="secondary">
+        <ps-button class="margin-right-2" [wide]="true" (onClick)="download()" type="secondary">
             <span class="text--100 text--bold">Baixar planilha</span>
         </ps-button>
-        <ps-button [wide]="true" (onClick)="save()" type="secondary-border">
+        <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary-border">
             <span class="text--secondary text--bold">Enviar planilha</span>
         </ps-button>
     </div>

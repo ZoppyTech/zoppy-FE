@@ -8,10 +8,10 @@
         </div>
     </div>
     <div class="title" *ngIf="state === 1">
-        <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
+        <div class="flex align-center padding-y-3">
             <h6 class="text text--bold">Selecionar um cliente</h6>
             &nbsp;
-            <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+            <ps-icon icon="icon-info secondary" class="secondary clickable" (click)="openInfoModal()"></ps-icon>
         </div>
         <span class="text">
             Para realizar o lançamento de venda forneça os dados do seu cliente preenchendo os campos abaixo e após clique em prosseguir.
@@ -101,7 +101,7 @@
         <div>
             <div class="field-2">
                 <p class="text text--bold">Total (R$)</p>
-                <ps-input type="number" [debounce]="800" [(ngModel)]="order.address.phone"></ps-input>
+                <ps-input type="number" [(ngModel)]="order.total"></ps-input>
             </div>
             <div class="field-2">
                 <p class="text text--bold">`Valor do desconto</p>
@@ -111,11 +111,29 @@
                     class="margin-y-1"
                     [vertical]="false"
                     [items]="couponTypes"
-                    [(value)]="couponType"
+                    [(value)]="order.coupon.type"
+                    *ngIf="!useExistingCoupon"
                 ></ps-radio-button>
-                <ps-input class="margin-y-1" type="number" placeholder="R$350,00" [(ngModel)]="order.coupon.amount"></ps-input>
-                <ps-input class="margin-y-1" type="number" placeholder="30,00%" [(ngModel)]="order.coupon.amount"></ps-input>
-                <ps-checkbox class="margin-y-1" [(active)]="useExistingCoupon">
+                <ps-input
+                    *ngIf="order.coupon.type === 'fixed-cart' && !useExistingCoupon"
+                    class="margin-y-1"
+                    type="number"
+                    placeholder="R$350,00"
+                    [(ngModel)]="order.coupon.amount"
+                ></ps-input>
+                <ps-input
+                    class="margin-y-1"
+                    *ngIf="order.coupon.type === 'percent' && !useExistingCoupon"
+                    type="number"
+                    placeholder="30,00%"
+                    [(ngModel)]="order.coupon.amount"
+                ></ps-input>
+                <ps-checkbox
+                    class="margin-y-1"
+                    *ngIf="order.coupon?.id || backupCoupon"
+                    [(active)]="useExistingCoupon"
+                    (onToggleCheckbox)="toggleUseCoupon($event)"
+                >
                     <span class="text">Giftback encontrado. Clique na caixa à esquerda se deseja utilizá-lo.</span>
                 </ps-checkbox>
             </div>
@@ -155,11 +173,11 @@
                     <p class="text text--bold">Nome</p>
                     <p class="text text--bold">Quantidade</p>
                 </li>
-                <li *ngFor="let lineItem of lineItems">
+                <li *ngFor="let lineItem of order.lineItems">
                     <p class="text">{{ lineItem.name }}</p>
                     <ps-input type="number" [(ngModel)]="lineItem.quantity"></ps-input>
                 </li>
-                <li *ngIf="!lineItems || lineItems.length === 0" class="flex-center padding-3">
+                <li *ngIf="!order.lineItems || order.lineItems.length === 0" class="flex-center padding-3">
                     <p class="text--600">Lista vazia</p>
                 </li>
             </ul>
@@ -173,11 +191,13 @@
         <ps-button
             [wide]="true"
             [loading]="loading"
-            (onClick)="changeState(2)"
+            (onClick)="toggleState()"
             type="secondary"
             [disabled]="!order.address.phone || !order.address.firstName || !order.address.email"
         >
-            <span class="text--100 text--bold">Prosseguir</span>
+            <span class="text--100 text--bold">
+                {{ state === 1 ? 'Prosseguir' : 'Continuar' }}
+            </span>
         </ps-button>
     </div>
 </div>

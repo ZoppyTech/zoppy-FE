@@ -3,8 +3,9 @@ export interface CrmCouponRequest {
     amount: number;
     code?: string;
     phone?: string;
+    type?: string;
     used?: boolean;
     expiryDate?: Date;
-    minimumAmount?: number;
-    maximumAmount?: number;
+    minPurchaseValue?: number;
+    maxPurchaseValue?: number;
 }
