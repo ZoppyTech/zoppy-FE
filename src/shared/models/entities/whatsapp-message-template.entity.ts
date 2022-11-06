@@ -4,6 +4,7 @@ export class WhatsappMessageTemplateEntity {
     public declare name: string;
     public declare content: string;
     public declare status: string;
+    public declare visibility: string;
     public declare wppAccountId: string;
     public declare createdAt: Date;
     public declare updatedAt: Date;

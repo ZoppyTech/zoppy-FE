@@ -1,0 +1,131 @@
+@import 'src/styles.scss';
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin: 32px;
+    margin-top: 0px;
+    background-color: var(--neutral-100);
+    border: 1px solid var(--neutral-300);
+    box-shadow: $box-shadow-1;
+    border-radius: 12px;
+    margin-bottom: 32px;
+
+    .header {
+        border-bottom: 1px solid var(--neutral-300);
+        padding: 0 32px;
+    }
+
+    .main-title {
+        padding: 0 32px;
+        width: 100%;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .display-whatsapp-status {
+        width: fit-content;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        padding-bottom: 0px;
+        justify-content: flex-end;
+
+        .status {
+            width: fit-content;
+            height: inherit;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background: #f3f3f3;
+            border-radius: 8px;
+            padding: 8px 16px;
+
+            .circle {
+                background-color: #ffad4e;
+                border-radius: 100%;
+                width: 8px;
+                height: 8px;
+                margin-right: 8px;
+            }
+
+            .label {
+                font-weight: 500;
+                font-size: 14px;
+                color: #4b4b4b;
+            }
+        }
+    }
+
+    .main-content {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+        height: 100%;
+    }
+
+    .left-section {
+        margin: 0 32px;
+        margin-right: 16px;
+        flex-grow: 1;
+        width: 100%;
+        height: 100%;
+    }
+
+    .right-section {
+        margin: 0 32px;
+        margin-left: 16px;
+        flex-grow: 1;
+        width: 100%;
+        height: 100%;
+    }
+
+    .title {
+        margin-bottom: 16px;
+        padding-bottom: 16px;
+    }
+
+    .body {
+        padding: 32px;
+        border: 1px solid var(--neutral-300);
+        padding-bottom: 32px;
+        background-color: #fafbff;
+        border-radius: 12px;
+
+        .field {
+            padding-bottom: 16px;
+
+            span {
+                color: #363636;
+                font-weight: 500;
+                font-size: 14px;
+                line-height: 32px;
+            }
+
+            ps-icon {
+                padding-left: 16px;
+            }
+        }
+    }
+
+    .footer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 32px;
+
+        ps-button {
+            width: 180px;
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .container {
+        margin: 1rem;
+    }
+}

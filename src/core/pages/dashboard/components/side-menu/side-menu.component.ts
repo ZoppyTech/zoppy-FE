@@ -71,7 +71,7 @@ export class SideMenuComponent implements OnInit {
                 icon: 'icon-wpp',
                 label: 'Whatsapp',
                 route: '/dashboard/whatsapp',
-                visible: CompanyUtil.isPremium(this.company)
+                visible: true
             },
             {
                 id: `configurations`,
@@ -106,6 +106,13 @@ export class SideMenuComponent implements OnInit {
                         icon: 'icon-arrow',
                         label: 'Configuração de Giftback',
                         route: '/dashboard/configurations/giftback',
+                        visible: true
+                    },
+                    {
+                        id: `whatsapp-config`,
+                        icon: 'icon-arrow',
+                        label: 'Whatsapp',
+                        route: '/dashboard/configurations/whatsapp',
                         visible: true
                     }
                 ]

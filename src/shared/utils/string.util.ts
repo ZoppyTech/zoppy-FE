@@ -1,4 +1,11 @@
 export class StringUtil {
+    public static readonly SPACE: string = ' ';
+
+    public static buildFullName(firstName: string, lastName: string = ''): string {
+        const fullName: string = firstName + StringUtil.SPACE + lastName;
+        return fullName.trimEnd();
+    }
+
     public static convertArrayToText(arr: string[]): string {
         let errorFormatted: string = '';
         arr.forEach((err: string) => {

@@ -2,6 +2,7 @@ import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
 import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
 import { DateUtil } from 'src/shared/utils/date.util';
+import { StringUtil } from 'src/shared/utils/string.util';
 import { ChatAccount } from './models/chat-account';
 import { ChatContact } from './models/chat-contact';
 import { ChatManager } from './models/chat-manager';
@@ -72,7 +73,9 @@ export class WhatsappMapper {
     public static mapContact(contactEntity: WhatsappContactEntity): ChatContact {
         const contact: ChatContact = new ChatContact();
         contact.id = contactEntity.id;
-        contact.name = contactEntity.name;
+        contact.firstName = contactEntity.firstName;
+        contact.lastName = contactEntity.lastName;
+        contact.displayName = StringUtil.buildFullName(contactEntity.firstName, contactEntity.lastName);
         contact.displayPhone = WhatsappUtil.formatDisplayPhone(
             contactEntity.countryCode,
             contactEntity.subdivisionCode,
@@ -100,7 +103,7 @@ export class WhatsappMapper {
     private static createEmptyContact(): ChatContact {
         const contact: ChatContact = new ChatContact();
         contact.id = '';
-        contact.name = 'Contato removido';
+        contact.displayName = 'Contato removido';
         contact.displayPhone = 'Telefone indisponível';
         return contact;
     }
