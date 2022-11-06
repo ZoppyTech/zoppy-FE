@@ -7,9 +7,9 @@ import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
 import { WcCustomerEntity } from 'src/shared/models/entities/wc-customer.entity';
 import { CrmAddressRequest } from 'src/shared/models/requests/crm/crm-address.request';
 import { CrmCouponRequest } from 'src/shared/models/requests/crm/crm-coupon.request';
+import { CrmLineItemRequest } from 'src/shared/models/requests/crm/crm-line-item.request';
 import { CrmOrderRequest } from 'src/shared/models/requests/crm/crm-order.request';
 import { CrmCouponResponse } from 'src/shared/models/responses/crm/crm-coupon.response';
-import { CrmLineItemResponse } from 'src/shared/models/responses/crm/crm-line-item.response';
 import { CrmOrderResponse } from 'src/shared/models/responses/crm/crm-order.response';
 import { CrmProductResponse } from 'src/shared/models/responses/crm/crm-product.response';
 import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
@@ -19,9 +19,9 @@ import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.s
 import { CrmCouponService } from 'src/shared/services/crm-coupon/crm-coupon.service';
 import { CrmOrderService } from 'src/shared/services/crm-order/crm-order.service';
 import { CrmProductService } from 'src/shared/services/crm-product/crm-product.service';
-import { ExternalTokenService } from 'src/shared/services/external-token/external-token.service';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { FormatUtils } from 'src/shared/utils/format.util';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -35,7 +35,8 @@ export class RegisterSalesComponent implements OnInit {
     public order: CrmOrderRequest = {
         address: {},
         coupon: {
-            amount: 0
+            amount: 0,
+            type: 'fixed-cart'
         },
         lineItems: [],
         total: 0
@@ -163,10 +164,7 @@ export class RegisterSalesComponent implements OnInit {
                 this.order.address = address;
                 this.toast.success(`Contato carregado!`, `Sucesso!`);
                 const existingCoupon: CrmCouponResponse = await this.crmCouponService.findByPhone(this.order.address.phone as string);
-                if (existingCoupon) {
-                    this.order.coupon = existingCoupon as CrmCouponRequest;
-                    this.useExistingCoupon = true;
-                }
+                if (existingCoupon) this.backupCoupon = existingCoupon;
             } else {
                 this.toast.alert(`Preencha as informações do cliente`, `Cliente não encontrado!`);
             }
@@ -234,6 +232,18 @@ export class RegisterSalesComponent implements OnInit {
         } else {
             this.order.coupon = this.backupCoupon as CrmCouponRequest;
         }
+    }
+
+    public changeLineItem(lineItem: CrmLineItemRequest, signal: string): void {
+        if (signal === '-') lineItem.quantity -= 1;
+        if (signal === '+') lineItem.quantity += 1;
+    }
+
+    public calculateSubtotal(): string {
+        if (this.order.coupon.type === 'fixed-cart') return FormatUtils.toCurrency(this.order.total - this.order.coupon.amount);
+        else if (this.order.coupon.type === 'percent')
+            return FormatUtils.toCurrency(this.order.total * ((100 - this.order.coupon.amount) / 100));
+        return FormatUtils.toCurrency(this.order.total);
     }
 
     private setBreadcrumb(): void {

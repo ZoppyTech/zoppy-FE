@@ -168,3 +168,18 @@ $box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
         z-index: 3;
     }
 }
+
+.margin-top-unset {
+    margin-top: unset;
+}
+
+.width-50 {
+    width: 50%;
+}
+
+.separator {
+    height: 1px;
+    flex-grow: 1;
+    width: 100%;
+    background-color: var(--neutral-400);
+}

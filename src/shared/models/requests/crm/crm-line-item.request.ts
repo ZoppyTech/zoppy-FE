@@ -1,6 +1,6 @@
 export interface CrmLineItemRequest {
     id?: string;
-    quantity?: number;
+    quantity: number;
     wcProductId?: number;
     wcOrderId?: number;
     orderId?: string;
