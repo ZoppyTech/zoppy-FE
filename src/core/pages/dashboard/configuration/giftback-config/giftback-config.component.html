@@ -1,7 +1,8 @@
 <div class="container">
     <div class="header padding-3">
-        <h5 class="text--primary text--bold">Configuração de Giftback</h5>
+        <h6 class="text--primary text--bold">Configuração de Giftback</h6>
     </div>
+    <div class="separator"></div>
 
     <div class="title margin-top-3">
         <h6 class="text text--bold">Giftback</h6>
@@ -14,7 +15,7 @@
                 Percentual de giftback <span class="text text--secondary">&nbsp;(Sugestão: 15%)</span></span
             >
             <ps-input type="number" placeholder="Digite a porcentagem" [(ngModel)]="giftback.percentValue"></ps-input>
-            <span class="text--500 text--caption">
+            <span class="text--500 text--caption desktop">
                 Percentual de desconto em relação à compra feita que dará de giftback para uma compra futura.
             </span>
         </div>
@@ -23,12 +24,14 @@
                 Percentual máximo de desconto <span class="text text--secondary">&nbsp;(Sugestão: 30%)</span>
             </span>
             <ps-input type="number" placeholder="Digite a porcentagem" [(ngModel)]="giftback.maxPercentValue"></ps-input>
-            <span class="text--500 text--caption"> O valor máximo que o cupom pode representar de desconto na próxima compra. </span>
+            <span class="text--500 text--caption desktop">
+                O valor máximo que o cupom pode representar de desconto na próxima compra.
+            </span>
         </div>
         <div class="field">
             <span class="text text--bold"> Data de validade <span class="text text--secondary">&nbsp;(Sugestão: 45 dias)</span></span>
             <ps-input type="number" [(ngModel)]="giftback.expirationDays" placeholder="Digite a quantidade de dias"></ps-input>
-            <span class="text--500 text--caption"> Número de dias que o usuário poderá utilizar após a criação do cupom. </span>
+            <span class="text--500 text--caption desktop"> Número de dias que o usuário poderá utilizar após a criação do cupom. </span>
         </div>
     </div>
     <div class="footer">

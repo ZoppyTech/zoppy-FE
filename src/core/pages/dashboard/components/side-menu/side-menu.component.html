@@ -21,6 +21,7 @@
             *ngFor="let item of menuItems"
             (mouseenter)="item.subItemsOpened = true"
             (mouseleave)="item.subItemsOpened = false"
+            class="{{ item.class }}"
             [ngClass]="{ hidden: !item.visible }"
         >
             <li

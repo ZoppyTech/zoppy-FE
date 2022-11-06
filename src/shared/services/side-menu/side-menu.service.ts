@@ -50,4 +50,5 @@ export interface SideMenuItem {
     visible: boolean;
     subItems?: Array<SideMenuItem>;
     subItemsOpened?: boolean;
+    class?: string;
 }

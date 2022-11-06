@@ -2,6 +2,7 @@
 
 :host {
     flex-grow: 1;
+    min-height: 0;
 }
 
 .container {
@@ -12,8 +13,10 @@
     background-color: var(--neutral-100);
     border: 1px solid var(--neutral-300);
     box-shadow: $box-shadow-1;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     margin-bottom: 2rem;
+    flex-grow: 1;
+    min-height: 0;
 
     .header {
         border-bottom: 1px solid var(--neutral-300);
@@ -34,9 +37,10 @@
         padding: 1rem;
         border: 1px solid var(--neutral-300);
         background-color: #fafbff;
-        border-radius: 12px;
+        border-radius: 0.75rem;
         display: flex;
         flex-wrap: wrap;
+        overflow: auto;
 
         .field {
             padding: 1rem 0.5rem;

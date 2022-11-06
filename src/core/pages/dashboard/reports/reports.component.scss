@@ -47,12 +47,12 @@ main {
         padding: 1.5rem;
         background-color: #fdfdfd;
         border: 1px solid var(--neutral-300);
-        border-radius: 12px;
+        border-radius: 0.75rem;
         display: flex;
         flex-direction: column;
         max-width: calc(100% - 2rem);
         height: 400px;
-        box-shadow: 0px 16px 24px #edeff2;
+        box-shadow: 0px 1rem 24px #edeff2;
 
         &--default {
             width: 450px;

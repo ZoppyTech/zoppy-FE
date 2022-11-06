@@ -6,7 +6,7 @@ export class Navigation {
         'reset-password': '/reset-password',
         dashboard: '/dashboard',
         register: '/register',
-        configuration: 'dashboard/configuration',
+        configuration: 'dashboard/configurations',
         profile: 'dashboard/profile',
         'my-company': 'dashboard/my-company',
         'my-company-config': 'dashboard/my-company/config',

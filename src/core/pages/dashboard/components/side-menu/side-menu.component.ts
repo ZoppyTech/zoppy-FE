@@ -44,29 +44,6 @@ export class SideMenuComponent implements OnInit {
                 visible: true
             },
             {
-                id: `my-company`,
-                icon: 'icon-location_away',
-                label: 'Minha empresa',
-                route: null,
-                visible: true,
-                subItems: [
-                    {
-                        id: `my-company-config`,
-                        icon: 'icon-arrow',
-                        label: 'Dados',
-                        route: '/dashboard/my-company/config',
-                        visible: true
-                    },
-                    {
-                        id: `my-company-users`,
-                        icon: 'icon-arrow',
-                        label: 'Usuários',
-                        route: '/dashboard/my-company/users',
-                        visible: true
-                    }
-                ]
-            },
-            {
                 id: `whatsapp`,
                 icon: 'icon-wpp',
                 label: 'Whatsapp',
@@ -100,6 +77,7 @@ export class SideMenuComponent implements OnInit {
                 label: 'Configurações',
                 route: null,
                 visible: true,
+                class: 'mobile',
                 subItems: [
                     {
                         id: `access-keys`,
@@ -135,6 +113,30 @@ export class SideMenuComponent implements OnInit {
                         label: 'Configuração da Letalk',
                         route: '/dashboard/configurations/letalk',
                         visible: CompanyUtil.isStandard(this.company)
+                    }
+                ]
+            },
+            {
+                id: `my-company`,
+                icon: 'icon-location_away',
+                label: 'Minha empresa',
+                route: null,
+                visible: true,
+                class: 'mobile',
+                subItems: [
+                    {
+                        id: `my-company-config`,
+                        icon: 'icon-arrow',
+                        label: 'Dados',
+                        route: '/dashboard/my-company/config',
+                        visible: true
+                    },
+                    {
+                        id: `my-company-users`,
+                        icon: 'icon-arrow',
+                        label: 'Usuários',
+                        route: '/dashboard/my-company/users',
+                        visible: true
                     }
                 ]
             }

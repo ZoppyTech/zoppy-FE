@@ -34,7 +34,7 @@ input {
 }
 
 table {
-    border-radius: 8px;
+    border-radius: 0.5rem;
 }
 
 table,
@@ -62,7 +62,7 @@ tr {
 th {
     padding: 1rem 2rem;
     background-color: #fafbff;
-    border-radius: 8px 8px 0px 0px;
+    border-radius: 0.5rem 0.5rem 0px 0px;
     border: none;
 }
 
@@ -124,7 +124,7 @@ h6 {
     text-justify: inter-word;
 }
 
-$box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
+$box-shadow-1: 0px 1rem 2.5rem -8px rgba(29, 29, 38, 0.08);
 
 @media only screen and (max-width: 576px) {
     ::-webkit-scrollbar {
@@ -142,17 +142,17 @@ $box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
     }
 
     h1 {
-        font-size: 32px;
+        font-size: 2rem;
     }
 }
 
 ::-webkit-scrollbar {
-    width: 8px;
-    height: 8px;
+    width: 0.3rem;
+    height: 0.3rem;
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 5px;
+    border-radius: 4px;
     background: var(--neutral-400);
 }
 
@@ -161,8 +161,8 @@ $box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
 
     ul {
         margin-top: 1rem;
-        box-shadow: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
-        border-radius: 12px;
+        box-shadow: 0px 1rem 2.5rem -8px rgba(29, 29, 38, 0.08);
+        border-radius: 0.75rem;
         background-color: var(--neutral-100);
         position: absolute;
         z-index: 3;
@@ -180,5 +180,9 @@ $box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
 .separator {
     height: 1px;
     width: 100%;
-    background-color: var(--neutral-400);
+    background-color: var(--neutral-300);
+}
+
+.text-decoration-none {
+    text-decoration: none;
 }

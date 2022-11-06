@@ -14,7 +14,7 @@
     background-color: var(--neutral-100);
     border: 1px solid var(--neutral-300);
     box-shadow: $box-shadow-1;
-    border-radius: 12px;
+    border-radius: 0.75rem;
     margin-bottom: 2rem;
 
     .header {
@@ -36,7 +36,7 @@
         padding: 1rem;
         border: 1px solid var(--neutral-300);
         background-color: #fafbff;
-        border-radius: 12px;
+        border-radius: 0.75rem;
         display: flex;
         flex-wrap: wrap;
 

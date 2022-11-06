@@ -93,7 +93,7 @@ export class AccessKeysComponent implements OnInit {
                 route: undefined
             },
             {
-                name: `Tokens de Acesso`,
+                name: `Chaves de Acesso`,
                 route: `/dashboard/configurations/access-keys`
             }
         ];

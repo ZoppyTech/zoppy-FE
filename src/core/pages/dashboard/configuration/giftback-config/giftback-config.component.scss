@@ -1,42 +1,40 @@
 @import 'src/styles.scss';
 
+:host {
+    flex-grow: 1;
+}
+
 .container {
     display: flex;
     flex-direction: column;
-    margin: 32px;
     margin-top: 0px;
     background-color: var(--neutral-100);
-    border: 1px solid var(--neutral-300);
-    box-shadow: $box-shadow-1;
-    border-radius: 12px;
-    margin-bottom: 32px;
-
-    .header {
-        border-bottom: 1px solid var(--neutral-300);
-    }
+    border-radius: 0.75rem;
+    margin-bottom: 2rem;
+    height: 100%;
 
     .title {
-        padding: 0 32px;
-        margin-bottom: 16px;
+        padding: 0 2rem;
+        margin-bottom: 1rem;
         h6 {
-            margin-bottom: 8px;
+            margin-bottom: 0.5rem;
         }
-        padding-bottom: 16px;
+        padding-bottom: 1rem;
     }
 
     .body {
-        margin: 0 32px;
-        padding: 32px;
-        border: 1px solid var(--neutral-300);
-        padding-bottom: 32px;
+        margin: 0 2rem;
+        padding: 1.5rem 2rem 2rem 2rem;
         background-color: #fafbff;
-        border-radius: 12px;
+        border: 1px solid var(--neutral-300);
+        border-radius: 0.75rem;
+        overflow: auto;
 
         .field {
-            padding-bottom: 16px;
+            padding-bottom: 1rem;
 
             span {
-                line-height: 32px;
+                line-height: 2rem;
             }
         }
     }
@@ -45,7 +43,7 @@
         width: 100%;
         display: flex;
         align-items: center;
-        padding: 32px;
+        padding: 2rem;
 
         ps-button {
             width: 180px;
@@ -53,8 +51,40 @@
     }
 }
 
-@media only screen and (max-width: 576px) {
-    .container {
+@media only screen and (max-width: 1024px) {
+    :host {
+        flex-grow: 1;
+        max-width: calc(100% - 2rem);
+        border: 1px solid var(--neutral-300);
+        box-shadow: 0px 1rem 2.5rem -8px rgb(29 29 38 / 8%);
+        border-radius: 0.75rem;
         margin: 1rem;
+        background-color: var(--neutral-100);
+    }
+    .container {
+        height: 100%;
+        margin: 0rem;
+        padding-bottom: 1rem;
+        .header {
+            padding: 2rem 1rem;
+        }
+        .title {
+            padding: 0 1rem;
+            margin-bottom: 1rem;
+            margin-top: 1rem;
+        }
+        .body {
+            padding: 1rem;
+            margin: 0 1rem;
+            .field {
+                width: 100%;
+                display: flex;
+                column-gap: 1rem;
+                padding-right: unset;
+            }
+            .buttons {
+                padding: 1rem 0 0 0;
+            }
+        }
     }
 }
