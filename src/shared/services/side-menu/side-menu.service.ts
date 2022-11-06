@@ -35,6 +35,7 @@ export type SideMenu =
     | `my-profile`
     | 'my-company-config'
     | 'my-company-users'
+    | 'whatsapp-config'
     | 'none';
 
 export interface SideMenuItem {

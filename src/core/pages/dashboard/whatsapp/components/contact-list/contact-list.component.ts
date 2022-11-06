@@ -40,7 +40,8 @@ export class ContactListComponent implements OnInit {
         this.contacts[0].hasIndex = true;
         for (let i: number = 1; i < this.contacts.length; i++) {
             this.contacts[i].hasIndex =
-                this.contacts[i].name.substring(0, 1).toUpperCase() !== this.contacts[i - 1].name.substring(0, 1).toUpperCase()
+                this.contacts[i].displayName.substring(0, 1).toUpperCase() !==
+                this.contacts[i - 1].displayName.substring(0, 1).toUpperCase()
                     ? true
                     : false;
         }

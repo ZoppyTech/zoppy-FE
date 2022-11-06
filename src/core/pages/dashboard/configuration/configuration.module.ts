@@ -28,6 +28,10 @@ const routes: Routes = [
             {
                 path: 'giftback',
                 loadChildren: () => import('./giftback-config/giftback-config.module').then((m: any) => m.GiftbackConfigModule)
+            },
+            {
+                path: 'whatsapp',
+                loadChildren: () => import('./whatsapp-config/whatsapp-config.module').then((m: any) => m.WhatsappConfigModule)
             }
         ]
     }

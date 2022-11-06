@@ -23,12 +23,16 @@ export class WhatsappUtil {
 
     public static getMessageTemplateParams(templateName: string, chatRoom: ChatRoom): Array<string> {
         switch (templateName) {
+            case WhatsappConstants.MessageTemplates.GDPR_TERMS_NOTIFICATION:
+                return [chatRoom.contact.firstName];
+            case WhatsappConstants.MessageTemplates.NEW_CONTACT_PHONE_NUMBER_TO_ASK_QUESTIONS:
+                return [chatRoom.contact.firstName];
             case WhatsappConstants.MessageTemplates.GREETINGS_TO_USER:
-                return [chatRoom.contact.name, chatRoom.manager.name];
+                return [chatRoom.contact.firstName, chatRoom.manager.name];
             case WhatsappConstants.MessageTemplates.WELCOME_TO_THE_COMPANY:
                 return [chatRoom.account.businessName];
-            case WhatsappConstants.MessageTemplates.SAMPLE_ISSUE_RESOLUTION:
-                return [chatRoom.contact.name];
+            case WhatsappConstants.MessageTemplates.ISSUE_RESOLUTION:
+                return [chatRoom.contact.firstName];
             case WhatsappConstants.MessageTemplates.OUT_OF_BUSINESS_HOURS:
                 return [chatRoom.account.businessName, '9h', '18h'];
             case WhatsappConstants.MessageTemplates.WAITING_A_FEW_MINUTES:
