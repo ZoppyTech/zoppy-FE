@@ -41,8 +41,8 @@ export class MyCompanyConfigComponent implements OnInit {
                 route: `/dashboard/my-company/config`
             }
         ];
-        this.sideMenuService.change(`my-company`);
-        this.sideMenuService.changeSub(`my-company-config`);
+        this.sideMenuService.change(`myCompany`);
+        this.sideMenuService.changeSub(`myCompanyConfig`);
     }
 
     public async save(): Promise<void> {

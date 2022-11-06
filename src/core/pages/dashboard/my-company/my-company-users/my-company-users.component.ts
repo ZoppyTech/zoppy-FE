@@ -42,8 +42,8 @@ export class MyCompanyUsersComponent implements OnInit {
                 route: `/dashboard/my-company/users`
             }
         ];
-        this.sideMenuService.change(`my-company`);
-        this.sideMenuService.changeSub(`my-company-users`);
+        this.sideMenuService.change(`myCompany`);
+        this.sideMenuService.changeSub(`myCompanyUsers`);
         await this.fetchUsers();
     }
 

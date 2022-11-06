@@ -37,8 +37,8 @@ export class MyCompanyUserConfigComponent implements OnInit {
             await this.fetchUser();
             this.setBreadcrumb();
         });
-        this.sideMenuService.change(`my-company`);
-        this.sideMenuService.changeSub(`my-company-users`);
+        this.sideMenuService.change(`myCompany`);
+        this.sideMenuService.changeSub(`myCompanyUsers`);
     }
 
     public getSaveDisabled(): boolean {

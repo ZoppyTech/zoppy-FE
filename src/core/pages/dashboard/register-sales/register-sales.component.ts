@@ -110,7 +110,7 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public async ngOnInit() {
-        this.sideMenuService.change('register-sale');
+        this.sideMenuService.change('registerSale');
         this.setBreadcrumb();
         await this.fetchProducts();
     }

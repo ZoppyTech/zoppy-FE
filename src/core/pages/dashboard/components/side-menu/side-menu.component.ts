@@ -58,7 +58,7 @@ export class SideMenuComponent implements OnInit {
                 visible: true
             },
             {
-                id: `register-sale`,
+                id: `registerSale`,
                 icon: 'icon-shopping_cart',
                 label: 'Lançamento de venda',
                 route: Navigation.routes.sales,
@@ -80,21 +80,21 @@ export class SideMenuComponent implements OnInit {
                 class: 'mobile',
                 subItems: [
                     {
-                        id: `access-keys`,
+                        id: `accessKeys`,
                         icon: 'icon-arrow',
                         label: 'Chaves de Acesso',
                         route: Navigation.routes.accessKeys,
                         visible: true
                     },
                     {
-                        id: `access-tokens`,
+                        id: `accessTokens`,
                         icon: 'icon-arrow',
                         label: 'Tokens de Acesso',
                         route: Navigation.routes.accessTokens,
                         visible: true
                     },
                     {
-                        id: `sync-data`,
+                        id: `syncData`,
                         icon: 'icon-arrow',
                         label: 'Sincronizacão',
                         route: Navigation.routes.syncData,
@@ -115,7 +115,7 @@ export class SideMenuComponent implements OnInit {
                         visible: CompanyUtil.isStandard(this.company)
                     },
                     {
-                        id: `whatsapp-config`,
+                        id: `whatsappConfig`,
                         icon: 'icon-arrow',
                         label: 'Whatsapp',
                         route: Navigation.routes.whatsappConfig,
@@ -124,7 +124,7 @@ export class SideMenuComponent implements OnInit {
                 ]
             },
             {
-                id: `my-company`,
+                id: `myCompany`,
                 icon: 'icon-location_away',
                 label: 'Minha empresa',
                 route: null,
@@ -132,14 +132,14 @@ export class SideMenuComponent implements OnInit {
                 class: 'mobile',
                 subItems: [
                     {
-                        id: `my-company-config`,
+                        id: `myCompanyConfig`,
                         icon: 'icon-arrow',
                         label: 'Dados',
                         route: '/dashboard/my-company/config',
                         visible: true
                     },
                     {
-                        id: `my-company-users`,
+                        id: `myCompanyUsers`,
                         icon: 'icon-arrow',
                         label: 'Usuários',
                         route: '/dashboard/my-company/users',

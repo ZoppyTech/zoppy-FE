@@ -41,21 +41,21 @@ export class ConfigurationComponent implements OnInit {
     private setMenuItems(): void {
         this.menuItems = [
             {
-                id: `access-keys`,
+                id: `accessKeys`,
                 icon: 'icon-arrow',
                 label: 'Chaves de Acesso',
                 route: '/dashboard/configurations/access-keys',
                 visible: true
             },
             {
-                id: `access-tokens`,
+                id: `accessTokens`,
                 icon: 'icon-arrow',
                 label: 'Tokens de Acesso',
                 route: '/dashboard/configurations/access-tokens',
                 visible: true
             },
             {
-                id: `sync-data`,
+                id: `syncData`,
                 icon: 'icon-arrow',
                 label: 'Sincronizacão',
                 route: '/dashboard/configurations/sync-data',
