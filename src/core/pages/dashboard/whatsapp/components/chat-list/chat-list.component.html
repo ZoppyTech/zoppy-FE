@@ -18,7 +18,7 @@
         <div *ngFor="let conversation of conversations">
             <div class="item" (click)="selectedConversationEvent.emit(conversation[1])">
                 <div class="item-header">
-                    <h5 class="text text--bold truncate">{{ conversation[1].contact.name }}</h5>
+                    <h5 class="text text--bold truncate">{{ conversation[1].contact.displayName }}</h5>
                     <h6 *ngIf="conversation[1].threads.length > 0" class="text--small text--400">
                         {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
                     </h6>

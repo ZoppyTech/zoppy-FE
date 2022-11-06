@@ -16,9 +16,9 @@
     <div *ngIf="!hasContactsLoading && contacts.length > 0" class="contacts">
         <div *ngFor="let contact of contacts; let i = index" class="item" (click)="selectContact(contact)">
             <div *ngIf="contact.hasIndex" class="item-header">
-                <h6 class="text--primary text--bold">{{ contact.name.substring(0, 1).toUpperCase() }}</h6>
+                <h6 class="text--primary text--bold">{{ contact.displayName.substring(0, 1).toUpperCase() }}</h6>
             </div>
-            <span class="item-content truncate">{{ contact.name }} </span>
+            <span class="item-content truncate">{{ contact.displayName }} </span>
         </div>
     </div>
 </div>

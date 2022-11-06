@@ -58,7 +58,7 @@ const routes: Routes = [
             },
             {
                 path: 'whatsapp',
-                canActivate: [PremiumGuard],
+                //canActivate: [PremiumGuard],
                 loadChildren: () => import('./whatsapp/whatsapp.module').then((m: any) => m.WhatsappModule)
             }
         ]

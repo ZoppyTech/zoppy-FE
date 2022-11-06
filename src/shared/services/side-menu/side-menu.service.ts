@@ -40,6 +40,7 @@ export type SideMenu =
     | 'register-sale'
     | 'products'
     | 'customers'
+    | 'whatsapp-config'
     | 'none';
 
 export interface SideMenuItem {

@@ -1,4 +1,5 @@
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
+import { StringUtil } from 'src/shared/utils/string.util';
 import { ChatContact } from '../../models/chat-contact';
 import { WhatsappUtil } from '../../utils/whatsapp.util';
 
@@ -7,7 +8,9 @@ export class WhatsappContactMapper {
         return contacts.map((contact: WhatsappContactEntity) => {
             const mappedContact: ChatContact = new ChatContact();
             mappedContact.id = contact.id;
-            mappedContact.name = contact.name;
+            mappedContact.firstName = contact.firstName;
+            mappedContact.lastName = contact.lastName;
+            mappedContact.displayName = StringUtil.buildFullName(contact.firstName, contact.lastName);
             mappedContact.displayPhone = WhatsappUtil.formatDisplayPhone(contact.countryCode, contact.subdivisionCode, contact.phoneNumber);
             mappedContact.hasIndex = false;
             mappedContact.isBlocked = contact.isBlocked;

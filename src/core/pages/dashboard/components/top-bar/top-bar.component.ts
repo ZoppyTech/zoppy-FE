@@ -27,12 +27,12 @@ export class TopBarComponent implements OnInit {
         },
         {
             label: 'Minha Empresa',
-            route: Navigation.routes['my-company-config'],
+            route: Navigation.routes.myCompanyConfig,
             class: ''
         },
         {
             label: 'Usuários',
-            route: Navigation.routes['my-company-users'],
+            route: Navigation.routes.myCompanyUsers,
             class: ''
         }
     ];
