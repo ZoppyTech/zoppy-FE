@@ -31,6 +31,11 @@ export class TopBarComponent implements OnInit {
             class: ''
         },
         {
+            label: 'WhatsApp',
+            route: Navigation.routes.whatsappConfig,
+            class: ''
+        },
+        {
             label: 'Usuários',
             route: Navigation.routes.myCompanyUsers,
             class: ''

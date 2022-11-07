@@ -3,6 +3,7 @@ import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { CompanyUtil } from 'src/shared/utils/company.util';
+import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -44,35 +45,42 @@ export class ConfigurationComponent implements OnInit {
                 id: `accessKeys`,
                 icon: 'icon-arrow',
                 label: 'Chaves de Acesso',
-                route: '/dashboard/configurations/access-keys',
+                route: Navigation.routes.accessKeys,
                 visible: true
             },
             {
                 id: `accessTokens`,
                 icon: 'icon-arrow',
                 label: 'Tokens de Acesso',
-                route: '/dashboard/configurations/access-tokens',
+                route: Navigation.routes.accessTokens,
                 visible: true
             },
             {
                 id: `syncData`,
                 icon: 'icon-arrow',
                 label: 'Sincronizacão',
-                route: '/dashboard/configurations/sync-data',
+                route: Navigation.routes.syncData,
                 visible: true
             },
             {
                 id: `giftback`,
                 icon: 'icon-arrow',
                 label: 'Configuração de Giftback',
-                route: '/dashboard/configurations/giftback',
+                route: Navigation.routes.giftback,
                 visible: true
+            },
+            {
+                id: `whatsappConfig`,
+                icon: 'icon-arrow',
+                label: 'Whatsapp',
+                route: Navigation.routes.whatsappConfig,
+                visible: CompanyUtil.isPremium(this.company)
             },
             {
                 id: `letalk`,
                 icon: 'icon-arrow',
                 label: 'Configuração da Letalk',
-                route: '/dashboard/configurations/letalk',
+                route: Navigation.routes.letalk,
                 visible: CompanyUtil.isStandard(this.company)
             }
         ];
