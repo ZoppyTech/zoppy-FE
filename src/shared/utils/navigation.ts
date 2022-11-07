@@ -19,6 +19,7 @@ export class Navigation {
         letalk: 'dashboard/configurations/letalk',
         giftback: 'dashboard/configurations/giftback',
         whatsappConfig: 'dashboard/configurations/whatsapp',
+        whatsappTemplateList: 'dashboard/configurations/whatsapp-template-list',
         syncData: 'dashboard/configurations/sync-data',
         whatsapp: 'dashboard/whatsapp',
         products: 'dashboard/products',
@@ -47,6 +48,7 @@ export type Pages =
     | 'letalk'
     | 'giftback'
     | 'whatsappConfig'
+    | 'whatsappTemplateList'
     | 'syncData'
     | 'whatsapp'
     | 'products'

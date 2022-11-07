@@ -72,8 +72,15 @@ export class ConfigurationComponent implements OnInit {
             {
                 id: `whatsappConfig`,
                 icon: 'icon-arrow',
-                label: 'Whatsapp',
+                label: 'Configuração do Whatsapp',
                 route: Navigation.routes.whatsappConfig,
+                visible: CompanyUtil.isPremium(this.company)
+            },
+            {
+                id: `whatsappTemplateList`,
+                icon: 'icon-arrow',
+                label: 'Modelos de Mensagem Whatsapp',
+                route: Navigation.routes.whatsappTemplateList,
                 visible: CompanyUtil.isPremium(this.company)
             },
             {

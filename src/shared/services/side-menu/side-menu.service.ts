@@ -41,6 +41,7 @@ export type SideMenu =
     | 'products'
     | 'customers'
     | 'whatsappConfig'
+    | 'whatsappTemplateList'
     | 'none';
 
 export interface SideMenuItem {

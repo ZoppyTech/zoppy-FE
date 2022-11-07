@@ -4,7 +4,6 @@ import { CompanyEntity } from '../models/entities/company.entity';
 export class CompanyUtil {
     public static isStandard(company: CompanyEntity | undefined): boolean {
         if (!company) return false;
-        console.log(company.plan === AppConstants.Plan.standard);
         return company.plan === AppConstants.Plan.standard;
     }
 
