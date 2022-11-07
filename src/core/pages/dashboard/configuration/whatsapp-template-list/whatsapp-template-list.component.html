@@ -5,7 +5,7 @@
     <div class="separator"></div>
 
     <div class="title margin-y-3">
-        <h6 class="text text--bold text--large padding-bottom-2">Gerenciamento de mensagens de modelo</h6>
+        <h6 class="text text--bold text--large padding-bottom-2">Gerenciamento de modelo de mensagens</h6>
         <span class="text desktop">Confira abaixo a listagem dos modelos cadastrados.</span>
     </div>
 
@@ -35,16 +35,18 @@
             </tbody>
         </table>
         <div class="wide flex-center no-content flex-column padding-3" *ngIf="templates.length === 0">
-            <h5 class="text--primary text--bold margin-bottom-3">Nenhum modelo cadastrado!</h5>
-            <span class="text">
-                Você ainda não cadastrou nenhum modelo de mensagem. Para cadastrar, clique no botão abaixo para baixar os modelos
-                diretamente da api do Whatsapp.
+            <h5 class="text--primary text--bold margin-bottom-2">Nenhum modelo encontrado!</h5>
+            <span class="text explanation">
+                Você ainda não baixou nenhum modelo de mensagem. Clique no botão abaixo para fazer o download de seus modelos.
             </span>
+            <ps-button [loading]="loading" [wide]="true" (onClick)="pull()" type="secondary">
+                <span class="text--100 text--bold">Baixar</span>
+            </ps-button>
         </div>
     </div>
 
     <div class="footer">
-        <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary">
+        <ps-button [disabled]="true" [loading]="loading" [wide]="true" (onClick)="save()" type="secondary">
             <span class="text--100 text--bold">Salvar</span>
         </ps-button>
     </div>

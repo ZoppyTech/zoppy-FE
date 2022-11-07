@@ -53,6 +53,8 @@ export class WhatsappTemplateListComponent implements OnInit {
 
     public async save(): Promise<void> {}
 
+    public async pull(): Promise<void> {}
+
     private setLoggedUser(): void {
         this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
     }
