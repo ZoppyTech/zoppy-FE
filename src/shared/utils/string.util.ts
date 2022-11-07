@@ -1,8 +1,8 @@
 export class StringUtil {
     public static readonly SPACE: string = ' ';
 
-    public static buildFullName(firstName: string, lastName: string = ''): string {
-        const fullName: string = firstName + StringUtil.SPACE + lastName;
+    public static buildFullName(firstName: string, lastName?: string): string {
+        const fullName: string = firstName + StringUtil.SPACE + (lastName ?? '');
         return fullName.trimEnd();
     }
 

@@ -38,6 +38,11 @@ const routes: Routes = [
             {
                 path: 'whatsapp',
                 loadChildren: () => import('./whatsapp-config/whatsapp-config.module').then((m: any) => m.WhatsappConfigModule)
+            },
+            {
+                path: 'whatsapp-template-list',
+                loadChildren: () =>
+                    import('./whatsapp-template-list/whatsapp-template-list.module').then((m: any) => m.WhatsappTemplateListModule)
             }
         ]
     }

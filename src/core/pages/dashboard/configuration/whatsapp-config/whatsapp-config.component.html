@@ -1,6 +1,6 @@
 <div class="container">
     <div class="header padding-3 desktop">
-        <h6 class="text--primary text--bold">Integração do Whatsapp</h6>
+        <h6 class="text--primary text--bold">Configuração do Whatsapp</h6>
     </div>
     <div class="separator"></div>
 
@@ -19,11 +19,6 @@
 
     <div class="main-content">
         <div class="left-section">
-            <div class="title margin-y-3">
-                <h6 class="text text--bold text--large padding-bottom-2">Dados da empresa</h6>
-                <span class="text">Insira os dados de sua empresa</span>
-            </div>
-
             <div class="body">
                 <div class="field">
                     <span class="text text--bold margin-bottom-1"> ID da conta comercial do Whatsapp </span>
@@ -75,11 +70,6 @@
         </div>
 
         <div class="right-section">
-            <div class="title margin-y-3">
-                <h6 class="text text--bold text--large padding-bottom-2">Dados do telefone</h6>
-                <span class="text">Insira os dados do telefone para conversar com seus clientes</span>
-            </div>
-
             <div class="body">
                 <div class="field">
                     <span class="text text--bold margin-bottom-2"> Identificação do número de telefone do Whatsapp </span>
@@ -116,11 +106,11 @@
     </div>
 
     <div class="footer">
-        <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary">
-            <span class="text--100 text--bold">Solicitar</span>
+        <ps-button *ngIf="false" class="margin-left-2" [loading]="loading" [wide]="true" (onClick)="disable()" type="error">
+            <span class="text--100 text--bold">Desativar</span>
         </ps-button>
-        <!-- <ps-button [loading]="loading" [wide]="true" (onClick)="revoke()" type="secondary">
-            <span class="text--100 text--bold">Revogar</span>
-        </ps-button> -->
+        <ps-button *ngIf="true" [loading]="loading" [wide]="true" (onClick)="activate()" type="secondary">
+            <span class="text--100 text--bold">Ativar</span>
+        </ps-button>
     </div>
 </div>

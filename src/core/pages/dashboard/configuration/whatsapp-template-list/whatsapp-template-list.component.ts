@@ -2,29 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { ModalService } from 'src/shared/components/modal/modal.service';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
-import { WhatsappAccountPhoneNumberEntity } from 'src/shared/models/entities/whatsapp-account-phone-number.entity';
 import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-account.entity';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
-    selector: 'whatsapp-config',
-    templateUrl: './whatsapp-config.component.html',
-    styleUrls: ['./whatsapp-config.component.scss']
+    selector: 'whatsapp-template-list',
+    templateUrl: './whatsapp-template-list.component.html',
+    styleUrls: ['./whatsapp-template-list.component.scss']
 })
-export class WhatsappConfigComponent implements OnInit {
+export class WhatsappTemplateListComponent implements OnInit {
     public loading: boolean = false;
     public user: UserEntity = new UserEntity();
-
-    // public signWhatsappAccountRequest: WhatsappAccountEntity;
-    // public createWhatsappAccountRequest: WhatsappAccountEntity;
-    // public updateWhatsappAccountRequest: WhatsappAccountEntity;
-
     public declare whatsappAccount: WhatsappAccountEntity;
-    public declare whatsappAccountPhone: WhatsappAccountPhoneNumberEntity;
 
-    public webhookUrl: string = '';
+    public templates: Array<any> = [];
 
     public view: any = 1;
     public items: Array<Item> = [
@@ -52,21 +45,13 @@ export class WhatsappConfigComponent implements OnInit {
 
     public ngOnInit(): void {
         this.whatsappAccount = new WhatsappAccountEntity();
-        this.whatsappAccountPhone = new WhatsappAccountPhoneNumberEntity();
         this.setBreadcrumbItems();
         this.sideMenuService.change('configurations');
-        this.sideMenuService.changeSub('whatsappConfig');
+        this.sideMenuService.changeSub('whatsappTemplateList');
         this.setLoggedUser();
     }
 
-    public async activate(): Promise<void> {}
-
-    public async disable(): Promise<void> {}
-
-    public copyToClipboard(): void {
-        navigator.clipboard.writeText(this.webhookUrl as string);
-        this.toast.success('Url do webhook copiado para a área de transferência', `Copiado!`);
-    }
+    public async save(): Promise<void> {}
 
     private setLoggedUser(): void {
         this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
@@ -84,7 +69,7 @@ export class WhatsappConfigComponent implements OnInit {
             },
             {
                 name: 'Whatsapp',
-                route: '/dashboard/configurations/whatsapp'
+                route: '/dashboard/configurations/whatsapp-template-list'
             }
         ];
     }

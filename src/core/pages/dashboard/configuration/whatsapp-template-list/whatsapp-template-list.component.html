@@ -1,0 +1,51 @@
+<div class="container">
+    <div class="header padding-3 desktop">
+        <h6 class="text--primary text--bold">Modelos de Mensagem Whatsapp</h6>
+    </div>
+    <div class="separator"></div>
+
+    <div class="title margin-y-3">
+        <h6 class="text text--bold text--large padding-bottom-2">Gerenciamento de mensagens de modelo</h6>
+        <span class="text desktop">Confira abaixo a listagem dos modelos cadastrados.</span>
+    </div>
+
+    <div class="main-content">
+        <table>
+            <thead>
+                <th><span class="text text--primary text--bold">Identificador</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Conteúdo</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Status</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Visibilidade</span></th>
+            </thead>
+            <tbody>
+                <tr class="item" *ngFor="let template of templates">
+                    <td>
+                        <span class="text text--600">{{ template.name }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span class="text text--600">{{ template.content }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span class="text text--600">{{ template.status }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span class="text text--600">{{ template.visibility }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="wide flex-center no-content flex-column padding-3" *ngIf="templates.length === 0">
+            <h5 class="text--primary text--bold margin-bottom-3">Nenhum modelo cadastrado!</h5>
+            <span class="text">
+                Você ainda não cadastrou nenhum modelo de mensagem. Para cadastrar, clique no botão abaixo para baixar os modelos
+                diretamente da api do Whatsapp.
+            </span>
+        </div>
+    </div>
+
+    <div class="footer">
+        <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary">
+            <span class="text--100 text--bold">Salvar</span>
+        </ps-button>
+    </div>
+</div>
