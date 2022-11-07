@@ -54,8 +54,8 @@ export class WhatsappConfigComponent implements OnInit {
         this.whatsappAccount = new WhatsappAccountEntity();
         this.whatsappAccountPhone = new WhatsappAccountPhoneNumberEntity();
         this.setBreadcrumbItems();
-        this.sideMenuService.changeSub('whatsapp');
         this.sideMenuService.change('configurations');
+        this.sideMenuService.changeSub('whatsappConfig');
         this.setLoggedUser();
     }
 

@@ -31,7 +31,13 @@
         <ps-mini-menu class="margin-left-2 clickable">
             <div>
                 <div class="padding-2 flex-center flex-column">
-                    <ps-contact class="margin-left-2" [tooltip]="false" [name]="user?.name ?? ''" [email]="user?.email ?? ''"></ps-contact>
+                    <ps-contact
+                        class="margin-left-2 margin-top-2"
+                        size="4rem"
+                        [tooltip]="false"
+                        [name]="user?.name ?? ''"
+                        [email]="user?.email ?? ''"
+                    ></ps-contact>
                     <div class="flex-center text--center flex-column padding-top-3">
                         <h5 class="text--primary text--bold text--center">
                             {{ user?.name }}
