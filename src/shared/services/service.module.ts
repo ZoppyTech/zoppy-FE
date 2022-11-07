@@ -10,6 +10,7 @@ import { UserService } from './user/user.service';
 import { WcGiftbackService } from './wc-giftback/wc-giftback.service';
 import { WcKeyService } from './wc-key/wc-key.service';
 import { WcSyncService } from './wc-sync/wc-sync.service';
+import { WcWebhookService } from './wc-webhook/wc-webhook.service';
 import { WebSocketService } from './websocket/websocket.service';
 import { WhatsappAccountManagerService } from './whatsapp-account-manager/whatsapp-account-manager.service';
 import { WhatsappAccountPhoneNumberService } from './whatsapp-account-phone-number/whatsapp-account-phone-number.service';
@@ -29,6 +30,7 @@ import { WhatsappMessageService } from './whatsapp-message/whatsapp-message.serv
         WcGiftbackService,
         WcKeyService,
         WcSyncService,
+        WcWebhookService,
         ExternalTokenService,
         UserService,
         DashboardService,

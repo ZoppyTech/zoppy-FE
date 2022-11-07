@@ -14,6 +14,33 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class TopBarComponent implements OnInit {
     public user: UserEntity | undefined = undefined;
+    public barItems: Item[] = [
+        {
+            label: 'Configurar Integrações',
+            route: Navigation.routes.configuration,
+            class: 'desktop'
+        },
+        {
+            label: 'Minha Conta',
+            route: Navigation.routes.profile,
+            class: ''
+        },
+        {
+            label: 'Minha Empresa',
+            route: Navigation.routes.myCompanyConfig,
+            class: ''
+        },
+        {
+            label: 'WhatsApp',
+            route: Navigation.routes.whatsappConfig,
+            class: ''
+        },
+        {
+            label: 'Usuários',
+            route: Navigation.routes.myCompanyUsers,
+            class: ''
+        }
+    ];
 
     public constructor(
         private readonly storage: Storage,
@@ -27,11 +54,13 @@ export class TopBarComponent implements OnInit {
         this.user = this.storage.getUser() as UserEntity;
     }
 
-    public navigateToProfile(): void {
-        this.router.navigate([Navigation.routes.profile]);
-    }
-
     public navigateToWhatsapp(): void {
         this.router.navigate([Navigation.routes.whatsapp]);
     }
+}
+
+interface Item {
+    label: string;
+    route: string;
+    class: string;
 }

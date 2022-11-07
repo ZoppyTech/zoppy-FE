@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastService } from '@ZoppyTech/toast';
 import { ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
-import { DashboardService } from 'src/shared/services/dashboard/dashboard.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { Storage } from 'src/shared/utils/storage';
 
@@ -13,7 +11,7 @@ import { Storage } from 'src/shared/utils/storage';
     styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
-    public view: View = 2;
+    public view: View = 1;
     public items: Array<Item> = [
         {
             label: 'Dashboard inicial',

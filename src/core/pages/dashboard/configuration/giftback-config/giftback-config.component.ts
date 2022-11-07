@@ -55,7 +55,7 @@ export class GiftbackConfigComponent implements OnInit {
             this.toast.success(`Informações salvas!`, `Sucesso!`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível salvas as informações');
+            this.toast.error(ex.message, 'Não foi possível salvar as informações');
         } finally {
             this.loading = false;
         }

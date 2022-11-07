@@ -22,6 +22,6 @@ export class MyCompanyComponent implements OnInit {
                 route: undefined
             }
         ];
-        this.sideMenuService.change(`my-company`);
+        this.sideMenuService.change(`myCompany`);
     }
 }

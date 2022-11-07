@@ -33,44 +33,42 @@ export class SideMenuComponent implements OnInit {
                 id: `home`,
                 icon: 'icon-home',
                 label: 'Início',
-                route: '/dashboard/home',
+                route: Navigation.routes.home,
                 visible: true
             },
             {
                 id: `reports`,
                 icon: 'icon-inventory',
                 label: 'Relatórios',
-                route: '/dashboard/reports',
+                route: Navigation.routes.reports,
                 visible: true
-            },
-            {
-                id: `my-company`,
-                icon: 'icon-location_away',
-                label: 'Minha empresa',
-                route: null,
-                visible: true,
-                subItems: [
-                    {
-                        id: `my-company-config`,
-                        icon: 'icon-arrow',
-                        label: 'Dados',
-                        route: '/dashboard/my-company/config',
-                        visible: true
-                    },
-                    {
-                        id: `my-company-users`,
-                        icon: 'icon-arrow',
-                        label: 'Usuários',
-                        route: '/dashboard/my-company/users',
-                        visible: true
-                    }
-                ]
             },
             {
                 id: `whatsapp`,
                 icon: 'icon-wpp',
                 label: 'Whatsapp',
-                route: '/dashboard/whatsapp',
+                route: Navigation.routes.whatsapp,
+                visible: true
+            },
+            {
+                id: `products`,
+                icon: 'icon-inventory_2',
+                label: 'Cadastro de produtos',
+                route: Navigation.routes.products,
+                visible: true
+            },
+            {
+                id: `registerSale`,
+                icon: 'icon-shopping_cart',
+                label: 'Lançamento de venda',
+                route: Navigation.routes.sales,
+                visible: true
+            },
+            {
+                id: `customers`,
+                icon: 'icon-group_add',
+                label: 'Área de membros',
+                route: Navigation.routes.customers,
                 visible: true
             },
             {
@@ -79,40 +77,72 @@ export class SideMenuComponent implements OnInit {
                 label: 'Configurações',
                 route: null,
                 visible: true,
+                class: 'mobile',
                 subItems: [
                     {
-                        id: `access-keys`,
+                        id: `accessKeys`,
                         icon: 'icon-arrow',
                         label: 'Chaves de Acesso',
-                        route: '/dashboard/configurations/access-keys',
+                        route: Navigation.routes.accessKeys,
                         visible: true
                     },
                     {
-                        id: `access-tokens`,
+                        id: `accessTokens`,
                         icon: 'icon-arrow',
                         label: 'Tokens de Acesso',
-                        route: '/dashboard/configurations/access-tokens',
+                        route: Navigation.routes.accessTokens,
                         visible: true
                     },
                     {
-                        id: `sync-data`,
+                        id: `syncData`,
                         icon: 'icon-arrow',
                         label: 'Sincronizacão',
-                        route: '/dashboard/configurations/sync-data',
+                        route: Navigation.routes.syncData,
                         visible: true
                     },
                     {
                         id: `giftback`,
                         icon: 'icon-arrow',
                         label: 'Configuração de Giftback',
-                        route: '/dashboard/configurations/giftback',
+                        route: Navigation.routes.giftback,
                         visible: true
                     },
                     {
-                        id: `whatsapp-config`,
+                        id: `letalk`,
+                        icon: 'icon-arrow',
+                        label: 'Configuração da Letalk',
+                        route: Navigation.routes.letalk,
+                        visible: CompanyUtil.isStandard(this.company)
+                    },
+                    {
+                        id: `whatsappConfig`,
                         icon: 'icon-arrow',
                         label: 'Whatsapp',
-                        route: '/dashboard/configurations/whatsapp',
+                        route: Navigation.routes.whatsappConfig,
+                        visible: CompanyUtil.isPremium(this.company)
+                    }
+                ]
+            },
+            {
+                id: `myCompany`,
+                icon: 'icon-location_away',
+                label: 'Minha empresa',
+                route: null,
+                visible: true,
+                class: 'mobile',
+                subItems: [
+                    {
+                        id: `myCompanyConfig`,
+                        icon: 'icon-arrow',
+                        label: 'Dados',
+                        route: '/dashboard/my-company/config',
+                        visible: true
+                    },
+                    {
+                        id: `myCompanyUsers`,
+                        icon: 'icon-arrow',
+                        label: 'Usuários',
+                        route: '/dashboard/my-company/users',
                         visible: true
                     }
                 ]

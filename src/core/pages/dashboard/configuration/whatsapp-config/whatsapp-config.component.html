@@ -1,17 +1,18 @@
 <div class="container">
-    <div class="header">
-        <h5 class="text--primary text--bold margin-y-3">Integração do Whatsapp</h5>
+    <div class="header padding-3 desktop">
+        <h6 class="text--primary text--bold">Integração do Whatsapp</h6>
     </div>
+    <div class="separator"></div>
 
     <div class="main-title flex-row">
         <div class="title margin-y-3">
             <h6 class="text text--bold text--large padding-bottom-2">Cadastre os dados para integração</h6>
-            <span class="text">Insira nos campos abaixo os dados solicitados para integrar com API do WhatsApp.</span>
+            <span class="text desktop">Insira nos campos abaixo os dados solicitados para integrar com API do WhatsApp.</span>
         </div>
         <div class="display-whatsapp-status">
             <div class="status">
                 <div class="circle"></div>
-                <span class="label">Integração em andamento</span>
+                <span class="text--small">Integração em andamento</span>
             </div>
         </div>
     </div>
@@ -104,6 +105,7 @@
                         class="margin-left-2"
                         [enableSearch]="false"
                         [propertyValue]="'value'"
+                        [wide]="true"
                         [(value)]="view"
                         [propertyLabel]="'label'"
                         [items]="items"

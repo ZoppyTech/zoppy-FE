@@ -2,41 +2,53 @@ export class Navigation {
     public static routes: Record<Pages, string> = {
         login: '/login',
         landing: '/landing',
-        'change-password': '/change-password',
-        'reset-password': '/reset-password',
+        changePassword: '/change-password',
+        resetPassword: '/reset-password',
         dashboard: '/dashboard',
+        home: '/dashboard/home',
         register: '/register',
-        configuration: 'dashboard/configuration',
+        configuration: 'dashboard/configurations',
         profile: 'dashboard/profile',
-        'my-company': 'dashboard/my-company',
-        'my-company-config': 'dashboard/my-company/config',
-        'my-company-users': 'dashboard/my-company/users',
-        'user-config': 'dashboard/my-company/users/config',
+        myCompany: 'dashboard/my-company',
+        myCompanyConfig: 'dashboard/my-company/config',
+        myCompanyUsers: 'dashboard/my-company/users',
+        userConfig: 'dashboard/my-company/users/config',
         reports: 'dashboard/reports',
-        'access-keys': 'dashboard/configurations/access-keys',
-        'access-tokens': 'dashboard/configurations/access-tokens',
+        accessKeys: 'dashboard/configurations/access-keys',
+        accessTokens: 'dashboard/configurations/access-tokens',
+        letalk: 'dashboard/configurations/letalk',
         giftback: 'dashboard/configurations/giftback',
-        'sync-data': 'dashboard/configurations/sync-data',
-        whatsapp: 'dashboard/whatsapp'
+        whatsappConfig: 'dashboard/configurations/whatsapp',
+        syncData: 'dashboard/configurations/sync-data',
+        whatsapp: 'dashboard/whatsapp',
+        products: 'dashboard/products',
+        sales: 'dashboard/sales',
+        customers: 'dashboard/customers'
     };
 }
 
 export type Pages =
     | 'login'
     | 'landing'
-    | 'change-password'
-    | 'reset-password'
+    | 'changePassword'
+    | 'resetPassword'
     | 'dashboard'
+    | 'home'
     | 'register'
     | `configuration`
     | 'profile'
-    | 'my-company'
-    | 'my-company-config'
-    | 'my-company-users'
-    | 'user-config'
+    | 'myCompany'
+    | 'myCompanyConfig'
+    | 'myCompanyUsers'
+    | 'userConfig'
     | 'reports'
-    | 'access-keys'
-    | 'access-tokens'
+    | 'accessKeys'
+    | 'accessTokens'
+    | 'letalk'
     | 'giftback'
-    | 'sync-data'
-    | 'whatsapp';
+    | 'whatsappConfig'
+    | 'syncData'
+    | 'whatsapp'
+    | 'products'
+    | 'sales'
+    | 'customers';

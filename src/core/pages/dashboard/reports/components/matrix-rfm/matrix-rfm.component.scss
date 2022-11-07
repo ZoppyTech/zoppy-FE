@@ -17,9 +17,9 @@ main {
         margin: 1rem;
         padding: 2rem;
         border: 1px solid var(--neutral-300);
-        border-radius: 12px;
+        border-radius: 0.75rem;
         background-color: #fdfdfd;
-        box-shadow: 0px 16px 24px #edeff2;
+        box-shadow: 0px 1rem 24px #edeff2;
         display: flex;
         flex-direction: column;
         height: calc(100% - 2rem);
@@ -34,9 +34,9 @@ main {
 
     .matrix {
         border: 1px solid var(--primary-500);
-        border-radius: 12px;
+        border-radius: 0.75rem;
         background-color: #fdfdfd;
-        box-shadow: 0px 16px 24px #edeff2;
+        box-shadow: 0px 1rem 24px #edeff2;
         display: grid;
         width: 600px;
         max-width: calc(100vw - 2rem);
@@ -138,19 +138,19 @@ main {
         }
 
         .radius-top-left {
-            border-top-left-radius: 12px;
+            border-top-left-radius: 0.75rem;
         }
 
         .radius-top-right {
-            border-top-right-radius: 12px;
+            border-top-right-radius: 0.75rem;
         }
 
         .radius-bottom-left {
-            border-bottom-left-radius: 12px;
+            border-bottom-left-radius: 0.75rem;
         }
 
         .radius-bottom-right {
-            border-bottom-right-radius: 12px;
+            border-bottom-right-radius: 0.75rem;
         }
     }
 }
@@ -159,7 +159,7 @@ main {
     main {
         .matrix {
             span {
-                font-size: 12px;
+                font-size: 0.75rem;
             }
         }
     }

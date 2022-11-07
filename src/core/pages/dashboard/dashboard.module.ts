@@ -7,6 +7,7 @@ import { SideMenuModule } from './components/side-menu/side-menu.module';
 import { TopBarModule } from './components/top-bar/top-bar.module';
 import { DashboardGuard } from 'src/shared/guards/dashboard.guard';
 import { PremiumGuard } from 'src/shared/guards/premium.guard';
+import { StandardGuard } from 'src/shared/guards/standard.guard';
 
 const routes: Routes = [
     {
@@ -40,6 +41,22 @@ const routes: Routes = [
                 loadChildren: () => import('./my-profile/my-profile.module').then((m: any) => m.MyProfileModule)
             },
             {
+                path: 'membership',
+                loadChildren: () => import('./membership/membership.module').then((m: any) => m.MembershipModule)
+            },
+            {
+                path: 'sales',
+                loadChildren: () => import('./register-sales/register-sales.module').then((m: any) => m.RegisterSalesModule)
+            },
+            {
+                path: 'products',
+                loadChildren: () => import('./products/products.module').then((m: any) => m.ProductsModule)
+            },
+            {
+                path: 'customers',
+                loadChildren: () => import('./customers/customers.module').then((m: any) => m.CustomersModule)
+            },
+            {
                 path: 'whatsapp',
                 //canActivate: [PremiumGuard],
                 loadChildren: () => import('./whatsapp/whatsapp.module').then((m: any) => m.WhatsappModule)
@@ -52,6 +69,6 @@ const routes: Routes = [
     imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, SideMenuModule, TopBarModule],
     declarations: [DashboardComponent],
     exports: [DashboardComponent],
-    providers: [DashboardGuard, PremiumGuard]
+    providers: [DashboardGuard, PremiumGuard, StandardGuard]
 })
 export class DashboardModule {}

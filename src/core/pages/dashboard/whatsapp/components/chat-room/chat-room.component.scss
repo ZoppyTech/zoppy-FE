@@ -20,11 +20,11 @@
         align-items: flex-start;
         justify-content: center;
         border-bottom: 1px solid var(--neutral-300);
-        padding: 24px 32px;
+        padding: 24px 2rem;
         background-color: #ffffff;
 
         h6 {
-            font-size: 16px;
+            font-size: 1rem;
             font-weight: 400;
             color: #363636;
         }
@@ -50,7 +50,7 @@
         flex-direction: row;
         align-items: center;
         justify-content: flex-end;
-        padding: 18px 16px;
+        padding: 18px 1rem;
         border: 1px solid var(--neutral-300);
         background-color: #ffffff;
 
@@ -72,7 +72,7 @@
             ps-icon {
                 display: flex;
                 flex-direction: column-reverse;
-                font-size: 32px;
+                font-size: 2rem;
                 font-weight: 700;
                 rotate: -90deg;
             }
@@ -89,8 +89,8 @@
             flex-wrap: nowrap;
             height: fit-content;
             background: rgba(255, 255, 255, 1);
-            box-shadow: 0px 16px 24px #edeff2;
-            border-radius: 16px;
+            box-shadow: 0px 1rem 24px #edeff2;
+            border-radius: 1rem;
             max-height: 256px;
             overflow-y: auto;
             margin: 0px 24px;
@@ -108,17 +108,17 @@
         }
 
         .templates-button {
-            padding: 8px;
-            border-radius: 12px;
+            padding: 0.5rem;
+            border-radius: 0.75rem;
             flex-direction: row;
             justify-content: center;
             width: 64px;
             display: flex;
             height: fit-content;
-            margin-right: 12px;
+            margin-right: 0.75rem;
 
             span {
-                font-size: 32px;
+                font-size: 2rem;
                 font-weight: 700;
                 color: var(--neutral-300);
             }
