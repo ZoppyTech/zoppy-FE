@@ -101,7 +101,7 @@
         <div class="padding-x-2 content flex-grow">
             <div class="field-2">
                 <p class="text text--bold margin-top-unset">Total (R$)</p>
-                <ps-input type="number" [(ngModel)]="order.total"></ps-input>
+                <ps-input type="string" mask="currency" [selectAll]="true" [moveMaskedCursor]="false" [(ngModel)]="order.total"></ps-input>
             </div>
             <div class="field-2">
                 <p class="text text--bold">`Valor do desconto</p>
@@ -117,14 +117,20 @@
                 <ps-input
                     *ngIf="order.coupon.type === 'fixed-cart' && !useExistingCoupon"
                     class="margin-y-1"
-                    type="number"
+                    type="string"
+                    mask="currency"
+                    [selectAll]="true"
+                    [moveMaskedCursor]="false"
                     placeholder="R$350,00"
                     [(ngModel)]="order.coupon.amount"
                 ></ps-input>
                 <ps-input
                     class="margin-y-1"
                     *ngIf="order.coupon.type === 'percent' && !useExistingCoupon"
-                    type="number"
+                    type="string"
+                    mask="percent"
+                    [selectAll]="true"
+                    [moveMaskedCursor]="false"
                     placeholder="30,00%"
                     [(ngModel)]="order.coupon.amount"
                 ></ps-input>

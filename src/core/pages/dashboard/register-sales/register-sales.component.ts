@@ -35,15 +35,14 @@ export class RegisterSalesComponent implements OnInit {
     public order: CrmOrderRequest = {
         address: {},
         coupon: {
-            amount: 0,
-            type: 'fixed-cart'
+            type: 'fixed-cart',
+            amount: 0
         },
         lineItems: [],
         total: 0
     };
     public loadingAddress: boolean = false;
     public defaultCouponType: CouponType = 'fixed-cart';
-    public couponAmount: number = 0;
     public useExistingCoupon: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public products: CrmProductResponse[] = [];
@@ -126,14 +125,14 @@ export class RegisterSalesComponent implements OnInit {
     public async save(): Promise<void> {
         try {
             this.loading = true;
-            this.order.total = parseInt(this.order.total.toString());
+            this.order.total = parseFloat(this.order.total as string);
             const order: CrmOrderResponse = await this.crmOrderService.create(this.order);
             this.order = order as CrmOrderRequest;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível salvar seu pedido');
         } finally {
-            this.loadingAddress = false;
+            this.loading = false;
         }
     }
 
@@ -240,10 +239,13 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public calculateSubtotal(): string {
-        if (this.order.coupon.type === 'fixed-cart') return FormatUtils.toCurrency(this.order.total - this.order.coupon.amount);
+        if (this.order.coupon.type === 'fixed-cart')
+            return FormatUtils.toCurrency(parseFloat(this.order.total as string) - parseFloat(this.order.coupon.amount as string));
         else if (this.order.coupon.type === 'percent')
-            return FormatUtils.toCurrency(this.order.total * ((100 - this.order.coupon.amount) / 100));
-        return FormatUtils.toCurrency(this.order.total);
+            return FormatUtils.toCurrency(
+                parseFloat(this.order.total as string) * ((100 - parseFloat(this.order.coupon.amount as string)) / 100)
+            );
+        return FormatUtils.toCurrency(parseFloat(this.order.total as string));
     }
 
     private setBreadcrumb(): void {
