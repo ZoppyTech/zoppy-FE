@@ -16,16 +16,37 @@
 
     <div *ngIf="conversations.length > 0" class="conversations">
         <div *ngFor="let conversation of conversations">
-            <div class="item" (click)="selectedConversationEvent.emit(conversation[1])">
+            <div
+                class="item clickable"
+                (click)="onConversationSelected(conversation[1])"
+                [ngClass]="{ 'item-actived': conversation[1].actived }"
+            >
                 <div class="item-header">
                     <h5 class="text text--bold truncate">{{ conversation[1].contact.displayName }}</h5>
                     <h6 *ngIf="conversation[1].threads.length > 0" class="text--small text--400">
                         {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
                     </h6>
                 </div>
-                <span *ngIf="conversation[1].threads.length > 0" class="item-content truncate"
-                    >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
-                </span>
+                <div class="item-content" *ngIf="conversation[1].threads.length > 0">
+                    <span
+                        class="viewed-icon"
+                        [ngClass]="{
+                            'viewed-icon--business-user': conversation[1].threads[conversation[1].threads.length - 1].isBusiness,
+                            'viewed-icon--customer-user': !conversation[1].threads[conversation[1].threads.length - 1].isBusiness
+                        }"
+                    >
+                        <ps-icon
+                            *ngIf="conversation[1].threads[conversation[1].threads.length - 1].wamId"
+                            [ngClass]="{
+                                'viewed-icon--status-sent': conversation[1].threads[conversation[1].threads.length - 1].status === 'sent',
+                                'viewed-icon--status-delivered':
+                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered'
+                            }"
+                            icon="icon-done_all"
+                        ></ps-icon
+                    ></span>
+                    <span class="text-message truncate">{{ conversation[1].threads[conversation[1].threads.length - 1].content }} </span>
+                </div>
             </div>
         </div>
     </div>

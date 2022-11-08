@@ -8,4 +8,5 @@ export class ChatRoom {
     public manager: ChatManager = new ChatManager();
     public contact: ChatContact = new ChatContact();
     public threads: Array<ThreadMessage> = [];
+    public actived: boolean = false;
 }

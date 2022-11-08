@@ -139,12 +139,16 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             newChatRoom.threads = [];
             this.setRoomAsMostRecent(newChatRoom);
         }
+        if (this.chatRoomSelected) this.chatRoomSelected.actived = false;
         this.chatRoomSelected = this.conversations.get(this.contactSelected.id) ?? new ChatRoom();
+        this.chatRoomSelected.actived = true;
         this.scrollDownEvent.next();
     }
 
     public onConversationSelected(chatRoom: ChatRoom): void {
+        if (this.chatRoomSelected) this.chatRoomSelected.actived = false;
         this.chatRoomSelected = chatRoom;
+        this.chatRoomSelected.actived = true;
         this.scrollDownEvent.next();
     }
 

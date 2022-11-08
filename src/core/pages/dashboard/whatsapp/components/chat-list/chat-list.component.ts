@@ -12,7 +12,6 @@ export class ChatListComponent implements OnInit {
     @Output() public currentSubcomponentChange: EventEmitter<Subcomponents> = new EventEmitter<Subcomponents>();
     @Output() public selectedConversationEvent: EventEmitter<any> = new EventEmitter<any>();
     @Input() public conversations: Array<[string, ChatRoom]> = new Array<[string, ChatRoom]>();
-
     public readonly EMPTY_lIST_IMAGE_DIR: string = './../../../../../../assets/imgs/empty-chat-list.png';
     public readonly NEW_MESSAGE_IMAGE_DIR: string = './../../../../../../assets/imgs/new-message.png';
 
@@ -24,5 +23,9 @@ export class ChatListComponent implements OnInit {
 
     public newMessage(): void {
         this.currentSubcomponentChange.emit(Subcomponents.ContactList);
+    }
+
+    public onConversationSelected(chatRoomSelected: ChatRoom): void {
+        this.selectedConversationEvent.emit(chatRoomSelected);
     }
 }
