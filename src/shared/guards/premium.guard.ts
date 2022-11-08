@@ -12,7 +12,7 @@ export class PremiumGuard implements CanActivate {
     public canActivate(): boolean {
         const isPremium: boolean = CompanyUtil.isPremium(this.storage.getCompany() as CompanyEntity);
         if (!isPremium) {
-            this.router.navigate([Navigation.routes.dashboard]);
+            this.router.navigate([Navigation.routes.landing]);
         }
         return isPremium;
     }

@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class SideMenuService {
     public selected: SideMenu = `home`;
-    public subSelected: SideMenu = 'access-keys';
+    public subSelected: SideMenu = 'accessKeys';
     public open: boolean = false;
     public constructor() {}
 
@@ -25,17 +25,23 @@ export class SideMenuService {
 export type SideMenu =
     | 'home'
     | 'reports'
-    | `my-company`
+    | `myCompany`
     | `configurations`
     | `whatsapp`
-    | `access-keys`
-    | `access-tokens`
-    | `sync-data`
+    | `accessKeys`
+    | `accessTokens`
+    | `letalk`
+    | `syncData`
     | `giftback`
-    | `my-profile`
-    | 'my-company-config'
-    | 'my-company-users'
-    | 'whatsapp-config'
+    | `myProfile`
+    | 'myCompanyConfig'
+    | 'myCompanyUsers'
+    | 'membership'
+    | 'registerSale'
+    | 'products'
+    | 'customers'
+    | 'whatsappConfig'
+    | 'whatsappTemplateList'
     | 'none';
 
 export interface SideMenuItem {
@@ -46,4 +52,5 @@ export interface SideMenuItem {
     visible: boolean;
     subItems?: Array<SideMenuItem>;
     subItemsOpened?: boolean;
+    class?: string;
 }

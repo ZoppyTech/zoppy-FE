@@ -41,8 +41,8 @@ export class MyCompanyConfigComponent implements OnInit {
                 route: `/dashboard/my-company/config`
             }
         ];
-        this.sideMenuService.change(`my-company`);
-        this.sideMenuService.changeSub(`my-company-config`);
+        this.sideMenuService.change(`myCompany`);
+        this.sideMenuService.changeSub(`myCompanyConfig`);
     }
 
     public async save(): Promise<void> {
@@ -60,7 +60,7 @@ export class MyCompanyConfigComponent implements OnInit {
             this.toast.success(`Informações salvas!`, `Sucesso!`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível salvas as informações');
+            this.toast.error(ex.message, 'Não foi possível salvar as informações');
         } finally {
             this.loading = false;
         }

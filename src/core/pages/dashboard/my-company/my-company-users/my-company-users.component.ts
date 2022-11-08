@@ -42,8 +42,8 @@ export class MyCompanyUsersComponent implements OnInit {
                 route: `/dashboard/my-company/users`
             }
         ];
-        this.sideMenuService.change(`my-company`);
-        this.sideMenuService.changeSub(`my-company-users`);
+        this.sideMenuService.change(`myCompany`);
+        this.sideMenuService.changeSub(`myCompanyUsers`);
         await this.fetchUsers();
     }
 
@@ -61,11 +61,11 @@ export class MyCompanyUsersComponent implements OnInit {
     }
 
     public navigate(user: UserEntity): void {
-        this.router.navigate([Navigation.routes['user-config'], user.id]);
+        this.router.navigate([Navigation.routes.userConfig, user.id]);
     }
 
     public createUser(): void {
-        this.router.navigate([Navigation.routes['user-config']]);
+        this.router.navigate([Navigation.routes.userConfig]);
     }
 
     public async destroy(user: UserEntity): Promise<void> {

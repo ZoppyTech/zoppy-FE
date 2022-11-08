@@ -1,13 +1,16 @@
 <div class="container">
-    <div class="header">
-        <h5 class="text--primary text--bold margin-y-3">Tokens de Acesso</h5>
+    <div class="header desktop">
+        <h6 class="text--primary text--bold margin-y-3">Chaves de Acesso</h6>
     </div>
+    <div class="separator"></div>
     <div class="title">
         <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
             <h6 class="text text--bold">Cadastre suas chaves &nbsp;</h6>
             <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
         </div>
-        <span class="text">Insira nos campos abaixo suas chaves Secret, Key e a URL do seu E-commerce na plataforma WooCommerce</span>
+        <span class="text desktop"
+            >Insira nos campos abaixo suas chaves Secret, Key e a URL do seu E-commerce na plataforma WooCommerce</span
+        >
     </div>
 
     <div class="body">
@@ -46,6 +49,12 @@
                 <ps-input placeholder="Insira aqui a URL do seu E-commerce" type="url" [(ngModel)]="key.url"></ps-input>
                 <ps-icon (click)="copyToClipboard('url')" icon="icon-copy" class="text--primary clickable"></ps-icon>
             </div>
+        </div>
+
+        <div class="field">
+            <ps-checkbox [(active)]="sendWebhook">
+                <span class="text">Configurar webhooks</span>
+            </ps-checkbox>
         </div>
     </div>
 

@@ -29,16 +29,40 @@
             </span>
         </div>
         <ps-mini-menu class="margin-left-2 clickable">
-            <ul>
-                <li class="flex flex-start clickable" (click)="navigateToProfile()">
-                    <ps-icon class="margin-right-2" icon="icon-user text--600"></ps-icon>
-                    <span class="text text--600">Meu Perfil</span>
-                </li>
-                <li class="flex flex-start clickable" (click)="publicService.confirmLogout()">
-                    <ps-icon class="margin-right-2" icon="icon-logout text--600"></ps-icon>
-                    <span class="text text--600"> Sair </span>
-                </li>
-            </ul>
+            <div>
+                <div class="padding-2 flex-center flex-column">
+                    <ps-contact
+                        class="margin-left-2 margin-top-2"
+                        size="4rem"
+                        [tooltip]="false"
+                        [name]="user?.name ?? ''"
+                        [email]="user?.email ?? ''"
+                    ></ps-contact>
+                    <div class="flex-center text--center flex-column padding-top-3">
+                        <h5 class="text--primary text--bold text--center">
+                            {{ user?.name }}
+                        </h5>
+                        <span class="text text--600 text--small text--center">
+                            {{ user?.email }}
+                        </span>
+                    </div>
+                </div>
+                <div class="separator margin-y-2"></div>
+                <ul>
+                    <li *ngFor="let item of barItems" class="{{ item.class }}">
+                        <a class="text-decoration-none" [attr.href]="item.route">
+                            <span class="text text--600">{{ item.label }}</span>
+                        </a>
+                    </li>
+                </ul>
+                <div class="separator margin-y-2"></div>
+                <ul>
+                    <li class="flex flex-start clickable" (click)="publicService.confirmLogout()">
+                        <ps-icon class="margin-right-2" icon="icon-logout text--primary"></ps-icon>
+                        <span class="text text--primary"> Sair </span>
+                    </li>
+                </ul>
+            </div>
         </ps-mini-menu>
     </div>
 </div>

@@ -71,31 +71,31 @@ export class HomeComponent implements OnInit {
                 title: 'Preencher dados da empresa',
                 label: 'Preencha seu CNPJ para podermos concluir com a sua integração.',
                 completed: this.dashboard.companyFilled,
-                route: 'my-company-config'
+                route: Navigation.routes.myCompanyConfig as Pages
             },
             {
                 title: 'Cadastrar chaves de acesso',
                 label: 'Cadastre as chaves de acesso para integrasmos com seu Ecommerce.',
                 completed: this.dashboard.accessKeysCreated,
-                route: 'access-keys'
+                route: Navigation.routes.accessKeys as Pages
             },
             {
                 title: 'Configurar token de acesso',
                 label: 'Configure um token de acesso para autenticar a nossa plataforma.',
                 completed: this.dashboard.accessTokenCreated,
-                route: 'access-tokens'
+                route: Navigation.routes.accessTokens as Pages
             },
             {
                 title: 'Configurar seu giftback',
                 label: 'Configure os padrões de giftback automático por compra concluída.',
                 completed: this.dashboard.giftbackConfigCreated,
-                route: 'giftback'
+                route: Navigation.routes.giftback as Pages
             },
             {
                 title: 'Sincronizar seus dados',
                 label: 'Importe cupons, pedidos, produtos e clientes para seu Ecommerce.',
                 completed: this.dashboard.syncDataConcluded,
-                route: 'sync-data'
+                route: Navigation.routes.syncData as Pages
             }
         ];
     }

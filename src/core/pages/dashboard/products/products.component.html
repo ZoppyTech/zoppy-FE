@@ -1,0 +1,60 @@
+<div class="container">
+    <div class="header">
+        <h5 class="text--primary text--bold margin-y-3">Cadastro de produtos</h5>
+    </div>
+    <div class="title">
+        <div class="flex align-center padding-y-3">
+            <h6 class="text text--bold">Cadastre seus produtos &nbsp;</h6>
+            <ps-icon icon="icon-info secondary " class="secondary clickable" (click)="openInfoModal()"></ps-icon>
+        </div>
+        <span class="text"
+            >Para cadastrar seus produtos baixe a planilha abaixo em seu computador, preencha com as respectivas informações e depois faça o
+            envio da planilha nesta página.
+        </span>
+    </div>
+
+    <div class="body">
+        <table>
+            <thead>
+                <th><span class="text text--primary text--bold">Produto</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Categorias</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Valor</span></th>
+            </thead>
+            <tbody>
+                <tr class="item" *ngFor="let product of products">
+                    <td>
+                        <span [ngClass]="{ 'text--400': !product.name }" class="text text--600">{{ product.name || 'vazio' }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !product.categoriesFormatted }" class="text text--600">{{
+                            product.categoriesFormatted || 'vazio'
+                        }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !product.price }" class="text text--600 desktop">{{
+                            product.price || 'vazio'
+                        }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="wide flex-center no-content flex-column padding-3" *ngIf="products.length === 0">
+            <h5 class="text--primary text--bold margin-bottom-3">Nenhum produto cadastrado!</h5>
+            <span class="text">
+                Você ainda não cadastrou nenhum produto. Para cadastrar, clique no botão abaixo para baixar a planilha. Após, abra-a em seu
+                computador, preencha as respectivas informações e depois faça o envio nesta página.
+            </span>
+        </div>
+    </div>
+
+    <div class="footer">
+        <ps-button [loading]="loading" class="margin-right-2" [wide]="true" (onClick)="download()" type="secondary">
+            <span class="text--100 text--bold">Baixar planilha</span>
+        </ps-button>
+        <ps-button [wide]="true" (onClick)="save()" type="secondary-border">
+            <span class="text--secondary text--bold">Enviar planilha</span>
+        </ps-button>
+    </div>
+</div>
+
+<input class="hidden" (change)="handleFileInput($event)" type="file" #inputFile />

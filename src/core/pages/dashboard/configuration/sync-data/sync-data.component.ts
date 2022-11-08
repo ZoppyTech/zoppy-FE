@@ -35,7 +35,7 @@ export class SyncDataComponent implements OnInit {
         this.setBreadcrumbItems();
         this.setSteppers();
         this.sideMenuService.change('configurations');
-        this.sideMenuService.changeSub(`sync-data`);
+        this.sideMenuService.changeSub(`syncData`);
         await this.fetchKey();
         this.loaded = true;
     }

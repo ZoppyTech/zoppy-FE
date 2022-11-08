@@ -1,0 +1,250 @@
+<div class="container">
+    <div class="header desktop">
+        <div class="tab" [ngClass]="{ selected: state === 1 }">
+            <h6 [ngClass]="{ 'text--primary': state === 1 }" class="text--bold text--500 text margin-y-3">Seleção de cliente</h6>
+        </div>
+        <div class="tab" [ngClass]="{ selected: state !== 1 }">
+            <h6 [ngClass]="{ 'text--primary': state !== 1 }" class="text--bold text--500 text margin-y-3">Lançamento de venda</h6>
+        </div>
+    </div>
+    <div class="title desktop" *ngIf="state === 1">
+        <div class="flex align-center padding-y-3">
+            <h6 class="text text--bold">Selecionar um cliente</h6>
+            &nbsp;
+            <ps-icon icon="icon-info secondary" class="secondary clickable" (click)="openInfoModal()"></ps-icon>
+        </div>
+        <span class="text">
+            Para realizar o lançamento de venda forneça os dados do seu cliente preenchendo os campos abaixo e após clique em prosseguir.
+        </span>
+    </div>
+    <div class="title desktop" *ngIf="state !== 1">
+        <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
+            <h6 class="text text--bold">Lançamento de venda</h6>
+            &nbsp;
+            <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+        </div>
+        <span class="text"> Agora você deverá preencher os campos abaixo para registrar a venda. </span>
+    </div>
+
+    <div class="body padding-x-2" *ngIf="!loadingAddress && state === 1">
+        <div class="field">
+            <p class="text text--bold">Telefone do seu cliente</p>
+            <ps-input
+                mask="(00) 00000-0000"
+                [debounce]="800"
+                (ngModelChange)="fetchCustomer($event)"
+                placeholder="Digite aqui seu telefone com DDD"
+                [(ngModel)]="order.address.phone"
+            ></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Sexo do seu cliente</p>
+            <ps-dropdown
+                class="wide"
+                [wide]="true"
+                [enableSearch]="false"
+                [propertyValue]="'value'"
+                [(value)]="order.address.gender"
+                [disabled]="!order.address.phone"
+                [propertyLabel]="'label'"
+                [items]="genders"
+                noDataText="Selecionar"
+            ></ps-dropdown>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Primeiro Nome</p>
+            <ps-input [disabled]="!order.address.phone" placeholder="Digite aqui seu nome" [(ngModel)]="order.address.firstName"></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">CEP do cliente</p>
+            <ps-input
+                [disabled]="!order.address.phone"
+                mask="00.000-000"
+                [debounce]="800"
+                placeholder="Digite aqui seu CEP"
+                [(ngModel)]="order.address.postcode"
+                (ngModelChange)="fetchZipcode($event)"
+            ></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Sobrenome</p>
+            <ps-input
+                [disabled]="!order.address.phone"
+                placeholder="Digite aqui seu sobrenome"
+                [(ngModel)]="order.address.lastName"
+            ></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Cidade e UF do seu cliente</p>
+            <ps-input
+                [disabled]="!order.address.phone || !order.address.postcode"
+                placeholder="Digite aqui seu CEP"
+                [(ngModel)]="order.address.state"
+            ></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">E-mail do cliente</p>
+            <ps-input
+                [disabled]="!order.address.phone"
+                placeholder="Digite seu email"
+                type="email"
+                [(ngModel)]="order.address.email"
+            ></ps-input>
+        </div>
+        <div class="field">
+            <p class="text text--bold">Data de nascimento do seu cliente</p>
+            <ps-datepicker [displayTop]="true" type="input" [(model)]="order.address.birthDate" placeholder="DD/MM/AAAA"></ps-datepicker>
+        </div>
+    </div>
+
+    <div class="body body-2 padding-x-2 flex flex-column" *ngIf="!loadingAddress && state !== 1">
+        <div class="padding-x-2 content flex-grow">
+            <div class="field-2">
+                <p class="text text--bold margin-top-unset">Total (R$)</p>
+                <ps-input type="string" mask="currency" [selectAll]="true" [moveMaskedCursor]="false" [(ngModel)]="order.total"></ps-input>
+            </div>
+            <div class="field-2">
+                <p class="text text--bold">`Valor do desconto</p>
+                <ps-radio-button
+                    [propertyValue]="'value'"
+                    [propertyLabel]="'label'"
+                    class="margin-y-1"
+                    [vertical]="false"
+                    [items]="couponTypes"
+                    [(value)]="order.coupon.type"
+                    *ngIf="!useExistingCoupon"
+                ></ps-radio-button>
+                <ps-input
+                    *ngIf="order.coupon.type === 'fixed-cart' && !useExistingCoupon"
+                    class="margin-y-1"
+                    type="string"
+                    mask="currency"
+                    [selectAll]="true"
+                    [moveMaskedCursor]="false"
+                    placeholder="R$350,00"
+                    [(ngModel)]="order.coupon.amount"
+                ></ps-input>
+                <ps-input
+                    class="margin-y-1"
+                    *ngIf="order.coupon.type === 'percent' && !useExistingCoupon"
+                    type="string"
+                    mask="percent"
+                    [selectAll]="true"
+                    [moveMaskedCursor]="false"
+                    placeholder="30,00%"
+                    [(ngModel)]="order.coupon.amount"
+                ></ps-input>
+                <ps-checkbox
+                    class="margin-y-1"
+                    *ngIf="order.coupon?.id || backupCoupon"
+                    [(active)]="useExistingCoupon"
+                    (onToggleCheckbox)="toggleUseCoupon($event)"
+                >
+                    <span class="text">Aplicar cashback</span>
+                </ps-checkbox>
+            </div>
+
+            <div class="field-2">
+                <p class="text text--bold">`Operação</p>
+                <ps-dropdown
+                    class="wide"
+                    [wide]="true"
+                    [enableSearch]="false"
+                    [propertyValue]="'value'"
+                    [(value)]="order.operation"
+                    [propertyLabel]="'label'"
+                    [items]="operations"
+                    [displayTop]="true"
+                    noDataText="Selecionar"
+                ></ps-dropdown>
+            </div>
+
+            <div class="field-2">
+                <p class="text text--bold">Produtos</p>
+                <ps-multi-select
+                    [disabled]="false"
+                    propertyLabel="name"
+                    [displayTop]="true"
+                    [selectAll]="false"
+                    [wide]="true"
+                    propertyValue="id"
+                    [items]="products"
+                    [values]="productsSelected"
+                    (valuesChange)="selectPRoduct($event)"
+                ></ps-multi-select>
+            </div>
+        </div>
+
+        <div class="products padding-3 margin-top-2 margin-y-2 flex-grow flex-column">
+            <div
+                class="giftback-alert padding-2 margin-bottom-2"
+                *ngIf="!useExistingCoupon"
+                [ngClass]="{
+                    'giftback-alert--success': order.coupon.id || backupCoupon,
+                    'giftback-alert--error': !order.coupon.id && !backupCoupon
+                }"
+            >
+                <ps-icon
+                    icon="{{ order.coupon.id || backupCoupon ? 'icon-task_alt' : 'icon-unpublished' }}"
+                    class="margin-right-1 '{{ order.coupon.id || backupCoupon ? 'success' : 'negative' }}'"
+                ></ps-icon>
+                <span class="text text--bold"
+                    >{{ order.coupon.id || backupCoupon ? 'Cashback disponível:' : 'Cashback indisponível:' }}
+                </span>
+                <span class="text">{{
+                    order.coupon.id || backupCoupon
+                        ? 'clique em aplicar cashback para fornecê-lo no lugar do desconto.'
+                        : 'seu cliente não possui cashback que possa ser aplicado. Forneça o desconto em % ou R$.'
+                }}</span>
+            </div>
+            <div class="padding-1 header">
+                <p class="margin-left-1 text text--bold text--primary">Nome</p>
+                <p class="margin-left-1 text text--bold text--primary">Quantidade</p>
+            </div>
+            <ul>
+                <li class="flex wide" *ngFor="let lineItem of order.lineItems">
+                    <p class="text flex-grow width-50 margin-right-1">{{ lineItem.name }}</p>
+                    <div class="flex align-center flex-grow width-50">
+                        <ps-button
+                            type="secondary"
+                            [round]="true"
+                            [disabled]="lineItem.quantity === 0"
+                            (onClick)="changeLineItem(lineItem, '-')"
+                            [fixedHeight]="false"
+                        >
+                            <h5 class="text text--100">-</h5>
+                        </ps-button>
+                        <div class="quantity padding-1 margin-x-1">{{ lineItem.quantity < 9 ? '0' : '' }}{{ lineItem.quantity }}</div>
+                        <ps-button [fixedHeight]="false" type="secondary" [round]="true" (onClick)="changeLineItem(lineItem, '+')">
+                            <h5 class="text text--100">+</h5>
+                        </ps-button>
+                    </div>
+                </li>
+                <li *ngIf="!order.lineItems || order.lineItems.length === 0" class="flex-center padding-3 flex">
+                    <span class="text--600">Lista vazia</span>
+                </li>
+            </ul>
+            <div class="subtotal">
+                <div class="separator margin-y-3 margin-x-2"></div>
+                <h5 class="text text--bold margin-right-2">Subtotal: {{ calculateSubtotal() }}</h5>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading flex-center" *ngIf="loadingAddress">
+        <img [src]="logo" alt="" class="loading-logo" />
+    </div>
+    <div class="buttons padding-3 flex-end flex">
+        <ps-button
+            [wide]="true"
+            [loading]="loading"
+            (onClick)="toggleState()"
+            type="secondary"
+            [disabled]="!order.address.phone || !order.address.firstName || !order.address.email"
+        >
+            <span class="text--100 text--bold">
+                {{ state === 1 ? 'Prosseguir' : 'Continuar' }}
+            </span>
+        </ps-button>
+    </div>
+</div>

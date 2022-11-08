@@ -1,5 +1,6 @@
 export class FormatUtils {
     public static toCurrency(value: number, currency: Currencies = 'BRL'): string {
+        console.log(value?.toLocaleString('pt-br', { style: 'currency', currency: currency, minimumFractionDigits: 2 }));
         return value?.toLocaleString('pt-br', { style: 'currency', currency: currency, minimumFractionDigits: 2 });
     }
 

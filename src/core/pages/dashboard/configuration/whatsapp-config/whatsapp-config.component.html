@@ -1,12 +1,13 @@
 <div class="container">
-    <div class="header">
-        <h5 class="text--primary text--bold margin-y-3">Integração do Whatsapp</h5>
+    <div class="header padding-3 desktop">
+        <h6 class="text--primary text--bold">Configuração do Whatsapp</h6>
     </div>
+    <div class="separator"></div>
 
     <div class="main-title flex-row">
         <div class="title margin-y-3">
             <h6 class="text text--bold text--large padding-bottom-2">Cadastre os dados para integração</h6>
-            <span class="text">Insira nos campos abaixo os dados solicitados para integrar com API do WhatsApp.</span>
+            <span class="text desktop">Insira nos campos abaixo os dados solicitados para integrar com API do WhatsApp.</span>
         </div>
         <div class="display-whatsapp-status">
             <div class="status">
@@ -18,11 +19,6 @@
 
     <div class="main-content">
         <div class="left-section">
-            <div class="title margin-y-3">
-                <h6 class="text text--bold text--large padding-bottom-2">Dados da empresa</h6>
-                <span class="text">Insira os dados de sua empresa</span>
-            </div>
-
             <div class="body">
                 <div class="field">
                     <span class="text text--bold margin-bottom-1"> ID da conta comercial do Whatsapp </span>
@@ -88,11 +84,6 @@
         </div>
 
         <div class="right-section">
-            <div class="title margin-y-3">
-                <h6 class="text text--bold text--large padding-bottom-2">Dados do telefone</h6>
-                <span class="text">Insira os dados do telefone para conversar com seus clientes</span>
-            </div>
-
             <div class="body">
                 <div class="field">
                     <span class="text text--bold margin-bottom-2"> Identificação do número de telefone do Whatsapp </span>
@@ -142,8 +133,5 @@
         <ps-button *ngIf="!whatsappAccount.active" [loading]="activateLoading" [wide]="true" (onClick)="activate()" type="secondary">
             <span class="text--100 text--bold">Ativar</span>
         </ps-button>
-        <!-- <ps-button [loading]="loading" [wide]="true" (onClick)="revoke()" type="secondary">
-            <span class="text--100 text--bold">Revogar</span>
-        </ps-button> -->
     </div>
 </div>

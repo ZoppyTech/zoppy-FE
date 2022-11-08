@@ -7,6 +7,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
+import { WcWebhookService } from 'src/shared/services/wc-webhook/wc-webhook.service';
 
 @Component({
     selector: 'app-access-keys',
@@ -16,10 +17,12 @@ import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
 export class AccessKeysComponent implements OnInit {
     public key: wcKeyRequest = {};
     public loading: boolean = false;
+    public sendWebhook: boolean = true;
 
     public constructor(
         private readonly toast: ToastService,
         private readonly wcKeyService: WcKeyService,
+        private readonly wcWebhookService: WcWebhookService,
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
         public modal: ModalService
@@ -27,7 +30,7 @@ export class AccessKeysComponent implements OnInit {
 
     public async ngOnInit() {
         this.setBreadcrumb();
-        this.sideMenuService.changeSub(`access-keys`);
+        this.sideMenuService.changeSub(`accessKeys`);
         this.sideMenuService.change('configurations');
         await this.fetchData();
     }
@@ -51,10 +54,11 @@ export class AccessKeysComponent implements OnInit {
             };
             const response: WcKeyEntity = this.key.id ? await this.wcKeyService.update(request) : await this.wcKeyService.create(request);
             this.key = response as wcKeyRequest;
+            if (this.sendWebhook) await this.wcWebhookService.syncWebhooks();
             this.toast.success(`Informações salvas!`, `Sucesso!`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível salvas as informações');
+            this.toast.error(ex.message, 'Não foi possível salvar as informações');
         } finally {
             this.loading = false;
         }
@@ -89,7 +93,7 @@ export class AccessKeysComponent implements OnInit {
                 route: undefined
             },
             {
-                name: `Tokens de Acesso`,
+                name: `Chaves de Acesso`,
                 route: `/dashboard/configurations/access-keys`
             }
         ];
