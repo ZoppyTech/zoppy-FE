@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ZoppyFilter } from 'src/shared/models/filter';
 import { CrmAddressResponse } from 'src/shared/models/responses/crm/crm-address.response';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
@@ -30,10 +31,10 @@ export class CrmAddressService extends ApiService {
         return promise;
     }
 
-    public async findAll(): Promise<CrmAddressResponse[]> {
-        const promise: Promise<CrmAddressResponse[]> = new Promise((resolve: any, reject: any) => {
-            this.get<CrmAddressResponse[]>(`${this.url}`).subscribe(
-                (response: CrmAddressResponse[]) => resolve(response),
+    public async findAll(filter: ZoppyFilter<CrmAddressResponse[]>): Promise<ZoppyFilter<CrmAddressResponse[]>> {
+        const promise: Promise<ZoppyFilter<CrmAddressResponse[]>> = new Promise((resolve: any, reject: any) => {
+            this.post<ZoppyFilter<CrmAddressResponse[]>, ZoppyFilter<CrmAddressResponse[]>>(`${this.url}/list`, filter).subscribe(
+                (response: ZoppyFilter<CrmAddressResponse[]>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
