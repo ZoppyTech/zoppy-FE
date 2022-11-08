@@ -1,4 +1,14 @@
 export class WhatsappConstants {
+    public static TEMPLATE_PARAMETERS_REGEX: RegExp = new RegExp('({{[0-9]+}})+', 'gmi');
+
+    public static ACCOUNT_SCENARIO = {
+        IDLE: 'idle',
+        ACQUISITION: 'acquisition',
+        VALIDATION: 'validation',
+        INTEGRATED: 'integrated',
+        REVOKED: 'revoked'
+    };
+
     public static ToastTitles = {
         Error: 'Whatsapp Erro!',
         Success: 'Sucesso!'
@@ -25,6 +35,18 @@ export class WhatsappConstants {
     public static MessageOrigin = {
         BusinessInitiated: 'business_initiated',
         UserInitiated: 'user_initiated'
+    };
+
+    public static BUSINESS_PHONE_PERMISSIONS = {
+        ALL: '*',
+        ONLY_SEND: 'ONLY_SEND',
+        ONLY_RECEIVE: 'ONLY_RECEIVE'
+    };
+
+    public static MESSAGE_TEMPLATES_VISIBILITY = {
+        ALL: '*',
+        SYSTEM: 'SYSTEM',
+        USER: 'USER'
     };
 
     public static MessageTemplates = {

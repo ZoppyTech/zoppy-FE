@@ -3,6 +3,14 @@ import { ChatRoom } from '../models/chat-room';
 import { ThreadMessage } from '../models/thread-message';
 
 export class WhatsappUtil {
+    public static replaceVariablesFromTemplateMessage(message: string, parameters: Array<string> = []): string {
+        if (parameters.length <= 0) return message;
+        for (const varMatch of message.matchAll(WhatsappConstants.TEMPLATE_PARAMETERS_REGEX)) {
+            message = message.replace(varMatch[0], parameters.shift() ?? varMatch[0]);
+        }
+        return message;
+    }
+
     public static formatDisplayPhone(countryCode: string, subdivisionCode: string, phoneNumber: string): string {
         return `+${countryCode} ${subdivisionCode} ${phoneNumber.slice(0, phoneNumber.length - 4)}-${phoneNumber.slice(
             phoneNumber.length - 4,

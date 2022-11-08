@@ -41,9 +41,9 @@
             flex-direction: row;
             justify-content: center;
             align-items: center;
-            background: #f3f3f3;
-            border-radius: 8px;
-            padding: 8px 16px;
+            background-color: var(--neutral-200);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
 
             .circle {
                 background-color: #ffad4e;
