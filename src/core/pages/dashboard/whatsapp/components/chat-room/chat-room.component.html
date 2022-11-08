@@ -29,7 +29,11 @@
             *ngIf="messageTemplateListVisible"
             class="message-template-list"
         >
-            <div *ngFor="let messageTemplate of messageTemplates" (click)="selectMessageTemplate(messageTemplate)" class="item clickable">
+            <div
+                *ngFor="let messageTemplate of messageTemplatesReplaced"
+                (click)="selectMessageTemplate(messageTemplate)"
+                class="item clickable"
+            >
                 <span>{{ messageTemplate.content }}</span>
             </div>
         </div>

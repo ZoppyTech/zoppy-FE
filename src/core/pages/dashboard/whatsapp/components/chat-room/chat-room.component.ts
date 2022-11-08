@@ -27,6 +27,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public isHovered: boolean = false;
     public messageTemplateListVisible: boolean = false;
     public messageTemplates: Array<ChatMessageTemplate> = [];
+    public messageTemplatesReplaced: Array<ChatMessageTemplate> = [];
     public messageTemplatesLoading: boolean = true;
     public messageTemplateSelected: ChatMessageTemplate | null = null;
     public messagesLoading: boolean = false;
@@ -71,10 +72,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             this.messageTemplates = entities.map((entity: WhatsappMessageTemplateEntity) => {
                 return {
                     ...entity,
-                    content: WhatsappUtil.replaceVariablesFromTemplateMessage(
-                        entity.content,
-                        WhatsappUtil.getMessageTemplateParams(entity.name, this.chatRoom)
-                    ),
                     isSuggested: false
                 };
             });
@@ -123,6 +120,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public toggleMessageTemplatesVisibility(): void {
+        this.replaceMessageTemplatesVariables();
         this.messageTemplateListVisible = !this.messageTemplateListVisible;
     }
 
@@ -159,6 +157,18 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             isFirstMessageOfDay: false,
             createdAt: new Date()
         };
+    }
+
+    private replaceMessageTemplatesVariables(): void {
+        this.messageTemplatesReplaced = this.messageTemplates.map((messageTemplate: ChatMessageTemplate) => {
+            return {
+                ...messageTemplate,
+                content: WhatsappUtil.replaceVariablesFromTemplateMessage(
+                    messageTemplate.content,
+                    WhatsappUtil.getMessageTemplateParams(messageTemplate.name, this.chatRoom)
+                )
+            };
+        });
     }
 
     @HostListener('document:keydown.enter', ['$event']) public onKeydownHandler(event: KeyboardEvent) {
