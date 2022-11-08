@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
+import { ZoppyFilter } from 'src/shared/models/filter';
 import { CrmAddressResponse } from 'src/shared/models/responses/crm/crm-address.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
@@ -18,6 +19,7 @@ import { Storage } from 'src/shared/utils/storage';
 export class CustomersComponent implements OnInit {
     public loading: boolean = false;
     public customers: Array<CrmAddressResponse> = [];
+    public filter: ZoppyFilter<CrmAddressResponse[]> = new ZoppyFilter<CrmAddressResponse[]>();
 
     public constructor(
         public sideMenuService: SideMenuService,
@@ -33,15 +35,18 @@ export class CustomersComponent implements OnInit {
     @ViewChild('inputFile') public input: any;
 
     public async ngOnInit() {
+        this.filter.searchFields = ['firstName', 'email', 'phone'];
         this.sideMenuService.change('customers');
         this.setBreadcrumb();
         await this.fetchData();
     }
 
-    public async fetchData(): Promise<void> {
+    public async fetchData(searchText: string = ''): Promise<void> {
         try {
-            const response: Array<CrmAddressResponse> = await this.crmAddressService.findAll();
-            this.customers = response;
+            this.filter.searchText = searchText;
+            const response: ZoppyFilter<CrmAddressResponse[]> = await this.crmAddressService.findAll(this.filter);
+            this.filter.pagination = response.pagination;
+            this.customers = (response.data as CrmAddressResponse[]) ?? [];
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');
