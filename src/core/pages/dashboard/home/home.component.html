@@ -33,13 +33,19 @@
                 {{ item.label }}
             </span>
 
-            <span class="route clickable" (click)="navigate(item)">
+            <span class="route clickable">
                 <div class="ic-content margin-right-1" [ngClass]="{ 'bg-success': item.completed }">
                     <ps-icon icon="icon-approval"></ps-icon>
                 </div>
-                <span class="text" [ngClass]="{ 'text--500': !item.completed }">
-                    {{ item.completed ? 'Completo' : 'Configurar' }}
-                </span>
+                <a
+                    [attr.href]="item.route"
+                    *ngIf="!item.completed"
+                    class="text text-decoration-none"
+                    [ngClass]="{ 'text--500': !item.completed }"
+                >
+                    Configurar
+                </a>
+                <span class="text" *ngIf="item.completed" [ngClass]="{ 'text--500': !item.completed }"> Completo </span>
                 &nbsp;
                 <ps-icon class="arrow-ic text--500" icon="icon-chevron" *ngIf="!item.completed"></ps-icon>
             </span>

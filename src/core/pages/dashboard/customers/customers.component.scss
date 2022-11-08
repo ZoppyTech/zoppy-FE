@@ -30,6 +30,13 @@
         padding: 0 2rem;
         margin-bottom: 1rem;
         padding-bottom: 1rem;
+
+        .right {
+            align-items: flex-end;
+            justify-content: flex-end;
+            width: 32rem;
+            max-width: 100%;
+        }
     }
 
     .body {

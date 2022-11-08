@@ -40,12 +40,6 @@ export class HomeComponent implements OnInit {
         await this.fetchDashboardData();
     }
 
-    public navigate(item: Item): void {
-        if (!item.route) return;
-        const route: string = Navigation.routes[item.route];
-        this.router.navigate([route]);
-    }
-
     private async fetchDashboardData(): Promise<void> {
         try {
             this.dashboard = await this.dashboardService.fetchOne();
