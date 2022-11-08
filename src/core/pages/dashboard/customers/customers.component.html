@@ -15,7 +15,12 @@
         </div>
 
         <div class="flex-center right margin-left-3">
-            <ps-search-bar class="margin-right-3" [text]="filter.searchText" (onChanged)="fetchData($event)"></ps-search-bar>
+            <ps-search-bar
+                [searchStyle]="'border-bottom'"
+                class="margin-right-3"
+                [text]="filter.searchText"
+                (onChanged)="fetchData($event)"
+            ></ps-search-bar>
             <ps-pagination
                 [page]="filter.pagination.page"
                 [totalPages]="filter.pagination.totalPages"
