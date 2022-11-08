@@ -89,6 +89,10 @@
             cursor: pointer;
 
             &:hover {
+                background-color: rgba($color: #cdd6ff, $alpha: 0.1);
+            }
+
+            &.item-actived {
                 background-color: rgba($color: #cdd6ff, $alpha: 0.3);
             }
 
@@ -108,16 +112,53 @@
 
             .item-content {
                 width: 100%;
-                max-width: 480px;
                 display: flex;
                 flex-direction: row;
                 align-items: baseline;
                 justify-content: flex-start;
+                margin-bottom: 1rem;
                 padding: 0px 2.5rem;
 
-                font-size: 1rem;
-                font-weight: 400;
-                color: #363636;
+                .text-message {
+                    width: 100%;
+                    max-width: 480px;
+                    display: flex;
+                    flex-direction: row;
+                    align-items: baseline;
+                    justify-content: flex-start;
+
+                    font-size: 1rem;
+                    font-weight: 400;
+                    color: #363636;
+                }
+
+                .viewed-icon {
+                    display: flex;
+                    font-weight: 400;
+                    font-size: 0.55rem;
+                    padding: 0rem 0.25rem;
+
+                    &--business-user {
+                        margin-right: 0px;
+                    }
+
+                    &--customer-user {
+                        display: none;
+                    }
+
+                    &--status-sent {
+                        color: var(--neutral-300);
+                    }
+
+                    &--status-delivered {
+                        color: var(--primary-300);
+                    }
+
+                    ps-icon {
+                        width: 22px;
+                        height: 0.75rem;
+                    }
+                }
             }
         }
     }
