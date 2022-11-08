@@ -7,6 +7,8 @@ import { Component, Input, OnInit } from '@angular/core';
 })
 export class ChatLoadingComponent implements OnInit {
     @Input() public percent: number = 0;
+    public readonly CHAT_LOADING_IMAGE_DIR: string = './../../../../../../assets/imgs/chat_loading.png';
+
     public constructor() {
         //no content
     }

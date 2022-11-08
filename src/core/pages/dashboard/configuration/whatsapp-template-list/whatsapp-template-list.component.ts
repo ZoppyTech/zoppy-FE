@@ -73,7 +73,6 @@ export class WhatsappTemplateListComponent implements OnInit {
                 visibility: visibility,
                 wppAccountId: messageTemplate.wppAccountId
             };
-            console.log(request);
             await this.wppBusinessManagementService.update(request);
             this.toast.success('Visibilidade alterada com êxito!', 'Sucesso!');
         } catch (ex: any) {
