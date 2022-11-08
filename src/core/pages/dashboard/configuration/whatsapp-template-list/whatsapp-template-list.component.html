@@ -5,49 +5,72 @@
     <div class="separator"></div>
 
     <div class="title margin-y-3">
-        <h6 class="text text--bold text--large padding-bottom-2">Gerenciamento de modelo de mensagens</h6>
+        <h6 class="text text--bold text--large padding-bottom-2">Gerenciamento dos modelos de mensagem</h6>
         <span class="text desktop">Confira abaixo a listagem dos modelos cadastrados.</span>
     </div>
 
-    <div class="main-content">
-        <table>
+    <div class="main-content" [ngStyle]="{ 'justify-content': messageTemplatesLoading ? 'center' : 'flex-start' }">
+        <table *ngIf="!messageTemplatesLoading">
             <thead>
                 <th><span class="text text--primary text--bold">Identificador</span></th>
                 <th class="desktop"><span class="text text--primary text--bold">Conteúdo</span></th>
                 <th class="desktop"><span class="text text--primary text--bold">Status</span></th>
-                <th class="desktop"><span class="text text--primary text--bold">Visibilidade</span></th>
+                <th class=""><span class="text text--primary text--bold">Visibilidade</span></th>
+                <th class=""><span class="text text--primary text--bold"></span></th>
             </thead>
             <tbody>
-                <tr class="item" *ngFor="let template of templates">
+                <tr class="item" *ngFor="let messageTemplate of messageTemplates">
                     <td>
-                        <span class="text text--600">{{ template.name }}</span>
+                        <span class="text text--600">{{ messageTemplate.name }}</span>
                     </td>
                     <td class="desktop">
-                        <span class="text text--600">{{ template.content }}</span>
+                        <span class="text text--600">{{ messageTemplate.content }}</span>
                     </td>
                     <td class="desktop">
-                        <span class="text text--600">{{ template.status }}</span>
+                        <div class="message-template-status">
+                            <div class="status">
+                                <div class="circle"></div>
+                                <span *ngIf="messageTemplate.status === 'APPROVED'" class="text--small">Aprovado</span>
+                                <span *ngIf="messageTemplate.status !== 'APPROVED'" class="text--small">Reprovado</span>
+                            </div>
+                        </div>
                     </td>
-                    <td class="desktop">
-                        <span class="text text--600">{{ template.visibility }}</span>
+                    <td>
+                        <ps-dropdown
+                            (valueChange)="onVisibilityValueChange($event, messageTemplate)"
+                            [enableSearch]="false"
+                            [propertyValue]="'value'"
+                            [wide]="true"
+                            [(value)]="messageTemplate.visibility"
+                            [propertyLabel]="'label'"
+                            [items]="items"
+                        ></ps-dropdown>
+                    </td>
+                    <td>
+                        <ps-icon
+                            class="clickable text--primary margin-right-3"
+                            (click)="delete(messageTemplate.id)"
+                            icon="icon-bin"
+                        ></ps-icon>
                     </td>
                 </tr>
             </tbody>
         </table>
-        <div class="wide flex-center no-content flex-column padding-3" *ngIf="templates.length === 0">
+        <static-loading *ngIf="messageTemplatesLoading" [isLoading]="true"></static-loading>
+        <div class="wide flex-center no-content flex-column padding-3" *ngIf="!messageTemplatesLoading && messageTemplates.length === 0">
             <h5 class="text--primary text--bold margin-bottom-2">Nenhum modelo encontrado!</h5>
             <span class="text explanation">
                 Você ainda não baixou nenhum modelo de mensagem. Clique no botão abaixo para fazer o download de seus modelos.
             </span>
-            <ps-button [loading]="loading" [wide]="true" (onClick)="pull()" type="secondary">
+            <ps-button [loading]="pullLoading" [wide]="true" (onClick)="pull()" type="secondary">
                 <span class="text--100 text--bold">Baixar</span>
             </ps-button>
         </div>
     </div>
 
     <div class="footer">
-        <ps-button [disabled]="true" [loading]="loading" [wide]="true" (onClick)="save()" type="secondary">
+        <!-- <ps-button [disabled]="messageTemplates.length === 0" [loading]="saveLoading" [wide]="true" (onClick)="save()" type="secondary">
             <span class="text--100 text--bold">Salvar</span>
-        </ps-button>
+        </ps-button> -->
     </div>
 </div>

@@ -11,8 +11,8 @@
         </div>
         <div class="display-whatsapp-status">
             <div class="status">
-                <div class="circle"></div>
-                <span class="text--small">Integração em andamento</span>
+                <div [ngStyle]="{ 'background-color': currentStatus.color }" class="circle"></div>
+                <span class="text--small">{{ currentStatus.text }}</span>
             </div>
         </div>
     </div>
@@ -57,12 +57,26 @@
                     <span class="text text--bold"> Url webhook </span>
                     <ps-input
                         icon="{{ 'icon-copy' }}"
-                        (onIconClicked)="copyToClipboard()"
+                        (onIconClicked)="copyWebhookUrlToClipboard()"
                         [iconClick]="true"
                         [disabled]="true"
                         type="text"
                         [(ngModel)]="webhookUrl"
                         placeholder="Url gerada automaticamente"
+                    >
+                    </ps-input>
+                </div>
+
+                <div class="field">
+                    <span class="text text--bold"> Token de verificação do webhook </span>
+                    <ps-input
+                        icon="{{ 'icon-copy' }}"
+                        (onIconClicked)="copyWebhookTokenToClipboard()"
+                        [iconClick]="true"
+                        [disabled]="true"
+                        type="text"
+                        [(ngModel)]="whatsappAccount.webhookVerifyToken"
+                        placeholder="Token de verificação gerado automaticamente"
                     >
                     </ps-input>
                 </div>
@@ -96,7 +110,7 @@
                         [enableSearch]="false"
                         [propertyValue]="'value'"
                         [wide]="true"
-                        [(value)]="view"
+                        [(value)]="whatsappAccountPhone.permissions"
                         [propertyLabel]="'label'"
                         [items]="items"
                     ></ps-dropdown>
@@ -106,10 +120,17 @@
     </div>
 
     <div class="footer">
-        <ps-button *ngIf="false" class="margin-left-2" [loading]="loading" [wide]="true" (onClick)="disable()" type="error">
+        <ps-button
+            *ngIf="whatsappAccount.active"
+            class="margin-left-2"
+            [loading]="disableLoading"
+            [wide]="true"
+            (onClick)="disable()"
+            type="error"
+        >
             <span class="text--100 text--bold">Desativar</span>
         </ps-button>
-        <ps-button *ngIf="true" [loading]="loading" [wide]="true" (onClick)="activate()" type="secondary">
+        <ps-button *ngIf="!whatsappAccount.active" [loading]="activateLoading" [wide]="true" (onClick)="activate()" type="secondary">
             <span class="text--100 text--bold">Ativar</span>
         </ps-button>
     </div>

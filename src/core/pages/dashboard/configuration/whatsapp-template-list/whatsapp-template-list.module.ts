@@ -7,6 +7,7 @@ import { IconModule } from '@ZoppyTech/icon';
 import { ButtonModule } from '@ZoppyTech/button';
 import { InputModule } from '@ZoppyTech/input';
 import { DropdownModule } from '@ZoppyTech/dropdown';
+import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
 
 const routes: Routes = [
     {
@@ -17,7 +18,16 @@ const routes: Routes = [
 
 @NgModule({
     declarations: [WhatsappTemplateListComponent],
-    imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, IconModule, ButtonModule, InputModule, DropdownModule],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        VisualIdentityModule,
+        IconModule,
+        ButtonModule,
+        InputModule,
+        DropdownModule,
+        StaticLoadingModule
+    ],
     exports: [WhatsappTemplateListComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

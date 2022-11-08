@@ -50,6 +50,16 @@ export class WhatsappAccountService extends ApiService {
         return promise;
     }
 
+    public async revoke(id: string): Promise<BooleanResponse> {
+        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
+            this.delete<BooleanResponse>(`${this.url}/${id}/revoke`).subscribe(
+                (response: BooleanResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async destroy(id: string): Promise<BooleanResponse> {
         const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
             this.delete<BooleanResponse>(`${this.url}/${id}`).subscribe(

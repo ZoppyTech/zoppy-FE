@@ -144,6 +144,13 @@ export class SideMenuComponent implements OnInit {
                         label: 'Usuários',
                         route: '/dashboard/my-company/users',
                         visible: true
+                    },
+                    {
+                        id: `whatsappConfig`,
+                        icon: 'icon-arrow',
+                        label: 'Whatsapp',
+                        route: '/dashboard/configurations/whatsapp',
+                        visible: true
                     }
                 ]
             }

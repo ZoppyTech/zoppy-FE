@@ -33,7 +33,7 @@ export class ConfigurationComponent implements OnInit {
                 route: undefined
             },
             {
-                name: `Configuracões`,
+                name: `Configurações`,
                 route: undefined
             }
         ];
@@ -58,7 +58,7 @@ export class ConfigurationComponent implements OnInit {
             {
                 id: `syncData`,
                 icon: 'icon-arrow',
-                label: 'Sincronizacão',
+                label: 'Sincronização',
                 route: Navigation.routes.syncData,
                 visible: true
             },

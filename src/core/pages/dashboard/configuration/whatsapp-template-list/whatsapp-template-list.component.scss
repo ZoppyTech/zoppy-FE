@@ -12,6 +12,35 @@
     margin-bottom: 2rem;
     height: 100%;
 
+    .message-template-status {
+        width: fit-content;
+        height: fit-content;
+        display: flex;
+        flex-direction: row;
+        padding-bottom: 0px;
+        justify-content: flex-end;
+
+        .status {
+            width: fit-content;
+            height: inherit;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            background-color: var(--neutral-200);
+            border-radius: 0.5rem;
+            padding: 0.5rem 1rem;
+
+            .circle {
+                background-color: var(--success);
+                border-radius: 100%;
+                min-width: 0.5rem;
+                height: 0.5rem;
+                margin-right: 0.5rem;
+            }
+        }
+    }
+
     .title {
         padding: 0 2rem;
         width: 100%;
@@ -23,6 +52,8 @@
     }
 
     .main-content {
+        align-items: center;
+        justify-content: flex-start;
         margin: 0 2rem;
         flex-grow: 1;
         min-height: 0;
@@ -79,5 +110,11 @@
 @media only screen and (max-width: 576px) {
     .container {
         margin: 1rem;
+    }
+}
+
+@media only screen and (max-width: 1919px) {
+    .desktop {
+        display: none !important;
     }
 }

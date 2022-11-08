@@ -24,17 +24,17 @@
             <ps-icon class="arrow-icon" icon="icon-chevron text--primary"></ps-icon>
         </div>
         <div
-            (mouseover)="templateMessageListVisible = true"
-            (mouseleave)="templateMessageListVisible = false"
-            *ngIf="templateMessageListVisible"
+            (mouseover)="messageTemplateListVisible = true"
+            (mouseleave)="messageTemplateListVisible = false"
+            *ngIf="messageTemplateListVisible"
             class="message-template-list"
         >
-            <div *ngFor="let templateMessage of messageTemplates" (click)="selectMessageTemplate(templateMessage)" class="item clickable">
-                <span>{{ templateMessage.content }}</span>
+            <div *ngFor="let messageTemplate of messageTemplates" (click)="selectMessageTemplate(messageTemplate)" class="item clickable">
+                <span>{{ messageTemplate.content }}</span>
             </div>
         </div>
         <div class="templates-button clickable" (click)="toggleMessageTemplatesVisibility()">
-            <span class="text--800 text--bold" [ngClass]="{ 'active-color': templateMessageListVisible }">#</span>
+            <span class="text--800 text--bold" [ngClass]="{ 'active-color': messageTemplateListVisible }">#</span>
         </div>
         <ps-input
             icon="{{ 'icon-times' }}"

@@ -8,6 +8,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappBusinessManagementService } from 'src/shared/services/whatsapp-business-management/whatsapp-business-management.service';
 import { ChatRoom } from '../../models/chat-room';
 import { ThreadMessage } from '../../models/thread-message';
+import { WhatsappUtil } from '../../utils/whatsapp.util';
 import { ChatUtility } from './helpers/chat-utility';
 import { ChatMessageTemplate } from './models/chat-message-template';
 
@@ -24,9 +25,9 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() public events: Observable<void> = new Observable();
 
     public isHovered: boolean = false;
-    public templateMessageListVisible: boolean = false;
+    public messageTemplateListVisible: boolean = false;
     public messageTemplates: Array<ChatMessageTemplate> = [];
-    public templateMessagesLoading: boolean = true;
+    public messageTemplatesLoading: boolean = true;
     public messageTemplateSelected: ChatMessageTemplate | null = null;
     public messagesLoading: boolean = false;
     public isLastMessage: boolean = false;
@@ -46,7 +47,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.eventsSubscription = this.events.subscribe(() => this.seeLastMessage());
         console.log(this.chatRoom);
         this.seeLastMessage();
-        await this.loadTemplateMessages();
+        await this.loadMessageTemplates();
         console.log('Chat Room initialized!');
     }
 
@@ -60,23 +61,28 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.removeWheelEventListener();
     }
 
-    public async loadTemplateMessages(): Promise<void> {
+    public async loadMessageTemplates(): Promise<void> {
         try {
-            this.templateMessagesLoading = true;
+            this.messageTemplatesLoading = true;
             console.log('Loading Template messages!');
-            const entities: WhatsappMessageTemplateEntity[] = await this.wppBusinessManagementService.list();
+            const entities: WhatsappMessageTemplateEntity[] = await this.wppBusinessManagementService.list(
+                WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.USER
+            );
             this.messageTemplates = entities.map((entity: WhatsappMessageTemplateEntity) => {
                 return {
                     ...entity,
+                    content: WhatsappUtil.replaceVariablesFromTemplateMessage(
+                        entity.content,
+                        WhatsappUtil.getMessageTemplateParams(entity.name, this.chatRoom)
+                    ),
                     isSuggested: false
                 };
             });
-            console.log(this.messageTemplates);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
         } finally {
-            this.templateMessagesLoading = false;
+            this.messageTemplatesLoading = false;
         }
     }
 
@@ -117,7 +123,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public toggleMessageTemplatesVisibility(): void {
-        this.templateMessageListVisible = !this.templateMessageListVisible;
+        this.messageTemplateListVisible = !this.messageTemplateListVisible;
     }
 
     public seeLastMessage(): void {
