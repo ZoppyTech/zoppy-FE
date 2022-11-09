@@ -124,16 +124,16 @@ h6 {
     text-justify: inter-word;
 }
 
-$box-shadow-1: 0px 1rem 2.5rem -8px rgba(29, 29, 38, 0.08);
+$box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: var(--phone-portrait-breakpoint)) {
     ::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
+        width: 0.25rem;
+        height: 0.25rem;
     }
 
     ::-webkit-scrollbar-thumb {
-        border-radius: 3px;
+        border-radius: 0.25rem;
         background: var(--neutral-400);
     }
 
@@ -152,7 +152,7 @@ $box-shadow-1: 0px 1rem 2.5rem -8px rgba(29, 29, 38, 0.08);
 }
 
 ::-webkit-scrollbar-thumb {
-    border-radius: 4px;
+    border-radius: 0.25rem;
     background: var(--neutral-400);
 }
 
@@ -161,7 +161,7 @@ $box-shadow-1: 0px 1rem 2.5rem -8px rgba(29, 29, 38, 0.08);
 
     ul {
         margin-top: 1rem;
-        box-shadow: 0px 1rem 2.5rem -8px rgba(29, 29, 38, 0.08);
+        box-shadow: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
         border-radius: 0.75rem;
         background-color: var(--neutral-100);
         position: absolute;

@@ -20,7 +20,7 @@
         align-items: flex-start;
         justify-content: center;
         border-bottom: 1px solid var(--neutral-300);
-        padding: 24px 2rem;
+        padding: 2.5rem 2rem;
         background-color: #ffffff;
 
         h6 {
@@ -62,12 +62,12 @@
             flex-direction: row;
             position: absolute;
             bottom: 100px;
-            right: 24px;
+            right: 2.5rem;
             border-radius: 50%;
             border: 1px solid var(--neutral-300);
             cursor: pointer;
             background-color: #fafbff;
-            box-shadow: 0 1px 1px 0 rgba(#363636, 0.06), 0 2px 5px 0 rgba(#363636, 0.2);
+            box-shadow: 0 1px 1px 0 rgba(#363636, 0.06), 0 0.125rem 5px 0 rgba(#363636, 0.2);
 
             ps-icon {
                 display: flex;
@@ -89,16 +89,16 @@
             flex-wrap: nowrap;
             height: fit-content;
             background: rgba(255, 255, 255, 1);
-            box-shadow: 0px 1rem 24px #edeff2;
+            box-shadow: 0px 1rem 2.5rem #edeff2;
             border-radius: 1rem;
             max-height: 256px;
             overflow-y: auto;
-            margin: 0px 24px;
+            margin: 0px 2.5rem;
 
             .item {
                 cursor: pointer;
                 width: 100%;
-                padding: 24px;
+                padding: 2.5rem;
                 border-bottom: 1px solid var(--neutral-300);
 
                 &:hover {
@@ -135,7 +135,7 @@
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: var(--phone-portrait-breakpoint)) {
     .container {
         margin: 1rem;
     }

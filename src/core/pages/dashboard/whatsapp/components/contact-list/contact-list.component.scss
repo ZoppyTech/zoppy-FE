@@ -37,7 +37,7 @@
             padding: 18px;
 
             ps-icon {
-                font-size: 14px;
+                font-size: 0.78rem;
                 font-weight: 700;
             }
         }
@@ -102,7 +102,7 @@
             justify-content: center;
             border-bottom: 1px solid var(--neutral-300);
             cursor: pointer;
-            padding: 24px;
+            padding: 2.5rem;
 
             &:hover {
                 background-color: rgba($color: #cdd6ff, $alpha: 0.3);
@@ -133,7 +133,7 @@
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: var(--phone-portrait-breakpoint)) {
     .container {
         margin: 1rem;
     }

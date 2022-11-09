@@ -90,7 +90,7 @@
             }
 
             ps-button {
-                width: 180px;
+                width: 11.25rem;
             }
         }
     }
@@ -102,12 +102,12 @@
         padding: 2rem;
 
         ps-button {
-            width: 180px;
+            width: 11.25rem;
         }
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: var(--phone-portrait-breakpoint)) {
     .container {
         margin: 1rem;
     }

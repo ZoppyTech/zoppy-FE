@@ -37,7 +37,7 @@
             padding: 18px;
 
             span {
-                font-size: 24px;
+                font-size: 2.5rem;
                 font-weight: 400;
             }
         }
@@ -164,7 +164,7 @@
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: var(--phone-portrait-breakpoint)) {
     .container {
         margin: 1rem;
     }

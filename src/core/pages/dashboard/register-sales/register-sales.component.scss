@@ -30,7 +30,7 @@
         }
 
         .selected {
-            border-bottom: 4px solid var(--primary);
+            border-bottom: 0.25rem solid var(--primary);
             margin: 0 1rem;
         }
     }
@@ -146,7 +146,7 @@
                     }
 
                     .quantity {
-                        border-bottom: 4px solid var(--neutral-300);
+                        border-bottom: 0.25rem solid var(--neutral-300);
                     }
                 }
             }
@@ -183,7 +183,7 @@
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: var(--phone-portrait-breakpoint)) {
     .container {
         margin: 1rem;
         .body {
