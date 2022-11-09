@@ -15,9 +15,9 @@
     padding-top: 0;
 
     p {
-        width: 1200px;
+        width: 75rem;
         max-width: 100%;
-        line-height: 24px;
+        line-height: 2.5rem;
     }
 
     .progress-title {
@@ -27,20 +27,20 @@
 
     .progress-bar {
         height: 0.5rem;
-        border-radius: 4px;
+        border-radius: 0.25rem;
         position: relative;
         background-color: var(--primary-100);
         .filled {
             position: absolute;
             height: 0.5rem;
-            border-radius: 4px;
+            border-radius: 0.25rem;
             background-color: var(--secondary);
         }
     }
 
     .alert {
         padding: 1rem;
-        width: 1720px;
+        width: 107.5rem;
         max-width: 100%;
         background: rgba(77, 126, 255, 0.1);
         border: 1px solid #4d7eff;
@@ -56,15 +56,15 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        width: 1800px;
+        width: 112.5rem;
 
         .item {
-            box-shadow: 0px 1rem 24px #edeff2;
+            box-shadow: 0px 1rem 2.5rem #edeff2;
             border: 1px solid var(--neutral-300);
             border-radius: 0.75rem;
             flex-direction: column;
-            max-width: 300px;
-            width: 260px;
+            max-width: 18.75rem;
+            width: 16.25rem;
             margin: 2rem 2rem 2rem 0rem;
             background-color: var(--neutral-100);
 
@@ -98,7 +98,7 @@
         }
 
         .completed {
-            border: 2px solid var(--success);
+            border: 0.125rem solid var(--success);
         }
     }
 
@@ -107,10 +107,9 @@
         display: flex;
         flex-wrap: wrap;
         justify-content: flex-start;
-        width: 1800px;
 
         .card {
-            box-shadow: 0px 1rem 24px #edeff2;
+            box-shadow: 0px 1rem 2.5rem #edeff2;
             border: 1px solid var(--neutral-300);
             border-radius: 0.75rem;
             flex-direction: column;
@@ -119,10 +118,10 @@
             flex-grow: 1;
             display: flex;
             position: relative;
-            width: 844px;
-            min-width: 844px;
-            max-width: 844px;
-            height: 286px;
+            width: 52.75rem;
+            min-width: 52.75rem;
+            max-width: 52.75rem;
+            height: 17.875rem;
 
             .content {
                 position: absolute;
@@ -143,7 +142,7 @@
 
             .body {
                 max-width: 60%;
-                border-bottom: 4px solid var(--secondary);
+                border-bottom: 0.25rem solid var(--secondary);
                 margin-left: 2rem;
             }
 
@@ -163,7 +162,7 @@
                 justify-content: center;
 
                 i {
-                    font-size: 14px;
+                    font-size: 0.78rem;
                     color: var(--secondary);
                 }
             }
@@ -177,7 +176,7 @@
         }
 
         .post {
-            box-shadow: 0px 1rem 24px #edeff2;
+            box-shadow: 0px 1rem 2.5rem #edeff2;
             border: 1px solid var(--neutral-300);
             border-radius: 0.75rem;
             margin: 2rem 2rem 2rem 0rem;
@@ -185,10 +184,10 @@
             flex-grow: 1;
             display: flex;
             position: relative;
-            width: 844px;
-            min-width: 844px;
-            max-width: 844px;
-            height: 286px;
+            width: 52.75rem;
+            min-width: 52.75rem;
+            max-width: 52.75rem;
+            height: 17.875rem;
             padding: 2rem;
 
             .ic-right,
