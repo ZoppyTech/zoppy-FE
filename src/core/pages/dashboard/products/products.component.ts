@@ -17,6 +17,7 @@ import { DownloadService } from 'src/shared/services/download/download.service';
 })
 export class ProductsComponent implements OnInit {
     public loading: boolean = false;
+    public downloading: boolean = false;
     public products: Array<CrmProductResponse> = [];
 
     public constructor(
@@ -86,14 +87,24 @@ export class ProductsComponent implements OnInit {
         const fileName: string = 'Zoppy Produtos.csv';
         const type: string = 'text/csv';
         const path: string = '/docs/import_products_zoppy.csv';
-        this.downloadService.downloadPublicFile(path, fileName, type).subscribe((response: any) => {
-            const a: any = document.createElement('a');
-            a.href = 'data:text/csv,' + response;
-            a.setAttribute('download', fileName);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        });
+        this.downloading = true;
+        this.downloadService.downloadPublicFile(path, fileName, type).subscribe(
+            (response: any) => {
+                console.log(response);
+                const a: any = document.createElement('a');
+                a.href = 'data:text/csv,' + response;
+                a.setAttribute('download', fileName);
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+            },
+            () => {
+                this.toast.error('Ocorreu um erro com o seu download', 'Erro');
+            },
+            () => {
+                this.downloading = false;
+            }
+        );
     }
 
     private setBreadcrumb(): void {
