@@ -41,7 +41,7 @@
     justify-content: flex-end;
 }
 
-@media only screen and (max-width: var(--phone-portrait-breakpoint)) {
+@media only screen and (max-width: 576px) {
     .chart-container {
         .flex-between {
             flex-direction: column;

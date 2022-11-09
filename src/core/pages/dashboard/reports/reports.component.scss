@@ -79,7 +79,7 @@ main {
     }
 }
 
-@media only screen and (max-width: var(--phone-portrait-breakpoint)) {
+@media only screen and (max-width: 576px) {
     main {
         .card {
             &--default {

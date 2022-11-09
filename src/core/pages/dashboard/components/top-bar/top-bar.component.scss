@@ -52,7 +52,7 @@
     }
 }
 
-@media only screen and (max-width: var(--phone-portrait-breakpoint)) {
+@media only screen and (max-width: 576px) {
     .top-bar {
         background-color: var(--neutral-100);
         padding: 0;
