@@ -7,7 +7,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.service';
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
-import { PublicService } from 'src/shared/services/public/public.service';
+import { DownloadService } from 'src/shared/services/download/download.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { Storage } from 'src/shared/utils/storage';
 
@@ -29,7 +29,7 @@ export class CustomersComponent implements OnInit {
         public toast: ToastService,
         public crmAddressService: CrmAddressService,
         public crmCustomerService: CrmCustomerService,
-        public publicService: PublicService
+        public downloadService: DownloadService
     ) {}
 
     @ViewChild('inputFile') public input: any;
@@ -95,7 +95,7 @@ export class CustomersComponent implements OnInit {
         const fileName: string = 'Zoppy Clientes.csv';
         const type: string = 'text/csv';
         const path: string = '/docs/import_customers_zoppy.csv';
-        this.publicService.downloadPublicFile(path, fileName, type).subscribe((response: any) => {
+        this.downloadService.downloadPublicFile(path, fileName, type).subscribe((response: any) => {
             const a: any = document.createElement('a');
             a.href = 'data:text/csv,' + response;
             a.setAttribute('download', fileName);

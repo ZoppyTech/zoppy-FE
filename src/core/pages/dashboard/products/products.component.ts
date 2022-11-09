@@ -1,7 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
-import { environment } from 'src/environments/environment';
 import { CrmProductResponse } from 'src/shared/models/responses/crm/crm-product.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
@@ -9,8 +8,7 @@ import { CrmProductService } from 'src/shared/services/crm-product/crm-product.s
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { ArrayUtil } from 'src/shared/utils/array-util';
 import { Storage } from 'src/shared/utils/storage';
-import { FileUtils } from 'src/shared/utils/file.util';
-import { PublicService } from 'src/shared/services/public/public.service';
+import { DownloadService } from 'src/shared/services/download/download.service';
 
 @Component({
     selector: 'app-products',
@@ -28,7 +26,7 @@ export class ProductsComponent implements OnInit {
         public modal: ModalService,
         public toast: ToastService,
         public crmProductService: CrmProductService,
-        public publicService: PublicService
+        public downloadService: DownloadService
     ) {}
 
     @ViewChild('inputFile') public input: any;
@@ -88,7 +86,7 @@ export class ProductsComponent implements OnInit {
         const fileName: string = 'Zoppy Produtos.csv';
         const type: string = 'text/csv';
         const path: string = '/docs/import_products_zoppy.csv';
-        this.publicService.downloadPublicFile(path, fileName, type).subscribe((response: any) => {
+        this.downloadService.downloadPublicFile(path, fileName, type).subscribe((response: any) => {
             const a: any = document.createElement('a');
             a.href = 'data:text/csv,' + response;
             a.setAttribute('download', fileName);

@@ -31,14 +31,6 @@ export class PublicService extends ApiService {
         super(http, router, storage);
     }
 
-    public downloadPublicFile(path: string, fileName: string, type: string): any {
-        const params: HttpParams = new HttpParams().append('path', path).append('fileName', fileName).append('type', type);
-        return this.http.get(`${this.url}/download`, {
-            params,
-            responseType: 'text'
-        });
-    }
-
     public async fetchZipcode(zipcode: string): Promise<ZipcodeResponse> {
         const promise: Promise<ZipcodeResponse> = new Promise((resolve: any, reject: any) => {
             this.get<ZipcodeResponse>(`https://viacep.com.br/ws/${zipcode}/json/`).subscribe(

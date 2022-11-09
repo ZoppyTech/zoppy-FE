@@ -243,13 +243,13 @@ export class RegisterSalesComponent implements OnInit {
 
     public calculateSubtotal(): string {
         debugger;
-        if (this.order.coupon.type === 'fixed-cart')
-            return FormatUtils.toCurrency(parseFloat(this.order.total as string) - parseFloat(this.order.coupon.amount as string));
-        else if (this.order.coupon.type === 'percent')
+        if (this.order?.coupon?.type === 'fixed-cart')
+            return FormatUtils.toCurrency(parseFloat(this.order.total as string) - parseFloat(this.order?.coupon?.amount as string));
+        else if (this.order?.coupon?.type === 'percent')
             return FormatUtils.toCurrency(
-                parseFloat(this.order.total as string) * ((100 - parseFloat(this.order.coupon.amount as string)) / 100)
+                parseFloat(this.order?.total as string) * ((100 - parseFloat(this.order?.coupon?.amount as string)) / 100)
             );
-        return FormatUtils.toCurrency(parseFloat(this.order.total as string));
+        return FormatUtils.toCurrency(parseFloat(this.order?.total as string));
     }
 
     private setBreadcrumb(): void {
