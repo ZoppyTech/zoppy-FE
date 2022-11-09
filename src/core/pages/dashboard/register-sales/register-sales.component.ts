@@ -143,7 +143,9 @@ export class RegisterSalesComponent implements OnInit {
         try {
             this.loadingAddress = true;
             const products: CrmProductResponse[] = await this.crmProductService.findAll();
-            this.products = products;
+            setTimeout(() => {
+                this.products = products;
+            });
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o telefone');
@@ -242,7 +244,6 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public calculateSubtotal(): string {
-        debugger;
         if (this.order?.coupon?.type === 'fixed-cart')
             return FormatUtils.toCurrency(parseFloat(this.order.total as string) - parseFloat(this.order?.coupon?.amount as string));
         else if (this.order?.coupon?.type === 'percent')
