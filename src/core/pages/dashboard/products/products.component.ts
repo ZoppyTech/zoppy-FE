@@ -97,9 +97,11 @@ export class ProductsComponent implements OnInit {
                 document.body.appendChild(a);
                 a.click();
                 document.body.removeChild(a);
+                this.downloading = false;
             },
             () => {
                 this.toast.error('Ocorreu um erro com o seu download', 'Erro');
+                this.downloading = false;
             },
             () => {
                 this.downloading = false;
