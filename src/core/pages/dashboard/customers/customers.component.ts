@@ -41,9 +41,8 @@ export class CustomersComponent implements OnInit {
         await this.fetchData();
     }
 
-    public async fetchData(searchText: string = ''): Promise<void> {
+    public async fetchData(): Promise<void> {
         try {
-            this.filter.searchText = searchText;
             const response: ZoppyFilter<CrmAddressResponse[]> = await this.crmAddressService.findAll(this.filter);
             this.filter.pagination = response.pagination;
             this.customers = (response.data as CrmAddressResponse[]) ?? [];
@@ -51,6 +50,17 @@ export class CustomersComponent implements OnInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');
         }
+    }
+
+    public async onSearchTextChanged(searchText: string = ''): Promise<void> {
+        this.filter.pagination.page = 1;
+        this.filter.searchText = searchText;
+        await this.fetchData();
+    }
+
+    public async onPaginationChanged(page: number): Promise<void> {
+        this.filter.pagination.page = page;
+        await this.fetchData();
     }
 
     public openInfoModal(): void {
