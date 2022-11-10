@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { ModalService } from 'src/shared/components/modal/modal.service';
 import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
@@ -80,6 +81,7 @@ export class WhatsappConfigComponent implements OnInit {
     public constructor(
         public readonly wppAccountService: WhatsappAccountService,
         public readonly wppAccountPhoneNumberService: WhatsappAccountPhoneNumberService,
+        public confirmActionService: ConfirmActionService,
         private readonly sideMenuService: SideMenuService,
         private readonly breadcrumb: BreadcrumbService,
         private readonly modal: ModalService,
@@ -137,22 +139,29 @@ export class WhatsappConfigComponent implements OnInit {
     }
 
     public async disable(): Promise<void> {
-        this.disableLoading = true;
-        try {
-            if (!this.whatsappAccount.id) {
-                this.toast.error('Falha ao tentar desativar uma integração não realizada!', 'Erro!');
-                return;
+        this.confirmActionService.open(
+            'Desativar conta Whatsapp',
+            'Tem certeza que deseja desativar esta conta? ',
+            async (result: boolean) => {
+                if (!result) return;
+                this.disableLoading = true;
+                try {
+                    if (!this.whatsappAccount.id) {
+                        this.toast.error('Falha ao tentar desativar uma integração não realizada!', 'Erro!');
+                        return;
+                    }
+                    await this.wppAccountService.revoke(this.whatsappAccount.id);
+                    await this.loadWhatsappRegisteredAccount();
+                    await this.loadWhatsappDefaultPhoneNumber();
+                    this.toast.success('Conta comercial do Whatsapp desativada com êxito!', 'Sucesso!');
+                } catch (ex: any) {
+                    ex = ex as ZoppyException;
+                    this.toast.error(ex.message, 'Erro!');
+                } finally {
+                    this.disableLoading = false;
+                }
             }
-            await this.wppAccountService.revoke(this.whatsappAccount.id);
-            await this.loadWhatsappRegisteredAccount();
-            await this.loadWhatsappDefaultPhoneNumber();
-            this.toast.success('Conta comercial do Whatsapp desativada com êxito!', 'Sucesso!');
-        } catch (ex: any) {
-            ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Erro!');
-        } finally {
-            this.disableLoading = false;
-        }
+        );
     }
 
     public copyWebhookUrlToClipboard(): void {

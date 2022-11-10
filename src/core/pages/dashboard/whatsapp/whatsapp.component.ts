@@ -35,6 +35,7 @@ import { WhatsappMapper } from './whatsapp-mapper';
     styleUrls: ['./whatsapp.component.scss']
 })
 export class WhatsappComponent implements OnInit, OnDestroy {
+    public isWhatsappActive: boolean = true;
     public user: UserEntity = new UserEntity();
     public readonly subcomponents = Subcomponents;
     public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
