@@ -29,5 +29,5 @@ export class ZoppyFilter<T> {
     public searchFields: Array<string> = [];
     public orderBy: OrderBy[] = new Array<OrderBy>();
     public pagination: Pagination = new Pagination();
-    public data: T[] = [];
+    public data: Array<T> = [];
 }

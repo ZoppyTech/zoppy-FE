@@ -140,7 +140,7 @@ export abstract class ApiService {
         return throwError(error);
     }
 
-    private setHeaders(headers?: HttpHeaders): HttpHeaders {
+    protected setHeaders(headers?: HttpHeaders): HttpHeaders {
         if (!headers) headers = new HttpHeaders();
         if (this.storage.getToken()) headers = headers.append(`Authorization`, `Bearer ${this.storage.getToken()}`);
         return headers;

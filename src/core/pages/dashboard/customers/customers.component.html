@@ -19,12 +19,12 @@
                 [searchStyle]="'border-bottom'"
                 class="margin-right-3"
                 [text]="filter.searchText"
-                (onChanged)="fetchData($event)"
+                (onChanged)="onSearchTextChanged($event)"
             ></ps-search-bar>
             <ps-pagination
                 [page]="filter.pagination.page"
                 [totalPages]="filter.pagination.totalPages"
-                (onPageChanged)="fetchData()"
+                (onPageChanged)="onPaginationChanged($event)"
             ></ps-pagination>
         </div>
     </div>

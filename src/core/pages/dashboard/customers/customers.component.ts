@@ -7,7 +7,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.service';
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
-import { PublicService } from 'src/shared/services/public/public.service';
+import { DownloadService } from 'src/shared/services/download/download.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { Storage } from 'src/shared/utils/storage';
 
@@ -19,7 +19,7 @@ import { Storage } from 'src/shared/utils/storage';
 export class CustomersComponent implements OnInit {
     public loading: boolean = false;
     public customers: Array<CrmAddressResponse> = [];
-    public filter: ZoppyFilter<CrmAddressResponse[]> = new ZoppyFilter<CrmAddressResponse[]>();
+    public filter: ZoppyFilter<CrmAddressResponse> = new ZoppyFilter<CrmAddressResponse>();
 
     public constructor(
         public sideMenuService: SideMenuService,
@@ -29,7 +29,7 @@ export class CustomersComponent implements OnInit {
         public toast: ToastService,
         public crmAddressService: CrmAddressService,
         public crmCustomerService: CrmCustomerService,
-        public publicService: PublicService
+        public downloadService: DownloadService
     ) {}
 
     @ViewChild('inputFile') public input: any;
@@ -41,16 +41,26 @@ export class CustomersComponent implements OnInit {
         await this.fetchData();
     }
 
-    public async fetchData(searchText: string = ''): Promise<void> {
+    public async fetchData(): Promise<void> {
         try {
-            this.filter.searchText = searchText;
-            const response: ZoppyFilter<CrmAddressResponse[]> = await this.crmAddressService.findAll(this.filter);
+            const response: ZoppyFilter<CrmAddressResponse> = await this.crmAddressService.findAll(this.filter);
             this.filter.pagination = response.pagination;
             this.customers = (response.data as CrmAddressResponse[]) ?? [];
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');
         }
+    }
+
+    public async onSearchTextChanged(searchText: string = ''): Promise<void> {
+        this.filter.pagination.page = 1;
+        this.filter.searchText = searchText;
+        await this.fetchData();
+    }
+
+    public async onPaginationChanged(page: number): Promise<void> {
+        this.filter.pagination.page = page;
+        await this.fetchData();
     }
 
     public openInfoModal(): void {
@@ -85,7 +95,7 @@ export class CustomersComponent implements OnInit {
         const fileName: string = 'Zoppy Clientes.csv';
         const type: string = 'text/csv';
         const path: string = '/docs/import_customers_zoppy.csv';
-        this.publicService.downloadPublicFile(path, fileName, type).subscribe((response: any) => {
+        this.downloadService.downloadPublicFile(path, fileName, type).subscribe((response: any) => {
             const a: any = document.createElement('a');
             a.href = 'data:text/csv,' + response;
             a.setAttribute('download', fileName);

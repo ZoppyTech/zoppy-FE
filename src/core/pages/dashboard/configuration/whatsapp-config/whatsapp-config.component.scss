@@ -86,7 +86,7 @@
         border: 1px solid var(--neutral-300);
         padding-bottom: 2rem;
         background-color: #fafbff;
-        border-radius: 12px;
+        border-radius: 0.75rem;
 
         .field {
             padding-bottom: 1rem;
@@ -94,7 +94,7 @@
             span {
                 color: #363636;
                 font-weight: 500;
-                font-size: 14px;
+                font-size: 0.78rem;
                 line-height: 2rem;
             }
 
@@ -111,7 +111,7 @@
         padding: 2rem;
 
         ps-button {
-            width: 180px;
+            width: 11.25rem;
         }
     }
 }

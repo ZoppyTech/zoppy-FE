@@ -41,7 +41,7 @@
         align-items: center;
         justify-content: flex-start;
         background-color: rgba(#ffad4e, 0.1);
-        border: 2px solid var(--warning);
+        border: 0.125rem solid var(--warning);
         border-radius: 0.5rem;
         margin: 0 2rem 2rem 2rem;
 
@@ -71,7 +71,7 @@
 
     .sync {
         padding: 2rem;
-        width: 360px;
+        width: 22.5rem;
         max-width: 100%;
         flex-grow: 1;
     }

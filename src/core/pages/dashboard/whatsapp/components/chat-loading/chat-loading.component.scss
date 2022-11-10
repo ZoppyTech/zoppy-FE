@@ -45,14 +45,14 @@
         .progress-bar {
             width: 420px;
             height: 0.5rem;
-            border-radius: 4px;
+            border-radius: 0.25rem;
             position: relative;
             background-color: #cdd6ff;
 
             .filled {
                 position: absolute;
                 height: 0.5rem;
-                border-radius: 4px;
+                border-radius: 0.25rem;
                 background-color: #4e14d8;
             }
         }
@@ -60,7 +60,7 @@
         .percent-display {
             margin-left: 0.75rem;
             font-weight: 700;
-            font-size: 14px;
+            font-size: 0.78rem;
             line-height: 20px;
             color: #363636;
         }

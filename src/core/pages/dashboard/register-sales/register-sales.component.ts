@@ -128,6 +128,9 @@ export class RegisterSalesComponent implements OnInit {
             this.order.total = parseFloat(this.order.total as string);
             const order: CrmOrderResponse = await this.crmOrderService.create(this.order);
             this.order = order as CrmOrderRequest;
+            this.toast.success('Sua venda foi registrada com sucesso!', 'Sucesso!');
+            this.resetOrder();
+            this.state = 1;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível salvar seu pedido');
@@ -140,7 +143,9 @@ export class RegisterSalesComponent implements OnInit {
         try {
             this.loadingAddress = true;
             const products: CrmProductResponse[] = await this.crmProductService.findAll();
-            this.products = products;
+            setTimeout(() => {
+                this.products = products;
+            });
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o telefone');
@@ -239,13 +244,13 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public calculateSubtotal(): string {
-        if (this.order.coupon.type === 'fixed-cart')
-            return FormatUtils.toCurrency(parseFloat(this.order.total as string) - parseFloat(this.order.coupon.amount as string));
-        else if (this.order.coupon.type === 'percent')
+        if (this.order?.coupon?.type === 'fixed-cart')
+            return FormatUtils.toCurrency(parseFloat(this.order.total as string) - parseFloat(this.order?.coupon?.amount as string));
+        else if (this.order?.coupon?.type === 'percent')
             return FormatUtils.toCurrency(
-                parseFloat(this.order.total as string) * ((100 - parseFloat(this.order.coupon.amount as string)) / 100)
+                parseFloat(this.order?.total as string) * ((100 - parseFloat(this.order?.coupon?.amount as string)) / 100)
             );
-        return FormatUtils.toCurrency(parseFloat(this.order.total as string));
+        return FormatUtils.toCurrency(parseFloat(this.order?.total as string));
     }
 
     private setBreadcrumb(): void {
@@ -255,6 +260,18 @@ export class RegisterSalesComponent implements OnInit {
                 route: undefined
             }
         ];
+    }
+
+    private resetOrder(): void {
+        this.order = {
+            address: {},
+            coupon: {
+                type: 'fixed-cart',
+                amount: 0
+            },
+            lineItems: [],
+            total: 0
+        };
     }
 }
 

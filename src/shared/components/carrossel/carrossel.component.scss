@@ -35,7 +35,7 @@
 
             .subtitle {
                 width: 540px;
-                line-height: 24px;
+                line-height: 2.5rem;
                 max-width: calc(100% - 2rem);
             }
 
@@ -47,11 +47,11 @@
                     width: 0.5rem;
                     border-radius: 0.5rem;
                     background-color: var(--neutral-100);
-                    margin: 0 4px;
+                    margin: 0 0.25rem;
                 }
 
                 .selected {
-                    width: 24px;
+                    width: 2.5rem;
                 }
             }
         }
