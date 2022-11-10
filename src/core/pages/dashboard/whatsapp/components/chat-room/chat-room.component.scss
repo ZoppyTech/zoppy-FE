@@ -28,6 +28,16 @@
             font-weight: 400;
             color: #363636;
         }
+
+        .block-icon {
+            font-size: 1.5rem;
+            color: var(--primary-300);
+        }
+
+        .edit-icon {
+            font-size: 1.5rem;
+            color: var(--neutral-300);
+        }
     }
 
     .chat-content {

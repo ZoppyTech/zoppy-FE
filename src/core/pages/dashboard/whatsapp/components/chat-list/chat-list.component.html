@@ -2,7 +2,7 @@
     <div class="header">
         <h5 class="text--primary text--bold margin-y-3">Mensagens</h5>
         <div (click)="newMessage()" class="button-plus">
-            <span class="text text--primary">+</span>
+            <ps-icon class="text text--primary" icon="icon-add"></ps-icon>
         </div>
     </div>
 
@@ -22,10 +22,20 @@
                 [ngClass]="{ 'item-actived': conversation[1].actived }"
             >
                 <div class="item-header">
-                    <h5 class="text text--bold truncate">{{ conversation[1].contact.displayName }}</h5>
-                    <h6 *ngIf="conversation[1].threads.length > 0" class="text--small text--400">
-                        {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
-                    </h6>
+                    <div class="flex-row">
+                        <h5 class="text text--bold truncate">{{ conversation[1].contact.displayName }}</h5>
+                        <ps-icon *ngIf="conversation[1].contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
+                    </div>
+                    <div class="flex-row">
+                        <h6 *ngIf="conversation[1].threads.length > 0" class="text--small text--400 margin-x-1">
+                            {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
+                        </h6>
+                        <ps-icon
+                            *ngIf="conversation[1].threads[conversation[1].threads.length - 1].isBusiness"
+                            class="reply-icon"
+                            icon="icon-reply"
+                        ></ps-icon>
+                    </div>
                 </div>
                 <div class="item-content" *ngIf="conversation[1].threads.length > 0">
                     <span
