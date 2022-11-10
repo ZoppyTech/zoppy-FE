@@ -4,6 +4,11 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { GiftbacksComponent } from './giftbacks.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
+import { ButtonModule } from '@ZoppyTech/button';
+import { IconModule } from '@ZoppyTech/icon';
+import { InputModule } from '@ZoppyTech/input';
 
 describe('GiftbacksComponent', () => {
     let component: GiftbacksComponent;
@@ -11,7 +16,8 @@ describe('GiftbacksComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [GiftbacksComponent]
+            declarations: [GiftbacksComponent],
+            imports: [RouterTestingModule, HttpClientTestingModule, IconModule, ButtonModule, InputModule]
         }).compileComponents();
     }));
 
