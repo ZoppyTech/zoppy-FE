@@ -2,6 +2,7 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
+import { ZoppyFilter } from 'src/shared/models/filter';
 import { CrmProductResponse } from 'src/shared/models/responses/crm/crm-product.response';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
@@ -24,6 +25,16 @@ export class CrmProductService extends ApiService {
         const promise: Promise<CrmProductResponse[]> = new Promise((resolve: any, reject: any) => {
             this.get<CrmProductResponse[]>(`${this.url}`).subscribe(
                 (response: CrmProductResponse[]) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async findAllPaginated(filter: ZoppyFilter<CrmProductResponse[]>): Promise<ZoppyFilter<CrmProductResponse[]>> {
+        const promise: Promise<ZoppyFilter<CrmProductResponse[]>> = new Promise((resolve: any, reject: any) => {
+            this.post<ZoppyFilter<CrmProductResponse[]>, ZoppyFilter<CrmProductResponse[]>>(`${this.url}/list`, filter).subscribe(
+                (response: ZoppyFilter<CrmProductResponse[]>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
