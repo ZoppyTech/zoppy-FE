@@ -1,4 +1,5 @@
-<div class="container">
+<restricted-access *ngIf="!isWhatsappActive" [(isWhatsappActive)]="isWhatsappActive"></restricted-access>
+<div *ngIf="isWhatsappActive" class="container">
     <chat-loading *ngIf="whatsappLoading" [percent]="whatsappPercentLoading"></chat-loading>
     <div *ngIf="!whatsappLoading" class="left-panel">
         <chat-list
