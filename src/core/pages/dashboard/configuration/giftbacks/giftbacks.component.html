@@ -1,0 +1,87 @@
+<div class="container">
+    <div class="header">
+        <h6 class="text--primary text--bold margin-y-3">Visualização de coupons</h6>
+    </div>
+    <div class="separator"></div>
+    <div class="title flex space-between">
+        <div class="flex flex-column desktop">
+            <div class="flex align-center padding-y-3">
+                <h6 class="text text--bold">Visualize seus coupons &nbsp;</h6>
+            </div>
+        </div>
+
+        <div class="flex-center right margin-left-3">
+            <ps-search-bar
+                [searchStyle]="'border-bottom'"
+                class="margin-right-3"
+                [text]="filter.searchText"
+                (onChanged)="onSearchTextChanged($event)"
+            ></ps-search-bar>
+            <ps-pagination
+                [page]="filter.pagination.page"
+                [totalPages]="filter.pagination.totalPages"
+                (onPageChanged)="onPaginationChanged($event)"
+            ></ps-pagination>
+        </div>
+    </div>
+
+    <div class="body">
+        <table>
+            <thead>
+                <th><span class="text text--primary text--bold">Código</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Valor</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Telefone</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Valor Mínimo da Compra</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Descrição</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Data de Criação</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Data de Vencimento</span></th>
+            </thead>
+            <tbody>
+                <tr class="item" *ngFor="let coupon of coupons">
+                    <td>
+                        <span [ngClass]="{ 'text--400': !coupon.code }" class="text text--600">{{ coupon.code || 'vazio' }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !coupon.amount }" class="text text--600">{{ coupon.amount || 'vazio' }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !coupon.phone }" class="text text--600">{{ coupon.phone || 'vazio' }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !coupon.minPurchaseValue }" class="text text--600">{{
+                            coupon.minPurchaseValue || 'vazio'
+                        }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !coupon.description }" class="text text--600 desktop">{{
+                            coupon.description || 'vazio'
+                        }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !coupon.createdAt }" class="text text--600 desktop">{{
+                            (coupon.createdAt | date: 'dd/MM/yyyy') || 'vazio'
+                        }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !coupon.expiryDate }" class="text text--600 desktop">{{
+                            (coupon.expiryDate | date: 'dd/MM/yyyy') || 'vazio'
+                        }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <div class="wide flex-center no-content flex-column padding-3" *ngIf="coupons.length === 0">
+            <h5 class="text--primary text--bold margin-bottom-3">Nenhum coupon cadastrado!</h5>
+            <span class="text">
+                Você ainda não cadastrou nenhum coupon. Para cadastrar, configure seu giftback e lance vendas no CRM ou através de seu
+                e-commerce.
+            </span>
+        </div>
+    </div>
+
+    <div class="footer">
+        <ps-button class="margin-right-2" [wide]="true" (onClick)="download()" type="secondary">
+            <span class="text--100 text--bold">Baixar coupons</span>
+        </ps-button>
+    </div>
+</div>

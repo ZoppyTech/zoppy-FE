@@ -1,10 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
+import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { CompanyUtil } from 'src/shared/utils/company.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
+import { UserUtil } from 'src/shared/utils/user.util';
 
 @Component({
     selector: 'app-configuration',
@@ -14,11 +16,13 @@ import { Storage } from 'src/shared/utils/storage';
 export class ConfigurationComponent implements OnInit {
     public menuItems: SideMenuItem[] = [];
     public company: CompanyEntity | undefined = undefined;
+    public user: UserEntity | undefined = undefined;
 
     public constructor(public sideMenuService: SideMenuService, public breadcrumb: BreadcrumbService, public storage: Storage) {}
 
     public ngOnInit() {
         this.company = this.storage.getCompany() as CompanyEntity;
+        this.user = this.storage.getUser() as UserEntity;
         setTimeout(() => {
             this.sideMenuService.change(`configurations`);
             this.setBreadcrumb();
@@ -89,6 +93,13 @@ export class ConfigurationComponent implements OnInit {
                 label: 'Configuração da Letalk',
                 route: Navigation.routes.letalk,
                 visible: CompanyUtil.isStandard(this.company)
+            },
+            {
+                id: `coupons`,
+                icon: 'icon-arrow',
+                label: 'Visualização de giftbacks',
+                route: Navigation.routes.coupons,
+                visible: UserUtil.isMaster(this.user)
             }
         ];
     }
