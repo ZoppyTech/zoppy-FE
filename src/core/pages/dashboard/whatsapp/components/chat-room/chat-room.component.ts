@@ -141,6 +141,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             type: WhatsappConstants.MessageType.Template,
             templateName: this.messageTemplateSelected?.name,
             content: this.messageTemplateSelected?.content ?? '',
+            readByManager: true,
             status: WhatsappConstants.MessageStatus.Sent,
             isBusiness: true,
             isFirstMessageOfDay: false,
@@ -153,6 +154,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             type: WhatsappConstants.MessageType.Text,
             content: this.messageInput,
             status: WhatsappConstants.MessageStatus.Sent,
+            readByManager: true,
             isBusiness: true,
             isFirstMessageOfDay: false,
             createdAt: new Date()

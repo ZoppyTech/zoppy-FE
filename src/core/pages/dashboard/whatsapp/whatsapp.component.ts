@@ -126,7 +126,6 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.chatRoomSelected.threads.push(WhatsappMapper.mapMessage(socketData.message));
         WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
         this.scrollDownEvent.next();
-        console.log('emitou o send');
         this.webSocketService.emit(WebSocketConstants.CHAT_EVENTS.CREATE, socketData);
         this.setRoomAsMostRecent(this.chatRoomSelected);
     }

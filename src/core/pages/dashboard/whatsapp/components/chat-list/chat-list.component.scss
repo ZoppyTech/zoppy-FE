@@ -140,6 +140,10 @@
                     font-size: 1rem;
                     font-weight: 400;
                     color: #363636;
+
+                    &--unread {
+                        font-weight: 700;
+                    }
                 }
 
                 .viewed-icon {

@@ -27,7 +27,14 @@
                         <ps-icon *ngIf="conversation[1].contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
                     </div>
                     <div class="flex-row">
-                        <h6 *ngIf="conversation[1].threads.length > 0" class="text--small text--400 margin-x-1">
+                        <h6
+                            *ngIf="conversation[1].threads.length > 0"
+                            class="text--small text--400 margin-x-1"
+                            [ngClass]="{
+                                'text--bold text--700 text--secondary':
+                                    !conversation[1].threads[conversation[1].threads.length - 1].readByManager
+                            }"
+                        >
                             {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
                         </h6>
                         <ps-icon
@@ -55,7 +62,11 @@
                             icon="icon-done_all"
                         ></ps-icon
                     ></span>
-                    <span class="text-message truncate">{{ conversation[1].threads[conversation[1].threads.length - 1].content }} </span>
+                    <span
+                        class="text-message truncate"
+                        [ngClass]="{ 'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager }"
+                        >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
+                    </span>
                 </div>
             </div>
         </div>
