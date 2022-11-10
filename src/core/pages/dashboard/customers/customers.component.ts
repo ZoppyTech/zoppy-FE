@@ -19,7 +19,7 @@ import { Storage } from 'src/shared/utils/storage';
 export class CustomersComponent implements OnInit {
     public loading: boolean = false;
     public customers: Array<CrmAddressResponse> = [];
-    public filter: ZoppyFilter<CrmAddressResponse[]> = new ZoppyFilter<CrmAddressResponse[]>();
+    public filter: ZoppyFilter<CrmAddressResponse> = new ZoppyFilter<CrmAddressResponse>();
 
     public constructor(
         public sideMenuService: SideMenuService,
@@ -43,7 +43,7 @@ export class CustomersComponent implements OnInit {
 
     public async fetchData(): Promise<void> {
         try {
-            const response: ZoppyFilter<CrmAddressResponse[]> = await this.crmAddressService.findAll(this.filter);
+            const response: ZoppyFilter<CrmAddressResponse> = await this.crmAddressService.findAll(this.filter);
             this.filter.pagination = response.pagination;
             this.customers = (response.data as CrmAddressResponse[]) ?? [];
         } catch (ex: any) {
