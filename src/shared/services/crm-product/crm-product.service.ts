@@ -31,10 +31,10 @@ export class CrmProductService extends ApiService {
         return promise;
     }
 
-    public async findAllPaginated(filter: ZoppyFilter<CrmProductResponse[]>): Promise<ZoppyFilter<CrmProductResponse[]>> {
-        const promise: Promise<ZoppyFilter<CrmProductResponse[]>> = new Promise((resolve: any, reject: any) => {
-            this.post<ZoppyFilter<CrmProductResponse[]>, ZoppyFilter<CrmProductResponse[]>>(`${this.url}/list`, filter).subscribe(
-                (response: ZoppyFilter<CrmProductResponse[]>) => resolve(response),
+    public async findAllPaginated(filter: ZoppyFilter<CrmProductResponse>): Promise<ZoppyFilter<CrmProductResponse>> {
+        const promise: Promise<ZoppyFilter<CrmProductResponse>> = new Promise((resolve: any, reject: any) => {
+            this.post<ZoppyFilter<CrmProductResponse>, ZoppyFilter<CrmProductResponse>>(`${this.url}/list`, filter).subscribe(
+                (response: ZoppyFilter<CrmProductResponse>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
