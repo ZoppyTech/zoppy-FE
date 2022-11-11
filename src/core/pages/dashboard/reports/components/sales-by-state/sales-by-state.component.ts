@@ -54,6 +54,8 @@ export class SalesByStateComponent implements AfterViewInit, OnDestroy {
     }
 
     public buildChart(): void {
+        this.barChartLabels = [];
+        this.barChartData[0].data = [];
         this.data.forEach((saleState: ReportSaleByStateResponse) => {
             this.barChartLabels.push(saleState.state);
             this.barChartData[0].data.push(saleState.amount.toString());
