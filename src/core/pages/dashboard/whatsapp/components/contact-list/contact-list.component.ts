@@ -8,6 +8,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappContactService } from 'src/shared/services/whatsapp-contact/whatsapp-contact.service';
 import { ChatContact } from '../../models/chat-contact';
 import { Subcomponents } from '../../models/subcomponents';
+import { WhatsappMapper } from '../../whatsapp-mapper';
 import { WhatsappContactMapper } from './contact-mapper';
 
 @Component({
@@ -65,8 +66,7 @@ export class ContactListComponent implements OnInit {
                 isBlocked: false
             },
             (newContact: any) => {
-                debugger;
-                this.contacts.push(newContact);
+                this.contacts.push(WhatsappMapper.mapContact(newContact));
             }
         );
     }

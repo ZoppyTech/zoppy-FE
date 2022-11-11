@@ -10,6 +10,7 @@ import { WhatsappBusinessManagementService } from 'src/shared/services/whatsapp-
 import { ChatRoom } from '../../models/chat-room';
 import { ThreadMessage } from '../../models/thread-message';
 import { WhatsappUtil } from '../../utils/whatsapp.util';
+import { WhatsappMapper } from '../../whatsapp-mapper';
 import { ChatUtility } from './helpers/chat-utility';
 import { ChatMessageTemplate } from './models/chat-message-template';
 
@@ -147,11 +148,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 lastName: this.chatRoom.contact.lastName,
                 phoneNumber: WhatsappUtil.removeCountryCode(this.chatRoom.contact.displayPhone),
                 isBlocked: this.chatRoom.contact.isBlocked
+            },
+            (updatedContact: any) => {
+                this.chatRoom.contact = WhatsappMapper.mapContact(updatedContact);
             }
-            // },
-            // (newContact: any) => {
-            //     this.contacts.push(newContact);
-            // }
         );
     }
 

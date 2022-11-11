@@ -21,8 +21,8 @@ export class ModalService {
         this.callback = callback;
     }
 
-    public close(executeCallback: boolean = false): void {
-        if (this.callback && executeCallback) this.callback();
+    public close(executeCallback: boolean = false, callbackResponse?: any): void {
+        if (this.callback && executeCallback) this.callback(callbackResponse);
         this.callback = null;
         this.isOpen = false;
         this.name = '';
