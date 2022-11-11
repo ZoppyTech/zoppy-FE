@@ -1,8 +1,13 @@
 <div class="container">
     <div class="header">
         <h5 class="text--primary text--bold margin-y-3">Nova Conversa</h5>
-        <div (click)="goBack()" class="button-go-back">
-            <ps-icon icon="icon-times"></ps-icon>
+        <div class="flex-row">
+            <div (click)="openNewContactModal()" class="button-new-contact-modal margin-x-2">
+                <ps-icon class="text text--primary text--700" icon="icon-person_add"></ps-icon>
+            </div>
+            <div (click)="goBack()" class="button-go-back">
+                <ps-icon class="text text--primary text--700" icon="icon-times"></ps-icon>
+            </div>
         </div>
     </div>
     <static-loading *ngIf="hasContactsLoading" [isLoading]="true" class="loading"></static-loading>
@@ -16,11 +21,14 @@
         </ps-button>
     </div>
     <div *ngIf="!hasContactsLoading && contacts.length > 0" class="contacts">
-        <div *ngFor="let contact of contacts; let i = index" class="item" (click)="selectContact(contact)">
+        <div *ngFor="let contact of contacts; let i = index" class="item clickable" (click)="selectContact(contact)">
             <div *ngIf="contact.hasIndex" class="item-header">
                 <h6 class="text--primary text--bold">{{ contact.displayName.substring(0, 1).toUpperCase() }}</h6>
             </div>
-            <span class="item-content truncate">{{ contact.displayName }} </span>
+            <div class="item-body">
+                <span class="item-content truncate">{{ contact.displayName }} </span>
+                <ps-icon *ngIf="contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
+            </div>
         </div>
     </div>
 </div>

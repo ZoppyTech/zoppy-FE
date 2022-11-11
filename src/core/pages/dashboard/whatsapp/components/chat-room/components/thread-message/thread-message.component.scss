@@ -145,7 +145,11 @@
                     }
 
                     &--status-delivered {
-                        color: var(--primary-300);
+                        color: var(--info);
+                    }
+
+                    &--status-read {
+                        color: var(--success);
                     }
 
                     ps-icon {

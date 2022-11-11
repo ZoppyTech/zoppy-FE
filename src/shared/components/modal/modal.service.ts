@@ -32,8 +32,9 @@ export class ModalService {
 
 export class Modal {
     public static IDENTIFIER: Record<ModalId, string> = {
-        INFO: 'info'
+        INFO: 'info',
+        CHAT_CONTACT: 'chat_contact'
     };
 }
 
-export type ModalId = 'INFO';
+export type ModalId = 'INFO' | 'CHAT_CONTACT';

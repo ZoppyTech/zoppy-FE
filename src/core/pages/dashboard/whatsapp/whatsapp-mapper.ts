@@ -101,6 +101,15 @@ export class WhatsappMapper {
         }
     }
 
+    public static setUnreadConversations(conversations: Map<string, ChatRoom>): void {
+        for (const conversation of Array.from(conversations.entries())) {
+            const unreadMessages: ThreadMessage[] = conversation[1].threads.filter((thread: ThreadMessage) => {
+                return thread.type === WhatsappConstants.MessageType.Text && thread.readByManager === false;
+            });
+            conversation[1].unreadThreads.push(...unreadMessages);
+        }
+    }
+
     private static createEmptyContact(): ChatContact {
         const contact: ChatContact = new ChatContact();
         contact.id = '';

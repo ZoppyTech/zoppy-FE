@@ -1,5 +1,6 @@
 <div class="background" *ngIf="service.isOpen" (click)="service.close(false)">
     <div class="modal-content">
-        <app-info *ngIf="service.name === 'info'"></app-info>
+        <info *ngIf="service.name === 'info'"></info>
+        <chat-contact *ngIf="service.name === 'chat_contact'"></chat-contact>
     </div>
 </div>

@@ -3,7 +3,7 @@
         <div class="flex-row align-center">
             <h5 class="text--800 text--bold margin-y-1">{{ chatRoom.contact.displayName }}</h5>
             <ps-icon *ngIf="chatRoom.contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
-            <ps-icon class="edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
+            <ps-icon (click)="editContactModal()" class="edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
         </div>
         <h6 class="text--small text--800">{{ chatRoom.contact.displayPhone }}</h6>
     </div>
@@ -53,7 +53,7 @@
             [(ngModel)]="messageInput"
         ></ps-input>
         <ps-button
-            [disabled]="!messageInput"
+            [disabled]="!messageInput || chatRoom.contact.isBlocked"
             class="send-button"
             [loading]="false"
             [wide]="true"

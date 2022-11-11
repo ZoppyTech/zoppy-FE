@@ -1,0 +1,13 @@
+<div class="modal-content">
+    <div class="padding-bottom-2">
+        <ps-icon icon="icon-info" class="secondary"></ps-icon> &nbsp;
+        <span class="text text--bold">{{ modal.data.title }}</span>
+    </div>
+
+    <div class="flex flex-column">
+        <p class="text justify" [innerHTML]="modal.data.description"></p>
+        <ps-button class="padding-top-2" [wide]="true" type="secondary" (click)="modal.close()">
+            <span class="text--100 text--bold">{{ modal.data.button }}</span>
+        </ps-button>
+    </div>
+</div>

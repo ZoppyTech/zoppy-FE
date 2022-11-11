@@ -101,12 +101,26 @@ export class WhatsappComponent implements OnInit, OnDestroy {
                             WhatsappMapper.setFirstMessagesOfDay(targetChatRoom.threads);
                             break;
                         case WebSocketConstants.CHAT_ACTIONS.UPDATE:
-                            throw new Error('Not Implemented');
+                            console.log(socketData.message);
+                            targetChatRoom = this.conversations.get(socketData.message.wppContactId);
+                            if (!targetChatRoom) return;
+                            const messageFound: ThreadMessage | undefined = targetChatRoom?.threads.find(
+                                (thread: ThreadMessage) => thread.id === socketData.message.id
+                            );
+                            if (messageFound) messageFound.status = socketData.message.status;
+                            break;
                         case WebSocketConstants.CHAT_ACTIONS.RECEIVE:
                             targetChatRoom = this.conversations.get(socketData.message.wppContactId);
                             if (!targetChatRoom) return;
+                            const receivedMessage: ThreadMessage = WhatsappMapper.mapMessage(socketData.message);
+                            if (targetChatRoom.contact.id === this.chatRoomSelected?.contact.id) {
+                                this.chatRoomSelected.unreadThreads.push(receivedMessage);
+                                this.updateUnreadMessages();
+                            } else {
+                                targetChatRoom.unreadThreads.push(receivedMessage);
+                            }
                             this.setRoomAsMostRecent(targetChatRoom);
-                            targetChatRoom.threads.push(WhatsappMapper.mapMessage(socketData.message));
+                            targetChatRoom.threads.push(receivedMessage);
                             WhatsappMapper.setFirstMessagesOfDay(targetChatRoom.threads);
                             this.scrollDownEvent.next();
                             break;
@@ -150,6 +164,18 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.chatRoomSelected = chatRoom;
         this.chatRoomSelected.actived = true;
         this.scrollDownEvent.next();
+        this.updateUnreadMessages();
+    }
+
+    public updateUnreadMessages(): void {
+        const unreadMessages: ThreadMessage[] = this.chatRoomSelected.unreadThreads;
+        for (const unreadMessage of unreadMessages) {
+            unreadMessage.readByManager = true;
+            const socketData: ChatSocketData = { action: 'update', message: new WhatsappMessageEntity() };
+            socketData.message.id = unreadMessage.id;
+            this.webSocketService.emit(WebSocketConstants.CHAT_EVENTS.UPDATE, socketData);
+        }
+        this.chatRoomSelected.unreadThreads.splice(0, unreadMessages.length);
     }
 
     public async loadRegisteredWhatsappAccount(): Promise<void> {
@@ -189,6 +215,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         try {
             const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByPhoneNumberId(this.manager.phoneNumberId);
             this.conversations = WhatsappMapper.mapConversations(this.account, this.manager, entities);
+            WhatsappMapper.setUnreadConversations(this.conversations);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -199,6 +226,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
 
     private buildTemplateMessageFromThread(thread: ThreadMessage): WhatsappMessageEntity {
         return {
+            id: thread.id,
             type: WhatsappConstants.MessageType.Template,
             status: WhatsappConstants.MessageStatus.Sent,
             origin: WhatsappConstants.MessageOrigin.BusinessInitiated,
@@ -215,6 +243,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
 
     private buildTextMessageFromThread(thread: ThreadMessage): WhatsappMessageEntity {
         return {
+            id: thread.id,
             type: WhatsappConstants.MessageType.Text,
             status: WhatsappConstants.MessageStatus.Sent,
             origin: WhatsappConstants.MessageOrigin.BusinessInitiated,

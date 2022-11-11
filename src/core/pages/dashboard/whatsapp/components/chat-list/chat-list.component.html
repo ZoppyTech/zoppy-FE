@@ -2,7 +2,7 @@
     <div class="header">
         <h5 class="text--primary text--bold margin-y-3">Mensagens</h5>
         <div (click)="newMessage()" class="button-plus">
-            <ps-icon class="text text--primary" icon="icon-add"></ps-icon>
+            <ps-icon class="text text--primary text--700" icon="icon-add"></ps-icon>
         </div>
     </div>
 
@@ -38,7 +38,7 @@
                             {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
                         </h6>
                         <ps-icon
-                            *ngIf="conversation[1].threads[conversation[1].threads.length - 1].isBusiness"
+                            *ngIf="conversation[1].threads[conversation[1].threads.length - 1]?.isBusiness"
                             class="reply-icon"
                             icon="icon-reply"
                         ></ps-icon>
@@ -57,7 +57,8 @@
                             [ngClass]="{
                                 'viewed-icon--status-sent': conversation[1].threads[conversation[1].threads.length - 1].status === 'sent',
                                 'viewed-icon--status-delivered':
-                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered'
+                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered',
+                                'viewed-icon--status-read': conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
                             }"
                             icon="icon-done_all"
                         ></ps-icon
@@ -67,6 +68,9 @@
                         [ngClass]="{ 'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager }"
                         >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
                     </span>
+                    <div *ngIf="conversation[1].unreadThreads.length > 0" class="unread-counter">
+                        <span class="text--small text--bold text--100">{{ conversation[1].unreadThreads.length }}</span>
+                    </div>
                 </div>
             </div>
         </div>
