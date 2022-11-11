@@ -7,5 +7,5 @@ export interface CrmCouponRequest {
     used?: boolean;
     expiryDate?: Date;
     minPurchaseValue?: number;
-    maxPurchaseValue?: number;
+    maxPercentPurchaseValue?: number;
 }

@@ -34,7 +34,7 @@ export class MyCompanyUserConfigComponent implements OnInit {
         this.route.paramMap.subscribe(async (paramMap: any) => {
             this.id = paramMap.get('id');
             if (!this.id) this.loaded = true;
-            await this.fetchUser();
+            else await this.fetchUser();
             this.setBreadcrumb();
         });
         this.sideMenuService.change(`myCompany`);

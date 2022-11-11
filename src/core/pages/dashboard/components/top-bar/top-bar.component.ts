@@ -6,6 +6,7 @@ import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
+import { UserUtil } from 'src/shared/utils/user.util';
 
 @Component({
     selector: 'app-top-bar',
@@ -18,27 +19,32 @@ export class TopBarComponent implements OnInit {
         {
             label: 'Configurar Integrações',
             route: Navigation.routes.configuration,
-            class: 'desktop'
+            class: 'desktop',
+            visible: true
         },
         {
             label: 'Minha Conta',
             route: Navigation.routes.profile,
-            class: ''
+            class: '',
+            visible: true
         },
         {
             label: 'Minha Empresa',
             route: Navigation.routes.myCompanyConfig,
-            class: ''
+            class: '',
+            visible: true
         },
         {
             label: 'WhatsApp',
             route: Navigation.routes.whatsappConfig,
-            class: ''
+            class: '',
+            visible: true
         },
         {
             label: 'Usuários',
             route: Navigation.routes.myCompanyUsers,
-            class: ''
+            class: '',
+            visible: UserUtil.isMaster(this.storage.getUser() as UserEntity)
         }
     ];
 
@@ -63,4 +69,5 @@ interface Item {
     label: string;
     route: string;
     class: string;
+    visible: boolean;
 }
