@@ -48,7 +48,7 @@ export class SideMenuComponent implements OnInit {
                 icon: 'icon-wpp',
                 label: 'Whatsapp',
                 route: Navigation.routes.whatsapp,
-                visible: true
+                visible: CompanyUtil.isPremium(this.company)
             },
             {
                 id: `products`,
