@@ -191,7 +191,7 @@ export class RegisterSalesComponent implements OnInit {
             this.loadingAddress = true;
             const zipcodeResponse: ZipcodeResponse = await this.publicService.fetchZipcode(zipcode);
             if (zipcodeResponse && zipcodeResponse.cep) {
-                this.order.address.address1 = `${zipcodeResponse.logradouro}, ${zipcodeResponse.complemento}`;
+                this.order.address.address1 = `${zipcodeResponse.logradouro}`;
                 this.order.address.address2 = zipcodeResponse.bairro;
                 this.order.address.city = zipcodeResponse.localidade;
                 this.order.address.state = zipcodeResponse.uf;
