@@ -1,5 +1,5 @@
 export interface WhatsappContactRequest {
-    id: string;
+    id?: string;
     firstName: string;
     lastName: string;
     countryCode: string;

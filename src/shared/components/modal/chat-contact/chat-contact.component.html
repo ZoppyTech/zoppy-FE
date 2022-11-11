@@ -19,6 +19,7 @@
         <div class="field">
             <span class="text text--bold"> Número do Whatsapp </span>
             <ps-input
+                type="text"
                 [(ngModel)]="modal.data.phoneNumber"
                 mask="(00) 00000-0000"
                 placeholder="Digite aqui o número do Whatsapp com DDD"
@@ -45,10 +46,24 @@
         >
             <span class="text--100 text--bold">Bloquear contato</span>
         </ps-button>
-        <ps-button *ngIf="!modal.data.id" class="padding-top-2" [wide]="true" type="secondary" (click)="addContact()">
+        <ps-button
+            *ngIf="!modal.data.id"
+            class="padding-top-2"
+            [loading]="addContactLoading"
+            [wide]="true"
+            type="secondary"
+            (click)="addContact()"
+        >
             <span class="text--100 text--bold">Adicionar contato</span>
         </ps-button>
-        <ps-button *ngIf="modal.data.id" class="padding-top-2" [wide]="true" type="secondary" (click)="updateContact()">
+        <ps-button
+            *ngIf="modal.data.id"
+            class="padding-top-2"
+            [loading]="updateContactLoading"
+            [wide]="true"
+            type="secondary"
+            (click)="updateContact()"
+        >
             <span class="text--100 text--bold">Editar contato</span>
         </ps-button>
     </div>

@@ -63,11 +63,11 @@ export class ContactListComponent implements OnInit {
                 lastName: '',
                 phoneNumber: '',
                 isBlocked: false
+            },
+            (newContact: any) => {
+                debugger;
+                this.contacts.push(newContact);
             }
-            // },
-            // (newContact: any) => {
-            //     this.contacts.push(newContact);
-            // }
         );
     }
 
