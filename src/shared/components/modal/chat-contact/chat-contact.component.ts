@@ -8,4 +8,10 @@ import { ModalService } from '../modal.service';
 })
 export class ChatContactComponent {
     public constructor(public modal: ModalService) {}
+
+    public async addContact(): Promise<void> {}
+    public async updateContact(): Promise<void> {}
+    public async toggleContactBlocking(): Promise<void> {}
+
+    //id: '', firstName: '', lastName: '', phoneNumber: '', isBlocked: false
 }

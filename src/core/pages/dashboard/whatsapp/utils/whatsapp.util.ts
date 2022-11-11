@@ -11,6 +11,10 @@ export class WhatsappUtil {
         return message;
     }
 
+    public static removeCountryCode(phoneNumber: string): string {
+        return phoneNumber.replace('+55 ', '');
+    }
+
     public static formatDisplayPhone(countryCode: string, subdivisionCode: string, phoneNumber: string): string {
         return `+${countryCode} ${subdivisionCode} ${phoneNumber.slice(0, phoneNumber.length - 4)}-${phoneNumber.slice(
             phoneNumber.length - 4,

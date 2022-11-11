@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { ModalComponent } from './modal.component';
 import { ModalService } from './modal.service';
 import { InfoModule } from './info/info.module';
+import { ChatContactModule } from './chat-contact/chat-contact.module';
 
 @NgModule({
-    imports: [CommonModule, InfoModule],
+    imports: [CommonModule, InfoModule, ChatContactModule],
     declarations: [ModalComponent],
     exports: [ModalComponent],
     providers: [ModalService],

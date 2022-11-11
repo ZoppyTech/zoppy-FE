@@ -139,11 +139,20 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public editContactModal(): void {
-        this.modal.open(Modal.IDENTIFIER.INFO, {
-            title: 'Cadastrando suas chaves de Acesso?',
-            button: 'Entendi',
-            description: `Aqui é quando acontece a permissão para que possamos criar cupons personalizados para seus clientes sem te dar trabalho manual. Lembrando que toda essa criação vai de acordo com o modelo que você desejar de giftback e é <b>totalmente transparente</b>, sempre de forma <b>automatizada!</b>`
-        });
+        this.modal.open(
+            Modal.IDENTIFIER.CHAT_CONTACT,
+            {
+                id: this.chatRoom.contact.id,
+                firstName: this.chatRoom.contact.firstName,
+                lastName: this.chatRoom.contact.lastName,
+                phoneNumber: WhatsappUtil.removeCountryCode(this.chatRoom.contact.displayPhone),
+                isBlocked: this.chatRoom.contact.isBlocked
+            }
+            // },
+            // (newContact: any) => {
+            //     this.contacts.push(newContact);
+            // }
+        );
     }
 
     private buildTemplateMessage(): ThreadMessage {

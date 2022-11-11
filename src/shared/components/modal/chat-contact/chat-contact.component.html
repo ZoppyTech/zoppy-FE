@@ -1,13 +1,55 @@
 <div class="modal-content">
-    <div class="padding-bottom-2">
-        <ps-icon icon="icon-info" class="secondary"></ps-icon> &nbsp;
-        <span class="text text--bold">{{ modal.data.title }}</span>
+    <div class="modal-header">
+        <h5 *ngIf="!modal.data.id" class="text--extra-large text--bold text--primary">Adicionar Novo Contato</h5>
+        <h5 *ngIf="modal.data.id" class="text--extra-large text--bold text--primary">Atualizar Contato</h5>
+        <div (click)="modal.close()" class="button-go-back">
+            <ps-icon class="text text--primary text--700" icon="icon-times"></ps-icon>
+        </div>
     </div>
 
-    <div class="flex flex-column">
-        <p class="text justify" [innerHTML]="modal.data.description"></p>
-        <ps-button class="padding-top-2" [wide]="true" type="secondary" (click)="modal.close()">
-            <span class="text--100 text--bold">{{ modal.data.button }}</span>
+    <div class="modal-body">
+        <div class="field">
+            <span class="text text--bold"> Primeiro nome </span>
+            <ps-input type="text" [(ngModel)]="modal.data.firstName" placeholder="Digite aqui o primeiro nome"></ps-input>
+        </div>
+        <div class="field">
+            <span class="text text--bold"> Último nome </span>
+            <ps-input type="text" [(ngModel)]="modal.data.lastName" placeholder="Digite aqui o último nome"></ps-input>
+        </div>
+        <div class="field">
+            <span class="text text--bold"> Número do Whatsapp </span>
+            <ps-input
+                [(ngModel)]="modal.data.phoneNumber"
+                mask="(00) 00000-0000"
+                placeholder="Digite aqui o número do Whatsapp com DDD"
+            ></ps-input>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <ps-button
+            *ngIf="modal.data.id && modal.data.isBlocked"
+            class="padding-top-2"
+            [wide]="true"
+            type="error"
+            (click)="toggleContactBlocking()"
+        >
+            <span class="text--100 text--bold">Desbloquear contato</span>
+        </ps-button>
+        <ps-button
+            *ngIf="modal.data.id && !modal.data.isBlocked"
+            class="padding-top-2"
+            [wide]="true"
+            type="alert"
+            (click)="toggleContactBlocking()"
+        >
+            <span class="text--100 text--bold">Bloquear contato</span>
+        </ps-button>
+        <ps-button *ngIf="!modal.data.id" class="padding-top-2" [wide]="true" type="secondary" (click)="addContact()">
+            <span class="text--100 text--bold">Adicionar contato</span>
+        </ps-button>
+        <ps-button *ngIf="modal.data.id" class="padding-top-2" [wide]="true" type="secondary" (click)="updateContact()">
+            <span class="text--100 text--bold">Editar contato</span>
         </ps-button>
     </div>
 </div>

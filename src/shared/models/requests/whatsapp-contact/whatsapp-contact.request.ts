@@ -1,6 +1,7 @@
 export interface WhatsappContactRequest {
     id: string;
-    name: string;
+    firstName: string;
+    lastName: string;
     countryCode: string;
     subdivisionCode: string;
     phoneNumber: string;
