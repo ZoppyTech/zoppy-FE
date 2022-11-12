@@ -33,6 +33,11 @@ jobs:
               with:
                   node-version: 14
 
+            - name: Use .npmrc
+              uses: bduff9/use-npmrc@v1.1
+              with:
+                  dot-npmrc: ${{ secrets.DOT_NPMRC }}
+
             - name: Install dependencies
               run: npm install
 
