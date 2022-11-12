@@ -119,6 +119,7 @@ export class WhatsappTemplateListComponent implements OnInit {
     public async pull(): Promise<void> {
         this.pullLoading = true;
         try {
+            this.validateBeforePull();
             const request: WhatsappManagedMessageTemplateRequest = {
                 wppAccountId: this.whatsappAccount.id,
                 overwrite: false
@@ -130,6 +131,10 @@ export class WhatsappTemplateListComponent implements OnInit {
         } finally {
             this.pullLoading = false;
         }
+    }
+
+    private validateBeforePull(): void {
+        if (!this.whatsappAccount.id) throw new Error('Conta do Whatsapp não encontrada ou excluída.');
     }
 
     private setLoggedUser(): void {

@@ -1,11 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
+import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { CompanyUtil } from 'src/shared/utils/company.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
+import { UserUtil } from 'src/shared/utils/User.util';
 
 @Component({
     selector: 'app-side-menu',
@@ -15,6 +17,8 @@ import { Storage } from 'src/shared/utils/storage';
 export class SideMenuComponent implements OnInit {
     public menuItems: SideMenuItem[] = [];
     public company: CompanyEntity | undefined = undefined;
+    public user: UserEntity | undefined = undefined;
+
     public constructor(
         public publicService: PublicService,
         public sideMenuService: SideMenuService,
@@ -26,8 +30,17 @@ export class SideMenuComponent implements OnInit {
         this.router.navigate([Navigation.routes.dashboard]);
     }
 
-    public ngOnInit() {
+    private setLoggedUser(): void {
+        this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
+    }
+
+    public setCompany(): void {
         this.company = this.storage.getCompany() as CompanyEntity;
+    }
+
+    public ngOnInit() {
+        this.setLoggedUser();
+        this.setCompany();
         this.menuItems = [
             {
                 id: `home`,
@@ -119,7 +132,7 @@ export class SideMenuComponent implements OnInit {
                         icon: 'icon-arrow',
                         label: 'Whatsapp',
                         route: Navigation.routes.whatsappConfig,
-                        visible: CompanyUtil.isPremium(this.company)
+                        visible: UserUtil.isMaster(this.user)
                     }
                 ]
             },
@@ -150,7 +163,7 @@ export class SideMenuComponent implements OnInit {
                         icon: 'icon-arrow',
                         label: 'Whatsapp',
                         route: '/dashboard/configurations/whatsapp',
-                        visible: true
+                        visible: UserUtil.isMaster(this.user)
                     }
                 ]
             }

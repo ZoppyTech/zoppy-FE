@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ModalService } from '../modal.service';
 
 @Component({
-    selector: 'app-info',
+    selector: 'info',
     templateUrl: './info.component.html',
     styleUrls: ['./info.component.scss']
 })

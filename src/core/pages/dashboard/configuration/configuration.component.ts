@@ -6,7 +6,7 @@ import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/sid
 import { CompanyUtil } from 'src/shared/utils/company.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
-import { UserUtil } from 'src/shared/utils/user.util';
+import { UserUtil } from 'src/shared/utils/User.util';
 
 @Component({
     selector: 'app-configuration',
@@ -21,13 +21,21 @@ export class ConfigurationComponent implements OnInit {
     public constructor(public sideMenuService: SideMenuService, public breadcrumb: BreadcrumbService, public storage: Storage) {}
 
     public ngOnInit() {
-        this.company = this.storage.getCompany() as CompanyEntity;
-        this.user = this.storage.getUser() as UserEntity;
+        this.setLoggedUser();
+        this.setCompany();
         setTimeout(() => {
             this.sideMenuService.change(`configurations`);
             this.setBreadcrumb();
             this.setMenuItems();
         });
+    }
+
+    private setLoggedUser(): void {
+        this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
+    }
+
+    public setCompany(): void {
+        this.company = this.storage.getCompany() as CompanyEntity;
     }
 
     private setBreadcrumb(): void {
@@ -78,14 +86,14 @@ export class ConfigurationComponent implements OnInit {
                 icon: 'icon-arrow',
                 label: 'Configuração do Whatsapp',
                 route: Navigation.routes.whatsappConfig,
-                visible: CompanyUtil.isPremium(this.company)
+                visible: UserUtil.isMaster(this.user)
             },
             {
                 id: `whatsappTemplateList`,
                 icon: 'icon-arrow',
                 label: 'Modelos de Mensagem Whatsapp',
                 route: Navigation.routes.whatsappTemplateList,
-                visible: CompanyUtil.isPremium(this.company)
+                visible: UserUtil.isMaster(this.user)
             },
             {
                 id: `letalk`,

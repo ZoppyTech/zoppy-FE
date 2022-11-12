@@ -28,6 +28,16 @@
             font-weight: 400;
             color: #363636;
         }
+
+        .block-icon {
+            font-size: 1.5rem;
+            color: var(--primary-300);
+        }
+
+        .edit-icon {
+            font-size: 1.5rem;
+            color: var(--neutral-300);
+        }
     }
 
     .chat-content {
@@ -98,7 +108,7 @@
             .item {
                 cursor: pointer;
                 width: 100%;
-                padding: 2.5rem;
+                padding: 1.5rem;
                 border-bottom: 1px solid var(--neutral-300);
 
                 &:hover {

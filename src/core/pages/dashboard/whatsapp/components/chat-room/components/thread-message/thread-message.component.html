@@ -30,7 +30,8 @@
                         *ngIf="thread.wamId"
                         [ngClass]="{
                             'viewed-icon--status-sent': thread.status === 'sent',
-                            'viewed-icon--status-delivered': thread.status === 'delivered'
+                            'viewed-icon--status-delivered': thread.status === 'delivered',
+                            'viewed-icon--status-read': thread.status === 'read'
                         }"
                         icon="icon-done_all"
                     ></ps-icon>

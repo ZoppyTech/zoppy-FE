@@ -1,26 +1,48 @@
 <div class="container">
     <div class="header">
-        <h5 class="text--primary text--bold margin-y-3">Nova Conversa</h5>
-        <div (click)="goBack()" class="button-go-back">
-            <ps-icon icon="icon-times"></ps-icon>
+        <div class="title-section">
+            <h5 class="text--primary text--bold margin-y-3">Nova Conversa</h5>
+            <div class="flex-row">
+                <div (click)="openNewContactModal()" class="button-new-contact-modal margin-x-2">
+                    <ps-icon class="text text--primary text--700" icon="icon-person_add"></ps-icon>
+                </div>
+                <div (click)="goBack()" class="button-go-back">
+                    <ps-icon class="text text--primary text--700" icon="icon-times"></ps-icon>
+                </div>
+            </div>
+        </div>
+        <div class="flex-center wide">
+            <ps-search-bar
+                [searchStyle]="'border-bottom'"
+                [text]="filter.searchText"
+                (onChanged)="onSearchTextChanged($event)"
+            ></ps-search-bar>
         </div>
     </div>
+
     <static-loading *ngIf="hasContactsLoading" [isLoading]="true" class="loading"></static-loading>
-    <div *ngIf="!hasContactsLoading && contacts.length <= 0" class="empty-list">
+    <div *ngIf="!hasContactsLoading && contacts.length <= 0 && !syncHasDone" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
-        <span class="text text--primary"
+        <span class="text text--bold text--primary"
             >Você não tem nenhum contato sincronizado, clique no botão abaixo para sincronizar seus contatos.
         </span>
         <ps-button class="margin-y-3" [loading]="hasSyncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
             <span class="text--100 text--bold">Sincronizar contatos</span>
         </ps-button>
     </div>
+    <div *ngIf="!hasContactsLoading && contacts.length <= 0 && syncHasDone" class="empty-list">
+        <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
+        <span class="text text--bold text--primary">Nenhum contato encontrado! </span>
+    </div>
     <div *ngIf="!hasContactsLoading && contacts.length > 0" class="contacts">
-        <div *ngFor="let contact of contacts; let i = index" class="item" (click)="selectContact(contact)">
+        <div *ngFor="let contact of contacts; let i = index" class="item clickable" (click)="selectContact(contact)">
             <div *ngIf="contact.hasIndex" class="item-header">
                 <h6 class="text--primary text--bold">{{ contact.displayName.substring(0, 1).toUpperCase() }}</h6>
             </div>
-            <span class="item-content truncate">{{ contact.displayName }} </span>
+            <div class="item-body">
+                <span class="item-content truncate">{{ contact.displayName }} </span>
+                <ps-icon *ngIf="contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
+            </div>
         </div>
     </div>
 </div>

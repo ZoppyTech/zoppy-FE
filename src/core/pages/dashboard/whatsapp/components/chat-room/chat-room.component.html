@@ -1,10 +1,14 @@
 <div class="container">
     <div class="header">
-        <h5 class="text--800 text--bold margin-y-1">{{ chatRoom.contact.displayName }}</h5>
+        <div class="flex-row align-center">
+            <h5 class="text--800 text--bold margin-y-1">{{ chatRoom.contact.displayName }}</h5>
+            <ps-icon *ngIf="chatRoom.contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
+            <ps-icon (click)="editContactModal()" class="edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
+        </div>
         <h6 class="text--small text--800">{{ chatRoom.contact.displayPhone }}</h6>
     </div>
 
-    <div *ngIf="messagesLoading"></div>
+    <!-- <div *ngIf="messagesLoading"></div> -->
     <div *ngIf="!messagesLoading" id="panel-scrollable" class="chat-content">
         <bubble-info class="flex-center" *ngIf="this.chatRoom.threads.length <= 0"></bubble-info>
         <div *ngFor="let thread of this.chatRoom.threads">
@@ -24,9 +28,9 @@
             <ps-icon class="arrow-icon" icon="icon-chevron text--primary"></ps-icon>
         </div>
         <div
+            *ngIf="messageTemplateListVisible"
             (mouseover)="messageTemplateListVisible = true"
             (mouseleave)="messageTemplateListVisible = false"
-            *ngIf="messageTemplateListVisible"
             class="message-template-list"
         >
             <div
@@ -37,7 +41,7 @@
                 <span>{{ messageTemplate.content }}</span>
             </div>
         </div>
-        <div class="templates-button clickable" (click)="toggleMessageTemplatesVisibility()">
+        <div *ngIf="messageTemplates.length > 0" class="templates-button clickable" (click)="toggleMessageTemplatesVisibility()">
             <span class="text--800 text--bold" [ngClass]="{ 'active-color': messageTemplateListVisible }">#</span>
         </div>
         <ps-input
@@ -49,7 +53,7 @@
             [(ngModel)]="messageInput"
         ></ps-input>
         <ps-button
-            [disabled]="!messageInput"
+            [disabled]="!messageInput || chatRoom.contact.isBlocked"
             class="send-button"
             [loading]="false"
             [wide]="true"

@@ -126,18 +126,20 @@
                 .viewed-icon {
                     display: flex;
                     position: relative;
-                    left: -66px;
+                    left: -62px;
                     bottom: -6px;
                     font-weight: 400;
                     font-size: 0.75rem;
                     padding: 0rem 0.25rem;
 
                     &--business-user {
-                        left: -66px;
+                        left: -62px;
                     }
 
                     &--customer-user {
-                        display: none;
+                        ps-icon {
+                            display: none;
+                        }
                     }
 
                     &--status-sent {
@@ -145,7 +147,11 @@
                     }
 
                     &--status-delivered {
-                        color: var(--primary-300);
+                        color: var(--info);
+                    }
+
+                    &--status-read {
+                        color: var(--success);
                     }
 
                     ps-icon {

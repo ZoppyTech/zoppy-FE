@@ -1,12 +1,15 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
+import { ZoppyFilter } from 'src/shared/models/filter';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappContactService } from 'src/shared/services/whatsapp-contact/whatsapp-contact.service';
 import { ChatContact } from '../../models/chat-contact';
 import { Subcomponents } from '../../models/subcomponents';
+import { WhatsappMapper } from '../../whatsapp-mapper';
 import { WhatsappContactMapper } from './contact-mapper';
 
 @Component({
@@ -21,18 +24,29 @@ export class ContactListComponent implements OnInit {
     public hasContactsLoading: boolean = true;
     public hasSyncContactsLoading: boolean = false;
     public contacts: Array<ChatContact> = [];
+    public syncHasDone: boolean = false;
     public readonly EMPTY_lIST_IMAGE_DIR: string = './../../../../../../assets/imgs/empty-chat-list.png';
+    public filter: ZoppyFilter<WhatsappContactEntity> = new ZoppyFilter<WhatsappContactEntity>();
 
     public constructor(
         public readonly wppContactService: WhatsappContactService,
         public readonly toast: ToastService,
-        public readonly confirmActionService: ConfirmActionService
+        public readonly confirmActionService: ConfirmActionService,
+        public modal: ModalService
     ) {}
 
     public async ngOnInit(): Promise<void> {
         console.log('Contact list loading...');
+        this.filter.searchFields = ['firstName'];
         await this.loadContacts();
+        this.syncHasDone = this.contacts.length > 0;
         console.log('Contact list initialized!');
+    }
+
+    public async onSearchTextChanged(searchText: string = ''): Promise<void> {
+        this.filter.pagination.page = 1;
+        this.filter.searchText = searchText;
+        await this.loadContacts();
     }
 
     private sortAndGroup(): void {
@@ -52,9 +66,26 @@ export class ContactListComponent implements OnInit {
         this.goBack();
     }
 
+    public openNewContactModal(): void {
+        this.modal.open(
+            Modal.IDENTIFIER.CHAT_CONTACT,
+            {
+                id: '',
+                firstName: '',
+                lastName: '',
+                phoneNumber: '',
+                isBlocked: false
+            },
+            (newContact: any) => {
+                this.contacts.push(WhatsappMapper.mapContact(newContact));
+            }
+        );
+    }
+
     public async loadContacts(): Promise<void> {
         try {
-            const entities: WhatsappContactEntity[] = await this.wppContactService.list();
+            const response: ZoppyFilter<WhatsappContactEntity> = await this.wppContactService.findAllPaginated(this.filter);
+            const entities: any = response.data;
             this.mapToContactView(entities);
             this.sortAndGroup();
         } catch (ex: any) {
@@ -80,6 +111,7 @@ export class ContactListComponent implements OnInit {
             const entities: WhatsappContactEntity[] = await this.wppContactService.sync();
             this.mapToContactView(entities);
             this.sortAndGroup();
+            this.syncHasDone = true;
             this.toast.success(WhatsappConstants.ToastMessages.ContactsSyncSuccessfully, WhatsappConstants.ToastTitles.Success);
         } catch (ex: any) {
             ex = ex as ZoppyException;

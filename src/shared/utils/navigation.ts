@@ -19,7 +19,7 @@ export class Navigation {
         letalk: '/dashboard/configurations/letalk',
         giftback: '/dashboard/configurations/giftback',
         coupons: '/dashboard/configurations/coupons',
-        whatsappConfig: '/dashboard/configurations/whatsapp',
+        whatsappConfig: '/dashboard/configurations/whatsapp-setup',
         whatsappTemplateList: '/dashboard/configurations/whatsapp-template-list',
         syncData: '/dashboard/configurations/sync-data',
         whatsapp: '/dashboard/whatsapp',

@@ -2,6 +2,7 @@ import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy,
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { Observable, Subscription } from 'rxjs';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -9,6 +10,7 @@ import { WhatsappBusinessManagementService } from 'src/shared/services/whatsapp-
 import { ChatRoom } from '../../models/chat-room';
 import { ThreadMessage } from '../../models/thread-message';
 import { WhatsappUtil } from '../../utils/whatsapp.util';
+import { WhatsappMapper } from '../../whatsapp-mapper';
 import { ChatUtility } from './helpers/chat-utility';
 import { ChatMessageTemplate } from './models/chat-message-template';
 
@@ -41,6 +43,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         public readonly wppBusinessManagementService: WhatsappBusinessManagementService,
         public readonly toast: ToastService,
         public readonly confirmActionService: ConfirmActionService,
+        public modal: ModalService,
         private readonly chatUtility: ChatUtility
     ) {}
 
@@ -136,11 +139,28 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.messageInput = '';
     }
 
+    public editContactModal(): void {
+        this.modal.open(
+            Modal.IDENTIFIER.CHAT_CONTACT,
+            {
+                id: this.chatRoom.contact.id,
+                firstName: this.chatRoom.contact.firstName,
+                lastName: this.chatRoom.contact.lastName,
+                phoneNumber: WhatsappUtil.removeCountryCode(this.chatRoom.contact.displayPhone),
+                isBlocked: this.chatRoom.contact.isBlocked
+            },
+            (updatedContact: any) => {
+                this.chatRoom.contact = WhatsappMapper.mapContact(updatedContact);
+            }
+        );
+    }
+
     private buildTemplateMessage(): ThreadMessage {
         return {
             type: WhatsappConstants.MessageType.Template,
             templateName: this.messageTemplateSelected?.name,
             content: this.messageTemplateSelected?.content ?? '',
+            readByManager: true,
             status: WhatsappConstants.MessageStatus.Sent,
             isBusiness: true,
             isFirstMessageOfDay: false,
@@ -153,6 +173,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             type: WhatsappConstants.MessageType.Text,
             content: this.messageInput,
             status: WhatsappConstants.MessageStatus.Sent,
+            readByManager: true,
             isBusiness: true,
             isFirstMessageOfDay: false,
             createdAt: new Date()

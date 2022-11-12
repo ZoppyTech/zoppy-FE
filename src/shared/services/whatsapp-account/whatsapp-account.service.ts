@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Storage } from 'src/shared/utils/storage';
 import { WhatsappAccountRequest } from 'src/shared/models/requests/whatsapp-account/whatsapp-account.request';
 import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-account.entity';
+import { SignWhatsappAccountRequest } from 'src/shared/models/requests/whatsapp-account/sign-whatsapp-account.request';
 
 @Injectable({
     providedIn: 'root'
@@ -23,6 +24,16 @@ export class WhatsappAccountService extends ApiService {
     public async getRegisteredByCompany(): Promise<WhatsappAccountEntity> {
         const promise: Promise<WhatsappAccountEntity> = new Promise((resolve: any, reject: any) => {
             this.get<WhatsappAccountEntity>(`${this.url}/registered`).subscribe(
+                (response: WhatsappAccountEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async sign(request: SignWhatsappAccountRequest): Promise<WhatsappAccountEntity> {
+        const promise: Promise<WhatsappAccountEntity> = new Promise((resolve: any, reject: any) => {
+            this.post<WhatsappAccountEntity, SignWhatsappAccountRequest>(`${this.url}/sign`, request).subscribe(
                 (response: WhatsappAccountEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

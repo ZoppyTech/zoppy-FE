@@ -63,6 +63,7 @@ export class WhatsappMapper {
         threadMessage.content = messageEntity.content;
         threadMessage.status = messageEntity.status;
         threadMessage.isBusiness = messageEntity.origin === WhatsappConstants.MessageOrigin.BusinessInitiated;
+        threadMessage.readByManager = !!messageEntity.wppManagerId;
         threadMessage.isFirstMessageOfDay = false;
         threadMessage.wamId = messageEntity.wamId;
         threadMessage.createdAt = messageEntity.createdAt;
@@ -97,6 +98,15 @@ export class WhatsappMapper {
             if (!DateUtil.differenceInCalendarDays(new Date(thread.createdAt), firstMessageDate)) continue;
             thread.isFirstMessageOfDay = true;
             firstMessageDate = new Date(thread.createdAt);
+        }
+    }
+
+    public static setUnreadConversations(conversations: Map<string, ChatRoom>): void {
+        for (const conversation of Array.from(conversations.entries())) {
+            const unreadMessages: ThreadMessage[] = conversation[1].threads.filter((thread: ThreadMessage) => {
+                return thread.type === WhatsappConstants.MessageType.Text && thread.readByManager === false;
+            });
+            conversation[1].unreadThreads.push(...unreadMessages);
         }
     }
 

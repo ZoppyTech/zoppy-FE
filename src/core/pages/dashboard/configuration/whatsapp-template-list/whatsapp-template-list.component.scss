@@ -113,8 +113,26 @@
     }
 }
 
-@media only screen and (max-width: 1919px) {
+@media only screen and (max-width: 1440px) {
     .desktop {
         display: none !important;
+    }
+
+    .container {
+        .separator {
+            display: none;
+        }
+
+        .main-content {
+            table {
+                tbody {
+                    td {
+                        ps-icon {
+                            margin-right: 0rem;
+                        }
+                    }
+                }
+            }
+        }
     }
 }

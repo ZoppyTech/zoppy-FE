@@ -2,7 +2,7 @@
     <div class="header">
         <h5 class="text--primary text--bold margin-y-3">Mensagens</h5>
         <div (click)="newMessage()" class="button-plus">
-            <span class="text text--primary">+</span>
+            <ps-icon class="text text--primary text--700" icon="icon-add"></ps-icon>
         </div>
     </div>
 
@@ -22,10 +22,23 @@
                 [ngClass]="{ 'item-actived': conversation[1].actived }"
             >
                 <div class="item-header">
-                    <h5 class="text text--bold truncate">{{ conversation[1].contact.displayName }}</h5>
-                    <h6 *ngIf="conversation[1].threads.length > 0" class="text--small text--400">
-                        {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
-                    </h6>
+                    <div class="flex-row">
+                        <h5 class="text text--bold truncate">{{ conversation[1].contact.displayName }}</h5>
+                        <ps-icon *ngIf="conversation[1].contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
+                    </div>
+                    <div class="flex-row">
+                        <h6
+                            *ngIf="conversation[1].threads.length > 0"
+                            class="text--small text--400 margin-x-1"
+                            [ngClass]="{
+                                'text--bold text--700 text--secondary':
+                                    !conversation[1].threads[conversation[1].threads.length - 1].readByManager
+                            }"
+                        >
+                            {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
+                        </h6>
+                        <ps-icon class="reply-icon" icon="icon-reply"></ps-icon>
+                    </div>
                 </div>
                 <div class="item-content" *ngIf="conversation[1].threads.length > 0">
                     <span
@@ -40,12 +53,20 @@
                             [ngClass]="{
                                 'viewed-icon--status-sent': conversation[1].threads[conversation[1].threads.length - 1].status === 'sent',
                                 'viewed-icon--status-delivered':
-                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered'
+                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered',
+                                'viewed-icon--status-read': conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
                             }"
                             icon="icon-done_all"
                         ></ps-icon
                     ></span>
-                    <span class="text-message truncate">{{ conversation[1].threads[conversation[1].threads.length - 1].content }} </span>
+                    <span
+                        class="text-message truncate"
+                        [ngClass]="{ 'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager }"
+                        >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
+                    </span>
+                    <div *ngIf="conversation[1].unreadThreads.length > 0" class="unread-counter">
+                        <span class="text--small text--bold text--100">{{ conversation[1].unreadThreads.length }}</span>
+                    </div>
                 </div>
             </div>
         </div>

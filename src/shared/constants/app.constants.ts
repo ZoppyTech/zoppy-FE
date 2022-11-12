@@ -9,6 +9,7 @@ export class AppConstants {
         premium: 'premium',
         standard: 'standard'
     };
+
     public static Role = {
         admin: 'ADMIN',
         master: 'MASTER'
