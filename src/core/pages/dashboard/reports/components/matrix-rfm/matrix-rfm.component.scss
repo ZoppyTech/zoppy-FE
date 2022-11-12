@@ -68,6 +68,10 @@ main {
             }
         }
 
+        .unselected {
+            opacity: 0.6;
+        }
+
         .cant-lose {
             grid-row: 1/2;
             grid-column: 1/3;

@@ -40,7 +40,7 @@ export class SideMenuComponent implements OnInit {
                 id: `reports`,
                 icon: 'icon-inventory',
                 label: 'Relatórios',
-                route: Navigation.routes.reports,
+                route: `${Navigation.routes.reports}/1`,
                 visible: true
             },
             {
