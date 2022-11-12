@@ -18,7 +18,7 @@ export class Navigation {
         accessTokens: '/dashboard/configurations/access-tokens',
         letalk: '/dashboard/configurations/letalk',
         giftback: '/dashboard/configurations/giftback',
-        whatsappConfig: '/dashboard/configurations/whatsapp',
+        whatsappConfig: '/dashboard/configurations/whatsapp-setup',
         whatsappTemplateList: '/dashboard/configurations/whatsapp-template-list',
         syncData: '/dashboard/configurations/sync-data',
         whatsapp: '/dashboard/whatsapp',

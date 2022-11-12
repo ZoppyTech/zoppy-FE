@@ -9,4 +9,10 @@ export class AppConstants {
         premium: 'premium',
         standard: 'standard'
     };
+
+    public static ROLES = {
+        ADMIN: 'ADMIN',
+        MASTER: 'MASTER',
+        COMMON: 'COMMON'
+    };
 }
