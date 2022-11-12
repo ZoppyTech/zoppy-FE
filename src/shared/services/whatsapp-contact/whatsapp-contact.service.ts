@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Storage } from 'src/shared/utils/storage';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
 import { WhatsappContactRequest } from 'src/shared/models/requests/whatsapp-contact/whatsapp-contact.request';
+import { ZoppyFilter } from 'src/shared/models/filter';
 
 @Injectable({
     providedIn: 'root'
@@ -18,6 +19,16 @@ export class WhatsappContactService extends ApiService {
         public override readonly storage: Storage
     ) {
         super(http, router, storage);
+    }
+
+    public async findAllPaginated(filter: ZoppyFilter<WhatsappContactEntity>): Promise<ZoppyFilter<WhatsappContactEntity>> {
+        const promise: Promise<ZoppyFilter<WhatsappContactEntity>> = new Promise((resolve: any, reject: any) => {
+            this.post<ZoppyFilter<WhatsappContactEntity>, ZoppyFilter<WhatsappContactEntity>>(`${this.url}/list`, filter).subscribe(
+                (response: ZoppyFilter<WhatsappContactEntity>) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
     }
 
     public async list(): Promise<Array<WhatsappContactEntity>> {

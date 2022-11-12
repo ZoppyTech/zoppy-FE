@@ -14,41 +14,50 @@
     flex-direction: column;
 
     .header {
-        min-height: 112px;
-        max-height: 112px;
-        display: flex;
-        flex-direction: row;
-        align-items: center;
-        justify-content: space-between;
         border-bottom: 1px solid var(--neutral-300);
-        padding: 1rem 2rem;
 
-        .button-new-contact-modal {
+        .title-section {
+            min-height: fit-content;
+            height: fit-content;
+            max-height: 112px;
             display: flex;
             flex-direction: row;
             align-items: center;
-            justify-content: center;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            border: 1px solid var(--neutral-300);
-            cursor: pointer;
-            background-color: #fafbff;
-            padding: 18px;
+            justify-content: space-between;
+            padding: 1rem 2rem;
+
+            .button-new-contact-modal {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                border: 1px solid var(--neutral-300);
+                cursor: pointer;
+                background-color: #fafbff;
+                padding: 18px;
+            }
+
+            .button-go-back {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                border: 1px solid var(--neutral-300);
+                cursor: pointer;
+                background-color: #fafbff;
+                padding: 18px;
+            }
         }
 
-        .button-go-back {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            border: 1px solid var(--neutral-300);
-            cursor: pointer;
-            background-color: #fafbff;
-            padding: 18px;
+        ps-search-bar {
+            padding: 0rem 2rem;
+            margin-bottom: 3rem;
         }
     }
 
