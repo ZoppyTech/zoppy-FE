@@ -38,13 +38,24 @@ export class ContactListComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         console.log('Contact list loading...');
         this.filter.searchFields = ['firstName'];
+        this.filter.pagination.page = 1;
+        this.filter.pagination.pageSize = Number.MAX_SAFE_INTEGER;
+        this.filter.orderBy = [
+            {
+                property: 'firstName',
+                direction: 'ASC'
+            },
+            {
+                property: 'lastName',
+                direction: 'ASC'
+            }
+        ];
         await this.loadContacts();
         this.syncHasDone = this.contacts.length > 0;
         console.log('Contact list initialized!');
     }
 
     public async onSearchTextChanged(searchText: string = ''): Promise<void> {
-        this.filter.pagination.page = 1;
         this.filter.searchText = searchText;
         await this.loadContacts();
     }
