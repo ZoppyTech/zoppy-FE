@@ -114,9 +114,6 @@
     <div class="content-box">
         <div class="flex flex-center space-between margin-bottom-3">
             <h5 class="text--primary text--bold">Listagem de clientes</h5>
-            <ps-button class="margin-left-2" type="secondary-border" (onClick)="downloadCustomers()">
-                <span class="text text--secondary"> Download de clientes </span>
-            </ps-button>
         </div>
         <div class="table">
             <table *ngIf="!isLoading">
@@ -140,5 +137,8 @@
                 </tbody>
             </table>
         </div>
+        <ps-button [loading]="loadingDownload" class="margin-top-3" [wide]="true" type="secondary" (onClick)="downloadCustomers()">
+            <span class="text text--100"> Exportar CSV </span>
+        </ps-button>
     </div>
 </main>

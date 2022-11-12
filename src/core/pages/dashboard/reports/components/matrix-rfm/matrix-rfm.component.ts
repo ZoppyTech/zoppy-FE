@@ -18,6 +18,7 @@ import { FormatUtils } from 'src/shared/utils/format.util';
 export class MatrixRfmComponent implements OnInit, OnDestroy {
     public customers: Array<ReportCustomerResponseDto> = [];
     public isLoading: boolean = true;
+    public loadingDownload: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public positions: CustomerPositions = new CustomerPositions();
     public position: CustomerPosition = new CustomerPosition('all');
@@ -29,12 +30,15 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
 
     public async downloadCustomers(): Promise<void> {
         const fileName: string = `${new Date().toLocaleDateString()}_coupons.csv`;
+        this.loadingDownload = true;
         try {
             const file: any = await this.reportsService.downloadCustomers(this.reportRequest.period, this.position.position);
             FileUtils.downloadBlob(fileName, file);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Erro!');
+        } finally {
+            this.loadingDownload = false;
         }
     }
 
