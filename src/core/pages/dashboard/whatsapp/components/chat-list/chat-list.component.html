@@ -37,11 +37,7 @@
                         >
                             {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
                         </h6>
-                        <ps-icon
-                            *ngIf="conversation[1].threads[conversation[1].threads.length - 1]?.isBusiness"
-                            class="reply-icon"
-                            icon="icon-reply"
-                        ></ps-icon>
+                        <ps-icon class="reply-icon" icon="icon-reply"></ps-icon>
                     </div>
                 </div>
                 <div class="item-content" *ngIf="conversation[1].threads.length > 0">

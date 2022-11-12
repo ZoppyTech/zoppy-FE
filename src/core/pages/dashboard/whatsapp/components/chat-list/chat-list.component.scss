@@ -107,6 +107,7 @@
 
                 h5 {
                     max-width: 316px;
+                    font-size: 13px;
                 }
 
                 .block-icon {
@@ -155,8 +156,8 @@
                     color: #363636;
 
                     &--unread {
-                        color: var(--neutral-700);
-                        font-weight: 700;
+                        color: var(--neutral-800);
+                        font-weight: 600;
                     }
                 }
 

@@ -65,9 +65,12 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     ) {}
 
     public async ngOnInit(): Promise<void> {
-        console.log('Whatsapp loading...');
         this.setLoggedUser();
         this.setBreadcrumb();
+    }
+
+    public async onStartWhatsapp(): Promise<void> {
+        console.log('Whatsapp loading...');
         this.setWebSocket();
         await this.loadRegisteredWhatsappAccount();
         await this.loadBusinessAccounManager();

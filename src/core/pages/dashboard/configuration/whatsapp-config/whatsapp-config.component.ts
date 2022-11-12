@@ -31,7 +31,7 @@ export class WhatsappConfigComponent implements OnInit {
     public currentStatus: any = {
         scenario: WhatsappConstants.ACCOUNT_SCENARIO.IDLE,
         color: '#C6C6C6',
-        text: 'Inativo'
+        text: 'Conta inativa'
     };
 
     public readonly integrationStatus: Array<any> = [

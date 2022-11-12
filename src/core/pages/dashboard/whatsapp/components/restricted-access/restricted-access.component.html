@@ -1,5 +1,6 @@
 <div class="container">
-    <div class="main-content">
+    <static-loading *ngIf="whatsappAccountLoading" [isLoading]="true" class="main-content"></static-loading>
+    <div *ngIf="!whatsappAccountLoading" class="main-content">
         <div *ngIf="activationPending" class="card-header">
             <img [ngStyle]="{ 'box-shadow': 'none' }" [src]="CHAT_UPGRADE_IN_PROGRESS_IMAGE_DIR" alt="" />
             <span class="title margin-y-3">Bate aqui!</span>
