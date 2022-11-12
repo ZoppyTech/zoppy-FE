@@ -1,5 +1,4 @@
 import { AppConstants } from '../constants/app.constants';
-import { CompanyEntity } from '../models/entities/company.entity';
 import { UserEntity } from '../models/entities/user.entity';
 
 export class UserUtil {

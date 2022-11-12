@@ -150,14 +150,12 @@
                     ></ps-input>
                 </div>
                 <div class="field flex-grow-1">
-                    <p class="text text--bold">
-                        Complemento
-                        <ps-input
-                            [disabled]="!order.address.phone || !order.address.postcode"
-                            placeholder="Digite aqui o complemento"
-                            [(ngModel)]="complement"
-                        ></ps-input>
-                    </p>
+                    <p class="text text--bold">Complemento</p>
+                    <ps-input
+                        [disabled]="!order.address.phone || !order.address.postcode"
+                        placeholder="Digite aqui o complemento"
+                        [(ngModel)]="complement"
+                    ></ps-input>
                 </div>
             </div>
         </div>
