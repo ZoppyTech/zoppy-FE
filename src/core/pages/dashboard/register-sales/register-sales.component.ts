@@ -41,6 +41,8 @@ export class RegisterSalesComponent implements OnInit {
         lineItems: [],
         total: 0
     };
+    public number: string = '';
+    public complement: string = '';
     public loadingAddress: boolean = false;
     public defaultCouponType: CouponType = 'fixed-cart';
     public useExistingCoupon: boolean = false;
@@ -126,6 +128,7 @@ export class RegisterSalesComponent implements OnInit {
         try {
             this.loading = true;
             this.order.total = parseFloat(this.order.total as string);
+            this.formatAddress();
             const order: CrmOrderResponse = await this.crmOrderService.create(this.order);
             this.order = order as CrmOrderRequest;
             this.toast.success('Sua venda foi registrada com sucesso!', 'Sucesso!');
@@ -272,6 +275,11 @@ export class RegisterSalesComponent implements OnInit {
             lineItems: [],
             total: 0
         };
+    }
+
+    private formatAddress(): void {
+        if (this.number) this.order.address.address1 += `, nº ${this.number}`;
+        if (this.complement) this.order.address.address1 += `, complemento ${this.complement}`;
     }
 }
 

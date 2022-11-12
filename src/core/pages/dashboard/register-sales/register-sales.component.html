@@ -29,7 +29,7 @@
     <div class="body padding-x-2" *ngIf="!loadingAddress && state === 1">
         <div class="flex flex-column flex-grow">
             <div class="field">
-                <p class="text text--bold">Telefone do seu cliente</p>
+                <p class="text text--bold">Telefone do seu cliente*</p>
                 <ps-input
                     mask="(00) 00000-0000"
                     [debounce]="800"
@@ -40,7 +40,7 @@
             </div>
 
             <div class="field">
-                <p class="text text--bold">Primeiro Nome</p>
+                <p class="text text--bold">Primeiro Nome*</p>
                 <ps-input
                     [disabled]="!order.address.phone"
                     placeholder="Digite aqui seu nome"
@@ -68,7 +68,7 @@
             </div>
 
             <div class="field">
-                <p class="text text--bold">E-mail do cliente</p>
+                <p class="text text--bold">E-mail do cliente*</p>
                 <ps-input
                     [disabled]="!order.address.phone"
                     placeholder="Digite seu email"
@@ -89,7 +89,7 @@
                     [(value)]="order.operation"
                     [propertyLabel]="'label'"
                     [items]="operations"
-                    [displayTop]="true"
+                    [displayTop]="false"
                     noDataText="Selecionar"
                 ></ps-dropdown>
             </div>
@@ -131,11 +131,11 @@
                     ></ps-input>
                 </div>
                 <div class="field flex-grow-1">
-                    <p class="text text--bold">UF</p>
+                    <p class="text text--bold">Número</p>
                     <ps-input
                         [disabled]="!order.address.phone || !order.address.postcode"
-                        placeholder="Digite aqui o UF"
-                        [(ngModel)]="order.address.state"
+                        placeholder="Digite aqui o número"
+                        [(ngModel)]="number"
                     ></ps-input>
                 </div>
             </div>
@@ -150,12 +150,14 @@
                     ></ps-input>
                 </div>
                 <div class="field flex-grow-1">
-                    <p class="text text--bold">Bairro</p>
-                    <ps-input
-                        [disabled]="!order.address.phone || !order.address.postcode"
-                        placeholder="Digite aqui o bairro"
-                        [(ngModel)]="order.address.address2"
-                    ></ps-input>
+                    <p class="text text--bold">
+                        Complemento
+                        <ps-input
+                            [disabled]="!order.address.phone || !order.address.postcode"
+                            placeholder="Digite aqui o complemento"
+                            [(ngModel)]="complement"
+                        ></ps-input>
+                    </p>
                 </div>
             </div>
         </div>
