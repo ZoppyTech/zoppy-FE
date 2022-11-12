@@ -4,7 +4,7 @@ import { Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { environment } from 'src/environments/environment';
 import { Storage } from 'src/shared/utils/storage';
-import { ApiService } from '../api.service';
+import { ApiService, ZoppyException } from '../api.service';
 
 @Injectable({
     providedIn: 'root'
@@ -21,13 +21,14 @@ export class DownloadService extends ApiService {
         super(http, router, storage);
     }
 
-    public downloadPublicFile(path: string, fileName: string, type: string): any {
+    public async downloadPublicFile(path: string, fileName: string, type: string): Promise<any> {
         const params: HttpParams = new HttpParams().append('path', path).append('fileName', fileName).append('type', type);
-        const headers: HttpHeaders = this.setHeaders(new HttpHeaders());
-        return this.http.get(`${this.url}/download`, {
-            params,
-            responseType: 'text',
-            headers: headers
+        const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
+            this.download<any>(`${this.url}/download`, params).subscribe(
+                (response: any) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
         });
+        return promise;
     }
 }

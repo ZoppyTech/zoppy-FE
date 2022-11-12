@@ -18,6 +18,7 @@ export class Navigation {
         accessTokens: '/dashboard/configurations/access-tokens',
         letalk: '/dashboard/configurations/letalk',
         giftback: '/dashboard/configurations/giftback',
+        coupons: '/dashboard/configurations/coupons',
         whatsappConfig: '/dashboard/configurations/whatsapp-setup',
         whatsappTemplateList: '/dashboard/configurations/whatsapp-template-list',
         syncData: '/dashboard/configurations/sync-data',
@@ -53,4 +54,5 @@ export type Pages =
     | 'whatsapp'
     | 'products'
     | 'sales'
-    | 'customers';
+    | 'customers'
+    | 'coupons';

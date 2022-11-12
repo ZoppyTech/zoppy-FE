@@ -40,6 +40,7 @@ export type SideMenu =
     | 'registerSale'
     | 'products'
     | 'customers'
+    | 'coupons'
     | 'whatsappConfig'
     | 'whatsappTemplateList'
     | 'none';

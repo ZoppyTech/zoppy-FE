@@ -9,6 +9,7 @@ import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.s
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { DownloadService } from 'src/shared/services/download/download.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { FileUtils } from 'src/shared/utils/file.util';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -43,7 +44,7 @@ export class CustomersComponent implements OnInit {
 
     public async fetchData(): Promise<void> {
         try {
-            const response: ZoppyFilter<CrmAddressResponse> = await this.crmAddressService.findAll(this.filter);
+            const response: ZoppyFilter<CrmAddressResponse> = await this.crmAddressService.findAllPaginated(this.filter);
             this.filter.pagination = response.pagination;
             this.customers = (response.data as CrmAddressResponse[]) ?? [];
         } catch (ex: any) {
@@ -95,14 +96,13 @@ export class CustomersComponent implements OnInit {
         const fileName: string = 'Zoppy Clientes.csv';
         const type: string = 'text/csv';
         const path: string = '/docs/import_customers_zoppy.csv';
-        this.downloadService.downloadPublicFile(path, fileName, type).subscribe((response: any) => {
-            const a: any = document.createElement('a');
-            a.href = 'data:text/csv,' + response;
-            a.setAttribute('download', fileName);
-            document.body.appendChild(a);
-            a.click();
-            document.body.removeChild(a);
-        });
+        try {
+            const file: any = await this.downloadService.downloadPublicFile(path, fileName, type);
+            FileUtils.downloadBlob(fileName, file);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Erro!');
+        }
     }
 
     private setBreadcrumb(): void {

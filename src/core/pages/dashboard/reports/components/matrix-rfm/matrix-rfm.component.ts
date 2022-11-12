@@ -7,6 +7,7 @@ import { ReportCustomerResponse } from 'src/shared/models/responses/reports/repo
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
+import { FileUtils } from 'src/shared/utils/file.util';
 import { FormatUtils } from 'src/shared/utils/format.util';
 
 @Component({
@@ -17,13 +18,29 @@ import { FormatUtils } from 'src/shared/utils/format.util';
 export class MatrixRfmComponent implements OnInit, OnDestroy {
     public customers: Array<ReportCustomerResponseDto> = [];
     public isLoading: boolean = true;
+    public loadingDownload: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public positions: CustomerPositions = new CustomerPositions();
+    public position: CustomerPosition = new CustomerPosition('all');
     @Input() public reportRequest: GetReportRequest = {
         period: 30 as ReportPeriod
     };
 
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
+
+    public async downloadCustomers(): Promise<void> {
+        const fileName: string = `${new Date().toLocaleDateString()}_coupons.csv`;
+        this.loadingDownload = true;
+        try {
+            const file: any = await this.reportsService.downloadCustomers(this.reportRequest.period, this.position.position);
+            FileUtils.downloadBlob(fileName, file);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Erro!');
+        } finally {
+            this.loadingDownload = false;
+        }
+    }
 
     public ngOnDestroy(): void {
         BroadcastService.dispose(this);
@@ -44,6 +61,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         try {
             this.customers = (await this.reportsService.getCustomers(this.reportRequest)) as ReportCustomerResponseDto[];
             this.setPositions();
+            this.setFilter(this.position);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');
@@ -53,6 +71,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     }
 
     public setPositions(): void {
+        this.resetPositions();
         this.customers.forEach((customer: ReportCustomerResponse) => {
             switch (customer.matrixRFM?.position) {
                 case 'cant-lose':
@@ -96,8 +115,12 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     }
 
     public setFilter(position: CustomerPosition) {
-        this.customers.forEach((customer: ReportCustomerResponseDto) => {
-            customer.hidden = customer.matrixRFM?.position !== position.position;
+        this.position.position = position.position;
+        setTimeout(() => {
+            this.customers = this.customers.map((customer: ReportCustomerResponseDto) => {
+                customer.hidden = position.position !== 'all' && customer.matrixRFM?.position !== position.position;
+                return customer;
+            });
         });
     }
 
@@ -106,6 +129,19 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
             this.reportRequest.period = period;
             await this.initializeData();
         });
+    }
+
+    private resetPositions(): void {
+        this.positions.cantLose.phones = [];
+        this.positions.atRisk.phones = [];
+        this.positions.loyal.phones = [];
+        this.positions.champion.phones = [];
+        this.positions.needAttention.phones = [];
+        this.positions.possibleLoyal.phones = [];
+        this.positions.sleeping.phones = [];
+        this.positions.almostSleeping.phones = [];
+        this.positions.promising.phones = [];
+        this.positions.new.phones = [];
     }
 }
 

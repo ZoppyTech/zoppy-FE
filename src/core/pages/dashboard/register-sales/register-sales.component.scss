@@ -52,22 +52,21 @@
         flex-wrap: wrap;
         justify-content: space-between;
         display: flex;
-        flex-direction: row;
         overflow-y: auto;
+        grid-gap: 1rem;
 
-        .field-2 {
-            display: flex;
-            flex-direction: column;
-            padding: 1rem;
-            width: 100%;
+        .column-1 {
+            grid-column: 1;
+        }
+
+        .column-2 {
+            grid-column: 2;
         }
 
         .field {
             display: flex;
             flex-direction: column;
             padding: 1rem;
-            flex-grow: 1;
-            width: calc(50% - 4rem);
 
             p {
                 grid-row: 1;

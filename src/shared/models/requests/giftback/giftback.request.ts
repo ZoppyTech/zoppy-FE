@@ -5,4 +5,5 @@ export interface GiftbackRequest extends WcGiftbackConfigEntity {
     percentValue?: number;
     maxPercentValue?: number;
     expirationDays?: number;
+    startDays?: number;
 }

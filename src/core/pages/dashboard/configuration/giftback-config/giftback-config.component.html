@@ -33,6 +33,13 @@
             <ps-input type="number" [(ngModel)]="giftback.expirationDays" placeholder="Digite a quantidade de dias"></ps-input>
             <span class="text--500 text--caption desktop"> Número de dias que o usuário poderá utilizar após a criação do cupom. </span>
         </div>
+        <div class="field">
+            <span class="text text--bold"> Data de envio <span class="text text--secondary">&nbsp;(Sugestão: 0 dias)</span></span>
+            <ps-input type="number" [(ngModel)]="giftback.startDays" placeholder="Digite a quantidade de dias"></ps-input>
+            <span class="text--500 text--caption desktop">
+                Número de dias que o sistema esperará para enviar a primeira mensagem ao seu cliente.
+            </span>
+        </div>
     </div>
     <div class="footer">
         <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary" [disabled]="getSaveDisabled()">

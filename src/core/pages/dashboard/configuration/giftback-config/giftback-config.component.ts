@@ -46,7 +46,8 @@ export class GiftbackConfigComponent implements OnInit {
                 id: this.giftback.id,
                 percentValue: parseInt(this.giftback.percentValue?.toString() ?? ''),
                 maxPercentValue: parseInt(this.giftback.maxPercentValue?.toString() ?? ''),
-                expirationDays: parseInt(this.giftback.expirationDays?.toString() ?? '')
+                expirationDays: parseInt(this.giftback.expirationDays?.toString() ?? ''),
+                startDays: parseInt(this.giftback.startDays?.toString() ?? '')
             };
             const response: WcGiftbackConfigEntity = this.giftback.id
                 ? await this.giftbackService.update(request)

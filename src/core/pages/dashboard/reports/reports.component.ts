@@ -1,8 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -11,15 +13,15 @@ import { Storage } from 'src/shared/utils/storage';
     styleUrls: ['./reports.component.scss']
 })
 export class ReportsComponent implements OnInit {
-    public view: View = 1;
+    public view: View = '1';
     public items: Array<Item> = [
         {
             label: 'Dashboard inicial',
-            value: 1
+            value: '1'
         },
         {
             label: 'Matriz RFM',
-            value: 2
+            value: '2'
         }
     ];
 
@@ -38,12 +40,25 @@ export class ReportsComponent implements OnInit {
             label: 'Últimos 90 dias',
             selected: false,
             value: 90
+        },
+        {
+            label: 'Todas',
+            selected: false,
+            value: 'all'
         }
     ];
 
     public periodMenuOpen: boolean = false;
 
-    public constructor(public sideMenuService: SideMenuService, public breadcrumb: BreadcrumbService, public storage: Storage) {}
+    public constructor(
+        public sideMenuService: SideMenuService,
+        public breadcrumb: BreadcrumbService,
+        public storage: Storage,
+        public route: ActivatedRoute,
+        public router: Router
+    ) {
+        this.view = (this.route.snapshot.paramMap.get('tab') as any) ?? ('1' as View);
+    }
 
     public async ngOnInit() {
         this.sideMenuService.change(`reports`);
@@ -56,6 +71,18 @@ export class ReportsComponent implements OnInit {
         });
         this.periodMenuOpen = false;
         BroadcastService.emit('refresh-report', period.value);
+    }
+
+    public selectReport(period: ReportPeriod): void {
+        this.router.navigate([Navigation.routes.reports, period.toString()]);
+
+        setTimeout(() => {
+            BroadcastService.emit('refresh-report', this.getPeriod());
+        }, 300);
+    }
+
+    public getPeriod(): ReportPeriod {
+        return this.periods.find((period: PeriodItem) => period.selected)?.value ?? 30;
     }
 
     public periodSelectedLabel(): string {
@@ -72,7 +99,7 @@ export class ReportsComponent implements OnInit {
     }
 }
 
-type View = 1 | 2;
+type View = '1' | '2';
 class Item {
     public declare label: string;
     public declare value: View;

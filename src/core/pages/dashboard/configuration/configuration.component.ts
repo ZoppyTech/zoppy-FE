@@ -101,6 +101,13 @@ export class ConfigurationComponent implements OnInit {
                 label: 'Configuração da Letalk',
                 route: Navigation.routes.letalk,
                 visible: CompanyUtil.isStandard(this.company)
+            },
+            {
+                id: `coupons`,
+                icon: 'icon-arrow',
+                label: 'Visualização de giftbacks',
+                route: Navigation.routes.coupons,
+                visible: UserUtil.isMaster(this.user)
             }
         ];
     }

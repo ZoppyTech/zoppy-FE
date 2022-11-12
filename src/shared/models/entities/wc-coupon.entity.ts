@@ -10,7 +10,7 @@ export class WcCouponEntity {
     public declare usageLimit: string;
     public declare expiryDate: Date;
     public declare minPurchaseValue: number;
-    public declare maxPurchaseValue: number;
+    public declare maxPercentPurchaseValue: number;
     public declare description: string;
     public declare createdAt: Date;
     public declare updatedAt: Date | null;

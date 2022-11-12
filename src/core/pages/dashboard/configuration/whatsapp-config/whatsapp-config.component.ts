@@ -91,7 +91,7 @@ export class WhatsappConfigComponent implements OnInit {
 
     public async ngOnInit(): Promise<void> {
         this.setBreadcrumbItems();
-        this.sideMenuService.changeSub('whatsapp');
+        this.sideMenuService.changeSub('whatsappConfig');
         this.sideMenuService.change('configurations');
         this.setLoggedUser();
         await this.loadWhatsappRegisteredAccount();

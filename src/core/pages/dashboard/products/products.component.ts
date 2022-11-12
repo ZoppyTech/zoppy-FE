@@ -10,6 +10,7 @@ import { ArrayUtil } from 'src/shared/utils/array-util';
 import { Storage } from 'src/shared/utils/storage';
 import { DownloadService } from 'src/shared/services/download/download.service';
 import { ZoppyFilter } from 'src/shared/models/filter';
+import { FileUtils } from 'src/shared/utils/file.util';
 
 @Component({
     selector: 'app-products',
@@ -103,25 +104,15 @@ export class ProductsComponent implements OnInit {
         const type: string = 'text/csv';
         const path: string = '/docs/import_products_zoppy.csv';
         this.downloading = true;
-        this.downloadService.downloadPublicFile(path, fileName, type).subscribe(
-            (response: any) => {
-                console.log(response);
-                const a: any = document.createElement('a');
-                a.href = 'data:text/csv,' + response;
-                a.setAttribute('download', fileName);
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                this.downloading = false;
-            },
-            () => {
-                this.toast.error('Ocorreu um erro com o seu download', 'Erro');
-                this.downloading = false;
-            },
-            () => {
-                this.downloading = false;
-            }
-        );
+        try {
+            const file: any = await this.downloadService.downloadPublicFile(path, fileName, type);
+            FileUtils.downloadBlob(fileName, file);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Erro!');
+        } finally {
+            this.downloading = false;
+        }
     }
 
     private setBreadcrumb(): void {

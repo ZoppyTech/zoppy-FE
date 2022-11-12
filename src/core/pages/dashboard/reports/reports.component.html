@@ -5,6 +5,7 @@
         [propertyValue]="'value'"
         [(value)]="view"
         [propertyLabel]="'label'"
+        (valueChange)="selectReport($event)"
         [items]="items"
     ></ps-dropdown>
     <div class="relative padding-left-3 menu-content">
@@ -28,7 +29,7 @@
     </div>
 </div>
 
-<main *ngIf="view === 1">
+<main *ngIf="view === '1'">
     <div class="card state">
         <span class="text text--bold text--primary margin-bottom-2">Compras por estado</span>
         <app-sales-by-state class="card--default"></app-sales-by-state>
@@ -57,6 +58,6 @@
     </div>
 </main>
 
-<main *ngIf="view === 2">
+<main *ngIf="view === '2'">
     <app-matrix-rfm></app-matrix-rfm>
 </main>

@@ -1,69 +1,109 @@
 <main>
     <div class="matrix">
-        <div class="box radius-top-left cant-lose" (click)="setFilter(positions.cantLose)">
+        <div
+            class="box radius-top-left cant-lose"
+            [ngClass]="{ unselected: !['all', 'cant-lose'].includes(position.position) }"
+            (click)="setFilter(positions.cantLose)"
+        >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
                 <span class="text--caption text--primary">Não pode perder</span>
                 <span class="text--caption text--primary">{{ calculate(positions.cantLose) }}</span>
             </div>
         </div>
-        <div class="box at-risk" (click)="setFilter(positions.atRisk)">
+        <div
+            class="box at-risk"
+            [ngClass]="{ unselected: !['all', 'at-risk'].includes(position.position) }"
+            (click)="setFilter(positions.atRisk)"
+        >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
                 <span class="text--caption text--primary">Em risco</span>
                 <span class="text--caption text--primary">{{ calculate(positions.atRisk) }}</span>
             </div>
         </div>
-        <div class="box radius-bottom-left sleeping" (click)="setFilter(positions.sleeping)">
+        <div
+            class="box radius-bottom-left sleeping"
+            [ngClass]="{ unselected: !['all', 'sleeping'].includes(position.position) }"
+            (click)="setFilter(positions.sleeping)"
+        >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
                 <span class="text--caption text--primar">Hibernando</span>
                 <span class="text--caption text--primary">{{ calculate(positions.sleeping) }}</span>
             </div>
         </div>
-        <div class="box loyal" (click)="setFilter(positions.loyal)">
+        <div
+            class="box loyal"
+            (click)="setFilter(positions.loyal)"
+            [ngClass]="{ unselected: !['all', 'loyal'].includes(position.position) }"
+        >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
                 <span class="text--caption text--primary">Fidelizados</span>
                 <span class="text--caption text--primary">{{ calculate(positions.loyal) }}</span>
             </div>
         </div>
-        <div class="box need-attention" (click)="setFilter(positions.needAttention)">
+        <div
+            class="box need-attention"
+            (click)="setFilter(positions.needAttention)"
+            [ngClass]="{ unselected: !['all', 'need-attention'].includes(position.position) }"
+        >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
                 <span class="text--caption text--primary padding-left-1">Precisa de atenção</span>
                 <span class="text--caption text--primary">{{ calculate(positions.needAttention) }}</span>
             </div>
         </div>
-        <div class="box possible-loyal" (click)="setFilter(positions.possibleLoyal)">
+        <div
+            class="box possible-loyal"
+            [ngClass]="{ unselected: !['all', 'possible-loyal'].includes(position.position) }"
+            (click)="setFilter(positions.possibleLoyal)"
+        >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
                 <span class="text--caption text--primary">Possíveis leais</span>
                 <span class="text--caption text--primary">{{ calculate(positions.possibleLoyal) }}</span>
             </div>
         </div>
-        <div class="box almost-sleeping" (click)="setFilter(positions.almostSleeping)">
+        <div
+            class="box almost-sleeping"
+            (click)="setFilter(positions.almostSleeping)"
+            [ngClass]="{ unselected: !['all', 'almost-sleeping'].includes(position.position) }"
+        >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
                 <span class="text--caption text--primary">Quase hibernando</span>
                 <span class="text--caption text--primary">{{ calculate(positions.almostSleeping) }}</span>
             </div>
         </div>
-        <div class="box promising" (click)="setFilter(positions.promising)">
+        <div
+            class="box promising"
+            [ngClass]="{ unselected: !['all', 'promising'].includes(position.position) }"
+            (click)="setFilter(positions.promising)"
+        >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
                 <span class="text--caption text--primary">Promissores</span>
                 <span class="text--caption text--primary">{{ calculate(positions.promising) }}</span>
             </div>
         </div>
-        <div class="box radius-top-right champion box-champion" (click)="setFilter(positions.champion)">
+        <div
+            class="box radius-top-right champion box-champion"
+            [ngClass]="{ unselected: !['all', 'champion'].includes(position.position) }"
+            (click)="setFilter(positions.champion)"
+        >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
                 <span class="text--caption text--primary">Campeões</span>
                 <span class="text--caption text--primary">{{ calculate(positions.champion) }}</span>
             </div>
         </div>
-        <div class="box radius-bottom-right new" (click)="setFilter(positions.new)">
+        <div
+            class="box radius-bottom-right new"
+            [ngClass]="{ unselected: !['all', 'new'].includes(position.position) }"
+            (click)="setFilter(positions.new)"
+        >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
                 <span class="text--caption text--primary">Novos</span>
@@ -72,7 +112,9 @@
         </div>
     </div>
     <div class="content-box">
-        <h5 class="text--primary text--bold margin-bottom-3">Listagem de clientes</h5>
+        <div class="flex flex-center space-between margin-bottom-3">
+            <h5 class="text--primary text--bold">Listagem de clientes</h5>
+        </div>
         <div class="table">
             <table *ngIf="!isLoading">
                 <thead>
@@ -95,5 +137,8 @@
                 </tbody>
             </table>
         </div>
+        <ps-button [loading]="loadingDownload" class="margin-top-3" [wide]="true" type="secondary" (onClick)="downloadCustomers()">
+            <span class="text text--100"> Exportar CSV </span>
+        </ps-button>
     </div>
 </main>

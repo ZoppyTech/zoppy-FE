@@ -27,83 +27,149 @@
     </div>
 
     <div class="body padding-x-2" *ngIf="!loadingAddress && state === 1">
-        <div class="field">
-            <p class="text text--bold">Telefone do seu cliente</p>
-            <ps-input
-                mask="(00) 00000-0000"
-                [debounce]="800"
-                (ngModelChange)="fetchCustomer($event)"
-                placeholder="Digite aqui seu telefone com DDD"
-                [(ngModel)]="order.address.phone"
-            ></ps-input>
+        <div class="flex flex-column flex-grow">
+            <div class="field">
+                <p class="text text--bold">Telefone do seu cliente*</p>
+                <ps-input
+                    mask="(00) 00000-0000"
+                    [debounce]="800"
+                    (ngModelChange)="fetchCustomer($event)"
+                    placeholder="Digite aqui seu telefone com DDD"
+                    [(ngModel)]="order.address.phone"
+                ></ps-input>
+            </div>
+
+            <div class="field">
+                <p class="text text--bold">Primeiro Nome*</p>
+                <ps-input
+                    [disabled]="!order.address.phone"
+                    placeholder="Digite aqui seu nome"
+                    [(ngModel)]="order.address.firstName"
+                ></ps-input>
+            </div>
+
+            <div class="field">
+                <p class="text text--bold">Sobrenome</p>
+                <ps-input
+                    [disabled]="!order.address.phone"
+                    placeholder="Digite aqui seu sobrenome"
+                    [(ngModel)]="order.address.lastName"
+                ></ps-input>
+            </div>
+
+            <div class="field">
+                <p class="text text--bold">Data de nascimento do seu cliente</p>
+                <ps-datepicker
+                    [displayTop]="true"
+                    type="input"
+                    [(model)]="order.address.birthDate"
+                    placeholder="DD/MM/AAAA"
+                ></ps-datepicker>
+            </div>
+
+            <div class="field">
+                <p class="text text--bold">E-mail do cliente*</p>
+                <ps-input
+                    [disabled]="!order.address.phone"
+                    placeholder="Digite seu email"
+                    type="email"
+                    [(ngModel)]="order.address.email"
+                ></ps-input>
+            </div>
         </div>
-        <div class="field">
-            <p class="text text--bold">Sexo do seu cliente</p>
-            <ps-dropdown
-                class="wide"
-                [wide]="true"
-                [enableSearch]="false"
-                [propertyValue]="'value'"
-                [(value)]="order.address.gender"
-                [disabled]="!order.address.phone"
-                [propertyLabel]="'label'"
-                [items]="genders"
-                noDataText="Selecionar"
-            ></ps-dropdown>
-        </div>
-        <div class="field">
-            <p class="text text--bold">Primeiro Nome</p>
-            <ps-input [disabled]="!order.address.phone" placeholder="Digite aqui seu nome" [(ngModel)]="order.address.firstName"></ps-input>
-        </div>
-        <div class="field">
-            <p class="text text--bold">CEP do cliente</p>
-            <ps-input
-                [disabled]="!order.address.phone"
-                mask="00.000-000"
-                [debounce]="800"
-                placeholder="Digite aqui seu CEP"
-                [(ngModel)]="order.address.postcode"
-                (ngModelChange)="fetchZipcode($event)"
-            ></ps-input>
-        </div>
-        <div class="field">
-            <p class="text text--bold">Sobrenome</p>
-            <ps-input
-                [disabled]="!order.address.phone"
-                placeholder="Digite aqui seu sobrenome"
-                [(ngModel)]="order.address.lastName"
-            ></ps-input>
-        </div>
-        <div class="field">
-            <p class="text text--bold">Cidade e UF do seu cliente</p>
-            <ps-input
-                [disabled]="!order.address.phone || !order.address.postcode"
-                placeholder="Digite aqui seu CEP"
-                [(ngModel)]="order.address.state"
-            ></ps-input>
-        </div>
-        <div class="field">
-            <p class="text text--bold">E-mail do cliente</p>
-            <ps-input
-                [disabled]="!order.address.phone"
-                placeholder="Digite seu email"
-                type="email"
-                [(ngModel)]="order.address.email"
-            ></ps-input>
-        </div>
-        <div class="field">
-            <p class="text text--bold">Data de nascimento do seu cliente</p>
-            <ps-datepicker [displayTop]="true" type="input" [(model)]="order.address.birthDate" placeholder="DD/MM/AAAA"></ps-datepicker>
+
+        <div class="flex flex-column flex-grow">
+            <div class="field">
+                <p class="text text--bold">Operação</p>
+                <ps-dropdown
+                    class="wide"
+                    [wide]="true"
+                    [enableSearch]="false"
+                    [propertyValue]="'value'"
+                    [(value)]="order.operation"
+                    [propertyLabel]="'label'"
+                    [items]="operations"
+                    [displayTop]="false"
+                    noDataText="Selecionar"
+                ></ps-dropdown>
+            </div>
+
+            <div class="field">
+                <p class="text text--bold">Sexo do seu cliente</p>
+                <ps-dropdown
+                    class="wide"
+                    [wide]="true"
+                    [enableSearch]="false"
+                    [propertyValue]="'value'"
+                    [(value)]="order.address.gender"
+                    [disabled]="!order.address.phone"
+                    [propertyLabel]="'label'"
+                    [items]="genders"
+                    noDataText="Selecionar"
+                ></ps-dropdown>
+            </div>
+
+            <div class="field column-2">
+                <p class="text text--bold">CEP do cliente</p>
+                <ps-input
+                    [disabled]="!order.address.phone"
+                    mask="00.000-000"
+                    [debounce]="800"
+                    placeholder="Digite aqui seu CEP"
+                    [(ngModel)]="order.address.postcode"
+                    (ngModelChange)="fetchZipcode($event)"
+                ></ps-input>
+            </div>
+
+            <div class="flex flex-center column-2">
+                <div class="field flex-grow-3 margin-right-2">
+                    <p class="text text--bold">Cidade</p>
+                    <ps-input
+                        [disabled]="!order.address.phone || !order.address.postcode"
+                        placeholder="Digite aqui sua cidade"
+                        [(ngModel)]="order.address.city"
+                    ></ps-input>
+                </div>
+                <div class="field flex-grow-1">
+                    <p class="text text--bold">Número</p>
+                    <ps-input
+                        [disabled]="!order.address.phone || !order.address.postcode"
+                        placeholder="Digite aqui o número"
+                        [(ngModel)]="number"
+                    ></ps-input>
+                </div>
+            </div>
+
+            <div class="flex flex-center column-2">
+                <div class="field flex-grow-3 margin-right-2">
+                    <p class="text text--bold">Endereço</p>
+                    <ps-input
+                        [disabled]="!order.address.phone || !order.address.postcode"
+                        placeholder="Digite aqui a Rua, Avenida, Logradouro, Número e Complemento"
+                        [(ngModel)]="order.address.address1"
+                    ></ps-input>
+                </div>
+                <div class="field flex-grow-1">
+                    <p class="text text--bold">
+                        Complemento
+                        <ps-input
+                            [disabled]="!order.address.phone || !order.address.postcode"
+                            placeholder="Digite aqui o complemento"
+                            [(ngModel)]="complement"
+                        ></ps-input>
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
     <div class="body body-2 padding-x-2 flex flex-column" *ngIf="!loadingAddress && state !== 1">
         <div class="padding-x-2 content flex-grow">
-            <div class="field-2">
+            <div class="field">
                 <p class="text text--bold margin-top-unset">Total (R$)</p>
                 <ps-input type="string" mask="currency" [selectAll]="true" [moveMaskedCursor]="false" [(ngModel)]="order.total"></ps-input>
             </div>
-            <div class="field-2">
+            <div class="field">
                 <p class="text text--bold">Valor do desconto</p>
                 <ps-radio-button
                     [propertyValue]="'value'"
@@ -144,22 +210,7 @@
                 </ps-checkbox>
             </div>
 
-            <div class="field-2">
-                <p class="text text--bold">Operação</p>
-                <ps-dropdown
-                    class="wide"
-                    [wide]="true"
-                    [enableSearch]="false"
-                    [propertyValue]="'value'"
-                    [(value)]="order.operation"
-                    [propertyLabel]="'label'"
-                    [items]="operations"
-                    [displayTop]="true"
-                    noDataText="Selecionar"
-                ></ps-dropdown>
-            </div>
-
-            <div class="field-2">
+            <div class="field">
                 <p class="text text--bold">Produtos</p>
                 <ps-multi-select
                     [disabled]="false"
