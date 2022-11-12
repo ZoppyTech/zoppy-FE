@@ -21,8 +21,8 @@ export class ModalService {
         this.callback = callback;
     }
 
-    public close(executeCallback: boolean = false): void {
-        if (this.callback && executeCallback) this.callback();
+    public close(executeCallback: boolean = false, callbackResponse?: any): void {
+        if (this.callback && executeCallback) this.callback(callbackResponse);
         this.callback = null;
         this.isOpen = false;
         this.name = '';
@@ -32,8 +32,9 @@ export class ModalService {
 
 export class Modal {
     public static IDENTIFIER: Record<ModalId, string> = {
-        INFO: 'info'
+        INFO: 'info',
+        CHAT_CONTACT: 'chat_contact'
     };
 }
 
-export type ModalId = 'INFO';
+export type ModalId = 'INFO' | 'CHAT_CONTACT';

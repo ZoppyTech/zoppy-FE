@@ -23,35 +23,35 @@
         .labels {
             height: 100%;
             width: 100%;
-            padding-left: 40px;
+            padding-left: 2.5rem;
             padding-top: 120px;
             display: flex;
             flex-direction: column;
             grid-row: 1;
             grid-column: 1;
             h4 {
-                margin-bottom: 16px;
+                margin-bottom: 1rem;
             }
 
             .subtitle {
                 width: 540px;
-                line-height: 24px;
-                max-width: calc(100% - 32px);
+                line-height: 2.5rem;
+                max-width: calc(100% - 2rem);
             }
 
             .indicator-container {
-                padding-top: 32px;
+                padding-top: 2rem;
                 display: flex;
                 .item-indicator {
-                    height: 8px;
-                    width: 8px;
-                    border-radius: 8px;
+                    height: 0.5rem;
+                    width: 0.5rem;
+                    border-radius: 0.5rem;
                     background-color: var(--neutral-100);
-                    margin: 0 4px;
+                    margin: 0 0.25rem;
                 }
 
                 .selected {
-                    width: 24px;
+                    width: 2.5rem;
                 }
             }
         }

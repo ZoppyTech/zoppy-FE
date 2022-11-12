@@ -1,0 +1,57 @@
+:host {
+    flex-grow: 1;
+    min-height: 0;
+}
+
+img {
+    height: 48px;
+}
+
+.card-view {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+
+    .flex-center {
+        flex-grow: 1;
+        min-height: 0;
+
+        canvas {
+            height: 100% !important;
+            margin-top: 1rem;
+        }
+    }
+
+    .chart-content {
+        flex-grow: 1;
+        min-height: 0;
+        display: flex;
+        flex-direction: column;
+
+        .legends {
+            display: flex;
+            justify-content: flex-start;
+            align-items: center;
+            width: 100%;
+            .item {
+                padding: 0.3rem;
+                display: flex;
+                align-items: center;
+                margin-right: 0.5rem;
+
+                .point {
+                    height: 0.75rem;
+                    width: 0.75rem;
+                    border-radius: 100%;
+                    margin-right: 0.5rem;
+                }
+            }
+        }
+
+        .canvas-content {
+            display: flex;
+            flex-direction: column;
+        }
+    }
+}

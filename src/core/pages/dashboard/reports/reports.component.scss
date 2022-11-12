@@ -1,0 +1,104 @@
+@import 'src/styles.scss';
+
+:host {
+    max-width: 100%;
+    display: flex;
+    flex-grow: 1;
+    min-height: 0;
+    flex-direction: column;
+}
+
+.header {
+    align-items: center;
+
+    .menu {
+        width: 16rem;
+
+        li {
+            &:hover {
+                background-color: var(--secondary-800);
+            }
+            icon-content {
+                border-radius: 100%;
+                padding: 0.5rem;
+                background-color: var(--neutral-100);
+            }
+        }
+
+        .item-unselected {
+            &:hover {
+                background-color: rgba($color: #000000, $alpha: 0.05);
+            }
+        }
+    }
+}
+
+main {
+    width: 100%;
+    max-width: 100%;
+    overflow: auto;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    flex-wrap: wrap;
+    overflow-x: hidden;
+    .card {
+        margin: 1rem;
+        padding: 1.5rem;
+        background-color: #fdfdfd;
+        border: 1px solid var(--neutral-300);
+        border-radius: 0.75rem;
+        display: flex;
+        flex-direction: column;
+        max-width: calc(100% - 2rem);
+        height: 400px;
+        box-shadow: 0px 1rem 2.5rem #edeff2;
+
+        &--default {
+            width: 450px;
+            max-width: 100%;
+            flex-grow: 1;
+            min-height: 0;
+        }
+    }
+
+    .state {
+        width: 380px;
+    }
+
+    .card--long {
+        width: 1200px;
+        max-width: calc(100% - 2rem);
+        display: flex;
+        flex-wrap: wrap;
+
+        .flex-start {
+            width: 550px;
+            max-width: calc(100% - 2rem);
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    main {
+        .card {
+            &--default {
+                width: 450px;
+                max-width: 100%;
+            }
+        }
+        .card--long {
+            flex-wrap: wrap;
+            height: unset;
+
+            .flex-start {
+                max-width: 100%;
+                margin-left: 0;
+            }
+
+            .container {
+                flex-direction: column;
+            }
+        }
+    }
+}

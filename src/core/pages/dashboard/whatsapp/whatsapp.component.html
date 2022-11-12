@@ -1,0 +1,30 @@
+<restricted-access
+    *ngIf="!isWhatsappActive"
+    [(isWhatsappActive)]="isWhatsappActive"
+    (startWhatsappAppEvent)="onStartWhatsapp()"
+></restricted-access>
+<div *ngIf="isWhatsappActive" class="container">
+    <chat-loading *ngIf="whatsappLoading" [percent]="whatsappPercentLoading"></chat-loading>
+    <div *ngIf="!whatsappLoading" class="left-panel">
+        <chat-list
+            *ngIf="currentSubcomponent === subcomponents.ChatList"
+            [(currentSubcomponent)]="currentSubcomponent"
+            (selectedConversationEvent)="onConversationSelected($event)"
+            [conversations]="getConversations()"
+        ></chat-list>
+        <contact-list
+            *ngIf="currentSubcomponent === subcomponents.ContactList"
+            [(currentSubcomponent)]="currentSubcomponent"
+            (selectedContactEvent)="onContactSelected($event)"
+        ></contact-list>
+    </div>
+    <div *ngIf="!whatsappLoading" class="right-panel">
+        <welcome-chat *ngIf="!chatRoomSelected"></welcome-chat>
+        <chat-room
+            *ngIf="chatRoomSelected"
+            [events]="scrollDownEvent.asObservable()"
+            [(chatRoom)]="chatRoomSelected"
+            (sendMessageEvent)="onSendingMessage($event)"
+        ></chat-room>
+    </div>
+</div>

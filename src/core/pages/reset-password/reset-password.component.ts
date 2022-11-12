@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ToastService } from '@ZoppyTech/toast';
 import { SendResetPasswordRequest } from 'src/shared/models/requests/public/send-request-password.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { PublicService } from 'src/shared/services/public/public.service';

@@ -1,4 +1,4 @@
-@import '@lucarrloliveira/visual-identity/assets/styles.css';
+@import '@ZoppyTech/visual-identity/assets/styles.css';
 @import '@fontsource/inter';
 
 html,
@@ -33,20 +33,37 @@ input {
     margin: 1rem;
 }
 
+table {
+    border-radius: 0.5rem;
+}
+
 table,
 th,
 td {
+    text-align: start;
     border: 1px solid var(--neutral-400);
     border-collapse: collapse;
 }
 
 td {
-    padding: 0.75rem 0.25rem;
+    padding: 2rem;
     height: 100%;
+    border: none;
+}
+
+thead {
+    border: 1px solid var(--neutral-300);
+}
+
+tr {
+    border: 1px solid var(--neutral-300);
 }
 
 th {
-    padding: 0.75rem 0.25rem;
+    padding: 1rem 2rem;
+    background-color: #fafbff;
+    border-radius: 0.5rem 0.5rem 0px 0px;
+    border: none;
 }
 
 .content {
@@ -67,6 +84,29 @@ th {
     justify-content: center;
 }
 
+.flex-grow-1 {
+    flex-grow: 1;
+}
+
+.flex-grow-2 {
+    flex-grow: 2;
+}
+
+.flex-grow-3 {
+    flex-grow: 3;
+}
+
+.flex-bottom {
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+.space-between {
+    display: flex;
+    justify-content: space-between;
+}
+
 .text--center {
     text-align: center;
 }
@@ -75,6 +115,16 @@ th {
     width: 100%;
 }
 
+.truncate {
+    display: block !important;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis !important;
+}
+
+h1,
+h2,
+h3,
 h4,
 h5,
 h6 {
@@ -86,16 +136,65 @@ h6 {
     text-justify: inter-word;
 }
 
-$box-shadow-1: 0px 16px 40px -8px rgba(29, 29, 38, 0.08);
+$box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
 
 @media only screen and (max-width: 576px) {
     ::-webkit-scrollbar {
-        width: 4px;
-        height: 4px;
+        width: 0.25rem;
+        height: 0.25rem;
     }
 
     ::-webkit-scrollbar-thumb {
-        border-radius: 3px;
+        border-radius: 0.25rem;
         background: var(--neutral-400);
     }
+
+    td {
+        padding: 2rem 1rem;
+    }
+
+    h1 {
+        font-size: 2rem;
+    }
+}
+
+::-webkit-scrollbar {
+    width: 0.3rem;
+    height: 0.3rem;
+}
+
+::-webkit-scrollbar-thumb {
+    border-radius: 0.25rem;
+    background: var(--neutral-400);
+}
+
+.menu-content {
+    position: relative;
+
+    ul {
+        margin-top: 1rem;
+        box-shadow: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
+        border-radius: 0.75rem;
+        background-color: var(--neutral-100);
+        position: absolute;
+        z-index: 3;
+    }
+}
+
+.margin-top-unset {
+    margin-top: unset;
+}
+
+.width-50 {
+    width: 50%;
+}
+
+.separator {
+    height: 1px;
+    width: 100%;
+    background-color: var(--neutral-300);
+}
+
+.text-decoration-none {
+    text-decoration: none;
 }

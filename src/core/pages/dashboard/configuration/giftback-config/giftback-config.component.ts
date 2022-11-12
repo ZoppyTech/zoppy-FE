@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ToastService } from '@ZoppyTech/toast';
 import { WcGiftbackConfigEntity } from 'src/shared/models/entities/wc-giftback-config.entity';
 import { GiftbackRequest } from 'src/shared/models/requests/giftback/giftback.request';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -26,6 +26,7 @@ export class GiftbackConfigComponent implements OnInit {
     public async ngOnInit() {
         this.setBreadcrumb();
         this.sideMenuService.changeSub(`giftback`);
+        this.sideMenuService.change('configurations');
         await this.fetchData();
     }
 
@@ -45,7 +46,8 @@ export class GiftbackConfigComponent implements OnInit {
                 id: this.giftback.id,
                 percentValue: parseInt(this.giftback.percentValue?.toString() ?? ''),
                 maxPercentValue: parseInt(this.giftback.maxPercentValue?.toString() ?? ''),
-                expirationDays: parseInt(this.giftback.expirationDays?.toString() ?? '')
+                expirationDays: parseInt(this.giftback.expirationDays?.toString() ?? ''),
+                startDays: parseInt(this.giftback.startDays?.toString() ?? '')
             };
             const response: WcGiftbackConfigEntity = this.giftback.id
                 ? await this.giftbackService.update(request)
@@ -54,7 +56,7 @@ export class GiftbackConfigComponent implements OnInit {
             this.toast.success(`Informações salvas!`, `Sucesso!`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível salvas as informações');
+            this.toast.error(ex.message, 'Não foi possível salvar as informações');
         } finally {
             this.loading = false;
         }

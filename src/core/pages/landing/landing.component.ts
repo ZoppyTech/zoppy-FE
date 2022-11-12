@@ -1,8 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { Observable } from 'rxjs';
-import { CompanyEntity } from 'src/shared/models/entities/company.entity';
-import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { RefreshTokenRequest } from 'src/shared/models/requests/public/refresh-token.request';
 import { LoginResponse } from 'src/shared/models/responses/public/login.response';
 import { ZoppyException } from 'src/shared/services/api.service';

@@ -10,14 +10,20 @@
         class="flex padding-2 header padding-top-3"
         [ngClass]="{ 'flex-center': !sideMenuService.open, 'flex-start padding-x-3 padding-2': sideMenuService.open }"
     >
-        <img src="./assets/imgs/logo.png" *ngIf="sideMenuService.open" alt="" />
-        <img src="./assets/imgs/mini-logo.png" class="padding-x-2" *ngIf="!sideMenuService.open" alt="" />
+        <img (click)="goToInitial()" src="./assets/imgs/logo.png" *ngIf="sideMenuService.open" class="clickable" alt="" />
+        <img (click)="goToInitial()" src="./assets/imgs/mini-logo.png" class="clickable padding-x-2" *ngIf="!sideMenuService.open" alt="" />
     </div>
 
     <div class="separator"></div>
 
     <ul class="flex flex-column flex-grow padding-top-3">
-        <div *ngFor="let item of menuItems" (mouseenter)="item.subItemsOpened = true" (mouseleave)="item.subItemsOpened = false">
+        <div
+            *ngFor="let item of menuItems"
+            (mouseenter)="item.subItemsOpened = true"
+            (mouseleave)="item.subItemsOpened = false"
+            class="{{ item.class }}"
+            [ngClass]="{ hidden: !item.visible }"
+        >
             <li
                 [ngClass]="{
                     'justify-center': !sideMenuService.open,
@@ -44,7 +50,7 @@
                     >
                 </a>
             </li>
-            <ul *ngIf="item.subItems" class="subitems" [ngClass]="{ 'subItems-open': item.subItemsOpened }">
+            <ul *ngIf="item.subItems && item.subItemsOpened" class="subitems" [ngClass]="{ 'subItems-open': item.subItemsOpened }">
                 <li
                     *ngFor="let subItem of item.subItems"
                     tooltipWidth="180"
@@ -58,7 +64,8 @@
                     [ngClass]="{
                         'justify-center': !sideMenuService.open,
                         'flex-start': sideMenuService.open,
-                        marker: sideMenuService.subSelected === subItem.id
+                        marker: sideMenuService.subSelected === subItem.id,
+                        hidden: !subItem.visible
                     }"
                 >
                     <a [attr.href]="subItem.route">

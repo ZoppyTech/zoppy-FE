@@ -1,0 +1,25 @@
+.bubble-info-container {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    width: fit-content;
+    max-width: 100%;
+    height: fit-content;
+    margin: 2.5rem 26px;
+
+    &__message {
+        padding: 2.5rem;
+        font-weight: 400;
+        font-size: 1rem;
+        line-height: 2.5rem;
+        color: #363636;
+        background-color: #eff1fe;
+        border-radius: 1rem;
+
+        b {
+            font-size: 1rem;
+            font-weight: 700;
+            color: var(--primary);
+        }
+    }
+}

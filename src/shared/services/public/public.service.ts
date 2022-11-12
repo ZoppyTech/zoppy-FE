@@ -1,7 +1,7 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { ConfirmActionService } from '@lucarrloliveira/confirm-action';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { environment } from 'src/environments/environment';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
@@ -11,6 +11,7 @@ import { RegisterRequest } from 'src/shared/models/requests/public/register.requ
 import { ResetPasswordRequest } from 'src/shared/models/requests/public/reset-password.request';
 import { SendResetPasswordRequest } from 'src/shared/models/requests/public/send-request-password.request';
 import { LoginResponse } from 'src/shared/models/responses/public/login.response';
+import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, ZoppyException } from '../api.service';
@@ -28,6 +29,16 @@ export class PublicService extends ApiService {
         public confirmActionService: ConfirmActionService
     ) {
         super(http, router, storage);
+    }
+
+    public async fetchZipcode(zipcode: string): Promise<ZipcodeResponse> {
+        const promise: Promise<ZipcodeResponse> = new Promise((resolve: any, reject: any) => {
+            this.get<ZipcodeResponse>(`https://viacep.com.br/ws/${zipcode}/json/`).subscribe(
+                (response: ZipcodeResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
     }
 
     public async login(request: LoginRequest): Promise<LoginResponse> {

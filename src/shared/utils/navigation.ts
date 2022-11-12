@@ -2,23 +2,57 @@ export class Navigation {
     public static routes: Record<Pages, string> = {
         login: '/login',
         landing: '/landing',
-        'change-password': '/change-password',
-        'reset-password': '/reset-password',
+        changePassword: '/change-password',
+        resetPassword: '/reset-password',
         dashboard: '/dashboard',
+        home: '/dashboard/home',
         register: '/register',
-        configuration: '/configuration',
-        'my-company': '/my-company',
-        reports: '/reports'
+        configuration: '/dashboard/configurations',
+        profile: '/dashboard/profile',
+        myCompany: '/dashboard/my-company',
+        myCompanyConfig: '/dashboard/my-company/config',
+        myCompanyUsers: '/dashboard/my-company/users',
+        userConfig: '/dashboard/my-company/users/config',
+        reports: '/dashboard/reports',
+        accessKeys: '/dashboard/configurations/access-keys',
+        accessTokens: '/dashboard/configurations/access-tokens',
+        letalk: '/dashboard/configurations/letalk',
+        giftback: '/dashboard/configurations/giftback',
+        coupons: '/dashboard/configurations/coupons',
+        whatsappConfig: '/dashboard/configurations/whatsapp-setup',
+        whatsappTemplateList: '/dashboard/configurations/whatsapp-template-list',
+        syncData: '/dashboard/configurations/sync-data',
+        whatsapp: '/dashboard/whatsapp',
+        products: '/dashboard/products',
+        sales: '/dashboard/sales',
+        customers: '/dashboard/customers'
     };
 }
 
 export type Pages =
     | 'login'
     | 'landing'
-    | 'change-password'
-    | 'reset-password'
+    | 'changePassword'
+    | 'resetPassword'
     | 'dashboard'
+    | 'home'
     | 'register'
     | `configuration`
-    | 'my-company'
-    | 'reports';
+    | 'profile'
+    | 'myCompany'
+    | 'myCompanyConfig'
+    | 'myCompanyUsers'
+    | 'userConfig'
+    | 'reports'
+    | 'accessKeys'
+    | 'accessTokens'
+    | 'letalk'
+    | 'giftback'
+    | 'whatsappConfig'
+    | 'whatsappTemplateList'
+    | 'syncData'
+    | 'whatsapp'
+    | 'products'
+    | 'sales'
+    | 'customers'
+    | 'coupons';

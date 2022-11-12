@@ -4,13 +4,17 @@ import { Injectable } from '@angular/core';
     providedIn: 'root'
 })
 export class SideMenuService {
-    public selected: SideMenu = `reports`;
-    public subSelected: SideMenu = 'access-keys';
+    public selected: SideMenu = `home`;
+    public subSelected: SideMenu = 'accessKeys';
     public open: boolean = false;
     public constructor() {}
 
     public change(selected: SideMenu): void {
         this.selected = selected;
+
+        if (!['configurations', 'my-profile'].includes(this.selected)) {
+            this.changeSub('none');
+        }
     }
 
     public changeSub(selected: SideMenu): void {
@@ -18,13 +22,36 @@ export class SideMenuService {
     }
 }
 
-export type SideMenu = 'reports' | `my-company` | `configurations` | `access-keys` | `access-tokens` | `sync-data` | `giftback`;
+export type SideMenu =
+    | 'home'
+    | 'reports'
+    | `myCompany`
+    | `configurations`
+    | `whatsapp`
+    | `accessKeys`
+    | `accessTokens`
+    | `letalk`
+    | `syncData`
+    | `giftback`
+    | `myProfile`
+    | 'myCompanyConfig'
+    | 'myCompanyUsers'
+    | 'membership'
+    | 'registerSale'
+    | 'products'
+    | 'customers'
+    | 'coupons'
+    | 'whatsappConfig'
+    | 'whatsappTemplateList'
+    | 'none';
 
 export interface SideMenuItem {
     id: SideMenu;
     icon: string;
     label: string;
     route: string | null;
+    visible: boolean;
     subItems?: Array<SideMenuItem>;
     subItemsOpened?: boolean;
+    class?: string;
 }

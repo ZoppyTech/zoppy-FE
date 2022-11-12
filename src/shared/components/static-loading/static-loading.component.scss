@@ -1,0 +1,23 @@
+:host {
+    width: fit-content;
+    height: fit-content;
+}
+
+.static-loading {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    span {
+        font-size: 1rem;
+        font-weight: 700;
+        margin-right: 0.75rem;
+        color: #004374;
+    }
+
+    img {
+        height: 2rem;
+        width: 2rem;
+    }
+}

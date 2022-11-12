@@ -1,4 +1,4 @@
-import { Pallete, VisualIdentityService } from '@lucarrloliveira/visual-identity';
+import { Pallete, VisualIdentityService } from '@ZoppyTech/visual-identity';
 
 export class StyleUtil {
     public static setBaseColorPallete(visualIdentityService: VisualIdentityService): void {

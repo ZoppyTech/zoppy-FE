@@ -1,0 +1,76 @@
+<div class="container">
+    <div class="header padding-3 desktop">
+        <h6 class="text--primary text--bold">Modelos de Mensagem Whatsapp</h6>
+    </div>
+    <div class="separator"></div>
+
+    <div class="title margin-y-3">
+        <h6 class="text text--bold text--large padding-bottom-2">Gerenciamento dos modelos de mensagem</h6>
+        <span class="text desktop">Confira abaixo a listagem dos modelos cadastrados.</span>
+    </div>
+
+    <div class="main-content" [ngStyle]="{ 'justify-content': messageTemplatesLoading ? 'center' : 'flex-start' }">
+        <table *ngIf="!messageTemplatesLoading">
+            <thead>
+                <th><span class="text text--primary text--bold">Identificador</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Conteúdo</span></th>
+                <th class="desktop"><span class="text text--primary text--bold">Status</span></th>
+                <th class=""><span class="text text--primary text--bold">Visibilidade</span></th>
+                <th class=""><span class="text text--primary text--bold"></span></th>
+            </thead>
+            <tbody>
+                <tr class="item" *ngFor="let messageTemplate of messageTemplates">
+                    <td>
+                        <span class="text text--600">{{ messageTemplate.name }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span class="text text--600">{{ messageTemplate.content }}</span>
+                    </td>
+                    <td class="desktop">
+                        <div class="message-template-status">
+                            <div class="status">
+                                <div class="circle"></div>
+                                <span *ngIf="messageTemplate.status === 'APPROVED'" class="text--small">Aprovado</span>
+                                <span *ngIf="messageTemplate.status !== 'APPROVED'" class="text--small">Reprovado</span>
+                            </div>
+                        </div>
+                    </td>
+                    <td>
+                        <ps-dropdown
+                            (valueChange)="onVisibilityValueChange($event, messageTemplate)"
+                            [enableSearch]="false"
+                            [propertyValue]="'value'"
+                            [wide]="true"
+                            [(value)]="messageTemplate.visibility"
+                            [propertyLabel]="'label'"
+                            [items]="items"
+                        ></ps-dropdown>
+                    </td>
+                    <td>
+                        <ps-icon
+                            class="clickable text--primary margin-right-3"
+                            (click)="delete(messageTemplate.id)"
+                            icon="icon-bin"
+                        ></ps-icon>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <static-loading *ngIf="messageTemplatesLoading" [isLoading]="true"></static-loading>
+        <div class="wide flex-center no-content flex-column padding-3" *ngIf="!messageTemplatesLoading && messageTemplates.length === 0">
+            <h5 class="text--primary text--bold margin-bottom-2">Nenhum modelo encontrado!</h5>
+            <span class="text explanation">
+                Você ainda não baixou nenhum modelo de mensagem. Clique no botão abaixo para fazer o download de seus modelos.
+            </span>
+            <ps-button [loading]="pullLoading" [wide]="true" (onClick)="pull()" type="secondary">
+                <span class="text--100 text--bold">Baixar</span>
+            </ps-button>
+        </div>
+    </div>
+
+    <div class="footer">
+        <!-- <ps-button [disabled]="messageTemplates.length === 0" [loading]="saveLoading" [wide]="true" (onClick)="save()" type="secondary">
+            <span class="text--100 text--bold">Salvar</span>
+        </ps-button> -->
+    </div>
+</div>

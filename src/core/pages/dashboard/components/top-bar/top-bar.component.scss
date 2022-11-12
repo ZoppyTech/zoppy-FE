@@ -2,12 +2,20 @@
 
 .top-bar {
     width: 100%;
-    padding: 16px 32px;
+    padding: 1rem 2rem;
+
     .left-content {
         align-items: center;
+        padding-top: 0.5rem;
+
+        .circle {
+            width: 0.5rem;
+            height: 0.5rem;
+            background-color: var(--secondary);
+            border-radius: 100%;
+        }
 
         .breadcrumb {
-            padding-top: 8px;
             a {
                 text-decoration: none;
             }
@@ -15,18 +23,32 @@
     }
 
     ul {
-        min-width: 180px;
+        min-width: 11.25rem;
 
         li {
             ps-icon {
-                font-size: 16px;
+                font-size: 1rem;
                 color: var(--neutral-600);
             }
         }
     }
 
     ps-icon {
-        font-size: 24px;
+        font-size: 2.5rem;
+    }
+
+    ps-mini-menu {
+        div {
+            width: 25rem;
+            max-width: 80vw;
+            display: flex;
+            flex-direction: column;
+
+            div,
+            ul {
+                width: 100%;
+            }
+        }
     }
 }
 
@@ -39,7 +61,7 @@
         padding: 1rem;
         align-items: center;
         justify-content: space-between;
-        box-shadow: 0px 8px 16px rgba(237, 239, 242, 0.5);
+        box-shadow: 0px 0.5rem 1rem rgba(237, 239, 242, 0.5);
         border: 1px solid var(--neutral-300);
 
         ps-icon {

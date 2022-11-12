@@ -1,4 +1,52 @@
+@import 'src/styles.scss';
+
 :host {
-    overflow: auto;
     flex-grow: 1;
+    min-height: 0;
+    margin-bottom: 2rem;
+}
+
+.configurations {
+    display: flex;
+    height: 100%;
+    background-color: var(--neutral-100);
+    margin: 0rem 2rem 2rem 2rem;
+    border: 1px solid var(--neutral-300);
+    box-shadow: $box-shadow-1;
+    border-radius: 0.75rem;
+
+    .config-content {
+        display: flex;
+        flex-grow: 1;
+        overflow: auto;
+    }
+
+    .submenu {
+        min-width: 21rem;
+        border-right: 1px solid var(--neutral-300);
+
+        .content {
+            padding: unset;
+            ul {
+                margin-top: 1rem;
+                li {
+                    padding: 1rem 1rem;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    :host {
+        margin-bottom: unset;
+        max-width: 100%;
+    }
+    .configurations {
+        margin: unset;
+        box-shadow: unset;
+        border-radius: unset;
+        max-width: 100%;
+        background-color: unset;
+    }
 }

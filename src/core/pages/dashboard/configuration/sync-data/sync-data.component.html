@@ -1,7 +1,8 @@
 <div class="container">
     <div class="header">
-        <h5 class="text--primary text--bold margin-y-3">Sincronização</h5>
+        <h6 class="text--primary text--bold margin-y-3">Sincronização</h6>
     </div>
+    <div class="separator"></div>
 
     <div class="title">
         <div class="flex main-title">
@@ -34,7 +35,7 @@
 
     <div class="sync">
         <ps-button [loading]="loading" [wide]="true" (onClick)="syncData()" type="secondary" [disabled]="!key || !expirationDate">
-            <span class="text--100">Iniciar Sincronização</span>
+            <span class="text--100 text--bold">Iniciar Sincronização</span>
         </ps-button>
     </div>
     <div class="footer">

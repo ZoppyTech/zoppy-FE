@@ -1,0 +1,137 @@
+<div class="container">
+    <div class="header padding-3 desktop">
+        <h6 class="text--primary text--bold">Configuração do Whatsapp</h6>
+    </div>
+    <div class="separator"></div>
+
+    <div class="main-title flex-row">
+        <div class="title margin-y-3">
+            <h6 class="text text--bold text--large padding-bottom-2">Cadastre os dados para integração</h6>
+            <span class="text desktop">Insira nos campos abaixo os dados solicitados para integrar com API do WhatsApp.</span>
+        </div>
+        <div class="display-whatsapp-status">
+            <div class="status">
+                <div [ngStyle]="{ 'background-color': currentStatus.color }" class="circle"></div>
+                <span class="text--small">{{ currentStatus.text }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="main-content">
+        <div class="left-section">
+            <div class="body">
+                <div class="field">
+                    <span class="text text--bold margin-bottom-1"> ID da conta comercial do Whatsapp </span>
+                    <ps-input type="number" placeholder="Digite aqui o Waba ID" [(ngModel)]="whatsappAccount.wabaId"></ps-input>
+                </div>
+
+                <div class="field">
+                    <span class="text text--bold margin-bottom-2"> ID do aplicativo Whatsapp </span>
+                    <ps-input type="number" placeholder="Digite aqui o App ID" [(ngModel)]="whatsappAccount.appId"></ps-input>
+                </div>
+
+                <div class="field">
+                    <span class="text text--bold"> Nome a exibir </span>
+                    <ps-input type="text" [(ngModel)]="whatsappAccount.businessName" placeholder="Digite aqui o nome da empresa"></ps-input>
+                </div>
+
+                <div class="field">
+                    <span class="text text--bold"> Descrição </span>
+                    <ps-input
+                        type="text"
+                        [(ngModel)]="whatsappAccount.description"
+                        placeholder="Faça uma breve descrição da empresa"
+                    ></ps-input>
+                </div>
+
+                <div class="field">
+                    <span class="text text--bold"> Token de acesso da aplicação do Whatsapp </span>
+                    <ps-input
+                        type="text"
+                        [(ngModel)]="whatsappAccount.apiAccessToken"
+                        placeholder="Digite aqui o token de acesso da api"
+                    ></ps-input>
+                </div>
+
+                <div class="field">
+                    <span class="text text--bold"> Url webhook </span>
+                    <ps-input
+                        icon="{{ 'icon-copy' }}"
+                        (onIconClicked)="copyWebhookUrlToClipboard()"
+                        [iconClick]="true"
+                        [disabled]="true"
+                        type="text"
+                        [(ngModel)]="webhookUrl"
+                        placeholder="Url gerada automaticamente"
+                    >
+                    </ps-input>
+                </div>
+
+                <div class="field">
+                    <span class="text text--bold"> Token de verificação do webhook </span>
+                    <ps-input
+                        icon="{{ 'icon-copy' }}"
+                        (onIconClicked)="copyWebhookTokenToClipboard()"
+                        [iconClick]="true"
+                        [disabled]="true"
+                        type="text"
+                        [(ngModel)]="whatsappAccount.webhookVerifyToken"
+                        placeholder="Token de verificação gerado automaticamente"
+                    >
+                    </ps-input>
+                </div>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <div class="body">
+                <div class="field">
+                    <span class="text text--bold margin-bottom-2"> Identificação do número de telefone do Whatsapp </span>
+                    <ps-input
+                        type="number"
+                        placeholder="Digite aqui o Phone Number ID"
+                        [(ngModel)]="whatsappAccountPhone.phoneNumberId"
+                    ></ps-input>
+                </div>
+
+                <div class="field">
+                    <span class="text text--bold"> Número do Whatsapp </span>
+                    <ps-input
+                        [(ngModel)]="whatsappAccountPhone.phoneNumber"
+                        mask="+00 (00) 00000-0000"
+                        placeholder="Digite aqui o número do Whatsapp com DDD"
+                    ></ps-input>
+                </div>
+
+                <div class="field">
+                    <span class="text text--bold"> Permissões </span>
+                    <ps-dropdown
+                        class="margin-left-2"
+                        [enableSearch]="false"
+                        [propertyValue]="'value'"
+                        [wide]="true"
+                        [(value)]="whatsappAccountPhone.permissions"
+                        [propertyLabel]="'label'"
+                        [items]="items"
+                    ></ps-dropdown>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <ps-button
+            *ngIf="whatsappAccount.active"
+            class="margin-left-2"
+            [loading]="disableLoading"
+            [wide]="true"
+            (onClick)="disable()"
+            type="error"
+        >
+            <span class="text--100 text--bold">Desativar</span>
+        </ps-button>
+        <ps-button *ngIf="!whatsappAccount.active" [loading]="activateLoading" [wide]="true" (onClick)="activate()" type="secondary">
+            <span class="text--100 text--bold">Ativar</span>
+        </ps-button>
+    </div>
+</div>

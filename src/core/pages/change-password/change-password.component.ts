@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ToastService } from '@lucarrloliveira/toast';
+import { ToastService } from '@ZoppyTech/toast';
 import { ResetPasswordRequest } from 'src/shared/models/requests/public/reset-password.request';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { Navigation } from 'src/shared/utils/navigation';
