@@ -24,6 +24,7 @@ export class ContactListComponent implements OnInit {
     public hasContactsLoading: boolean = true;
     public hasSyncContactsLoading: boolean = false;
     public contacts: Array<ChatContact> = [];
+    public syncHasDone: boolean = false;
     public readonly EMPTY_lIST_IMAGE_DIR: string = './../../../../../../assets/imgs/empty-chat-list.png';
     public filter: ZoppyFilter<WhatsappContactEntity> = new ZoppyFilter<WhatsappContactEntity>();
 
@@ -38,12 +39,12 @@ export class ContactListComponent implements OnInit {
         console.log('Contact list loading...');
         this.filter.searchFields = ['firstName'];
         await this.loadContacts();
+        this.syncHasDone = this.contacts.length > 0;
         console.log('Contact list initialized!');
     }
 
     public async onSearchTextChanged(searchText: string = ''): Promise<void> {
         this.filter.pagination.page = 1;
-        this.filter.pagination.pageSize = 1000;
         this.filter.searchText = searchText;
         await this.loadContacts();
     }
@@ -84,7 +85,6 @@ export class ContactListComponent implements OnInit {
     public async loadContacts(): Promise<void> {
         try {
             const response: ZoppyFilter<WhatsappContactEntity> = await this.wppContactService.findAllPaginated(this.filter);
-            //const entities: WhatsappContactEntity[] = await this.wppContactService.list();
             const entities: any = response.data;
             this.mapToContactView(entities);
             this.sortAndGroup();
@@ -111,6 +111,7 @@ export class ContactListComponent implements OnInit {
             const entities: WhatsappContactEntity[] = await this.wppContactService.sync();
             this.mapToContactView(entities);
             this.sortAndGroup();
+            this.syncHasDone = true;
             this.toast.success(WhatsappConstants.ToastMessages.ContactsSyncSuccessfully, WhatsappConstants.ToastTitles.Success);
         } catch (ex: any) {
             ex = ex as ZoppyException;

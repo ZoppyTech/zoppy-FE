@@ -21,14 +21,18 @@
     </div>
 
     <static-loading *ngIf="hasContactsLoading" [isLoading]="true" class="loading"></static-loading>
-    <div *ngIf="!hasContactsLoading && contacts.length <= 0" class="empty-list">
+    <div *ngIf="!hasContactsLoading && contacts.length <= 0 && !syncHasDone" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
-        <span class="text text--primary"
+        <span class="text text--bold text--primary"
             >Você não tem nenhum contato sincronizado, clique no botão abaixo para sincronizar seus contatos.
         </span>
         <ps-button class="margin-y-3" [loading]="hasSyncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
             <span class="text--100 text--bold">Sincronizar contatos</span>
         </ps-button>
+    </div>
+    <div *ngIf="!hasContactsLoading && contacts.length <= 0 && syncHasDone" class="empty-list">
+        <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
+        <span class="text text--bold text--primary">Nenhum contato encontrado! </span>
     </div>
     <div *ngIf="!hasContactsLoading && contacts.length > 0" class="contacts">
         <div *ngFor="let contact of contacts; let i = index" class="item clickable" (click)="selectContact(contact)">
