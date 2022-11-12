@@ -10,7 +10,8 @@ import { ReportOverviewCardResponse } from 'src/shared/models/responses/reports/
 import { MonthlyInvoiceResponse } from 'src/shared/models/responses/reports/monthly-invoice.response';
 import { ReportSaleByStateResponse } from 'src/shared/models/responses/reports/report-sale-by-state.response';
 import { DailySalesResponse } from 'src/shared/models/responses/reports/daily-sales.response';
-import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { Position } from 'src/shared/models/responses/reports/matrix-rfm.response';
 
 @Injectable({
     providedIn: 'root'
@@ -80,6 +81,16 @@ export class ReportService extends ApiService {
         const promise: Promise<DailySalesResponse> = new Promise((resolve: any, reject: any) => {
             this.get<DailySalesResponse>(`${this.url}/daily-sales/${request.period}`).subscribe(
                 (response: DailySalesResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async downloadCustomers(period: ReportPeriod, position: Position): Promise<any> {
+        const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
+            this.download<any>(`${this.url}/customers/download/${period}/${position}`).subscribe(
+                (response: any) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
