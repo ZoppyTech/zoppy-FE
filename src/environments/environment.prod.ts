@@ -1,5 +1,5 @@
 export const environment: any = {
     production: true,
-    apiUrl: 'https://dev-api.zoppy.com.br',
-    publicBucket: 'https://zoppy-public-dev.s3.amazonaws.com'
+    apiUrl: 'https://api.zoppy.com.br',
+    publicBucket: 'https://zoppy-public-master.s3.amazonaws.com'
 };
