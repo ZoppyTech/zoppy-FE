@@ -49,7 +49,7 @@
                         "scripts": []
                     },
                     "configurations": {
-                        "production": {
+                        "prod": {
                             "budgets": [
                                 {
                                     "type": "initial",
