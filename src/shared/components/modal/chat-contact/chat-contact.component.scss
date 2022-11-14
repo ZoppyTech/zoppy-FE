@@ -58,3 +58,9 @@
         flex-direction: column;
     }
 }
+
+@media only screen and (max-width: 576px) {
+    .modal-content {
+        min-width: 0px;
+    }
+}

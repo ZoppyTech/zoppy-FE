@@ -118,6 +118,7 @@ export class WhatsappConfigComponent implements OnInit {
     }
 
     public async activate(): Promise<void> {
+        if (this.activateLoading) return;
         this.activateLoading = true;
         try {
             const request: WhatsappAccountRequest = this.buildWhatsappAccountRequest();
@@ -139,6 +140,7 @@ export class WhatsappConfigComponent implements OnInit {
     }
 
     public async disable(): Promise<void> {
+        if (this.disableLoading) return;
         this.confirmActionService.open(
             'Desativar conta Whatsapp',
             'Tem certeza que deseja desativar esta conta? ',
@@ -151,8 +153,10 @@ export class WhatsappConfigComponent implements OnInit {
                         return;
                     }
                     await this.wppAccountService.revoke(this.whatsappAccount.id);
-                    await this.loadWhatsappRegisteredAccount();
-                    await this.loadWhatsappDefaultPhoneNumber();
+                    setTimeout(async () => {
+                        await this.loadWhatsappRegisteredAccount();
+                        await this.loadWhatsappDefaultPhoneNumber();
+                    }, 1000);
                     this.toast.success('Conta comercial do Whatsapp desativada com êxito!', 'Sucesso!');
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
