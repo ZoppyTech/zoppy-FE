@@ -1,8 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { ZoppyFilter } from 'src/shared/models/filter';
 import { CrmAddressResponse } from 'src/shared/models/responses/crm/crm-address.response';
+import { CrmCustomerDetailResponse } from 'src/shared/models/responses/crm/crm-customer.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.service';
@@ -10,28 +12,35 @@ import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-custome
 import { DownloadService } from 'src/shared/services/download/download.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { FileUtils } from 'src/shared/utils/file.util';
+import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
+import { StringUtil } from 'src/shared/utils/string.util';
+import { DashboardBasePage } from '../dashboard.base.page';
 
 @Component({
     selector: 'app-customers',
     templateUrl: './customers.component.html',
     styleUrls: ['./customers.component.scss']
 })
-export class CustomersComponent implements OnInit {
+export class CustomersComponent extends DashboardBasePage implements OnInit {
     public loading: boolean = false;
     public customers: Array<CrmAddressResponse> = [];
     public filter: ZoppyFilter<CrmAddressResponse> = new ZoppyFilter<CrmAddressResponse>();
+    public customerDetail: CrmCustomerDetailResponse | undefined = undefined;
 
     public constructor(
+        public override storage: Storage,
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
-        public storage: Storage,
         public modal: ModalService,
         public toast: ToastService,
+        public router: Router,
         public crmAddressService: CrmAddressService,
         public crmCustomerService: CrmCustomerService,
         public downloadService: DownloadService
-    ) {}
+    ) {
+        super(storage);
+    }
 
     @ViewChild('inputFile') public input: any;
 
@@ -57,6 +66,23 @@ export class CustomersComponent implements OnInit {
         this.filter.pagination.page = 1;
         this.filter.searchText = searchText;
         await this.fetchData();
+    }
+
+    public async onSearchCustomerDetail(searchText: string = ''): Promise<void> {
+        this.customerDetail = undefined;
+        searchText = StringUtil.onlyNumbers(searchText);
+        if (searchText.length !== 11) {
+            this.toast.error('Corrija o formato do telefone, deve ser DDD e número', 'Telefone inválido', 5);
+            return;
+        }
+
+        try {
+            this.customerDetail = await this.crmCustomerService.findByPhone(searchText);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Erro!');
+            this.customerDetail = undefined;
+        }
     }
 
     public async onPaginationChanged(page: number): Promise<void> {
@@ -103,6 +129,10 @@ export class CustomersComponent implements OnInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Erro!');
         }
+    }
+
+    public async redirectToChat(): Promise<void> {
+        this.router.navigate([Navigation.routes.whatsapp]);
     }
 
     private setBreadcrumb(): void {

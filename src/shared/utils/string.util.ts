@@ -14,6 +14,14 @@ export class StringUtil {
         return errorFormatted.substring(0, errorFormatted.length - 2);
     }
 
+    public static onlyNumbers(text: string): string {
+        try {
+            return text.match(/\d+/g)?.join('') ?? '';
+        } catch (exp) {
+            return '';
+        }
+    }
+
     public static validateEmail(email: string): boolean {
         return String(email)
             .toLowerCase()
