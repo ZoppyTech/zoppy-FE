@@ -185,7 +185,7 @@ export class WhatsappConfigComponent implements OnInit {
             description: this.whatsappAccount.description,
             wabaId: this.whatsappAccount.wabaId,
             appId: this.whatsappAccount.appId,
-            apiAccessToken: this.whatsappAccount.apiAccessToken,
+            apiAccessToken: !this.whatsappAccount.apiAccessToken ? null : this.whatsappAccount.apiAccessToken,
             businessPhone: {
                 id: this.whatsappAccountPhone.id,
                 phoneNumberId: this.whatsappAccountPhone.phoneNumberId,
@@ -203,6 +203,21 @@ export class WhatsappConfigComponent implements OnInit {
         this.currentStatus = this.integrationStatus.find((status: any) => {
             return status.scenario === this.whatsappAccount.scenario;
         });
+    }
+
+    public getActivateDisabled(): boolean {
+        return (
+            !this.whatsappAccount.businessName ||
+            !this.whatsappAccount.description ||
+            !this.whatsappAccount.wabaId ||
+            !this.whatsappAccount.appId ||
+            !this.whatsappAccount.wabaId ||
+            (this.whatsappAccount.scenario === WhatsappConstants.ACCOUNT_SCENARIO.IDLE ||
+            this.whatsappAccount.scenario === WhatsappConstants.ACCOUNT_SCENARIO.ACQUISITION
+                ? !this.whatsappAccount.apiAccessToken
+                : false) ||
+            !this.whatsappAccountPhone.phoneNumberId
+        );
     }
 
     private setLoggedUser(): void {

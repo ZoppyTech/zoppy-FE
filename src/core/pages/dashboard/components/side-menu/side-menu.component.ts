@@ -7,7 +7,7 @@ import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/sid
 import { CompanyUtil } from 'src/shared/utils/company.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
-import { UserUtil } from 'src/shared/utils/User.util';
+import { UserUtil } from 'src/shared/utils/user.util';
 
 @Component({
     selector: 'app-side-menu',
@@ -61,7 +61,7 @@ export class SideMenuComponent implements OnInit {
                 icon: 'icon-wpp',
                 label: 'Whatsapp',
                 route: Navigation.routes.whatsapp,
-                visible: CompanyUtil.isPremium(this.company)
+                visible: true
             },
             {
                 id: `products`,

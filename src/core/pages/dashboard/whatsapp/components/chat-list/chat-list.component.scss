@@ -164,7 +164,6 @@
                 .viewed-icon {
                     display: flex;
                     font-weight: 400;
-                    font-size: 0.55rem;
 
                     &--business-user {
                         margin-right: 0px;
@@ -175,20 +174,23 @@
                     }
 
                     &--status-sent {
-                        color: var(--neutral-300);
+                        color: var(--neutral-500);
+                        font-size: 1.25rem;
                     }
 
                     &--status-delivered {
-                        color: var(--info);
+                        color: var(--neutral-500);
+                        font-size: 0.75rem;
                     }
 
                     &--status-read {
                         color: var(--success);
+                        font-size: 0.75rem;
                     }
 
-                    ps-icon {
-                        width: 22px;
-                        height: 0.75rem;
+                    &--status-failed {
+                        color: var(--negative);
+                        font-size: 0.75rem;
                     }
                 }
             }

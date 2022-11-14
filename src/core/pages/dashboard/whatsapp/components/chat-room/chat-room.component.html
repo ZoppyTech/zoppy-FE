@@ -53,7 +53,7 @@
             (onIconClicked)="clearMessageInput()"
             [iconClick]="true"
             type="text"
-            placeholder="Escreva sua mensagem"
+            [placeholder]="getInputTextPlaceholder()"
             [(ngModel)]="messageInput"
         ></ps-input>
         <ps-button

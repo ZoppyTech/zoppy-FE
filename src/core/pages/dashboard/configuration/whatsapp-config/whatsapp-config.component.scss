@@ -12,6 +12,23 @@
     margin-bottom: 2rem;
     height: 100%;
 
+    .alert-pending-actions {
+        margin: 2rem;
+        display: flex;
+        padding: 2rem 3rem;
+        justify-content: center;
+        align-items: center;
+        border: 1px solid var(--warning);
+        border-radius: 0.5rem;
+        background-color: rgba($color: #ffad4e, $alpha: 0.1);
+
+        ps-icon {
+            margin-right: 0.5rem;
+            font-size: 18px;
+            color: var(--warning);
+        }
+    }
+
     .main-title {
         padding: 0 2rem;
         width: 100%;

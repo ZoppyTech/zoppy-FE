@@ -134,7 +134,7 @@ export class WhatsappTemplateListComponent implements OnInit {
     }
 
     private validateBeforePull(): void {
-        if (!this.whatsappAccount.id) throw new Error('Conta do Whatsapp não encontrada ou excluída.');
+        if (!this.whatsappAccount.id || !this.whatsappAccount.active) throw new Error('Conta do Whatsapp não encontrada ou excluída.');
     }
 
     private setLoggedUser(): void {

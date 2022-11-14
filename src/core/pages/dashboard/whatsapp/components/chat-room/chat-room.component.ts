@@ -156,6 +156,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         );
     }
 
+    public getInputTextPlaceholder(): string {
+        return !this.chatRoom.contact.isBlocked ? 'Escreva sua mensagem' : 'Este contato está bloqueado.';
+    }
+
     private buildTemplateMessage(): ThreadMessage {
         return {
             type: WhatsappConstants.MessageType.Template,
