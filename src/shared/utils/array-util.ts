@@ -7,4 +7,11 @@ export class ArrayUtil {
 
         return response.substring(0, response.length - 2);
     }
+
+    public static sumProperty(array: Array<any>, property: string) {
+        let sum: number = 0;
+        array.forEach((element: any) => {
+            sum += element[property];
+        });
+    }
 }

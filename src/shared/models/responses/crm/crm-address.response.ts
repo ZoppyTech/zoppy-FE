@@ -14,4 +14,7 @@ export class CrmAddressResponse {
     public declare phone?: string;
     public declare birthDate?: Date;
     public declare gender?: string;
+    public declare totalSpent?: string;
+    public declare countPurchases?: number;
+    public declare lastPurchaseDate?: Date;
 }
