@@ -63,7 +63,7 @@ export class WhatsappMapper {
         threadMessage.content = messageEntity.content;
         threadMessage.status = messageEntity.status;
         threadMessage.isBusiness = messageEntity.origin === WhatsappConstants.MessageOrigin.BusinessInitiated;
-        threadMessage.readByManager = !!messageEntity.wppManagerId;
+        threadMessage.readByManager = threadMessage.isBusiness || !!messageEntity.wppManagerId;
         threadMessage.isFirstMessageOfDay = false;
         threadMessage.wamId = messageEntity.wamId;
         threadMessage.createdAt = messageEntity.createdAt;

@@ -152,22 +152,8 @@
         width: 100%;
         min-width: 0px;
 
-        .header {
-            position: fixed;
-            top: 62px;
-            z-index: 999;
-        }
-
-        .chat-content {
-            margin-top: 112px;
-            margin-bottom: 96px;
-            z-index: 0;
-        }
-
         .footer {
             border: none;
-            position: fixed;
-            bottom: 0;
         }
     }
 }
