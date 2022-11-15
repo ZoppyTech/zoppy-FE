@@ -8,8 +8,9 @@
 .container {
     height: 100%;
     width: 100%;
-    min-width: 480px;
-    max-width: 480px;
+    width: 100%;
+    max-width: 384px;
+    min-width: 280px;
     display: flex;
     flex-direction: column;
 
@@ -143,7 +144,7 @@
                 .item-content {
                     flex-grow: 1;
                     width: 100%;
-                    max-width: 480px;
+                    max-width: 384px;
                     display: flex;
                     flex-direction: row;
                     align-items: baseline;

@@ -26,7 +26,6 @@ export class WhatsappConfigComponent implements OnInit {
     public user: UserEntity = new UserEntity();
     public whatsappAccount: WhatsappAccountEntity = new WhatsappAccountEntity();
     public whatsappAccountPhone: WhatsappAccountPhoneNumberEntity = new WhatsappAccountPhoneNumberEntity();
-    public webhookUrl: string = '';
 
     public currentStatus: any = {
         scenario: WhatsappConstants.ACCOUNT_SCENARIO.IDLE,
@@ -101,7 +100,6 @@ export class WhatsappConfigComponent implements OnInit {
     public async loadWhatsappRegisteredAccount(): Promise<void> {
         try {
             this.whatsappAccount = await this.wppAccountService.getRegisteredByCompany();
-            this.makeWebhookUrl();
         } catch (ex: any) {
             this.whatsappAccount.active = false;
             this.whatsappAccount.scenario = WhatsappConstants.ACCOUNT_SCENARIO.IDLE;
@@ -124,7 +122,6 @@ export class WhatsappConfigComponent implements OnInit {
             const request: WhatsappAccountRequest = this.buildWhatsappAccountRequest();
             if (!this.whatsappAccount.id) {
                 this.whatsappAccount = await this.wppAccountService.create(request);
-                this.makeWebhookUrl();
                 this.toast.success('Conta comercial do Whatsapp criada com êxito.', 'Sucesso!');
                 return;
             }
@@ -169,7 +166,7 @@ export class WhatsappConfigComponent implements OnInit {
     }
 
     public copyWebhookUrlToClipboard(): void {
-        navigator.clipboard.writeText(this.webhookUrl as string);
+        navigator.clipboard.writeText(this.whatsappAccount.webhookUrl as string);
         this.toast.success('Url gerada copiada para a área de transferência', `Copiado!`);
     }
 
@@ -193,10 +190,6 @@ export class WhatsappConfigComponent implements OnInit {
                 default: true
             } as WhatsappAccountPhoneNumberRequest
         };
-    }
-
-    private makeWebhookUrl(): void {
-        this.webhookUrl = `${window.location.origin}/api/whatsapp-account/${this.whatsappAccount.id}/webhook`;
     }
 
     private setCurrentStatus(): void {

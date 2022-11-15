@@ -6,6 +6,7 @@ import { WebSocketConstants } from 'src/shared/constants/websocket.constants';
 import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { WhatsappAccountManagerEntity } from 'src/shared/models/entities/whatsapp-account-manager.entity';
+import { WhatsappAccountPhoneNumberEntity } from 'src/shared/models/entities/whatsapp-account-phone-number.entity';
 import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-account.entity';
 import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -75,7 +76,9 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.setWebSocket();
         await this.loadRegisteredWhatsappAccount();
         await this.loadBusinessAccounManager();
-        await this.loadConversations();
+        await setTimeout(async () => {
+            await this.loadConversations();
+        }, 1000);
         await this.setWhatsappLoading();
         console.log('Whatsapp initialized!');
     }
@@ -210,10 +213,30 @@ export class WhatsappComponent implements OnInit, OnDestroy {
                 accountId: entity.wppAccountId
             };
         } catch (ex: any) {
-            ex = ex as ZoppyException;
-            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+            await this.createAccountManager();
         } finally {
             this.whatsappPercentLoading = 50;
+        }
+    }
+
+    public async createAccountManager(): Promise<void> {
+        try {
+            const accountPhoneNumber: WhatsappAccountPhoneNumberEntity = await this.wppAccountPhoneNumberService.findDefault(
+                this.account.id
+            );
+            const entity: WhatsappAccountManagerEntity = await this.wppAccountManagerService.create(this.account.id, {
+                userId: this.user.id,
+                wppPhoneNumberId: accountPhoneNumber.id
+            });
+            this.manager = {
+                id: entity.id,
+                name: this.user.name,
+                phoneNumberId: entity.wppPhoneNumberId,
+                accountId: entity.wppAccountId
+            };
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
         }
     }
 
