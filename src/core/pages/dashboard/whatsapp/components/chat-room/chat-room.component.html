@@ -4,8 +4,8 @@
             <ps-icon icon="icon-chevron go-back-icon" class="text--secondary"></ps-icon>
             <h5 class="text text--500 margin-x-1">Voltar</h5>
         </div>
-        <div class="flex-row align-center">
-            <h5 class="text--800 text--bold margin-y-1">{{ chatRoom.contact.displayName }}</h5>
+        <div class="flex-row align-center display-name">
+            <h5 class="text--800 text--bold margin-y-1 truncate">{{ chatRoom.contact.displayName }}</h5>
             <ps-icon *ngIf="chatRoom.contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
             <ps-icon (click)="editContactModal()" class="edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
         </div>

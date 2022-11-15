@@ -24,7 +24,6 @@ export class ChatContactComponent {
     public async addContact(): Promise<void> {
         this.addContactLoading = true;
         try {
-            debugger;
             this.validateFields();
             console.log(this.modal.data.phoneNumber);
             const request: WhatsappContactRequest = {
@@ -48,7 +47,6 @@ export class ChatContactComponent {
     public async updateContact(): Promise<void> {
         this.updateContactLoading = true;
         try {
-            debugger;
             this.validateFields();
             const request: WhatsappContactRequest = {
                 id: this.modal.data.id,

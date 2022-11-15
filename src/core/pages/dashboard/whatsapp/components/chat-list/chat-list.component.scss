@@ -9,7 +9,6 @@
     height: 100%;
     width: 100%;
     max-width: 384px;
-    min-width: 280px;
     min-height: 100%;
     display: flex;
     flex-direction: column;
@@ -107,7 +106,7 @@
                 padding: 0px 2.5rem;
 
                 h5 {
-                    max-width: 316px;
+                    max-width: 232px;
                     font-size: 13px;
                 }
 
@@ -199,7 +198,7 @@
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 1024px) {
     .container {
         display: block;
         width: unset;

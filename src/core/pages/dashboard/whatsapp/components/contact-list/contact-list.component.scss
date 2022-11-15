@@ -10,7 +10,6 @@
     width: 100%;
     width: 100%;
     max-width: 384px;
-    min-width: 280px;
     display: flex;
     flex-direction: column;
 
@@ -164,7 +163,7 @@
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 1024px) {
     .container {
         margin: 0rem;
         width: 100%;
