@@ -24,6 +24,10 @@
         padding: 2.5rem 2rem;
         background-color: #ffffff;
 
+        .truncate {
+            max-width: 384px;
+        }
+
         h6 {
             font-size: 1rem;
             font-weight: 400;
@@ -146,11 +150,27 @@
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (min-width: 1680px) {
+    .container {
+        .header {
+            .truncate {
+                max-width: 768px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1024px) {
     .container {
         margin: 0rem;
         width: 100%;
         min-width: 0px;
+
+        .header {
+            .truncate {
+                max-width: 256px;
+            }
+        }
 
         .footer {
             border: none;
