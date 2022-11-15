@@ -1,5 +1,5 @@
 export interface WhatsappAccountManagerRequest {
-    id: string;
+    id?: string;
     userId: string;
     wppPhoneNumberId: string;
 }

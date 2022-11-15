@@ -29,7 +29,7 @@
         flex-direction: column;
         width: 37.5rem;
         height: fit-content;
-        padding: 3rem 2rem;
+        padding: 2rem;
         background-color: var(--neutral-100);
         border-radius: 2rem;
         box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px;
@@ -37,13 +37,6 @@
 }
 
 @media only screen and (max-width: 1024px) {
-    .container {
-        background-color: transparent;
-        background-image: none;
-    }
-}
-
-@media only screen and (max-width: 576px) {
     .container {
         background-color: transparent;
         background-image: none;

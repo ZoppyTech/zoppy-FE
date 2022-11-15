@@ -203,7 +203,7 @@
     }
 }
 
-@media (max-width: 1366px) {
+@media only screen and (max-width: 1280px) {
     .thread-message-container {
         &__body {
             &__content {

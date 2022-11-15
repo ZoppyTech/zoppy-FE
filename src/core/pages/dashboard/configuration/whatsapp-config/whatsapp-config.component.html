@@ -7,7 +7,8 @@
     <div *ngIf="whatsappAccount.scenario === 'validation'" class="alert-pending-actions">
         <ps-icon icon="icon-emergency_home"></ps-icon>
         <span class="text text--700"
-            ><b class="text text--800">Ações pendentes:</b> Para concluir a integração, é necessário ativar o webhook na plataforma Meta.
+            ><b class="text text--800">Ações pendentes:</b> Para concluir a integração, é necessário configurar o webhook na plataforma
+            Meta.
         </span>
     </div>
 
@@ -68,7 +69,7 @@
                         [iconClick]="true"
                         [disabled]="true"
                         type="text"
-                        [(ngModel)]="webhookUrl"
+                        [(ngModel)]="whatsappAccount.webhookUrl"
                         placeholder="Url gerada automaticamente"
                     >
                     </ps-input>
