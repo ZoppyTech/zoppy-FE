@@ -1,58 +1,15 @@
 <div class="container">
     <static-loading *ngIf="whatsappAccountLoading" [isLoading]="true" class="main-content"></static-loading>
     <div *ngIf="!whatsappAccountLoading" class="main-content">
-        <div *ngIf="activationPending" class="card-header">
-            <img [ngStyle]="{ 'box-shadow': 'none' }" [src]="CHAT_UPGRADE_IN_PROGRESS_IMAGE_DIR" alt="" />
-            <span class="title margin-y-3">Bate aqui!</span>
-            <span class="subtitle"
-                >Oba! Seu pedido de integração com o WhatsApp foi realizado com sucesso! Nossa equipe está analisando seus dados, acompanhe
-                o status logo abaixo:</span
-            >
-        </div>
-        <div *ngIf="activationPending" class="card-body" [ngStyle]="{ padding: '2rem 0rem 0rem 0rem' }">
-            <div class="field">
-                <span class="text text--bold"> Status: </span>
-                <h5 *ngIf="this.accountEntity?.scenario === 'acquisition'" class="text--large text--bold text--secondary">
-                    Pedido realizado.
-                </h5>
-                <h5 *ngIf="this.accountEntity?.scenario === 'validation'" class="text--large text--bold text--secondary">
-                    Validando seus dados.
-                </h5>
-                <h5 *ngIf="this.accountEntity?.scenario === 'revoked'" class="text--large text--bold text--negative">Falha ao integrar.</h5>
-            </div>
-        </div>
-
-        <div *ngIf="upgradePending" class="card-header">
-            <span class="title">Acesso restrito!</span>
-            <span class="subtitle"
-                >Sentimos muito, mas a função do WhatsApp é exclusiva para clientes premium! Para liberar o acesso, insira nos campos abaixo
-                os dados solicitados.</span
-            >
-            <img class="margin-y-3" [src]="CHAT_LAYOUT_IMAGE_DIR" alt="" />
-        </div>
-        <div *ngIf="upgradePending" class="card-body">
-            <div class="field">
-                <span class="text text--bold"> Número do Whatsapp </span>
-                <ps-input
-                    [(ngModel)]="phoneNumberField"
-                    mask="(00) 00000-0000"
-                    placeholder="Digite aqui o número do Whatsapp com DDD"
-                ></ps-input>
-            </div>
-            <div class="field">
-                <span class="text text--bold"> Nome a exibir </span>
-                <ps-input type="text" [(ngModel)]="businessNameField" placeholder="Digite aqui o nome da empresa"></ps-input>
-            </div>
-
-            <div class="field">
-                <span class="text text--bold"> Descrição </span>
-                <ps-input type="text" [(ngModel)]="descriptionField" placeholder="Faça uma breve descrição da empresa"></ps-input>
-            </div>
-        </div>
-        <div *ngIf="upgradePending" class="card-footer">
-            <ps-button *ngIf="true" [loading]="upgradeButtonLoading" [wide]="true" (onClick)="upgrade()" type="secondary">
-                <span class="text--100 text--bold">Fazer upgrade</span>
-            </ps-button>
-        </div>
+        <integration-error-card *ngIf="activationPending && accountEntity?.scenario === 'revoked'"></integration-error-card>
+        <activation-pending-card
+            *ngIf="activationPending && accountEntity?.scenario !== 'revoked'"
+            [account]="accountEntity"
+        ></activation-pending-card>
+        <upgrade-pending-card
+            *ngIf="upgradePending"
+            [account]="accountEntity"
+            (changeWhatsappStatusEvent)="onUpgradeWhatsappAccount($event)"
+        ></upgrade-pending-card>
     </div>
 </div>

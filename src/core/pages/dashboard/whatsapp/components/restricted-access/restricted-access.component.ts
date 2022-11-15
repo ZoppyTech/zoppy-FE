@@ -15,19 +15,12 @@ export class RestrictedAccessComponent implements OnInit {
     @Input() public isWhatsappActive: boolean = false;
     @Output() public isWhatsappActiveChange: EventEmitter<boolean> = new EventEmitter<boolean>();
     @Output() public startWhatsappAppEvent: EventEmitter<void> = new EventEmitter<void>();
-    public readonly CHAT_LAYOUT_IMAGE_DIR: string = './../../../../../../assets/imgs/welcome-zoppy-chat.png';
-    public readonly CHAT_UPGRADE_IN_PROGRESS_IMAGE_DIR: string = './../../../../../../assets/imgs/chat_upgrade_in_progress.png';
-    public readonly UNEXPECTED_ERROR_LOADING_CHAT_IMAGE_DIR: string = './../../../../../../assets/imgs/unexpected_error_loading_chat.png';
 
-    public declare businessNameField: string;
-    public declare descriptionField: string;
-    public declare phoneNumberField: string;
-    public declare signWhatsappRequest: SignWhatsappAccountRequest;
+    public accountEntity: WhatsappAccountEntity | null = null;
+
     public whatsappAccountLoading: boolean = true;
-    public upgradeButtonLoading: boolean = false;
     public upgradePending: boolean = false;
     public activationPending: boolean = false;
-    public accountEntity: WhatsappAccountEntity | null = null;
 
     public constructor(public readonly wppAccountService: WhatsappAccountService, private readonly toast: ToastService) {
         //no content
@@ -35,29 +28,6 @@ export class RestrictedAccessComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         console.log('Check if whatsapp app is registered...');
         await this.loadRegisteredWhatsappAccount();
-    }
-
-    public async upgrade(): Promise<void> {
-        this.upgradeButtonLoading = true;
-        try {
-            this.validateFields();
-            const request: SignWhatsappAccountRequest = {
-                businessName: this.businessNameField,
-                description: this.descriptionField,
-                businessPhone: {
-                    phoneNumber: this.phoneNumberField,
-                    permissions: WhatsappConstants.BUSINESS_PHONE_PERMISSIONS.ONLY_SEND,
-                    default: true
-                }
-            };
-            this.accountEntity = await this.wppAccountService.sign(request);
-            this.setWhatsappActive();
-        } catch (ex: any) {
-            ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Erro!');
-        } finally {
-            this.upgradeButtonLoading = false;
-        }
     }
 
     public async loadRegisteredWhatsappAccount(): Promise<void> {
@@ -73,16 +43,15 @@ export class RestrictedAccessComponent implements OnInit {
         }
     }
 
+    public async onUpgradeWhatsappAccount(upgradedAccount: WhatsappAccountEntity): Promise<void> {
+        this.accountEntity = upgradedAccount;
+        this.setWhatsappActive();
+    }
+
     private setWhatsappActive(): void {
         this.upgradePending = !this.accountEntity;
         this.activationPending = !this.upgradePending && this.accountEntity?.active === false;
         this.isWhatsappActive = !this.upgradePending && !this.activationPending;
         this.isWhatsappActiveChange.emit(this.isWhatsappActive);
-    }
-
-    private validateFields(): void {
-        if (!this.businessNameField) throw Error('Nome a exibir obrigatório');
-        if (!this.descriptionField) throw Error('Descrição');
-        if (!this.phoneNumberField) throw Error('Número do Whatsapp');
     }
 }

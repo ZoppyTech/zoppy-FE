@@ -6,10 +6,23 @@ import { IconModule } from '@ZoppyTech/icon';
 import { ButtonModule } from '@ZoppyTech/button';
 import { InputModule } from '@ZoppyTech/input';
 import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
+import { UpgradePendingCardModule } from './components/upgrade-pending-card/upgrade-pending-card.module';
+import { IntegrationErrorCardModule } from './components/integration-error-card/integration-error-card.module';
+import { ActivationPendingCardModule } from './components/activation-pending-card/activation-pending-card.module';
 
 @NgModule({
     declarations: [RestrictedAccessComponent],
-    imports: [CommonModule, StaticLoadingModule, VisualIdentityModule, IconModule, ButtonModule, InputModule],
+    imports: [
+        CommonModule,
+        UpgradePendingCardModule,
+        IntegrationErrorCardModule,
+        ActivationPendingCardModule,
+        StaticLoadingModule,
+        VisualIdentityModule,
+        IconModule,
+        ButtonModule,
+        InputModule
+    ],
     exports: [RestrictedAccessComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })

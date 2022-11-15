@@ -48,17 +48,32 @@
                             'viewed-icon--customer-user': !conversation[1].threads[conversation[1].threads.length - 1].isBusiness
                         }"
                     >
-                        <ps-icon
-                            *ngIf="conversation[1].threads[conversation[1].threads.length - 1].wamId"
-                            [ngClass]="{
-                                'viewed-icon--status-sent': conversation[1].threads[conversation[1].threads.length - 1].status === 'sent',
-                                'viewed-icon--status-delivered':
-                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered',
-                                'viewed-icon--status-read': conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
-                            }"
-                            icon="icon-done_all"
-                        ></ps-icon
-                    ></span>
+                        <span class="margin-right-1" *ngIf="conversation[1].threads[conversation[1].threads.length - 1].wamId">
+                            <ps-icon
+                                *ngIf="
+                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered' ||
+                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
+                                "
+                                [ngClass]="{
+                                    'viewed-icon--status-delivered text--500':
+                                        conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered',
+                                    'viewed-icon--status-read':
+                                        conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
+                                }"
+                                icon="icon-done_all"
+                            ></ps-icon>
+                            <ps-icon
+                                *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status === 'sent'"
+                                class="viewed-icon--status-sent text--500"
+                                icon="icon-approval"
+                            ></ps-icon>
+                            <ps-icon
+                                *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status === 'failed'"
+                                class="viewed-icon--status-failed"
+                                icon="icon-error"
+                            ></ps-icon>
+                        </span>
+                    </span>
                     <span
                         class="text-message truncate"
                         [ngClass]="{ 'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager }"

@@ -24,6 +24,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     @Input() public chatRoom: ChatRoom = new ChatRoom();
     @Output() public chatRoomChange: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
     @Output() public sendMessageEvent: EventEmitter<ThreadMessage> = new EventEmitter<ThreadMessage>();
+    @Output() public goBackToChatList: EventEmitter<void> = new EventEmitter<void>();
     @Input() public events: Observable<void> = new Observable();
 
     public isHovered: boolean = false;
@@ -153,6 +154,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.chatRoom.contact = WhatsappMapper.mapContact(updatedContact);
             }
         );
+    }
+
+    public getInputTextPlaceholder(): string {
+        return !this.chatRoom.contact.isBlocked ? 'Escreva sua mensagem' : 'Este contato está bloqueado.';
     }
 
     private buildTemplateMessage(): ThreadMessage {

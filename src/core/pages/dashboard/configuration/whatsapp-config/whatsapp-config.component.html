@@ -4,6 +4,13 @@
     </div>
     <div class="separator"></div>
 
+    <div *ngIf="whatsappAccount.scenario === 'validation'" class="alert-pending-actions">
+        <ps-icon icon="icon-emergency_home"></ps-icon>
+        <span class="text text--700"
+            ><b class="text text--800">Ações pendentes:</b> Para concluir a integração, é necessário ativar o webhook na plataforma Meta.
+        </span>
+    </div>
+
     <div class="main-title flex-row">
         <div class="title margin-y-3">
             <h6 class="text text--bold text--large padding-bottom-2">Cadastre os dados para integração</h6>
@@ -130,7 +137,14 @@
         >
             <span class="text--100 text--bold">Desativar</span>
         </ps-button>
-        <ps-button *ngIf="!whatsappAccount.active" [loading]="activateLoading" [wide]="true" (onClick)="activate()" type="secondary">
+        <ps-button
+            *ngIf="!whatsappAccount.active"
+            [loading]="activateLoading"
+            [wide]="true"
+            [disabled]="getActivateDisabled()"
+            (onClick)="activate()"
+            type="secondary"
+        >
             <span class="text--100 text--bold">Ativar</span>
         </ps-button>
     </div>

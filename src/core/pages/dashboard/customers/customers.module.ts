@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule, NO_ERRORS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CustomersComponent } from './customers.component';
 import { IconModule } from '@ZoppyTech/icon';
@@ -28,6 +28,7 @@ const routes: Routes = [
         PaginationModule
     ],
     declarations: [CustomersComponent],
-    exports: [CustomersComponent]
+    exports: [CustomersComponent],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class CustomersModule {}

@@ -118,6 +118,7 @@ export class WhatsappConfigComponent implements OnInit {
     }
 
     public async activate(): Promise<void> {
+        if (this.activateLoading) return;
         this.activateLoading = true;
         try {
             const request: WhatsappAccountRequest = this.buildWhatsappAccountRequest();
@@ -139,6 +140,7 @@ export class WhatsappConfigComponent implements OnInit {
     }
 
     public async disable(): Promise<void> {
+        if (this.disableLoading) return;
         this.confirmActionService.open(
             'Desativar conta Whatsapp',
             'Tem certeza que deseja desativar esta conta? ',
@@ -151,8 +153,10 @@ export class WhatsappConfigComponent implements OnInit {
                         return;
                     }
                     await this.wppAccountService.revoke(this.whatsappAccount.id);
-                    await this.loadWhatsappRegisteredAccount();
-                    await this.loadWhatsappDefaultPhoneNumber();
+                    setTimeout(async () => {
+                        await this.loadWhatsappRegisteredAccount();
+                        await this.loadWhatsappDefaultPhoneNumber();
+                    }, 1000);
                     this.toast.success('Conta comercial do Whatsapp desativada com êxito!', 'Sucesso!');
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
@@ -181,7 +185,7 @@ export class WhatsappConfigComponent implements OnInit {
             description: this.whatsappAccount.description,
             wabaId: this.whatsappAccount.wabaId,
             appId: this.whatsappAccount.appId,
-            apiAccessToken: this.whatsappAccount.apiAccessToken,
+            apiAccessToken: !this.whatsappAccount.apiAccessToken ? null : this.whatsappAccount.apiAccessToken,
             businessPhone: {
                 id: this.whatsappAccountPhone.id,
                 phoneNumberId: this.whatsappAccountPhone.phoneNumberId,
@@ -199,6 +203,21 @@ export class WhatsappConfigComponent implements OnInit {
         this.currentStatus = this.integrationStatus.find((status: any) => {
             return status.scenario === this.whatsappAccount.scenario;
         });
+    }
+
+    public getActivateDisabled(): boolean {
+        return (
+            !this.whatsappAccount.businessName ||
+            !this.whatsappAccount.description ||
+            !this.whatsappAccount.wabaId ||
+            !this.whatsappAccount.appId ||
+            !this.whatsappAccount.wabaId ||
+            (this.whatsappAccount.scenario === WhatsappConstants.ACCOUNT_SCENARIO.IDLE ||
+            this.whatsappAccount.scenario === WhatsappConstants.ACCOUNT_SCENARIO.ACQUISITION
+                ? !this.whatsappAccount.apiAccessToken
+                : false) ||
+            !this.whatsappAccountPhone.phoneNumberId
+        );
     }
 
     private setLoggedUser(): void {

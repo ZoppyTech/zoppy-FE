@@ -35,6 +35,7 @@ import { WhatsappMapper } from './whatsapp-mapper';
     styleUrls: ['./whatsapp.component.scss']
 })
 export class WhatsappComponent implements OnInit, OnDestroy {
+    public openConversationMobile: boolean = false;
     public isWhatsappActive: boolean = false;
     public user: UserEntity = new UserEntity();
     public readonly subcomponents = Subcomponents;
@@ -160,6 +161,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.chatRoomSelected = this.conversations.get(this.contactSelected.id) ?? new ChatRoom();
         this.chatRoomSelected.actived = true;
         this.scrollDownEvent.next();
+        this.openConversationMobile = true;
     }
 
     public onConversationSelected(chatRoom: ChatRoom): void {
@@ -168,6 +170,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.chatRoomSelected.actived = true;
         this.scrollDownEvent.next();
         this.updateUnreadMessages();
+        this.openConversationMobile = true;
     }
 
     public updateUnreadMessages(): void {

@@ -32,7 +32,7 @@
 
             &--business-user {
                 position: relative;
-                margin-left: 18rem;
+                margin-left: 20rem;
                 margin-right: 2.5rem;
                 background-color: #cdd6ff;
 
@@ -54,7 +54,7 @@
             &--customer-user {
                 position: relative;
                 margin-left: 2.5rem;
-                margin-right: 18rem;
+                margin-right: 20rem;
                 background-color: #fdfdfd;
 
                 &::after {
@@ -126,14 +126,13 @@
                 .viewed-icon {
                     display: flex;
                     position: relative;
-                    left: -62px;
-                    bottom: -6px;
+                    left: -58px;
+                    bottom: -8px;
                     font-weight: 400;
-                    font-size: 0.75rem;
                     padding: 0rem 0.25rem;
 
                     &--business-user {
-                        left: -62px;
+                        left: -58px;
                     }
 
                     &--customer-user {
@@ -143,20 +142,23 @@
                     }
 
                     &--status-sent {
-                        color: var(--neutral-300);
+                        color: var(--neutral-500);
+                        font-size: 1.25rem;
                     }
 
                     &--status-delivered {
-                        color: var(--info);
+                        color: var(--neutral-500);
+                        font-size: 0.75rem;
                     }
 
                     &--status-read {
                         color: var(--success);
+                        font-size: 0.75rem;
                     }
 
-                    ps-icon {
-                        width: 22px;
-                        height: 0.75rem;
+                    &--status-failed {
+                        color: var(--negative);
+                        font-size: 0.75rem;
                     }
                 }
             }
@@ -185,16 +187,16 @@
     }
 }
 
-@media (min-width: 1920px) {
+@media (min-width: 1921px) {
     .thread-message-container {
         &__body {
             &__content {
                 &--business-user {
-                    margin-left: 32rem;
+                    margin-left: 40rem;
                 }
 
                 &--customer-user {
-                    margin-right: 32rem;
+                    margin-right: 40rem;
                 }
             }
         }
@@ -206,11 +208,11 @@
         &__body {
             &__content {
                 &--business-user {
-                    margin-left: 12rem;
+                    margin-left: 6rem;
                 }
 
                 &--customer-user {
-                    margin-right: 12rem;
+                    margin-right: 6rem;
                 }
             }
         }
