@@ -1,6 +1,13 @@
 <main>
-    <div class="header padding-x-3">
-        <h6 class="text--primary text--bold margin-y-3">Baixe os modelos de planilha para facilitar o upload do lote de informações</h6>
+    <div class="header padding-x-3 flex space-between">
+        <h6 class="text--primary flex-grow text--bold margin-y-3">
+            Baixe os modelos de planilha para facilitar o upload do lote de informações
+        </h6>
+        <div class="flex flex-bottom">
+            <ps-button type="error" [loading]="loadingClean" (onClick)="clean()">
+                <span class="text text--100"> Limpar dados </span>
+            </ps-button>
+        </div>
     </div>
     <div class="separator"></div>
 
@@ -18,17 +25,12 @@
                     [ngClass]="{ success: card.file, warning: !card.file }"
                     icon="{{ card.file ? 'icon-task_alt' : 'icon-unpublished' }}"
                 ></ps-icon>
-                <span class="text text--center margin-bottom-3 text--500">
+                <span class="text text--center text--500">
                     {{ card.file ? 'Planilha pronta' : 'Faça o upload da planilha' }}
                 </span>
-                <p class="text text--bold text--center">
+                <p class="text text--bold text--center text--primary">
                     {{ card.uploadedFileName }}
                 </p>
-                <div class="">
-                    <ps-switch *ngIf="card.hasSendMessage" [(active)]="card.sendMessage">
-                        <span class="text">{{ card.sendMessageLabel }}</span>
-                    </ps-switch>
-                </div>
             </div>
             <div class="footer wide flex padding-top-3 flex-center">
                 <div class="flex-grow" *ngIf="!card.file">
@@ -49,6 +51,12 @@
                 </div>
 
                 <div class="flex-grow" *ngIf="card.file">
+                    <ps-button [wide]="true" class="wide" type="cancel-border" (onClick)="removeFile(card)">
+                        <span class="text"> Remover </span>
+                    </ps-button>
+                </div>
+
+                <div class="flex-grow margin-left-2" *ngIf="card.file">
                     <ps-button [wide]="true" class="wide" type="success" [loading]="card.uploading ?? false" (onClick)="execute(card)">
                         <span class="text text--100"> Enviar </span>
                     </ps-button>

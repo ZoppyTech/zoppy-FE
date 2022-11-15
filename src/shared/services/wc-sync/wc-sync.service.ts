@@ -58,4 +58,14 @@ export class WcSyncService extends ApiService {
         });
         return promise;
     }
+
+    public async clean(): Promise<BooleanResponse> {
+        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
+            this.delete<BooleanResponse>(`${this.url}/clean`).subscribe(
+                (response: BooleanResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
 }
