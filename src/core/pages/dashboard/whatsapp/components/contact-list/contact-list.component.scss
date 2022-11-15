@@ -167,6 +167,15 @@
     .container {
         margin: 0rem;
         width: 100%;
+        max-width: 100%;
         min-width: 0px;
+
+        .loading {
+            min-height: 0px;
+        }
+
+        .empty-list {
+            min-height: 0px;
+        }
     }
 }
