@@ -131,6 +131,8 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
     }
 
     public async uploadOrders(card: Card) {
+        card.uploading = true;
+
         card.loading = true;
         try {
             await this.crmOrderService.upload(card.file);
@@ -139,12 +141,13 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível adicionar seus produtos dos pedidos');
         } finally {
-            card.loading = false;
+            card.uploading = false;
         }
     }
 
     public async uploadLineItems(card: Card) {
-        card.loading = true;
+        card.uploading = true;
+
         try {
             await this.crmLineItemService.upload(card.file);
             this.toast.success('Seus produtos dos pedidos foram adicionados com sucesso!', 'Sucesso!');
@@ -152,12 +155,13 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível adicionar seus produtos dos pedidos');
         } finally {
-            card.loading = false;
+            card.uploading = false;
         }
     }
 
     public async uploadCoupons(card: Card) {
-        card.loading = true;
+        card.uploading = true;
+
         try {
             await this.crmCouponService.upload(card.file);
             this.toast.success('Seus coupons foram adicionados com sucesso!', 'Sucesso!');
@@ -165,12 +169,12 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível adicionar seus coupons');
         } finally {
-            card.loading = false;
+            card.uploading = false;
         }
     }
 
     public async uploadCustomers(card: Card) {
-        card.loading = true;
+        card.uploading = true;
         try {
             await this.crmCustomerService.upload(card.file);
             this.toast.success('Seus clientes foram adicionados com sucesso!', 'Sucesso!');
@@ -178,12 +182,12 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível adicionar seus clientes');
         } finally {
-            card.loading = false;
+            card.uploading = false;
         }
     }
 
     public async uploadProducts(card: Card) {
-        card.loading = true;
+        card.uploading = true;
         try {
             await this.crmProductService.upload(card.file);
             this.toast.success('Seus produtos foram adicionados com sucesso!', 'Sucesso!');
@@ -191,7 +195,7 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível adicionar seus produtos');
         } finally {
-            card.loading = false;
+            card.uploading = false;
         }
     }
 
