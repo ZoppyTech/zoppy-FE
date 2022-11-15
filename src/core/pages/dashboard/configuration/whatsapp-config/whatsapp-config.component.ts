@@ -131,9 +131,9 @@ export class WhatsappConfigComponent implements OnInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Erro!');
         } finally {
+            this.setCurrentStatus();
             this.activateLoading = false;
         }
-        this.setCurrentStatus();
     }
 
     public async disable(): Promise<void> {
