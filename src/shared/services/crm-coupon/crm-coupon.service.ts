@@ -1,11 +1,11 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ZoppyFilter } from 'src/shared/models/filter';
 import { CrmCouponResponse } from 'src/shared/models/responses/crm/crm-coupon.response';
 import { Storage } from 'src/shared/utils/storage';
-import { ApiService, ZoppyException } from '../api.service';
+import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
 
 @Injectable({
     providedIn: 'root'
@@ -19,6 +19,19 @@ export class CrmCouponService extends ApiService {
         public override readonly storage: Storage
     ) {
         super(http, router, storage);
+    }
+
+    public async upload(file: any): Promise<BooleanResponse> {
+        const params: any = new FormData();
+        params.append('file', file);
+
+        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
+            this.post<BooleanResponse, HttpParams>(`${this.url}/import`, params).subscribe(
+                (response: BooleanResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
     }
 
     public async findByPhone(phone: string): Promise<CrmCouponResponse> {

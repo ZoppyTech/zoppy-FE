@@ -108,6 +108,13 @@ export class ConfigurationComponent implements OnInit {
                 label: 'Visualização de giftbacks',
                 route: Navigation.routes.coupons,
                 visible: UserUtil.isMaster(this.user)
+            },
+            {
+                id: `batchUpload`,
+                icon: 'icon-arrow',
+                label: 'Upload de pedidos em Lote',
+                route: Navigation.routes.batchUpload,
+                visible: UserUtil.isMaster(this.user)
             }
         ];
     }

@@ -41,6 +41,7 @@ export type SideMenu =
     | 'products'
     | 'customers'
     | 'coupons'
+    | 'batchUpload'
     | 'whatsappConfig'
     | 'whatsappTemplateList'
     | 'none';

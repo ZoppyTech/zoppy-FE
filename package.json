@@ -40,7 +40,7 @@
         "@ZoppyTech/multi-select": "^0.1.7",
         "@ZoppyTech/radio-button": "^0.1.3",
         "@ZoppyTech/search-bar": "^0.1.6",
-        "@ZoppyTech/switch": "^0.1.2",
+        "@ZoppyTech/switch": "^0.1.3",
         "@ZoppyTech/toast": "^0.1.4",
         "@ZoppyTech/tooltip": "^0.1.2",
         "@ZoppyTech/pagination": "^0.1.3",
