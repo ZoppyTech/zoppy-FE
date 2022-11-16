@@ -40,17 +40,4 @@ export class CrmAddressService extends ApiService {
         });
         return promise;
     }
-
-    public async upload(file: any): Promise<BooleanResponse> {
-        const params: any = new FormData();
-        params.append('file', file);
-
-        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
-            this.post<BooleanResponse, HttpParams>(`${this.url}/import`, params).subscribe(
-                (response: BooleanResponse) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
 }

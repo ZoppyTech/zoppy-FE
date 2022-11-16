@@ -1,0 +1,72 @@
+<main>
+    <div class="header padding-x-3 flex space-between">
+        <h6 class="text--primary flex-grow text--bold margin-y-3">
+            Baixe os modelos de planilha para facilitar o upload do lote de informações
+        </h6>
+        <div class="flex flex-bottom">
+            <ps-button type="error" [loading]="loadingClean" (onClick)="clean()">
+                <span class="text text--100"> Limpar dados </span>
+            </ps-button>
+        </div>
+    </div>
+    <div class="separator"></div>
+
+    <div class="cards flex padding-2">
+        <div class="card flex flex-column padding-3 margin-2" *ngFor="let card of cards">
+            <h5 class="text text--primary text--bold text--center wide">
+                {{ card.title }}
+            </h5>
+            <p class="text margin-top-3 text--center">
+                {{ card.description }}
+            </p>
+            <div class="flex flex-center body flex-column flex-grow">
+                <ps-icon
+                    class="margin-y-3"
+                    [ngClass]="{ success: card.file, warning: !card.file }"
+                    icon="{{ card.file ? 'icon-task_alt' : 'icon-unpublished' }}"
+                ></ps-icon>
+                <span class="text text--center text--500">
+                    {{ card.file ? 'Planilha pronta' : 'Faça o upload da planilha' }}
+                </span>
+                <p class="text text--bold text--center text--primary">
+                    {{ card.uploadedFileName }}
+                </p>
+            </div>
+            <div class="footer wide flex padding-top-3 flex-center">
+                <div class="flex-grow" *ngIf="!card.file">
+                    <ps-button
+                        [wide]="true"
+                        type="secondary"
+                        class="wide"
+                        [loading]="card.loading ?? false"
+                        (onClick)="card.download(card)"
+                    >
+                        <span class="text text--100"> Download </span>
+                    </ps-button>
+                </div>
+                <div class="flex-grow margin-left-2" *ngIf="!card.file">
+                    <ps-button [wide]="true" class="wide" type="secondary-border" (onClick)="card.upload(card)">
+                        <span class="text text--secondary"> Upload </span>
+                    </ps-button>
+                </div>
+
+                <div class="flex-grow" *ngIf="card.file">
+                    <ps-button [wide]="true" class="wide" type="cancel-border" (onClick)="removeFile(card)">
+                        <span class="text"> Remover </span>
+                    </ps-button>
+                </div>
+
+                <div class="flex-grow margin-left-2" *ngIf="card.file">
+                    <ps-button [wide]="true" class="wide" type="success" [loading]="card.uploading ?? false" (onClick)="execute(card)">
+                        <span class="text text--100"> Enviar </span>
+                    </ps-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+<input class="hidden" (change)="handleFileUpload($event, 'products')" type="file" #inputFileProduct />
+<input class="hidden" (change)="handleFileUpload($event, 'customers')" type="file" #inputFileCustomer />
+<input class="hidden" (change)="handleFileUpload($event, 'coupons')" type="file" #inputFileCoupon />
+<input class="hidden" (change)="handleFileUpload($event, 'orders')" type="file" #inputFileOrder />
+<input class="hidden" (change)="handleFileUpload($event, 'order-products')" type="file" #inputFileOrderProduct />

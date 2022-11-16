@@ -1,4 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { UserEntity } from 'src/shared/models/entities/user.entity';
+import { UserService } from 'src/shared/services/user/user.service';
+import { Storage } from 'src/shared/utils/storage';
 
 @Component({
     selector: 'app-dashboard',
@@ -6,9 +9,10 @@ import { Component, OnInit } from '@angular/core';
     styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-    public constructor() {}
+    public constructor(public userService: UserService, public storage: Storage) {}
 
-    public ngOnInit() {
-        console.log('init');
+    public async ngOnInit() {
+        const user: UserEntity = await this.userService.myself();
+        if (user) this.storage.setUser(user);
     }
 }

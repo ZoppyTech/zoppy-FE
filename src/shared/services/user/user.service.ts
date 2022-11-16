@@ -41,6 +41,16 @@ export class UserService extends ApiService {
         return promise;
     }
 
+    public async myself(): Promise<UserEntity> {
+        const promise: Promise<UserEntity> = new Promise((resolve: any, reject: any) => {
+            this.get<UserEntity>(`${this.url}/myself`).subscribe(
+                (response: UserEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async destroy(id: string): Promise<BooleanResponse> {
         const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
             this.delete<BooleanResponse>(`${this.url}/${id}`).subscribe(
