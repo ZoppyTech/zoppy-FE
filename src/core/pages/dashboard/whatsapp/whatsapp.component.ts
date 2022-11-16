@@ -73,12 +73,12 @@ export class WhatsappComponent implements OnInit, OnDestroy {
 
     public async onStartWhatsapp(): Promise<void> {
         console.log('Whatsapp loading...');
-        this.setWebSocket();
         await this.loadRegisteredWhatsappAccount();
         await this.loadBusinessAccounManager();
         await setTimeout(async () => {
             await this.loadConversations();
         }, 1000);
+        this.setWebSocket();
         await this.setWhatsappLoading();
         console.log('Whatsapp initialized!');
     }
@@ -93,9 +93,12 @@ export class WhatsappComponent implements OnInit, OnDestroy {
 
     public setWebSocket(): void {
         try {
+            this.webSocketService.connect();
             this.webSocketService
                 .fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE)
                 .subscribe((socketData: ChatSocketData) => {
+                    console.log('Mensagem recebida do websocket...');
+                    console.log(socketData);
                     let targetChatRoom: ChatRoom | undefined = undefined;
                     switch (socketData.action) {
                         case WebSocketConstants.CHAT_ACTIONS.CREATE:
