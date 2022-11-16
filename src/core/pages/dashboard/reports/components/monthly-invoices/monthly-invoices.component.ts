@@ -83,6 +83,8 @@ export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
 
     public async fetchData(): Promise<void> {
         try {
+            this.chartData[0].data = [];
+            this.chartData[1].data = [];
             this.data = await this.reportService.getMonthlyInvoices(this.reportRequest);
             this.data.invoices.forEach((invoice: MonthInvoice) => {
                 if (invoice.invoice > 0) {
