@@ -35,7 +35,7 @@ export class RegisterSalesComponent implements OnInit {
     public order: CrmOrderRequest = {
         address: {},
         coupon: {
-            type: 'fixed-cart',
+            type: 'fixed_cart',
             amount: 0
         },
         lineItems: [],
@@ -44,7 +44,7 @@ export class RegisterSalesComponent implements OnInit {
     public number: string = '';
     public complement: string = '';
     public loadingAddress: boolean = false;
-    public defaultCouponType: CouponType = 'fixed-cart';
+    public defaultCouponType: CouponType = 'fixed_cart';
     public useExistingCoupon: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public products: CrmProductResponse[] = [];
@@ -71,7 +71,7 @@ export class RegisterSalesComponent implements OnInit {
         },
         {
             label: 'Reais',
-            value: 'fixed-cart'
+            value: 'fixed_cart'
         }
     ];
 
@@ -247,7 +247,7 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public calculateSubtotal(): string {
-        if (this.order?.coupon?.type === 'fixed-cart')
+        if (this.order?.coupon?.type === 'fixed_cart')
             return FormatUtils.toCurrency(parseFloat(this.order.total as string) - parseFloat(this.order?.coupon?.amount as string));
         else if (this.order?.coupon?.type === 'percent')
             return FormatUtils.toCurrency(
@@ -269,7 +269,7 @@ export class RegisterSalesComponent implements OnInit {
         this.order = {
             address: {},
             coupon: {
-                type: 'fixed-cart',
+                type: 'fixed_cart',
                 amount: 0
             },
             lineItems: [],
@@ -284,7 +284,7 @@ export class RegisterSalesComponent implements OnInit {
 }
 
 type State = 1 | 2;
-type CouponType = 'percent' | 'fixed-cart';
+type CouponType = 'percent' | 'fixed_cart';
 interface Item {
     label: string;
     value: string | null;
