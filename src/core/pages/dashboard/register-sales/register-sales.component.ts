@@ -155,7 +155,6 @@ export class RegisterSalesComponent implements OnInit {
             this.state = 1;
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            debugger;
             this.toast.error(ex.message, 'Não foi possível salvar seu pedido');
         } finally {
             this.loading = false;
