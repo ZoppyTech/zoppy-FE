@@ -45,7 +45,6 @@ export class RegisterSalesComponent implements OnInit {
     public number: string = '';
     public complement: string = '';
     public loadingAddress: boolean = false;
-    public customTotal: number = 0;
     public customSubtotal: number = 0;
     public defaultCouponType: CouponType = 'fixed_cart';
     public useCustomCoupon: boolean = false;
@@ -114,22 +113,6 @@ export class RegisterSalesComponent implements OnInit {
         });
     }
 
-    public openEditTotalModal(): void {
-        this.modal.open(
-            Modal.IDENTIFIER.INPUT_INFO,
-            {
-                title: 'Alterar o valor total',
-                cancelLabel: 'Cancelar',
-                confirmLabel: 'Confirmar',
-                value: this.calculateTotal()
-            },
-            (value: number) => {
-                this.customTotal = value;
-                this.modal.close();
-            }
-        );
-    }
-
     public openEditSubtotalModal(): void {
         this.modal.open(
             Modal.IDENTIFIER.INPUT_INFO,
@@ -140,7 +123,9 @@ export class RegisterSalesComponent implements OnInit {
                 value: this.calculateSubtotal()
             },
             (value: number) => {
-                this.customTotal = value;
+                this.customSubtotal = value;
+                this.order.total = value;
+                this.modal.close();
             }
         );
     }
@@ -170,6 +155,7 @@ export class RegisterSalesComponent implements OnInit {
             this.state = 1;
         } catch (ex: any) {
             ex = ex as ZoppyException;
+            debugger;
             this.toast.error(ex.message, 'Não foi possível salvar seu pedido');
         } finally {
             this.loading = false;
@@ -301,8 +287,6 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public calculateTotal(): string {
-        if (this.customTotal) return FormatUtils.toCurrency(this.customTotal);
-
         if (this.order?.coupon?.type === 'fixed_cart') {
             const value: number = this.order.total - this.order?.coupon?.amount;
             return FormatUtils.toCurrency(value);
@@ -312,7 +296,6 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public calculateSubtotal(): string {
-        if (this.customSubtotal) return FormatUtils.toCurrency(this.customSubtotal);
         return FormatUtils.toCurrency(this.order?.total);
     }
 
@@ -337,6 +320,7 @@ export class RegisterSalesComponent implements OnInit {
             total: 0
         };
         this.productsSelected = [];
+        this.customSubtotal = 0;
     }
 
     private formatAddress(): void {
