@@ -115,7 +115,7 @@
                         [(ngModel)]="order.address.city"
                     ></ps-input>
                 </div>
-                <div class="field flex-grow-1">
+                <div *ngIf="!order.address.id" class="field flex-grow-1">
                     <p class="text text--bold">Número</p>
                     <ps-input
                         [disabled]="!order.address.phone || !order.address.postcode"
@@ -134,7 +134,7 @@
                         [(ngModel)]="order.address.address1"
                     ></ps-input>
                 </div>
-                <div class="field flex-grow-1">
+                <div *ngIf="!order.address.id" class="field flex-grow-1">
                     <p class="text text--bold">Complemento</p>
                     <ps-input
                         [disabled]="!order.address.phone || !order.address.postcode"
@@ -168,26 +168,22 @@
                 class="giftback-alert padding-2 margin-x-2 margin-top-2"
                 *ngIf="!useCustomCoupon"
                 [ngClass]="{
-                    'giftback-alert--success': order.coupon.id || backupCoupon,
-                    'giftback-alert--error': !order.coupon.id && !backupCoupon
+                    'giftback-alert--success': order.coupon.id,
+                    'giftback-alert--error': !order.coupon.id
                 }"
             >
                 <ps-icon
-                    icon="{{ order.coupon.id || backupCoupon ? 'icon-task_alt' : 'icon-unpublished' }}"
-                    class="margin-right-1 '{{ order.coupon.id || backupCoupon ? 'success' : 'negative' }}'"
+                    icon="{{ order.coupon.id ? 'icon-task_alt' : 'icon-unpublished' }}"
+                    class="margin-right-1 '{{ order.coupon.id ? 'success' : 'negative' }}'"
                 ></ps-icon>
-                <span class="text text--bold"
-                    >{{ order.coupon.id || backupCoupon ? 'Giftback disponível:' : 'Giftback indisponível:' }}
-                </span>
+                <span class="text text--bold">{{ order.coupon.id ? 'Giftback disponível:' : 'Giftback indisponível:' }} </span>
                 <span class="text">{{
-                    order.coupon.id || backupCoupon
+                    order.coupon.id
                         ? 'giftback no valor de '
                         : 'seu cliente não possui giftback que possa ser aplicado. Forneça o desconto em % ou R$.'
                 }}</span>
 
-                <span class="text text--bold" *ngIf="order.coupon.id || backupCoupon">{{
-                    toCurrency(order.coupon.amount.toString())
-                }}</span>
+                <span class="text text--bold" *ngIf="order.coupon.id">{{ toCurrency(order.coupon.amount.toString()) }}</span>
             </div>
 
             <div class="field">
