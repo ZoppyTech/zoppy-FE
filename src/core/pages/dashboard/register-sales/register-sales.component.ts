@@ -180,7 +180,6 @@ export class RegisterSalesComponent implements OnInit {
         try {
             this.loadingAddress = true;
             const products: CrmProductResponse[] = await this.crmProductService.findAll();
-            debugger;
             this.products = products;
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -266,7 +265,6 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public calculateTotalBasedOnProducts(): void {
-        debugger;
         let total: number = 0;
         this.order.lineItems?.forEach((lineItem: CrmLineItemRequest) => {
             const product: CrmProductResponse | undefined = this.products.find(
@@ -338,6 +336,7 @@ export class RegisterSalesComponent implements OnInit {
             lineItems: [],
             total: 0
         };
+        this.productsSelected = [];
     }
 
     private formatAddress(): void {

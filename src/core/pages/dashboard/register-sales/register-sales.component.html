@@ -186,7 +186,7 @@
                 }}</span>
 
                 <span class="text text--bold" *ngIf="order.coupon.id || backupCoupon">{{
-                    toCurrency(order.coupon.amount?.toString() ?? '')
+                    toCurrency(order.coupon.amount.toString())
                 }}</span>
             </div>
 
