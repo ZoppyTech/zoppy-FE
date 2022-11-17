@@ -37,9 +37,9 @@
                 <tbody>
                     <tr class="item" *ngFor="let customer of customers">
                         <td>
-                            <span [ngClass]="{ 'text--400': !customer.firstName }" class="text text--600">{{
-                                customer.firstName || 'vazio'
-                            }}</span>
+                            <span [ngClass]="{ 'text--400': !customer.firstName }" class="text text--600"
+                                >{{ customer.firstName }} {{ customer.lastName }}</span
+                            >
                         </td>
                         <td class="desktop">
                             <span [ngClass]="{ 'text--400': !customer.phone }" class="text text--600 desktop">{{

@@ -7,6 +7,9 @@ export class CrmCouponResponse {
     public declare used?: boolean;
     public declare expiryDate?: Date;
     public declare createdAt?: Date;
-    public declare amount?: number | string;
-    public declare minPurchaseValue?: number | string;
+    public declare amount?: number;
+    public declare minPurchaseValue?: number;
+    public declare amountCurrency?: string;
+    public declare minPurchaseValueCurrency?: string;
+    public declare maxPercentPurchaseValueCurrency?: string;
 }

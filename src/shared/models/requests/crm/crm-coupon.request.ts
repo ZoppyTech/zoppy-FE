@@ -1,6 +1,7 @@
 export interface CrmCouponRequest {
     id?: string;
-    amount?: number | string;
+    amount: number;
+    amountCurrency: string;
     code?: string;
     phone?: string;
     type?: string;

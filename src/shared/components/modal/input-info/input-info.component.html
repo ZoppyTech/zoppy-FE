@@ -1,0 +1,27 @@
+<div class="modal-content padding-2">
+    <div class="padding-bottom-2">
+        <span class="text text--bold">{{ modal.data.title }}</span>
+    </div>
+
+    <div class="flex flex-column">
+        <ps-input
+            [selectAll]="true"
+            [moveMaskedCursor]="false"
+            mask="currency"
+            placeholder="RS0,00"
+            [(ngModel)]="modal.data.value"
+        ></ps-input>
+        <div class="flex wide margin-top-3">
+            <div class="wide">
+                <ps-button class="" [wide]="true" type="cancel" (click)="modal.close()">
+                    <span class="text">{{ modal.data.cancelLabel ?? 'Cancelar' }}</span>
+                </ps-button>
+            </div>
+            <div class="margin-left-2 wide">
+                <ps-button class="" [wide]="true" type="secondary" (click)="modal.callback(modal.data.value)">
+                    <span class="text--100">{{ modal.data.confirmLabel ?? 'Confirmar' }}</span>
+                </ps-button>
+            </div>
+        </div>
+    </div>
+</div>
