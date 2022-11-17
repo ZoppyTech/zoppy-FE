@@ -98,30 +98,30 @@
             height: unset;
         }
 
+        .giftback-alert {
+            border-radius: 0.75rem;
+        }
+
+        .giftback-alert--success {
+            border: 1px solid var(--success);
+            background-color: rgba(48, 225, 161, 0.1);
+        }
+
+        .giftback-alert--error {
+            background: rgba(235, 0, 0, 0.1);
+            border: 1px solid var(--negative);
+        }
+
         .products {
             background-color: var(--neutral-100);
             border-radius: 0.75rem;
             border: 1px solid var(--neutral-300);
             margin-right: 2rem;
 
-            .giftback-alert {
-                border-radius: 0.75rem;
-            }
-
-            .giftback-alert--success {
-                border: 1px solid var(--success);
-                background-color: rgba(48, 225, 161, 0.1);
-            }
-
-            .giftback-alert--error {
-                background: rgba(235, 0, 0, 0.1);
-                border: 1px solid var(--negative);
-            }
-
             .header {
                 display: flex;
-                p {
-                    flex-grow: 1;
+                .amount {
+                    width: 8rem;
                 }
             }
 
@@ -146,6 +146,10 @@
 
                     .quantity {
                         border-bottom: 0.25rem solid var(--neutral-300);
+                    }
+
+                    .amount {
+                        width: 8rem;
                     }
                 }
             }

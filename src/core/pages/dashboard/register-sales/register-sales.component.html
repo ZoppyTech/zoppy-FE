@@ -80,21 +80,6 @@
 
         <div class="flex flex-column flex-grow">
             <div class="field">
-                <p class="text text--bold">Operação</p>
-                <ps-dropdown
-                    class="wide"
-                    [wide]="true"
-                    [enableSearch]="false"
-                    [propertyValue]="'value'"
-                    [(value)]="order.operation"
-                    [propertyLabel]="'label'"
-                    [items]="operations"
-                    [displayTop]="false"
-                    noDataText="Selecionar"
-                ></ps-dropdown>
-            </div>
-
-            <div class="field">
                 <p class="text text--bold">Sexo do seu cliente</p>
                 <ps-dropdown
                     class="wide"
@@ -164,70 +149,24 @@
     <div class="body body-2 padding-x-2 flex flex-column" *ngIf="!loadingAddress && state !== 1">
         <div class="padding-x-2 content flex-grow">
             <div class="field">
-                <p class="text text--bold margin-top-unset">Total (R$)</p>
-                <ps-input type="string" mask="currency" [selectAll]="true" [moveMaskedCursor]="false" [(ngModel)]="order.total"></ps-input>
-            </div>
-            <div class="field">
-                <p class="text text--bold">Valor do desconto</p>
-                <ps-radio-button
-                    [propertyValue]="'value'"
-                    [propertyLabel]="'label'"
-                    class="margin-y-1"
-                    [vertical]="false"
-                    [items]="couponTypes"
-                    [(value)]="order.coupon.type"
-                    *ngIf="!useExistingCoupon"
-                ></ps-radio-button>
-                <ps-input
-                    *ngIf="order.coupon.type === 'fixed_cart' && !useExistingCoupon"
-                    class="margin-y-1"
-                    type="string"
-                    mask="currency"
-                    [selectAll]="true"
-                    [moveMaskedCursor]="false"
-                    placeholder="R$350,00"
-                    [(ngModel)]="order.coupon.amount"
-                ></ps-input>
-                <ps-input
-                    class="margin-y-1"
-                    *ngIf="order.coupon.type === 'percent' && !useExistingCoupon"
-                    type="string"
-                    mask="percent"
-                    [selectAll]="true"
-                    [moveMaskedCursor]="false"
-                    placeholder="30,00%"
-                    [(ngModel)]="order.coupon.amount"
-                ></ps-input>
-                <ps-checkbox
-                    class="margin-y-1"
-                    *ngIf="order.coupon?.id || backupCoupon"
-                    [(active)]="useExistingCoupon"
-                    (onToggleCheckbox)="toggleUseCoupon($event)"
-                >
-                    <span class="text">Aplicar cashback</span>
-                </ps-checkbox>
-            </div>
-
-            <div class="field">
                 <p class="text text--bold">Produtos</p>
                 <ps-multi-select
                     [disabled]="false"
                     propertyLabel="name"
-                    [displayTop]="true"
+                    [displayTop]="false"
                     [selectAll]="false"
+                    [enableSearch]="true"
                     [wide]="true"
                     propertyValue="id"
                     [items]="products"
                     [values]="productsSelected"
-                    (valuesChange)="selectPRoduct($event)"
+                    (valuesChange)="selectProduct($event)"
                 ></ps-multi-select>
             </div>
-        </div>
 
-        <div class="products padding-3 margin-top-2 margin-y-2 flex-grow flex-column">
             <div
-                class="giftback-alert padding-2 margin-bottom-2"
-                *ngIf="!useExistingCoupon"
+                class="giftback-alert padding-2 margin-x-2 margin-top-2"
+                *ngIf="!useCustomCoupon"
                 [ngClass]="{
                     'giftback-alert--success': order.coupon.id || backupCoupon,
                     'giftback-alert--error': !order.coupon.id && !backupCoupon
@@ -238,22 +177,105 @@
                     class="margin-right-1 '{{ order.coupon.id || backupCoupon ? 'success' : 'negative' }}'"
                 ></ps-icon>
                 <span class="text text--bold"
-                    >{{ order.coupon.id || backupCoupon ? 'Cashback disponível:' : 'Cashback indisponível:' }}
+                    >{{ order.coupon.id || backupCoupon ? 'Giftback disponível:' : 'Giftback indisponível:' }}
                 </span>
                 <span class="text">{{
                     order.coupon.id || backupCoupon
-                        ? 'clique em aplicar cashback para fornecê-lo no lugar do desconto.'
-                        : 'seu cliente não possui cashback que possa ser aplicado. Forneça o desconto em % ou R$.'
+                        ? 'giftback no valor de '
+                        : 'seu cliente não possui giftback que possa ser aplicado. Forneça o desconto em % ou R$.'
+                }}</span>
+
+                <span class="text text--bold" *ngIf="order.coupon.id || backupCoupon">{{
+                    toCurrency(order.coupon.amount?.toString() ?? '')
                 }}</span>
             </div>
+
+            <div class="field">
+                <p class="text">Giftback aplicado</p>
+                <ps-input
+                    *ngIf="order.coupon.type === 'fixed_cart'"
+                    class="margin-y-1"
+                    type="string"
+                    mask="currency"
+                    [selectAll]="true"
+                    [disabled]="true"
+                    [moveMaskedCursor]="false"
+                    placeholder="R$350,00"
+                    [(ngModel)]="order.coupon.amount"
+                ></ps-input>
+                <ps-checkbox class="margin-y-1" [(active)]="useCustomCoupon" (onToggleCheckbox)="toggleUseCustomCoupon($event)">
+                    <span class="text">Desejo aplicar meu próprio desconto</span>
+                </ps-checkbox>
+            </div>
+
+            <div class="field" *ngIf="useCustomCoupon">
+                <p class="text text--bold">Valor do desconto</p>
+                <ps-radio-button
+                    [propertyValue]="'value'"
+                    [propertyLabel]="'label'"
+                    class="margin-y-1"
+                    [vertical]="false"
+                    [items]="couponTypes"
+                    [(value)]="order.coupon.type"
+                    *ngIf="useCustomCoupon"
+                ></ps-radio-button>
+                <ps-input
+                    *ngIf="order.coupon.type === 'fixed_cart' && useCustomCoupon"
+                    class="margin-y-1"
+                    type="string"
+                    mask="currency"
+                    [selectAll]="true"
+                    [moveMaskedCursor]="false"
+                    placeholder="R$350,00"
+                    [(ngModel)]="order.coupon.amount"
+                ></ps-input>
+                <ps-input
+                    class="margin-y-1"
+                    *ngIf="order.coupon.type === 'percent' && useCustomCoupon"
+                    type="string"
+                    mask="percent"
+                    [selectAll]="true"
+                    [moveMaskedCursor]="false"
+                    placeholder="30,00%"
+                    [(ngModel)]="order.coupon.amount"
+                ></ps-input>
+            </div>
+
+            <div class="field">
+                <p class="text text--bold">Operação</p>
+                <ps-dropdown
+                    class="wide"
+                    [wide]="true"
+                    [enableSearch]="false"
+                    [propertyValue]="'value'"
+                    [(value)]="order.operation"
+                    [propertyLabel]="'label'"
+                    [items]="operations"
+                    [displayTop]="true"
+                    noDataText="Selecionar"
+                ></ps-dropdown>
+            </div>
+
+            <div class="field" *ngIf="order.coupon?.id">
+                <p class="text text--bold">Valor mínimo da compra: {{ toCurrency(order.coupon.minPurchaseValue ?? 0) }}</p>
+                <p class="text text--bold">Prazo de validade: {{ order.coupon.expiryDate | date: 'dd/MM/yyyy' }}</p>
+            </div>
+        </div>
+
+        <div class="products padding-3 margin-top-2 margin-y-2 flex-grow flex-column">
+            <div class="padding-2">
+                <h5 class="text text--bold">Resumo</h5>
+            </div>
+
+            <div class="separator"></div>
             <div class="padding-1 header">
-                <p class="margin-left-1 text text--bold text--primary">Nome</p>
-                <p class="margin-left-1 text text--bold text--primary">Quantidade</p>
+                <p class="margin-left-1 text text--bold primary-600 flex-grow">Produtos</p>
+                <p class="margin-left-1 text text--bold primary-600 quantity">Quantidade</p>
             </div>
             <ul>
                 <li class="flex wide" *ngFor="let lineItem of order.lineItems">
                     <p class="text flex-grow width-50 margin-right-1">{{ lineItem.name }}</p>
-                    <div class="flex align-center flex-grow width-50">
+                    <div class="flex align-center amount">
                         <ps-button
                             type="secondary"
                             [round]="true"
@@ -275,7 +297,24 @@
             </ul>
             <div class="subtotal">
                 <div class="separator margin-y-3 margin-x-2"></div>
-                <h5 class="text text--bold margin-right-2">Subtotal: {{ calculateSubtotal() }}</h5>
+                <div class="flex wide space-between">
+                    <h5 class="text text--bold margin-right-2">Subtotal (valor sem desconto):</h5>
+                    <span class="text">
+                        <span class="text"> {{ calculateSubtotal() }}</span>
+                        <ps-icon (click)="openEditTotalModal()" class="margin-left-1 primary clickable" icon="icon-edit_square"></ps-icon>
+                    </span>
+                </div>
+                <div class="flex wide space-between flex-center margin-top-2">
+                    <h5 class="text margin-right-2 text--bold">Total (valor com desconto):</h5>
+                    <span class="text">
+                        <span class="text"> {{ calculateTotal() }}</span>
+                        <ps-icon
+                            (click)="openEditSubtotalModal()"
+                            class="margin-left-1 primary clickable"
+                            icon="icon-edit_square"
+                        ></ps-icon>
+                    </span>
+                </div>
             </div>
         </div>
     </div>

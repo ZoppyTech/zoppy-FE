@@ -3,7 +3,8 @@ import { CrmCouponRequest } from './crm-coupon.request';
 import { CrmLineItemRequest } from './crm-line-item.request';
 
 export interface CrmOrderRequest {
-    total?: number | string;
+    total: number;
+    totalCurrency?: number | string;
     operation?: Operations;
     coupon: CrmCouponRequest;
     address: CrmAddressRequest;

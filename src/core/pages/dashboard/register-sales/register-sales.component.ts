@@ -36,7 +36,8 @@ export class RegisterSalesComponent implements OnInit {
         address: {},
         coupon: {
             type: 'fixed_cart',
-            amount: 0
+            amount: 0,
+            amountCurrency: ''
         },
         lineItems: [],
         total: 0
@@ -44,9 +45,12 @@ export class RegisterSalesComponent implements OnInit {
     public number: string = '';
     public complement: string = '';
     public loadingAddress: boolean = false;
+    public customTotal: number = 0;
+    public customSubtotal: number = 0;
     public defaultCouponType: CouponType = 'fixed_cart';
-    public useExistingCoupon: boolean = false;
+    public useCustomCoupon: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
+    public disableTotal: boolean = true;
     public products: CrmProductResponse[] = [];
     public productsSelected: CrmProductResponse[] = [];
     public genders: Item[] = [
@@ -110,6 +114,37 @@ export class RegisterSalesComponent implements OnInit {
         });
     }
 
+    public openEditTotalModal(): void {
+        this.modal.open(
+            Modal.IDENTIFIER.INPUT_INFO,
+            {
+                title: 'Alterar o valor total',
+                cancelLabel: 'Cancelar',
+                confirmLabel: 'Confirmar',
+                value: this.calculateTotal()
+            },
+            (value: number) => {
+                this.customTotal = value;
+                this.modal.close();
+            }
+        );
+    }
+
+    public openEditSubtotalModal(): void {
+        this.modal.open(
+            Modal.IDENTIFIER.INPUT_INFO,
+            {
+                title: 'Alterar o subtotal',
+                cancelLabel: 'Cancelar',
+                confirmLabel: 'Confirmar',
+                value: this.calculateSubtotal()
+            },
+            (value: number) => {
+                this.customTotal = value;
+            }
+        );
+    }
+
     public async ngOnInit() {
         this.sideMenuService.change('registerSale');
         this.setBreadcrumb();
@@ -127,7 +162,6 @@ export class RegisterSalesComponent implements OnInit {
     public async save(): Promise<void> {
         try {
             this.loading = true;
-            this.order.total = parseFloat(this.order.total as string);
             this.formatAddress();
             const order: CrmOrderResponse = await this.crmOrderService.create(this.order);
             this.order = order as CrmOrderRequest;
@@ -146,9 +180,8 @@ export class RegisterSalesComponent implements OnInit {
         try {
             this.loadingAddress = true;
             const products: CrmProductResponse[] = await this.crmProductService.findAll();
-            setTimeout(() => {
-                this.products = products;
-            });
+            debugger;
+            this.products = products;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o telefone');
@@ -171,7 +204,10 @@ export class RegisterSalesComponent implements OnInit {
                 this.order.address = address;
                 this.toast.success(`Contato carregado!`, `Sucesso!`);
                 const existingCoupon: CrmCouponResponse = await this.crmCouponService.findByPhone(this.order.address.phone as string);
-                if (existingCoupon) this.backupCoupon = existingCoupon;
+                if (existingCoupon) {
+                    this.order.coupon = existingCoupon as CrmCouponRequest;
+                    this.useCustomCoupon = false;
+                }
             } else {
                 this.toast.alert(`Preencha as informações do cliente`, `Cliente não encontrado!`);
             }
@@ -210,7 +246,7 @@ export class RegisterSalesComponent implements OnInit {
         }
     }
 
-    public selectPRoduct(values: Array<string>) {
+    public selectProduct(values: Array<string>) {
         setTimeout(() => {
             this.order.lineItems = [];
             values.forEach((id: string) => {
@@ -225,35 +261,61 @@ export class RegisterSalesComponent implements OnInit {
                     });
                 }
             });
+            this.calculateTotalBasedOnProducts();
         });
     }
 
-    public toggleUseCoupon(active: boolean) {
+    public calculateTotalBasedOnProducts(): void {
+        debugger;
+        let total: number = 0;
+        this.order.lineItems?.forEach((lineItem: CrmLineItemRequest) => {
+            const product: CrmProductResponse | undefined = this.products.find(
+                (product: CrmProductResponse) => product.id === lineItem.productId
+            );
+            if (product) total += product.price * lineItem.quantity;
+        });
+        this.order.total = total;
+        this.order.totalCurrency = FormatUtils.toCurrency(total);
+    }
+
+    public toggleUseCustomCoupon(active: boolean) {
         if (!active) {
-            this.backupCoupon = this.order.coupon;
-            this.order.coupon = {
-                amount: 0,
-                type: this.defaultCouponType,
-                phone: this.order.address.phone
-            };
-        } else {
             this.order.coupon = this.backupCoupon as CrmCouponRequest;
+            return;
         }
+        this.backupCoupon = this.order.coupon as CrmCouponResponse;
+        this.order.coupon = {
+            amount: 0,
+            amountCurrency: '',
+            type: this.defaultCouponType,
+            phone: this.order.address.phone
+        };
+    }
+
+    public toCurrency(value: string | number): string {
+        return FormatUtils.toCurrency(parseFloat(value as string));
     }
 
     public changeLineItem(lineItem: CrmLineItemRequest, signal: string): void {
         if (signal === '-') lineItem.quantity -= 1;
         if (signal === '+') lineItem.quantity += 1;
+        this.calculateTotalBasedOnProducts();
+    }
+
+    public calculateTotal(): string {
+        if (this.customTotal) return FormatUtils.toCurrency(this.customTotal);
+
+        if (this.order?.coupon?.type === 'fixed_cart') {
+            const value: number = this.order.total - this.order?.coupon?.amount;
+            return FormatUtils.toCurrency(value);
+        } else if (this.order?.coupon?.type === 'percent')
+            return FormatUtils.toCurrency(this.order?.total * ((100 - this.order?.coupon?.amount) / 100));
+        return FormatUtils.toCurrency(this.order?.total);
     }
 
     public calculateSubtotal(): string {
-        if (this.order?.coupon?.type === 'fixed_cart')
-            return FormatUtils.toCurrency(parseFloat(this.order.total as string) - parseFloat(this.order?.coupon?.amount as string));
-        else if (this.order?.coupon?.type === 'percent')
-            return FormatUtils.toCurrency(
-                parseFloat(this.order?.total as string) * ((100 - parseFloat(this.order?.coupon?.amount as string)) / 100)
-            );
-        return FormatUtils.toCurrency(parseFloat(this.order?.total as string));
+        if (this.customSubtotal) return FormatUtils.toCurrency(this.customSubtotal);
+        return FormatUtils.toCurrency(this.order?.total);
     }
 
     private setBreadcrumb(): void {
@@ -270,7 +332,8 @@ export class RegisterSalesComponent implements OnInit {
             address: {},
             coupon: {
                 type: 'fixed_cart',
-                amount: 0
+                amount: 0,
+                amountCurrency: ''
             },
             lineItems: [],
             total: 0
