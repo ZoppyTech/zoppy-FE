@@ -189,7 +189,7 @@
             <div class="field">
                 <p class="text">Giftback aplicado</p>
                 <ps-input
-                    *ngIf="order.coupon.type === 'fixed_cart'"
+                    *ngIf="order.coupon.type === 'fixed_cart' && !useCustomCoupon"
                     class="margin-y-1"
                     type="string"
                     mask="currency"
@@ -237,6 +237,17 @@
                 ></ps-input>
             </div>
 
+            <div class="field" *ngIf="order.coupon?.id">
+                <div class="flex wide space-between">
+                    <p class="text text--bold">Valor mínimo da compra:</p>
+                    <p class="text">{{ toCurrency(order.coupon.minPurchaseValue ?? 0) }}</p>
+                </div>
+                <div class="flex wide space-between">
+                    <p class="text text--bold">Prazo de validade:</p>
+                    <p class="text">{{ order.coupon.expiryDate | date: 'dd/MM/yyyy' }}</p>
+                </div>
+            </div>
+
             <div class="field">
                 <p class="text text--bold">Operação</p>
                 <ps-dropdown
@@ -250,11 +261,6 @@
                     [displayTop]="true"
                     noDataText="Selecionar"
                 ></ps-dropdown>
-            </div>
-
-            <div class="field" *ngIf="order.coupon?.id">
-                <p class="text text--bold">Valor mínimo da compra: {{ toCurrency(order.coupon.minPurchaseValue ?? 0) }}</p>
-                <p class="text text--bold">Prazo de validade: {{ order.coupon.expiryDate | date: 'dd/MM/yyyy' }}</p>
             </div>
         </div>
 
@@ -297,18 +303,17 @@
                     <h5 class="text text--bold margin-right-2">Subtotal (valor sem desconto):</h5>
                     <span class="text">
                         <span class="text"> {{ calculateSubtotal() }}</span>
-                        <ps-icon (click)="openEditTotalModal()" class="margin-left-1 primary clickable" icon="icon-edit_square"></ps-icon>
+                        <ps-icon
+                            (click)="openEditSubtotalModal()"
+                            class="margin-left-1 primary clickable"
+                            icon="icon-edit_square"
+                        ></ps-icon>
                     </span>
                 </div>
                 <div class="flex wide space-between flex-center margin-top-2">
                     <h5 class="text margin-right-2 text--bold">Total (valor com desconto):</h5>
                     <span class="text">
                         <span class="text"> {{ calculateTotal() }}</span>
-                        <ps-icon
-                            (click)="openEditSubtotalModal()"
-                            class="margin-left-1 primary clickable"
-                            icon="icon-edit_square"
-                        ></ps-icon>
                     </span>
                 </div>
             </div>
