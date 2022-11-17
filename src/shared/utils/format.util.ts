@@ -8,6 +8,9 @@ export class FormatUtils {
         if (!value) return '0%';
         return (value * 100).toFixed(2).replace('.', ',') + '%';
     }
-}
 
+    public static currencyToNumber(value: string): number {
+        return Number(value.replace(/[^0-9,-]+/g, ''));
+    }
+}
 export type Currencies = 'BRL' | 'USD';

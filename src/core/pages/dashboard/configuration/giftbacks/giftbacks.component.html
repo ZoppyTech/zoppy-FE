@@ -42,14 +42,16 @@
                         <span [ngClass]="{ 'text--400': !coupon.code }" class="text text--600">{{ coupon.code || 'vazio' }}</span>
                     </td>
                     <td class="desktop">
-                        <span [ngClass]="{ 'text--400': !coupon.amount }" class="text text--600">{{ coupon.amount || 'vazio' }}</span>
+                        <span [ngClass]="{ 'text--400': !coupon.amountCurrency }" class="text text--600">{{
+                            coupon.amountCurrency || 'vazio'
+                        }}</span>
                     </td>
                     <td class="desktop">
                         <span [ngClass]="{ 'text--400': !coupon.phone }" class="text text--600">{{ coupon.phone || 'vazio' }}</span>
                     </td>
                     <td class="desktop">
-                        <span [ngClass]="{ 'text--400': !coupon.minPurchaseValue }" class="text text--600">{{
-                            coupon.minPurchaseValue || 'vazio'
+                        <span [ngClass]="{ 'text--400': !coupon.minPurchaseValueCurrency }" class="text text--600">{{
+                            coupon.minPurchaseValueCurrency || 'vazio'
                         }}</span>
                     </td>
                     <td class="desktop">
