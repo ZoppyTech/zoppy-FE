@@ -24,7 +24,9 @@ export class SideMenuComponent implements OnInit {
         public sideMenuService: SideMenuService,
         public router: Router,
         public storage: Storage
-    ) {}
+    ) {
+        this.sideMenuService.open = true;
+    }
 
     public goToInitial(): void {
         this.router.navigate([Navigation.routes.dashboard]);
@@ -170,7 +172,8 @@ export class SideMenuComponent implements OnInit {
         ];
     }
 
-    public itemClicked(item: SideMenuItem): void {
+    public itemClicked(event: MouseEvent, item: SideMenuItem): void {
+        event.stopPropagation();
         if (item.route && window.screen.width < 576) {
             this.sideMenuService.open = false;
         }

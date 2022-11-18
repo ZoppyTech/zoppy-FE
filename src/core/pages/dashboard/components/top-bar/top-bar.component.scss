@@ -1,8 +1,14 @@
 @import 'src/styles.scss';
 
+:host {
+    display: flex;
+    justify-content: center;
+    width: -webkit-fill-available;
+}
+
 .top-bar {
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 1rem 0rem;
 
     .left-content {
         align-items: center;
@@ -52,7 +58,11 @@
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 756px) {
+    .page-container {
+        padding: 0;
+    }
+
     .top-bar {
         background-color: var(--neutral-100);
         padding: 0;

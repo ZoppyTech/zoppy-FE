@@ -77,9 +77,9 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         await this.loadBusinessAccounManager();
         await setTimeout(async () => {
             await this.loadConversations();
+            await this.setWhatsappLoading();
         }, 1000);
         this.setWebSocket();
-        await this.setWhatsappLoading();
         console.log('Whatsapp initialized!');
     }
 

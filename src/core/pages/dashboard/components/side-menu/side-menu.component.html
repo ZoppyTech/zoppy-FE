@@ -1,11 +1,6 @@
 <div class="background mobile" *ngIf="sideMenuService.open" (click)="sideMenuService.open = false"></div>
 
-<div
-    class="side-menu"
-    [ngClass]="{ open: sideMenuService.open }"
-    (mouseenter)="sideMenuService.open = true"
-    (mouseleave)="sideMenuService.open = false"
->
+<div class="side-menu clickable" [ngClass]="{ open: sideMenuService.open }" (click)="sideMenuService.open = !sideMenuService.open">
     <div
         class="flex padding-2 header padding-top-3"
         [ngClass]="{ 'flex-center': !sideMenuService.open, 'flex-start padding-x-3 padding-2': sideMenuService.open }"
@@ -37,7 +32,7 @@
                 [tooltipHidden]="sideMenuService.open"
                 tooltipDirection="right"
             >
-                <a [attr.href]="item.route" (click)="itemClicked(item)">
+                <a [attr.href]="item.route" (click)="itemClicked($event, item)">
                     <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
                         <ps-icon
                             icon="{{ item.icon }} {{ sideMenuService.selected === item.id ? 'text--secondary' : 'text--500' }}"
@@ -56,7 +51,7 @@
                     tooltipWidth="180"
                     class="subitem flex"
                     [routerLink]="subItem.route"
-                    (click)="itemClicked(subItem)"
+                    (click)="itemClicked($event, subItem)"
                     appTooltip
                     [tooltipText]="subItem.label"
                     [tooltipHidden]="sideMenuService.open"

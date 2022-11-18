@@ -25,6 +25,13 @@ body {
     font-family: 'Inter';
 }
 
+.page-container {
+    width: 100%;
+    max-width: 1600px;
+    height: 100%;
+    padding: 0rem 3rem;
+}
+
 input {
     font-family: 'Inter' !important;
 }

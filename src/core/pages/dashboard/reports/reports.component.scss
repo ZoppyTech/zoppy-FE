@@ -1,11 +1,10 @@
 @import 'src/styles.scss';
 
 :host {
-    max-width: 100%;
     display: flex;
-    flex-grow: 1;
-    min-height: 0;
-    flex-direction: column;
+    justify-content: center;
+    width: -webkit-fill-available;
+    overflow-y: auto;
 }
 
 .header {
@@ -42,7 +41,7 @@ main {
     align-items: flex-start;
     flex-wrap: wrap;
     overflow-x: hidden;
-    padding: 0 1rem;
+
     .card {
         margin: 1rem;
         padding: 1.5rem;
@@ -52,7 +51,8 @@ main {
         display: flex;
         flex-direction: column;
         max-width: calc(100% - 2rem);
-        height: 400px;
+        width: 380px;
+        height: 380px;
         box-shadow: 0px 1rem 2.5rem #edeff2;
 
         &--default {
@@ -68,7 +68,7 @@ main {
     }
 
     .card--long {
-        width: 1200px;
+        width: 1190px;
         max-width: calc(100% - 2rem);
         display: flex;
         flex-wrap: wrap;
@@ -80,7 +80,7 @@ main {
     }
 }
 
-@media only screen and (max-width: 576px) {
+@media only screen and (max-width: 756px) {
     main {
         .card {
             &--default {
