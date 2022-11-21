@@ -46,12 +46,14 @@ export class ProductsComponent implements OnInit {
         try {
             const response: ZoppyFilter<CrmProductResponse> = await this.crmProductService.findAllPaginated(this.filter);
             this.filter.pagination = response.pagination;
+            debugger;
             this.products = response.data.map((product: CrmProductResponse) => {
-                product.categoriesFormatted = ArrayUtil.toString(
-                    product.categories.map((category: any) => {
-                        return category.name;
-                    })
-                );
+                if (product.categories && product.categories.length > 0)
+                    product.categoriesFormatted = ArrayUtil.toString(
+                        product.categories?.map((category: any) => {
+                            return category.name;
+                        })
+                    );
                 return product;
             });
         } catch (ex: any) {
