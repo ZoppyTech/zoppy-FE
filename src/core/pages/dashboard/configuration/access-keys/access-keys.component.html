@@ -14,6 +14,20 @@
     </div>
 
     <div class="body">
+        <div class="field" *ngIf="isShopify">
+            <p class="text text--bold">Admin Token</p>
+            <div class="flex-center flex">
+                <ps-input
+                    icon="{{ key.keyVisible ? 'icon-visibility_off-1' : 'icon-visibility' }}"
+                    placeholder="Insira aqui seu Admin Token"
+                    type="{{ key.keyVisible ? 'text' : 'password' }}"
+                    [(ngModel)]="key.admin"
+                    [iconClick]="true"
+                    (onIconClicked)="key.keyVisible = !key.keyVisible"
+                ></ps-input>
+                <ps-icon (click)="copyToClipboard('admin')" icon="icon-copy" class="text--primary clickable"></ps-icon>
+            </div>
+        </div>
         <div class="field">
             <p class="text text--bold">Secret</p>
             <div class="flex-center flex">

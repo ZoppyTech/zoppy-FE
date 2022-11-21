@@ -7,13 +7,21 @@ import { UserUtil } from 'src/shared/utils/user.util';
 export class DashboardBasePage {
     public isAdmin: boolean = false;
     public isMaster: boolean = false;
+
     public isPremium: boolean = false;
     public isStandard: boolean = false;
+
+    public isShopify: boolean = false;
+    public isWooCommerce: boolean = false;
 
     public constructor(public storage: Storage) {
         this.isAdmin = UserUtil.isAdmin(storage.getUser() as UserEntity);
         this.isMaster = UserUtil.isMaster(storage.getUser() as UserEntity);
+
         this.isPremium = CompanyUtil.isPremium(storage.getCompany() as CompanyEntity);
         this.isStandard = CompanyUtil.isStandard(storage.getCompany() as CompanyEntity);
+
+        this.isShopify = CompanyUtil.isShopify(storage.getCompany() as CompanyEntity);
+        this.isWooCommerce = CompanyUtil.isWooCommerce(storage.getCompany() as CompanyEntity);
     }
 }

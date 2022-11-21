@@ -9,8 +9,8 @@ import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
 @Injectable({
     providedIn: 'root'
 })
-export class WcSyncService extends ApiService {
-    public override url: string = `${environment.apiUrl}/api/woo-commerce/sync`;
+export class ShopifySyncService extends ApiService {
+    public override url: string = `${environment.apiUrl}/api/shopify/sync`;
     public constructor(
         public override readonly http: HttpClient,
         public override readonly router: Router,
@@ -52,16 +52,6 @@ export class WcSyncService extends ApiService {
     public async syncOrders(request: SyncRequest): Promise<BooleanResponse> {
         const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
             this.post<BooleanResponse, SyncRequest>(`${this.url}/orders`, request).subscribe(
-                (response: BooleanResponse) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
-
-    public async clean(): Promise<BooleanResponse> {
-        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
-            this.delete<BooleanResponse>(`${this.url}/clean`).subscribe(
                 (response: BooleanResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

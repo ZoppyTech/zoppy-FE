@@ -9,6 +9,10 @@ export class AppConstants {
         premium: 'premium',
         standard: 'standard'
     };
+    public static Providers = {
+        wooCommerce: 'woo-commerce',
+        shopify: 'shopify'
+    };
 
     public static Role = {
         admin: 'ADMIN',

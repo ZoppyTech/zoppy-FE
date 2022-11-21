@@ -8,13 +8,15 @@ import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.ser
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
 import { WcWebhookService } from 'src/shared/services/wc-webhook/wc-webhook.service';
+import { Storage } from 'src/shared/utils/storage';
+import { DashboardBasePage } from '../../dashboard.base.page';
 
 @Component({
     selector: 'app-access-keys',
     templateUrl: './access-keys.component.html',
     styleUrls: ['./access-keys.component.scss']
 })
-export class AccessKeysComponent implements OnInit {
+export class AccessKeysComponent extends DashboardBasePage implements OnInit {
     public key: wcKeyRequest = {};
     public loading: boolean = false;
     public sendWebhook: boolean = true;
@@ -25,8 +27,11 @@ export class AccessKeysComponent implements OnInit {
         private readonly wcWebhookService: WcWebhookService,
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
-        public modal: ModalService
-    ) {}
+        public modal: ModalService,
+        public override storage: Storage
+    ) {
+        super(storage);
+    }
 
     public async ngOnInit() {
         this.setBreadcrumb();
@@ -50,7 +55,8 @@ export class AccessKeysComponent implements OnInit {
                 id: this.key.id,
                 secret: this.key.secret,
                 key: this.key.key,
-                url: this.key.url
+                url: this.key.url,
+                admin: this.key.admin
             };
             const response: WcKeyEntity = this.key.id ? await this.wcKeyService.update(request) : await this.wcKeyService.create(request);
             this.key = response as wcKeyRequest;
