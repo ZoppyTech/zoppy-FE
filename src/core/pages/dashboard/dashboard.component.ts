@@ -21,9 +21,11 @@ export class DashboardComponent implements OnInit {
 
     public async ngOnInit() {
         try {
-            const [user, company] = await Promise.all([this.userService.myself(), this.companyService.find()]);
-            if (user) this.storage.setUser(user);
-            if (company) this.storage.setCompany(company);
+            if (!this.storage.getCompany() || !this.storage.getUser()) {
+                const [user, company] = await Promise.all([this.userService.myself(), this.companyService.find()]);
+                if (user) this.storage.setUser(user);
+                if (company) this.storage.setCompany(company);
+            }
             this.visible = true;
         } catch (ex) {
             this.storage.clearAll();
