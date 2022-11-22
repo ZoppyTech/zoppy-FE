@@ -8,7 +8,7 @@
 
         <div class="content">
             <ul class="items">
-                <li *ngFor="let item of menuItems" [ngClass]="{ hidden: !item.visible }">
+                <li [routerLink]="item.route" *ngFor="let item of menuItems" [ngClass]="{ hidden: !item.visible }">
                     <a class="text-decoration-none padding-2" [attr.href]="item.route">
                         <span
                             [ngClass]="{

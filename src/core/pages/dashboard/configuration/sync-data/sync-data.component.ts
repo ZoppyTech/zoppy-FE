@@ -89,7 +89,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         try {
             if (!this.isVisible('customer')) return;
             this.setInProgress('customer');
-            const result: BooleanResponse = this.isWooCommerce
+            const result: BooleanResponse = this.getIsWooCommerce()
                 ? await this.wcSyncDataService.syncCustomers(request)
                 : await this.shopifySyncDataService.syncCustomers(request);
             this.setResult(result.result, `customer`);
@@ -104,7 +104,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         try {
             if (!this.isVisible('product')) return;
             this.setInProgress('product');
-            const result: BooleanResponse = this.isWooCommerce
+            const result: BooleanResponse = this.getIsWooCommerce()
                 ? await this.wcSyncDataService.syncProducts(request)
                 : await this.shopifySyncDataService.syncProducts(request);
             this.setResult(result.result, `product`);
@@ -119,7 +119,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         try {
             if (!this.isVisible('coupon')) return;
             this.setInProgress('coupon');
-            const result: BooleanResponse = this.isWooCommerce
+            const result: BooleanResponse = this.getIsWooCommerce()
                 ? await this.wcSyncDataService.syncCoupons(request)
                 : await this.shopifySyncDataService.syncCoupons(request);
             this.setResult(result.result, `coupon`);
@@ -134,7 +134,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         try {
             if (!this.isVisible('order')) return;
             this.setInProgress('order');
-            const result: BooleanResponse = this.isWooCommerce
+            const result: BooleanResponse = this.getIsWooCommerce()
                 ? await this.wcSyncDataService.syncOrders(request)
                 : await this.shopifySyncDataService.syncOrders(request);
             this.setResult(result.result, `order`);

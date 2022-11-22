@@ -3,7 +3,7 @@
 
     <div class="flex flex-grow left-content desktop">
         <div class="circle margin-right-1"></div>
-        <div class="breadcrumb" *ngFor="let item of breadcrumb.items; let index = index">
+        <div class="breadcrumb" *ngFor="let item of breadcrumb.items; let index = index" [routerLink]="item.route">
             <a class="text--small text--500" [attr.href]="item.route" class="flex flex-center">
                 <span
                     class="text--small"
@@ -49,7 +49,12 @@
                 </div>
                 <div class="separator margin-y-2"></div>
                 <ul>
-                    <li *ngFor="let item of barItems" class="{{ item.class }}" [ngClass]="{ hidden: !item.visible }">
+                    <li
+                        *ngFor="let item of barItems"
+                        [routerLink]="item.route"
+                        class="{{ item.class }}"
+                        [ngClass]="{ hidden: !item.visible }"
+                    >
                         <a class="text-decoration-none" [attr.href]="item.route">
                             <span class="text text--600">{{ item.label }}</span>
                         </a>
