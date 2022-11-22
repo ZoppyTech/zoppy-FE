@@ -58,4 +58,14 @@ export class ShopifySyncService extends ApiService {
         });
         return promise;
     }
+
+    public async syncWebhooks(): Promise<BooleanResponse> {
+        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
+            this.post<BooleanResponse, SyncRequest>(`${this.url}/webhooks`).subscribe(
+                (response: BooleanResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
 }
