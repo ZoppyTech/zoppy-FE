@@ -2,19 +2,22 @@ import { Component, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
-import { WcSyncRequest } from 'src/shared/models/requests/wc-sync/wc-sync.request';
+import { SyncRequest } from 'src/shared/models/requests/wc-sync/wc-sync.request';
 import { BooleanResponse, ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
+import { ShopifySyncService } from 'src/shared/services/shopify-sync/shopify-sync.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
 import { WcSyncService } from 'src/shared/services/wc-sync/wc-sync.service';
+import { Storage } from 'src/shared/utils/storage';
+import { DashboardBasePage } from '../../dashboard.base.page';
 
 @Component({
     selector: 'app-sync-data',
     templateUrl: './sync-data.component.html',
     styleUrls: ['./sync-data.component.scss']
 })
-export class SyncDataComponent implements OnInit {
+export class SyncDataComponent extends DashboardBasePage implements OnInit {
     public key: wcKeyRequest | undefined = undefined;
     public loading: boolean = false;
     public expirationDate: Date | undefined = undefined;
@@ -26,10 +29,14 @@ export class SyncDataComponent implements OnInit {
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
         public modal: ModalService,
-        private readonly syncDataService: WcSyncService,
+        public override storage: Storage,
+        private readonly wcSyncDataService: WcSyncService,
+        private readonly shopifySyncDataService: ShopifySyncService,
         private readonly wcKeyService: WcKeyService,
         private readonly toast: ToastService
-    ) {}
+    ) {
+        super(storage);
+    }
 
     public async ngOnInit() {
         this.setBreadcrumbItems();
@@ -60,7 +67,7 @@ export class SyncDataComponent implements OnInit {
 
     public async syncData(): Promise<void> {
         this.loading = true;
-        const request: WcSyncRequest = {
+        const request: SyncRequest = {
             after: this.expirationDate as Date
         };
         await this.syncCustomers(request);
@@ -78,11 +85,13 @@ export class SyncDataComponent implements OnInit {
         return filteredSteps.indexOf(step) + 1;
     }
 
-    private async syncCustomers(request: WcSyncRequest): Promise<void> {
+    private async syncCustomers(request: SyncRequest): Promise<void> {
         try {
             if (!this.isVisible('customer')) return;
             this.setInProgress('customer');
-            const result: BooleanResponse = await this.syncDataService.syncCustomers(request);
+            const result: BooleanResponse = this.isWooCommerce
+                ? await this.wcSyncDataService.syncCustomers(request)
+                : await this.shopifySyncDataService.syncCustomers(request);
             this.setResult(result.result, `customer`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -91,11 +100,13 @@ export class SyncDataComponent implements OnInit {
         }
     }
 
-    private async syncProducts(request: WcSyncRequest): Promise<void> {
+    private async syncProducts(request: SyncRequest): Promise<void> {
         try {
             if (!this.isVisible('product')) return;
             this.setInProgress('product');
-            const result: BooleanResponse = await this.syncDataService.syncProducts(request);
+            const result: BooleanResponse = this.isWooCommerce
+                ? await this.wcSyncDataService.syncProducts(request)
+                : await this.shopifySyncDataService.syncProducts(request);
             this.setResult(result.result, `product`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -104,11 +115,13 @@ export class SyncDataComponent implements OnInit {
         }
     }
 
-    private async syncCupons(request: WcSyncRequest): Promise<void> {
+    private async syncCupons(request: SyncRequest): Promise<void> {
         try {
             if (!this.isVisible('coupon')) return;
             this.setInProgress('coupon');
-            const result: BooleanResponse = await this.syncDataService.syncCoupons(request);
+            const result: BooleanResponse = this.isWooCommerce
+                ? await this.wcSyncDataService.syncCoupons(request)
+                : await this.shopifySyncDataService.syncCoupons(request);
             this.setResult(result.result, `coupon`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -117,11 +130,13 @@ export class SyncDataComponent implements OnInit {
         }
     }
 
-    private async syncOrders(request: WcSyncRequest): Promise<void> {
+    private async syncOrders(request: SyncRequest): Promise<void> {
         try {
             if (!this.isVisible('order')) return;
             this.setInProgress('order');
-            const result: BooleanResponse = await this.syncDataService.syncOrders(request);
+            const result: BooleanResponse = this.isWooCommerce
+                ? await this.wcSyncDataService.syncOrders(request)
+                : await this.shopifySyncDataService.syncOrders(request);
             this.setResult(result.result, `order`);
         } catch (ex: any) {
             ex = ex as ZoppyException;

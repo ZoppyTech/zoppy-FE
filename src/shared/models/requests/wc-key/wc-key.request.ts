@@ -5,6 +5,7 @@ export interface wcKeyRequest {
     key?: string | number;
     secret?: string | number;
     url?: string | number;
+    admin?: string;
     keyVisible?: boolean;
     secretVisible?: boolean;
 }

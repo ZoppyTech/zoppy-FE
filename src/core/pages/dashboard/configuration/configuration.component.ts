@@ -112,7 +112,7 @@ export class ConfigurationComponent implements OnInit {
             {
                 id: `batchUpload`,
                 icon: 'icon-arrow',
-                label: 'Upload de pedidos em Lote',
+                label: 'Upload de dados por planilha',
                 route: Navigation.routes.batchUpload,
                 visible: UserUtil.isMaster(this.user)
             }

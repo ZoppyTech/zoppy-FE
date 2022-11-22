@@ -6,6 +6,7 @@ export class CompanyEntity {
     public declare phone?: string;
     public declare name?: string;
     public declare plan?: string;
+    public declare provider?: string;
     public declare createdAt?: Date;
     public declare updatedAt?: Date | null;
     public declare deletedAt?: Date | null;

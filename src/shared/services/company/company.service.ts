@@ -30,4 +30,14 @@ export class CompanyService extends ApiService {
         });
         return promise;
     }
+
+    public async find(): Promise<CompanyEntity> {
+        const promise: Promise<CompanyEntity> = new Promise((resolve: any, reject: any) => {
+            this.get<CompanyEntity>(`${this.url}/mine`).subscribe(
+                (response: CompanyEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
 }
