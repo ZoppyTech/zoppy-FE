@@ -4,14 +4,14 @@
     <div class="flex flex-grow left-content desktop">
         <div class="circle margin-right-1"></div>
         <div class="breadcrumb" *ngFor="let item of breadcrumb.items; let index = index">
-            <a class="text--small text--500" [attr.href]="item.route" class="flex flex-center">
+            <a class="text-16 text--500" [attr.href]="item.route" class="flex flex-center">
                 <span
-                    class="text--small"
+                    class="text-16"
                     [ngClass]="{ 'text--800': index === breadcrumb.items.length - 1, 'text--500': index !== breadcrumb.items.length - 1 }"
                 >
                     {{ item.name }} &nbsp;
                 </span>
-                <span class="text--small text--500" *ngIf="index !== breadcrumb.items.length - 1"> >&nbsp; </span>
+                <span class="text-16 text--500" *ngIf="index !== breadcrumb.items.length - 1"> >&nbsp; </span>
             </a>
         </div>
     </div>
@@ -21,10 +21,10 @@
         </div>
         <ps-contact class="margin-left-2" [tooltip]="false" [name]="user?.name ?? ''" [email]="user?.email ?? ''"></ps-contact>
         <div class="flex flex-start flex-column margin-left-2 desktop">
-            <span class="text text--primary text--bold">
+            <span class="text text-16 text--primary text--bold">
                 {{ user?.name }}
             </span>
-            <span class="text text--600 text--small">
+            <span class="text text-12 text--600">
                 {{ user?.email }}
             </span>
         </div>

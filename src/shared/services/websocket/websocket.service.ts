@@ -12,12 +12,7 @@ export class WebSocketService {
     public url: string = `${environment.apiUrl}`;
 
     public constructor(public readonly storage: Storage) {
-        console.log('Dentro do construtor da service WebSocketService');
         this.socket = io(this.url, this.getSocketOptions());
-        console.log(this.url);
-        console.log(this.getSocketOptions());
-        console.log(this.socket);
-        console.log('### FIM ####');
     }
 
     public connect(channelName: string = ''): void {
@@ -29,8 +24,6 @@ export class WebSocketService {
     }
 
     public emit<T>(eventName: string, message: T): any {
-        console.log('Emitindo evento: ' + eventName);
-        console.log('Mensagem: ' + message);
         return this.socket.emit(eventName, message);
     }
 
