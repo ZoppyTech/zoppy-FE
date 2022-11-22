@@ -24,4 +24,28 @@ export class DashboardBasePage {
         this.isShopify = CompanyUtil.isShopify(storage.getCompany() as CompanyEntity);
         this.isWooCommerce = CompanyUtil.isWooCommerce(storage.getCompany() as CompanyEntity);
     }
+
+    public getIsAdmin(): boolean {
+        return UserUtil.isAdmin(this.storage?.getUser() as UserEntity);
+    }
+
+    public getIsMaster(): boolean {
+        return UserUtil.isMaster(this.storage?.getUser() as UserEntity);
+    }
+
+    public getIsPremium(): boolean {
+        return CompanyUtil.isPremium(this.storage?.getCompany() as CompanyEntity);
+    }
+
+    public getIsStandard(): boolean {
+        return CompanyUtil.isStandard(this.storage?.getCompany() as CompanyEntity);
+    }
+
+    public getIsShopify(): boolean {
+        return CompanyUtil.isShopify(this.storage?.getCompany() as CompanyEntity);
+    }
+
+    public getIsWooCommerce(): boolean {
+        return CompanyUtil.isWooCommerce(this.storage?.getCompany() as CompanyEntity);
+    }
 }
