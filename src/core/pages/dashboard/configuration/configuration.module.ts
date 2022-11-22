@@ -13,7 +13,7 @@ const routes: Routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: 'access-keys'
+                redirectTo: 'access-tokens'
             },
             {
                 path: 'access-keys',
