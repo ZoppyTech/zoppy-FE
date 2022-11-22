@@ -1,3 +1,3 @@
-export interface WcSyncRequest {
+export interface SyncRequest {
     after: Date;
 }

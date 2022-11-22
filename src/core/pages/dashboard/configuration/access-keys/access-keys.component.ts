@@ -5,16 +5,19 @@ import { WcKeyEntity } from 'src/shared/models/entities/wc-key.entity';
 import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
+import { ShopifySyncService } from 'src/shared/services/shopify-sync/shopify-sync.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
 import { WcWebhookService } from 'src/shared/services/wc-webhook/wc-webhook.service';
+import { Storage } from 'src/shared/utils/storage';
+import { DashboardBasePage } from '../../dashboard.base.page';
 
 @Component({
     selector: 'app-access-keys',
     templateUrl: './access-keys.component.html',
     styleUrls: ['./access-keys.component.scss']
 })
-export class AccessKeysComponent implements OnInit {
+export class AccessKeysComponent extends DashboardBasePage implements OnInit {
     public key: wcKeyRequest = {};
     public loading: boolean = false;
     public sendWebhook: boolean = true;
@@ -23,10 +26,14 @@ export class AccessKeysComponent implements OnInit {
         private readonly toast: ToastService,
         private readonly wcKeyService: WcKeyService,
         private readonly wcWebhookService: WcWebhookService,
+        private readonly shopifySyncService: ShopifySyncService,
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
-        public modal: ModalService
-    ) {}
+        public modal: ModalService,
+        public override storage: Storage
+    ) {
+        super(storage);
+    }
 
     public async ngOnInit() {
         this.setBreadcrumb();
@@ -50,11 +57,12 @@ export class AccessKeysComponent implements OnInit {
                 id: this.key.id,
                 secret: this.key.secret,
                 key: this.key.key,
-                url: this.key.url
+                url: this.key.url,
+                admin: this.key.admin
             };
             const response: WcKeyEntity = this.key.id ? await this.wcKeyService.update(request) : await this.wcKeyService.create(request);
             this.key = response as wcKeyRequest;
-            if (this.sendWebhook) await this.wcWebhookService.syncWebhooks();
+            await this.syncWebhooks();
             this.toast.success(`Informações salvas!`, `Sucesso!`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -62,6 +70,12 @@ export class AccessKeysComponent implements OnInit {
         } finally {
             this.loading = false;
         }
+    }
+
+    private async syncWebhooks(): Promise<void> {
+        if (!this.sendWebhook) return;
+        if (this.isWooCommerce) await this.wcWebhookService.syncWebhooks();
+        if (this.isShopify) await this.shopifySyncService.syncWebhooks();
     }
 
     public getSaveDisabled(): boolean {

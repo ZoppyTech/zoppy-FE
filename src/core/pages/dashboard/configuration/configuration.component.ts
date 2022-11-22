@@ -54,13 +54,6 @@ export class ConfigurationComponent implements OnInit {
     private setMenuItems(): void {
         this.menuItems = [
             {
-                id: `accessKeys`,
-                icon: 'icon-arrow',
-                label: 'Chaves de Acesso',
-                route: Navigation.routes.accessKeys,
-                visible: true
-            },
-            {
                 id: `accessTokens`,
                 icon: 'icon-arrow',
                 label: 'Tokens de Acesso',
@@ -68,10 +61,10 @@ export class ConfigurationComponent implements OnInit {
                 visible: true
             },
             {
-                id: `syncData`,
+                id: `accessKeys`,
                 icon: 'icon-arrow',
-                label: 'Sincronização',
-                route: Navigation.routes.syncData,
+                label: 'Chaves de Acesso',
+                route: Navigation.routes.accessKeys,
                 visible: true
             },
             {
@@ -79,6 +72,13 @@ export class ConfigurationComponent implements OnInit {
                 icon: 'icon-arrow',
                 label: 'Configuração de Giftback',
                 route: Navigation.routes.giftback,
+                visible: true
+            },
+            {
+                id: `syncData`,
+                icon: 'icon-arrow',
+                label: 'Sincronização',
+                route: Navigation.routes.syncData,
                 visible: true
             },
             {
@@ -112,7 +112,7 @@ export class ConfigurationComponent implements OnInit {
             {
                 id: `batchUpload`,
                 icon: 'icon-arrow',
-                label: 'Upload de pedidos em Lote',
+                label: 'Upload de dados por planilha',
                 route: Navigation.routes.batchUpload,
                 visible: UserUtil.isMaster(this.user)
             }
