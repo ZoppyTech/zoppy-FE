@@ -1,4 +1,4 @@
-<main>
+<div class="main-content">
     <div class="matrix">
         <div
             class="box radius-top-left cant-lose"
@@ -7,8 +7,8 @@
         >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary">Não pode perder</span>
-                <span class="text--caption text--primary">{{ calculate(positions.cantLose) }}</span>
+                <span class="text--caption text--primary text-14">Não pode perder</span>
+                <span class="text--caption text--primary text-12">{{ calculate(positions.cantLose) }}</span>
             </div>
         </div>
         <div
@@ -18,8 +18,8 @@
         >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary">Em risco</span>
-                <span class="text--caption text--primary">{{ calculate(positions.atRisk) }}</span>
+                <span class="text--caption text--primary text-14">Em risco</span>
+                <span class="text--caption text--primary text-12">{{ calculate(positions.atRisk) }}</span>
             </div>
         </div>
         <div
@@ -29,8 +29,8 @@
         >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primar">Hibernando</span>
-                <span class="text--caption text--primary">{{ calculate(positions.sleeping) }}</span>
+                <span class="text--caption text--primary text-14">Hibernando</span>
+                <span class="text--caption text--primary text-12">{{ calculate(positions.sleeping) }}</span>
             </div>
         </div>
         <div
@@ -40,8 +40,8 @@
         >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary">Fidelizados</span>
-                <span class="text--caption text--primary">{{ calculate(positions.loyal) }}</span>
+                <span class="text--caption text--primary text-14">Fidelizados</span>
+                <span class="text--caption text--primary text-12">{{ calculate(positions.loyal) }}</span>
             </div>
         </div>
         <div
@@ -51,8 +51,8 @@
         >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary padding-left-1">Precisa de atenção</span>
-                <span class="text--caption text--primary">{{ calculate(positions.needAttention) }}</span>
+                <span class="text--caption text--primary padding-left-1 text-14">Precisa de atenção</span>
+                <span class="text--caption text--primary text-12">{{ calculate(positions.needAttention) }}</span>
             </div>
         </div>
         <div
@@ -62,8 +62,8 @@
         >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary">Possíveis leais</span>
-                <span class="text--caption text--primary">{{ calculate(positions.possibleLoyal) }}</span>
+                <span class="text--caption text--primary text-14">Possíveis leais</span>
+                <span class="text--caption text--primary text-12">{{ calculate(positions.possibleLoyal) }}</span>
             </div>
         </div>
         <div
@@ -73,8 +73,8 @@
         >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary">Quase hibernando</span>
-                <span class="text--caption text--primary">{{ calculate(positions.almostSleeping) }}</span>
+                <span class="text--caption text--primary text-14">Quase hibernando</span>
+                <span class="text--caption text--primary text-12">{{ calculate(positions.almostSleeping) }}</span>
             </div>
         </div>
         <div
@@ -84,8 +84,8 @@
         >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary">Promissores</span>
-                <span class="text--caption text--primary">{{ calculate(positions.promising) }}</span>
+                <span class="text--caption text--primary text-14">Promissores</span>
+                <span class="text--caption text--primary text-12">{{ calculate(positions.promising) }}</span>
             </div>
         </div>
         <div
@@ -95,8 +95,8 @@
         >
             <div class="overlay"></div>
             <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary">Campeões</span>
-                <span class="text--caption text--primary">{{ calculate(positions.champion) }}</span>
+                <span class="text--caption text--primary text-14">Campeões</span>
+                <span class="text--caption text--primary text-12">{{ calculate(positions.champion) }}</span>
             </div>
         </div>
         <div
@@ -112,8 +112,24 @@
         </div>
     </div>
     <div class="content-box">
-        <div class="flex flex-center space-between margin-bottom-3">
-            <h5 class="text--primary text--bold">Listagem de clientes</h5>
+        <div class="flex-column flex-start space-between padding-3">
+            <span class="text--primary text-24 text--bold padding-bottom-1">Listagem de clientes</span>
+            <div class="flex flex-start">
+                <span class="text--500 text-16">Exibindo: </span>
+                <span [ngSwitch]="position.position">
+                    <span *ngSwitchCase="'cant-lose'" class="text--500 text-16 padding-left-1">Não pode perder</span>
+                    <span *ngSwitchCase="'at-risk'" class="text--500 text-16 padding-left-1">Em risco</span>
+                    <span *ngSwitchCase="'loyal'" class="text--500 text-16 padding-left-1">Fidelizados</span>
+                    <span *ngSwitchCase="'champion'" class="text--500 text-16 padding-left-1">Campeões</span>
+                    <span *ngSwitchCase="'need-attention'" class="text--500 text-16 padding-left-1">Precisa de atenção</span>
+                    <span *ngSwitchCase="'possible-loyal'" class="text--500 text-16 padding-left-1">Possíveis leais</span>
+                    <span *ngSwitchCase="'sleeping'" class="text--500 text-16 padding-left-1">Hibernando</span>
+                    <span *ngSwitchCase="'almost-sleeping'" class="text--500 text-16 padding-left-1">Quase hibernando</span>
+                    <span *ngSwitchCase="'promising'" class="text--500 text-16 padding-left-1">Promissores</span>
+                    <span *ngSwitchCase="'new'" class="text--500 text-16 padding-left-1">Novos</span>
+                    <span *ngSwitchCase="'all'" class="text--500 text-16 padding-left-1">Todos</span>
+                </span>
+            </div>
         </div>
         <div class="table">
             <table *ngIf="!isLoading">
@@ -137,8 +153,14 @@
                 </tbody>
             </table>
         </div>
-        <ps-button [loading]="loadingDownload" class="margin-top-3" [wide]="true" type="secondary" (onClick)="downloadCustomers()">
+        <ps-button
+            [loading]="loadingDownload"
+            class="margin-top-3 padding-3"
+            [wide]="true"
+            type="secondary"
+            (onClick)="downloadCustomers()"
+        >
             <span class="text text--100"> Exportar CSV </span>
         </ps-button>
     </div>
-</main>
+</div>

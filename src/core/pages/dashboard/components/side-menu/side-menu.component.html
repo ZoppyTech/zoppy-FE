@@ -1,11 +1,6 @@
 <div class="background mobile" *ngIf="sideMenuService.open" (click)="sideMenuService.open = false"></div>
 
-<div
-    class="side-menu"
-    [ngClass]="{ open: sideMenuService.open }"
-    (mouseenter)="sideMenuService.open = true"
-    (mouseleave)="sideMenuService.open = false"
->
+<div class="side-menu" [ngClass]="{ open: sideMenuService.open }">
     <div
         class="flex padding-2 header padding-top-3"
         [ngClass]="{ 'flex-center': !sideMenuService.open, 'flex-start padding-x-3 padding-2': sideMenuService.open }"
@@ -14,7 +9,7 @@
         <img (click)="goToInitial()" src="./assets/imgs/mini-logo.png" class="clickable padding-x-2" *ngIf="!sideMenuService.open" alt="" />
     </div>
 
-    <div class="separator"></div>
+    <hr class="separator margin-top-3" />
 
     <ul class="flex flex-column flex-grow padding-top-3">
         <div
@@ -89,10 +84,10 @@
         </div>
     </ul>
 
-    <div class="separator"></div>
+    <hr class="separator" />
 
     <div
-        class="footer padding-2 padding-bottom-3 flex"
+        class="footer padding-3 padding-bottom-3 flex"
         [ngClass]="{ 'justify-center': !sideMenuService.open, 'flex-start': sideMenuService.open }"
     >
         <div [ngClass]="{ inverted: sideMenuService.open }">

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
@@ -24,7 +24,9 @@ export class SideMenuComponent implements OnInit {
         public sideMenuService: SideMenuService,
         public router: Router,
         public storage: Storage
-    ) {}
+    ) {
+        this.sideMenuService.open = true;
+    }
 
     public goToInitial(): void {
         this.router.navigate([Navigation.routes.dashboard]);

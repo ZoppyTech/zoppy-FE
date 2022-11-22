@@ -3,16 +3,16 @@
 
     <div class="data" *ngIf="!isLoading">
         <div class="item">
-            <span class="text">Receita total</span>
+            <span class="text text-14">Receita total</span>
             <div class="separator desktop"></div>
-            <span class="text text--primary text--bold">{{ data.revenue }}</span>
+            <span class="text text--primary text--bold text-18">{{ data.revenue }}</span>
         </div>
         <div class="item">
-            <span class="text">Receita com a Zoppy</span>
+            <span class="text text-14">Receita com a Zoppy</span>
             <div class="separator desktop"></div>
-            <span class="text text--primary text--bold">{{ data.zoppyRevenue }}</span>
+            <span class="text text--primary text--bold text-18">{{ data.zoppyRevenue }}</span>
             <div
-                class="percentage text text--100"
+                class="percentage text text--100 text-18"
                 tooltipWidth="210"
                 appTooltip
                 [tooltipText]="'Do faturamento total'"
@@ -22,19 +22,19 @@
             </div>
         </div>
         <div class="item">
-            <span class="text">Ticket médio</span>
+            <span class="text text-14">Ticket médio</span>
             <div class="separator desktop"></div>
-            <span class="text text--primary text--bold">{{ data.averageTicket }}</span>
+            <span class="text text--primary text--bold text-18">{{ data.averageTicket }}</span>
         </div>
         <div class="item">
-            <span class="text">Percentual de retorno</span>
+            <span class="text text-14">Percentual de retorno</span>
             <div class="separator desktop"></div>
-            <span class="text text--primary text--bold">{{ data.returnPercentage }}</span>
+            <span class="text text--primary text--bold text-18">{{ data.returnPercentage }}</span>
         </div>
         <div class="item">
-            <span class="text">Frequência média por cliente</span>
+            <span class="text text-14">Frequência média por cliente</span>
             <div class="separator desktop"></div>
-            <span class="text text--primary text--bold">{{ data.averageClientFrequency }}</span>
+            <span class="text text--primary text--bold text-18">{{ data.averageClientFrequency }}</span>
         </div>
     </div>
 </div>
