@@ -30,21 +30,21 @@
     </section>
 
     <section class="main-dashboard" *ngIf="view === '1'">
-        <div class="card">
-            <app-report-card></app-report-card>
+        <div class="card report-card-chart">
+            <app-report-card class="card--default"></app-report-card>
         </div>
 
-        <div class="card">
+        <div class="card sales-by-gender-chart">
             <span class="text text--bold text--primary text-18 margin-bottom-2">Compras por gênero</span>
             <app-sales-by-gender class="card--default"></app-sales-by-gender>
         </div>
 
-        <div class="card">
+        <div class="card sales-by-state-chart">
             <span class="text text--bold text--primary text-18 margin-bottom-2">Compras por estado</span>
             <app-sales-by-state class="card--default"></app-sales-by-state>
         </div>
 
-        <div class="card card-long">
+        <div class="card card-long group-charts">
             <div class="flex wide container">
                 <div class="flex-start monthly-invoices-chart">
                     <span class="text text--bold text--primary text-18 margin-bottom-2">Faturamento por mês</span>
