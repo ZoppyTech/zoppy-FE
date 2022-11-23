@@ -32,6 +32,10 @@
                 color: var(--neutral-600);
             }
         }
+
+        li:hover {
+            border-radius: 8px;
+        }
     }
 
     ps-icon {
