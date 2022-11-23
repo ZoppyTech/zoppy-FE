@@ -1,4 +1,5 @@
 @import 'src/styles.scss';
+@import '../../../../../zoppy-styles.scss';
 
 :host {
     flex-grow: 1;
@@ -99,7 +100,7 @@
     }
 
     .body {
-        padding: 2rem;
+        padding: 1.5rem 2rem 2rem 2rem;
         border: 1px solid var(--neutral-300);
         padding-bottom: 2rem;
         background-color: #fafbff;
@@ -111,7 +112,6 @@
             span {
                 color: #363636;
                 font-weight: 500;
-                font-size: 0.78rem;
                 line-height: 2rem;
             }
 
