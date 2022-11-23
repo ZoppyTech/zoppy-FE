@@ -195,9 +195,13 @@
 @media only screen and (max-width: 576px) {
     .container {
         margin: 1rem;
+        background-color: #fafbff;
+
         .body {
             margin: 1rem;
             padding: 0rem;
+            border: none;
+            background-color: #fafbff;
         }
 
         .body-2 {
@@ -211,7 +215,7 @@
             padding-bottom: 2rem;
             overflow: hidden;
             border: none;
-            background: no-repeat;
+            background-color: #fafbff;
 
             .content {
                 grid-area: content;
@@ -224,13 +228,14 @@
                 grid-area: products;
                 margin: 1rem;
                 padding: 1rem;
-                width: 100%;
             }
         }
 
         .buttons {
             padding-top: 0.5rem;
+
             ps-button {
+                margin-left: 1rem;
                 width: 100%;
                 margin-right: unset;
             }
