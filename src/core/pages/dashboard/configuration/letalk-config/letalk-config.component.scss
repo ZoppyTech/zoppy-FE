@@ -1,4 +1,5 @@
 @import 'src/styles.scss';
+@import '../../../../../zoppy-styles.scss';
 
 :host {
     flex-grow: 1;
@@ -17,14 +18,14 @@
     }
 
     .title {
-        padding: 0 2rem;
+        padding: 2rem;
         margin-bottom: 1rem;
         padding-bottom: 1rem;
     }
 
     .body {
         margin: 0 2rem;
-        padding: 2rem;
+        padding: 1.5rem 2rem 2rem 2rem;
         border: 1px solid var(--neutral-300);
         padding-bottom: 2rem;
         background-color: #fafbff;
@@ -35,9 +36,6 @@
 
         .field {
             padding-bottom: 1.5rem;
-
-            span {
-            }
 
             ps-icon {
                 padding-left: 1rem;

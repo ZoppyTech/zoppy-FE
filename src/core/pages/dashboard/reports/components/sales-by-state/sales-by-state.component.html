@@ -2,7 +2,6 @@
     <img [src]="logo" alt="" *ngIf="isLoading" />
     <div class="chart-content" *ngIf="!isLoading">
         <canvas
-            height="300"
             baseChart
             [datasets]="barChartData"
             [labels]="barChartLabels"

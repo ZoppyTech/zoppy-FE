@@ -1,15 +1,15 @@
 <div class="container">
     <div class="header">
         <div class="flex-row margin-y-2 mobile clickable" (click)="goBackToChatList.emit()">
-            <ps-icon icon="icon-chevron go-back-icon" class="text--secondary"></ps-icon>
-            <h5 class="text text--500 margin-x-1">Voltar</h5>
+            <ps-icon icon="icon-chevron go-back-icon" class="text--secondary text-18"></ps-icon>
+            <span class="text text--500 text-18 margin-x-1">Voltar</span>
         </div>
         <div class="flex-row align-center display-name">
-            <h5 class="text--800 text--bold margin-y-1 truncate">{{ chatRoom.contact.displayName }}</h5>
+            <span class="text--800 text--bold margin-y-1 text-24 truncate">{{ chatRoom.contact.displayName }}</span>
             <ps-icon *ngIf="chatRoom.contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
             <ps-icon (click)="editContactModal()" class="edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
         </div>
-        <h6 class="text--small text--800">{{ chatRoom.contact.displayPhone }}</h6>
+        <h6 class="text--800 text-14">{{ chatRoom.contact.displayPhone }}</h6>
     </div>
 
     <!-- <div *ngIf="messagesLoading"></div> -->
@@ -42,7 +42,7 @@
                 (click)="selectMessageTemplate(messageTemplate)"
                 class="item clickable"
             >
-                <span>{{ messageTemplate.content }}</span>
+                <span class="text-16">{{ messageTemplate.content }}</span>
             </div>
         </div>
         <div *ngIf="messageTemplates.length > 0" class="templates-button clickable" (click)="toggleMessageTemplatesVisibility()">

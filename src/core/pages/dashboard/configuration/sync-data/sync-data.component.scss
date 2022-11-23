@@ -1,4 +1,5 @@
 @import 'src/styles.scss';
+@import '../../../../../zoppy-styles.scss';
 
 :host {
     flex-grow: 1;
@@ -19,19 +20,14 @@
     }
 
     .title {
-        padding: 0 2rem;
-        margin-bottom: 1rem;
-        padding-top: 2rem;
-        h6 {
-            margin-bottom: unset;
-            margin: unset;
-        }
+        padding: 2rem;
 
         .main-title {
             display: flex;
             align-items: center;
             margin-bottom: 1rem;
         }
+
         padding-bottom: 1rem;
     }
 
@@ -58,11 +54,19 @@
 
     .body {
         margin: 0 2rem;
-        padding: 1rem;
+        padding: 1.5rem 2rem 2rem 2rem;
         border: 1px solid var(--neutral-300);
         background-color: #fafbff;
         border-radius: 0.75rem;
         overflow: auto;
+
+        div {
+            padding-bottom: 1rem;
+        }
+
+        div:last-child {
+            padding-bottom: 0;
+        }
 
         ps-checkbox {
             margin-bottom: 1rem;

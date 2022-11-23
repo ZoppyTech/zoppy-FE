@@ -3,15 +3,15 @@
 
     <div class="flex flex-grow left-content desktop">
         <div class="circle margin-right-1"></div>
-        <div class="breadcrumb" *ngFor="let item of breadcrumb.items; let index = index" [routerLink]="item.route">
-            <a class="text--small text--500" [attr.href]="item.route" class="flex flex-center">
+        <div class="breadcrumb" *ngFor="let item of breadcrumb.items; let index = index">
+            <a class="text-16 text--500" [attr.href]="item.route" class="flex flex-center">
                 <span
-                    class="text--small"
+                    class="text-16"
                     [ngClass]="{ 'text--800': index === breadcrumb.items.length - 1, 'text--500': index !== breadcrumb.items.length - 1 }"
                 >
                     {{ item.name }} &nbsp;
                 </span>
-                <span class="text--small text--500" *ngIf="index !== breadcrumb.items.length - 1"> >&nbsp; </span>
+                <span class="text-16 text--500" *ngIf="index !== breadcrumb.items.length - 1"> >&nbsp; </span>
             </a>
         </div>
     </div>
@@ -21,10 +21,10 @@
         </div>
         <ps-contact class="margin-left-2" [tooltip]="false" [name]="user?.name ?? ''" [email]="user?.email ?? ''"></ps-contact>
         <div class="flex flex-start flex-column margin-left-2 desktop">
-            <span class="text text--primary text--bold">
+            <span class="text text--primary text--bold text-16">
                 {{ user?.name }}
             </span>
-            <span class="text text--600 text--small">
+            <span class="text text--600 text-12">
                 {{ user?.email }}
             </span>
         </div>
@@ -38,11 +38,11 @@
                         [name]="user?.name ?? ''"
                         [email]="user?.email ?? ''"
                     ></ps-contact>
-                    <div class="flex-center text--center flex-column padding-top-3">
-                        <h5 class="text--primary text--bold text--center">
+                    <div class="flex-center text--center flex-column padding-top-2">
+                        <h5 class="text--primary text--bold text--center text-16">
                             {{ user?.name }}
                         </h5>
-                        <span class="text text--600 text--small text--center">
+                        <span class="text text--600 text-12 text--center">
                             {{ user?.email }}
                         </span>
                     </div>
@@ -56,7 +56,7 @@
                         [ngClass]="{ hidden: !item.visible }"
                     >
                         <a class="text-decoration-none" [attr.href]="item.route">
-                            <span class="text text--600">{{ item.label }}</span>
+                            <span class="text text--600 text-14">{{ item.label }}</span>
                         </a>
                     </li>
                 </ul>
@@ -64,7 +64,7 @@
                 <ul>
                     <li class="flex flex-start clickable" (click)="publicService.confirmLogout()">
                         <ps-icon class="margin-right-2" icon="icon-logout text--primary"></ps-icon>
-                        <span class="text text--primary"> Sair </span>
+                        <span class="text text--primary text-14"> Sair </span>
                     </li>
                 </ul>
             </div>

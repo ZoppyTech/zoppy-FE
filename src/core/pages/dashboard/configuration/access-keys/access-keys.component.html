@@ -1,21 +1,21 @@
 <div class="container">
     <div class="header desktop">
-        <h6 class="text--primary text--bold margin-y-3">Chaves de Acesso</h6>
+        <h6 class="text--primary text--bold text-20 margin-y-3">Chaves de Acesso</h6>
     </div>
     <div class="separator"></div>
     <div class="title">
-        <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
-            <h6 class="text text--bold">Cadastre suas chaves &nbsp;</h6>
+        <div class="flex align-center clickable padding-top-3 padding-bottom-2" (click)="openInfoModal()">
+            <h6 class="text-18 text--bold">Cadastre suas chaves &nbsp;</h6>
             <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
         </div>
-        <span class="text desktop"
+        <span class="text-16 desktop"
             >Insira nos campos abaixo suas chaves Secret, Key e a URL do seu E-commerce na plataforma WooCommerce</span
         >
     </div>
 
     <div class="body">
         <div class="field" *ngIf="getIsShopify()">
-            <p class="text text--bold">Admin Token</p>
+            <p class="text-14">Admin Token</p>
             <div class="flex-center flex">
                 <ps-input
                     icon="{{ key.keyVisible ? 'icon-visibility_off-1' : 'icon-visibility' }}"
@@ -29,7 +29,7 @@
             </div>
         </div>
         <div class="field">
-            <p class="text text--bold">Secret</p>
+            <p class="text-14">Secret</p>
             <div class="flex-center flex">
                 <ps-input
                     icon="{{ key.keyVisible ? 'icon-visibility_off-1' : 'icon-visibility' }}"
@@ -43,7 +43,7 @@
             </div>
         </div>
         <div class="field">
-            <p class="text text--bold">Key</p>
+            <p class="text-14">Key</p>
             <div class="flex-center flex">
                 <ps-input
                     placeholder="Insira aqui a sua Key"
@@ -58,16 +58,16 @@
             </div>
         </div>
         <div class="field">
-            <p class="text text--bold">Url do seu E-commerce</p>
+            <p class="text-14">Url do seu E-commerce</p>
             <div class="flex-center flex">
                 <ps-input placeholder="Insira aqui a URL do seu E-commerce" type="url" [(ngModel)]="key.url"></ps-input>
                 <ps-icon (click)="copyToClipboard('url')" icon="icon-copy" class="text--primary clickable"></ps-icon>
             </div>
         </div>
 
-        <div class="field">
+        <div class="field margin-top-2">
             <ps-checkbox [(active)]="sendWebhook">
-                <span class="text">Configurar webhooks</span>
+                <span class="text-16">Configurar webhooks</span>
             </ps-checkbox>
         </div>
     </div>

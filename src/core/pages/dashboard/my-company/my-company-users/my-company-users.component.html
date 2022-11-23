@@ -1,35 +1,35 @@
 <div class="container">
     <div class="header">
-        <h5 class="text--primary text--bold margin-y-3">Minha empresa</h5>
+        <h5 class="text--primary text--bold text-20 margin-y-3">Minha empresa</h5>
     </div>
 
     <div class="title margin-y-3">
-        <h6 class="text text--bold">Usuários</h6>
-        <span class="text">Edição e adição de usuários.</span>
+        <h6 class="text--bold text-18 margin-bottom-2">Usuários</h6>
+        <span class="text-16">Edição e adição de usuários.</span>
     </div>
 
     <div class="body">
         <table>
             <thead>
-                <th class="desktop"><span class="text text--primary text--bold desktop">Nome</span></th>
-                <th><span class="text text--primary text--bold">E-mail</span></th>
-                <th class="desktop"><span class="text text--primary text--bold desktop">Telefone</span></th>
-                <th class="desktop"><span class="text text--primary text--bold desktop">Data de nascimento</span></th>
-                <th><span class="text text--primary text--bold"></span></th>
+                <th class="desktop"><span class="text-14 text--primary desktop">Nome</span></th>
+                <th><span class="text-14 text--primary">E-mail</span></th>
+                <th class="desktop"><span class="text-14 text--primary desktop">Telefone</span></th>
+                <th class="desktop"><span class="text-14 text--primary desktop">Data de nascimento</span></th>
+                <th><span class="text-14 text--primary"></span></th>
             </thead>
             <tbody>
                 <tr class="item" *ngFor="let user of users">
                     <td class="desktop">
-                        <span [ngClass]="{ 'text--400': !user.name }" class="text text--600 desktop">{{ user.name || 'vazio' }}</span>
+                        <span [ngClass]="{ 'text--400': !user.name }" class="text-14 text--600 desktop">{{ user.name || 'vazio' }}</span>
                     </td>
                     <td class="mobile-email">
-                        <span [ngClass]="{ 'text--400': !user.email }" class="text text--600">{{ user.email || 'vazio' }}</span>
+                        <span [ngClass]="{ 'text--400': !user.email }" class="text-14 text--600">{{ user.email || 'vazio' }}</span>
                     </td>
                     <td class="desktop">
-                        <span [ngClass]="{ 'text--400': !user.phone }" class="text text--600 desktop">{{ user.phone || 'vazio' }}</span>
+                        <span [ngClass]="{ 'text--400': !user.phone }" class="text-14 text--600 desktop">{{ user.phone || 'vazio' }}</span>
                     </td>
                     <td class="desktop">
-                        <span [ngClass]="{ 'text--400': !user.birthDate }" class="text text--600 desktop">{{
+                        <span [ngClass]="{ 'text--400': !user.birthDate }" class="text-14 text--600 desktop">{{
                             (user.birthDate | date: 'dd/MM/yyyy') || 'vazio'
                         }}</span>
                     </td>
@@ -38,7 +38,7 @@
                             <ps-icon
                                 (click)="navigate(user)"
                                 [attr.href]="getEditHref(user)"
-                                class="primary clickable"
+                                class="primary margin-right-1 clickable"
                                 icon="icon-pencil"
                             ></ps-icon>
                             <ps-icon (click)="destroy(user)" class="margin-left-1 primary clickable" icon="icon-bin"></ps-icon>
@@ -51,7 +51,7 @@
 
     <div class="footer">
         <ps-button (onClick)="createUser()" [wide]="true" type="secondary">
-            <span class="text--100 text--bold">Criar novo usuário</span>
+            <span class="text--100 text--bold text-14">Criar novo usuário</span>
         </ps-button>
     </div>
 </div>

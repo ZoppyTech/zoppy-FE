@@ -1,34 +1,35 @@
 <div class="flex-column align-center">
-    <div class="card-header">
-        <span class="title">Acesso restrito!</span>
-        <span class="subtitle"
+    <div class="card-header margin-bottom-3">
+        <img class="margin-bottom-3" [src]="CHAT_LAYOUT_IMAGE_DIR" alt="" />
+        <span class="title text-24">Acesso restrito!</span>
+        <span class="subtitle text-16"
             >Sentimos muito, mas a função do WhatsApp é exclusiva para clientes premium! Para liberar o acesso, insira nos campos abaixo os
             dados solicitados.</span
         >
-        <img class="margin-y-3" [src]="CHAT_LAYOUT_IMAGE_DIR" alt="" />
     </div>
     <div class="card-body">
         <div class="field">
-            <span class="text text--bold"> Número do Whatsapp </span>
+            <span class="text text-14 text--bold"> Número do Whatsapp </span>
             <ps-input
+                class="margin-top-1"
                 [(ngModel)]="phoneNumberField"
                 mask="(00) 00000-0000"
                 placeholder="Digite aqui o número do Whatsapp com DDD"
             ></ps-input>
         </div>
         <div class="field">
-            <span class="text text--bold"> Nome a exibir </span>
+            <span class="text text-14 text--bold"> Nome a exibir </span>
             <ps-input type="text" [(ngModel)]="businessNameField" placeholder="Digite aqui o nome da empresa"></ps-input>
         </div>
 
         <div class="field">
-            <span class="text text--bold"> Descrição </span>
+            <span class="text text-14 text--bold"> Descrição </span>
             <ps-input type="text" [(ngModel)]="descriptionField" placeholder="Faça uma breve descrição da empresa"></ps-input>
         </div>
     </div>
     <div class="card-footer">
         <ps-button *ngIf="true" [loading]="upgradeButtonLoading" [wide]="true" (onClick)="upgrade()" type="secondary">
-            <span class="text--100 text--bold">Fazer upgrade</span>
+            <span class="text--100 text-14 text--bold">Fazer upgrade</span>
         </ps-button>
     </div>
 </div>

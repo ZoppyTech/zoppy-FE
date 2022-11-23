@@ -25,7 +25,6 @@ export class ChatContactComponent {
         this.addContactLoading = true;
         try {
             this.validateFields();
-            console.log(this.modal.data.phoneNumber);
             const request: WhatsappContactRequest = {
                 firstName: this.modal.data.firstName.trim(),
                 lastName: this.modal.data.lastName.trim(),
