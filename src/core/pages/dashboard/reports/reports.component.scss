@@ -110,7 +110,7 @@
             width: 100%;
             display: grid;
             grid-template-columns: 1fr 1fr 1fr 1fr;
-            grid-template-rows: auto;
+            grid-template-rows: 1fr 1fr 1fr;
             grid-auto-columns: minmax(400px, auto);
             grid-auto-rows: minmax(281px, auto);
             row-gap: 2rem;
@@ -118,7 +118,7 @@
 
             grid-template-areas:
                 'chart-1 chart-1 chart-2 chart-2'
-                'chart-3 chart-4 chart-4 chart-4';
+                'chart-3 chart-3 card-long card-long';
 
             padding-bottom: 3rem;
         }
@@ -135,13 +135,17 @@
             grid-area: chart-3;
         }
 
-        .monthly-invoices-chart {
-            grid-area: chart-4;
+        .card-long {
+            grid-area: card-long;
         }
 
-        .daily-sales-chart {
-            grid-area: chart-4;
-        }
+        // .monthly-invoices-chart {
+        //     grid-area: chart-4;
+        // }
+
+        // .daily-sales-chart {
+        //     grid-area: chart-5;
+        // }
     }
 }
 
