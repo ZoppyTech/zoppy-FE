@@ -91,8 +91,12 @@
         class="footer padding-3 padding-bottom-3 flex"
         [ngClass]="{ 'justify-center': !sideMenuService.open, 'flex-start': sideMenuService.open }"
     >
-        <div [ngClass]="{ inverted: sideMenuService.open }">
-            <ps-icon class="clickable text--primary" (click)="sideMenuService.open = !sideMenuService.open" icon="icon-logout"></ps-icon>
+        <div class="text-14" [ngClass]="{ inverted: sideMenuService.open }">
+            <ps-icon
+                class="clickable text--primary text-14"
+                (click)="sideMenuService.open = !sideMenuService.open"
+                icon="icon-logout"
+            ></ps-icon>
         </div>
 
         <a
