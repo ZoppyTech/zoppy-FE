@@ -6,7 +6,7 @@
         <div class="flex flex-column desktop">
             <div class="flex align-center padding-top-3 margin-bottom-2">
                 <h6 class="text--bold text-18">Cadastre seus produtos &nbsp;</h6>
-                <ps-icon icon="icon-info secondary " class="secondary clickable" (click)="openInfoModal()"></ps-icon>
+                <ps-icon icon="icon-info secondary " class="font-16 secondary clickable" (click)="openInfoModal()"></ps-icon>
             </div>
             <span class="text-16 text--800"
                 >Para cadastrar seus produtos baixe a planilha abaixo em seu computador, preencha com as respectivas informações e depois
@@ -31,22 +31,24 @@
     <div class="body">
         <table>
             <thead>
-                <th><span class="text text--primary text--bold">Produto</span></th>
-                <th class="desktop"><span class="text text--primary text--bold">Categorias</span></th>
-                <th class="desktop"><span class="text text--primary text--bold">Valor</span></th>
+                <th><span class="text-16 text--primary text--bold">Produto</span></th>
+                <th class="desktop"><span class="text-16 text--primary text--bold">Categorias</span></th>
+                <th class="desktop"><span class="text-16 text--primary text--bold">Valor</span></th>
             </thead>
             <tbody>
                 <tr class="item" *ngFor="let product of products">
                     <td>
-                        <span [ngClass]="{ 'text--400': !product.name }" class="text text--600 text-16">{{ product.name || 'vazio' }}</span>
+                        <span [ngClass]="{ 'text--400': !product.name }" class="text-16 text--600 text-16">{{
+                            product.name || 'vazio'
+                        }}</span>
                     </td>
                     <td class="desktop">
-                        <span [ngClass]="{ 'text--400': !product.categoriesFormatted }" class="text text--600 text-16">{{
+                        <span [ngClass]="{ 'text--400': !product.categoriesFormatted }" class="text-16 text--600 text-16">{{
                             product.categoriesFormatted || 'vazio'
                         }}</span>
                     </td>
                     <td class="desktop">
-                        <span [ngClass]="{ 'text--400': !product.priceCurrency }" class="text text--600 text-16 desktop">{{
+                        <span [ngClass]="{ 'text--400': !product.priceCurrency }" class="text-16 text--600 text-16 desktop">{{
                             product.priceCurrency || 'vazio'
                         }}</span>
                     </td>
@@ -55,7 +57,7 @@
         </table>
         <div class="wide flex-center no-content flex-column padding-3" *ngIf="products.length === 0">
             <h5 class="text--primary text--bold margin-bottom-2 text-24">Nenhum produto cadastrado!</h5>
-            <span class="text text-16">
+            <span class="text-16">
                 Você ainda não cadastrou nenhum produto. Para cadastrar, clique no botão abaixo para baixar a planilha. Após, abra-a em seu
                 computador, preencha as respectivas informações e depois faça o envio nesta página.
             </span>

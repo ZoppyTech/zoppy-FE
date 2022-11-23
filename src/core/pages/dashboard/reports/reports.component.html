@@ -10,7 +10,7 @@
         ></ps-dropdown>
         <div class="relative padding-left-3 menu-content">
             <div class="flex-center clickable" (click)="periodMenuOpen = !periodMenuOpen">
-                <ps-icon class="text--primary" icon="icon-filter_alt"></ps-icon>
+                <ps-icon class="font-16 text--primary" icon="icon-filter_alt"></ps-icon>
                 <span class="text-14 text--500 margin-left-2">{{ periodSelectedLabel() }}</span>
             </div>
             <ul class="menu padding-2" *ngIf="periodMenuOpen">
@@ -20,9 +20,14 @@
                     (click)="selectPeriod(period)"
                     *ngFor="let period of periods"
                 >
-                    <span class="text text-14" [ngClass]="{ 'text--100': period.selected }">{{ period.label }}</span>
+                    <span class="text-14" [ngClass]="{ 'text--100': period.selected }">{{ period.label }}</span>
                     <div class="icon-content">
-                        <ps-icon icon="icon-approval" [ngClass]="{ 'text--100': period.selected }" *ngIf="period.selected"></ps-icon>
+                        <ps-icon
+                            icon="icon-approval"
+                            class="font-16"
+                            [ngClass]="{ 'text--100': period.selected }"
+                            *ngIf="period.selected"
+                        ></ps-icon>
                     </div>
                 </li>
             </ul>
@@ -35,23 +40,23 @@
         </div>
 
         <div class="card sales-by-gender-chart">
-            <span class="text text--bold text--primary text-18 margin-bottom-2">Compras por gênero</span>
+            <span class="text--bold text--primary text-18 margin-bottom-2">Compras por gênero</span>
             <app-sales-by-gender class="card--default"></app-sales-by-gender>
         </div>
 
         <div class="card sales-by-state-chart">
-            <span class="text text--bold text--primary text-18 margin-bottom-2">Compras por estado</span>
+            <span class="text--bold text--primary text-18 margin-bottom-2">Compras por estado</span>
             <app-sales-by-state class="card--default"></app-sales-by-state>
         </div>
 
         <div class="card card-long group-charts">
             <div class="flex wide container">
                 <div class="flex-start monthly-invoices-chart">
-                    <span class="text text--bold text--primary text-18 margin-bottom-2">Faturamento por mês</span>
+                    <span class="text--bold text--primary text-18 margin-bottom-2">Faturamento por mês</span>
                     <app-monthly-invoices class="card--default"></app-monthly-invoices>
                 </div>
                 <div class="flex-start daily-sales-chart">
-                    <span class="text text--bold text--primary text-18 margin-bottom-2">Número de vendas x Ticket médio</span>
+                    <span class="text--bold text--primary text-18 margin-bottom-2">Número de vendas x Ticket médio</span>
                     <app-daily-sales class="card--default"></app-daily-sales>
                 </div>
             </div>

@@ -29,14 +29,15 @@
                     <span *ngIf="thread.wamId">
                         <ps-icon
                             *ngIf="thread.status === 'delivered' || thread.status === 'read'"
+                            class="font-16"
                             [ngClass]="{
                                 'viewed-icon--status-delivered': thread.status === 'delivered',
                                 'viewed-icon--status-read': thread.status === 'read'
                             }"
                             icon="icon-done_all"
                         ></ps-icon>
-                        <ps-icon *ngIf="thread.status === 'sent'" class="viewed-icon--status-sent" icon="icon-approval"></ps-icon>
-                        <ps-icon *ngIf="thread.status === 'failed'" class="viewed-icon--status-failed" icon="icon-error"></ps-icon>
+                        <ps-icon *ngIf="thread.status === 'sent'" class="font-16 viewed-icon--status-sent" icon="icon-approval"></ps-icon>
+                        <ps-icon *ngIf="thread.status === 'failed'" class="font-16 viewed-icon--status-failed" icon="icon-error"></ps-icon>
                     </span>
                     <static-loading *ngIf="!thread.wamId" [isLoading]="true" [onlyLoading]="true"></static-loading>
                 </span>
@@ -46,7 +47,7 @@
             </div>
         </div>
         <div *ngIf="thread?.type === 'template'" class="thread-message-container__body__outline-content">
-            <span class="text text-16">Mensagem automática</span>
+            <span class="text-16">Mensagem automática</span>
         </div>
     </div>
 </div>

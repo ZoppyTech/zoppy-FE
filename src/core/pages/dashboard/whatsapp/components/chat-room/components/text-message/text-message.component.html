@@ -1,5 +1,4 @@
 <div class="text-message-container">
-    <!-- <div #textContainer class="text text--small text--black truncate-multiple-lines" [innerHTML]="text | safeHtml"></div> -->
     <div *ngIf="!hasDeleted" class="text--800 text-message text-16" [innerHTML]="text | safeHtml"></div>
     <div *ngIf="hasDeleted" class="text--500 deleted-message text-16">Esta mensagem foi deletada.</div>
 </div>

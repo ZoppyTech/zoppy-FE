@@ -1,22 +1,22 @@
 <div class="wrapper">
     <div class="header">
         <span class="text--primary text--bold text-24">Seja bem-vindo, {{ user.name }}</span>
-        <p class="text text-18 margin-y-3 desktop">
+        <p class="text-18 margin-y-3 desktop">
             Ficamos muito felizes em ter você por aqui e estamos prontos para escalar o seu negócio através de fidelização! Como próximos
             passos, siga as instruções abaixo para desfrutar da melhor experiência possível em nossa plataforma e prosseguir com a sua
             <b>ativação</b>. Vamos lá?
         </p>
         <div class="alert desktop" *ngIf="percent === 100">
-            <ps-icon icon="icon-info"></ps-icon>&nbsp;
-            <span class="text text-16 text--bold">Informação: </span>
-            <span class="text text-16"
+            <ps-icon class="font-16" icon="icon-info"></ps-icon>&nbsp;
+            <span class="text-16 text--bold">Informação: </span>
+            <span class="text-16"
                 >nossa plataforma está em desenvolvimento e em breve estaremos exibindo mais informações sobre seu negócio aqui na página
                 inicial, aguarde para novidades!</span
             >
         </div>
         <div class="progress-title" *ngIf="percent !== 100">
-            <span class="text text-18 text--bold">Você está quase lá!</span>
-            <span class="text text-18 text--bold">{{ percent }}% completo</span>
+            <span class="text-18 text--bold">Você está quase lá!</span>
+            <span class="text-18 text--bold">{{ percent }}% completo</span>
         </div>
 
         <div class="progress-bar margin-top-2 margin-bottom-2" *ngIf="percent !== 100">
@@ -27,28 +27,28 @@
     <div class="main-content">
         <div class="items" *ngIf="percent !== 100">
             <div class="item padding-3 flex flex-wrap" *ngFor="let item of items" [ngClass]="{ completed: item.completed }">
-                <span class="text text-18 text--bold">
+                <span class="text-18 text--bold">
                     {{ item.title }}
                 </span>
-                <span class="text text-14 margin-y-2 label">
+                <span class="text-14 margin-y-2 label">
                     {{ item.label }}
                 </span>
 
                 <span class="route clickable">
                     <div class="ic-content margin-right-1" [ngClass]="{ 'bg-success': item.completed }">
-                        <ps-icon icon="icon-approval"></ps-icon>
+                        <ps-icon class="font-16" icon="icon-approval"></ps-icon>
                     </div>
                     <a
                         [attr.href]="item.route"
                         *ngIf="!item.completed"
-                        class="text text-16 text-decoration-none"
+                        class="text-16 text-decoration-none"
                         [ngClass]="{ 'text--500': !item.completed }"
                     >
                         Configurar
                     </a>
                     <span class="text" *ngIf="item.completed" [ngClass]="{ 'text--500': !item.completed }"> Completo </span>
                     &nbsp;
-                    <ps-icon class="arrow-ic text--500" icon="icon-chevron" *ngIf="!item.completed"></ps-icon>
+                    <ps-icon class="arrow-ic font-16 text--500" icon="icon-chevron" *ngIf="!item.completed"></ps-icon>
                 </span>
             </div>
         </div>
@@ -60,8 +60,8 @@
 
                 <div class="content">
                     <div class="header padding-top-2 padding-left-3">
-                        <span class="text text-16 neutral-800">{{ card.title }}</span>
-                        <ps-icon icon="icon-visibility_off" class="neutral-800 margin-left-1 margin-top-1"></ps-icon>
+                        <span class="text-16 neutral-800">{{ card.title }}</span>
+                        <ps-icon icon="icon-visibility_off" class="font-16 neutral-800 margin-left-1 margin-top-1"></ps-icon>
                     </div>
 
                     <div class="body padding-top-2">
@@ -70,8 +70,8 @@
                     </div>
 
                     <div class="footer">
-                        <span class="text text-14 text--bold margin-bottom-1 text--600">Atenção</span>
-                        <span class="text text-14 text--600">Você precisa completar sua ativação para ver essa informação</span>
+                        <span class="text-14 text--bold margin-bottom-1 text--600">Atenção</span>
+                        <span class="text-14 text--600">Você precisa completar sua ativação para ver essa informação</span>
                     </div>
                 </div>
             </div>
@@ -82,7 +82,7 @@
                 <div class="left padding-3">
                     <h4 class="text--primary padding-bottom-3">A pressa é inimiga da perfeição</h4>
                     <div class="flex">
-                        <span class="text text-14"
+                        <span class="text-14"
                             >A gente sabe que tem muito mais dados pra Zoppy te ajudar a <b>escalar seu negócio!</b> Logo mais teremos mais
                             visualizações pra voce poder fazer análises! &nbsp;
                             <i class="icon-sentiment_very_satisfied"></i>
@@ -94,16 +94,16 @@
 
             <div class="post">
                 <div class="left">
-                    <span class="text text--600 text--bold">Cases de sucesso</span>
-                    <div class="text text--600 label text text-14">
+                    <span class="text--600 text--bold">Cases de sucesso</span>
+                    <div class="text--600 label text-14">
                         Confira os cases ao lado que irão ate ajudar ainda mais a impulsionar o seu negócio!
                     </div>
                     <div class="buttons">
                         <div class="button clickable" (click)="visiblePost = 0" [ngClass]="{ enabled: visiblePost === 1 }">
-                            <ps-icon icon="icon-chevron"></ps-icon>
+                            <ps-icon class="font-16" icon="icon-chevron"></ps-icon>
                         </div>
                         <div class="button clickable ic-right" (click)="visiblePost = 1" [ngClass]="{ enabled: visiblePost === 0 }">
-                            <ps-icon icon="icon-chevron"></ps-icon>
+                            <ps-icon class="font-16" icon="icon-chevron"></ps-icon>
                         </div>
                     </div>
                 </div>
@@ -113,7 +113,7 @@
                         <span class="text">{{ post.title }}</span>
                         <div class="flex margin-top-1">
                             <span class="text--600 text--small">Ler artigo </span>
-                            <ps-icon class="icon-chevron ic-right"></ps-icon>
+                            <ps-icon class="icon-chevron font-16 ic-right"></ps-icon>
                         </div>
                     </div>
                 </div>

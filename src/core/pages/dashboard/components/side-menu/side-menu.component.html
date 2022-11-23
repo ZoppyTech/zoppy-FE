@@ -36,12 +36,13 @@
                 <a [attr.href]="item.route" (click)="itemClicked(item)">
                     <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
                         <ps-icon
+                            class="text-16"
                             icon="{{ item.icon }} {{ sideMenuService.selected === item.id ? 'text--secondary' : 'text--500' }}"
                         ></ps-icon>
                     </div>
                     <span
                         [ngClass]="{ hidden: !sideMenuService.open, 'text--secondary': sideMenuService.selected === item.id }"
-                        class="text text--500 label"
+                        class="text-16 text--500 label"
                         >{{ item.label }}</span
                     >
                 </a>
@@ -67,6 +68,7 @@
                     <a [attr.href]="subItem.route">
                         <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
                             <ps-icon
+                                class="text-16"
                                 icon="{{ subItem.icon }} {{ sideMenuService.subSelected === subItem.id ? 'text--800' : 'text--500' }}"
                             ></ps-icon>
                         </div>
@@ -93,6 +95,7 @@
     >
         <div class="text-14" [ngClass]="{ inverted: sideMenuService.open }">
             <ps-icon
+                class="text-16"
                 class="clickable text--primary text-14"
                 (click)="sideMenuService.open = !sideMenuService.open"
                 icon="icon-logout"
@@ -102,7 +105,7 @@
         <a
             (click)="sideMenuService.open = false"
             [ngClass]="{ hidden: !sideMenuService.open }"
-            class="text text--link text--primary margin-left-2"
+            class="text-14 text--link text--primary margin-left-2"
         >
             Fechar menu
         </a>

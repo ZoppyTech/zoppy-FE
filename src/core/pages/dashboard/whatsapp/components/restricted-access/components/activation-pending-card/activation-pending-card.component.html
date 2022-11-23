@@ -9,7 +9,7 @@
     </div>
     <div class="card-body" [ngStyle]="{ padding: '2rem 0rem 0rem 0rem' }">
         <div class="field">
-            <span class="text text-16 text--bold"> Status: </span>
+            <span class="text-16 text--bold"> Status: </span>
             <h5 *ngIf="account?.scenario === 'acquisition'" class="text-16 text--bold text--secondary">Pedido realizado.</h5>
             <h5 *ngIf="account?.scenario === 'validation'" class="text-16 text--bold text--secondary">Validando seus dados.</h5>
         </div>

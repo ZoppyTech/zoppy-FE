@@ -4,7 +4,7 @@
             <div class="flex flex-column desktop">
                 <div class="flex align-center padding-top-3 padding-bottom-2">
                     <h6 class="text-20 text--bold text--primary">Clientes &nbsp;</h6>
-                    <ps-icon icon="icon-info secondary " class="secondary clickable" (click)="openInfoModal()"></ps-icon>
+                    <ps-icon icon="icon-info secondary " class="font-16 secondary clickable" (click)="openInfoModal()"></ps-icon>
                 </div>
                 <span class="text-16">Confira abaixo a listagem com seus clientes. </span>
             </div>
@@ -120,7 +120,7 @@
                     [ngClass]="{ success: customerDetail.coupon, negative: !customerDetail.coupon }"
                     class="margin-right-1"
                 ></ps-icon>
-                <span class="text text--bold">{{ customerDetail.coupon ? 'Cashback disponível: ' : 'Cashback indisponível: ' }} </span>
+                <span class="text-16 text--bold">{{ customerDetail.coupon ? 'Cashback disponível: ' : 'Cashback indisponível: ' }} </span>
                 <span class="text-16" *ngIf="customerDetail.coupon">
                     {{ customerDetail.name }} possui um giftback válido no valor de {{ customerDetail.coupon.amount }}.
                 </span>

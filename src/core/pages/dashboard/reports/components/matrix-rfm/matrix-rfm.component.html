@@ -134,20 +134,20 @@
         <div class="table">
             <table *ngIf="!isLoading">
                 <thead>
-                    <th><span class="text text--primary text--bold text-14">Nome</span></th>
-                    <th class="desktop"><span class="text text--primary text--bold text-14">E-mail</span></th>
-                    <th><span class="text text--primary text--bold text-14">Telefone</span></th>
+                    <th><span class="text--primary text--bold text-14">Nome</span></th>
+                    <th class="desktop"><span class="text--primary text--bold text-14">E-mail</span></th>
+                    <th><span class="text--primary text--bold text-14">Telefone</span></th>
                 </thead>
                 <tbody>
                     <tr *ngFor="let customer of customers" [ngClass]="{ hidden: customer.hidden }">
                         <td>
-                            <span class="text text-14">{{ customer.name }}</span>
+                            <span class="text-14">{{ customer.name }}</span>
                         </td>
                         <td class="desktop">
-                            <span class="text text-14">{{ customer.email }}</span>
+                            <span class="text-14">{{ customer.email }}</span>
                         </td>
                         <td>
-                            <span class="text text-14">{{ customer.phoneMasked }}</span>
+                            <span class="text-14">{{ customer.phoneMasked }}</span>
                         </td>
                     </tr>
                 </tbody>
@@ -160,7 +160,7 @@
             type="secondary"
             (onClick)="downloadCustomers()"
         >
-            <span class="text text--100 text-14"> Exportar CSV </span>
+            <span class="text--100 text-14"> Exportar CSV </span>
         </ps-button>
     </div>
 </div>

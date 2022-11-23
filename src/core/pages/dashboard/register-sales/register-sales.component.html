@@ -11,7 +11,7 @@
         <div class="flex align-center padding-top-3 margin-bottom-2">
             <span class="text--bold text-18 text--800">Selecionar um cliente</span>
             &nbsp;
-            <ps-icon icon="icon-info secondary" class="secondary clickable" (click)="openInfoModal()"></ps-icon>
+            <ps-icon icon="icon-info secondary" class="font-16 secondary clickable" (click)="openInfoModal()"></ps-icon>
         </div>
         <span class="text-16 text--800">
             Para realizar o lançamento de venda forneça os dados do seu cliente preenchendo os campos abaixo e após clique em prosseguir.
@@ -21,7 +21,7 @@
         <div class="flex align-center clickable padding-top-3 margin-bottom-2" (click)="openInfoModal()">
             <h6 class="text--bold text-18 text--800">Lançamento de venda</h6>
             &nbsp;
-            <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+            <ps-icon icon="icon-info secondary" class="font-16 secondary"></ps-icon>
         </div>
         <span class="text-16 text--800"> Agora você deverá preencher os campos abaixo para registrar a venda. </span>
     </div>
@@ -285,13 +285,13 @@
                             (onClick)="changeLineItem(lineItem, '-')"
                             [fixedHeight]="false"
                         >
-                            <h5 class="text text--100">-</h5>
+                            <h5 class="text-14 text--100">-</h5>
                         </ps-button>
                         <div class="quantity padding-1 margin-x-1 text-14">
                             {{ lineItem.quantity < 9 ? '0' : '' }}{{ lineItem.quantity }}
                         </div>
                         <ps-button [fixedHeight]="false" type="secondary" [round]="true" (onClick)="changeLineItem(lineItem, '+')">
-                            <h5 class="text text--100">+</h5>
+                            <h5 class="text-14 text--100">+</h5>
                         </ps-button>
                     </div>
                 </li>

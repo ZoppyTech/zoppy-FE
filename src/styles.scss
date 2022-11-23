@@ -3,11 +3,11 @@
 
 html,
 body {
-    font-size: 87.5%;
     box-sizing: border-box;
     *,
     *:before,
     *:after {
+        font-size: 100%;
         box-sizing: inherit;
     }
 }

@@ -4,10 +4,10 @@
             <span class="text--primary text--bold text-24 margin-y-3">Nova Conversa</span>
             <div class="flex-row">
                 <div (click)="openNewContactModal()" class="button-new-contact-modal margin-x-2">
-                    <ps-icon class="text text--primary text--700" icon="icon-person_add"></ps-icon>
+                    <ps-icon class="text-14 text--primary text--700" icon="icon-person_add"></ps-icon>
                 </div>
                 <div (click)="goBack()" class="button-go-back">
-                    <ps-icon class="text text--primary text--700" icon="icon-times"></ps-icon>
+                    <ps-icon class="text-14 text--primary text--700" icon="icon-times"></ps-icon>
                 </div>
             </div>
         </div>
@@ -23,7 +23,7 @@
     <static-loading *ngIf="hasContactsLoading" [isLoading]="true" class="loading"></static-loading>
     <div *ngIf="!hasContactsLoading && contacts.length <= 0 && !syncHasDone" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
-        <span class="text text--primary text-14"
+        <span class="text--primary text-14"
             >Você não tem nenhum contato sincronizado, clique no botão abaixo para sincronizar seus contatos.
         </span>
         <ps-button class="margin-y-3" [loading]="hasSyncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
@@ -32,7 +32,7 @@
     </div>
     <div *ngIf="!hasContactsLoading && contacts.length <= 0 && syncHasDone" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
-        <span class="text text--primary text-14">Nenhum contato encontrado! </span>
+        <span class="text--primary text-14">Nenhum contato encontrado! </span>
     </div>
     <div *ngIf="!hasContactsLoading && contacts.length > 0" class="contacts">
         <div *ngFor="let contact of contacts; let i = index" class="item clickable" (click)="selectContact(contact)">
@@ -41,7 +41,7 @@
             </div>
             <div class="item-body">
                 <span class="item-content text-16 truncate">{{ contact.displayName }} </span>
-                <ps-icon *ngIf="contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
+                <ps-icon *ngIf="contact.isBlocked" class="font-16 block-icon margin-x-1" icon="icon-block"></ps-icon>
             </div>
         </div>
     </div>

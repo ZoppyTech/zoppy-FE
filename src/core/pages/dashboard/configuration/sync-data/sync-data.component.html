@@ -8,7 +8,7 @@
         <div class="flex main-title">
             <span class="flex clickable" (click)="openInfoModal()">
                 <span class="text--bold text-18">Sincronizar todos os dados &nbsp;</span>
-                <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+                <ps-icon icon="icon-info secondary" class="font-16 secondary"></ps-icon>
             </span>
         </div>
         <div class="flex align-center">
@@ -19,7 +19,7 @@
     </div>
 
     <div class="body-warning" *ngIf="loaded && !key">
-        <ps-icon icon="icon-info"></ps-icon> &nbsp; &nbsp; <span class="text-16 text--bold">Atenção: </span>&nbsp;
+        <ps-icon class="font-16" icon="icon-info"></ps-icon> &nbsp; &nbsp; <span class="text-16 text--bold">Atenção: </span>&nbsp;
         <span class="text-16">você precisa ter configurado suas chaves do WooCommerce para poder ativar a sincronização de dados. </span
         >&nbsp; <a [routerLink]="'/dashboard/configurations/access-keys'" class="text-16">Clique aqui </a>&nbsp;
         <span class="text-16">para configurar. </span>

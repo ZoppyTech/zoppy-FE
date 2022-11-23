@@ -2,13 +2,13 @@
     <div class="header">
         <span class="text--primary text--bold text-24 margin-y-3">Mensagens</span>
         <div (click)="newMessage()" class="button-plus">
-            <ps-icon class="text text--primary text--700" icon="icon-add"></ps-icon>
+            <ps-icon class="font-16 text--primary text--700" icon="icon-add"></ps-icon>
         </div>
     </div>
 
     <div *ngIf="conversations.length <= 0" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
-        <span class="text text--primary text-14"
+        <span class="text--primary text-14"
             >Você não tem um histórico de mensagens. <br />
             Clique em <img [src]="NEW_MESSAGE_IMAGE_DIR" alt="" /> para iniciar uma conversa.</span
         >
@@ -24,7 +24,11 @@
                 <div class="item-header">
                     <div class="flex-row">
                         <span class="text text--bold text--800 text-16 truncate">{{ conversation[1].contact.displayName }}</span>
-                        <ps-icon *ngIf="conversation[1].contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
+                        <ps-icon
+                            *ngIf="conversation[1].contact.isBlocked"
+                            class="font-16 block-icon margin-x-1"
+                            icon="icon-block"
+                        ></ps-icon>
                     </div>
                     <div class="flex-row">
                         <span
@@ -37,7 +41,7 @@
                         >
                             {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date: 'h:mm a' }}
                         </span>
-                        <ps-icon class="reply-icon" icon="icon-reply"></ps-icon>
+                        <ps-icon class="font-12 reply-icon" icon="icon-reply"></ps-icon>
                     </div>
                 </div>
                 <div class="item-content" *ngIf="conversation[1].threads.length > 0">

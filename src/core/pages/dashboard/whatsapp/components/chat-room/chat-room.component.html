@@ -1,13 +1,13 @@
 <div class="container">
     <div class="header">
         <div class="flex-row margin-y-2 mobile clickable" (click)="goBackToChatList.emit()">
-            <ps-icon icon="icon-chevron go-back-icon" class="text--secondary text-18"></ps-icon>
-            <span class="text text--500 text-18 margin-x-1">Voltar</span>
+            <ps-icon icon="font-16 icon-chevron go-back-icon" class="text--secondary text-18"></ps-icon>
+            <span class="text--500 text-18 margin-x-1">Voltar</span>
         </div>
         <div class="flex-row align-center display-name">
             <span class="text--800 text--bold margin-y-1 text-24 truncate">{{ chatRoom.contact.displayName }}</span>
-            <ps-icon *ngIf="chatRoom.contact.isBlocked" class="block-icon margin-x-1" icon="icon-block"></ps-icon>
-            <ps-icon (click)="editContactModal()" class="edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
+            <ps-icon *ngIf="chatRoom.contact.isBlocked" class="font-16 block-icon margin-x-1" icon="icon-block"></ps-icon>
+            <ps-icon (click)="editContactModal()" class="font-16 edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
         </div>
         <h6 class="text--800 text-14">{{ chatRoom.contact.displayPhone }}</h6>
     </div>
@@ -29,7 +29,7 @@
 
     <div class="footer">
         <div *ngIf="!isLastMessage" class="see-last-message-button clickable" (click)="seeLastMessage()">
-            <ps-icon class="arrow-icon" icon="icon-chevron text--primary"></ps-icon>
+            <ps-icon class="font-16 arrow-icon" icon="icon-chevron text--primary"></ps-icon>
         </div>
         <div
             *ngIf="messageTemplateListVisible"
@@ -65,7 +65,7 @@
             type="secondary"
         >
             <span class="text--100 text--bold desktop">Enviar</span>
-            <ps-icon icon="icon-send text--100 mobile"></ps-icon>
+            <ps-icon icon="font-16 icon-send text--100 mobile"></ps-icon>
         </ps-button>
     </div>
 </div>
