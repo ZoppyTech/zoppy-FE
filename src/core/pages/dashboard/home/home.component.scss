@@ -1,4 +1,5 @@
 @import 'src/styles.scss';
+@import '../../../../zoppy-styles.scss';
 
 :host {
     display: flex;
@@ -136,7 +137,6 @@
                 max-width: unset;
                 height: 18rem;
                 min-height: 0;
-                max-height: 18rem;
 
                 .content {
                     position: absolute;
@@ -206,7 +206,6 @@
             max-width: unset;
             height: 18rem;
             min-height: 0;
-            max-height: 18rem;
             padding: 2rem;
 
             .ic-right,
@@ -367,7 +366,7 @@
                 }
 
                 .rush {
-                    flex-direction: row;
+                    flex-direction: column;
                     height: 320px;
                     align-items: center;
 
@@ -376,8 +375,9 @@
                     }
 
                     .right {
-                        position: unset;
-                        right: unset;
+                        position: absolute;
+                        top: 189px;
+                        right: 0;
                         bottom: unset;
                         left: unset;
                     }
