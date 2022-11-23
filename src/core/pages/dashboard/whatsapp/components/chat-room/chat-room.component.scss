@@ -1,4 +1,5 @@
 @import 'src/styles.scss';
+@import '../../../../../../zoppy-styles.scss';
 
 :host {
     flex-grow: 1;
@@ -66,7 +67,7 @@
         align-items: center;
         justify-content: flex-end;
         padding: 18px 1rem;
-        border: 1px solid var(--neutral-300);
+        border-top: 1px solid var(--neutral-300);
         background-color: #ffffff;
 
         .see-last-message-button {

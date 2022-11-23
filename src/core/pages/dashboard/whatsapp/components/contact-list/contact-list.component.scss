@@ -1,4 +1,5 @@
 @import 'src/styles.scss';
+@import '../../../../../../zoppy-styles.scss';
 
 :host {
     flex-grow: 1;
@@ -119,7 +120,7 @@
             flex-direction: column;
             align-items: baseline;
             justify-content: flex-start;
-            padding: 2.5rem;
+            padding: 1.5rem;
             border-bottom: 1px solid var(--neutral-300);
 
             &:hover {
@@ -148,7 +149,6 @@
                     flex-direction: row;
                     align-items: baseline;
                     justify-content: flex-start;
-                    font-size: 1rem;
                     font-weight: 700;
                     color: #363636;
                 }
