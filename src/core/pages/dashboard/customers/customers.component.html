@@ -3,10 +3,10 @@
         <div class="title flex space-between">
             <div class="flex flex-column desktop">
                 <div class="flex align-center padding-y-3">
-                    <h6 class="text text--bold text--primary">Clientes &nbsp;</h6>
+                    <h6 class="text-20 text--bold text--primary">Clientes &nbsp;</h6>
                     <ps-icon icon="icon-info secondary " class="secondary clickable" (click)="openInfoModal()"></ps-icon>
                 </div>
-                <span class="text">Confira abaixo a listagem com seus clientes. </span>
+                <span class="text-16">Confira abaixo a listagem com seus clientes. </span>
             </div>
 
             <div class="flex-center right margin-left-3">
@@ -27,42 +27,42 @@
         <div class="body">
             <table>
                 <thead>
-                    <th><span class="text text--primary text--bold">Nome</span></th>
-                    <th class="desktop"><span class="text text--primary text--bold">Telefone</span></th>
-                    <th class="desktop"><span class="text text--primary text--bold">Data da última compra</span></th>
-                    <th class="desktop"><span class="text text--primary text--bold">Total de compras</span></th>
-                    <th class="desktop"><span class="text text--primary text--bold">Total Gasto</span></th>
-                    <th class="desktop"><span class="text text--primary text--bold">Data do aniversário</span></th>
+                    <th><span class="text-16 text--primary text--bold">Nome</span></th>
+                    <th class="desktop"><span class="text-16 text--primary text--bold">Telefone</span></th>
+                    <th class="desktop"><span class="text-16 text--primary text--bold">Data da última compra</span></th>
+                    <th class="desktop"><span class="text-16 text--primary text--bold">Total de compras</span></th>
+                    <th class="desktop"><span class="text-16 text--primary text--bold">Total Gasto</span></th>
+                    <th class="desktop"><span class="text-16 text--primary text--bold">Data do aniversário</span></th>
                 </thead>
                 <tbody>
                     <tr class="item" *ngFor="let customer of customers">
                         <td>
-                            <span [ngClass]="{ 'text--400': !customer.firstName }" class="text text--600"
+                            <span [ngClass]="{ 'text--400': !customer.firstName }" class="text-16 text--600"
                                 >{{ customer.firstName }} {{ customer.lastName }}</span
                             >
                         </td>
                         <td class="desktop">
-                            <span [ngClass]="{ 'text--400': !customer.phone }" class="text text--600 desktop">{{
+                            <span [ngClass]="{ 'text--400': !customer.phone }" class="text-16 text--600 desktop">{{
                                 customer.phone || 'vazio'
                             }}</span>
                         </td>
                         <td class="desktop">
-                            <span [ngClass]="{ 'text--400': !customer.lastPurchaseDate }" class="text text--600 desktop">{{
+                            <span [ngClass]="{ 'text--400': !customer.lastPurchaseDate }" class="text-16 text--600 desktop">{{
                                 (customer.lastPurchaseDate | date: 'dd/MM/yyyy') || 'vazio'
                             }}</span>
                         </td>
                         <td class="desktop">
-                            <span [ngClass]="{ 'text--400': !customer.countPurchases }" class="text text--600 desktop">{{
+                            <span [ngClass]="{ 'text--400': !customer.countPurchases }" class="text-16 text--600 desktop">{{
                                 customer.countPurchases || 'vazio'
                             }}</span>
                         </td>
                         <td class="desktop">
-                            <span [ngClass]="{ 'text--400': !customer.totalSpent }" class="text text--600 desktop">{{
+                            <span [ngClass]="{ 'text--400': !customer.totalSpent }" class="text-16 text--600 desktop">{{
                                 customer.totalSpent || 'vazio'
                             }}</span>
                         </td>
                         <td class="desktop">
-                            <span [ngClass]="{ 'text--400': !customer.birthDate }" class="text text--600 desktop">{{
+                            <span [ngClass]="{ 'text--400': !customer.birthDate }" class="text-16 text--600 desktop">{{
                                 (customer.birthDate | date: 'dd/MM/yyyy') || 'vazio'
                             }}</span>
                         </td>
@@ -70,8 +70,8 @@
                 </tbody>
             </table>
             <div class="wide flex-center no-content flex-column padding-3" *ngIf="customers.length === 0">
-                <h5 class="text--primary text--bold margin-bottom-3">Nenhum cliente cadastrado!</h5>
-                <span class="text">
+                <h5 class="text--primary text--bold text-24 margin-bottom-2">Nenhum cliente cadastrado!</h5>
+                <span class="text-16">
                     Você ainda não cadastrou nenhum cliente. Para cadastrar, clique no botão abaixo para baixar a planilha. Após, abra-a em
                     seu computador, preencha as respectivas informações e depois faça o envio nesta página.
                 </span>
@@ -80,28 +80,28 @@
 
         <div class="footer">
             <ps-button class="margin-right-2" [wide]="true" (onClick)="download()" type="secondary">
-                <span class="text--100 text--bold">Baixar planilha</span>
+                <span class="text--100 text--bold text-14">Baixar planilha</span>
             </ps-button>
             <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary-border">
-                <span class="text--secondary text--bold">Enviar planilha</span>
+                <span class="text--secondary text--bold text-14">Enviar planilha</span>
             </ps-button>
         </div>
     </div>
 
     <div class="search-customer desktop margin-right-3 margin-bottom-3">
         <div class="flex flex-column desktop margin-bottom-3">
-            <h6 class="text text--bold text--primary margin-bottom-3">Conferência de giftback</h6>
-            <span class="text">Para verificar um giftback, insira o telefone do cliente no campo abaixo.</span>
+            <h6 class="text-20 text--bold text--primary margin-bottom-3">Conferência de giftback</h6>
+            <span class="text-16">Para verificar um giftback, insira o telefone do cliente no campo abaixo.</span>
         </div>
-        <p class="text text--bold">Telefone</p>
+        <p class="text-14 text--800">Telefone</p>
         <ps-search-bar [debounce]="800" (onChanged)="onSearchCustomerDetail($event)"></ps-search-bar>
         <div class="separator margin-y-3"></div>
         <div *ngIf="!customerDetail" class="flex flex-center flex-column">
             <img class="margin-top-2" src="./assets/svg/search_customer.svg" alt="" />
-            <div class="flex align-center padding-y-3">
-                <h5 class="text text--bold text--primary">Nenhum cliente inserido!</h5>
+            <div class="flex align-center padding-top-3 padding-bottom-2">
+                <h5 class="text-24 text--bold text--primary">Nenhum cliente inserido!</h5>
             </div>
-            <span class="text text--center margin-x-2">
+            <span class="text-16 text--center margin-x-2">
                 Digite o telefone do cliente para verificar se está apto a receber giftback, sua data mínima, valor do giftback, valor
                 mínimo para compra e seu prazo de validade.
             </span>
@@ -121,10 +121,10 @@
                     class="margin-right-1"
                 ></ps-icon>
                 <span class="text text--bold">{{ customerDetail.coupon ? 'Cashback disponível: ' : 'Cashback indisponível: ' }} </span>
-                <span class="text" *ngIf="customerDetail.coupon">
+                <span class="text-16" *ngIf="customerDetail.coupon">
                     {{ customerDetail.name }} possui um giftback válido no valor de {{ customerDetail.coupon.amount }}.
                 </span>
-                <span class="text" *ngIf="!customerDetail.coupon">
+                <span class="text-16" *ngIf="!customerDetail.coupon">
                     {{ customerDetail.name }} não possui giftbacck válido que possa ser aplicado.
                 </span>
             </div>
@@ -132,28 +132,28 @@
                 <img class="margin-top-2" *ngIf="!customerDetail.coupon" src="./assets/svg/giftback_unavailable.svg" alt="" />
             </div>
             <div class="margin-y-2 flex flex-column flex-grow wide" *ngIf="customerDetail.coupon">
-                <p class="text">Confira abaixo os dados do giftback:</p>
+                <p class="text-16">Confira abaixo os dados do giftback:</p>
                 <span class="flex flex-center space-between wide">
-                    <p class="text text--bold">Valor do giftback:</p>
-                    <p class="text">{{ customerDetail.coupon.amount }}</p>
+                    <p class="text-16 text--bold">Valor do giftback:</p>
+                    <p class="text-16">{{ customerDetail.coupon.amount }}</p>
                 </span>
                 <span class="flex flex-center space-between wide">
-                    <p class="text text--bold">Valor mínimo da compra:</p>
-                    <p class="text">{{ customerDetail.coupon.minPurchaseValue }}</p>
+                    <p class="text-16 text--bold">Valor mínimo da compra:</p>
+                    <p class="text-16">{{ customerDetail.coupon.minPurchaseValue }}</p>
                 </span>
                 <span class="flex flex-center space-between wide">
-                    <p class="text text--bold">Prazo de validade:</p>
-                    <p class="text">{{ customerDetail.coupon.expiryDate | date: 'dd/MM/yyyy' }}</p>
+                    <p class="text-16 text--bold">Prazo de validade:</p>
+                    <p class="text-16">{{ customerDetail.coupon.expiryDate | date: 'dd/MM/yyyy' }}</p>
                 </span>
                 <span class="flex flex-center space-between wide">
-                    <p class="text text--bold">Data da última compra:</p>
-                    <p class="text">{{ customerDetail.lastPurchaseDate | date: 'dd/MM/yyyy' }}</p>
+                    <p class="text-16 text--bold">Data da última compra:</p>
+                    <p class="text-16">{{ customerDetail.lastPurchaseDate | date: 'dd/MM/yyyy' }}</p>
                 </span>
             </div>
             <div class="wide" *ngIf="isPremium">
                 <div class="separator margin-bottom-3"></div>
                 <ps-button type="secondary" class="wide" [wide]="true" [disabled]="!customerDetail.coupon" (onClick)="redirectToChat()">
-                    <span class="text text--100 text--bold"> Enviar mensagem </span>
+                    <span class="text-14 text--100 text--bold"> Enviar mensagem </span>
                 </ps-button>
             </div>
         </div>

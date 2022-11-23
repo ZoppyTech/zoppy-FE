@@ -1,4 +1,5 @@
 @import 'src/styles.scss';
+@import '../../../../zoppy-styles.scss';
 
 :host {
     display: flex;
@@ -9,7 +10,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin: 2rem;
+    margin: 3rem;
     margin-top: 0px;
     background-color: var(--neutral-100);
     border: 1px solid var(--neutral-300);
@@ -30,7 +31,7 @@
         padding: 0 2rem;
         margin-bottom: 1rem;
         h6 {
-            margin-bottom: 0.5rem;
+            margin-bottom: 1rem;
         }
         padding-bottom: 1rem;
     }
@@ -42,7 +43,6 @@
         padding-bottom: 2rem;
         background-color: #fafbff;
         border-radius: 0.75rem;
-        flex-grow: 1;
         min-height: 0;
         overflow: auto;
 
