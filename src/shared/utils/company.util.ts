@@ -11,4 +11,14 @@ export class CompanyUtil {
         if (!company) return false;
         return company.plan === AppConstants.Plan.premium;
     }
+
+    public static isShopify(company: CompanyEntity | undefined): boolean {
+        if (!company) return false;
+        return company.provider === AppConstants.Providers.shopify;
+    }
+
+    public static isWooCommerce(company: CompanyEntity | undefined): boolean {
+        if (!company) return false;
+        return company.provider === AppConstants.Providers.wooCommerce;
+    }
 }

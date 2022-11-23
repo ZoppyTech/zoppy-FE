@@ -150,7 +150,7 @@
                     <p class="text-16">{{ customerDetail.lastPurchaseDate | date: 'dd/MM/yyyy' }}</p>
                 </span>
             </div>
-            <div class="wide" *ngIf="isPremium">
+            <div class="wide" *ngIf="getIsPremium()">
                 <div class="separator margin-bottom-3"></div>
                 <ps-button type="secondary" class="wide" [wide]="true" [disabled]="!customerDetail.coupon" (onClick)="redirectToChat()">
                     <span class="text-14 text--100 text--bold"> Enviar mensagem </span>

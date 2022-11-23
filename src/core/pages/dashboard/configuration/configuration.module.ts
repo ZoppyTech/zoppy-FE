@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { ConfigurationComponent } from './configuration.component';
 import { RouterModule, Routes } from '@angular/router';
 import { StandardGuard } from 'src/shared/guards/standard.guard';
+import { HasProviderGuard } from 'src/shared/guards/has-provider.guard';
 
 const routes: Routes = [
     {
@@ -12,7 +13,7 @@ const routes: Routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: 'access-keys'
+                redirectTo: 'access-tokens'
             },
             {
                 path: 'access-keys',
@@ -24,6 +25,7 @@ const routes: Routes = [
             },
             {
                 path: 'sync-data',
+                canActivate: [HasProviderGuard],
                 loadChildren: () => import('./sync-data/sync-data.module').then((m: any) => m.SyncDataModule)
             },
             {
@@ -60,6 +62,6 @@ const routes: Routes = [
     imports: [CommonModule, RouterModule.forChild(routes)],
     declarations: [ConfigurationComponent],
     exports: [ConfigurationComponent],
-    providers: [StandardGuard]
+    providers: [StandardGuard, HasProviderGuard]
 })
 export class ConfigurationModule {}

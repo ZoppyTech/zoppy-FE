@@ -25,6 +25,7 @@
                     'flex-start': sideMenuService.open,
                     marker: sideMenuService.selected === item.id
                 }"
+                [routerLink]="item.route"
                 class="padding-2 flex align-center"
                 tooltipWidth="180"
                 appTooltip

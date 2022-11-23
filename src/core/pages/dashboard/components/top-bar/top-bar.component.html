@@ -49,7 +49,12 @@
                 </div>
                 <div class="separator margin-y-2"></div>
                 <ul>
-                    <li *ngFor="let item of barItems" class="{{ item.class }}" [ngClass]="{ hidden: !item.visible }">
+                    <li
+                        *ngFor="let item of barItems"
+                        [routerLink]="item.route"
+                        class="{{ item.class }}"
+                        [ngClass]="{ hidden: !item.visible }"
+                    >
                         <a class="text-decoration-none" [attr.href]="item.route">
                             <span class="text text--600 text-14">{{ item.label }}</span>
                         </a>
