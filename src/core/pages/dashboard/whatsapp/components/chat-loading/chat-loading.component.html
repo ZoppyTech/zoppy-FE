@@ -1,13 +1,13 @@
 <div class="chat-loading-container">
     <div class="title">
         <img [src]="CHAT_LOADING_IMAGE_DIR" alt="" class="margin-y-3" />
-        <h4 class="text--primary text--bold margin-y-2">Só um momentinho!</h4>
-        <span class="text">Estamos carregando as suas mensagens. Por favor, aguarde alguns instantes...</span>
+        <h4 class="text--primary text--bold text-24 margin-y-2">Só um momentinho!</h4>
+        <span class="text-16">Estamos carregando as suas mensagens. Por favor, aguarde alguns instantes...</span>
     </div>
     <div class="progress-bar-container">
         <div class="progress-bar margin-top-2 margin-bottom-2">
             <div class="filled" [ngStyle]="{ width: percent + '%' }"></div>
         </div>
-        <span class="percent-display">{{ percent }}%</span>
+        <span class="percent-display text-14">{{ percent }}%</span>
     </div>
 </div>

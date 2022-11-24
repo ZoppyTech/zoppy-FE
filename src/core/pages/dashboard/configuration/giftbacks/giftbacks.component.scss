@@ -1,4 +1,4 @@
-@import 'src/styles.scss';
+@import '../../../../../styles.scss';
 
 :host {
     min-height: 0;
@@ -23,7 +23,7 @@
     }
 
     .title {
-        padding: 0 2rem;
+        padding: 2rem;
         margin-bottom: 1rem;
         padding-bottom: 1rem;
     }

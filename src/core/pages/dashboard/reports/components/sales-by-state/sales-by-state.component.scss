@@ -1,4 +1,4 @@
-@import 'src/styles.scss';
+@import '../../../../../../styles.scss';
 
 .card-view {
     width: 100%;
@@ -20,7 +20,10 @@
         max-width: 100%;
 
         canvas {
+            width: 100%;
+            max-width: 100% !important;
             height: 100% !important;
+            max-height: 380px !important;
         }
     }
 }

@@ -1,49 +1,47 @@
 <div class="container">
     <div class="header padding-3">
-        <h6 class="text--primary text--bold">Configuração de Giftback</h6>
+        <h6 class="text--primary text--bold text-20">Configuração de Giftback</h6>
     </div>
     <div class="separator"></div>
 
     <div class="title margin-top-3">
-        <h6 class="text text--bold">Giftback</h6>
-        <span class="text">Configure seu giftback automático por compra concluída</span>
+        <h6 class="text-18 text--bold">Giftback</h6>
+        <span class="text-16">Configure seu giftback automático por compra concluída</span>
     </div>
 
     <div class="body">
         <div class="field">
-            <span class="text text--bold margin-bottom-1">
-                Percentual de giftback <span class="text text--secondary">&nbsp;(Sugestão: 15%)</span></span
+            <span class="text-14 margin-bottom-1">
+                Percentual de giftback <span class="text-14 text--secondary">&nbsp;(Sugestão: 15%)</span></span
             >
             <ps-input type="number" placeholder="Digite a porcentagem" [(ngModel)]="giftback.percentValue"></ps-input>
-            <span class="text--500 text--caption desktop">
+            <span class="text--500 text-12 desktop">
                 Percentual de desconto em relação à compra feita que dará de giftback para uma compra futura.
             </span>
         </div>
         <div class="field">
-            <span class="text text--bold margin-bottom-2">
-                Percentual máximo de desconto <span class="text text--secondary">&nbsp;(Sugestão: 30%)</span>
+            <span class="text-14 margin-bottom-2">
+                Percentual máximo de desconto <span class="text-14 text--secondary">&nbsp;(Sugestão: 30%)</span>
             </span>
             <ps-input type="number" placeholder="Digite a porcentagem" [(ngModel)]="giftback.maxPercentValue"></ps-input>
-            <span class="text--500 text--caption desktop">
-                O valor máximo que o cupom pode representar de desconto na próxima compra.
-            </span>
+            <span class="text--500 text-12 desktop"> O valor máximo que o cupom pode representar de desconto na próxima compra. </span>
         </div>
         <div class="field">
-            <span class="text text--bold"> Data de validade <span class="text text--secondary">&nbsp;(Sugestão: 45 dias)</span></span>
+            <span class="text-14"> Data de validade <span class="text-14 text--secondary">&nbsp;(Sugestão: 45 dias)</span></span>
             <ps-input type="number" [(ngModel)]="giftback.expirationDays" placeholder="Digite a quantidade de dias"></ps-input>
-            <span class="text--500 text--caption desktop"> Número de dias que o usuário poderá utilizar após a criação do cupom. </span>
+            <span class="text--500 text-12 desktop"> Número de dias que o usuário poderá utilizar após a criação do cupom. </span>
         </div>
         <div class="field">
-            <span class="text text--bold"> Data de envio <span class="text text--secondary">&nbsp;(Sugestão: 0 dias)</span></span>
+            <span class="text-14"> Data de envio <span class="text-14 text--secondary">&nbsp;(Sugestão: 0 dias)</span></span>
             <ps-input type="number" [(ngModel)]="giftback.startDays" placeholder="Digite a quantidade de dias"></ps-input>
-            <span class="text--500 text--caption desktop">
+            <span class="text--500 text-12 desktop">
                 Número de dias que o sistema esperará para enviar a primeira mensagem ao seu cliente.
             </span>
         </div>
     </div>
     <div class="footer">
         <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary" [disabled]="getSaveDisabled()">
-            <span class="text--100 text--bold">Salvar</span>
+            <span class="text--100 text--bold text-14">Salvar</span>
         </ps-button>
     </div>
 </div>

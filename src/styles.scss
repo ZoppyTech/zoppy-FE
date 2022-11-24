@@ -210,3 +210,24 @@ $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
 .text-decoration-none {
     text-decoration: none;
 }
+
+@media screen and (max-width: 1920px) {
+    html,
+    body {
+        font-size: 14px;
+    }
+}
+
+@media screen and (max-width: 1680px) {
+    html,
+    body {
+        font-size: 12px;
+    }
+}
+
+@media screen and (max-width: 1368px) {
+    html,
+    body {
+        font-size: 10px;
+    }
+}

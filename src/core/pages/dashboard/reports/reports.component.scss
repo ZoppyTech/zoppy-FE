@@ -1,104 +1,211 @@
-@import 'src/styles.scss';
+@import '../../../../styles.scss';
 
 :host {
-    max-width: 100%;
     display: flex;
     flex-grow: 1;
     min-height: 0;
-    flex-direction: column;
-}
-
-.header {
-    align-items: center;
-
-    .menu {
-        width: 16rem;
-
-        li {
-            &:hover {
-                background-color: var(--secondary-800);
-            }
-            icon-content {
-                border-radius: 100%;
-                padding: 0.5rem;
-                background-color: var(--neutral-100);
-            }
-        }
-
-        .item-unselected {
-            &:hover {
-                background-color: rgba($color: #000000, $alpha: 0.05);
-            }
-        }
-    }
-}
-
-main {
+    justify-content: center;
     width: 100%;
-    max-width: 100%;
+    height: 100%;
     overflow: auto;
-    display: flex;
-    flex-direction: row;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    overflow-x: hidden;
-    padding: 0 1rem;
-    .card {
-        margin: 1rem;
-        padding: 1.5rem;
-        background-color: #fdfdfd;
-        border: 1px solid var(--neutral-300);
-        border-radius: 0.75rem;
-        display: flex;
-        flex-direction: column;
-        max-width: calc(100% - 2rem);
-        height: 400px;
-        box-shadow: 0px 1rem 2.5rem #edeff2;
-
-        &--default {
-            width: 450px;
-            max-width: 100%;
-            flex-grow: 1;
-            min-height: 0;
-        }
-    }
-
-    .state {
-        width: 380px;
-    }
-
-    .card--long {
-        width: 1200px;
-        max-width: calc(100% - 2rem);
-        display: flex;
-        flex-wrap: wrap;
-
-        .flex-start {
-            width: 550px;
-            max-width: calc(100% - 2rem);
-        }
-    }
 }
 
-@media only screen and (max-width: 576px) {
-    main {
-        .card {
-            &--default {
-                width: 450px;
-                max-width: 100%;
+.wrapper {
+    width: 100%;
+    height: 100%;
+    max-width: 1920px;
+    padding: 0rem 3rem;
+
+    .header {
+        margin-bottom: 3rem;
+        align-items: center;
+
+        .menu {
+            width: 16rem;
+
+            li {
+                &:hover {
+                    background-color: var(--secondary-800);
+                }
+
+                icon-content {
+                    width: 1rem;
+                    height: 1rem;
+                    border-radius: 100%;
+                    padding: 0.5rem;
+                    background-color: var(--neutral-500);
+                }
+            }
+
+            .item-unselected {
+                &:hover {
+                    background-color: rgba($color: #000000, $alpha: 0.05);
+                }
             }
         }
-        .card--long {
-            flex-wrap: wrap;
-            height: unset;
+    }
 
-            .flex-start {
+    .main-dashboard {
+        width: 100%;
+        display: grid;
+        grid-auto-columns: minmax(300px, auto);
+        grid-auto-rows: minmax(281px, auto);
+        row-gap: 2rem;
+        column-gap: 2rem;
+        padding-bottom: 3rem;
+
+        justify-content: flex-start;
+        grid-template-areas:
+            'chart-1 chart-2 chart-3'
+            'chart-4 chart-4 chart-4';
+
+        .report-card-chart {
+            align-items: flex-start;
+            min-width: 300px;
+            width: 30rem;
+            max-width: 100%;
+            grid-area: chart-1;
+        }
+
+        .sales-by-gender-chart {
+            align-items: flex-start;
+            min-width: 300px;
+            width: 30rem;
+            max-width: 100%;
+            grid-area: chart-2;
+        }
+
+        .sales-by-state-chart {
+            align-items: flex-start;
+            min-width: 300px;
+            width: 30rem;
+            max-width: 100%;
+            grid-area: chart-3;
+        }
+
+        .group-charts {
+            align-items: flex-start;
+            min-width: 300px;
+            width: unset;
+            max-width: 100%;
+            grid-area: chart-4;
+        }
+
+        .card {
+            flex-grow: 1;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            background-color: #fdfdfd;
+            border: 1px solid var(--neutral-300);
+            border-radius: 0.75rem;
+            box-shadow: 0px 1rem 2.5rem #edeff2;
+
+            &--default {
+                width: 30rem;
+                height: 100%;
                 max-width: 100%;
-                margin-left: 0;
+                flex-grow: 1;
+                min-height: 0;
             }
+        }
+
+        .card-long {
+            width: 100%;
+            height: 100%;
 
             .container {
+                display: grid;
+                grid-template-columns: 1fr 1fr;
+                grid-template-rows: auto;
+                width: 100%;
+                column-gap: 3rem;
+                align-items: center;
+
+                .monthly-invoices-chart {
+                    width: 100%;
+                }
+
+                .daily-sales-chart {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1280px) {
+    .wrapper {
+        .main-dashboard {
+            grid-auto-columns: minmax(0px, auto);
+            grid-auto-rows: minmax(0px, auto);
+            grid-template-areas:
+                'chart-1 chart-1 chart-2 chart-2'
+                'chart-3 chart-3 auto auto'
+                'chart-4 chart-4 chart-4 chart-4';
+        }
+
+        .card {
+            height: unset;
+            max-height: 35rem;
+
+            &--default {
+                width: 100%;
+                height: 100%;
+                max-width: 100%;
+                flex-grow: 1;
+                min-height: 0;
+            }
+        }
+
+        .card-long {
+            grid-column-start: 1;
+            grid-column-end: 5 !important;
+            grid-area: card-long;
+        }
+    }
+}
+
+@media only screen and (max-width: 832px) {
+    .wrapper {
+        .main-dashboard {
+            grid-auto-columns: minmax(0px, auto);
+            grid-auto-rows: minmax(0px, auto);
+            grid-template-rows: 1fr 1fr 1fr 2fr;
+            column-gap: 0;
+            grid-template-areas:
+                'chart-1 chart-1'
+                'chart-2 chart-2'
+                'chart-3 chart-3'
+                'chart-4 chart-4';
+
+            .card {
+                height: 100%;
+
+                &--default {
+                    width: 100%;
+                    height: 100%;
+                    max-width: 100%;
+                    flex-grow: 1;
+                    min-height: 0;
+                }
+            }
+
+            .card-long {
+                display: flex;
                 flex-direction: column;
+                width: 100%;
+                min-height: 100%;
+                flex-wrap: wrap;
+
+                .container {
+                    display: flex;
+                    flex-direction: column;
+                    width: 100%;
+                    flex-wrap: wrap;
+                }
             }
         }
     }

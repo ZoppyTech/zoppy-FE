@@ -1,8 +1,8 @@
-@import 'src/styles.scss';
+@import '../../../../../styles.scss';
 
 .top-bar {
     width: 100%;
-    padding: 1rem 2rem;
+    padding: 1rem 3rem;
 
     .left-content {
         align-items: center;
@@ -30,6 +30,10 @@
                 font-size: 1rem;
                 color: var(--neutral-600);
             }
+        }
+
+        li:hover {
+            border-radius: 8px;
         }
     }
 

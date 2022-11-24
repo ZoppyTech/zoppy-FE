@@ -1,4 +1,4 @@
-@import 'src/styles.scss';
+@import '../../../../styles.scss';
 
 :host {
     min-height: 0;
@@ -10,7 +10,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin: 2rem;
+    margin: 3rem;
     margin-top: 0px;
     background-color: var(--neutral-100);
     border: 1px solid var(--neutral-300);
@@ -27,7 +27,7 @@
     }
 
     .title {
-        padding: 0 2rem;
+        padding: 0rem 2rem;
         margin-bottom: 1rem;
         padding-bottom: 1rem;
     }
@@ -83,5 +83,9 @@
 @media only screen and (max-width: 576px) {
     .container {
         margin: 1rem;
+
+        .title {
+            padding: 2rem;
+        }
     }
 }

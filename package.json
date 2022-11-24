@@ -43,7 +43,7 @@
         "@ZoppyTech/switch": "0.1.4",
         "@ZoppyTech/toast": "0.1.6",
         "@ZoppyTech/tooltip": "0.1.3",
-        "@ZoppyTech/visual-identity": "0.1.6",
+        "@ZoppyTech/visual-identity": "0.1.7",
         "anychart": "^8.7.1",
         "chart.js": "^3.9.1",
         "file-saver": "^2.0.5",

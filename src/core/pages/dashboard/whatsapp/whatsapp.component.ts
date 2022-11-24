@@ -93,12 +93,9 @@ export class WhatsappComponent implements OnInit, OnDestroy {
 
     public setWebSocket(): void {
         try {
-            this.webSocketService.connect();
             this.webSocketService
                 .fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE)
                 .subscribe((socketData: ChatSocketData) => {
-                    console.log('Mensagem recebida do websocket...');
-                    console.log(socketData);
                     let targetChatRoom: ChatRoom | undefined = undefined;
                     switch (socketData.action) {
                         case WebSocketConstants.CHAT_ACTIONS.CREATE:
@@ -111,7 +108,6 @@ export class WhatsappComponent implements OnInit, OnDestroy {
                             WhatsappMapper.setFirstMessagesOfDay(targetChatRoom.threads);
                             break;
                         case WebSocketConstants.CHAT_ACTIONS.UPDATE:
-                            console.log(socketData.message);
                             targetChatRoom = this.conversations.get(socketData.message.wppContactId);
                             if (!targetChatRoom) return;
                             const messageFound: ThreadMessage | undefined = targetChatRoom?.threads.find(

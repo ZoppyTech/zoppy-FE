@@ -1,4 +1,4 @@
-@import 'src/styles.scss';
+@import '../../../../styles.scss';
 
 :host {
     flex-grow: 1;
@@ -9,7 +9,7 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin: 2rem;
+    margin: 3rem;
     margin-top: 0px;
     background-color: var(--neutral-100);
     border: 1px solid var(--neutral-300);
@@ -71,6 +71,8 @@
             p {
                 grid-row: 1;
                 grid-column: 1;
+                font-weight: 500;
+                margin: 8px 0rem;
             }
 
             ps-input {
@@ -87,12 +89,15 @@
     }
 
     .body-2 {
-        flex-direction: row;
-        justify-content: flex-start;
-        align-items: flex-start;
+        display: grid;
+        grid-template-columns: minmax(300px, 1fr) 1fr;
+        height: 100%;
+        min-height: 458px;
         padding: 1rem 0;
-        flex-wrap: unset;
-        flex-grow: 1;
+        margin: 0 2rem;
+        border: 1px solid var(--neutral-300);
+        padding-bottom: 2rem;
+        overflow-y: auto;
 
         .content {
             height: unset;
@@ -189,30 +194,47 @@
 @media only screen and (max-width: 576px) {
     .container {
         margin: 1rem;
+        background-color: #fafbff;
+
         .body {
             margin: 1rem;
             padding: 0rem;
+            border: none;
+            background-color: #fafbff;
         }
 
         .body-2 {
-            flex-wrap: wrap;
+            display: grid;
+            grid-template-areas:
+                'content content'
+                'products products';
+            height: 100%;
+            padding: 1rem 0;
+            margin: 0 2rem;
+            padding-bottom: 2rem;
+            overflow: hidden;
+            border: none;
+            background-color: #fafbff;
 
             .content {
+                grid-area: content;
                 width: 100%;
                 padding: 0;
                 height: unset;
             }
 
             .products {
+                grid-area: products;
                 margin: 1rem;
                 padding: 1rem;
-                width: 100%;
             }
         }
 
         .buttons {
             padding-top: 0.5rem;
+
             ps-button {
+                margin-left: 1rem;
                 width: 100%;
                 margin-right: unset;
             }

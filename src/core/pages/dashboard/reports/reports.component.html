@@ -1,63 +1,67 @@
-<div class="header flex flex-start padding-left-2 padding-bottom-2 margin-top-2">
-    <ps-dropdown
-        class="margin-left-2"
-        [enableSearch]="false"
-        [propertyValue]="'value'"
-        [(value)]="view"
-        [propertyLabel]="'label'"
-        (valueChange)="selectReport($event)"
-        [items]="items"
-    ></ps-dropdown>
-    <div class="relative padding-left-3 menu-content">
-        <div class="flex-center clickable" (click)="periodMenuOpen = !periodMenuOpen">
-            <ps-icon icon="icon-filter_alt"></ps-icon>
-            <span class="text--small margin-left-2">{{ periodSelectedLabel() }}</span>
+<div class="wrapper">
+    <section class="header flex flex-start margin-top-2">
+        <ps-dropdown
+            [enableSearch]="false"
+            [propertyValue]="'value'"
+            [(value)]="view"
+            [propertyLabel]="'label'"
+            (valueChange)="selectReport($event)"
+            [items]="items"
+        ></ps-dropdown>
+        <div class="relative padding-left-3 menu-content">
+            <div class="flex-center clickable" (click)="periodMenuOpen = !periodMenuOpen">
+                <ps-icon class="font-16 text--primary" icon="icon-filter_alt"></ps-icon>
+                <span class="text-14 text--500 margin-left-2">{{ periodSelectedLabel() }}</span>
+            </div>
+            <ul class="menu padding-2" *ngIf="periodMenuOpen">
+                <li
+                    [ngClass]="{ 'bg-secondary-600': period.selected, 'item-unselected': !period.selected }"
+                    class="padding-2 wide flex space-between clickable"
+                    (click)="selectPeriod(period)"
+                    *ngFor="let period of periods"
+                >
+                    <span class="text-14" [ngClass]="{ 'text--100': period.selected }">{{ period.label }}</span>
+                    <div class="icon-content">
+                        <ps-icon
+                            icon="icon-approval"
+                            class="font-16"
+                            [ngClass]="{ 'text--100': period.selected }"
+                            *ngIf="period.selected"
+                        ></ps-icon>
+                    </div>
+                </li>
+            </ul>
         </div>
-        <ul class="menu padding-2" *ngIf="periodMenuOpen">
-            <li
-                [ngClass]="{ 'bg-secondary-600': period.selected, 'item-unselected': !period.selected }"
-                class="padding-2 wide flex space-between clickable"
-                (click)="selectPeriod(period)"
-                *ngFor="let period of periods"
-            >
-                <span class="text" [ngClass]="{ 'text--100': period.selected }">{{ period.label }}</span>
-                <div class="icon-content">
-                    <ps-icon icon="icon-approval" [ngClass]="{ 'text--100': period.selected }" *ngIf="period.selected"></ps-icon>
+    </section>
+
+    <section class="main-dashboard" *ngIf="view === '1'">
+        <div class="card report-card-chart">
+            <app-report-card class="card--default"></app-report-card>
+        </div>
+
+        <div class="card sales-by-gender-chart">
+            <span class="text--bold text--primary text-18 margin-bottom-2">Compras por gênero</span>
+            <app-sales-by-gender class="card--default"></app-sales-by-gender>
+        </div>
+
+        <div class="card sales-by-state-chart">
+            <span class="text--bold text--primary text-18 margin-bottom-2">Compras por estado</span>
+            <app-sales-by-state class="card--default"></app-sales-by-state>
+        </div>
+
+        <div class="card card-long group-charts">
+            <div class="flex wide container">
+                <div class="flex-start monthly-invoices-chart">
+                    <span class="text--bold text--primary text-18 margin-bottom-2">Faturamento por mês</span>
+                    <app-monthly-invoices class="card--default"></app-monthly-invoices>
                 </div>
-            </li>
-        </ul>
-    </div>
-</div>
-
-<main *ngIf="view === '1'">
-    <div class="card state">
-        <span class="text text--bold text--primary margin-bottom-2">Compras por estado</span>
-        <app-sales-by-state class="card--default"></app-sales-by-state>
-    </div>
-
-    <div class="card">
-        <span class="text text--bold text--primary margin-bottom-2">Compras por gênero</span>
-        <app-sales-by-gender class="card--default"></app-sales-by-gender>
-    </div>
-
-    <div class="card">
-        <app-report-card></app-report-card>
-    </div>
-
-    <div class="card card--long">
-        <div class="flex wide container">
-            <div class="flex-start">
-                <span class="text text--bold text--primary margin-bottom-2">Faturamento por mês</span>
-                <app-monthly-invoices class="card--default"></app-monthly-invoices>
-            </div>
-            <div class="flex-start margin-left-3">
-                <span class="text text--bold text--primary margin-bottom-2">Número de vendas x Ticket médio</span>
-                <app-daily-sales class="card--default"></app-daily-sales>
+                <div class="flex-start daily-sales-chart">
+                    <span class="text--bold text--primary text-18 margin-bottom-2">Número de vendas x Ticket médio</span>
+                    <app-daily-sales class="card--default"></app-daily-sales>
+                </div>
             </div>
         </div>
-    </div>
-</main>
+    </section>
 
-<main *ngIf="view === '2'">
-    <app-matrix-rfm></app-matrix-rfm>
-</main>
+    <app-matrix-rfm class="matrix-rfm" *ngIf="view === '2'"></app-matrix-rfm>
+</div>

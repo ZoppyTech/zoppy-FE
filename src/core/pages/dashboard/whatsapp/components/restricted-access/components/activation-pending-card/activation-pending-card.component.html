@@ -1,17 +1,17 @@
 <div class="flex-column align-center">
     <div class="card-header">
         <img [ngStyle]="{ 'box-shadow': 'none' }" [src]="CHAT_UPGRADE_IN_PROGRESS_IMAGE_DIR" alt="" />
-        <span class="title margin-y-3">Bate aqui!</span>
-        <span class="subtitle"
+        <span class="title text-24 margin-y-3">Bate aqui!</span>
+        <span class="subtitle text-14"
             >Oba! Seu pedido de integração com o WhatsApp foi realizado com sucesso! Nossa equipe está analisando seus dados, acompanhe o
             status logo abaixo:</span
         >
     </div>
     <div class="card-body" [ngStyle]="{ padding: '2rem 0rem 0rem 0rem' }">
         <div class="field">
-            <span class="text text--bold"> Status: </span>
-            <h5 *ngIf="account?.scenario === 'acquisition'" class="text--large text--bold text--secondary">Pedido realizado.</h5>
-            <h5 *ngIf="account?.scenario === 'validation'" class="text--large text--bold text--secondary">Validando seus dados.</h5>
+            <span class="text-16 text--bold"> Status: </span>
+            <h5 *ngIf="account?.scenario === 'acquisition'" class="text-16 text--bold text--secondary">Pedido realizado.</h5>
+            <h5 *ngIf="account?.scenario === 'validation'" class="text-16 text--bold text--secondary">Validando seus dados.</h5>
         </div>
     </div>
 </div>

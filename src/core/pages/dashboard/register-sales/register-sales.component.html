@@ -1,35 +1,35 @@
 <div class="container">
     <div class="header desktop">
         <div class="tab" [ngClass]="{ selected: state === 1 }">
-            <h6 [ngClass]="{ 'text--primary': state === 1 }" class="text--bold text--500 text margin-y-3">Seleção de cliente</h6>
+            <h6 [ngClass]="{ 'text--primary': state === 1 }" class="text--bold text--500 margin-y-3 text-20">Seleção de cliente</h6>
         </div>
         <div class="tab" [ngClass]="{ selected: state !== 1 }">
-            <h6 [ngClass]="{ 'text--primary': state !== 1 }" class="text--bold text--500 text margin-y-3">Lançamento de venda</h6>
+            <h6 [ngClass]="{ 'text--primary': state !== 1 }" class="text--bold text--500 margin-y-3 text-20">Lançamento de venda</h6>
         </div>
     </div>
     <div class="title desktop" *ngIf="state === 1">
-        <div class="flex align-center padding-y-3">
-            <h6 class="text text--bold">Selecionar um cliente</h6>
+        <div class="flex align-center padding-top-3 margin-bottom-2">
+            <span class="text--bold text-18 text--800">Selecionar um cliente</span>
             &nbsp;
-            <ps-icon icon="icon-info secondary" class="secondary clickable" (click)="openInfoModal()"></ps-icon>
+            <ps-icon icon="icon-info secondary" class="font-16 secondary clickable" (click)="openInfoModal()"></ps-icon>
         </div>
-        <span class="text">
+        <span class="text-16 text--800">
             Para realizar o lançamento de venda forneça os dados do seu cliente preenchendo os campos abaixo e após clique em prosseguir.
         </span>
     </div>
     <div class="title desktop" *ngIf="state !== 1">
-        <div class="flex align-center clickable padding-y-3" (click)="openInfoModal()">
-            <h6 class="text text--bold">Lançamento de venda</h6>
+        <div class="flex align-center clickable padding-top-3 margin-bottom-2" (click)="openInfoModal()">
+            <h6 class="text--bold text-18 text--800">Lançamento de venda</h6>
             &nbsp;
-            <ps-icon icon="icon-info secondary" class="secondary"></ps-icon>
+            <ps-icon icon="icon-info secondary" class="font-16 secondary"></ps-icon>
         </div>
-        <span class="text"> Agora você deverá preencher os campos abaixo para registrar a venda. </span>
+        <span class="text-16 text--800"> Agora você deverá preencher os campos abaixo para registrar a venda. </span>
     </div>
 
     <div class="body padding-x-2" *ngIf="!loadingAddress && state === 1">
         <div class="flex flex-column flex-grow">
             <div class="field">
-                <p class="text text--bold">Telefone do seu cliente*</p>
+                <p class="text-14">Telefone do seu cliente*</p>
                 <ps-input
                     mask="(00) 00000-0000"
                     [debounce]="800"
@@ -40,7 +40,7 @@
             </div>
 
             <div class="field">
-                <p class="text text--bold">Primeiro Nome*</p>
+                <p class="text-14">Primeiro Nome*</p>
                 <ps-input
                     [disabled]="!order.address.phone"
                     placeholder="Digite aqui seu nome"
@@ -49,7 +49,7 @@
             </div>
 
             <div class="field">
-                <p class="text text--bold">Sobrenome</p>
+                <p class="text-14">Sobrenome</p>
                 <ps-input
                     [disabled]="!order.address.phone"
                     placeholder="Digite aqui seu sobrenome"
@@ -58,7 +58,7 @@
             </div>
 
             <div class="field">
-                <p class="text text--bold">Data de nascimento do seu cliente</p>
+                <p class="text-14">Data de nascimento do seu cliente</p>
                 <ps-datepicker
                     [displayTop]="true"
                     type="input"
@@ -68,7 +68,7 @@
             </div>
 
             <div class="field">
-                <p class="text text--bold">E-mail do cliente*</p>
+                <p class="text-14">E-mail do cliente*</p>
                 <ps-input
                     [disabled]="!order.address.phone"
                     placeholder="Digite seu email"
@@ -80,7 +80,7 @@
 
         <div class="flex flex-column flex-grow">
             <div class="field">
-                <p class="text text--bold">Sexo do seu cliente</p>
+                <p class="text-14">Sexo do seu cliente</p>
                 <ps-dropdown
                     class="wide"
                     [wide]="true"
@@ -95,7 +95,7 @@
             </div>
 
             <div class="field column-2">
-                <p class="text text--bold">CEP do cliente</p>
+                <p class="text-14">CEP do cliente</p>
                 <ps-input
                     [disabled]="!order.address.phone"
                     mask="00.000-000"
@@ -108,7 +108,7 @@
 
             <div class="flex flex-center column-2">
                 <div class="field flex-grow-3 margin-right-2">
-                    <p class="text text--bold">Cidade</p>
+                    <p class="text-14">Cidade</p>
                     <ps-input
                         [disabled]="!order.address.phone || !order.address.postcode"
                         placeholder="Digite aqui sua cidade"
@@ -116,7 +116,7 @@
                     ></ps-input>
                 </div>
                 <div *ngIf="!order.address.id" class="field flex-grow-1">
-                    <p class="text text--bold">Número</p>
+                    <p class="text-14">Número</p>
                     <ps-input
                         [disabled]="!order.address.phone || !order.address.postcode"
                         placeholder="Digite aqui o número"
@@ -127,7 +127,7 @@
 
             <div class="flex flex-center column-2">
                 <div class="field flex-grow-3 margin-right-2">
-                    <p class="text text--bold">Endereço</p>
+                    <p class="text-14">Endereço</p>
                     <ps-input
                         [disabled]="!order.address.phone || !order.address.postcode"
                         placeholder="Digite aqui a Rua, Avenida, Logradouro, Número e Complemento"
@@ -135,7 +135,7 @@
                     ></ps-input>
                 </div>
                 <div *ngIf="!order.address.id" class="field flex-grow-1">
-                    <p class="text text--bold">Complemento</p>
+                    <p class="text-14">Complemento</p>
                     <ps-input
                         [disabled]="!order.address.phone || !order.address.postcode"
                         placeholder="Digite aqui o complemento"
@@ -149,7 +149,7 @@
     <div class="body body-2 padding-x-2 flex flex-column" *ngIf="!loadingAddress && state !== 1">
         <div class="padding-x-2 content flex-grow">
             <div class="field">
-                <p class="text text--bold">Produtos</p>
+                <p class="text-14">Produtos</p>
                 <ps-multi-select
                     [disabled]="false"
                     propertyLabel="name"
@@ -176,18 +176,18 @@
                     icon="{{ order.coupon.id ? 'icon-task_alt' : 'icon-unpublished' }}"
                     class="margin-right-1 '{{ order.coupon.id ? 'success' : 'negative' }}'"
                 ></ps-icon>
-                <span class="text text--bold">{{ order.coupon.id ? 'Giftback disponível:' : 'Giftback indisponível:' }} </span>
+                <span class="text-14">{{ order.coupon.id ? 'Giftback disponível:' : 'Giftback indisponível:' }} </span>
                 <span class="text">{{
                     order.coupon.id
                         ? 'giftback no valor de '
                         : 'seu cliente não possui giftback que possa ser aplicado. Forneça o desconto em % ou R$.'
                 }}</span>
 
-                <span class="text text--bold" *ngIf="order.coupon.id">{{ toCurrency(order.coupon.amount.toString()) }}</span>
+                <span class="text-14" *ngIf="order.coupon.id">{{ toCurrency(order.coupon.amount.toString()) }}</span>
             </div>
 
             <div class="field">
-                <p class="text">Giftback aplicado</p>
+                <p class="text-14">Giftback aplicado</p>
                 <ps-input
                     *ngIf="order.coupon.type === 'fixed_cart' && !useCustomCoupon"
                     class="margin-y-1"
@@ -200,12 +200,12 @@
                     [(ngModel)]="order.coupon.amount"
                 ></ps-input>
                 <ps-checkbox class="margin-y-1" [(active)]="useCustomCoupon" (onToggleCheckbox)="toggleUseCustomCoupon($event)">
-                    <span class="text">Desejo aplicar meu próprio desconto</span>
+                    <span class="text-14">Desejo aplicar meu próprio desconto</span>
                 </ps-checkbox>
             </div>
 
             <div class="field" *ngIf="useCustomCoupon">
-                <p class="text text--bold">Valor do desconto</p>
+                <p class="text-14">Valor do desconto</p>
                 <ps-radio-button
                     [propertyValue]="'value'"
                     [propertyLabel]="'label'"
@@ -239,17 +239,17 @@
 
             <div class="field" *ngIf="order.coupon?.id">
                 <div class="flex wide space-between">
-                    <p class="text text--bold">Valor mínimo da compra:</p>
-                    <p class="text">{{ toCurrency(order.coupon.minPurchaseValue ?? 0) }}</p>
+                    <p class="text-16 text--bold">Valor mínimo da compra:</p>
+                    <p class="text-14">{{ toCurrency(order.coupon.minPurchaseValue ?? 0) }}</p>
                 </div>
                 <div class="flex wide space-between">
-                    <p class="text text--bold">Prazo de validade:</p>
-                    <p class="text">{{ order.coupon.expiryDate | date: 'dd/MM/yyyy' }}</p>
+                    <p class="text-16 text--bold">Prazo de validade:</p>
+                    <p class="text-14">{{ order.coupon.expiryDate | date: 'dd/MM/yyyy' }}</p>
                 </div>
             </div>
 
             <div class="field">
-                <p class="text text--bold">Operação</p>
+                <p class="text-14">Operação</p>
                 <ps-dropdown
                     class="wide"
                     [wide]="true"
@@ -265,18 +265,18 @@
         </div>
 
         <div class="products padding-3 margin-top-2 margin-y-2 flex-grow flex-column">
-            <div class="padding-2">
-                <h5 class="text text--bold">Resumo</h5>
+            <div class="margin-bottom-2">
+                <h5 class="text-20 text--bold">Resumo</h5>
             </div>
 
             <div class="separator"></div>
             <div class="padding-1 header">
-                <p class="margin-left-1 text text--bold primary-600 flex-grow">Produtos</p>
-                <p class="margin-left-1 text text--bold primary-600 quantity">Quantidade</p>
+                <p class="margin-left-1 text-16 primary-600 flex-grow">Produtos</p>
+                <p class="margin-left-1 text-16 primary-600 quantity">Quantidade</p>
             </div>
             <ul>
                 <li class="flex wide" *ngFor="let lineItem of order.lineItems">
-                    <p class="text flex-grow width-50 margin-right-1">{{ lineItem.name }}</p>
+                    <p class="text-14 flex-grow width-50 margin-right-1">{{ lineItem.name }}</p>
                     <div class="flex align-center amount">
                         <ps-button
                             type="secondary"
@@ -285,24 +285,26 @@
                             (onClick)="changeLineItem(lineItem, '-')"
                             [fixedHeight]="false"
                         >
-                            <h5 class="text text--100">-</h5>
+                            <h5 class="text-14 text--100">-</h5>
                         </ps-button>
-                        <div class="quantity padding-1 margin-x-1">{{ lineItem.quantity < 9 ? '0' : '' }}{{ lineItem.quantity }}</div>
+                        <div class="quantity padding-1 margin-x-1 text-14">
+                            {{ lineItem.quantity < 9 ? '0' : '' }}{{ lineItem.quantity }}
+                        </div>
                         <ps-button [fixedHeight]="false" type="secondary" [round]="true" (onClick)="changeLineItem(lineItem, '+')">
-                            <h5 class="text text--100">+</h5>
+                            <h5 class="text-14 text--100">+</h5>
                         </ps-button>
                     </div>
                 </li>
                 <li *ngIf="!order.lineItems || order.lineItems.length === 0" class="flex-center padding-3 flex">
-                    <span class="text--600">Lista vazia</span>
+                    <span class="text--600 text-16">Nenhum produto selecionado</span>
                 </li>
             </ul>
             <div class="subtotal">
                 <div class="separator margin-y-3 margin-x-2"></div>
                 <div class="flex wide space-between">
-                    <h5 class="text text--bold margin-right-2">Subtotal (valor sem desconto):</h5>
-                    <span class="text">
-                        <span class="text"> {{ calculateSubtotal() }}</span>
+                    <h5 class="text-16 text--bold margin-right-2">Subtotal (valor sem desconto):</h5>
+                    <span class="text-14">
+                        <span class="text-14"> {{ calculateSubtotal() }}</span>
                         <ps-icon
                             (click)="openEditSubtotalModal()"
                             class="margin-left-1 primary clickable"
@@ -311,9 +313,9 @@
                     </span>
                 </div>
                 <div class="flex wide space-between flex-center margin-top-2">
-                    <h5 class="text margin-right-2 text--bold">Total (valor com desconto):</h5>
-                    <span class="text">
-                        <span class="text"> {{ calculateTotal() }}</span>
+                    <h5 class="margin-right-2 text-16 text--bold">Total (valor com desconto):</h5>
+                    <span class="text-14">
+                        <span class="text-14"> {{ calculateTotal() }}</span>
                     </span>
                 </div>
             </div>
@@ -324,6 +326,9 @@
         <img [src]="logo" alt="" class="loading-logo" />
     </div>
     <div class="buttons padding-3 flex-end flex">
+        <ps-button *ngIf="state !== 1" [wide]="true" [loading]="false" (onClick)="state = 1" type="cancel">
+            <span class="text--bold text--800 text-14"> Voltar </span>
+        </ps-button>
         <ps-button
             [wide]="true"
             [loading]="loading"
@@ -331,7 +336,7 @@
             type="secondary"
             [disabled]="!order.address.phone || !order.address.firstName || !order.address.email"
         >
-            <span class="text--100 text--bold">
+            <span class="text--100 text--bold text-14">
                 {{ state === 1 ? 'Prosseguir' : 'Continuar' }}
             </span>
         </ps-button>

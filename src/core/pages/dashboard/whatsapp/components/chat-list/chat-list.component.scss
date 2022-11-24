@@ -1,4 +1,4 @@
-@import 'src/styles.scss';
+@import '../../../../../../styles.scss';
 
 :host {
     flex-grow: 1;
@@ -104,9 +104,8 @@
                 margin-bottom: 1rem;
                 padding: 0px 2.5rem;
 
-                h5 {
-                    max-width: 232px;
-                    font-size: 13px;
+                span {
+                    max-width: 210px;
                 }
 
                 .block-icon {
@@ -126,7 +125,6 @@
                 flex-direction: row;
                 align-items: baseline;
                 justify-content: flex-start;
-                margin-bottom: 1rem;
                 padding: 0px 2.5rem;
 
                 .unread-counter {
@@ -149,8 +147,6 @@
                     flex-direction: row;
                     align-items: baseline;
                     justify-content: flex-start;
-
-                    font-size: 1rem;
                     font-weight: 400;
                     color: #363636;
 

@@ -1,11 +1,6 @@
 <div class="background mobile" *ngIf="sideMenuService.open" (click)="sideMenuService.open = false"></div>
 
-<div
-    class="side-menu"
-    [ngClass]="{ open: sideMenuService.open }"
-    (mouseenter)="sideMenuService.open = true"
-    (mouseleave)="sideMenuService.open = false"
->
+<div class="side-menu" [ngClass]="{ open: sideMenuService.open }">
     <div
         class="flex padding-2 header padding-top-3"
         [ngClass]="{ 'flex-center': !sideMenuService.open, 'flex-start padding-x-3 padding-2': sideMenuService.open }"
@@ -14,7 +9,7 @@
         <img (click)="goToInitial()" src="./assets/imgs/mini-logo.png" class="clickable padding-x-2" *ngIf="!sideMenuService.open" alt="" />
     </div>
 
-    <div class="separator"></div>
+    <hr class="separator margin-top-3" />
 
     <ul class="flex flex-column flex-grow padding-top-3">
         <div
@@ -41,12 +36,13 @@
                 <a [attr.href]="item.route" (click)="itemClicked(item)">
                     <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
                         <ps-icon
+                            class="text-16"
                             icon="{{ item.icon }} {{ sideMenuService.selected === item.id ? 'text--secondary' : 'text--500' }}"
                         ></ps-icon>
                     </div>
                     <span
                         [ngClass]="{ hidden: !sideMenuService.open, 'text--secondary': sideMenuService.selected === item.id }"
-                        class="text text--500 label"
+                        class="text-16 text--500 label"
                         >{{ item.label }}</span
                     >
                 </a>
@@ -72,6 +68,7 @@
                     <a [attr.href]="subItem.route">
                         <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
                             <ps-icon
+                                class="text-16"
                                 icon="{{ subItem.icon }} {{ sideMenuService.subSelected === subItem.id ? 'text--800' : 'text--500' }}"
                             ></ps-icon>
                         </div>
@@ -90,20 +87,25 @@
         </div>
     </ul>
 
-    <div class="separator"></div>
+    <hr class="separator" />
 
     <div
-        class="footer padding-2 padding-bottom-3 flex"
+        class="footer padding-3 padding-bottom-3 flex"
         [ngClass]="{ 'justify-center': !sideMenuService.open, 'flex-start': sideMenuService.open }"
     >
-        <div [ngClass]="{ inverted: sideMenuService.open }">
-            <ps-icon class="clickable text--primary" (click)="sideMenuService.open = !sideMenuService.open" icon="icon-logout"></ps-icon>
+        <div class="text-14" [ngClass]="{ inverted: sideMenuService.open }">
+            <ps-icon
+                class="text-16"
+                class="clickable text--primary text-14"
+                (click)="sideMenuService.open = !sideMenuService.open"
+                icon="icon-logout"
+            ></ps-icon>
         </div>
 
         <a
             (click)="sideMenuService.open = false"
             [ngClass]="{ hidden: !sideMenuService.open }"
-            class="text text--link text--primary margin-left-2"
+            class="text-14 text--link text--primary margin-left-2"
         >
             Fechar menu
         </a>

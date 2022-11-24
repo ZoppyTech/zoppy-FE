@@ -3,7 +3,7 @@
         <h5 *ngIf="!modal.data.id" class="text--extra-large text--bold text--primary">Adicionar Novo Contato</h5>
         <h5 *ngIf="modal.data.id" class="text--extra-large text--bold text--primary">Atualizar Contato</h5>
         <div (click)="modal.close()" class="button-go-back clickable">
-            <ps-icon class="text text--primary text--700" icon="icon-times"></ps-icon>
+            <ps-icon class="text-16 text--primary text--700" icon="icon-times"></ps-icon>
         </div>
     </div>
 
@@ -32,19 +32,19 @@
             *ngIf="modal.data.id && modal.data.isBlocked"
             class="padding-top-2"
             [wide]="true"
-            type="error"
+            type="secondary-border"
             (click)="toggleContactBlocking()"
         >
-            <span class="text--100 text--bold">Desbloquear contato</span>
+            <span class="text--secondary text-14 text--bold">Desbloquear contato</span>
         </ps-button>
         <ps-button
             *ngIf="modal.data.id && !modal.data.isBlocked"
             class="padding-top-2"
             [wide]="true"
-            type="alert"
+            type="secondary-border"
             (click)="toggleContactBlocking()"
         >
-            <span class="text--100 text--bold">Bloquear contato</span>
+            <span class="text--secondary text-14 text--bold">Bloquear contato</span>
         </ps-button>
         <ps-button
             *ngIf="!modal.data.id"
@@ -54,7 +54,7 @@
             type="secondary"
             (click)="addContact()"
         >
-            <span class="text--100 text--bold">Adicionar contato</span>
+            <span class="text--100 text-14 text--bold">Adicionar contato</span>
         </ps-button>
         <ps-button
             *ngIf="modal.data.id"
@@ -64,7 +64,7 @@
             type="secondary"
             (click)="updateContact()"
         >
-            <span class="text--100 text--bold">Editar contato</span>
+            <span class="text--100 text-14 text--bold">Editar contato</span>
         </ps-button>
     </div>
 </div>

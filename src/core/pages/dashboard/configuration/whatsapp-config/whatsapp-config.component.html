@@ -1,26 +1,26 @@
 <div class="container">
     <div class="header padding-3 desktop">
-        <h6 class="text--primary text--bold">Configuração do Whatsapp</h6>
+        <h6 class="text--primary text--bold text-20">Configuração do Whatsapp</h6>
     </div>
     <div class="separator"></div>
 
     <div *ngIf="whatsappAccount.scenario === 'validation'" class="alert-pending-actions">
-        <ps-icon icon="icon-emergency_home"></ps-icon>
-        <span class="text text--700"
-            ><b class="text text--800">Ações pendentes:</b> Para concluir a integração, é necessário configurar o webhook na plataforma
+        <ps-icon class="font-16" icon="icon-emergency_home"></ps-icon>
+        <span class="text-16 text--700"
+            ><b class="text-16 text--800">Ações pendentes:</b> Para concluir a integração, é necessário configurar o webhook na plataforma
             Meta.
         </span>
     </div>
 
     <div class="main-title flex-row">
         <div class="title margin-y-3">
-            <h6 class="text text--bold text--large padding-bottom-2">Cadastre os dados para integração</h6>
-            <span class="text desktop">Insira nos campos abaixo os dados solicitados para integrar com API do WhatsApp.</span>
+            <h6 class="text-18 text--bold text--large padding-bottom-2">Cadastre os dados para integração</h6>
+            <span class="text-16 desktop">Insira nos campos abaixo os dados solicitados para integrar com API do WhatsApp.</span>
         </div>
         <div class="display-whatsapp-status">
             <div class="status">
                 <div [ngStyle]="{ 'background-color': currentStatus.color }" class="circle"></div>
-                <span class="text--small">{{ currentStatus.text }}</span>
+                <span class="text-14">{{ currentStatus.text }}</span>
             </div>
         </div>
     </div>
@@ -29,22 +29,22 @@
         <div class="left-section">
             <div class="body">
                 <div class="field">
-                    <span class="text text--bold margin-bottom-1"> ID da conta comercial do Whatsapp </span>
+                    <span class="text-14 margin-bottom-1"> ID da conta comercial do Whatsapp </span>
                     <ps-input type="number" placeholder="Digite aqui o Waba ID" [(ngModel)]="whatsappAccount.wabaId"></ps-input>
                 </div>
 
                 <div class="field">
-                    <span class="text text--bold margin-bottom-2"> ID do aplicativo Whatsapp </span>
+                    <span class="text-14 margin-bottom-2"> ID do aplicativo Whatsapp </span>
                     <ps-input type="number" placeholder="Digite aqui o App ID" [(ngModel)]="whatsappAccount.appId"></ps-input>
                 </div>
 
                 <div class="field">
-                    <span class="text text--bold"> Nome a exibir </span>
+                    <span class="text-14"> Nome a exibir </span>
                     <ps-input type="text" [(ngModel)]="whatsappAccount.businessName" placeholder="Digite aqui o nome da empresa"></ps-input>
                 </div>
 
                 <div class="field">
-                    <span class="text text--bold"> Descrição </span>
+                    <span class="text-14"> Descrição </span>
                     <ps-input
                         type="text"
                         [(ngModel)]="whatsappAccount.description"
@@ -53,7 +53,7 @@
                 </div>
 
                 <div class="field">
-                    <span class="text text--bold"> Token de acesso da aplicação do Whatsapp </span>
+                    <span class="text-14"> Token de acesso da aplicação do Whatsapp </span>
                     <ps-input
                         type="text"
                         [(ngModel)]="whatsappAccount.apiAccessToken"
@@ -62,7 +62,7 @@
                 </div>
 
                 <div class="field">
-                    <span class="text text--bold"> Url webhook </span>
+                    <span class="text-14"> Url webhook </span>
                     <ps-input
                         icon="{{ 'icon-copy' }}"
                         (onIconClicked)="copyWebhookUrlToClipboard()"
@@ -76,7 +76,7 @@
                 </div>
 
                 <div class="field">
-                    <span class="text text--bold"> Token de verificação do webhook </span>
+                    <span class="text-14"> Token de verificação do webhook </span>
                     <ps-input
                         icon="{{ 'icon-copy' }}"
                         (onIconClicked)="copyWebhookTokenToClipboard()"
@@ -94,7 +94,7 @@
         <div class="right-section">
             <div class="body">
                 <div class="field">
-                    <span class="text text--bold margin-bottom-2"> Identificação do número de telefone do Whatsapp </span>
+                    <span class="text-14 margin-bottom-2"> Identificação do número de telefone do Whatsapp </span>
                     <ps-input
                         type="number"
                         placeholder="Digite aqui o Phone Number ID"
@@ -103,7 +103,7 @@
                 </div>
 
                 <div class="field">
-                    <span class="text text--bold"> Número do Whatsapp </span>
+                    <span class="text-14"> Número do Whatsapp </span>
                     <ps-input
                         [(ngModel)]="whatsappAccountPhone.phoneNumber"
                         mask="+00 (00) 00000-0000"
@@ -112,7 +112,7 @@
                 </div>
 
                 <div class="field">
-                    <span class="text text--bold"> Permissões </span>
+                    <span class="text-14"> Permissões </span>
                     <ps-dropdown
                         class="margin-left-2"
                         [enableSearch]="false"
@@ -136,7 +136,7 @@
             (onClick)="disable()"
             type="error"
         >
-            <span class="text--100 text--bold">Desativar</span>
+            <span class="text--100 text-14 text--bold">Desativar</span>
         </ps-button>
         <ps-button
             *ngIf="!whatsappAccount.active"
@@ -146,7 +146,7 @@
             (onClick)="activate()"
             type="secondary"
         >
-            <span class="text--100 text--bold">Ativar</span>
+            <span class="text--100 text-14 text--bold">Ativar</span>
         </ps-button>
     </div>
 </div>
