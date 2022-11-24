@@ -5,7 +5,9 @@
         </div>
         <form (keydown.enter)="login()" class="form" id="loginForm">
             <h4 class="text--primary text--bold text-center-mobile">Acesse sua conta Zoppy</h4>
-            <span class="text text--800 margin-bottom-3 margin-top-2 text-center-mobile">Clientes fidelizados através de benefícios</span>
+            <span class="text-16 text--800 margin-bottom-3 margin-top-2 text-center-mobile"
+                >Clientes fidelizados através de benefícios</span
+            >
 
             <div class="field" *ngFor="let field of fields">
                 <span class="text--bold text--800 text--small" [ngClass]="{ 'text--negative': field.errors.length > 0 }">{{
@@ -22,12 +24,12 @@
                 ></ps-input>
             </div>
             <div class="forgot-password">
-                <a [routerLink]="'/reset-password'" class="text--secondary text--link text--bold">Esqueci minha senha</a>
+                <a [routerLink]="'/reset-password'" class="text-14 text--secondary text--link text--bold">Esqueci minha senha</a>
             </div>
 
             <div class="button-content">
                 <ps-button (onClick)="login()" [loading]="loading" [wide]="true" type="secondary"
-                    ><span class="text text--100 text--bold">Acessar</span></ps-button
+                    ><span class="text-14 text--100 text--bold">Acessar</span></ps-button
                 >
             </div>
 

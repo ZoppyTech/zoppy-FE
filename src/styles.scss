@@ -3,7 +3,7 @@
 
 html,
 body {
-    font-size: 16px;
+    font-size: 100%;
     box-sizing: border-box;
     *,
     *:before,
@@ -215,7 +215,7 @@ $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
 @media screen and (max-width: 1920px) {
     html,
     body {
-        font-size: 87.5%;
+        font-size: 100%;
     }
 }
 

@@ -14,7 +14,7 @@
             <p class="text-14">Aviso de giftback</p>
             <div class="flex flex-column">
                 <ps-input
-                    placeholder="Digite aqui sua mensagem para o cliente. Exemplo: Olá! Aqui é da Zoppy, estou passando para te dar uma ótima notícia! Recebemos a confirmação do seu pedido em nosso site e liberamos um saldo em cashback no valor de R$30 reais para a sua próxima compra! Esse valor pode ser utilizado até 24/11/2022 e deve representar até 30% da sua compra. Obrigada pela preferência!"
+                    placeholder="Inserir aqui o link do webhook da Letalk para enviar mensagem de giftback liberado."
                     type="text"
                     [(ngModel)]="config.sendGiftbackUrl"
                     [rows]="4"
@@ -31,7 +31,7 @@
             </p>
             <div class="flex flex-column">
                 <ps-input
-                    placeholder="Digite aqui o lembrete de giftback para o cliente. Exemplo: Olá! Aqui é da Zoppy, estou passando para lembrar que restam 21 dias para você usufruir do nosso cupom de cashback. Não vai perder essa, né?"
+                    placeholder="Inserir aqui o link do webhook da Letalk para enviar lembrete na metado do prazo do giftback."
                     type="text"
                     [(ngModel)]="config.sendGiftbackReminderUrl"
                     [rows]="4"
@@ -48,7 +48,7 @@
             </p>
             <div class="flex flex-column">
                 <ps-input
-                    placeholder="Digite aqui o lembrete de giftback para o cliente. Exemplo: Olá! Aqui é da Zoppy, estou passando para lembrar que restam apenas 3 dias para você usufruir do nosso cupom de cashback. Não vai perder essa, né?"
+                    placeholder="Inserir aqui o link do webhook da Letalk para enviar lembrete que faltam 3 dias para vencimento do giftback."
                     type="text"
                     [(ngModel)]="config.sendGiftbackCloseReminderUrl"
                     [rows]="4"

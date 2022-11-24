@@ -1,4 +1,4 @@
-@import 'src/styles.scss';
+@import '../../../styles.scss';
 
 .login {
     width: 100vw;
@@ -40,6 +40,10 @@
             align-items: center;
             transform: translateX();
             transition-duration: 500ms;
+
+            h4 {
+                font-size: 2rem;
+            }
 
             .field {
                 padding: 0.5rem 0;
