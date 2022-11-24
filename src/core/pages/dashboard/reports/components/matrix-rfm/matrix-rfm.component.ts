@@ -114,6 +114,10 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     }
 
     public setFilter(position: CustomerPosition) {
+        if (position.position === this.position.position) {
+            this.setFilterByAll();
+            return;
+        }
         this.position.position = position.position;
         setTimeout(() => {
             this.customers = this.customers.map((customer: ReportCustomerResponseDto) => {
@@ -127,6 +131,16 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
             this.reportRequest.period = period;
             await this.initializeData();
+        });
+    }
+
+    private setFilterByAll(): void {
+        this.position.position = 'all';
+        setTimeout(() => {
+            this.customers = this.customers.map((customer: ReportCustomerResponseDto) => {
+                customer.hidden = false;
+                return customer;
+            });
         });
     }
 
