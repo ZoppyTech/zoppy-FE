@@ -17,6 +17,7 @@
             (mouseenter)="item.subItemsOpened = true"
             (mouseleave)="item.subItemsOpened = false"
             class="{{ item.class }}"
+            [routerLink]="item.route"
             [ngClass]="{ hidden: !item.visible }"
         >
             <li
@@ -25,7 +26,6 @@
                     'flex-start': sideMenuService.open,
                     marker: sideMenuService.selected === item.id
                 }"
-                [routerLink]="item.route"
                 class="padding-2 flex align-center"
                 tooltipWidth="180"
                 appTooltip

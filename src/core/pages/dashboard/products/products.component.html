@@ -1,6 +1,6 @@
 <div class="container">
     <div class="header">
-        <h5 class="text--primary text--bold margin-y-3 text-20">Cadastro de produtos</h5>
+        <h5 class="text--primary text--bold margin-y-3 text-20">Produtos</h5>
     </div>
     <div class="title flex space-between">
         <div class="flex flex-column desktop">
@@ -34,6 +34,7 @@
                 <th><span class="text-16 text--primary text--bold">Produto</span></th>
                 <th class="desktop"><span class="text-16 text--primary text--bold">Categorias</span></th>
                 <th class="desktop"><span class="text-16 text--primary text--bold">Valor</span></th>
+                <th></th>
             </thead>
             <tbody>
                 <tr class="item" *ngFor="let product of products">
@@ -51,6 +52,20 @@
                         <span [ngClass]="{ 'text--400': !product.priceCurrency }" class="text-16 text--600 text-16 desktop">{{
                             product.priceCurrency || 'vazio'
                         }}</span>
+                    </td>
+                    <td class="actions">
+                        <div class="flex flex-end wide">
+                            <ps-button [round]="true" class="primary" type="clean" (onClick)="update(product)">
+                                <div>
+                                    <ps-icon class="primary" icon="icon-edit_square"></ps-icon>
+                                </div>
+                            </ps-button>
+                            <ps-button [round]="true" class="primary margin-left-1" type="clean" (onClick)="remove(product)">
+                                <div>
+                                    <ps-icon class="primary" icon="icon-delete"></ps-icon>
+                                </div>
+                            </ps-button>
+                        </div>
                     </td>
                 </tr>
             </tbody>
