@@ -3,12 +3,12 @@
 
     <div class="data" *ngIf="!isLoading">
         <div class="item">
-            <span class="text-14">Receita total</span>
+            <span class="text-14 label">Receita total</span>
             <div class="separator"></div>
             <span class="text--primary text--bold text-18">{{ data.revenue }}</span>
         </div>
         <div class="item">
-            <span class="text-14">Receita com a Zoppy</span>
+            <span class="text-14 label">Receita com a Zoppy</span>
             <div class="separator"></div>
             <div class="flex flex-end align-center">
                 <span class="text--primary text--bold text-18">{{ data.zoppyRevenue }}</span>
@@ -24,17 +24,17 @@
             </div>
         </div>
         <div class="item">
-            <span class="text-14">Ticket médio</span>
+            <span class="text-14 label">Ticket médio</span>
             <div class="separator"></div>
             <span class="text--primary text--bold text-18">{{ data.averageTicket }}</span>
         </div>
         <div class="item">
-            <span class="text-14">Percentual de retorno</span>
+            <span class="text-14 label">Percentual de retorno</span>
             <div class="separator"></div>
             <span class="text--primary text--bold text-18">{{ data.returnPercentage }}</span>
         </div>
         <div class="item">
-            <span class="text-14">Frequência média por cliente</span>
+            <span class="text-14 label">Frequência média por cliente</span>
             <div class="separator"></div>
             <span class="text--primary text--bold text-18">{{ data.averageClientFrequency }}</span>
         </div>
