@@ -1,9 +1,9 @@
 <div class="container">
     <div class="header desktop">
-        <div class="tab" [ngClass]="{ selected: state === 1 }">
+        <div class="tab clickable" [ngClass]="{ selected: state === 1 }" (click)="changeState(1)">
             <h6 [ngClass]="{ 'text--primary': state === 1 }" class="text--bold text--500 margin-y-3 text-20">Seleção de cliente</h6>
         </div>
-        <div class="tab" [ngClass]="{ selected: state !== 1 }">
+        <div class="tab clickable" [ngClass]="{ selected: state !== 1 }" (click)="changeState(2)">
             <h6 [ngClass]="{ 'text--primary': state !== 1 }" class="text--bold text--500 margin-y-3 text-20">Lançamento de venda</h6>
         </div>
     </div>
@@ -329,13 +329,7 @@
         <ps-button *ngIf="state !== 1" [wide]="true" [loading]="false" (onClick)="state = 1" type="cancel">
             <span class="text--bold text--800 text-14"> Voltar </span>
         </ps-button>
-        <ps-button
-            [wide]="true"
-            [loading]="loading"
-            (onClick)="toggleState()"
-            type="secondary"
-            [disabled]="!order.address.phone || !order.address.firstName || !order.address.email"
-        >
+        <ps-button [wide]="true" [loading]="loading" (onClick)="toggleState()" type="secondary" [disabled]="formValid()">
             <span class="text--100 text--bold text-14">
                 {{ state === 1 ? 'Prosseguir' : 'Continuar' }}
             </span>

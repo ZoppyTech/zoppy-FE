@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ZoppyFilter } from 'src/shared/models/filter';
+import { CrmProductRequest } from 'src/shared/models/requests/crm/crm-product.request';
 import { CrmProductResponse } from 'src/shared/models/responses/crm/crm-product.response';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
@@ -25,6 +26,36 @@ export class CrmProductService extends ApiService {
         const promise: Promise<CrmProductResponse[]> = new Promise((resolve: any, reject: any) => {
             this.get<CrmProductResponse[]>(`${this.url}`).subscribe(
                 (response: CrmProductResponse[]) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async findById(id: string): Promise<CrmProductResponse> {
+        const promise: Promise<CrmProductResponse> = new Promise((resolve: any, reject: any) => {
+            this.get<CrmProductResponse>(`${this.url}/${id}`).subscribe(
+                (response: CrmProductResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async update(id: string, request: CrmProductRequest): Promise<CrmProductResponse> {
+        const promise: Promise<CrmProductResponse> = new Promise((resolve: any, reject: any) => {
+            this.put<CrmProductResponse, CrmProductRequest>(`${this.url}/${id}`, request).subscribe(
+                (response: CrmProductResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async destroy(id: string): Promise<BooleanResponse> {
+        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
+            this.delete<BooleanResponse>(`${this.url}/${id}`).subscribe(
+                (response: BooleanResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

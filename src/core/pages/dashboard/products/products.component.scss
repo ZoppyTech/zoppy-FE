@@ -51,6 +51,20 @@
                 background-color: var(--neutral-100);
                 width: 100%;
             }
+
+            .actions {
+                div {
+                    justify-content: flex-end;
+                    ps-button {
+                        div {
+                            width: 2rem;
+                            ps-icon {
+                                font-size: 1.25rem;
+                            }
+                        }
+                    }
+                }
+            }
         }
 
         .no-content {

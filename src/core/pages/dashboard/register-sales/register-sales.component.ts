@@ -144,6 +144,18 @@ export class RegisterSalesComponent implements OnInit {
         await this.save();
     }
 
+    public formValid(): boolean {
+        return !this.order.address.phone || !this.order.address.firstName || !this.order.address.email;
+    }
+
+    public changeState(state: number): void {
+        if (!this.formValid()) {
+            this.toast.error('Erro', 'Formulário incompleto');
+            return;
+        }
+        this.state = state as State;
+    }
+
     public async save(): Promise<void> {
         try {
             this.loading = true;

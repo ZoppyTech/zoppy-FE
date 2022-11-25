@@ -210,7 +210,7 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
                 upload: this.upload,
                 download: this.download,
                 fileName: 'Zoppy_Clientes.csv',
-                path: '/docs/Import_customers_zoppy.csv',
+                path: '/docs/import_customers_zoppy.csv',
                 input: this.inputFileCustomer,
                 downloadService: this.downloadService
             },
