@@ -205,7 +205,7 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
                 id: 'customers',
                 title: 'Cliente'.toUpperCase(),
                 description:
-                    'User a planilha base Zoppy_Clientes.csv para importar os novos clientes, tenha cuidado com o formato dos dados!',
+                    'Use a planilha base Zoppy_Clientes.csv para importar os novos clientes, tenha cuidado com o formato dos dados!',
                 file: undefined,
                 upload: this.upload,
                 download: this.download,
@@ -217,8 +217,7 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
             {
                 id: 'coupons',
                 title: 'Coupons'.toUpperCase(),
-                description:
-                    'User a planilha base Zoppy_Coupons.csv para importar os novos coupons, tenha cuidado com o formato dos dados!',
+                description: 'Use a planilha base Zoppy_Coupons.csv para importar os novos coupons, tenha cuidado com o formato dos dados!',
                 file: undefined,
                 upload: this.upload,
                 download: this.download,
@@ -231,7 +230,7 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
                 id: 'products',
                 title: 'Produtos'.toUpperCase(),
                 description:
-                    'User a planilha base Zoppy_Produtos.csv para importar os novos produtos, tenha cuidado com o formato dos dados!',
+                    'Use a planilha base Zoppy_Produtos.csv para importar os novos produtos, tenha cuidado com o formato dos dados!',
                 file: undefined,
                 upload: this.upload,
                 download: this.download,
@@ -243,8 +242,7 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
             {
                 id: 'orders',
                 title: 'Pedidos'.toUpperCase(),
-                description:
-                    'User a planilha base Zoppy_Pedidos.csv para importar os novos pedidos, tenha cuidado com o formato dos dados!',
+                description: 'Use a planilha base Zoppy_Pedidos.csv para importar os novos pedidos, tenha cuidado com o formato dos dados!',
                 file: undefined,
                 upload: this.upload,
                 download: this.download,
@@ -257,7 +255,7 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
                 id: 'order-products',
                 title: 'Produtos dos pedidos'.toUpperCase(),
                 description:
-                    'User a planilha base Zoppy_Produtos_dos_Pedidos.csv para importar os novos produtos dos pedidos, tenha cuidado com o formato dos dados!',
+                    'Use a planilha base Zoppy_Produtos_dos_Pedidos.csv para importar os novos produtos dos pedidos, tenha cuidado com o formato dos dados!',
                 file: undefined,
                 upload: this.upload,
                 download: this.download,

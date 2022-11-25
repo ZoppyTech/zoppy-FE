@@ -144,6 +144,10 @@ export class ProductsComponent implements OnInit {
         }
     }
 
+    public add(): void {
+        this.router.navigate([Navigation.routes.product]);
+    }
+
     private setBreadcrumb(): void {
         this.breadcrumb.items = [
             {

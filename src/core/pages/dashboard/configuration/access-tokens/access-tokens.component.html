@@ -18,7 +18,7 @@
         <div class="field">
             <p class="text-14">Token</p>
             <ps-input [disabled]="true" [(ngModel)]="token.hash"></ps-input>
-            <ps-icon (click)="copyToClipboard()" icon="icon-copy" class="font-16 text--primary clickable"></ps-icon>
+            <ps-icon (click)="copyToClipboard()" icon="icon-copy" class="text--primary font-16 clickable"></ps-icon>
         </div>
         <div class="buttons">
             <ps-button [loading]="loading" *ngIf="token.id" [wide]="true" (onClick)="deleteToken()" type="cancel">

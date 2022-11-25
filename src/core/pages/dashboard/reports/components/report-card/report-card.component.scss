@@ -27,6 +27,10 @@ img {
         align-items: center;
         justify-content: center;
 
+        .label {
+            min-width: 64px;
+        }
+
         .separator {
             height: 1px;
             flex-grow: 1;
