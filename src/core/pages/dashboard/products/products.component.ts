@@ -11,6 +11,10 @@ import { Storage } from 'src/shared/utils/storage';
 import { DownloadService } from 'src/shared/services/download/download.service';
 import { ZoppyFilter } from 'src/shared/models/filter';
 import { FileUtils } from 'src/shared/utils/file.util';
+import { WcProductEntity } from 'src/shared/models/entities/wc-product.entity';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
+import { Router } from '@angular/router';
+import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
     selector: 'app-products',
@@ -30,7 +34,9 @@ export class ProductsComponent implements OnInit {
         public modal: ModalService,
         public toast: ToastService,
         public crmProductService: CrmProductService,
-        public downloadService: DownloadService
+        public downloadService: DownloadService,
+        public router: Router,
+        public confirmActionService: ConfirmActionService
     ) {}
 
     @ViewChild('inputFile') public input: any;
@@ -59,6 +65,28 @@ export class ProductsComponent implements OnInit {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os produtos');
         }
+    }
+
+    public async remove(product: CrmProductResponse): Promise<void> {
+        this.confirmActionService.open(
+            'Deletar o produto',
+            'Tem certeza que deseja deletar esse produto? Essa ação nao poderá ser desfeita.',
+            async (result: boolean) => {
+                if (!result) return;
+                try {
+                    await this.crmProductService.destroy(product.id);
+                    await this.fetchData();
+                    this.toast.success('Esse produto foi removido e não pode ser mais usado', 'Sucesso!');
+                } catch (ex: any) {
+                    ex = ex as ZoppyException;
+                    this.toast.error(ex.message, 'Não foi possível deletar esse produto');
+                }
+            }
+        );
+    }
+
+    public async update(product: CrmProductResponse): Promise<void> {
+        this.router.navigate([Navigation.routes.products, product.id]);
     }
 
     public async onSearchTextChanged(searchText: string = ''): Promise<void> {
@@ -119,7 +147,7 @@ export class ProductsComponent implements OnInit {
     private setBreadcrumb(): void {
         this.breadcrumb.items = [
             {
-                name: `Cadastro de produtos`,
+                name: `Gerenciamento de produtos`,
                 route: undefined
             }
         ];

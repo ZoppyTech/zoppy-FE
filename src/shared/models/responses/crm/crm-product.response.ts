@@ -6,6 +6,7 @@ export class CrmProductResponse {
     public declare status: string;
     public declare price: number;
     public declare quantity: number;
+    public declare specification: string;
     public declare categories: any[];
     public declare createdAt: Date;
     public declare updatedAt: Date;
