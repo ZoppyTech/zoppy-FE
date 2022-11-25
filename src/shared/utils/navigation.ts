@@ -25,6 +25,7 @@ export class Navigation {
         syncData: '/dashboard/configurations/sync-data',
         whatsapp: '/dashboard/whatsapp',
         products: '/dashboard/products',
+        product: '/dashboard/products/add',
         sales: '/dashboard/sales',
         customers: '/dashboard/customers'
     };
@@ -54,6 +55,7 @@ export type Pages =
     | 'syncData'
     | 'whatsapp'
     | 'products'
+    | 'product'
     | 'sales'
     | 'customers'
     | 'coupons'
