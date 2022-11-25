@@ -43,6 +43,16 @@
         table {
             width: 100%;
 
+            .actions {
+                display: flex;
+                justify-content: flex-end;
+
+                ps-icon {
+                    margin-left: 1.5rem;
+                    font-size: 1.125rem;
+                }
+            }
+
             .mobile-email {
                 white-space: nowrap;
                 overflow: hidden;

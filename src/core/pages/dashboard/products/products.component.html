@@ -63,18 +63,8 @@
                         }}</span>
                     </td>
                     <td class="actions">
-                        <div class="flex flex-end wide">
-                            <ps-button [round]="true" class="primary" type="clean" (onClick)="update(product)">
-                                <div>
-                                    <ps-icon class="primary" icon="icon-edit_square"></ps-icon>
-                                </div>
-                            </ps-button>
-                            <ps-button [round]="true" class="primary margin-left-1" type="clean" (onClick)="remove(product)">
-                                <div>
-                                    <ps-icon class="primary" icon="icon-delete"></ps-icon>
-                                </div>
-                            </ps-button>
-                        </div>
+                        <ps-icon class="primary text-18 clickable" icon="icon-edit_square" (click)="update(product)"></ps-icon>
+                        <ps-icon class="primary text-18 clickable" icon="icon-delete" (click)="remove(product)"></ps-icon>
                     </td>
                 </tr>
             </tbody>
