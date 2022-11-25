@@ -64,13 +64,14 @@ export class ProductComponent implements OnInit {
     public async save(): Promise<void> {
         this.loading = true;
         try {
-            await this.crmProductService.update(this.id, {
+            const request: CrmProductRequest = {
                 id: this.id,
                 name: this.product.name,
                 categories: this.product.categories,
                 specification: this.product.specification,
                 price: this.product.price
-            });
+            };
+            this.id ? await this.crmProductService.update(this.id, request) : await this.crmProductService.create(request);
             this.toast.success('Sucesso', 'Informações atualizadas');
             this.router.navigate([Navigation.routes.products]);
         } catch (ex: any) {
