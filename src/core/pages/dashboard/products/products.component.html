@@ -34,6 +34,7 @@
                 <th><span class="text-16 text--primary text--bold">Produto</span></th>
                 <th class="desktop"><span class="text-16 text--primary text--bold">Categorias</span></th>
                 <th class="desktop"><span class="text-16 text--primary text--bold">Valor</span></th>
+                <th class="desktop"><span class="text-16 text--primary text--bold">Especificação</span></th>
                 <th></th>
             </thead>
             <tbody>
@@ -51,6 +52,11 @@
                     <td class="desktop">
                         <span [ngClass]="{ 'text--400': !product.priceCurrency }" class="text-16 text--600 text-16 desktop">{{
                             product.priceCurrency || 'vazio'
+                        }}</span>
+                    </td>
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !product.specification }" class="text-16 text--600 text-16 desktop">{{
+                            product.specification || 'vazio'
                         }}</span>
                     </td>
                     <td class="actions">
