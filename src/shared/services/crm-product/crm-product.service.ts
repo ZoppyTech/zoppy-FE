@@ -42,9 +42,9 @@ export class CrmProductService extends ApiService {
         return promise;
     }
 
-    public async update(id: string, request: CrmProductRequest): Promise<CrmProductResponse> {
+    public async create(request: CrmProductRequest): Promise<CrmProductResponse> {
         const promise: Promise<CrmProductResponse> = new Promise((resolve: any, reject: any) => {
-            this.put<CrmProductResponse, CrmProductRequest>(`${this.url}/${id}`, request).subscribe(
+            this.post<CrmProductResponse, CrmProductRequest>(`${this.url}`, request).subscribe(
                 (response: CrmProductResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -52,9 +52,9 @@ export class CrmProductService extends ApiService {
         return promise;
     }
 
-    public async create(request: CrmProductRequest): Promise<CrmProductResponse> {
+    public async update(id: string, request: CrmProductRequest): Promise<CrmProductResponse> {
         const promise: Promise<CrmProductResponse> = new Promise((resolve: any, reject: any) => {
-            this.post<CrmProductResponse, CrmProductRequest>(`${this.url}`, request).subscribe(
+            this.put<CrmProductResponse, CrmProductRequest>(`${this.url}/${id}`, request).subscribe(
                 (response: CrmProductResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

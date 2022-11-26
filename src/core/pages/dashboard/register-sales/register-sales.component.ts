@@ -236,7 +236,7 @@ export class RegisterSalesComponent implements OnInit {
             }
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível obter o telefone');
+            this.toast.error(ex.message, 'Não foi possível obter as informações do CEP');
         } finally {
             this.loadingAddress = false;
         }
