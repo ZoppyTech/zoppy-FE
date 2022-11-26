@@ -34,14 +34,14 @@
                         }}</span>
                     </td>
                     <td>
-                        <div class="flex flex-center">
+                        <div class="actions">
                             <ps-icon
                                 (click)="navigate(user)"
                                 [attr.href]="getEditHref(user)"
-                                class="font-16 primary margin-right-1 clickable"
-                                icon="icon-pencil"
+                                class="font-18 primary clickable"
+                                icon="icon-edit_square"
                             ></ps-icon>
-                            <ps-icon (click)="destroy(user)" class="margin-left-1 primary clickable" icon="icon-bin"></ps-icon>
+                            <ps-icon (click)="destroy(user)" class="primary font-18 clickable" icon="icon-delete"></ps-icon>
                         </div>
                     </td>
                 </tr>

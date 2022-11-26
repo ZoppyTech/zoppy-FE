@@ -53,16 +53,12 @@
             }
 
             .actions {
-                div {
-                    justify-content: flex-end;
-                    ps-button {
-                        div {
-                            width: 2rem;
-                            ps-icon {
-                                font-size: 1.25rem;
-                            }
-                        }
-                    }
+                display: flex;
+                justify-content: flex-end;
+
+                ps-icon {
+                    margin-left: 1.5rem;
+                    font-size: 1.125rem;
                 }
             }
         }
