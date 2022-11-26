@@ -62,16 +62,6 @@ export class CrmProductService extends ApiService {
         return promise;
     }
 
-    public async create(request: CrmProductRequest): Promise<CrmProductResponse> {
-        const promise: Promise<CrmProductResponse> = new Promise((resolve: any, reject: any) => {
-            this.post<CrmProductResponse, CrmProductRequest>(`${this.url}`, request).subscribe(
-                (response: CrmProductResponse) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
-
     public async destroy(id: string): Promise<BooleanResponse> {
         const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
             this.delete<BooleanResponse>(`${this.url}/${id}`).subscribe(
