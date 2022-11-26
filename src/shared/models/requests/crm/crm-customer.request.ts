@@ -1,7 +1,6 @@
-export class CrmAddressResponse {
+export class CrmCustomerRequest {
     public declare id?: string;
-    public declare customerId?: string;
-    public declare wcId?: number;
+    public declare billingId?: string;
     public declare firstName?: string;
     public declare lastName?: string;
     public declare companyName?: string;
@@ -15,7 +14,4 @@ export class CrmAddressResponse {
     public declare phone?: string;
     public declare birthDate?: Date;
     public declare gender?: string;
-    public declare totalSpent?: string;
-    public declare countPurchases?: number;
-    public declare lastPurchaseDate?: Date;
 }
