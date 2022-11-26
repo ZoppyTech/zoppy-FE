@@ -88,7 +88,7 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
     }
 
     public add(): void {
-        this.router.navigate([Navigation.routes.product]);
+        this.router.navigate([Navigation.routes.customer]);
     }
 
     public async onPaginationChanged(page: number): Promise<void> {
@@ -141,26 +141,26 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
         this.router.navigate([Navigation.routes.whatsapp]);
     }
 
-    public async remove(customer: CrmCustomerResponse): Promise<void> {
+    public async remove(address: CrmAddressResponse): Promise<void> {
         this.confirmActionService.open(
             'Deletar o produto',
             'Tem certeza que deseja deletar esse produto? Essa ação nao poderá ser desfeita.',
             async (result: boolean) => {
                 if (!result) return;
                 try {
-                    await this.crmCustomerService.destroy(customer.id as string);
+                    await this.crmCustomerService.destroy(address.customerId as string);
                     await this.fetchData();
-                    this.toast.success('Esse produto foi removido e não pode ser mais usado', 'Sucesso!');
+                    this.toast.success('Esse cliente foi removido e não pode ser mais usado', 'Sucesso!');
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
-                    this.toast.error(ex.message, 'Não foi possível deletar esse produto');
+                    this.toast.error(ex.message, 'Não foi possível deletar esse cliente');
                 }
             }
         );
     }
 
-    public async update(product: CrmCustomerResponse): Promise<void> {
-        this.router.navigate([Navigation.routes.products, product.id]);
+    public async update(address: CrmAddressResponse): Promise<void> {
+        this.router.navigate([Navigation.routes.customers, address.customerId]);
     }
 
     private setBreadcrumb(): void {

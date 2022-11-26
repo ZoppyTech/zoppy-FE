@@ -119,11 +119,11 @@ export class CustomerComponent implements OnInit {
             },
             {
                 name: `Gerenciamento de Clientes`,
-                route: Navigation.routes.products
+                route: Navigation.routes.customers
             },
             {
                 name: this.id ? `Editar Cliente` : 'Criar Cliente',
-                route: Navigation.routes.products
+                route: Navigation.routes.customers
             }
         ];
     }

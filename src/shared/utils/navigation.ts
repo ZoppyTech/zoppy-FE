@@ -28,7 +28,7 @@ export class Navigation {
         product: '/dashboard/products/add',
         sales: '/dashboard/sales',
         customers: '/dashboard/customers',
-        customer: '/dashboard/add'
+        customer: '/dashboard/customers/add'
     };
 }
 
