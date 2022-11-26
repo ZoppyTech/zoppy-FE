@@ -143,8 +143,8 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
 
     public async remove(address: CrmAddressResponse): Promise<void> {
         this.confirmActionService.open(
-            'Deletar o produto',
-            'Tem certeza que deseja deletar esse produto? Essa ação nao poderá ser desfeita.',
+            'Deletar o cliente',
+            'Tem certeza que deseja deletar esse cliente? Essa ação nao poderá ser desfeita.',
             async (result: boolean) => {
                 if (!result) return;
                 try {
