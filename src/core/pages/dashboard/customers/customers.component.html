@@ -1,27 +1,36 @@
 <main>
     <div class="container">
-        <div class="title flex space-between">
-            <div class="flex flex-column desktop">
+        <div class="header space-between flex-center">
+            <h5 class="text--primary text--bold text-20">Clientes</h5>
+            <ps-button [wide]="true" (onClick)="add()" type="secondary">
+                <span class="text--100 margin-x-3">Adicionar novo</span>
+            </ps-button>
+        </div>
+        <div class="title flex flex-column space-between">
+            <div class="flex flex-row desktop space-between">
                 <div class="flex align-center padding-top-3 padding-bottom-2">
-                    <h6 class="text-20 text--bold text--primary">Clientes &nbsp;</h6>
+                    <h6 class="text--bold text-18">Gerenciamento de Produtos &nbsp;</h6>
                     <ps-icon icon="icon-info secondary " class="font-16 secondary clickable" (click)="openInfoModal()"></ps-icon>
                 </div>
-                <span class="text-16">Confira abaixo a listagem com seus clientes. </span>
+                <div class="flex-center right margin-left-3">
+                    <ps-search-bar
+                        [searchStyle]="'border-bottom'"
+                        class="margin-right-3"
+                        [text]="filter.searchText"
+                        (onChanged)="onSearchTextChanged($event)"
+                    ></ps-search-bar>
+                    <ps-pagination
+                        [page]="filter.pagination.page"
+                        [totalPages]="filter.pagination.totalPages"
+                        (onPageChanged)="onPaginationChanged($event)"
+                    ></ps-pagination>
+                </div>
             </div>
 
-            <div class="flex-center right margin-left-3">
-                <ps-search-bar
-                    [searchStyle]="'border-bottom'"
-                    class="margin-right-3"
-                    [text]="filter.searchText"
-                    (onChanged)="onSearchTextChanged($event)"
-                ></ps-search-bar>
-                <ps-pagination
-                    [page]="filter.pagination.page"
-                    [totalPages]="filter.pagination.totalPages"
-                    (onPageChanged)="onPaginationChanged($event)"
-                ></ps-pagination>
-            </div>
+            <span class="text-16">
+                >Para cadastrar novos clientes, pode-se fazer individualmente ou através de planilha. Caso queira usar a planilha, baixe o
+                modelo abaixo, preencha com os novos clientes e depois faça o upload da mesma.
+            </span>
         </div>
 
         <div class="body">
@@ -33,6 +42,7 @@
                     <th class="desktop"><span class="text-16 text--primary text--bold">Total de compras</span></th>
                     <th class="desktop"><span class="text-16 text--primary text--bold">Total Gasto</span></th>
                     <th class="desktop"><span class="text-16 text--primary text--bold">Data do aniversário</span></th>
+                    <th></th>
                 </thead>
                 <tbody>
                     <tr class="item" *ngFor="let customer of customers">
@@ -65,6 +75,20 @@
                             <span [ngClass]="{ 'text--400': !customer.birthDate }" class="text-16 text--600 desktop">{{
                                 (customer.birthDate | date: 'dd/MM/yyyy') || 'vazio'
                             }}</span>
+                        </td>
+                        <td class="actions">
+                            <div class="flex flex-end wide">
+                                <ps-button [round]="true" class="primary" type="clean" (onClick)="update(customer)">
+                                    <div>
+                                        <ps-icon class="primary" icon="icon-edit_square"></ps-icon>
+                                    </div>
+                                </ps-button>
+                                <ps-button [round]="true" class="primary margin-left-1" type="clean" (onClick)="remove(customer)">
+                                    <div>
+                                        <ps-icon class="primary" icon="icon-delete"></ps-icon>
+                                    </div>
+                                </ps-button>
+                            </div>
                         </td>
                     </tr>
                 </tbody>

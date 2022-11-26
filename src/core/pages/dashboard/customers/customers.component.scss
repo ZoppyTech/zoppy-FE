@@ -28,7 +28,8 @@ main {
         max-width: calc(100vw - 2rem);
 
         .header {
-            padding: 0 2rem;
+            border-bottom: 1px solid var(--neutral-300);
+            padding: 1rem 2rem;
         }
 
         .title {
@@ -61,6 +62,20 @@ main {
                 tbody {
                     background-color: var(--neutral-100);
                     width: 100%;
+                }
+
+                .actions {
+                    div {
+                        justify-content: flex-end;
+                        ps-button {
+                            div {
+                                width: 2rem;
+                                ps-icon {
+                                    font-size: 1.25rem;
+                                }
+                            }
+                        }
+                    }
                 }
             }
 

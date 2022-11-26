@@ -1,10 +1,11 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { ZoppyFilter } from 'src/shared/models/filter';
 import { CrmAddressResponse } from 'src/shared/models/responses/crm/crm-address.response';
-import { CrmCustomerDetailResponse } from 'src/shared/models/responses/crm/crm-customer.response';
+import { CrmCustomerDetailResponse, CrmCustomerResponse } from 'src/shared/models/responses/crm/crm-customer.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.service';
@@ -37,7 +38,8 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
         public router: Router,
         public crmAddressService: CrmAddressService,
         public crmCustomerService: CrmCustomerService,
-        public downloadService: DownloadService
+        public downloadService: DownloadService,
+        public confirmActionService: ConfirmActionService
     ) {
         super(storage);
     }
@@ -83,6 +85,10 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
             this.toast.error(ex.message, 'Erro!');
             this.customerDetail = undefined;
         }
+    }
+
+    public add(): void {
+        this.router.navigate([Navigation.routes.product]);
     }
 
     public async onPaginationChanged(page: number): Promise<void> {
@@ -133,6 +139,28 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
 
     public async redirectToChat(): Promise<void> {
         this.router.navigate([Navigation.routes.whatsapp]);
+    }
+
+    public async remove(customer: CrmCustomerResponse): Promise<void> {
+        this.confirmActionService.open(
+            'Deletar o produto',
+            'Tem certeza que deseja deletar esse produto? Essa ação nao poderá ser desfeita.',
+            async (result: boolean) => {
+                if (!result) return;
+                try {
+                    await this.crmCustomerService.destroy(customer.id as string);
+                    await this.fetchData();
+                    this.toast.success('Esse produto foi removido e não pode ser mais usado', 'Sucesso!');
+                } catch (ex: any) {
+                    ex = ex as ZoppyException;
+                    this.toast.error(ex.message, 'Não foi possível deletar esse produto');
+                }
+            }
+        );
+    }
+
+    public async update(product: CrmCustomerResponse): Promise<void> {
+        this.router.navigate([Navigation.routes.products, product.id]);
     }
 
     private setBreadcrumb(): void {
