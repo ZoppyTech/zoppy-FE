@@ -159,14 +159,10 @@
                 </table>
             </div>
         </div>
-        <ps-button
-            [loading]="loadingDownload"
-            class="margin-top-3 padding-3"
-            [wide]="true"
-            type="secondary"
-            (onClick)="downloadCustomers()"
-        >
-            <span class="text--100 text-14"> Exportar CSV </span>
-        </ps-button>
+        <div class="footer padding-y-3">
+            <ps-button [loading]="loadingDownload" class="" [wide]="true" type="secondary" (onClick)="downloadCustomers()">
+                <span class="text--100 text-14"> Exportar CSV </span>
+            </ps-button>
+        </div>
     </div>
 </div>
