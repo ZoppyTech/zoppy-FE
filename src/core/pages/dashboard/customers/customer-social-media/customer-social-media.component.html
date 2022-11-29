@@ -4,7 +4,7 @@
             <ps-contact [tooltip]="false" [name]="details.name" class="margin-right-2" [size]="'4rem'" [email]="details.email"></ps-contact>
             <div class="flex flex-column">
                 <h6 class="text--primary text--bold">{{ details.name }}</h6>
-                <span class="margin-top-2">
+                <span class="margin-top-2 desktop">
                     <span class="text text--14"> Última compra em {{ details.lastPurchaseDate | date: 'dd/MM/yyyy' || 'vazio' }} </span>
                     <span class="text text--14 margin-left-3">
                         Cliente desde {{ details.clientSince | date: 'dd/MM/yyyy' || 'vazio' }}
@@ -174,7 +174,7 @@
                 <div class="margin-top-2">
                     <span class="text">{{ task.description }}</span>
                 </div>
-                <div class="margin-top-2 flex align-center">
+                <div class="margin-top-2 flex align-center classification">
                     <span class="text text--500">Classificação da atividade: </span>
                     <ps-icon
                         class="margin-left-1 text--500"

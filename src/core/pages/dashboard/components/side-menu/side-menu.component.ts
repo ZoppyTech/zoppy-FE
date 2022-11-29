@@ -25,7 +25,7 @@ export class SideMenuComponent implements OnInit {
         public router: Router,
         public storage: Storage
     ) {
-        this.sideMenuService.open = true;
+        if (window.screen.width > 576) this.sideMenuService.open = true;
     }
 
     public goToInitial(): void {
