@@ -1,157 +1,163 @@
 <div class="main-content">
-    <div class="matrix">
-        <div
-            class="box radius-top-left cant-lose"
-            [ngClass]="{ unselected: !['all', 'cant-lose'].includes(position.position) }"
-            (click)="setFilter(positions.cantLose)"
-        >
-            <div class="overlay"></div>
-            <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary text-14">Não pode perder</span>
-                <span class="text--caption text--primary text-12">{{ calculate(positions.cantLose) }}</span>
+    <section class="flex-column wide flex-start">
+        <div class="matrix">
+            <div
+                class="box radius-top-left cant-lose"
+                [ngClass]="{ unselected: !['all', 'cant-lose'].includes(position.position) }"
+                (click)="setFilter(positions.cantLose)"
+            >
+                <div class="overlay"></div>
+                <div class="padding-1 flex flex-column">
+                    <span class="text--caption text--primary text-14">Não pode perder</span>
+                    <span class="text--caption text--primary text-12">{{ calculate(positions.cantLose) }}</span>
+                </div>
+            </div>
+            <div
+                class="box at-risk"
+                [ngClass]="{ unselected: !['all', 'at-risk'].includes(position.position) }"
+                (click)="setFilter(positions.atRisk)"
+            >
+                <div class="overlay"></div>
+                <div class="padding-1 flex flex-column">
+                    <span class="text--caption text--primary text-14">Em risco</span>
+                    <span class="text--caption text--primary text-12">{{ calculate(positions.atRisk) }}</span>
+                </div>
+            </div>
+            <div
+                class="box radius-bottom-left sleeping"
+                [ngClass]="{ unselected: !['all', 'sleeping'].includes(position.position) }"
+                (click)="setFilter(positions.sleeping)"
+            >
+                <div class="overlay"></div>
+                <div class="padding-1 flex flex-column">
+                    <span class="text--caption text--primary text-14">Hibernando</span>
+                    <span class="text--caption text--primary text-12">{{ calculate(positions.sleeping) }}</span>
+                </div>
+            </div>
+            <div
+                class="box loyal"
+                (click)="setFilter(positions.loyal)"
+                [ngClass]="{ unselected: !['all', 'loyal'].includes(position.position) }"
+            >
+                <div class="overlay"></div>
+                <div class="padding-1 flex flex-column">
+                    <span class="text--caption text--primary text-14">Fidelizados</span>
+                    <span class="text--caption text--primary text-12">{{ calculate(positions.loyal) }}</span>
+                </div>
+            </div>
+            <div
+                class="box need-attention"
+                (click)="setFilter(positions.needAttention)"
+                [ngClass]="{ unselected: !['all', 'need-attention'].includes(position.position) }"
+            >
+                <div class="overlay"></div>
+                <div class="padding-1 flex flex-column">
+                    <span class="text--caption text--primary padding-left-1 text-14">Precisa de atenção</span>
+                    <span class="text--caption text--primary text-12">{{ calculate(positions.needAttention) }}</span>
+                </div>
+            </div>
+            <div
+                class="box possible-loyal"
+                [ngClass]="{ unselected: !['all', 'possible-loyal'].includes(position.position) }"
+                (click)="setFilter(positions.possibleLoyal)"
+            >
+                <div class="overlay"></div>
+                <div class="padding-1 flex flex-column">
+                    <span class="text--caption text--primary text-14">Possíveis leais</span>
+                    <span class="text--caption text--primary text-12">{{ calculate(positions.possibleLoyal) }}</span>
+                </div>
+            </div>
+            <div
+                class="box almost-sleeping"
+                (click)="setFilter(positions.almostSleeping)"
+                [ngClass]="{ unselected: !['all', 'almost-sleeping'].includes(position.position) }"
+            >
+                <div class="overlay"></div>
+                <div class="padding-1 flex flex-column">
+                    <span class="text--caption text--primary text-14">Quase hibernando</span>
+                    <span class="text--caption text--primary text-12">{{ calculate(positions.almostSleeping) }}</span>
+                </div>
+            </div>
+            <div
+                class="box promising"
+                [ngClass]="{ unselected: !['all', 'promising'].includes(position.position) }"
+                (click)="setFilter(positions.promising)"
+            >
+                <div class="overlay"></div>
+                <div class="padding-1 flex flex-column">
+                    <span class="text--caption text--primary text-14">Promissores</span>
+                    <span class="text--caption text--primary text-12">{{ calculate(positions.promising) }}</span>
+                </div>
+            </div>
+            <div
+                class="box radius-top-right champion box-champion"
+                [ngClass]="{ unselected: !['all', 'champion'].includes(position.position) }"
+                (click)="setFilter(positions.champion)"
+            >
+                <div class="overlay"></div>
+                <div class="padding-1 flex flex-column">
+                    <span class="text--caption text--primary text-14">Campeões</span>
+                    <span class="text--caption text--primary text-12">{{ calculate(positions.champion) }}</span>
+                </div>
+            </div>
+            <div
+                class="box radius-bottom-right new"
+                [ngClass]="{ unselected: !['all', 'new'].includes(position.position) }"
+                (click)="setFilter(positions.new)"
+            >
+                <div class="overlay"></div>
+                <div class="padding-1 flex flex-column">
+                    <span class="text--caption text--primary">Novos</span>
+                    <span class="text--caption text--primary">{{ calculate(positions.new) }}</span>
+                </div>
             </div>
         </div>
-        <div
-            class="box at-risk"
-            [ngClass]="{ unselected: !['all', 'at-risk'].includes(position.position) }"
-            (click)="setFilter(positions.atRisk)"
-        >
-            <div class="overlay"></div>
-            <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary text-14">Em risco</span>
-                <span class="text--caption text--primary text-12">{{ calculate(positions.atRisk) }}</span>
-            </div>
-        </div>
-        <div
-            class="box radius-bottom-left sleeping"
-            [ngClass]="{ unselected: !['all', 'sleeping'].includes(position.position) }"
-            (click)="setFilter(positions.sleeping)"
-        >
-            <div class="overlay"></div>
-            <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary text-14">Hibernando</span>
-                <span class="text--caption text--primary text-12">{{ calculate(positions.sleeping) }}</span>
-            </div>
-        </div>
-        <div
-            class="box loyal"
-            (click)="setFilter(positions.loyal)"
-            [ngClass]="{ unselected: !['all', 'loyal'].includes(position.position) }"
-        >
-            <div class="overlay"></div>
-            <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary text-14">Fidelizados</span>
-                <span class="text--caption text--primary text-12">{{ calculate(positions.loyal) }}</span>
-            </div>
-        </div>
-        <div
-            class="box need-attention"
-            (click)="setFilter(positions.needAttention)"
-            [ngClass]="{ unselected: !['all', 'need-attention'].includes(position.position) }"
-        >
-            <div class="overlay"></div>
-            <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary padding-left-1 text-14">Precisa de atenção</span>
-                <span class="text--caption text--primary text-12">{{ calculate(positions.needAttention) }}</span>
-            </div>
-        </div>
-        <div
-            class="box possible-loyal"
-            [ngClass]="{ unselected: !['all', 'possible-loyal'].includes(position.position) }"
-            (click)="setFilter(positions.possibleLoyal)"
-        >
-            <div class="overlay"></div>
-            <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary text-14">Possíveis leais</span>
-                <span class="text--caption text--primary text-12">{{ calculate(positions.possibleLoyal) }}</span>
-            </div>
-        </div>
-        <div
-            class="box almost-sleeping"
-            (click)="setFilter(positions.almostSleeping)"
-            [ngClass]="{ unselected: !['all', 'almost-sleeping'].includes(position.position) }"
-        >
-            <div class="overlay"></div>
-            <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary text-14">Quase hibernando</span>
-                <span class="text--caption text--primary text-12">{{ calculate(positions.almostSleeping) }}</span>
-            </div>
-        </div>
-        <div
-            class="box promising"
-            [ngClass]="{ unselected: !['all', 'promising'].includes(position.position) }"
-            (click)="setFilter(positions.promising)"
-        >
-            <div class="overlay"></div>
-            <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary text-14">Promissores</span>
-                <span class="text--caption text--primary text-12">{{ calculate(positions.promising) }}</span>
-            </div>
-        </div>
-        <div
-            class="box radius-top-right champion box-champion"
-            [ngClass]="{ unselected: !['all', 'champion'].includes(position.position) }"
-            (click)="setFilter(positions.champion)"
-        >
-            <div class="overlay"></div>
-            <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary text-14">Campeões</span>
-                <span class="text--caption text--primary text-12">{{ calculate(positions.champion) }}</span>
-            </div>
-        </div>
-        <div
-            class="box radius-bottom-right new"
-            [ngClass]="{ unselected: !['all', 'new'].includes(position.position) }"
-            (click)="setFilter(positions.new)"
-        >
-            <div class="overlay"></div>
-            <div class="padding-1 flex flex-column">
-                <span class="text--caption text--primary">Novos</span>
-                <span class="text--caption text--primary">{{ calculate(positions.new) }}</span>
-            </div>
-        </div>
-    </div>
+        <rfm-overview class="padding-top-3"></rfm-overview>
+    </section>
+
     <div class="content-box">
-        <div class="flex-column flex-start space-between padding-3">
-            <span class="text--primary text-24 text--bold padding-bottom-1">Listagem de clientes</span>
-            <div class="flex flex-start">
-                <span class="text--500 text-16">Exibindo: </span>
-                <span [ngSwitch]="position.position">
-                    <span *ngSwitchCase="'cant-lose'" class="text--500 text-16 padding-left-1">Não pode perder</span>
-                    <span *ngSwitchCase="'at-risk'" class="text--500 text-16 padding-left-1">Em risco</span>
-                    <span *ngSwitchCase="'loyal'" class="text--500 text-16 padding-left-1">Fidelizados</span>
-                    <span *ngSwitchCase="'champion'" class="text--500 text-16 padding-left-1">Campeões</span>
-                    <span *ngSwitchCase="'need-attention'" class="text--500 text-16 padding-left-1">Precisa de atenção</span>
-                    <span *ngSwitchCase="'possible-loyal'" class="text--500 text-16 padding-left-1">Possíveis leais</span>
-                    <span *ngSwitchCase="'sleeping'" class="text--500 text-16 padding-left-1">Hibernando</span>
-                    <span *ngSwitchCase="'almost-sleeping'" class="text--500 text-16 padding-left-1">Quase hibernando</span>
-                    <span *ngSwitchCase="'promising'" class="text--500 text-16 padding-left-1">Promissores</span>
-                    <span *ngSwitchCase="'new'" class="text--500 text-16 padding-left-1">Novos</span>
-                    <span *ngSwitchCase="'all'" class="text--500 text-16 padding-left-1">Todos</span>
-                </span>
+        <div class="contact-list">
+            <div class="flex-column flex-start space-between padding-3">
+                <span class="text--primary text-24 text--bold padding-bottom-1">Listagem de clientes</span>
+                <div class="flex flex-start">
+                    <span class="text--500 text-16">Exibindo: </span>
+                    <span [ngSwitch]="position.position">
+                        <span *ngSwitchCase="'cant-lose'" class="text--500 text-16 padding-left-1">Não pode perder</span>
+                        <span *ngSwitchCase="'at-risk'" class="text--500 text-16 padding-left-1">Em risco</span>
+                        <span *ngSwitchCase="'loyal'" class="text--500 text-16 padding-left-1">Fidelizados</span>
+                        <span *ngSwitchCase="'champion'" class="text--500 text-16 padding-left-1">Campeões</span>
+                        <span *ngSwitchCase="'need-attention'" class="text--500 text-16 padding-left-1">Precisa de atenção</span>
+                        <span *ngSwitchCase="'possible-loyal'" class="text--500 text-16 padding-left-1">Possíveis leais</span>
+                        <span *ngSwitchCase="'sleeping'" class="text--500 text-16 padding-left-1">Hibernando</span>
+                        <span *ngSwitchCase="'almost-sleeping'" class="text--500 text-16 padding-left-1">Quase hibernando</span>
+                        <span *ngSwitchCase="'promising'" class="text--500 text-16 padding-left-1">Promissores</span>
+                        <span *ngSwitchCase="'new'" class="text--500 text-16 padding-left-1">Novos</span>
+                        <span *ngSwitchCase="'all'" class="text--500 text-16 padding-left-1">Todos</span>
+                    </span>
+                </div>
             </div>
-        </div>
-        <div class="table">
-            <table *ngIf="!isLoading">
-                <thead>
-                    <th><span class="text--primary text--bold text-14">Nome</span></th>
-                    <th class="desktop"><span class="text--primary text--bold text-14">E-mail</span></th>
-                    <th><span class="text--primary text--bold text-14">Telefone</span></th>
-                </thead>
-                <tbody>
-                    <tr *ngFor="let customer of customers" [ngClass]="{ hidden: customer.hidden }">
-                        <td>
-                            <span class="text-14">{{ customer.name }}</span>
-                        </td>
-                        <td class="desktop">
-                            <span class="text-14">{{ customer.email }}</span>
-                        </td>
-                        <td>
-                            <span class="text-14">{{ customer.phoneMasked }}</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+            <div class="table">
+                <table>
+                    <thead>
+                        <th><span class="text--primary text--bold text-14">Nome</span></th>
+                        <th class="desktop"><span class="text--primary text--bold text-14">E-mail</span></th>
+                        <th><span class="text--primary text--bold text-14">Telefone</span></th>
+                    </thead>
+                    <tbody *ngIf="!isLoading">
+                        <tr *ngFor="let customer of customers" [ngClass]="{ hidden: customer.hidden }">
+                            <td>
+                                <span class="text-14">{{ customer.name }}</span>
+                            </td>
+                            <td class="desktop">
+                                <span class="text-14">{{ customer.email }}</span>
+                            </td>
+                            <td>
+                                <span class="text-14">{{ customer.phoneMasked }}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
         </div>
         <ps-button
             [loading]="loadingDownload"

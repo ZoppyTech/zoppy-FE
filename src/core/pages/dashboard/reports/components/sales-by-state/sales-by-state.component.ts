@@ -60,7 +60,6 @@ export class SalesByStateComponent implements AfterViewInit, OnDestroy {
             this.barChartLabels.push(saleState.state);
             this.barChartData[0].data.push(saleState.amount.toString());
         });
-
         this.isLoading = false;
     }
 
