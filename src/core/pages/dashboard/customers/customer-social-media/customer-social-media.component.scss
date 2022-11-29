@@ -1,0 +1,95 @@
+@import 'src/styles.scss';
+
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100;
+    flex-grow: 1;
+    min-height: 0;
+}
+
+main {
+    height: 100%;
+    width: 100%;
+    padding: 0 3rem;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        padding: 1rem 2rem;
+    }
+
+    .body {
+        flex-grow: 1;
+        min-height: 0;
+        display: flex;
+        grid-gap: 2rem;
+
+        .side-info {
+            max-width: 30rem;
+
+            &__header {
+                ps-icon {
+                    font-size: 1.25rem !important;
+                }
+            }
+
+            ps-icon {
+                font-size: 1rem;
+            }
+        }
+
+        td {
+            padding: 1rem;
+            height: 100%;
+            border: none;
+        }
+
+        thead {
+            border: 1px solid var(--neutral-200);
+        }
+
+        tr {
+            border: 1px solid var(--neutral-200);
+        }
+
+        th {
+            padding: 0.5rem 1rem;
+        }
+
+        .selector {
+            padding: 0.5rem 1rem;
+            border: 1px solid var(--neutral-300);
+            border-radius: 1.5rem;
+        }
+
+        .selected {
+            border: 1px solid var(--secondary);
+        }
+
+        .status {
+            ps-icon {
+                font-size: 1.7rem;
+            }
+        }
+
+        .classification {
+            ps-icon {
+                font-size: 1.25rem;
+            }
+        }
+    }
+}
+
+.loading {
+    img {
+        height: 4rem;
+        width: 4rem;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    main {
+        padding: 1rem;
+    }
+}
