@@ -1,1 +1,24 @@
-<p>product-level-chart works!</p>
+<div class="container">
+    <div class="header">
+        <div class="margin-bottom-2">
+            <span class="text--bold text--primary text-18">Média nível dos produtos</span>
+        </div>
+        <div class="legends">
+            <div class="point"></div>
+            <span class="text-14 text--700">2 de 5</span>
+        </div>
+    </div>
+    <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
+        <img [src]="logo" alt="" *ngIf="isLoading" />
+        <div class="chart-content" *ngIf="!isLoading">
+            <canvas
+                baseChart
+                [datasets]="pieChartData"
+                [labels]="pieChartLabels"
+                [options]="pieChartOptions"
+                [legend]="pieChartLegend"
+                type="pie"
+            ></canvas>
+        </div>
+    </div>
+</div>
