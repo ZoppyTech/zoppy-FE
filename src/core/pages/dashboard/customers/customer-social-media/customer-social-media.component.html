@@ -19,7 +19,7 @@
         </div>
     </div>
     <div class="body">
-        <div class="side-info flex flex-column">
+        <div class="side-info flex flex-column desktop">
             <div class="box-content padding-2">
                 <div class="padding-bottom-2 flex space-between side-info__header align-center">
                     <span class="text text--primary text--bold">Sobre</span>
@@ -110,6 +110,48 @@
         </div>
 
         <div class="tasks flex-grow flex flex-column scroll tall">
+            <div class="box-content padding-2 margin-bottom-3">
+                <div class="flex">
+                    <div
+                        class="selector clickable margin-right-2"
+                        (click)="selectType(type)"
+                        *ngFor="let type of taskTypes"
+                        [ngClass]="{ selected: type.value === task.taskType }"
+                    >
+                        <span class="text text--300 text--bold" [ngClass]="{ 'text--secondary': type.value === task.taskType }">{{
+                            type.label
+                        }}</span>
+                    </div>
+                </div>
+                <div class="margin-y-2">
+                    <ps-radio-button
+                        [propertyValue]="'value'"
+                        [propertyLabel]="'label'"
+                        [vertical]="false"
+                        [items]="contactTypes"
+                        [(value)]="task.contactType"
+                    ></ps-radio-button>
+                </div>
+                <div class="padding-top-1">
+                    <ps-input [rows]="3" [(ngModel)]="task.description"></ps-input>
+                </div>
+
+                <div class="flex margin-y-2 status align-center">
+                    <span class="text text--12 margin-right-2">Classifique a atividade: </span>
+                    <div *ngFor="let status of statusTypes" class="margin-right-1">
+                        <ps-icon
+                            class="text--300 clickable {{ task.status === status.value ? status.class : '' }}"
+                            (click)="selectStatus(status)"
+                            [icon]="status.label"
+                        ></ps-icon>
+                    </div>
+                </div>
+
+                <ps-button (onClick)="save()" type="secondary" [disabled]="!task.description || !task.taskType" [loading]="loadingNewTask">
+                    <span class="text text--100 padding-x-3 margin-x-3">Registrar</span>
+                </ps-button>
+            </div>
+
             <div class="box-content padding-2 margin-bottom-3" *ngFor="let task of tasks">
                 <div class="flex align-center">
                     <ps-contact
@@ -125,6 +167,24 @@
                 </div>
                 <div class="margin-top-2">
                     <span class="text text--bold">Registro de {{ getTaskTypeLabel(task) }}</span>
+                </div>
+                <div class="margin-top-2" *ngIf="task.contactType">
+                    <span class="text text--primary">{{ getTaskContactTypeLabel(task) }}</span>
+                </div>
+                <div class="margin-top-2">
+                    <span class="text">{{ task.description }}</span>
+                </div>
+                <div class="margin-top-2 flex align-center">
+                    <span class="text text--500">Classificação da atividade: </span>
+                    <ps-icon
+                        class="margin-left-1 text--500"
+                        [icon]="getStatusLabel(task)"
+                        [ngClass]="{
+                            success: task.status === 'success',
+                            warning: task.status === 'warn',
+                            negative: task.status === 'negative'
+                        }"
+                    ></ps-icon>
                 </div>
                 <table class="margin-top-2 wide" *ngIf="task.order?.products">
                     <thead>

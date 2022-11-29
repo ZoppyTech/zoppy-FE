@@ -8,6 +8,7 @@ import { DatepickerModule } from '@ZoppyTech/datepicker';
 import { DropdownModule } from '@ZoppyTech/dropdown';
 import { InputModule } from '@ZoppyTech/input';
 import { ContactModule } from '@ZoppyTech/contact';
+import { RadioButtonModule } from '@ZoppyTech/radio-button';
 
 const routes: Routes = [
     {
@@ -25,6 +26,7 @@ const routes: Routes = [
         InputModule,
         ContactModule,
         ButtonModule,
+        RadioButtonModule,
         DatepickerModule
     ],
     declarations: [CustomerSocialMediaComponent],

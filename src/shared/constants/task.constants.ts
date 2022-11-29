@@ -20,5 +20,5 @@ export class TaskConstants {
 }
 
 export type TaskTypes = 'observation' | 'sale' | 'task';
-export type TaskContactTypes = 'call';
+export type TaskContactTypes = 'call' | 'whatsapp' | 'store' | 'other';
 export type TaskStatus = 'success' | 'warn' | 'negative';

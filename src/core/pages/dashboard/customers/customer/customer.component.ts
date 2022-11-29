@@ -43,8 +43,8 @@ export class CustomerComponent implements OnInit {
 
     public async ngOnInit() {
         this.sideMenuService.change('customers');
-        this.setBreadcrumb();
         this.id = this.route.snapshot.paramMap.get('id') ?? '';
+        this.setBreadcrumb();
         await this.fetchData();
     }
 
