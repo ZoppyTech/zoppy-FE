@@ -118,7 +118,7 @@ export class CustomerComponent implements OnInit {
                 route: undefined
             },
             {
-                name: `Gerenciamento de Clientes`,
+                name: `Área de membros`,
                 route: Navigation.routes.customers
             },
             {

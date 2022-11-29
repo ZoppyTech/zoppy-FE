@@ -1,0 +1,172 @@
+<main *ngIf="loaded">
+    <div class="header flex space-between box-content margin-bottom-3">
+        <div class="left flex flex-center">
+            <ps-contact [tooltip]="false" [name]="details.name" class="margin-right-2" [size]="'4rem'" [email]="details.email"></ps-contact>
+            <div class="flex flex-column">
+                <h6 class="text--primary text--bold">{{ details.name }}</h6>
+                <span class="margin-top-2">
+                    <span class="text text--14"> Última compra em {{ details.lastPurchaseDate | date: 'dd/MM/yyyy' || 'vazio' }} </span>
+                    <span class="text text--14 margin-left-3">
+                        Cliente desde {{ details.clientSince | date: 'dd/MM/yyyy' || 'vazio' }}
+                    </span>
+                </span>
+            </div>
+        </div>
+        <div class="flex align-center">
+            <ps-button [wide]="true" type="secondary">
+                <span class="text text--100 margin-x-3">Enviar mensagem</span>
+            </ps-button>
+        </div>
+    </div>
+    <div class="body">
+        <div class="side-info flex flex-column">
+            <div class="box-content padding-2">
+                <div class="padding-bottom-2 flex space-between side-info__header align-center">
+                    <span class="text text--primary text--bold">Sobre</span>
+                    <ps-icon class="text--700" class="primary clickable" (click)="update()" icon="icon-edit_square"></ps-icon>
+                </div>
+                <div class="separator margin-bottom-2"></div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-call"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700">{{ details.phone }}</span>
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-mail"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700">{{ details.email }}</span>
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-cake"></ps-icon> &nbsp;
+                    <span *ngIf="details.birthdate" class="text margin-left-1"
+                        >{{ details.birthdate | date: 'dd/MM/yyyy' }}{{ ', ' + details.age + ' anos' }}</span
+                    >
+                    <span class="text margin-left-1 text--700" *ngIf="!details.birthdate">vazio</span>
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-location_on"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700">{{ details.fullAddress }}</span>
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-female"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700">{{ getGender() }}</span>
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-store"></ps-icon> &nbsp;
+                    <div class="flex-column">
+                        <span class="text margin-left-1 text--700">Cadastrado no {{ details.registerType }}</span>
+                        <span class="text margin-left-1 text--700">Vendedor: {{ details.userName || 'vazio' }}</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="box-content padding-2 margin-top-3">
+                <div class="padding-bottom-2 flex space-between side-info__header align-center">
+                    <span class="text text--primary text--bold">Compras</span>
+                </div>
+                <div class="separator margin-bottom-2"></div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-thumb_up"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700"> <b>Nota RFM: </b> {{ getMatrixRfmClassification() }}</span>
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700"> <b>Número de compras: </b> {{ details.purchaseCount }}</span>
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-currency_exchange"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700"> <b>Ticket médio: </b> {{ details.averageTicket }}</span>
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-savings"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700"> <b>Total gasto: </b> {{ details.totalSpent }}</span>
+                </div>
+            </div>
+
+            <div class="box-content padding-2 margin-top-3" *ngIf="details.giftback">
+                <div class="giftback-alert giftback-alert--success padding-2 margin-bottom-1 line-height-3">
+                    <ps-icon icon="icon-task_alt" class="margin-right-1 success"></ps-icon>
+                    <span class="text-16 text--bold">Giftback disponível: </span>
+                    <span class="text-16"> {{ details.name }} possui um giftback válido no valor de {{ details.giftback.amount }}. </span>
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700">
+                        <b>Valor mínimo necessário: </b> {{ details.giftback.minPurchaseValue }}</span
+                    >
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700">
+                        <b>Prazo de validade: </b> {{ details.giftback.expiryDate | date: 'dd/MM/yyyy' }}</span
+                    >
+                </div>
+                <div class="flex padding-y-1 align-center">
+                    <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
+                    <span class="text margin-left-1 text--700">
+                        <b>Data mínima do giftback: </b>
+                        {{ details.giftback.startDate ? (details.giftback.startDate | date: 'dd/MM/yyyy') : 'Imediato' }}</span
+                    >
+                </div>
+            </div>
+        </div>
+
+        <div class="tasks flex-grow flex flex-column scroll tall">
+            <div class="box-content padding-2 margin-bottom-3" *ngFor="let task of tasks">
+                <div class="flex align-center">
+                    <ps-contact
+                        [name]="task.userName ? task.userName : 'Zoppy'"
+                        class="margin-right-2"
+                        [email]="task.userName ? task.userName : 'Zoppy'"
+                        [tooltip]="false"
+                    ></ps-contact>
+                    <div class="flex flex-column">
+                        <span class="text text--bold text--primary">{{ task.userName ? task.userName : 'Zoppy' }}</span>
+                        <span class="text">{{ getTaskTypeLabel(task) }} &nbsp;|&nbsp; {{ task.createdAt | date: 'HH:mm' }}</span>
+                    </div>
+                </div>
+                <div class="margin-top-2">
+                    <span class="text text--bold">Registro de {{ getTaskTypeLabel(task) }}</span>
+                </div>
+                <table class="margin-top-2 wide" *ngIf="task.order?.products">
+                    <thead>
+                        <th><span class="text-16 text--primary text--bold">Produtos</span></th>
+                        <th class="desktop"><span class="text-16 text--primary text--bold">Valor</span></th>
+                        <th class="desktop"><span class="text-16 text--primary text--bold">Gênero</span></th>
+                        <th class="desktop"><span class="text-16 text--primary text--bold">Operação</span></th>
+                        <th class="desktop"><span class="text-16 text--primary text--bold">Giftback</span></th>
+                    </thead>
+                    <tbody>
+                        <tr class="item" *ngFor="let product of task.order?.products">
+                            <td>
+                                <span [ngClass]="{ 'text--400': !product.name }" class="text-16 text--600">{{
+                                    product.name ? product.quantity + 'x ' + product.name : 'vazio'
+                                }}</span>
+                            </td>
+                            <td class="desktop">
+                                <span [ngClass]="{ 'text--400': !product.price }" class="text-16 text--600">{{
+                                    product.price || 'vazio'
+                                }}</span>
+                            </td>
+                            <td class="desktop">
+                                <span [ngClass]="{ 'text--400': !product.specification }" class="text-16 text--600">{{
+                                    product.specification || 'vazio'
+                                }}</span>
+                            </td>
+                            <td class="desktop">
+                                <span [ngClass]="{ 'text--400': !product.isCrm }" class="text-16 text--600">{{
+                                    product.isCrm || 'vazio'
+                                }}</span>
+                            </td>
+                            <td class="desktop">
+                                <span class="text-16 text--600 desktop">{{ product.usedGiftback ? 'Sim' : 'Não' }}</span>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</main>
+
+<main *ngIf="!loaded" class="loading flex flex-center">
+    <img [src]="logo" alt="" />
+</main>

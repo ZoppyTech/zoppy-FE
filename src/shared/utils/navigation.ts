@@ -28,7 +28,8 @@ export class Navigation {
         product: '/dashboard/products/add',
         sales: '/dashboard/sales',
         customers: '/dashboard/customers',
-        customer: '/dashboard/customers/add'
+        customer: '/dashboard/customers/add',
+        customerSocialMedia: '/dashboard/customers/details'
     };
 }
 
@@ -59,6 +60,7 @@ export type Pages =
     | 'product'
     | 'sales'
     | 'customers'
+    | 'customerSocialMedia'
     | 'customer'
     | 'coupons'
     | 'batchUpload';

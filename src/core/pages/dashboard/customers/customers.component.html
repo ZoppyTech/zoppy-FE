@@ -88,6 +88,11 @@
                                         <ps-icon class="primary" icon="icon-delete"></ps-icon>
                                     </div>
                                 </ps-button>
+                                <ps-button [round]="true" class="primary margin-left-1" type="clean" (onClick)="details(customer)">
+                                    <div class="right">
+                                        <ps-icon class="primary" icon="icon-chevron"></ps-icon>
+                                    </div>
+                                </ps-button>
                             </div>
                         </td>
                     </tr>
@@ -144,7 +149,7 @@
                     [ngClass]="{ success: customerDetail.coupon, negative: !customerDetail.coupon }"
                     class="margin-right-1"
                 ></ps-icon>
-                <span class="text-16 text--bold">{{ customerDetail.coupon ? 'Cashback disponível: ' : 'Cashback indisponível: ' }} </span>
+                <span class="text-16 text--bold">{{ customerDetail.coupon ? 'Giftback disponível: ' : 'Giftback indisponível: ' }} </span>
                 <span class="text-16" *ngIf="customerDetail.coupon">
                     {{ customerDetail.name }} possui um giftback válido no valor de {{ customerDetail.coupon.amount }}.
                 </span>

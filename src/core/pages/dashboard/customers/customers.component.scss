@@ -74,6 +74,13 @@ main {
                                     font-size: 1.25rem;
                                 }
                             }
+                            .right {
+                                width: 2.5rem;
+                                transform: rotateY(180deg);
+                                ps-icon {
+                                    font-size: 2rem;
+                                }
+                            }
                         }
                     }
                 }
