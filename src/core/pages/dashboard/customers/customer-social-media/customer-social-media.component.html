@@ -174,7 +174,7 @@
                 <div class="margin-top-2">
                     <span class="text">{{ task.description }}</span>
                 </div>
-                <div class="margin-top-2 flex align-center classification">
+                <div class="margin-top-2 flex align-center classification" *ngIf="task.status">
                     <span class="text text--500">Classificação da atividade: </span>
                     <ps-icon
                         class="margin-left-1 text--500"
