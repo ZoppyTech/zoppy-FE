@@ -22,6 +22,14 @@ export class ReportsComponent implements OnInit {
         {
             label: 'Matriz RFM',
             value: '2'
+        },
+        {
+            label: 'Curva ABC e NPS',
+            value: '3'
+        },
+        {
+            label: 'Dados demográficos',
+            value: '4'
         }
     ];
 
@@ -99,7 +107,7 @@ export class ReportsComponent implements OnInit {
     }
 }
 
-type View = '1' | '2';
+type View = '1' | '2' | '3' | '4';
 class Item {
     public declare label: string;
     public declare value: View;

@@ -10,6 +10,8 @@ import { ReportCardModule } from './components/report-card/report-card.module';
 import { MonthlyInvoicesModule } from './components/monthly-invoices/monthly-invoices.module';
 import { DailySalesModule } from './components/daily-sales/daily-sales.module';
 import { MatrixRfmModule } from './components/matrix-rfm/matrix-rfm.module';
+import { NpsModule } from './components/nps/nps.module';
+import { DemographicDataModule } from './components/demographic-data/demographic-data.module';
 
 const routes: Routes = [
     {
@@ -23,6 +25,8 @@ const routes: Routes = [
         CommonModule,
         IconModule,
         RouterModule.forChild(routes),
+        NpsModule,
+        DemographicDataModule,
         SalesByStateModule,
         SalesByGenderModule,
         ReportCardModule,

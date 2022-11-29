@@ -34,7 +34,7 @@
         </div>
     </section>
 
-    <section class="main-dashboard" *ngIf="view === '1'">
+    <section *ngIf="view === '1'" class="main-dashboard">
         <div class="card report-card-chart">
             <app-report-card class="card--default"></app-report-card>
         </div>
@@ -63,7 +63,15 @@
         </div>
     </section>
 
-    <section class="matrix-rfm">
-        <app-matrix-rfm *ngIf="view === '2'"></app-matrix-rfm>
+    <section *ngIf="view === '2'" class="matrix-rfm">
+        <app-matrix-rfm></app-matrix-rfm>
+    </section>
+
+    <section *ngIf="view === '3'" class="nps">
+        <nps></nps>
+    </section>
+
+    <section *ngIf="view === '4'" class="demographic-data">
+        <demographic-data></demographic-data>
     </section>
 </div>
