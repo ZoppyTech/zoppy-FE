@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
 import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
@@ -8,13 +8,13 @@ import { BroadcastService } from 'src/shared/services/broadcast/broadcast.servic
 import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
-    selector: 'app-sales-by-state',
-    templateUrl: './sales-by-state.component.html',
-    styleUrls: ['./sales-by-state.component.scss']
+    selector: 'state-chart',
+    templateUrl: './state-chart.component.html',
+    styleUrls: ['./state-chart.component.scss']
 })
-export class SalesByStateComponent implements AfterViewInit, OnDestroy {
+export class StateChartComponent {
     public data: ReportSaleByStateResponse[] = [];
-    public isLoading: boolean = true;
+    public isLoading: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public barChartOptions: any = {
         scaleShowVerticalLines: false,

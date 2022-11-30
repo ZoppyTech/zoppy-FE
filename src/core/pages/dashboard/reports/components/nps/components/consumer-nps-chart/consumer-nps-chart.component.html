@@ -1,0 +1,20 @@
+<div class="container">
+    <div class="header">
+        <div class="margin-bottom-2">
+            <span class="text--bold text--primary text-18">NPS dos consumidores</span>
+        </div>
+    </div>
+    <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
+        <img [src]="logo" alt="" *ngIf="isLoading" />
+        <div class="chart-content" *ngIf="!isLoading">
+            <canvas
+                baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                type="bar"
+            ></canvas>
+        </div>
+    </div>
+</div>
