@@ -14,7 +14,7 @@ export class AverageNpsChartComponent implements OnInit {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#CAD3E1', '#E3D6FD', '#D0F0FD', '##CAFDF8'],
+        backgroundColor: ['#E3D6FD', '#f3f3f3'],
         plugins: {
             legend: {
                 display: false
@@ -24,7 +24,7 @@ export class AverageNpsChartComponent implements OnInit {
     public pieChartLabels: string[] = ['a', 'b'];
     public pieChartType: string = 'pie';
     public pieChartLegend: boolean = false;
-    public pieChartData: any[] = [{ data: [70, 80], label: 'NPS médio' }];
+    public pieChartData: any[] = [{ data: [70, 30], label: 'NPS médio' }];
 
     public ngOnInit(): void {}
 }

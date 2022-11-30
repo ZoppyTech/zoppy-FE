@@ -14,7 +14,7 @@ export class ProductLevelChartComponent {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#CAD3E1', '#E3D6FD', '#D0F0FD', '##CAFDF8'],
+        backgroundColor: ['#CAD3E1', '#f3f3f3'],
         plugins: {
             legend: {
                 display: false
@@ -24,7 +24,7 @@ export class ProductLevelChartComponent {
     public pieChartLabels: string[] = ['a', 'b'];
     public pieChartType: string = 'pie';
     public pieChartLegend: boolean = false;
-    public pieChartData: any[] = [{ data: [70, 80], label: 'Média nível dos produtos' }];
+    public pieChartData: any[] = [{ data: [50, 50], label: 'Média nível dos produtos' }];
 
     public ngOnInit(): void {}
 }

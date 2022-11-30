@@ -12,6 +12,7 @@
     .chart1 {
         width: 100%;
         height: 100%;
+        border: 1px solid #dddddd;
         background-color: var(--neutral-100);
         grid-column-start: 1;
         padding: 1.5rem;
@@ -22,6 +23,7 @@
     .chart2 {
         width: 100%;
         height: 100%;
+        border: 1px solid #dddddd;
         background-color: var(--neutral-100);
         grid-column-start: 2;
         padding: 1.5rem;
@@ -32,6 +34,7 @@
     .chart3 {
         width: 100%;
         height: 100%;
+        border: 1px solid #dddddd;
         background-color: var(--neutral-100);
         grid-column-start: 3;
         padding: 1.5rem;
@@ -42,6 +45,7 @@
     .chart4 {
         width: 100%;
         height: 100%;
+        border: 1px solid #dddddd;
         background-color: var(--neutral-100);
         grid-column-start: 1;
         grid-column-end: 3;
@@ -53,6 +57,7 @@
     .chart5 {
         width: 100%;
         height: 100%;
+        border: 1px solid #dddddd;
         background-color: var(--neutral-100);
         grid-column-start: 3;
         grid-column-end: 4;
