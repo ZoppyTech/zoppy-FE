@@ -2,18 +2,18 @@ import { Component } from '@angular/core';
 import { environment } from 'src/environments/environment';
 
 @Component({
-    selector: 'consumer-nps-chart',
-    templateUrl: './consumer-nps-chart.component.html',
-    styleUrls: ['./consumer-nps-chart.component.scss']
+    selector: 'shopping-frequency-chart',
+    templateUrl: './shopping-frequency-chart.component.html',
+    styleUrls: ['./shopping-frequency-chart.component.scss']
 })
-export class ConsumerNpsChartComponent {
+export class ShoppingFrequencyChartComponent {
     public isLoading: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
 
     public barChartOptions: any = {
         scaleShowVerticalLines: false,
         responsive: true,
-        indexAxis: 'y',
+        indexAxis: 'x',
         backgroundColor: ['#E3D6FD', '#f3f3f3'],
         plugins: {
             legend: {
@@ -21,12 +21,10 @@ export class ConsumerNpsChartComponent {
             }
         }
     };
-    public barChartLabels: string[] = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j'];
+    public barChartLabels: string[] = ['a', 'b', 'a', 'b', 'a', 'b', 'a', 'b', 'a', 'b', 'a', 'b'];
     public barChartType: string = 'bar';
     public barChartLegend: boolean = false;
-    public barChartData: any[] = [
-        { data: [70, 30, 70, 100, 45, 11, 87, 78, 99, 8, 70, 30, 70, 100, 45, 11, 87, 78, 99, 8], label: 'NPS médio' }
-    ];
+    public barChartData: any[] = [{ data: [70, 300, 70, 30, 70, 10000, 200, 30, 70, 30, 7000, 3], label: 'Frequência de compras' }];
 
     public ngOnInit(): void {}
 }
