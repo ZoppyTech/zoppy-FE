@@ -1,1 +1,22 @@
-<p>buyer-age-chart works!</p>
+<div class="container">
+    <div class="header">
+        <div class="margin-bottom-2">
+            <span class="text--bold text--primary text-18">Idade do público comprador</span>
+        </div>
+    </div>
+    <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
+        <img [src]="logo" alt="" *ngIf="isLoading" />
+        <div class="chart-content" *ngIf="!isLoading">
+            <canvas
+                width="100vw"
+                height="50vh"
+                baseChart
+                [datasets]="barChartData"
+                [labels]="barChartLabels"
+                [options]="barChartOptions"
+                [legend]="barChartLegend"
+                type="bar"
+            ></canvas>
+        </div>
+    </div>
+</div>
