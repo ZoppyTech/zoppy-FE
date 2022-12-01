@@ -13,7 +13,7 @@
         width: 100%;
         height: 100%;
         border: 1px solid #dddddd;
-        background-color: red; //var(--neutral-100);
+        background-color: var(--neutral-100);
         grid-row-start: 1;
         grid-row-end: 2;
         grid-column-start: 1;
@@ -27,7 +27,7 @@
         width: 100%;
         height: 100%;
         border: 1px solid #dddddd;
-        background-color: blue; //var(--neutral-100);
+        background-color: var(--neutral-100);
         grid-row-start: 1;
         grid-row-end: 2;
         grid-column-start: 2;
@@ -37,32 +37,38 @@
         box-shadow: 0px 16px 24px #edeff2;
     }
 
-    .chart3 {
+    .chart-group {
         width: 100%;
         height: 100%;
         border: 1px solid #dddddd;
-        background-color: yellow; //var(--neutral-100);
+        background-color: teal; //var(--neutral-100);
         grid-row-start: 2;
-        grid-row-end: 3;
+        grid-row-end: 2;
         grid-column-start: 1;
-        grid-column-end: 2;
-        padding: 1.5rem;
-        border-radius: 12px;
-        box-shadow: 0px 16px 24px #edeff2;
-    }
-
-    .chart4 {
-        width: 100%;
-        height: 100%;
-        border: 1px solid #dddddd;
-        background-color: green; //var(--neutral-100);
-        grid-row-start: 2;
-        grid-row-end: 3;
-        grid-column-start: 2;
         grid-column-end: 3;
         padding: 1.5rem;
         border-radius: 12px;
         box-shadow: 0px 16px 24px #edeff2;
+
+        display: grid;
+        grid-template-areas: 'chart3 chart3 chart4';
+        column-gap: 2rem;
+
+        .chart3 {
+            grid-area: chart3;
+            width: 100%;
+            height: 100%;
+            padding: 1.5rem;
+            background-color: green;
+        }
+
+        .chart4 {
+            grid-area: chart4;
+            width: 100%;
+            height: 100%;
+            padding: 1.5rem;
+            background-color: yellow; //var(--neutral-100);
+        }
     }
 
     .chart5 {
@@ -120,32 +126,38 @@
             box-shadow: 0px 16px 24px #edeff2;
         }
 
-        .chart3 {
+        .chart-group {
             width: 100%;
             height: 100%;
             border: 1px solid #dddddd;
-            background-color: yellow; //var(--neutral-100);
+            background-color: teal; //var(--neutral-100);
             grid-row-start: 2;
-            grid-row-end: 3;
+            grid-row-end: 2;
             grid-column-start: 1;
-            grid-column-end: 2;
-            padding: 1.5rem;
-            border-radius: 12px;
-            box-shadow: 0px 16px 24px #edeff2;
-        }
-
-        .chart4 {
-            width: 100%;
-            height: 100%;
-            border: 1px solid #dddddd;
-            background-color: green; //var(--neutral-100);
-            grid-row-start: 2;
-            grid-row-end: 3;
-            grid-column-start: 2;
             grid-column-end: 3;
             padding: 1.5rem;
             border-radius: 12px;
             box-shadow: 0px 16px 24px #edeff2;
+
+            display: grid;
+            grid-template-areas: 'chart3 chart3 chart4';
+            column-gap: 2rem;
+
+            .chart3 {
+                grid-area: chart3;
+                width: 100%;
+                height: 100%;
+                padding: 1.5rem;
+                background-color: green;
+            }
+
+            .chart4 {
+                grid-area: chart4;
+                width: 100%;
+                height: 100%;
+                padding: 1.5rem;
+                background-color: yellow; //var(--neutral-100);
+            }
         }
 
         .chart5 {
@@ -172,7 +184,7 @@
 
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 281px 281px 281px minmax(281px, 457px) minmax(281px, 457px);
+        grid-template-rows: 281px 281px minmax(562px, 562px) minmax(281px, 457px);
         row-gap: 2rem;
 
         .chart1 {
@@ -193,22 +205,38 @@
             grid-column-end: 2;
         }
 
-        .chart3 {
+        .chart-group {
             width: 100%;
             height: 100%;
-            //background-color: green;
+            border: 1px solid #dddddd;
+            background-color: teal; //var(--neutral-100);
             grid-row-start: 3;
+            grid-row-end: 3;
             grid-column-start: 1;
             grid-column-end: 2;
-        }
+            padding: 1.5rem;
+            border-radius: 12px;
+            box-shadow: 0px 16px 24px #edeff2;
 
-        .chart4 {
-            width: 100%;
-            height: 100%;
-            //background-color: purple;
-            grid-row-start: 4;
-            grid-column-start: 1;
-            grid-column-end: 2;
+            display: grid;
+            grid-template-areas: 'chart3 chart3' 'chart4 chart4';
+            row-gap: 2rem;
+
+            .chart3 {
+                grid-area: chart3;
+                width: 100%;
+                height: 100%;
+                padding: 1.5rem;
+                background-color: green;
+            }
+
+            .chart4 {
+                grid-area: chart4;
+                width: 100%;
+                height: 100%;
+                padding: 1.5rem;
+                background-color: yellow; //var(--neutral-100);
+            }
         }
 
         .chart5 {
