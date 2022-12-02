@@ -102,7 +102,6 @@ export class CustomerSocialMediaComponent implements OnInit {
 
     public async sendMessage(): Promise<void> {
         this.loadingOpenLink = true;
-        debugger;
         try {
             const data: any = await this.crmCustomerService.findWhatsappLink(
                 this.id,
