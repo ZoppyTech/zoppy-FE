@@ -1,6 +1,5 @@
-import { AfterViewInit, Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { GoogleMap, MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
-import { last } from 'rxjs';
+import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
 
 @Component({
     selector: 'google-maps-chart',

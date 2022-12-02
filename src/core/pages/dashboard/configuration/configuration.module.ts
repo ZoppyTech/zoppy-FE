@@ -38,6 +38,10 @@ const routes: Routes = [
                 loadChildren: () => import('./letalk-config/letalk-config.module').then((m: any) => m.LetalkConfigModule)
             },
             {
+                path: 'message-config',
+                loadChildren: () => import('./message-config/message-config.module').then((m: any) => m.MessageConfigModule)
+            },
+            {
                 path: 'whatsapp-setup',
                 loadChildren: () => import('./whatsapp-config/whatsapp-config.module').then((m: any) => m.WhatsappConfigModule)
             },

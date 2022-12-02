@@ -103,6 +103,13 @@ export class ConfigurationComponent implements OnInit {
                 visible: CompanyUtil.isStandard(this.company)
             },
             {
+                id: `messageConfig`,
+                icon: 'icon-arrow',
+                label: 'Configuração de mensagens',
+                route: Navigation.routes.messageConfig,
+                visible: true
+            },
+            {
                 id: `coupons`,
                 icon: 'icon-arrow',
                 label: 'Visualização de giftbacks',

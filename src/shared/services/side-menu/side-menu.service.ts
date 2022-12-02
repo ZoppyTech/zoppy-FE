@@ -31,6 +31,7 @@ export type SideMenu =
     | `accessKeys`
     | `accessTokens`
     | `letalk`
+    | `messageConfig`
     | `syncData`
     | `giftback`
     | `myProfile`

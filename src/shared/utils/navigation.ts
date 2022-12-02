@@ -17,6 +17,7 @@ export class Navigation {
         accessKeys: '/dashboard/configurations/access-keys',
         accessTokens: '/dashboard/configurations/access-tokens',
         letalk: '/dashboard/configurations/letalk',
+        messageConfig: '/dashboard/configurations/message-config',
         giftback: '/dashboard/configurations/giftback',
         coupons: '/dashboard/configurations/coupons',
         batchUpload: '/dashboard/configurations/batch-upload',
@@ -51,6 +52,7 @@ export type Pages =
     | 'accessKeys'
     | 'accessTokens'
     | 'letalk'
+    | 'messageConfig'
     | 'giftback'
     | 'whatsappConfig'
     | 'whatsappTemplateList'
