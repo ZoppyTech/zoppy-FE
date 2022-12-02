@@ -2,12 +2,14 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
+import { MessageConfigConstants, MessageConfigTemplate } from 'src/shared/constants/message-config.constants';
 import { TaskConstants, TaskContactTypes, TaskStatus, TaskTypes } from 'src/shared/constants/task.constants';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
 import { SocialMediaCustomerDetailResponse } from 'src/shared/models/responses/social-media/social-media-customer-detail.response';
 import { SocialMediaCustomerTaskResponse } from 'src/shared/models/responses/social-media/social-media-customer-task.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
+import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
 import { GenderUtil } from 'src/shared/utils/gender.util';
@@ -23,6 +25,7 @@ import { TaskUtil } from 'src/shared/utils/task.util';
 export class CustomerSocialMediaComponent implements OnInit {
     public loaded: boolean = false;
     public loadingNewTask: boolean = false;
+    public loadingOpenLink: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public id: string = '';
     public task: SocialMediaRequest = new SocialMediaRequest();
@@ -82,6 +85,7 @@ export class CustomerSocialMediaComponent implements OnInit {
 
     public constructor(
         private readonly socialMediaService: SocialMediaService,
+        private readonly crmCustomerService: CrmCustomerService,
         private readonly router: Router,
         private readonly route: ActivatedRoute,
         private readonly toast: ToastService,
@@ -96,7 +100,25 @@ export class CustomerSocialMediaComponent implements OnInit {
         this.setBreadcrumb();
     }
 
+    public async sendMessage(): Promise<void> {
+        this.loadingOpenLink = true;
+        debugger;
+        try {
+            const data: any = await this.crmCustomerService.findWhatsappLink(
+                this.id,
+                MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate
+            );
+            window?.open(data.data, '_blank')?.focus();
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Houve um erro');
+        } finally {
+            this.loadingOpenLink = false;
+        }
+    }
+
     public async fetchData(): Promise<void> {
+        this.loaded = false;
         try {
             this.tasks = await this.socialMediaService.list(this.id);
             this.details = await this.socialMediaService.details(this.id);
