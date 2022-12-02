@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { MessageConfigComponent } from './message-config.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('MessageConfigComponent', () => {
     let component: MessageConfigComponent;
@@ -11,7 +13,8 @@ describe('MessageConfigComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [MessageConfigComponent]
+            declarations: [MessageConfigComponent],
+            imports: [HttpClientTestingModule, RouterTestingModule]
         }).compileComponents();
     }));
 
