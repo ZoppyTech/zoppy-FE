@@ -111,7 +111,7 @@
 
         <div class="tasks flex-grow flex flex-column scroll tall">
             <div class="box-content padding-2 margin-bottom-3">
-                <div class="flex">
+                <div class="flex margin-bottom-2">
                     <div
                         class="selector clickable margin-right-2"
                         (click)="selectType(type)"
@@ -123,7 +123,7 @@
                         }}</span>
                     </div>
                 </div>
-                <div class="margin-y-2" *ngIf="task.taskType === 'task'">
+                <div class="margin-bottom-2" *ngIf="task.taskType === 'task'">
                     <ps-radio-button
                         [propertyValue]="'value'"
                         [propertyLabel]="'label'"
