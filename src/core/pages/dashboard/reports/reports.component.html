@@ -35,36 +35,11 @@
     </section>
 
     <section *ngIf="view === '1'" class="main-dashboard">
-        <div class="card report-card-chart">
-            <app-report-card class="card--default"></app-report-card>
-        </div>
-
-        <div class="card sales-by-gender-chart">
-            <span class="text--bold text--primary text-18 margin-bottom-2">Compras por gênero</span>
-            <app-sales-by-gender class="card--default"></app-sales-by-gender>
-        </div>
-
-        <div class="card sales-by-state-chart">
-            <span class="text--bold text--primary text-18 margin-bottom-2">Compras por estado</span>
-            <app-sales-by-state class="card--default"></app-sales-by-state>
-        </div>
-
-        <div class="card card-long group-charts">
-            <div class="flex wide container">
-                <div class="flex-start monthly-invoices-chart">
-                    <span class="text--bold text--primary text-18 margin-bottom-2">Faturamento por mês</span>
-                    <app-monthly-invoices class="card--default"></app-monthly-invoices>
-                </div>
-                <div class="flex-start daily-sales-chart">
-                    <span class="text--bold text--primary text-18 margin-bottom-2">Número de vendas x Ticket médio</span>
-                    <app-daily-sales class="card--default"></app-daily-sales>
-                </div>
-            </div>
-        </div>
+        <main-dashboard></main-dashboard>
     </section>
 
     <section *ngIf="view === '2'" class="matrix-rfm">
-        <app-matrix-rfm></app-matrix-rfm>
+        <matrix-rfm></matrix-rfm>
     </section>
 
     <section *ngIf="view === '3'" class="nps">

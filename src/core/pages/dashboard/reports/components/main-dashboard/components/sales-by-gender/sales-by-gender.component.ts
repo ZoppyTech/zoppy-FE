@@ -8,7 +8,7 @@ import { BroadcastService } from 'src/shared/services/broadcast/broadcast.servic
 import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
-    selector: 'app-sales-by-gender',
+    selector: 'sales-by-gender',
     templateUrl: './sales-by-gender.component.html',
     styleUrls: ['./sales-by-gender.component.scss']
 })

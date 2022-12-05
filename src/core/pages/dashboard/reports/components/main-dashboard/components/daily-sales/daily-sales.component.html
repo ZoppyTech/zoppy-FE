@@ -1,0 +1,21 @@
+<div class="container">
+    <div class="header">
+        <div class="margin-bottom-2">
+            <span class="text--bold text--primary text-18">Número de Vendas x Ticket Médio</span>
+        </div>
+    </div>
+    <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
+        <img [src]="logo" alt="" *ngIf="isLoading" />
+        <div *ngIf="!isLoading" class="chart-content">
+            <div class="legends margin-y-2">
+                <div class="item" *ngFor="let legend of legends">
+                    <div class="point" [ngStyle]="{ 'background-color': legend.color }"></div>
+                    <span class="text-14">{{ legend.value }}</span>
+                </div>
+            </div>
+            <div class="canvas-content">
+                <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend"></canvas>
+            </div>
+        </div>
+    </div>
+</div>

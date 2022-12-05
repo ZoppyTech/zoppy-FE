@@ -11,7 +11,7 @@ import { FileUtils } from 'src/shared/utils/file.util';
 import { FormatUtils } from 'src/shared/utils/format.util';
 
 @Component({
-    selector: 'app-matrix-rfm',
+    selector: 'matrix-rfm',
     templateUrl: './matrix-rfm.component.html',
     styleUrls: ['./matrix-rfm.component.scss']
 })

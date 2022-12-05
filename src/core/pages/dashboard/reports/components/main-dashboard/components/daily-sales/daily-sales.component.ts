@@ -8,7 +8,7 @@ import { BroadcastService } from 'src/shared/services/broadcast/broadcast.servic
 import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
-    selector: 'app-daily-sales',
+    selector: 'daily-sales',
     templateUrl: './daily-sales.component.html',
     styleUrls: ['./daily-sales.component.scss']
 })

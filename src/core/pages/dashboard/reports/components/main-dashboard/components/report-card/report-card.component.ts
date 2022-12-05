@@ -8,7 +8,7 @@ import { BroadcastService } from 'src/shared/services/broadcast/broadcast.servic
 import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
-    selector: 'app-report-card',
+    selector: 'report-card',
     templateUrl: './report-card.component.html',
     styleUrls: ['./report-card.component.scss']
 })

@@ -8,7 +8,7 @@ import { BroadcastService } from 'src/shared/services/broadcast/broadcast.servic
 import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
-    selector: 'app-monthly-invoices',
+    selector: 'monthly-invoices',
     templateUrl: './monthly-invoices.component.html',
     styleUrls: ['./monthly-invoices.component.scss']
 })
