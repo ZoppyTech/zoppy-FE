@@ -53,6 +53,10 @@ const routes: Routes = [
                 loadChildren: () => import('./register-sales/register-sales.module').then((m: any) => m.RegisterSalesModule)
             },
             {
+                path: 'sales/:phone',
+                loadChildren: () => import('./register-sales/register-sales.module').then((m: any) => m.RegisterSalesModule)
+            },
+            {
                 path: 'products',
                 loadChildren: () => import('./products/products.module').then((m: any) => m.ProductsModule)
             },
