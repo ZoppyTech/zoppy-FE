@@ -169,6 +169,10 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public async save(): Promise<void> {
+        if (this.order.coupon?.minPurchaseValue && this.order.total < this.order.coupon.minPurchaseValue) {
+            this.toast.error('Valor mínimo da compra não foi atingido!', 'Erro!');
+            return;
+        }
         try {
             this.loading = true;
             this.formatAddress();
