@@ -6,6 +6,7 @@ export class CrmCustomerCouponDetailResponse {
 
 export class CrmCustomerDetailResponse {
     public declare id: string;
+    public declare customerId: string;
     public declare name: string;
     public declare phone: string;
     public declare gender: string;
