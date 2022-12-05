@@ -9,7 +9,6 @@ import { ToastService } from '@ZoppyTech/toast';
 })
 export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
     public display: any;
-    public brazilLatLng: any = { lat: -19.912998, lng: -43.940933 };
     public center: google.maps.LatLngLiteral = {
         lat: -19.912998,
         lng: -43.940933
@@ -32,13 +31,15 @@ export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {}
 
-    public clearSearchText(): void {
-        this.center = this.brazilLatLng;
+    public resetMap(): void {
+        this.markerPositions = [];
+        this.center = { lat: -19.912998, lng: -43.940933 };
+        this.zoom = 4;
     }
 
     public async onSearchTextChanged(searchText: string = ''): Promise<void> {
         if (searchText.trimEnd() === '') {
-            this.clearSearchText();
+            this.resetMap();
             return;
         }
 
@@ -49,6 +50,7 @@ export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
             .subscribe(({ results }: any) => {
                 if (results.length <= 0) {
                     this.toast.error('Não foi possível encontrar o endereço selecionado.', 'Erro Google Maps!');
+                    this.resetMap();
                     return;
                 }
                 this.center = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() };
