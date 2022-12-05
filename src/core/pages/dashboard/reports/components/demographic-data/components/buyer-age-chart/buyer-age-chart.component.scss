@@ -33,7 +33,43 @@
                 width: 100%;
                 max-width: 100% !important;
                 height: 100% !important;
-                max-height: 380px !important;
+                max-height: 349px;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1600px) {
+    .container {
+        .main-content {
+            .chart-content {
+                canvas {
+                    max-height: 280px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1280px) {
+    .container {
+        .main-content {
+            .chart-content {
+                canvas {
+                    max-height: 240px;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .container {
+        .main-content {
+            .chart-content {
+                canvas {
+                    max-height: 174px;
+                }
             }
         }
     }

@@ -4,19 +4,20 @@
     height: 100%;
 
     .search-bar {
-        width: 90%;
-        margin: 0rem 2rem;
+        justify-content: center;
+        display: flex;
+        width: 100%;
         height: fit-content;
         position: absolute;
         top: 64px;
-        z-index: 8999;
-        background-color: rgba($color: #dddddd, $alpha: 0.8);
+        z-index: 4;
         border-radius: 8px;
 
         ps-search-bar {
             border-radius: 8px;
-            width: 100%;
+            width: 90%;
             position: relative;
+            background-color: var(--neutral-100);
         }
     }
 

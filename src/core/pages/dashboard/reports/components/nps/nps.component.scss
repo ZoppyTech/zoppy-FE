@@ -3,9 +3,10 @@
     height: 100%;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 24rem minmax(24rem, 457px);
+    grid-template-rows: 24rem minmax(24rem, auto);
     row-gap: 2rem;
     column-gap: 2rem;
+    padding-bottom: 4rem;
 
     .chart1 {
         width: 100%;
@@ -69,7 +70,7 @@
     .container {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 281px 281px minmax(281px, 457px);
+        grid-template-rows: 281px 281px minmax(281px, auto);
         row-gap: 2rem;
         column-gap: 2rem;
 

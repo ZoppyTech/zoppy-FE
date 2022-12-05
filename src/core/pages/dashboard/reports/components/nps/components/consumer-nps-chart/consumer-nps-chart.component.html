@@ -8,6 +8,8 @@
         <img [src]="logo" alt="" *ngIf="isLoading" />
         <div class="chart-content" *ngIf="!isLoading">
             <canvas
+                width="100%"
+                height="100%"
                 baseChart
                 [datasets]="barChartData"
                 [labels]="barChartLabels"
