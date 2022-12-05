@@ -5,6 +5,7 @@ import { environment } from 'src/environments/environment';
 import { MessageConfigConstants, MessageConfigTemplate } from 'src/shared/constants/message-config.constants';
 import { TaskConstants, TaskContactTypes, TaskStatus, TaskTypes } from 'src/shared/constants/task.constants';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
+import { CrmCustomerResponse } from 'src/shared/models/responses/crm/crm-customer.response';
 import { SocialMediaCustomerDetailResponse } from 'src/shared/models/responses/social-media/social-media-customer-detail.response';
 import { SocialMediaCustomerTaskResponse } from 'src/shared/models/responses/social-media/social-media-customer-task.response';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -30,6 +31,7 @@ export class CustomerSocialMediaComponent implements OnInit {
     public id: string = '';
     public task: SocialMediaRequest = new SocialMediaRequest();
     public tasks: SocialMediaCustomerTaskResponse[] = [];
+    public customer?: CrmCustomerResponse;
     public details: SocialMediaCustomerDetailResponse = new SocialMediaCustomerDetailResponse();
     public taskTypes: TypeItem[] = [
         {
@@ -121,6 +123,7 @@ export class CustomerSocialMediaComponent implements OnInit {
         try {
             this.tasks = await this.socialMediaService.list(this.id);
             this.details = await this.socialMediaService.details(this.id);
+            this.customer = await this.crmCustomerService.findById(this.id);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
@@ -165,6 +168,10 @@ export class CustomerSocialMediaComponent implements OnInit {
 
     public selectType(type: TypeItem): void {
         this.task.taskType = type.value as TaskTypes;
+
+        if (this.task.taskType === TaskConstants.TYPES.SALE) {
+            this.router.navigate([Navigation.routes.sales, this.customer?.phone]);
+        }
     }
 
     public selectStatus(type: TypeItem): void {
