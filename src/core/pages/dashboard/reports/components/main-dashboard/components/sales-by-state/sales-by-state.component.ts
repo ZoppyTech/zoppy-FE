@@ -20,7 +20,7 @@ export class SalesByStateComponent implements AfterViewInit, OnDestroy {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#CAD3E1', '#E3D6FD', '#D0F0FD', '##CAFDF8'],
+        backgroundColor: ['#B6C0FF', '#FFB2FF', '#68EAFF', '#00F8DF'],
         plugins: {
             legend: {
                 display: false

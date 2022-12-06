@@ -48,7 +48,7 @@ export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
             type: 'bar',
             label: 'Faturamento mensal',
             data: [],
-            backgroundColor: ['#E3D6FD']
+            backgroundColor: ['#CDD6FF']
         }
     ];
 
@@ -72,7 +72,7 @@ export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
         this.legends = [
             {
                 value: 'Faturamento mensal',
-                color: '#E3D6FD'
+                color: '#CDD6FF'
             },
             {
                 value: 'Receita direta com a Zoppy',

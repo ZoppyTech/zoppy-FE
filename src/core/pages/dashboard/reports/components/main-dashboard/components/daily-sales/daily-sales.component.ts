@@ -65,7 +65,7 @@ export class DailySalesComponent implements OnInit, OnDestroy {
             label: 'Número de vendas',
             yAxisID: 'y1',
             data: [],
-            backgroundColor: ['#CAD3E1']
+            backgroundColor: ['#00F8DF']
         }
     ];
 
@@ -96,7 +96,7 @@ export class DailySalesComponent implements OnInit, OnDestroy {
         this.legends = [
             {
                 value: 'Número de vendas',
-                color: '#CAD3E1'
+                color: '#00F8DF'
             },
             {
                 value: 'Ticket médio',

@@ -14,7 +14,7 @@ export class AbcCurveChartComponent {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'x',
-        backgroundColor: ['#E3D6FD', '#f3f3f3'],
+        backgroundColor: ['#CDD6FF'],
         plugins: {
             legend: {
                 display: false

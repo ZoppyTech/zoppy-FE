@@ -14,7 +14,7 @@ export class SalesByStateChartComponent {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#E3D6FD', '#f3f3f3', '#E3D6FD', '#f3f3f3'],
+        backgroundColor: ['#B6C0FF', '#FFB2FF', '#68EAFF', '#00F8DF'],
         plugins: {
             legend: {
                 display: false
@@ -24,7 +24,7 @@ export class SalesByStateChartComponent {
     public barChartLabels: string[] = ['a', 'b', 'c', 'd'];
     public barChartType: string = 'bar';
     public barChartLegend: boolean = false;
-    public barChartData: any[] = [{ data: [70, 30], label: 'Compras por estado' }];
+    public barChartData: any[] = [{ data: [70, 30, 100, 34], label: 'Compras por estado' }];
 
     public ngOnInit(): void {}
 }

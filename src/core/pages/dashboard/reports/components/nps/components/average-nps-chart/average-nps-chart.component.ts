@@ -14,7 +14,7 @@ export class AverageNpsChartComponent implements OnInit {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#E3D6FD', '#f3f3f3'],
+        backgroundColor: ['#FFB2FF', '#f3f3f3'],
         plugins: {
             legend: {
                 display: false

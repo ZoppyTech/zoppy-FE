@@ -14,7 +14,7 @@ export class ProductLevelChartComponent {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#CAD3E1', '#f3f3f3'],
+        backgroundColor: ['#B6C0FF', '#f3f3f3'],
         plugins: {
             legend: {
                 display: false

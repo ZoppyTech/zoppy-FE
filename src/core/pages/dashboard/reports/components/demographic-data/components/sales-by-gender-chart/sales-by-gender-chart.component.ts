@@ -15,7 +15,7 @@ export class SalesByGenderChartComponent implements OnInit {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#E3D6FD', '#f3f3f3'],
+        backgroundColor: ['#B6C0FF', '#FFB2FF', '#68EAFF'],
         plugins: {
             legend: {
                 display: false
@@ -25,7 +25,7 @@ export class SalesByGenderChartComponent implements OnInit {
     public doughnutChartLabels: string[] = ['a', 'b'];
     public doughnutChartType: string = 'doughnut';
     public doughnutChartLegend: boolean = false;
-    public doughnutChartData: any[] = [{ data: [70, 30], label: 'Compras por gênero' }];
+    public doughnutChartData: any[] = [{ data: [40, 30, 30], label: 'Compras por gênero' }];
 
     public ngOnInit(): void {
         this.setLegend();
@@ -35,15 +35,15 @@ export class SalesByGenderChartComponent implements OnInit {
         this.legends = [
             {
                 value: 'Feminino',
-                color: '#E3D6FD'
+                color: '#FFB2FF'
             },
             {
                 value: 'Masculino',
-                color: '#D0F0FD'
+                color: '#68EAFF'
             },
             {
                 value: 'Não registrado',
-                color: '#CAD3E1'
+                color: '#B6C0FF'
             }
         ];
     }

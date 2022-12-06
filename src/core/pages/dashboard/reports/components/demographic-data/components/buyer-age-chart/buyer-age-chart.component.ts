@@ -14,17 +14,17 @@ export class BuyerAgeChartComponent {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'x',
-        backgroundColor: ['#E3D6FD', '#f3f3f3'],
+        backgroundColor: ['#68EAFF'],
         plugins: {
             legend: {
                 display: false
             }
         }
     };
-    public barChartLabels: string[] = ['a', 'b'];
+    public barChartLabels: string[] = ['a', 'b', 'c', 'd'];
     public barChartType: string = 'bar';
     public barChartLegend: boolean = false;
-    public barChartData: any[] = [{ data: [70, 30], label: 'Idade do público comprador' }];
+    public barChartData: any[] = [{ data: [70, 30, 26, 134], label: 'Idade do público comprador' }];
 
     public ngOnInit(): void {}
 }

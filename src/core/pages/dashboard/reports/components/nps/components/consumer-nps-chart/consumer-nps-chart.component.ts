@@ -14,7 +14,7 @@ export class ConsumerNpsChartComponent {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#E3D6FD', '#f3f3f3'],
+        backgroundColor: ['#00F8DF'],
         plugins: {
             legend: {
                 display: false
