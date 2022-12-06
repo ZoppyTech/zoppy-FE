@@ -1,5 +1,6 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
+import { ToastService } from '@ZoppyTech/toast';
 
 @Component({
     selector: 'google-maps-chart',
@@ -18,7 +19,7 @@ export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
 
     public markerPositions: google.maps.LatLngLiteral[] = [];
 
-    public constructor(public geocoder: MapGeocoder) {}
+    public constructor(public geocoder: MapGeocoder, private readonly toast: ToastService) {}
 
     // public addMarker(event: google.maps.MapMouseEvent) {
     //     if (event.latLng != null) this.markerPositions.push(event.latLng.toJSON());
@@ -30,19 +31,33 @@ export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
 
     public ngOnInit(): void {}
 
+    public resetMap(): void {
+        this.markerPositions = [];
+        this.center = { lat: -19.912998, lng: -43.940933 };
+        this.zoom = 4;
+    }
+
     public async onSearchTextChanged(searchText: string = ''): Promise<void> {
-        this.center = { lat: -33.8666, lng: 151.1958 };
-        const result: any = await this.geocoder
+        if (searchText.trimEnd() === '') {
+            this.resetMap();
+            return;
+        }
+
+        await this.geocoder
             .geocode({
                 address: searchText
             })
             .subscribe(({ results }: any) => {
+                if (results.length <= 0) {
+                    this.toast.error('Não foi possível encontrar o endereço selecionado.', 'Erro Google Maps!');
+                    this.resetMap();
+                    return;
+                }
                 this.center = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() };
                 this.markerPositions = [];
                 this.markerPositions.push(this.center);
                 this.zoom = 15;
             });
-        console.log(result);
     }
 
     public async ngAfterViewInit(): Promise<void> {}

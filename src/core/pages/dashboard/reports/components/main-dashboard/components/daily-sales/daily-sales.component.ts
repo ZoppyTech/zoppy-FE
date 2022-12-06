@@ -8,7 +8,7 @@ import { BroadcastService } from 'src/shared/services/broadcast/broadcast.servic
 import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
-    selector: 'app-daily-sales',
+    selector: 'daily-sales',
     templateUrl: './daily-sales.component.html',
     styleUrls: ['./daily-sales.component.scss']
 })
@@ -65,7 +65,7 @@ export class DailySalesComponent implements OnInit, OnDestroy {
             label: 'Número de vendas',
             yAxisID: 'y1',
             data: [],
-            backgroundColor: ['#CAD3E1']
+            backgroundColor: ['#00F8DF']
         }
     ];
 
@@ -96,7 +96,7 @@ export class DailySalesComponent implements OnInit, OnDestroy {
         this.legends = [
             {
                 value: 'Número de vendas',
-                color: '#CAD3E1'
+                color: '#00F8DF'
             },
             {
                 value: 'Ticket médio',

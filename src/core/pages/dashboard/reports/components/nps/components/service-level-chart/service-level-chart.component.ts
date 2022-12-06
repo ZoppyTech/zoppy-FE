@@ -14,7 +14,7 @@ export class ServiceLevelChartComponent {
         scaleShowVerticalLines: false,
         responsive: true,
         indexAxis: 'y',
-        backgroundColor: ['#CAFDF8', '#f3f3f3'],
+        backgroundColor: ['#68EAFF', '#f3f3f3'],
         plugins: {
             legend: {
                 display: false

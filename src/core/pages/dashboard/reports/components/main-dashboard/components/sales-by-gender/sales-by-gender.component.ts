@@ -8,7 +8,7 @@ import { BroadcastService } from 'src/shared/services/broadcast/broadcast.servic
 import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
-    selector: 'app-sales-by-gender',
+    selector: 'sales-by-gender',
     templateUrl: './sales-by-gender.component.html',
     styleUrls: ['./sales-by-gender.component.scss']
 })
@@ -25,7 +25,7 @@ export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
                 enabled: true
             }
         },
-        backgroundColor: ['#D0F0FD', '#E3D6FD', '#CAD3E1']
+        backgroundColor: ['#B6C0FF', '#FFB2FF', '#68EAFF']
     };
     public doughnutChartLabels: string[] = [];
     public doughnutChartLegend: boolean = false;
@@ -83,15 +83,15 @@ export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
         this.legends = [
             {
                 value: 'Feminino',
-                color: '#E3D6FD'
+                color: '#FFB2FF'
             },
             {
                 value: 'Masculino',
-                color: '#D0F0FD'
+                color: '#68EAFF'
             },
             {
                 value: 'Não registrado',
-                color: '#CAD3E1'
+                color: '#B6C0FF'
             }
         ];
     }

@@ -4,9 +4,10 @@
 
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    grid-template-rows: 24rem minmax(24rem, 28rem);
+    grid-template-rows: 24rem minmax(24rem, auto);
     row-gap: 2rem;
     column-gap: 2rem;
+    padding-bottom: 3rem;
 
     .chart1 {
         width: 100%;
@@ -83,7 +84,7 @@
     .container {
         display: grid;
         grid-template-columns: 1fr 1fr;
-        grid-template-rows: 300px 300px minmax(300px, 457px);
+        grid-template-rows: 300px 300px 457px;
         row-gap: 2rem;
         column-gap: 2rem;
 
@@ -121,7 +122,7 @@
     .container {
         display: grid;
         grid-template-columns: 100%;
-        grid-template-rows: 281px 281px minmax(562px, 562px) minmax(281px, 457px);
+        grid-template-rows: 281px 281px minmax(562px, 562px) 600px;
         row-gap: 2rem;
 
         .chart1 {
