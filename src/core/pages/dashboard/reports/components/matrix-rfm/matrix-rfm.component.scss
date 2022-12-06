@@ -34,8 +34,15 @@
                 overflow-x: hidden;
                 height: 100%;
 
-                table {
+                table,
+                tbody,
+                tr {
+                    border: none;
                     width: 100%;
+
+                    td {
+                        border-bottom: 1px solid var(--neutral-300);
+                    }
                 }
             }
         }
@@ -48,7 +55,7 @@
     }
 
     .matrix {
-        border: 1px solid var(--primary-500);
+        border: 1px solid var(--primary-300);
         border-radius: 0.75rem;
         background-color: #fdfdfd;
         box-shadow: 0px 1rem 2.5rem #edeff2;
@@ -147,14 +154,14 @@
             background-color: #7381d2;
         }
 
-        .box {
-            border: 1px solid var(--primary-500);
-        }
+        // .box {
+        //     //border: 1px solid var(--primary-500);
+        // }
 
-        .box-champion {
-            border-bottom: 0.125rem solid var(--primary-500);
-            border-left: 0.125rem solid var(--primary-500);
-        }
+        // .box-champion {
+        //     //border-bottom: 0.125rem solid var(--primary-500);
+        //     //border-left: 0.125rem solid var(--primary-500);
+        // }
 
         .radius-top-left {
             border-top-left-radius: 0.75rem;
@@ -183,20 +190,19 @@
     .main-content {
         display: grid;
         grid-template-columns: 1fr;
-        grid-template-rows: 1fr 1fr;
         row-gap: 2rem;
         column-gap: 2rem;
+        height: 100%;
 
         .matrix {
-            height: 389px;
-            max-height: 389px;
+            height: 281px;
+            max-height: 281px;
         }
 
         .content-box {
             .table {
                 width: 100%;
                 height: 100%;
-                margin-bottom: 1rem;
 
                 table {
                     height: 100%;
