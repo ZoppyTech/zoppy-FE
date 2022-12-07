@@ -17,7 +17,7 @@ export class ReportCardComponent implements OnInit, OnDestroy {
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public data: ReportOverviewCardResponse = new ReportOverviewCardResponse();
     @Input() public reportRequest: GetReportRequest = {
-        period: 30 as ReportPeriod
+        period: 'all' as ReportPeriod
     };
 
     public ngOnDestroy(): void {
