@@ -2,7 +2,9 @@ export class TaskConstants {
     public static TYPES: any = {
         OBSERVATION: 'observation',
         SALE: 'sale',
-        TASK: 'task'
+        TASK: 'task',
+        BIRTHDAY: 'birthday',
+        AFTER_SALE: 'after_sale'
     };
 
     public static CONTACT_TYPES: any = {

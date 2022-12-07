@@ -125,6 +125,10 @@ export class RegisterSalesComponent implements OnInit {
             {
                 title: 'Alterar o subtotal',
                 cancelLabel: 'Cancelar',
+                placeholder: 'R$0,00',
+                mask: 'currency',
+                rows: 0,
+                selectAll: true,
                 confirmLabel: 'Confirmar',
                 value: this.calculateSubtotal()
             },

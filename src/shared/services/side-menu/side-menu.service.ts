@@ -39,6 +39,7 @@ export type SideMenu =
     | 'myCompanyUsers'
     | 'membership'
     | 'registerSale'
+    | 'salesPanel'
     | 'products'
     | 'customers'
     | 'coupons'

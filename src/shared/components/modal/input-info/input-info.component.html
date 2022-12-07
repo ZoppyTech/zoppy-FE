@@ -5,10 +5,10 @@
 
     <div class="flex flex-column">
         <ps-input
-            [selectAll]="true"
+            [selectAll]="modal.data.selectAll"
             [moveMaskedCursor]="false"
-            mask="currency"
-            placeholder="RS0,00"
+            [mask]="modal.data.currency"
+            [placeholder]="modal.data.placeholder"
             [(ngModel)]="modal.data.value"
         ></ps-input>
         <div class="flex wide margin-top-3">

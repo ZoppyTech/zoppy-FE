@@ -1,0 +1,35 @@
+@import 'src/styles.scss';
+
+:host {
+    flex-grow: 1;
+    min-height: 0;
+    overflow: auto;
+}
+
+main {
+    .container {
+        .header {
+            border-bottom: 1px solid var(--neutral-300);
+            padding: 1rem 2rem;
+        }
+        display: flex;
+        flex-direction: column;
+        margin: 3rem;
+        margin-right: 2rem;
+        margin-top: 0px;
+        background-color: var(--neutral-100);
+        border: 1px solid var(--neutral-300);
+        box-shadow: $box-shadow-1;
+        border-radius: 0.75rem;
+        margin-bottom: 2rem;
+        flex-grow: 1;
+        min-height: 0;
+    }
+
+    .loading {
+        img {
+            height: 4rem;
+            width: 4rem;
+        }
+    }
+}

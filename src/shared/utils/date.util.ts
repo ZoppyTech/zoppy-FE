@@ -18,6 +18,20 @@ export class DateUtil {
         return new Promise((resolve: any) => setTimeout(resolve, timeout));
     }
 
+    public static getFirstAndLastDayOfCurrentWeek(): FirstAndLastDayOfWeek {
+        const curr: Date = new Date();
+        const first: number = curr.getDate() - curr.getDay();
+        const last: number = first + 6;
+
+        const firstday: Date = new Date(curr.setDate(first));
+        const lastday: Date = new Date(curr.setDate(last));
+
+        return {
+            firstday: firstday,
+            lastday: lastday
+        };
+    }
+
     public static getMonthName(monthIndex: number): string {
         switch (monthIndex) {
             case 0:
@@ -48,4 +62,30 @@ export class DateUtil {
                 return '';
         }
     }
+
+    public static getDayName(dayIndex: number): string {
+        switch (dayIndex) {
+            case 0:
+                return 'Domingo';
+            case 1:
+                return 'Segunda Feira';
+            case 2:
+                return 'Terça Feira';
+            case 3:
+                return 'Quarta Feira';
+            case 4:
+                return 'Quinta Feira';
+            case 5:
+                return 'Sexta Feira';
+            case 6:
+                return 'Sábado';
+            default:
+                return '';
+        }
+    }
+}
+
+export interface FirstAndLastDayOfWeek {
+    firstday: Date;
+    lastday: Date;
 }

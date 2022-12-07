@@ -3,7 +3,9 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { TaskEntity } from 'src/shared/models/entities/task.entity';
+import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
+import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer..response';
 import { SocialMediaCustomerDetailResponse } from 'src/shared/models/responses/social-media/social-media-customer-detail.response';
 import { SocialMediaCustomerTaskResponse } from 'src/shared/models/responses/social-media/social-media-customer-task.response';
 import { Storage } from 'src/shared/utils/storage';
@@ -37,6 +39,26 @@ export class SocialMediaService extends ApiService {
         const promise: Promise<SocialMediaCustomerTaskResponse[]> = new Promise((resolve: any, reject: any) => {
             this.get<SocialMediaCustomerTaskResponse[]>(`${this.url}/customers/${customerId}/tasks`).subscribe(
                 (response: SocialMediaCustomerTaskResponse[]) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async listSalesPanel(request: SalesPanelRequest): Promise<TaskEntity[]> {
+        const promise: Promise<TaskEntity[]> = new Promise((resolve: any, reject: any) => {
+            this.post<TaskEntity[], SalesPanelRequest>(`${this.url}/sales-panel`, request).subscribe(
+                (response: TaskEntity[]) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async listRfmStatus(): Promise<ReportCustomerResponse[]> {
+        const promise: Promise<ReportCustomerResponse[]> = new Promise((resolve: any, reject: any) => {
+            this.post<ReportCustomerResponse[], SalesPanelRequest>(`${this.url}/matrix-rfm`).subscribe(
+                (response: ReportCustomerResponse[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

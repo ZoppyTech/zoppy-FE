@@ -1,0 +1,27 @@
+<main>
+    <div class="container">
+        <div class="header space-between flex-center">
+            <h5 class="text--primary text--bold text-20">Calendário</h5>
+            <div class="flex-center flex-row">
+                <ps-button type="cancel-border" (onClick)="move('back')">
+                    <div class="flex-center padding-x-1">
+                        <ps-icon class="primary" icon="icon-arrow_back"></ps-icon>
+                    </div>
+                </ps-button>
+                <ps-button type="cancel-border" class="margin-left-2" (onClick)="move('forward')">
+                    <div class="flex-center padding-x-1">
+                        <ps-icon class="primary" icon="icon-arrow_forward"></ps-icon>
+                    </div>
+                </ps-button>
+            </div>
+        </div>
+
+        <div class="body" *ngIf="!loading">
+            <div class="column" *ngFor="let day of days"></div>
+        </div>
+
+        <div class="loading flex flex-center padding-3 wide tall" *ngIf="loading">
+            <img [src]="logo" alt="" />
+        </div>
+    </div>
+</main>
