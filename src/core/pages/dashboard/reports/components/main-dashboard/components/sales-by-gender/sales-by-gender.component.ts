@@ -33,7 +33,7 @@ export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
     public data: ReportsGenderDistributionResponse | undefined;
     public legends: Legend[] = [];
     @Input() public reportRequest: GetReportRequest = {
-        period: 30 as ReportPeriod
+        period: 'all' as ReportPeriod
     };
 
     public chart: any;

@@ -24,7 +24,7 @@ export class AverageNpsChartComponent implements OnInit {
     public pieChartLabels: string[] = ['a', 'b'];
     public pieChartType: string = 'pie';
     public pieChartLegend: boolean = false;
-    public pieChartData: any[] = [{ data: [70, 30], label: 'NPS médio' }];
+    public pieChartData: any[] = [{ data: [88, 12], label: 'NPS médio' }];
 
     public ngOnInit(): void {}
 }
