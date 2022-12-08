@@ -134,8 +134,10 @@ export class SalesPanelComponent implements OnInit {
                 };
                 try {
                     await this.socialMediaService.create(task.customer.id, request);
-                    await this.fetchData();
-                    this.toast.success('Tarefa concluída', 'Sucesso');
+                    setTimeout(async () => {
+                        await this.fetchData();
+                        this.toast.success('Tarefa concluída', 'Sucesso');
+                    });
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
                     this.toast.error(ex.message, 'Não foi possível obter os dados');
@@ -178,8 +180,10 @@ export class SalesPanelComponent implements OnInit {
                     task.id
                         ? await this.socialMediaService.update(task.customer.id, task.id, request)
                         : await this.socialMediaService.create(task.customer.id, request);
-                    await this.fetchData();
-                    this.toast.success('Tarefa concluída', 'Sucesso');
+                    setTimeout(async () => {
+                        await this.fetchData();
+                        this.toast.success('Tarefa concluída', 'Sucesso');
+                    });
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
                     this.toast.error(ex.message, 'Não foi possível obter os dados');

@@ -128,7 +128,9 @@ export class CustomerSocialMediaComponent implements OnInit {
                 };
                 try {
                     await this.socialMediaService.create(this.customer?.id as string, request);
-                    await this.fetchData();
+                    setTimeout(async () => {
+                        await this.fetchData();
+                    });
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
                     this.toast.error(ex.message, 'Não foi possível obter os dados');
@@ -205,10 +207,7 @@ export class CustomerSocialMediaComponent implements OnInit {
 
     public selectType(type: TypeItem): void {
         this.task.taskType = type.value as TaskTypes;
-
-        if (this.task.taskType === TaskConstants.TYPES.SALE) {
-            this.router.navigate([Navigation.routes.sales, this.customer?.phone]);
-        }
+        if (this.task.taskType === TaskConstants.TYPES.SALE) this.router.navigate([Navigation.routes.sales, this.customer?.phone]);
     }
 
     public selectStatus(type: TypeItem): void {
