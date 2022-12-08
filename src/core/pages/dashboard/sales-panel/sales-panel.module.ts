@@ -1,20 +1,23 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CustomerSocialMediaComponent } from './customer-social-media.component';
-import { IconModule } from '@ZoppyTech/icon';
+import { SalesPanelComponent } from './sales-panel.component';
 import { Routes, RouterModule } from '@angular/router';
 import { ButtonModule } from '@ZoppyTech/button';
+import { CheckboxModule } from '@ZoppyTech/checkbox';
 import { DatepickerModule } from '@ZoppyTech/datepicker';
 import { DropdownModule } from '@ZoppyTech/dropdown';
+import { IconModule } from '@ZoppyTech/icon';
 import { InputModule } from '@ZoppyTech/input';
-import { ContactModule } from '@ZoppyTech/contact';
+import { MultiSelectModule } from '@ZoppyTech/multi-select';
 import { RadioButtonModule } from '@ZoppyTech/radio-button';
+import { SwitchModule } from '@ZoppyTech/switch';
+import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: CustomerSocialMediaComponent
+        component: SalesPanelComponent
     }
 ];
 
@@ -24,14 +27,17 @@ const routes: Routes = [
         IconModule,
         RouterModule.forChild(routes),
         DropdownModule,
-        InputModule,
-        ContactModule,
+        VisualIdentityModule,
+        CheckboxModule,
         ButtonModule,
-        RadioButtonModule,
+        SwitchModule,
+        InputModule,
         DatepickerModule,
+        MultiSelectModule,
+        RadioButtonModule,
         PipesModule
     ],
-    declarations: [CustomerSocialMediaComponent],
-    exports: [CustomerSocialMediaComponent]
+    declarations: [SalesPanelComponent],
+    exports: [SalesPanelComponent]
 })
-export class CustomerSocialMediaModule {}
+export class SalesPanelModule {}

@@ -1,25 +1,27 @@
+import { MatrixRfmConstants } from '../constants/matrix-rfm.constants';
+
 export class MatrixRfmUtil {
     public static getLabel(state: string): string {
         switch (state) {
-            case 'cant-lose':
+            case MatrixRfmConstants.STATE.CANT_LOSE:
                 return 'Não pode perder';
-            case 'at-risk':
+            case MatrixRfmConstants.STATE.AT_RISK:
                 return 'Em risco';
-            case 'loyal':
+            case MatrixRfmConstants.STATE.LOYAL:
                 return 'Leal';
-            case 'champion':
+            case MatrixRfmConstants.STATE.CHAMPION:
                 return 'Campeão';
-            case 'need-attention':
+            case MatrixRfmConstants.STATE.NEED_ATTENTION:
                 return 'Precisa de atenção';
-            case 'possible-loyal':
+            case MatrixRfmConstants.STATE.POSSIBLE_LOYAL:
                 return 'Possível leal';
-            case 'sleeping':
+            case MatrixRfmConstants.STATE.SLEEPING:
                 return 'Hibernando';
-            case 'almost-sleeping':
+            case MatrixRfmConstants.STATE.ALMOST_SLEEPING:
                 return 'Quase hibernando';
-            case 'promising':
+            case MatrixRfmConstants.STATE.PROMISING:
                 return 'Promissor';
-            case 'new':
+            case MatrixRfmConstants.STATE.NEW:
                 return 'Novo';
             default:
                 return '';

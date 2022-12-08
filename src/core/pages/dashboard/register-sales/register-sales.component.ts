@@ -125,6 +125,10 @@ export class RegisterSalesComponent implements OnInit {
             {
                 title: 'Alterar o subtotal',
                 cancelLabel: 'Cancelar',
+                placeholder: 'R$0,00',
+                mask: 'currency',
+                rows: 1,
+                selectAll: true,
                 confirmLabel: 'Confirmar',
                 value: this.calculateSubtotal()
             },
@@ -207,7 +211,6 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public async fetchCustomer(phone: string) {
-        debugger;
         if (phone.length !== 11) {
             this.order.address.phone = '';
             this.toast.error('Telefone no formato incorreto', 'Corrija o formato do telefone');

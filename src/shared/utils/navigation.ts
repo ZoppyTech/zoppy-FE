@@ -28,6 +28,7 @@ export class Navigation {
         products: '/dashboard/products',
         product: '/dashboard/products/add',
         sales: '/dashboard/sales',
+        salesPanel: '/dashboard/sales-panel',
         customers: '/dashboard/customers',
         customer: '/dashboard/customers/add',
         customerSocialMedia: '/dashboard/customers/details'
@@ -61,6 +62,7 @@ export type Pages =
     | 'products'
     | 'product'
     | 'sales'
+    | 'salesPanel'
     | 'customers'
     | 'customerSocialMedia'
     | 'customer'
