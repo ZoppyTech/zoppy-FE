@@ -150,7 +150,7 @@ export class SalesPanelComponent implements OnInit {
     }
 
     public async openTaskDescriptionModal(task: TaskView): Promise<void> {
-        if (task.id) {
+        if (task.status === TaskConstants.STATUS.SUCCESS) {
             this.toast.alert('Tarefa já concluída', 'Atenção');
             return;
         }
