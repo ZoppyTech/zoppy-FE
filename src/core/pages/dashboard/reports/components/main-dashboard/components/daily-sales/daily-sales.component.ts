@@ -20,7 +20,7 @@ export class DailySalesComponent implements OnInit, OnDestroy {
     public legends: Legend[] = [];
     public data: DailySalesResponse = new DailySalesResponse();
     @Input() public reportRequest: GetReportRequest = {
-        period: 30 as ReportPeriod
+        period: 'all' as ReportPeriod
     };
 
     public chartOptions: any = {

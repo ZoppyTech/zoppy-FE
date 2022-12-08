@@ -33,7 +33,7 @@ export class SalesByStateComponent implements AfterViewInit, OnDestroy {
     public barChartData: any[] = [{ data: [], label: 'Compras por estado' }];
 
     @Input() public reportRequest: GetReportRequest = {
-        period: 30 as ReportPeriod
+        period: 'all' as ReportPeriod
     };
 
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}

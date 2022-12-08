@@ -20,7 +20,7 @@ export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public legends: Legend[] = [];
     @Input() public reportRequest: GetReportRequest = {
-        period: 30 as ReportPeriod
+        period: 'all' as ReportPeriod
     };
 
     public chartOptions: any = {

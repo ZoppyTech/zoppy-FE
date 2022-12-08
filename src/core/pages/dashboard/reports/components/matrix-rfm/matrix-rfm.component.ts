@@ -1,4 +1,5 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
 import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
@@ -9,6 +10,7 @@ import { BroadcastService } from 'src/shared/services/broadcast/broadcast.servic
 import { ReportService } from 'src/shared/services/reports/report.service';
 import { FileUtils } from 'src/shared/utils/file.util';
 import { FormatUtils } from 'src/shared/utils/format.util';
+import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
     selector: 'matrix-rfm',
@@ -17,16 +19,17 @@ import { FormatUtils } from 'src/shared/utils/format.util';
 })
 export class MatrixRfmComponent implements OnInit, OnDestroy {
     public customers: Array<ReportCustomerResponseDto> = [];
+    public customersFiltered: Array<ReportCustomerResponseDto> = [];
     public isLoading: boolean = true;
     public loadingDownload: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public positions: CustomerPositions = new CustomerPositions();
     public position: CustomerPosition = new CustomerPosition('all');
     @Input() public reportRequest: GetReportRequest = {
-        period: 30 as ReportPeriod
+        period: 'all' as ReportPeriod
     };
 
-    public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
+    public constructor(public router: Router, private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
     public async downloadCustomers(): Promise<void> {
         const fileName: string = `${new Date().toLocaleDateString()}_coupons.csv`;
@@ -60,6 +63,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     public async fetchData(): Promise<void> {
         try {
             this.customers = (await this.reportsService.getCustomers(this.reportRequest)) as ReportCustomerResponseDto[];
+            this.customersFiltered = Array.from(this.customers.values());
             this.setPositions();
             this.setFilter(this.position);
         } catch (ex: any) {
@@ -114,16 +118,17 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     }
 
     public setFilter(position: CustomerPosition) {
+        this.isLoading = true;
         if (position.position === this.position.position) {
             this.setFilterByAll();
             return;
         }
         this.position.position = position.position;
         setTimeout(() => {
-            this.customers = this.customers.map((customer: ReportCustomerResponseDto) => {
-                customer.hidden = position.position !== 'all' && customer.matrixRFM?.position !== position.position;
-                return customer;
+            this.customersFiltered = this.customers.filter((customer: ReportCustomerResponseDto) => {
+                return !(position.position !== 'all' && customer.matrixRFM?.position !== position.position);
             });
+            this.isLoading = false;
         });
     }
 
@@ -134,13 +139,17 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         });
     }
 
+    public redirectToCustomerDetails(id: string): void {
+        this.router.navigate([Navigation.routes.customerSocialMedia, id]);
+    }
+
     private setFilterByAll(): void {
         this.position.position = 'all';
         setTimeout(() => {
-            this.customers = this.customers.map((customer: ReportCustomerResponseDto) => {
-                customer.hidden = false;
+            this.customersFiltered = this.customers.map((customer: ReportCustomerResponseDto) => {
                 return customer;
             });
+            this.isLoading = false;
         });
     }
 
@@ -179,6 +188,6 @@ class CustomerPosition {
     public position: Position = 'all';
 }
 
-class ReportCustomerResponseDto extends ReportCustomerResponse {
+export class ReportCustomerResponseDto extends ReportCustomerResponse {
     public hidden: boolean = false;
 }

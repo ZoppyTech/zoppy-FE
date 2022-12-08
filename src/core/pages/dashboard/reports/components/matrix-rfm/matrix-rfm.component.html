@@ -112,7 +112,7 @@
                 </div>
             </div>
         </div>
-        <rfm-overview class="padding-top-3"></rfm-overview>
+        <rfm-overview [isLoading]="isLoading" class="padding-top-3" [customers]="customersFiltered"></rfm-overview>
     </section>
 
     <div class="content-box">
@@ -140,19 +140,31 @@
                 <table>
                     <thead>
                         <th><span class="text--primary text--bold text-14">Nome</span></th>
-                        <th class="desktop"><span class="text--primary text--bold text-14">E-mail</span></th>
                         <th><span class="text--primary text--bold text-14">Telefone</span></th>
+                        <th class="desktop"><span class="text--primary text--bold text-14">Ticket Médio</span></th>
+                        <th class="desktop"><span class="text--primary text--bold text-14">Última compra</span></th>
+                        <th><span class="text--primary text--bold text-14"></span></th>
                     </thead>
                     <tbody *ngIf="!isLoading">
-                        <tr *ngFor="let customer of customers" [ngClass]="{ hidden: customer.hidden }">
+                        <tr *ngFor="let customer of customersFiltered" [ngClass]="{ hidden: customer.hidden }">
                             <td>
                                 <span class="text-14">{{ customer.name }}</span>
                             </td>
-                            <td class="desktop">
-                                <span class="text-14">{{ customer.email }}</span>
-                            </td>
                             <td>
                                 <span class="text-14">{{ customer.phoneMasked }}</span>
+                            </td>
+                            <td class="desktop">
+                                <span class="text-14">{{ customer.avgTicket }}</span>
+                            </td>
+                            <td class="desktop">
+                                <span class="text-14">{{ customer.lastPurchaseDate | date: 'dd/MM/yyyy' }}</span>
+                            </td>
+                            <td>
+                                <ps-icon
+                                    (click)="redirectToCustomerDetails(customer.id)"
+                                    class="text-16 text--primary clickable"
+                                    icon="icon-navigate_forward"
+                                ></ps-icon>
                             </td>
                         </tr>
                     </tbody>
