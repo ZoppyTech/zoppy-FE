@@ -4,14 +4,14 @@
     flex-grow: 1;
     min-height: 0;
     overflow: auto;
+    display: flex;
 }
 
 main {
+    flex-grow: 1;
+    min-height: 0;
+
     .container {
-        .header {
-            border-bottom: 1px solid var(--neutral-300);
-            padding: 1rem 2rem;
-        }
         display: flex;
         flex-direction: column;
         margin: 3rem;
@@ -24,6 +24,102 @@ main {
         margin-bottom: 2rem;
         flex-grow: 1;
         min-height: 0;
+
+        .header {
+            border-bottom: 1px solid var(--neutral-300);
+            padding: 1rem 2rem;
+        }
+
+        .body {
+            flex-grow: 1;
+            min-height: 0;
+            display: flex;
+
+            .header {
+                min-width: 14rem;
+                padding: 1rem;
+                border-bottom: unset;
+
+                .day {
+                    padding: 0.5rem 0.75rem;
+                    border-radius: 0.75rem;
+                    border: 1px solid var(--neutral-300);
+                }
+
+                .today {
+                    border: 1px solid var(--secondary);
+                }
+            }
+
+            .column {
+                min-width: 14rem;
+                .items {
+                    display: flex;
+                    flex-direction: column;
+                    overflow: auto;
+                    flex-grow: 1;
+                    min-height: 0;
+                    margin: 0 0.5rem;
+                    max-height: 29rem;
+
+                    .card {
+                        border: 1px solid var(--neutral-300);
+                        border-radius: 0.5rem;
+                        position: relative;
+
+                        .chat {
+                            position: absolute;
+                            right: -0.75rem;
+                            top: -0.75rem;
+                            .btn-content {
+                                width: 0.25rem;
+                                ps-icon {
+                                    font-size: 1rem;
+                                }
+                            }
+                        }
+
+                        .link {
+                            ps-icon {
+                                font-size: 1rem;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    .rfm {
+        margin: 0 1.5rem 0rem 1.5rem;
+
+        .card {
+            background-color: var(--neutral-100);
+            border: 1px solid var(--neutral-300);
+            box-shadow: $box-shadow-1;
+            border-radius: 0.75rem;
+            margin-bottom: 2rem;
+            padding: 1rem;
+
+            .cell {
+                width: 20%;
+            }
+
+            .btns {
+                .btn-content {
+                    padding: 0.25rem 0;
+                    ps-icon {
+                        font-size: 1.25rem;
+                    }
+                }
+
+                .rotate {
+                    ps-icon {
+                        font-size: 1.5rem !important;
+                    }
+                }
+            }
+        }
     }
 
     .loading {

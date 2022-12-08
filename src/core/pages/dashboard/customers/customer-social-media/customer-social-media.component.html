@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="flex align-center">
-            <ps-button [wide]="true" (onClick)="sendMessage()" [loading]="loadingOpenLink" type="secondary">
+            <ps-button [wide]="true" (onClick)="createTask()" [loading]="loadingOpenLink" type="secondary">
                 <span class="text text--100 margin-x-3">Enviar mensagem</span>
             </ps-button>
         </div>
@@ -28,7 +28,7 @@
                 <div class="separator margin-bottom-2"></div>
                 <div class="flex padding-y-1 align-center">
                     <ps-icon class="text--700" icon="icon-call"></ps-icon> &nbsp;
-                    <span class="text margin-left-1 text--700">{{ details.phone }}</span>
+                    <span class="text margin-left-1 text--700">{{ details.phone | zoppyPhone }}</span>
                 </div>
                 <div class="flex padding-y-1 align-center">
                     <ps-icon class="text--700" icon="icon-mail"></ps-icon> &nbsp;
@@ -181,7 +181,7 @@
                 <div class="margin-top-2">
                     <span class="text">{{ task.description }}</span>
                 </div>
-                <div class="margin-top-2 flex align-center classification" *ngIf="task.status">
+                <div class="margin-top-2 flex align-center classification" *ngIf="task.status && !task.order?.products">
                     <span class="text text--500">Classificação da atividade: </span>
                     <ps-icon
                         class="margin-left-1 text--500"

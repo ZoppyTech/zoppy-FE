@@ -147,6 +147,14 @@ th {
     height: 100%;
 }
 
+.round {
+    border-radius: 100%;
+}
+
+.rotate {
+    transform: rotateY(180deg);
+}
+
 .truncate {
     display: block !important;
     white-space: nowrap;
@@ -249,6 +257,14 @@ $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
 
 .text-decoration-none {
     text-decoration: none;
+}
+
+.text-decoration-line-through {
+    text-decoration: line-through;
+}
+
+.cursor-not-allowed {
+    cursor: not-allowed !important;
 }
 
 .scroll {
