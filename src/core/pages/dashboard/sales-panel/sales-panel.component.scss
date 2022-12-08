@@ -107,15 +107,17 @@ main {
 
             .btns {
                 .btn-content {
-                    padding: 0.25rem 0;
+                    padding: 0 0.5rem;
                     ps-icon {
                         font-size: 1.25rem;
                     }
                 }
 
                 .rotate {
+                    padding: 0 0.25rem;
                     ps-icon {
-                        font-size: 1.5rem !important;
+                        font-size: 1.25rem;
+                        margin-left: 0.25rem;
                     }
                 }
             }

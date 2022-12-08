@@ -47,14 +47,14 @@ export class SalesPanelComponent implements OnInit {
     public async ngOnInit() {
         this.sideMenuService.change('salesPanel');
         this.setBreadcrumb();
+        const firstAndlastDay: FirstAndLastDayOfWeek = DateUtil.getFirstAndLastDayOfCurrentWeek();
+        this.filter.maxDate = firstAndlastDay.lastday;
+        this.filter.minDate = firstAndlastDay.firstday;
         await this.fetchData();
     }
 
     public async fetchData(): Promise<void> {
         this.loading = true;
-        const firstAndlastDay: FirstAndLastDayOfWeek = DateUtil.getFirstAndLastDayOfCurrentWeek();
-        this.filter.maxDate = firstAndlastDay.lastday;
-        this.filter.minDate = firstAndlastDay.firstday;
         try {
             const salesPanel: SocialMediaSalesPanelResponse = await await this.socialMediaService.listSalesPanel(
                 this.filter as SalesPanelRequest
@@ -64,6 +64,7 @@ export class SalesPanelComponent implements OnInit {
             });
             this.days = SalesPanelMapper.mapDays(salesPanel.tasks, this.filter);
             this.rfms = SalesPanelMapper.mapRfm(salesPanel.rfm);
+            debugger;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os dados');
@@ -89,6 +90,7 @@ export class SalesPanelComponent implements OnInit {
             const data: any = await this.crmCustomerService.findWhatsappLink(task.customer.id, message as MessageConfigTemplate);
             window?.open(data.data, '_blank')?.focus();
         } catch (ex: any) {
+            debugger;
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
         } finally {
@@ -101,12 +103,14 @@ export class SalesPanelComponent implements OnInit {
     }
 
     public async createTask(customer: SocialMediaMatrixRfmResponse): Promise<void> {
+        customer.loading = true;
         const task: TaskView = {} as TaskView;
         task.contactType = TaskConstants.CONTACT_TYPES.WHATSAPP;
         task.type = TaskConstants.TYPES.CANT_LOSE;
         task.customer = customer.customer;
         task.customer.address = customer.address;
         await this.sendMessage(task as TaskView);
+        customer.loading = false;
         this.modal.open(
             Modal.IDENTIFIER.INPUT_INFO,
             {
@@ -131,6 +135,7 @@ export class SalesPanelComponent implements OnInit {
                 try {
                     await this.socialMediaService.create(task.customer.id, request);
                     await this.fetchData();
+                    this.toast.success('Tarefa concluída', 'Sucesso');
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
                     this.toast.error(ex.message, 'Não foi possível obter os dados');
@@ -174,6 +179,7 @@ export class SalesPanelComponent implements OnInit {
                         ? await this.socialMediaService.update(task.customer.id, task.id, request)
                         : await this.socialMediaService.create(task.customer.id, request);
                     await this.fetchData();
+                    this.toast.success('Tarefa concluída', 'Sucesso');
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
                     this.toast.error(ex.message, 'Não foi possível obter os dados');
@@ -185,7 +191,11 @@ export class SalesPanelComponent implements OnInit {
         );
     }
 
-    public move(direction: string) {}
+    public async move(direction: string) {
+        this.filter.minDate = DateUtil.addDays(this.filter.minDate, direction === 'forward' ? 7 : -7);
+        this.filter.maxDate = DateUtil.addDays(this.filter.maxDate, direction === 'forward' ? 7 : -7);
+        await this.fetchData();
+    }
 
     private setBreadcrumb(): void {
         this.breadcrumb.items = [

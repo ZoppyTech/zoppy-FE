@@ -181,7 +181,10 @@
                 <div class="margin-top-2">
                     <span class="text">{{ task.description }}</span>
                 </div>
-                <div class="margin-top-2 flex align-center classification" *ngIf="task.status && !task.order?.products">
+                <div
+                    class="margin-top-2 flex align-center classification"
+                    *ngIf="task.status && !task.order?.products && task.type !== 'observation'"
+                >
                     <span class="text text--500">Classificação da atividade: </span>
                     <ps-icon
                         class="margin-left-1 text--500"

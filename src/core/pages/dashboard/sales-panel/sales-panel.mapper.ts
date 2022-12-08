@@ -55,7 +55,10 @@ export class SalesPanelMapper {
             }
         ];
         days = days.map((day: Day) => {
-            day.isToday = day.date.getDate() === new Date().getDate();
+            day.date.setHours(0, 0, 0, 0);
+            const today: Date = new Date();
+            today.setHours(0, 0, 0, 0);
+            day.isToday = day.date.toDateString() === today.toDateString();
             return day;
         });
         return days;
