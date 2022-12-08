@@ -22,13 +22,21 @@ export class ReportsComponent implements OnInit {
         {
             label: 'Matriz RFM',
             value: '2'
+        },
+        {
+            label: 'Curva ABC e NPS',
+            value: '3'
+        },
+        {
+            label: 'Dados demográficos',
+            value: '4'
         }
     ];
 
     public periods: Array<PeriodItem> = [
         {
             label: 'Últimos 30 dias',
-            selected: true,
+            selected: false,
             value: 30
         },
         {
@@ -42,8 +50,8 @@ export class ReportsComponent implements OnInit {
             value: 90
         },
         {
-            label: 'Todas',
-            selected: false,
+            label: 'Desde o início',
+            selected: true,
             value: 'all'
         }
     ];
@@ -82,7 +90,7 @@ export class ReportsComponent implements OnInit {
     }
 
     public getPeriod(): ReportPeriod {
-        return this.periods.find((period: PeriodItem) => period.selected)?.value ?? 30;
+        return this.periods.find((period: PeriodItem) => period.selected)?.value ?? 'all';
     }
 
     public periodSelectedLabel(): string {
@@ -99,7 +107,7 @@ export class ReportsComponent implements OnInit {
     }
 }
 
-type View = '1' | '2';
+type View = '1' | '2' | '3' | '4';
 class Item {
     public declare label: string;
     public declare value: View;

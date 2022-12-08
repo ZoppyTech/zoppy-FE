@@ -1,0 +1,52 @@
+:host {
+    flex-grow: 1;
+    min-height: 0;
+    width: 100%;
+    height: 100%;
+}
+
+.container {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    .header {
+        width: 100%;
+    }
+
+    .main-content {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        align-items: center;
+
+        img {
+            height: 48px;
+        }
+
+        .chart-content {
+            height: 100%;
+            width: 100%;
+
+            canvas {
+                width: 100%;
+                max-width: 100% !important;
+                height: 100% !important;
+                max-height: 349px !important;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1280px) {
+    .container {
+        .main-content {
+            .chart-content {
+                canvas {
+                    max-height: 200px !important;
+                }
+            }
+        }
+    }
+}

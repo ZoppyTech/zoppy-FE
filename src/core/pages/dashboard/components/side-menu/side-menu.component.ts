@@ -4,10 +4,10 @@ import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
-import { CompanyUtil } from 'src/shared/utils/company.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { UserUtil } from 'src/shared/utils/user.util';
+import { ConfigSubItems } from '../config.subitems';
 
 @Component({
     selector: 'app-side-menu',
@@ -25,7 +25,7 @@ export class SideMenuComponent implements OnInit {
         public router: Router,
         public storage: Storage
     ) {
-        this.sideMenuService.open = true;
+        if (window.screen.width > 576) this.sideMenuService.open = true;
     }
 
     public goToInitial(): void {
@@ -80,6 +80,13 @@ export class SideMenuComponent implements OnInit {
                 visible: true
             },
             {
+                id: `salesPanel`,
+                icon: 'icon-assignment_turned_in',
+                label: 'Painel do Vendedor',
+                route: Navigation.routes.salesPanel,
+                visible: true
+            },
+            {
                 id: `customers`,
                 icon: 'icon-group_add',
                 label: 'Área de membros',
@@ -93,50 +100,7 @@ export class SideMenuComponent implements OnInit {
                 route: null,
                 visible: true,
                 class: 'mobile',
-                subItems: [
-                    {
-                        id: `accessKeys`,
-                        icon: 'icon-arrow',
-                        label: 'Chaves de Acesso',
-                        route: Navigation.routes.accessKeys,
-                        visible: true
-                    },
-                    {
-                        id: `accessTokens`,
-                        icon: 'icon-arrow',
-                        label: 'Tokens de Acesso',
-                        route: Navigation.routes.accessTokens,
-                        visible: true
-                    },
-                    {
-                        id: `syncData`,
-                        icon: 'icon-arrow',
-                        label: 'Sincronizacão',
-                        route: Navigation.routes.syncData,
-                        visible: true
-                    },
-                    {
-                        id: `giftback`,
-                        icon: 'icon-arrow',
-                        label: 'Configuração de Giftback',
-                        route: Navigation.routes.giftback,
-                        visible: true
-                    },
-                    {
-                        id: `letalk`,
-                        icon: 'icon-arrow',
-                        label: 'Configuração da Letalk',
-                        route: Navigation.routes.letalk,
-                        visible: CompanyUtil.isStandard(this.company)
-                    },
-                    {
-                        id: `whatsappConfig`,
-                        icon: 'icon-arrow',
-                        label: 'Whatsapp',
-                        route: Navigation.routes.whatsappConfig,
-                        visible: UserUtil.isMaster(this.user)
-                    }
-                ]
+                subItems: ConfigSubItems.get(this.user as UserEntity, this.company as CompanyEntity)
             },
             {
                 id: `myCompany`,

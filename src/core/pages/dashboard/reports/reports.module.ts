@@ -1,15 +1,13 @@
-import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { ReportsComponent } from './reports.component';
-import { Routes, RouterModule } from '@angular/router';
-import { IconModule } from '@ZoppyTech/icon';
+import { NgModule } from '@angular/core';
+import { RouterModule, Routes } from '@angular/router';
 import { DropdownModule } from '@ZoppyTech/dropdown';
-import { SalesByStateModule } from './components/sales-by-state/sales-by-state.module';
-import { SalesByGenderModule } from './components/sales-by-gender/sales-by-gender.module';
-import { ReportCardModule } from './components/report-card/report-card.module';
-import { MonthlyInvoicesModule } from './components/monthly-invoices/monthly-invoices.module';
-import { DailySalesModule } from './components/daily-sales/daily-sales.module';
+import { IconModule } from '@ZoppyTech/icon';
+import { DemographicDataModule } from './components/demographic-data/demographic-data.module';
+import { MainDashboardModule } from './components/main-dashboard/main-dashboard.module';
 import { MatrixRfmModule } from './components/matrix-rfm/matrix-rfm.module';
+import { NpsModule } from './components/nps/nps.module';
+import { ReportsComponent } from './reports.component';
 
 const routes: Routes = [
     {
@@ -23,11 +21,9 @@ const routes: Routes = [
         CommonModule,
         IconModule,
         RouterModule.forChild(routes),
-        SalesByStateModule,
-        SalesByGenderModule,
-        ReportCardModule,
-        MonthlyInvoicesModule,
-        DailySalesModule,
+        NpsModule,
+        MainDashboardModule,
+        DemographicDataModule,
         MatrixRfmModule,
         DropdownModule
     ],

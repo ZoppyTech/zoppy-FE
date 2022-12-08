@@ -53,6 +53,14 @@ const routes: Routes = [
                 loadChildren: () => import('./register-sales/register-sales.module').then((m: any) => m.RegisterSalesModule)
             },
             {
+                path: 'sales-panel',
+                loadChildren: () => import('./sales-panel/sales-panel.module').then((m: any) => m.SalesPanelModule)
+            },
+            {
+                path: 'sales/:phone',
+                loadChildren: () => import('./register-sales/register-sales.module').then((m: any) => m.RegisterSalesModule)
+            },
+            {
                 path: 'products',
                 loadChildren: () => import('./products/products.module').then((m: any) => m.ProductsModule)
             },
@@ -73,12 +81,16 @@ const routes: Routes = [
                 loadChildren: () => import('./customers/customer/customer.module').then((m: any) => m.CustomerModule)
             },
             {
+                path: 'customers/details/:id',
+                loadChildren: () =>
+                    import('./customers/customer-social-media/customer-social-media.module').then((m: any) => m.CustomerSocialMediaModule)
+            },
+            {
                 path: 'customers/:id',
                 loadChildren: () => import('./customers/customer/customer.module').then((m: any) => m.CustomerModule)
             },
             {
                 path: 'whatsapp',
-                //canActivate: [PremiumGuard],
                 loadChildren: () => import('./whatsapp/whatsapp.module').then((m: any) => m.WhatsappModule)
             }
         ]

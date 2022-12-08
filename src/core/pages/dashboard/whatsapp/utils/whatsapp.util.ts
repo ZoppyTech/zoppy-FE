@@ -1,4 +1,6 @@
+import { CountryCodes } from 'src/shared/constants/country-codes.constants';
 import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
+import { StringUtil } from 'src/shared/utils/string.util';
 import { ChatRoom } from '../models/chat-room';
 import { ThreadMessage } from '../models/thread-message';
 
@@ -51,5 +53,33 @@ export class WhatsappUtil {
             default:
                 return [];
         }
+    }
+
+    public static slicePhone(phone: string, skipWrongPhone: boolean = false): PhoneNumberSliced {
+        phone = StringUtil.onlyNumbers(phone);
+        switch (phone.length) {
+            case 13:
+                return new PhoneNumberSliced(phone.substring(0, 2), phone.substring(2, 4), phone.substring(4, phone.length));
+            case 12:
+                return new PhoneNumberSliced(phone.substring(0, 2), phone.substring(2, 4), '9' + phone.substring(4, phone.length));
+            case 11:
+                return new PhoneNumberSliced(CountryCodes.Brazil, phone.substring(0, 2), phone.substring(2, phone.length));
+            case 10:
+                return new PhoneNumberSliced(CountryCodes.Brazil, phone.substring(0, 2), '9' + phone.substring(2, phone.length));
+            default:
+                throw new Error();
+        }
+    }
+}
+
+export class PhoneNumberSliced {
+    public constructor(public countryCode: string, public subdivisionCode: string, public phoneNumber: string) {
+        this.countryCode = countryCode;
+        this.subdivisionCode = subdivisionCode;
+        this.phoneNumber = phoneNumber;
+    }
+
+    public getFullPhone(): string {
+        return `${this.countryCode}${this.subdivisionCode}${this.phoneNumber}`;
     }
 }

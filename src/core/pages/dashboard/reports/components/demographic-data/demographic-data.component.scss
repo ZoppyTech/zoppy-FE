@@ -1,0 +1,178 @@
+.container {
+    width: 100%;
+    height: 100%;
+
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-rows: 24rem minmax(24rem, auto);
+    row-gap: 2rem;
+    column-gap: 2rem;
+    padding-bottom: 3rem;
+
+    .chart1 {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #dddddd;
+        background-color: var(--neutral-100);
+        grid-row-start: 1;
+        grid-row-end: 2;
+        grid-column-start: 1;
+        grid-column-end: 2;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0px 16px 24px #edeff2;
+    }
+
+    .chart2 {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #dddddd;
+        background-color: var(--neutral-100);
+        grid-row-start: 1;
+        grid-row-end: 2;
+        grid-column-start: 2;
+        grid-column-end: 3;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0px 16px 24px #edeff2;
+    }
+
+    .chart-group {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #dddddd;
+        background-color: var(--neutral-100);
+        grid-row-start: 2;
+        grid-row-end: 2;
+        grid-column-start: 1;
+        grid-column-end: 3;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0px 16px 24px #edeff2;
+
+        display: grid;
+        grid-template-columns: 2fr 1fr;
+        grid-template-rows: auto;
+        column-gap: 4rem;
+
+        .chart3 {
+            width: 100%;
+            height: 100%;
+        }
+
+        .chart4 {
+            width: 100%;
+            height: 100%;
+        }
+    }
+
+    .chart5 {
+        width: 100%;
+        height: 100%;
+        border: 1px solid #dddddd;
+        background-color: var(--neutral-100);
+        grid-row-start: 1;
+        grid-row-end: 3;
+        grid-column-start: 3;
+        grid-column-end: 4;
+        box-shadow: 0px 16px 24px #edeff2;
+        z-index: 99;
+    }
+}
+
+@media only screen and (max-width: 1280px) {
+    .container {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        grid-template-rows: 300px 300px 457px;
+        row-gap: 2rem;
+        column-gap: 2rem;
+
+        .chart1 {
+            grid-row-start: 1;
+            grid-row-end: 2;
+            grid-column-start: 1;
+            grid-column-end: 2;
+        }
+
+        .chart2 {
+            grid-row-start: 1;
+            grid-row-end: 2;
+            grid-column-start: 2;
+            grid-column-end: 3;
+        }
+
+        .chart-group {
+            grid-row-start: 2;
+            grid-row-end: 2;
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+
+        .chart5 {
+            grid-row-start: 3;
+            grid-row-end: 4;
+            grid-column-start: 1;
+            grid-column-end: 3;
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .container {
+        display: grid;
+        grid-template-columns: 100%;
+        grid-template-rows: 281px 281px minmax(562px, 562px) 600px;
+        row-gap: 2rem;
+
+        .chart1 {
+            grid-row-start: 1;
+            grid-column-start: 1;
+            grid-column-end: 2;
+        }
+
+        .chart2 {
+            grid-row-start: 2;
+            grid-column-start: 1;
+            grid-column-end: 2;
+        }
+
+        .chart-group {
+            grid-row-start: 3;
+            grid-row-end: 3;
+            grid-column-start: 1;
+            grid-column-end: 2;
+
+            display: grid;
+            grid-template-columns: 1fr;
+            grid-template-rows: 1fr 1fr;
+            row-gap: 2rem;
+
+            .chart3 {
+                grid-row-start: 1;
+                grid-row-end: 2;
+                grid-column-start: 1;
+                grid-column-end: 4;
+                width: 100%;
+                padding: 1.5rem;
+            }
+
+            .chart4 {
+                grid-row-start: 2;
+                grid-row-end: 2;
+                grid-column-start: 1;
+                grid-column-end: 4;
+                width: 100%;
+                padding: 1.5rem;
+            }
+        }
+
+        .chart5 {
+            width: 100%;
+            height: 100%;
+            grid-row-start: 5;
+            grid-column-start: 1;
+            grid-column-end: 2;
+        }
+    }
+}

@@ -17,6 +17,7 @@ export class Navigation {
         accessKeys: '/dashboard/configurations/access-keys',
         accessTokens: '/dashboard/configurations/access-tokens',
         letalk: '/dashboard/configurations/letalk',
+        messageConfig: '/dashboard/configurations/message-config',
         giftback: '/dashboard/configurations/giftback',
         coupons: '/dashboard/configurations/coupons',
         batchUpload: '/dashboard/configurations/batch-upload',
@@ -27,8 +28,10 @@ export class Navigation {
         products: '/dashboard/products',
         product: '/dashboard/products/add',
         sales: '/dashboard/sales',
+        salesPanel: '/dashboard/sales-panel',
         customers: '/dashboard/customers',
-        customer: '/dashboard/customers/add'
+        customer: '/dashboard/customers/add',
+        customerSocialMedia: '/dashboard/customers/details'
     };
 }
 
@@ -50,6 +53,7 @@ export type Pages =
     | 'accessKeys'
     | 'accessTokens'
     | 'letalk'
+    | 'messageConfig'
     | 'giftback'
     | 'whatsappConfig'
     | 'whatsappTemplateList'
@@ -58,7 +62,9 @@ export type Pages =
     | 'products'
     | 'product'
     | 'sales'
+    | 'salesPanel'
     | 'customers'
+    | 'customerSocialMedia'
     | 'customer'
     | 'coupons'
     | 'batchUpload';

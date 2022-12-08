@@ -31,6 +31,7 @@ export type SideMenu =
     | `accessKeys`
     | `accessTokens`
     | `letalk`
+    | `messageConfig`
     | `syncData`
     | `giftback`
     | `myProfile`
@@ -38,6 +39,7 @@ export type SideMenu =
     | 'myCompanyUsers'
     | 'membership'
     | 'registerSale'
+    | 'salesPanel'
     | 'products'
     | 'customers'
     | 'coupons'

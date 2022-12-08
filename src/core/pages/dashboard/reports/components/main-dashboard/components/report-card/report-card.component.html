@@ -1,0 +1,44 @@
+<div class="chart-container flex-center">
+    <img [src]="logo" alt="" *ngIf="isLoading" />
+
+    <div class="data" *ngIf="!isLoading">
+        <div class="item">
+            <span class="text-14 label-1">Receita total</span>
+            <div class="separator"></div>
+            <span class="text--primary text--bold text-18">{{ data.revenue }}</span>
+        </div>
+        <div class="item">
+            <span class="text-14 label-2">Receita com a Zoppy</span>
+            <div class="separator"></div>
+            <div class="flex flex-end align-center">
+                <span class="text--primary text--bold text-18">{{ data.zoppyRevenue }}</span>
+                <div
+                    class="percentage text--100 text-12"
+                    tooltipWidth="210"
+                    appTooltip
+                    [tooltipText]="'Do faturamento total'"
+                    tooltipDirection="top"
+                >
+                    {{ data.zoppyPercentage }}
+                </div>
+            </div>
+        </div>
+        <div class="item">
+            <span class="text-14 label-3">Ticket médio</span>
+            <div class="separator"></div>
+            <span class="text--primary text--bold text-18">{{ data.averageTicket }}</span>
+        </div>
+        <div class="item">
+            <span class="text-14 label-4">Percentual de retorno</span>
+            <div class="separator"></div>
+            <span class="text--primary text--bold text-18">{{ data.returnPercentage }}</span>
+        </div>
+        <div class="item">
+            <span class="text-14 label-5">Frequência média por cliente</span>
+            <div class="separator"></div>
+            <span class="text--primary text--bold text-18">{{ data.averageClientFrequency }}</span>
+        </div>
+    </div>
+</div>
+
+<ps-tooltip></ps-tooltip>

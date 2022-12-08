@@ -1,15 +1,15 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
-import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
-import { WcCustomerEntity } from 'src/shared/models/entities/wc-customer.entity';
 import { CrmAddressRequest } from 'src/shared/models/requests/crm/crm-address.request';
 import { CrmCouponRequest } from 'src/shared/models/requests/crm/crm-coupon.request';
 import { CrmLineItemRequest } from 'src/shared/models/requests/crm/crm-line-item.request';
 import { CrmOrderRequest } from 'src/shared/models/requests/crm/crm-order.request';
 import { CrmCouponResponse } from 'src/shared/models/responses/crm/crm-coupon.response';
+import { CrmCustomerDetailResponse, CrmCustomerResponse } from 'src/shared/models/responses/crm/crm-customer.response';
 import { CrmOrderResponse } from 'src/shared/models/responses/crm/crm-order.response';
 import { CrmProductResponse } from 'src/shared/models/responses/crm/crm-product.response';
 import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
@@ -17,11 +17,13 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.service';
 import { CrmCouponService } from 'src/shared/services/crm-coupon/crm-coupon.service';
+import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { CrmOrderService } from 'src/shared/services/crm-order/crm-order.service';
 import { CrmProductService } from 'src/shared/services/crm-product/crm-product.service';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { FormatUtils } from 'src/shared/utils/format.util';
+import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -31,6 +33,7 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class RegisterSalesComponent implements OnInit {
     public loading: boolean = false;
+    public phone: string = '';
     public state: State = 1;
     public order: CrmOrderRequest = {
         address: {},
@@ -97,8 +100,11 @@ export class RegisterSalesComponent implements OnInit {
         public storage: Storage,
         public confirmActionService: ConfirmActionService,
         public modal: ModalService,
+        private readonly route: ActivatedRoute,
+        private readonly router: Router,
         private readonly crmCouponService: CrmCouponService,
         private readonly crmAddressService: CrmAddressService,
+        private readonly crmCustomerService: CrmCustomerService,
         private readonly crmProductService: CrmProductService,
         private readonly crmOrderService: CrmOrderService,
         private readonly publicService: PublicService,
@@ -119,6 +125,10 @@ export class RegisterSalesComponent implements OnInit {
             {
                 title: 'Alterar o subtotal',
                 cancelLabel: 'Cancelar',
+                placeholder: 'R$0,00',
+                mask: 'currency',
+                rows: 1,
+                selectAll: true,
                 confirmLabel: 'Confirmar',
                 value: this.calculateSubtotal()
             },
@@ -134,6 +144,12 @@ export class RegisterSalesComponent implements OnInit {
         this.sideMenuService.change('registerSale');
         this.setBreadcrumb();
         await this.fetchProducts();
+        const phone: string = this.route.snapshot.paramMap.get('phone') ?? '';
+        if (phone) {
+            await this.fetchCustomer(phone);
+            this.state = 2;
+            this.phone = phone;
+        }
     }
 
     public async toggleState(): Promise<void> {
@@ -149,7 +165,7 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public changeState(state: number): void {
-        if (!this.formValid()) {
+        if (state === 2 && !this.formValid()) {
             this.toast.error('Erro', 'Formulário incompleto');
             return;
         }
@@ -157,6 +173,10 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public async save(): Promise<void> {
+        if (this.order.coupon?.minPurchaseValue && this.order.total < this.order.coupon.minPurchaseValue) {
+            this.toast.error('Valor mínimo da compra não foi atingido!', 'Erro!');
+            return;
+        }
         try {
             this.loading = true;
             this.formatAddress();
@@ -165,6 +185,10 @@ export class RegisterSalesComponent implements OnInit {
             this.toast.success('Sua venda foi registrada com sucesso!', 'Sucesso!');
             this.resetOrder();
             this.state = 1;
+            if (this.phone) {
+                const customer: CrmCustomerDetailResponse = await this.crmCustomerService.findByPhone(this.phone);
+                this.router.navigate([Navigation.routes.customerSocialMedia, customer.customerId]);
+            }
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível salvar seu pedido');

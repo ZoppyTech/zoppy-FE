@@ -21,7 +21,12 @@
         <div class="flex-grow flex flex-column">
             <div class="field">
                 <p class="text-14">Telefone*</p>
-                <ps-input mask="(00) 00000-0000" placeholder="Digite aqui seu telefone com DDD" [(ngModel)]="customer.phone"></ps-input>
+                <ps-input
+                    mask="(00) 00000-0000"
+                    [disabled]="!!id"
+                    placeholder="Digite aqui seu telefone com DDD"
+                    [(ngModel)]="customer.phone"
+                ></ps-input>
             </div>
             <div class="field">
                 <p class="text-14">Primeiro nome*</p>

@@ -163,6 +163,10 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
         this.router.navigate([Navigation.routes.customers, address.customerId]);
     }
 
+    public async details(address: CrmAddressResponse): Promise<void> {
+        this.router.navigate([Navigation.routes.customerSocialMedia, address.customerId]);
+    }
+
     private setBreadcrumb(): void {
         this.breadcrumb.items = [
             {
