@@ -6,6 +6,10 @@ import { ToastModule } from '@ZoppyTech/toast';
 import { TooltipModule } from '@ZoppyTech/tooltip';
 import { ConfirmActionModule } from '@ZoppyTech/confirm-action';
 import { ComponentsModule } from 'src/shared/components/components.module';
+import localePT from '@angular/common/locales/pt';
+import { registerLocaleData } from '@angular/common';
+
+registerLocaleData(localePT);
 
 @NgModule({
     imports: [AppRoutingModule, SharedModule, ToastModule, TooltipModule, ConfirmActionModule, ComponentsModule],

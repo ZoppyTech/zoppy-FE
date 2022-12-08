@@ -128,7 +128,9 @@ export class CustomerSocialMediaComponent implements OnInit {
                 };
                 try {
                     await this.socialMediaService.create(this.customer?.id as string, request);
-                    await this.fetchData();
+                    setTimeout(async () => {
+                        await this.fetchData();
+                    });
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
                     this.toast.error(ex.message, 'Não foi possível obter os dados');
@@ -137,6 +139,11 @@ export class CustomerSocialMediaComponent implements OnInit {
                 }
             }
         );
+    }
+
+    public checkVisibility(index: number): boolean {
+        if (index === 0) return true;
+        return this.tasks[index - 1]?.createdAt?.getDate() !== this.tasks[index]?.createdAt?.getDate();
     }
 
     public async sendMessage(): Promise<void> {
@@ -161,6 +168,9 @@ export class CustomerSocialMediaComponent implements OnInit {
             this.tasks = await this.socialMediaService.list(this.id);
             this.details = await this.socialMediaService.details(this.id);
             this.customer = await this.crmCustomerService.findById(this.id);
+            for (const task of this.tasks) {
+                task.createdAt = new Date(task.createdAt);
+            }
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
@@ -205,10 +215,7 @@ export class CustomerSocialMediaComponent implements OnInit {
 
     public selectType(type: TypeItem): void {
         this.task.taskType = type.value as TaskTypes;
-
-        if (this.task.taskType === TaskConstants.TYPES.SALE) {
-            this.router.navigate([Navigation.routes.sales, this.customer?.phone]);
-        }
+        if (this.task.taskType === TaskConstants.TYPES.SALE) this.router.navigate([Navigation.routes.sales, this.customer?.phone]);
     }
 
     public selectStatus(type: TypeItem): void {

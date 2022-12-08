@@ -2,7 +2,7 @@
     <div class="container">
         <div class="header space-between flex-center">
             <h5 class="text--primary text--bold text-20">Calendário</h5>
-            <div class="flex-center flex-row" *ngIf="false">
+            <div class="flex-center flex-row">
                 <ps-button type="cancel-border" (onClick)="move('back')">
                     <div class="flex-center padding-x-1">
                         <ps-icon class="primary" icon="icon-arrow_back"></ps-icon>
@@ -69,23 +69,23 @@
 
             <div class="card margin-bottom-3 space-between align-center" *ngFor="let user of rfm.users">
                 <div class="text flex-grow cell">{{ user.name }}</div>
-                <div class="text flex-grow cell">{{ user.email }}</div>
+                <div class="text flex-grow cell desktop">{{ user.email }}</div>
                 <div class="flex-grow cell">
                     <span class="text">{{ user.phone | zoppyPhone }}</span>
                     <span class="text text--500" *ngIf="!user.phone">vazio</span>
                 </div>
-                <div class="flex-grow cell">
+                <div class="flex-grow cell desktop">
                     <span class="text">Última interação: {{ user.lastInteractionDate | date: 'dd/MM/yyyy' }}</span>
                     <span class="text text--500" *ngIf="!user.lastInteractionDate"> &nbsp; vazio</span>
                 </div>
                 <div class="flex-grow cell" class="flex flex-center btns">
-                    <ps-button (onClick)="createTask(user)" [fixedHeight]="false" type="clean" [round]="true">
+                    <ps-button (onClick)="createTask(user)" [loading]="user.loading ?? false" type="clean" [round]="true">
                         <div class="btn-content">
                             <ps-icon icon="icon-wpp" class="text--primary"></ps-icon>
                         </div>
                     </ps-button>
-                    <ps-button (onClick)="details(user)" [fixedHeight]="false" type="clean" [round]="true">
-                        <div class="rotate btn-content margin-left-1">
+                    <ps-button (onClick)="details(user)" type="clean" [round]="true" class="margin-left-1">
+                        <div class="rotate margin-left-1">
                             <ps-icon icon="icon-chevron" class="text--primary"></ps-icon>
                         </div>
                     </ps-button>

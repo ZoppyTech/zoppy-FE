@@ -8,4 +8,5 @@ export class SocialMediaMatrixRfmResponse extends ReportCustomerResponse {
     public declare addressId: string;
     public declare customer: WcCustomerEntity;
     public declare address: WcAddressEntity;
+    public declare loading?: boolean;
 }
