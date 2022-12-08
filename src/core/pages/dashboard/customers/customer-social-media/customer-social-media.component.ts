@@ -141,6 +141,11 @@ export class CustomerSocialMediaComponent implements OnInit {
         );
     }
 
+    public checkVisibility(index: number): boolean {
+        if (index === 0) return true;
+        return this.tasks[index - 1]?.createdAt?.getDate() !== this.tasks[index]?.createdAt?.getDate();
+    }
+
     public async sendMessage(): Promise<void> {
         this.loadingOpenLink = true;
         try {
@@ -163,6 +168,9 @@ export class CustomerSocialMediaComponent implements OnInit {
             this.tasks = await this.socialMediaService.list(this.id);
             this.details = await this.socialMediaService.details(this.id);
             this.customer = await this.crmCustomerService.findById(this.id);
+            for (const task of this.tasks) {
+                task.createdAt = new Date(task.createdAt);
+            }
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');

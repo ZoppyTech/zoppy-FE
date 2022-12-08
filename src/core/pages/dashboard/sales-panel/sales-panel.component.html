@@ -69,12 +69,12 @@
 
             <div class="card margin-bottom-3 space-between align-center" *ngFor="let user of rfm.users">
                 <div class="text flex-grow cell">{{ user.name }}</div>
-                <div class="text flex-grow cell">{{ user.email }}</div>
+                <div class="text flex-grow cell desktop">{{ user.email }}</div>
                 <div class="flex-grow cell">
                     <span class="text">{{ user.phone | zoppyPhone }}</span>
                     <span class="text text--500" *ngIf="!user.phone">vazio</span>
                 </div>
-                <div class="flex-grow cell">
+                <div class="flex-grow cell desktop">
                     <span class="text">Última interação: {{ user.lastInteractionDate | date: 'dd/MM/yyyy' }}</span>
                     <span class="text text--500" *ngIf="!user.lastInteractionDate"> &nbsp; vazio</span>
                 </div>
