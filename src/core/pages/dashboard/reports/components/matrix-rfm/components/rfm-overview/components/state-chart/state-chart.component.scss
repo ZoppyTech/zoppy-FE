@@ -20,6 +20,12 @@
         width: 100%;
         margin-bottom: 1rem;
 
+        .region-row {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+        }
+
         .pagination {
             display: flex;
 
@@ -60,7 +66,7 @@
                 width: 100%;
                 max-width: 100% !important;
                 height: 100% !important;
-                max-height: 349px;
+                max-height: 200px;
             }
         }
     }

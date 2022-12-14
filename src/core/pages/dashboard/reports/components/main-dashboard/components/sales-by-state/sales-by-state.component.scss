@@ -12,7 +12,37 @@
     flex-direction: column;
 
     .header {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
         width: 100%;
+        margin-bottom: 1rem;
+
+        .region-row {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+        }
+
+        .pagination {
+            display: flex;
+
+            .back {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+
+                margin-right: 16px;
+            }
+
+            .next {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 30px;
+            }
+        }
     }
 
     .main-content {
@@ -27,12 +57,24 @@
 
         .chart-content {
             width: 100%;
+            height: 100%;
 
             canvas {
-                width: 100%;
-                max-width: 100% !important;
+                width: 100% !important;
                 height: 100% !important;
-                max-height: 230px !important;
+                max-height: 13rem;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 1280px) {
+    .container {
+        .main-content {
+            .chart-content {
+                canvas {
+                    max-height: 204px;
+                }
             }
         }
     }
