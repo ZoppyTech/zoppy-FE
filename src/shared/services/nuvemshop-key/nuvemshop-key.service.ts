@@ -21,9 +21,9 @@ export class NuvemshopKeyService extends ApiService {
         super(http, router, storage);
     }
 
-    public async create(request: wcKeyRequest): Promise<WcKeyEntity> {
+    public async create(wcKeyRequest: wcKeyRequest): Promise<WcKeyEntity> {
         const promise: Promise<WcKeyEntity> = new Promise((resolve: any, reject: any) => {
-            this.post<WcKeyEntity>(`${this.url}`, request).subscribe(
+            this.post<WcKeyEntity, wcKeyRequest>(`${this.url}`, wcKeyRequest).subscribe(
                 (response: WcKeyEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
