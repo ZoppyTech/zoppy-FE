@@ -41,7 +41,44 @@ export class ConsumerNpsChartComponent {
                     }
                 }
             },
-            plugins: []
+            plugins: [
+                {
+                    id: 'consumerNpsChart',
+                    afterDatasetDraw: (chart: any) => {
+                        const { ctx, config, data, options } = chart;
+                        const { top, bottom, left, right, width, height } = chart.chartArea;
+                        chart.data.datasets.forEach((dataset: any, datasetIndex: number) => {
+                            chart.getDatasetMeta(datasetIndex).data.forEach((datapoint: any, datapointIndex: number) => {
+                                chart.data.datasets[0].backgroundColor = this.getGradient(chart);
+                            });
+                        });
+                        ctx.save();
+                    }
+                }
+            ]
         });
     }
+
+    public getGradient(chart: any): any {
+        const {
+            ctx,
+            chartArea: { top, bottom, left, right }
+        } = chart;
+        const gradientSegment: any = ctx.createLinearGradient(left, 0, right, 0);
+        gradientSegment.addColorStop(0, '#EB0000');
+        gradientSegment.addColorStop(0.4, '#FFAD4E');
+        gradientSegment.addColorStop(1, '#30E1A1');
+        return gradientSegment;
+    }
 }
+
+// const { ctx, chartArea } = context.chart;
+// if (!chartArea) {
+//     return null;
+// }
+
+// if (context.dataIndex === 0) {
+//     return this.getGradient(context.chart);
+// }
+
+// return ['#B6C0FF'];

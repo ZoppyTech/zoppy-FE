@@ -25,7 +25,7 @@
                 width: 0.75rem;
                 border-radius: 100%;
                 margin-right: 0.5rem;
-                background-color: #ffb2ff;
+                background-color: #ddd;
             }
         }
     }
@@ -51,10 +51,10 @@
             justify-content: center;
 
             canvas {
-                top: 0.35rem;
+                top: -0.5rem;
                 position: absolute;
                 width: 26rem;
-                max-width: 26rem !important;
+                max-width: 21rem !important;
                 max-height: 100% !important;
             }
         }
@@ -66,8 +66,7 @@
         .main-content {
             .chart-content {
                 canvas {
-                    top: 0.75rem;
-                    max-width: 24rem !important;
+                    max-width: 19rem !important;
                 }
             }
         }
@@ -79,7 +78,7 @@
         .main-content {
             .chart-content {
                 canvas {
-                    max-width: 24rem !important;
+                    max-width: 18rem !important;
                 }
             }
         }
@@ -92,7 +91,6 @@
             .chart-content {
                 min-width: 280px !important;
                 canvas {
-                    top: 3rem;
                     max-width: 26rem !important;
                 }
             }

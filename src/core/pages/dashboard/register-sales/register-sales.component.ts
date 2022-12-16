@@ -207,7 +207,6 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public async fetchCustomer(phone: string) {
-        debugger;
         if (phone.length !== 11) {
             this.order.address.phone = '';
             this.toast.error('Telefone no formato incorreto', 'Corrija o formato do telefone');

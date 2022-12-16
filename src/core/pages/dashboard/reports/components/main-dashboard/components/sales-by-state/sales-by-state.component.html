@@ -19,7 +19,7 @@
     <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
         <img [src]="logo" alt="" *ngIf="isLoading" />
         <div class="chart-content" *ngIf="!isLoading">
-            <canvas id="salesByStateChart" #salesByStateChart></canvas>
+            <canvas id="MainDashStateChart" #MainDashStateChart></canvas>
         </div>
     </div>
 </div>

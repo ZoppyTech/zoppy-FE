@@ -40,7 +40,8 @@ export class GenderChartComponent implements OnInit {
     }
 
     public setChartDatasets(): void {
-        this.resetChartDatasets();
+        this.chartLabels = [];
+        this.chartData = [];
         if (!this.data?.length) return;
         this.chartData = [this.filterGenderByType('M'), this.filterGenderByType('F'), this.filterGenderByUndefinedType()];
         this.chartLabels = ['Masculino', 'Feminino', 'Não registrado'];
@@ -138,13 +139,13 @@ export class GenderChartComponent implements OnInit {
 
                                 switch (dataset.backgroundColor[datapointIndex]) {
                                     case '#68EAFF':
-                                        ctx.strokeStyle = '#0092D0';
+                                        ctx.strokeStyle = '#1BBDFE';
                                         break;
                                     case '#FFB2FF':
-                                        ctx.strokeStyle = '#9D5AFF';
+                                        ctx.strokeStyle = '#CF85FF';
                                         break;
                                     case '#B6C0FF':
-                                        ctx.strokeStyle = '#7381D2';
+                                        ctx.strokeStyle = '#8995E8';
                                         break;
                                     default:
                                         ctx.strokeStyle = '#002E73';
@@ -180,11 +181,6 @@ export class GenderChartComponent implements OnInit {
             this.updateChartDatasets();
             this.chart?.update();
         }, 0);
-    }
-
-    public resetChartDatasets(): void {
-        this.chartLabels = [];
-        this.chartData = [];
     }
 
     public setEvents(): void {

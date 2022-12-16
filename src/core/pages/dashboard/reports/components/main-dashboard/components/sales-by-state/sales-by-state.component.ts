@@ -25,7 +25,7 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
 
     public canvas: any;
     public ctx: any;
-    @ViewChild('salesByStateChart') public salesByStateChart: any;
+    @ViewChild('MainDashStateChart') public MainDashStateChart: any;
     public declare chart: any;
     public chartLabels: Array<string> = [];
     public chartData: Array<any> = [];
@@ -91,7 +91,7 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
     }
 
     public getChartReference(): any {
-        return this.salesByStateChart?.nativeElement ?? document.getElementById('salesByStateChart');
+        return this.MainDashStateChart?.nativeElement ?? document.getElementById('MainDashStateChart');
     }
 
     public createNewChartInstance(newInstance: boolean = true): Chart | null {
@@ -142,7 +142,6 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
                 amount: value.amount
             };
         });
-        debugger;
     }
 
     public groupStatesByRegion(): void {
