@@ -31,7 +31,13 @@
 
             height: 100%;
             width: 100%;
-            max-width: 16rem;
+
+            canvas {
+                height: 14rem;
+                width: 14rem;
+                max-width: 100% !important;
+                max-height: 100% !important;
+            }
         }
 
         .legends {

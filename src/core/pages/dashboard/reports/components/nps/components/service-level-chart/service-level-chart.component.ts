@@ -61,8 +61,6 @@ export class ServiceLevelChartComponent {
                         const cx: number = width / 2;
                         const cy: number = chart._metasets[0].data[0].y;
 
-                        console.log();
-
                         //needle
                         ctx.translate(cx, cy);
                         ctx.rotate(angle);

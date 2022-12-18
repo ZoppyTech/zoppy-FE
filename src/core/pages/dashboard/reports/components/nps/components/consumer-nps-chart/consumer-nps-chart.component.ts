@@ -44,15 +44,17 @@ export class ConsumerNpsChartComponent {
             plugins: [
                 {
                     id: 'consumerNpsChart',
-                    afterDatasetDraw: (chart: any) => {
+                    afterDraw: (chart: Chart) => {
                         const { ctx, config, data, options } = chart;
                         const { top, bottom, left, right, width, height } = chart.chartArea;
+
                         chart.data.datasets.forEach((dataset: any, datasetIndex: number) => {
                             chart.getDatasetMeta(datasetIndex).data.forEach((datapoint: any, datapointIndex: number) => {
                                 chart.data.datasets[0].backgroundColor = this.getGradient(chart);
                             });
                         });
-                        ctx.save();
+
+                        chart.update();
                     }
                 }
             ]

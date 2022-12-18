@@ -7,15 +7,7 @@
     <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
         <img [src]="logo" alt="" *ngIf="isLoading" />
         <div class="chart-content" *ngIf="!isLoading">
-            <canvas
-                baseChart
-                [datasets]="doughnutChartData"
-                [labels]="doughnutChartLabels"
-                [options]="doughnutChartOptions"
-                [legend]="doughnutChartLegend"
-                [plugins]="myPlugins"
-                type="doughnut"
-            ></canvas>
+            <canvas id="DemographicDataGenderChart" #DemographicDataGenderChart></canvas>
         </div>
         <div class="legends">
             <div class="item" *ngFor="let legend of legends">
