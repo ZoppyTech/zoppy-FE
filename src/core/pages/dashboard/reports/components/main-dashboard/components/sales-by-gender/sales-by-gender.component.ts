@@ -138,9 +138,11 @@ export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
                                 let vLineLength: number = 30;
                                 let eLineLength: number = 20;
 
-                                if (width <= 256) hLineLength = 15;
-                                if (width <= 256) vLineLength = 20;
-                                if (width <= 256) eLineLength = 15;
+                                if (width <= 256) {
+                                    hLineLength = 15;
+                                    vLineLength = 20;
+                                    eLineLength = 15;
+                                }
 
                                 const xLine: number = x >= halfWidth ? x + hLineLength : x - hLineLength;
                                 const yLine: number = y >= halfHeight ? y + vLineLength : y - vLineLength;

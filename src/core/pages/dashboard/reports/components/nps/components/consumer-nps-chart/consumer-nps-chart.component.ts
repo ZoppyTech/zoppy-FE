@@ -11,6 +11,8 @@ export class ConsumerNpsChartComponent {
     public isLoading: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
 
+    public monthsOfYear: string[] = ['Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+
     public canvas: any;
     public ctx: any;
     @ViewChild('consumerNpsChart') public consumerNpsChart: any;
@@ -26,11 +28,11 @@ export class ConsumerNpsChartComponent {
                 datasets: [
                     {
                         label: 'NPS dos consumidores',
-                        data: [70, 30, 70, 100, 45, 11, 87, 78, 99, 8, 70, 30, 70, 100, 45, 11, 87, 78, 99, 8],
+                        data: [70, 30, 70, 100, 45, 11, 87, 78, 99, 8, 70, 30],
                         backgroundColor: ['#B6C0FF']
                     }
                 ],
-                labels: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j']
+                labels: this.monthsOfYear
             },
             options: {
                 indexAxis: 'y',
@@ -73,14 +75,3 @@ export class ConsumerNpsChartComponent {
         return gradientSegment;
     }
 }
-
-// const { ctx, chartArea } = context.chart;
-// if (!chartArea) {
-//     return null;
-// }
-
-// if (context.dataIndex === 0) {
-//     return this.getGradient(context.chart);
-// }
-
-// return ['#B6C0FF'];

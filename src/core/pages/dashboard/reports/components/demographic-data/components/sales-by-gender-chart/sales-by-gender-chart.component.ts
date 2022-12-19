@@ -134,13 +134,15 @@ export class SalesByGenderChartComponent implements OnInit {
                                 const halfWidth: number = width / 2;
                                 const halfHeight: number = height / 2;
 
-                                let hLineLength: number = 20;
-                                let vLineLength: number = 30;
-                                let eLineLength: number = 20;
+                                let hLineLength: number = 15;
+                                let vLineLength: number = 20;
+                                let eLineLength: number = 15;
 
-                                if (width <= 256) hLineLength = 15;
-                                if (width <= 256) vLineLength = 20;
-                                if (width <= 256) eLineLength = 15;
+                                if (width <= 256) {
+                                    hLineLength = 10;
+                                    vLineLength = 15;
+                                    eLineLength = 10;
+                                }
 
                                 const xLine: number = x >= halfWidth ? x + hLineLength : x - hLineLength;
                                 const yLine: number = y >= halfHeight ? y + vLineLength : y - vLineLength;
