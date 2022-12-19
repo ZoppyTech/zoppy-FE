@@ -1,3 +1,5 @@
+import { WcAddressEntity } from './wc-address.entity';
+
 export class WcCustomerEntity {
     public declare id: string;
     public declare wcId: number;
@@ -13,4 +15,5 @@ export class WcCustomerEntity {
     public declare companyId: string;
     public declare billingId: string;
     public declare shippingId: string;
+    public declare address: WcAddressEntity;
 }

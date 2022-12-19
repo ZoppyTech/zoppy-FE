@@ -9,6 +9,12 @@ export class TaskUtil {
                 return 'Venda';
             case TaskConstants.TYPES.TASK:
                 return 'Tarefa';
+            case TaskConstants.TYPES.BIRTHDAY:
+                return 'Aniversário';
+            case TaskConstants.TYPES.AFTER_SALE:
+                return 'Pós venda';
+            case TaskConstants.TYPES.CANT_LOSE:
+                return 'Reaquecimento';
             default:
                 return 'Nenhum';
         }

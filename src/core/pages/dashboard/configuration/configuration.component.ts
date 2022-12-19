@@ -7,6 +7,7 @@ import { CompanyUtil } from 'src/shared/utils/company.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { UserUtil } from 'src/shared/utils/user.util';
+import { ConfigSubItems } from '../components/config.subitems';
 
 @Component({
     selector: 'app-configuration',
@@ -52,77 +53,6 @@ export class ConfigurationComponent implements OnInit {
     }
 
     private setMenuItems(): void {
-        this.menuItems = [
-            {
-                id: `accessTokens`,
-                icon: 'icon-arrow',
-                label: 'Tokens de Acesso',
-                route: Navigation.routes.accessTokens,
-                visible: true
-            },
-            {
-                id: `accessKeys`,
-                icon: 'icon-arrow',
-                label: 'Chaves de Acesso',
-                route: Navigation.routes.accessKeys,
-                visible: true
-            },
-            {
-                id: `giftback`,
-                icon: 'icon-arrow',
-                label: 'Configuração de Giftback',
-                route: Navigation.routes.giftback,
-                visible: true
-            },
-            {
-                id: `syncData`,
-                icon: 'icon-arrow',
-                label: 'Sincronização',
-                route: Navigation.routes.syncData,
-                visible: true
-            },
-            {
-                id: `whatsappConfig`,
-                icon: 'icon-arrow',
-                label: 'Configuração do Whatsapp',
-                route: Navigation.routes.whatsappConfig,
-                visible: UserUtil.isMaster(this.user)
-            },
-            {
-                id: `whatsappTemplateList`,
-                icon: 'icon-arrow',
-                label: 'Modelos de Mensagem Whatsapp',
-                route: Navigation.routes.whatsappTemplateList,
-                visible: UserUtil.isMaster(this.user)
-            },
-            {
-                id: `letalk`,
-                icon: 'icon-arrow',
-                label: 'Configuração da Letalk',
-                route: Navigation.routes.letalk,
-                visible: CompanyUtil.isStandard(this.company)
-            },
-            {
-                id: `messageConfig`,
-                icon: 'icon-arrow',
-                label: 'Configuração de mensagens',
-                route: Navigation.routes.messageConfig,
-                visible: true
-            },
-            {
-                id: `coupons`,
-                icon: 'icon-arrow',
-                label: 'Visualização de giftbacks',
-                route: Navigation.routes.coupons,
-                visible: UserUtil.isMaster(this.user)
-            },
-            {
-                id: `batchUpload`,
-                icon: 'icon-arrow',
-                label: 'Upload de dados por planilha',
-                route: Navigation.routes.batchUpload,
-                visible: UserUtil.isMaster(this.user)
-            }
-        ];
+        this.menuItems = ConfigSubItems.get(this.user as UserEntity, this.company as CompanyEntity);
     }
 }

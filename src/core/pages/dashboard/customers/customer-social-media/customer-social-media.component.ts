@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { MessageConfigConstants, MessageConfigTemplate } from 'src/shared/constants/message-config.constants';
 import { TaskConstants, TaskContactTypes, TaskStatus, TaskTypes } from 'src/shared/constants/task.constants';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
@@ -92,7 +93,8 @@ export class CustomerSocialMediaComponent implements OnInit {
         private readonly route: ActivatedRoute,
         private readonly toast: ToastService,
         public breadcrumb: BreadcrumbService,
-        public sideMenuService: SideMenuService
+        public sideMenuService: SideMenuService,
+        public modal: ModalService
     ) {}
 
     public async ngOnInit(): Promise<void> {
@@ -100,6 +102,48 @@ export class CustomerSocialMediaComponent implements OnInit {
         this.id = this.route.snapshot.paramMap.get('id') ?? '';
         await this.fetchData();
         this.setBreadcrumb();
+    }
+
+    public async createTask(): Promise<void> {
+        await this.sendMessage();
+        this.modal.open(
+            Modal.IDENTIFIER.INPUT_INFO,
+            {
+                title: `Conseguiu efetuar o contato com o(a) ${this.customer?.firstName}?`,
+                subtitle: 'Descreva como foi esse contato, qualquer informação que auxilie no processo de retenção do cliente',
+                cancelLabel: 'Cancelar',
+                placeholder: '',
+                mask: '',
+                rows: 4,
+                selectAll: false,
+                confirmLabel: 'Confirmar',
+                value: ''
+            },
+            async (description: string) => {
+                const request: SocialMediaRequest = {
+                    taskType: TaskConstants.TYPES.SALE,
+                    description: description,
+                    contactType: TaskConstants.CONTACT_TYPES.WHATSAPP,
+                    status: TaskConstants.STATUS.SUCCESS
+                };
+                try {
+                    await this.socialMediaService.create(this.customer?.id as string, request);
+                    setTimeout(async () => {
+                        await this.fetchData();
+                    });
+                } catch (ex: any) {
+                    ex = ex as ZoppyException;
+                    this.toast.error(ex.message, 'Não foi possível obter os dados');
+                } finally {
+                    this.modal.close();
+                }
+            }
+        );
+    }
+
+    public checkVisibility(index: number): boolean {
+        if (index === 0) return true;
+        return this.tasks[index - 1]?.createdAt?.getDate() !== this.tasks[index]?.createdAt?.getDate();
     }
 
     public async sendMessage(): Promise<void> {
@@ -124,6 +168,9 @@ export class CustomerSocialMediaComponent implements OnInit {
             this.tasks = await this.socialMediaService.list(this.id);
             this.details = await this.socialMediaService.details(this.id);
             this.customer = await this.crmCustomerService.findById(this.id);
+            for (const task of this.tasks) {
+                task.createdAt = new Date(task.createdAt);
+            }
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
@@ -168,10 +215,7 @@ export class CustomerSocialMediaComponent implements OnInit {
 
     public selectType(type: TypeItem): void {
         this.task.taskType = type.value as TaskTypes;
-
-        if (this.task.taskType === TaskConstants.TYPES.SALE) {
-            this.router.navigate([Navigation.routes.sales, this.customer?.phone]);
-        }
+        if (this.task.taskType === TaskConstants.TYPES.SALE) this.router.navigate([Navigation.routes.sales, this.customer?.phone]);
     }
 
     public selectStatus(type: TypeItem): void {

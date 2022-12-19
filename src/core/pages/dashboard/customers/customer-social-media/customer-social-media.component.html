@@ -13,7 +13,7 @@
             </div>
         </div>
         <div class="flex align-center">
-            <ps-button [wide]="true" (onClick)="sendMessage()" [loading]="loadingOpenLink" type="secondary">
+            <ps-button [wide]="true" (onClick)="createTask()" [loading]="loadingOpenLink" type="secondary">
                 <span class="text text--100 margin-x-3">Enviar mensagem</span>
             </ps-button>
         </div>
@@ -28,7 +28,7 @@
                 <div class="separator margin-bottom-2"></div>
                 <div class="flex padding-y-1 align-center">
                     <ps-icon class="text--700" icon="icon-call"></ps-icon> &nbsp;
-                    <span class="text margin-left-1 text--700">{{ details.phone }}</span>
+                    <span class="text margin-left-1 text--700">{{ details.phone | zoppyPhone }}</span>
                 </div>
                 <div class="flex padding-y-1 align-center">
                     <ps-icon class="text--700" icon="icon-mail"></ps-icon> &nbsp;
@@ -159,76 +159,85 @@
                 </div>
             </div>
 
-            <div class="box-content padding-2 margin-bottom-3" *ngFor="let task of tasks">
-                <div class="flex align-center">
-                    <ps-contact
-                        [name]="task.userName ? task.userName : 'Zoppy'"
-                        class="margin-right-2"
-                        [email]="task.userName ? task.userName : 'Zoppy'"
-                        [tooltip]="false"
-                    ></ps-contact>
-                    <div class="flex flex-column">
-                        <span class="text text--bold text--primary">{{ task.userName ? task.userName : 'Zoppy' }}</span>
-                        <span class="text">{{ getTaskTypeLabel(task) }} &nbsp;|&nbsp; {{ task.createdAt | date: 'HH:mm' }}</span>
+            <div *ngFor="let task of tasks; let index = index">
+                <div class="box-content padding-2 margin-bottom-3">
+                    <div class="flex align-center">
+                        <ps-contact
+                            [name]="task.userName ? task.userName : 'Zoppy'"
+                            class="margin-right-2"
+                            [email]="task.userName ? task.userName : 'Zoppy'"
+                            [tooltip]="false"
+                        ></ps-contact>
+                        <div class="flex flex-column">
+                            <span class="text text--bold text--primary">{{ task.userName ? task.userName : 'Zoppy' }}</span>
+                            <span class="text">{{ getTaskTypeLabel(task) }} &nbsp;|&nbsp; {{ task.createdAt | date: 'HH:mm' }}</span>
+                        </div>
                     </div>
+                    <div class="margin-top-2">
+                        <span class="text text--bold">Registro de {{ getTaskTypeLabel(task) }}</span>
+                    </div>
+                    <div class="margin-top-2" *ngIf="task.contactType">
+                        <span class="text text--primary">{{ getTaskContactTypeLabel(task) }}</span>
+                    </div>
+                    <div class="margin-top-2">
+                        <span class="text">{{ task.description }}</span>
+                    </div>
+                    <div
+                        class="margin-top-2 flex align-center classification"
+                        *ngIf="task.status && !task.order?.products && task.type !== 'observation'"
+                    >
+                        <span class="text text--500">Classificação da atividade: </span>
+                        <ps-icon
+                            class="margin-left-1 text--500"
+                            [icon]="getStatusLabel(task)"
+                            [ngClass]="{
+                                success: task.status === 'success',
+                                warning: task.status === 'warn',
+                                negative: task.status === 'negative'
+                            }"
+                        ></ps-icon>
+                    </div>
+                    <table class="margin-top-2 wide" *ngIf="task.order?.products">
+                        <thead>
+                            <th><span class="text-16 text--primary text--bold">Produtos</span></th>
+                            <th class="desktop"><span class="text-16 text--primary text--bold">Valor</span></th>
+                            <th class="desktop"><span class="text-16 text--primary text--bold">Gênero</span></th>
+                            <th class="desktop"><span class="text-16 text--primary text--bold">Operação</span></th>
+                            <th class="desktop"><span class="text-16 text--primary text--bold">Giftback</span></th>
+                        </thead>
+                        <tbody>
+                            <tr class="item" *ngFor="let product of task.order?.products">
+                                <td>
+                                    <span [ngClass]="{ 'text--400': !product.name }" class="text-16 text--600">{{
+                                        product.name ? product.quantity + 'x ' + product.name : 'vazio'
+                                    }}</span>
+                                </td>
+                                <td class="desktop">
+                                    <span [ngClass]="{ 'text--400': !product.price }" class="text-16 text--600">{{
+                                        product.price || 'vazio'
+                                    }}</span>
+                                </td>
+                                <td class="desktop">
+                                    <span [ngClass]="{ 'text--400': !product.specification }" class="text-16 text--600">{{
+                                        product.specification || 'vazio'
+                                    }}</span>
+                                </td>
+                                <td class="desktop">
+                                    <span [ngClass]="{ 'text--400': !product.isCrm }" class="text-16 text--600">{{
+                                        product.isCrm || 'vazio'
+                                    }}</span>
+                                </td>
+                                <td class="desktop">
+                                    <span class="text-16 text--600 desktop">{{ product.usedGiftback ? 'Sim' : 'Não' }}</span>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
                 </div>
-                <div class="margin-top-2">
-                    <span class="text text--bold">Registro de {{ getTaskTypeLabel(task) }}</span>
+
+                <div class="text text--bold margin-y-2 margin-bottom-3" *ngIf="checkVisibility(index)">
+                    {{ task.createdAt | date: 'mediumDate':'':'pt-BR' }}
                 </div>
-                <div class="margin-top-2" *ngIf="task.contactType">
-                    <span class="text text--primary">{{ getTaskContactTypeLabel(task) }}</span>
-                </div>
-                <div class="margin-top-2">
-                    <span class="text">{{ task.description }}</span>
-                </div>
-                <div class="margin-top-2 flex align-center classification" *ngIf="task.status">
-                    <span class="text text--500">Classificação da atividade: </span>
-                    <ps-icon
-                        class="margin-left-1 text--500"
-                        [icon]="getStatusLabel(task)"
-                        [ngClass]="{
-                            success: task.status === 'success',
-                            warning: task.status === 'warn',
-                            negative: task.status === 'negative'
-                        }"
-                    ></ps-icon>
-                </div>
-                <table class="margin-top-2 wide" *ngIf="task.order?.products">
-                    <thead>
-                        <th><span class="text-16 text--primary text--bold">Produtos</span></th>
-                        <th class="desktop"><span class="text-16 text--primary text--bold">Valor</span></th>
-                        <th class="desktop"><span class="text-16 text--primary text--bold">Gênero</span></th>
-                        <th class="desktop"><span class="text-16 text--primary text--bold">Operação</span></th>
-                        <th class="desktop"><span class="text-16 text--primary text--bold">Giftback</span></th>
-                    </thead>
-                    <tbody>
-                        <tr class="item" *ngFor="let product of task.order?.products">
-                            <td>
-                                <span [ngClass]="{ 'text--400': !product.name }" class="text-16 text--600">{{
-                                    product.name ? product.quantity + 'x ' + product.name : 'vazio'
-                                }}</span>
-                            </td>
-                            <td class="desktop">
-                                <span [ngClass]="{ 'text--400': !product.price }" class="text-16 text--600">{{
-                                    product.price || 'vazio'
-                                }}</span>
-                            </td>
-                            <td class="desktop">
-                                <span [ngClass]="{ 'text--400': !product.specification }" class="text-16 text--600">{{
-                                    product.specification || 'vazio'
-                                }}</span>
-                            </td>
-                            <td class="desktop">
-                                <span [ngClass]="{ 'text--400': !product.isCrm }" class="text-16 text--600">{{
-                                    product.isCrm || 'vazio'
-                                }}</span>
-                            </td>
-                            <td class="desktop">
-                                <span class="text-16 text--600 desktop">{{ product.usedGiftback ? 'Sim' : 'Não' }}</span>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
             </div>
         </div>
     </div>

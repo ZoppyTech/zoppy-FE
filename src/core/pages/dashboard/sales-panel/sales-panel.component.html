@@ -1,0 +1,104 @@
+<main *ngIf="!loading">
+    <div class="container">
+        <div class="header space-between flex-center">
+            <h5 class="text--primary text--bold text-20">Calendário</h5>
+            <div class="flex-center flex-row">
+                <ps-button type="cancel-border" (onClick)="move('back')">
+                    <div class="flex-center padding-x-1">
+                        <ps-icon class="primary" icon="icon-arrow_back"></ps-icon>
+                    </div>
+                </ps-button>
+                <ps-button type="cancel-border" class="margin-left-2" (onClick)="move('forward')">
+                    <div class="flex-center padding-x-1">
+                        <ps-icon class="primary" icon="icon-arrow_forward"></ps-icon>
+                    </div>
+                </ps-button>
+            </div>
+        </div>
+
+        <div class="body flex">
+            <div class="column flex-column flex-grow" *ngFor="let day of days">
+                <div class="header padding-2 flex align-center">
+                    <div class="day" [ngClass]="{ today: day.isToday }">
+                        <span class="text--bold" [ngClass]="{ 'text--500': !day.isToday, 'text--secondary': day.isToday }">{{
+                            day.dayName
+                        }}</span>
+                    </div>
+                    <span class="text--500 margin-left-2">
+                        {{ day.date | date: 'dd/MM' }}
+                    </span>
+                </div>
+                <div class="items padding-2">
+                    <div
+                        class="card flex flex-column padding-2"
+                        [ngClass]="{ 'margin-top-3': index !== 0 }"
+                        *ngFor="let task of day.tasks; let index = index"
+                    >
+                        <div class="flex align-center">
+                            <ps-checkbox [(active)]="task.concluded" [disabled]="true"></ps-checkbox>
+                            <span class="text text--500">{{ getTaskTypeLabel(task) }}</span>
+                        </div>
+                        <ps-button
+                            [type]="day.isToday ? 'secondary' : 'cancel'"
+                            class="chat"
+                            [round]="true"
+                            [fixedHeight]="false"
+                            (onClick)="openTaskDescriptionModal(task)"
+                        >
+                            <div class="flex flex-center btn-content">
+                                <ps-icon class="text--100" icon="icon-wpp"></ps-icon>
+                            </div>
+                        </ps-button>
+                        <span class="text text--bold margin-y-1" [ngClass]="{ 'text-decoration-line-through': task.status === 'success' }">
+                            {{ task.customer.address.firstName }}
+                        </span>
+                        <a class="flex align-center clickable link text--link" [attr.href]="task.route">
+                            <span class="text--primary text--bold text--link text-14"> Ver cliente </span>
+                            <div class="rotate margin-left-1">
+                                <ps-icon icon="icon-chevron" class="text--primary"></ps-icon>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="rfm flex flex-column">
+        <div class="rfm" *ngFor="let rfm of rfms" [ngClass]="{ hidden: !rfm.users.length }">
+            <h6 class="text text--primary text--bold margin-bottom-2">{{ rfm.title }}</h6>
+
+            <div class="card margin-bottom-3 space-between align-center" *ngFor="let user of rfm.users">
+                <div class="text flex-grow cell">{{ user.name }}</div>
+                <div class="text flex-grow cell desktop">{{ user.email }}</div>
+                <div class="flex-grow cell">
+                    <span class="text">{{ user.phone | zoppyPhone }}</span>
+                    <span class="text text--500" *ngIf="!user.phone">vazio</span>
+                </div>
+                <div class="flex-grow cell desktop">
+                    <span class="text">Última interação: {{ user.lastInteractionDate | date: 'dd/MM/yyyy' }}</span>
+                    <span class="text text--500" *ngIf="!user.lastInteractionDate"> &nbsp; vazio</span>
+                </div>
+                <div class="flex-grow cell" class="flex flex-center btns">
+                    <ps-button (onClick)="createTask(user)" [loading]="user.loading ?? false" type="clean" [round]="true">
+                        <div class="btn-content">
+                            <ps-icon icon="icon-wpp" class="text--primary"></ps-icon>
+                        </div>
+                    </ps-button>
+                    <ps-button (onClick)="details(user)" type="clean" [round]="true" class="margin-left-1">
+                        <div class="rotate margin-left-1">
+                            <ps-icon icon="icon-chevron" class="text--primary"></ps-icon>
+                        </div>
+                    </ps-button>
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+
+<main *ngIf="loading">
+    <div class="container">
+        <div class="loading flex flex-center padding-3 wide tall">
+            <img [src]="logo" alt="" />
+        </div>
+    </div>
+</main>
