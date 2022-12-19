@@ -5,20 +5,13 @@
         </div>
         <div class="legends">
             <div class="point"></div>
-            <span class="text-14 text--700">-100 a 100</span>
+            <span class="text-14 text--700">0 a 100</span>
         </div>
     </div>
     <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
         <img [src]="logo" alt="" *ngIf="isLoading" />
         <div class="chart-content" *ngIf="!isLoading">
-            <canvas
-                baseChart
-                [datasets]="pieChartData"
-                [labels]="pieChartLabels"
-                [options]="pieChartOptions"
-                [legend]="pieChartLegend"
-                type="pie"
-            ></canvas>
+            <canvas id="averageNpsChart" width="100%" height="100%" #averageNpsChart></canvas>
         </div>
     </div>
 </div>
