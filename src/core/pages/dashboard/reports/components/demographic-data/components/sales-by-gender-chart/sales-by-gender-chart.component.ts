@@ -204,7 +204,9 @@ export class SalesByGenderChartComponent implements OnInit {
     public setEvents(): void {
         BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
             this.reportRequest.period = period;
-            await this.initializeChart();
+            this.isLoading = true;
+            await this.fetchChartData();
+            this.initializeChart();
         });
     }
 
