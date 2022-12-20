@@ -26,7 +26,11 @@
         </div>
         <div class="field">
             <span class="text-14 margin-bottom-2"> Email* </span>
-            <ps-input type="text" placeholder="Digite o email" [(ngModel)]="user.email"></ps-input>
+            <ps-input type="email" placeholder="Digite o email" [(ngModel)]="user.email"></ps-input>
+        </div>
+        <div class="field">
+            <span class="text-14 margin-bottom-2"> Apelido </span>
+            <ps-input type="text" placeholder="Digite o apelido" [(ngModel)]="user.nickName"></ps-input>
         </div>
         <div class="field">
             <span class="text-14 margin-bottom-2"> Data de nascimento </span>
