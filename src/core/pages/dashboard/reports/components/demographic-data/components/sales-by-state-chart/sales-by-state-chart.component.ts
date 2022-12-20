@@ -62,7 +62,7 @@ export class SalesByStateChartComponent {
         this.currentRegionTitle = this.regions[this.currentRegionIndex][0].title;
         this.regions[this.currentRegionIndex][1].forEach((state: StateChartValues) => {
             this.chartLabels.push(state.name.toString());
-            this.chartData.push(this.ruleOfThree(state.amount));
+            this.chartData.push(state.amount);
         });
     }
 
@@ -163,10 +163,6 @@ export class SalesByStateChartComponent {
         });
     }
 
-    public ruleOfThree(value: any): string {
-        return ((value * 100) / this.data.length).toFixed(2);
-    }
-
     public resetStates(): void {
         this.states = [];
     }
@@ -191,7 +187,7 @@ class StateChartKeys {
 
 class StateChartValues {
     public declare name: string;
-    public declare amount: number;
+    public declare amount: string;
 }
 
 export enum Regions {
