@@ -57,7 +57,7 @@ export class SalesByStateComponent implements AfterViewInit, OnDestroy {
         this.barChartLabels = [];
         this.barChartData[0].data = [];
         this.data.forEach((saleState: ReportSaleByStateResponse) => {
-            this.barChartLabels.push(saleState.state);
+            this.barChartLabels.push(saleState.state ?? 'Não registrado');
             this.barChartData[0].data.push(saleState.amount.toString());
         });
         this.isLoading = false;
