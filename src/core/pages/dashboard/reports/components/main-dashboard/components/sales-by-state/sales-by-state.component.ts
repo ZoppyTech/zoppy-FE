@@ -61,7 +61,7 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
         this.chartData = [];
         this.currentRegionTitle = this.regions[this.currentRegionIndex][0].title;
         this.regions[this.currentRegionIndex][1].forEach((state: StateChartValues) => {
-            this.chartLabels.push(state.name.toString());
+            this.chartLabels.push(state.name.toString() ?? 'Não registrado');
             this.chartData.push(state.amount);
         });
     }
