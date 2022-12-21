@@ -1,8 +1,11 @@
 <div class="container">
     <div class="header">
         <div class="flex-column">
-            <span class="text--bold text--primary text-18">Compras por estado</span>
-            <span class="text-12 text--500">Região {{ currentRegionTitle }}</span>
+            <span class="text--bold text--primary text-18 margin-bottom-1">Compras por estado</span>
+            <div class="region-row">
+                <span class="text-12 text--800">Região:</span>
+                <span class="text-12 text--600 margin-left-1">{{ currentRegionTitle }}</span>
+            </div>
         </div>
         <div class="pagination">
             <div class="back" (click)="navigateBackwards()">
@@ -16,14 +19,7 @@
     <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
         <img [src]="logo" alt="" *ngIf="isLoading" />
         <div class="chart-content" *ngIf="!isLoading">
-            <canvas
-                baseChart
-                [datasets]="barChartData"
-                [labels]="barChartLabels"
-                [options]="barChartOptions"
-                [legend]="barChartLegend"
-                type="bar"
-            ></canvas>
+            <canvas id="rfmStateChart" width="100%" height="100%" #rfmStateChart></canvas>
         </div>
     </div>
 </div>

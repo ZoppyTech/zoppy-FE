@@ -160,6 +160,9 @@
             </div>
 
             <div *ngFor="let task of tasks; let index = index">
+                <div class="text text--bold margin-y-2 margin-bottom-3" *ngIf="checkVisibility(index)">
+                    {{ task.createdAt | date: 'mediumDate':'':'pt-BR' }}
+                </div>
                 <div class="box-content padding-2 margin-bottom-3">
                     <div class="flex align-center">
                         <ps-contact
@@ -233,10 +236,6 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
-
-                <div class="text text--bold margin-y-2 margin-bottom-3" *ngIf="checkVisibility(index)">
-                    {{ task.createdAt | date: 'mediumDate':'':'pt-BR' }}
                 </div>
             </div>
         </div>

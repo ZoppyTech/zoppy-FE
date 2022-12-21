@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { SalesByStateComponent } from './sales-by-state.component';
 import { NgChartsModule } from 'ng2-charts';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { IconModule } from '@ZoppyTech/icon';
 
 @NgModule({
-    imports: [CommonModule, FormsModule, ReactiveFormsModule, NgChartsModule],
+    imports: [CommonModule, IconModule],
     declarations: [SalesByStateComponent],
     exports: [SalesByStateComponent]
 })

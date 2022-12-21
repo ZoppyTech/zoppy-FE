@@ -23,10 +23,14 @@ main {
         flex-grow: 1;
         min-height: 0;
         display: flex;
-        grid-gap: 2rem;
+        grid-gap: 1.5rem;
 
         .side-info {
             max-width: 30rem;
+            height: 100%;
+            overflow: auto;
+            padding-right: 0.5rem;
+            padding-bottom: 2rem;
 
             &__header {
                 ps-icon {
