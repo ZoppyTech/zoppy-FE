@@ -50,7 +50,7 @@
                             </div>
                         </ps-button>
                         <span class="text text--bold margin-y-1" [ngClass]="{ 'text-decoration-line-through': task.status === 'success' }">
-                            {{ task.customer.address.firstName }}
+                            {{ task.customer.address.firstName }} {{ task.customer.address.lastName }}
                         </span>
                         <a class="flex align-center clickable link text--link" [attr.href]="task.route">
                             <span class="text--primary text--bold text--link text-14"> Ver cliente </span>
