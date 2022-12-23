@@ -30,11 +30,10 @@
                 </div>
                 <div class="items padding-2">
                     <div class="card flex flex-column flex-center padding-2" *ngIf="!day.tasks || day.tasks.length === 0">
-                        <img class="margin-top-2" src="./assets/svg/search_customer.svg" alt="" />
-                        <p class="text text--bold margin-y-3 text--center">Nenhuma tarefa registrada!</p>
-                        <span class="text text--600 text--center margin-bottom-1"
-                            >O sistema cria tarefas de pós venda e aniversário automaticamente, você também pode criar tarefas na área de
-                            membros.</span
+                        <img class="margin-y-2" src="./assets/svg/search_customer.svg" alt="" />
+                        <p class="text text--bold margin-y-2 text--center">Nenhuma tarefa registrada!</p>
+                        <span *ngIf="false" class="text text--600 text--center margin-bottom-1"
+                            >Clique no botão abaixo para registrar uma nova tarefa manualmente.</span
                         >
                     </div>
 
