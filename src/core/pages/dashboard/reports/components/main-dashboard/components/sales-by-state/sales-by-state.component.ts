@@ -18,8 +18,6 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
 
-    public currentRegionTitle: string = 'Sudeste';
-    public currentRegionIndex: number = Regions.Southeast;
     public states: Array<StateChartValues> = [];
     public regions: Array<[StateChartKeys, Array<StateChartValues>]> = [];
 
@@ -57,12 +55,13 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
     }
 
     public setChartDatasets(): void {
-        this.chartLabels = [];
-        this.chartData = [];
-        this.currentRegionTitle = this.regions[this.currentRegionIndex][0].title;
-        this.regions[this.currentRegionIndex][1].forEach((state: StateChartValues) => {
-            this.chartLabels.push(state.name.toString());
-            this.chartData.push(state.amount);
+        this.chartLabels = this.regions.map((region: [StateChartKeys, Array<StateChartValues>]) => {
+            return region[0].title;
+        });
+        this.chartData = this.regions.map((region: [StateChartKeys, Array<StateChartValues>]) => {
+            return region[1]
+                .map((stateChartValue: StateChartValues) => Number.parseFloat(stateChartValue.amount))
+                .reduce((prev: number, curr: number) => prev + curr);
         });
     }
 
@@ -165,18 +164,6 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
 
     public resetStates(): void {
         this.states = [];
-    }
-
-    public navigateBackwards(): void {
-        this.currentRegionIndex = (this.regions.length + this.currentRegionIndex - 1) % this.regions.length;
-        this.setChartDatasets();
-        this.drawChart();
-    }
-
-    public navigateForward(): void {
-        this.currentRegionIndex = (this.regions.length + this.currentRegionIndex + 1) % this.regions.length;
-        this.setChartDatasets();
-        this.drawChart();
     }
 }
 
