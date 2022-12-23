@@ -5,6 +5,7 @@ import { CrmLineItemRequest } from './crm-line-item.request';
 export interface CrmOrderRequest {
     total: number;
     totalCurrency?: number | string;
+    description?: string;
     operation?: Operations;
     coupon: CrmCouponRequest;
     address: CrmAddressRequest;
