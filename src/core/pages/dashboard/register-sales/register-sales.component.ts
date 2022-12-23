@@ -22,6 +22,7 @@ import { CrmOrderService } from 'src/shared/services/crm-order/crm-order.service
 import { CrmProductService } from 'src/shared/services/crm-product/crm-product.service';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
 import { FormatUtils } from 'src/shared/utils/format.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
@@ -42,6 +43,7 @@ export class RegisterSalesComponent implements OnInit {
             amount: 0,
             amountCurrency: ''
         },
+        description: '',
         lineItems: [],
         total: 0
     };
@@ -107,6 +109,7 @@ export class RegisterSalesComponent implements OnInit {
         private readonly crmCustomerService: CrmCustomerService,
         private readonly crmProductService: CrmProductService,
         private readonly crmOrderService: CrmOrderService,
+        private readonly socialMediaService: SocialMediaService,
         private readonly publicService: PublicService,
         private readonly toast: ToastService
     ) {}
@@ -117,6 +120,25 @@ export class RegisterSalesComponent implements OnInit {
             button: 'Entendi',
             description: `Para realizar o lançamento de venda você deverá informar um cliente. Se o cliente já estiver cadastrado, basta fornecer o telefone com ddd que os campos serão preenchidos automaticamente. Caso contrário, você deverá preencher todos os campos e o cliente será cadastrado em nossa base.`
         });
+    }
+
+    public openAddDescriptionModal(): void {
+        this.modal.open(
+            Modal.IDENTIFIER.INPUT_INFO,
+            {
+                title: 'Observação referente a venda',
+                subtitle: 'Essa observação ficará registrada no perfil do cliente, na área de membros.',
+                cancelLabel: 'Cancelar',
+                placeholder: 'Digite aqui...',
+                rows: 3,
+                confirmLabel: 'Confirmar',
+                value: this.order.description
+            },
+            (value: string) => {
+                this.order.description = value;
+                this.modal.close();
+            }
+        );
     }
 
     public openEditSubtotalModal(): void {
