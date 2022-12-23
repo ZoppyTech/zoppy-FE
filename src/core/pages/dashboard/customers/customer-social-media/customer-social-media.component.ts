@@ -104,6 +104,10 @@ export class CustomerSocialMediaComponent implements OnInit {
         this.setBreadcrumb();
     }
 
+    public async call(): Promise<void> {
+        window.open(`tel:+55${this.customer?.phone}`, '_self');
+    }
+
     public async createTask(): Promise<void> {
         await this.sendMessage();
         this.modal.open(
