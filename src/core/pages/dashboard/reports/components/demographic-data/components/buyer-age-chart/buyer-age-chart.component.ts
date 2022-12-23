@@ -44,7 +44,6 @@ export class BuyerAgeChartComponent {
     public async fetchChartData(): Promise<void> {
         try {
             this.data = await this.reportsService.getBuyersAge(this.reportRequest);
-            console.log(this.data);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de compras por gênero');
