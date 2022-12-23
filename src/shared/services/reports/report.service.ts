@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, ZoppyException } from '../api.service';
 import { Router } from '@angular/router';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer..response';
 import { ReportsGenderDistributionResponse } from 'src/shared/models/responses/reports/reports.gender.distribution.response';
 import { ReportOverviewCardResponse } from 'src/shared/models/responses/reports/report-overview-card.response';
 import { MonthlyInvoiceResponse } from 'src/shared/models/responses/reports/monthly-invoice.response';
@@ -14,6 +13,7 @@ import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/repor
 import { Position } from 'src/shared/models/responses/reports/matrix-rfm.response';
 import { ShoppingFrequencyResponse } from 'src/shared/models/responses/reports/shopping-frequency.response';
 import { BuyerAgeResponse } from 'src/shared/models/responses/reports/buyer-age.response';
+import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
 
 @Injectable({
     providedIn: 'root'

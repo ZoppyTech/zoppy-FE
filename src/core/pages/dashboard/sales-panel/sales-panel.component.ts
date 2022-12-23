@@ -9,7 +9,6 @@ import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { WcCustomerEntity } from 'src/shared/models/entities/wc-customer.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer..response';
 import { SocialMediaMatrixRfmResponse } from 'src/shared/models/responses/social-media/social-media-matrix-rfm.response';
 import { SocialMediaSalesPanelResponse, TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
 import { ZoppyException } from 'src/shared/services/api.service';

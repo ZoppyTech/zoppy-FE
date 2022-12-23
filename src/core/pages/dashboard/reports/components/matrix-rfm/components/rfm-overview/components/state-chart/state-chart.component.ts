@@ -2,7 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer..response';
+import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 
 @Component({

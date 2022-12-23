@@ -14,35 +14,9 @@
     .header {
         display: flex;
         flex-direction: row;
-        justify-content: space-between;
+        justify-content: flex-start;
         width: 100%;
         margin-bottom: 1rem;
-
-        .region-row {
-            display: flex;
-            flex-direction: row;
-            align-items: baseline;
-        }
-
-        .pagination {
-            display: flex;
-
-            .back {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 30px;
-
-                margin-right: 16px;
-            }
-
-            .next {
-                display: flex;
-                justify-content: center;
-                align-items: center;
-                width: 30px;
-            }
-        }
     }
 
     .main-content {
