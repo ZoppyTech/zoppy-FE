@@ -83,7 +83,6 @@ export class SalesByStateChartComponent {
     public async fetchChartData(): Promise<void> {
         try {
             this.data = await this.reportsService.getSalesByState(this.reportRequest);
-            console.log(this.data);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de vendas por estado');

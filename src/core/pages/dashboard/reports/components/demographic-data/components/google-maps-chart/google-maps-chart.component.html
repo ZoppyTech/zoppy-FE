@@ -1,9 +1,13 @@
-<div class="map-container">
+<div *ngIf="isLoading" class="map-container flex-center">
+    <img [src]="logo" alt="" />
+</div>
+<div *ngIf="!isLoading" class="map-container">
     <div class="search-bar">
         <ps-search-bar [debounce]="800" (onChanged)="onSearchTextChanged($event)"></ps-search-bar>
     </div>
-    <google-map
-        id="map"
+    <div #mapContainer id="map"></div>
+    <!-- <google-map
+        id="gmap"
         height="100%"
         width="100%"
         [center]="center"
@@ -18,5 +22,5 @@
             (mapClick)="openInfoWindow(marker)"
         ></map-marker>
         <map-info-window>{{ mapInfoContent }}</map-info-window>
-    </google-map>
+    </google-map> -->
 </div>
