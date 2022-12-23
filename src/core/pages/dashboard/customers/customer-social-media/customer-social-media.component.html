@@ -203,7 +203,7 @@
                             }"
                         ></ps-icon>
                     </div>
-                    <table class="margin-top-2 wide" *ngIf="task.order?.products">
+                    <table class="margin-top-2 wide" *ngIf="visibleProducts(task)">
                         <thead>
                             <th><span class="text-16 text--primary text--bold">Produtos</span></th>
                             <th class="desktop"><span class="text-16 text--primary text--bold">Valor</span></th>
@@ -239,6 +239,26 @@
                             </tr>
                         </tbody>
                     </table>
+
+                    <div *ngIf="task.order" class="flex flex-column">
+                        <span class="flex margin-y-1">
+                            <span class="flex align-center">
+                                <ps-icon icon="icon-local_atm" class="text--primary"></ps-icon>&nbsp;
+                                <span class="text text--bold text--primary">Valor: </span>
+                            </span>
+                            <span *ngIf="task.order.total" class="text">&nbsp;{{ task.order.total.toString() | zoppyCurrency }}</span>
+                            <span *ngIf="!task.order.total" class="text--600">&nbsp;vazio</span>
+                        </span>
+                        <span class="flex margin-y-1">
+                            <span class="flex align-center">
+                                <ps-icon icon="icon-confirmation_number" class="text--primary"></ps-icon>&nbsp;
+                                <span class="text text--bold text--primary">Cupom utilizado: </span>
+                            </span>
+                            <span class="text" [ngClass]="{ 'text--600': !task.order.wcCouponCode }"
+                                >&nbsp;{{ task.order.wcCouponCode ? task.order.wcCouponCode : 'vazio' }}</span
+                            >
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

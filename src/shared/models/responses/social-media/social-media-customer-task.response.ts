@@ -13,6 +13,8 @@ export interface SocialMediaCustomerTaskResponse {
 }
 
 export interface SocialMediaCustomerOrderResponse {
+    total: number;
+    wcCouponCode: string;
     products?: SocialMEdiaCustomerProductResponse[];
 }
 
