@@ -6,7 +6,6 @@ import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { MessageConfigConstants, MessageConfigTemplate } from 'src/shared/constants/message-config.constants';
 import { TaskConstants } from 'src/shared/constants/task.constants';
 import { TaskEntity } from 'src/shared/models/entities/task.entity';
-import { WcCustomerEntity } from 'src/shared/models/entities/wc-customer.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
 import { SocialMediaMatrixRfmResponse } from 'src/shared/models/responses/social-media/social-media-matrix-rfm.response';
@@ -17,9 +16,10 @@ import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-custome
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
 import { DateUtil, FirstAndLastDayOfWeek } from 'src/shared/utils/date.util';
+import { MatrixRfmUtil } from 'src/shared/utils/matrix-rfm.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { TaskUtil } from 'src/shared/utils/task.util';
-import { Day, Rfm, SalesPanelMapper } from './sales-panel.mapper';
+import { Day, SalesPanelMapper } from './sales-panel.mapper';
 
 @Component({
     selector: 'app-sales-panel',
@@ -28,7 +28,6 @@ import { Day, Rfm, SalesPanelMapper } from './sales-panel.mapper';
 })
 export class SalesPanelComponent implements OnInit {
     public days: Day[] = [];
-    public rfms: Rfm[] = [];
     public loading: boolean = false;
     public filter: SalesPanelRequest = new SalesPanelRequest();
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
@@ -62,7 +61,6 @@ export class SalesPanelComponent implements OnInit {
                 task.scheduledDate = new Date(task.scheduledDate);
             });
             this.days = SalesPanelMapper.mapDays(salesPanel.tasks, this.filter);
-            this.rfms = SalesPanelMapper.mapRfm(salesPanel.rfm);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os dados');
@@ -75,6 +73,10 @@ export class SalesPanelComponent implements OnInit {
 
     public getTaskTypeLabel(task: TaskView): string {
         return TaskUtil.getTypeLabel(task.type);
+    }
+
+    public getPosition(task: TaskView): string {
+        return MatrixRfmUtil.getLabel(task.customer?.position) ?? 'vazio';
     }
 
     public async sendMessage(task: TaskView): Promise<void> {
@@ -144,6 +146,10 @@ export class SalesPanelComponent implements OnInit {
                 }
             }
         );
+    }
+
+    public async call(task: TaskView): Promise<void> {
+        window.open(`tel:+55${task.customer.address.phone}`, '_self');
     }
 
     public async openTaskDescriptionModal(task: TaskView): Promise<void> {
