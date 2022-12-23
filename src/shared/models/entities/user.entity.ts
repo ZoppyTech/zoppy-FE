@@ -2,6 +2,7 @@ export class UserEntity {
     public declare id: string;
     public declare name: string;
     public declare userName: string;
+    public declare nickName: string;
     public declare email: string;
     public declare password: string;
     public declare role: string;

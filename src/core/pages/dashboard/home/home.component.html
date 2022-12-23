@@ -6,7 +6,7 @@
             passos, siga as instruções abaixo para desfrutar da melhor experiência possível em nossa plataforma e prosseguir com a sua
             <b>ativação</b>. Vamos lá?
         </p>
-        <div class="alert desktop" *ngIf="percent === 100">
+        <div class="alert desktop" *ngIf="false">
             <ps-icon class="font-16" icon="icon-info"></ps-icon>&nbsp;
             <span class="text-16 text--bold">Informação: </span>
             <span class="text-16"
@@ -69,7 +69,7 @@
                         <span class="text--primary text--bold text-48"></span>
                     </div>
 
-                    <div class="footer">
+                    <div class="footer" *ngIf="!card.value">
                         <span class="text-14 text--bold margin-bottom-1 text--600">Atenção</span>
                         <span class="text-14 text--600">Você precisa completar sua ativação para ver essa informação</span>
                     </div>

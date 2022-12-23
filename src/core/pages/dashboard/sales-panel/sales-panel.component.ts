@@ -63,7 +63,6 @@ export class SalesPanelComponent implements OnInit {
             });
             this.days = SalesPanelMapper.mapDays(salesPanel.tasks, this.filter);
             this.rfms = SalesPanelMapper.mapRfm(salesPanel.rfm);
-            debugger;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os dados');
@@ -89,7 +88,6 @@ export class SalesPanelComponent implements OnInit {
             const data: any = await this.crmCustomerService.findWhatsappLink(task.customer.id, message as MessageConfigTemplate);
             window?.open(data.data, '_blank')?.focus();
         } catch (ex: any) {
-            debugger;
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
         } finally {
