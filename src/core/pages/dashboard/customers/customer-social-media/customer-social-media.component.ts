@@ -104,6 +104,14 @@ export class CustomerSocialMediaComponent implements OnInit {
         this.setBreadcrumb();
     }
 
+    public visibleProducts(task: SocialMediaCustomerTaskResponse): boolean {
+        return (task.order && task.order.products && task.order.products.length > 0) as boolean;
+    }
+
+    public async call(): Promise<void> {
+        window.open(`tel:+55${this.customer?.phone}`, '_self');
+    }
+
     public async createTask(): Promise<void> {
         await this.sendMessage();
         this.modal.open(

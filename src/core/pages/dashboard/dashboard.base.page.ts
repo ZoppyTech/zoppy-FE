@@ -1,6 +1,7 @@
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { CompanyUtil } from 'src/shared/utils/company.util';
+import { OsUtil } from 'src/shared/utils/os-util';
 import { Storage } from 'src/shared/utils/storage';
 import { UserUtil } from 'src/shared/utils/user.util';
 
@@ -14,7 +15,11 @@ export class DashboardBasePage {
     public isShopify: boolean = false;
     public isWooCommerce: boolean = false;
 
+    public isMobile: boolean = false;
+
     public constructor(public storage: Storage) {
+        this.isMobile = OsUtil.getMobileOperatingSystem() !== 'unknown';
+
         this.isAdmin = UserUtil.isAdmin(storage.getUser() as UserEntity);
         this.isMaster = UserUtil.isMaster(storage.getUser() as UserEntity);
 

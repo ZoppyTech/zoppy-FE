@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CompanyService } from 'src/shared/services/company/company.service';
 import { UserService } from 'src/shared/services/user/user.service';
 import { Navigation } from 'src/shared/utils/navigation';
+import { OsUtil } from 'src/shared/utils/os-util';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -12,6 +13,7 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class DashboardComponent implements OnInit {
     public visible: boolean = false;
+
     public constructor(
         public userService: UserService,
         public companyService: CompanyService,

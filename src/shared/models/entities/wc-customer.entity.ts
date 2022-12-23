@@ -15,5 +15,9 @@ export class WcCustomerEntity {
     public declare companyId: string;
     public declare billingId: string;
     public declare shippingId: string;
+    public declare recency: number;
+    public declare frequency: number;
+    public declare amount: number;
+    public declare position: string;
     public declare address: WcAddressEntity;
 }
