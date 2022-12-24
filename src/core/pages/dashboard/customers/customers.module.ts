@@ -8,6 +8,7 @@ import { DropdownModule } from '@ZoppyTech/dropdown';
 import { InputModule } from '@ZoppyTech/input';
 import { PaginationModule } from '@ZoppyTech/pagination';
 import { SearchBarModule } from '@ZoppyTech/search-bar';
+import { GiftbackAlertBoxModule } from 'src/shared/components/giftback-alert-box/giftback-alert-box.module';
 
 const routes: Routes = [
     {
@@ -25,7 +26,8 @@ const routes: Routes = [
         InputModule,
         ButtonModule,
         SearchBarModule,
-        PaginationModule
+        PaginationModule,
+        GiftbackAlertBoxModule
     ],
     declarations: [CustomersComponent],
     exports: [CustomersComponent],

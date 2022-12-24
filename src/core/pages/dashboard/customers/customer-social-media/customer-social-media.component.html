@@ -98,48 +98,7 @@
                     <span class="text margin-left-1 text--700"> <b>Total gasto: </b> {{ details.totalSpent }}</span>
                 </div>
             </div>
-
-            <div class="box-content padding-2 margin-top-3">
-                <div
-                    [ngClass]="{
-                        'giftback-alert--success': details.giftback,
-                        'giftback-alert--error': !details.giftback
-                    }"
-                    class="giftback-alert padding-2 margin-bottom-1 line-height-3"
-                >
-                    <ps-icon
-                        icon="icon-task_alt"
-                        class="margin-right-1"
-                        [ngClass]="{ success: details.giftback, negative: !details.giftback }"
-                    ></ps-icon>
-                    <span class="text-16 text--bold">{{ details.giftback ? 'Giftback disponível: ' : 'Giftback indisponível: ' }} </span>
-                    <span class="text-16" *ngIf="details.giftback">
-                        {{ details.name }} possui um giftback válido no valor de {{ details.giftback.amount }}.
-                    </span>
-                    <span class="text-16" *ngIf="!details.giftback">
-                        {{ details.name }} não possui giftback válido que possa ser aplicado.
-                    </span>
-                </div>
-                <div class="flex padding-y-1 align-center" *ngIf="details.giftback">
-                    <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
-                    <span class="text margin-left-1 text--700">
-                        <b>Valor mínimo necessário: </b> {{ details.giftback.minPurchaseValue }}</span
-                    >
-                </div>
-                <div class="flex padding-y-1 align-center" *ngIf="details.giftback">
-                    <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
-                    <span class="text margin-left-1 text--700">
-                        <b>Prazo de validade: </b> {{ details.giftback.expiryDate | date: 'dd/MM/yyyy' }}</span
-                    >
-                </div>
-                <div class="flex padding-y-1 align-center" *ngIf="details.giftback">
-                    <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
-                    <span class="text margin-left-1 text--700">
-                        <b>Data mínima do giftback: </b>
-                        {{ details.giftback.startDate ? (details.giftback.startDate | date: 'dd/MM/yyyy') : 'Imediato' }}</span
-                    >
-                </div>
-            </div>
+            <app-giftback-alert-box [giftback]="details.giftback" [name]="details.name"></app-giftback-alert-box>
         </div>
 
         <div class="tasks flex-grow flex flex-column scroll tall">

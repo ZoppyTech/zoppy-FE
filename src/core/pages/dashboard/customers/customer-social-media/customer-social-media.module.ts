@@ -10,6 +10,7 @@ import { InputModule } from '@ZoppyTech/input';
 import { ContactModule } from '@ZoppyTech/contact';
 import { RadioButtonModule } from '@ZoppyTech/radio-button';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
+import { GiftbackAlertBoxModule } from 'src/shared/components/giftback-alert-box/giftback-alert-box.module';
 
 const routes: Routes = [
     {
@@ -29,7 +30,8 @@ const routes: Routes = [
         ButtonModule,
         RadioButtonModule,
         DatepickerModule,
-        PipesModule
+        PipesModule,
+        GiftbackAlertBoxModule
     ],
     declarations: [CustomerSocialMediaComponent],
     exports: [CustomerSocialMediaComponent]
