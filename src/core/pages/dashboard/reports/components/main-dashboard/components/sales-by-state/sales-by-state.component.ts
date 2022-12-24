@@ -61,7 +61,7 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
         this.chartData = this.regions.map((region: [StateChartKeys, Array<StateChartValues>]) => {
             return region[1]
                 .map((stateChartValue: StateChartValues) => Number.parseFloat(stateChartValue.amount))
-                .reduce((prev: number, curr: number) => prev + curr);
+                .reduce((prev: number, curr: number) => prev + curr, 0);
         });
     }
 
