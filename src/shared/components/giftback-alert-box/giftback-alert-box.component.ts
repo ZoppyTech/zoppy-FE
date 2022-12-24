@@ -10,5 +10,8 @@ import { SocialMediaGiftbackResponse } from 'src/shared/models/responses/social-
 export class GiftbackAlertBoxComponent {
     @Input() public giftback: WcCouponEntity | SocialMediaGiftbackResponse | undefined = undefined;
     @Input() public name: string = '';
+    @Input() public layout: Layout = 'box';
     public constructor() {}
 }
+
+export type Layout = 'box' | 'alert';
