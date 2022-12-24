@@ -8,6 +8,7 @@ import { BooleanResponse, ZoppyException } from 'src/shared/services/api.service
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { ExternalTokenService } from 'src/shared/services/external-token/external-token.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
     selector: 'app-access-tokens',
@@ -89,7 +90,7 @@ export class AccessTokensComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Configurações`,
@@ -97,7 +98,7 @@ export class AccessTokensComponent implements OnInit {
             },
             {
                 name: `Tokens de Acesso`,
-                route: `/dashboard/configurations/access-tokens`
+                route: Navigation.routes.accessTokens
             }
         ];
     }

@@ -95,7 +95,7 @@ export class ProductComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Gerenciamento de produtos`,
