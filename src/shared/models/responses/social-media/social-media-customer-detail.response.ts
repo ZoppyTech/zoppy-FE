@@ -1,3 +1,4 @@
+import { WcCouponEntity } from '../../entities/wc-coupon.entity';
 import { MatrixRFMResponse } from '../reports/matrix-rfm.response';
 
 export class SocialMediaCustomerDetailResponse {
