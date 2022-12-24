@@ -27,4 +27,5 @@ export class SocialMediaGiftbackResponse {
     public declare expiryDate: Date;
     public declare startDate: Date;
     public declare amount: string;
+    public declare code: string;
 }
