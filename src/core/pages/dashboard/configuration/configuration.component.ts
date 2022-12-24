@@ -26,7 +26,6 @@ export class ConfigurationComponent implements OnInit {
         this.setCompany();
         setTimeout(() => {
             this.sideMenuService.change(`configurations`);
-            this.setBreadcrumb();
             this.setMenuItems();
         });
     }
@@ -37,19 +36,6 @@ export class ConfigurationComponent implements OnInit {
 
     public setCompany(): void {
         this.company = this.storage.getCompany() as CompanyEntity;
-    }
-
-    private setBreadcrumb(): void {
-        this.breadcrumb.items = [
-            {
-                name: `Início`,
-                route: undefined
-            },
-            {
-                name: `Configurações`,
-                route: undefined
-            }
-        ];
     }
 
     private setMenuItems(): void {

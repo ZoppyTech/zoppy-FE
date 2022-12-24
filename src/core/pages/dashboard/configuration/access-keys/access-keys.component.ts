@@ -9,6 +9,7 @@ import { ShopifySyncService } from 'src/shared/services/shopify-sync/shopify-syn
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
 import { WcWebhookService } from 'src/shared/services/wc-webhook/wc-webhook.service';
+import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { DashboardBasePage } from '../../dashboard.base.page';
 
@@ -100,7 +101,7 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Configurações`,
@@ -108,7 +109,7 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
             },
             {
                 name: `Chaves de Acesso`,
-                route: `/dashboard/configurations/access-keys`
+                route: Navigation.routes.accessKeys
             }
         ];
     }
