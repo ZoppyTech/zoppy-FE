@@ -91,7 +91,7 @@ export class MyCompanyUserConfigComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Minha empresa`,
@@ -99,7 +99,7 @@ export class MyCompanyUserConfigComponent implements OnInit {
             },
             {
                 name: `Usuários`,
-                route: `/dashboard/my-company/users`
+                route: Navigation.routes.myCompanyUsers
             },
             {
                 name: this.id ? 'Edição' : 'Criação',

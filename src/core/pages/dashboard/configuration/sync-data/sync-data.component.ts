@@ -9,6 +9,7 @@ import { ShopifySyncService } from 'src/shared/services/shopify-sync/shopify-syn
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
 import { WcSyncService } from 'src/shared/services/wc-sync/wc-sync.service';
+import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { DashboardBasePage } from '../../dashboard.base.page';
 
@@ -169,7 +170,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Configurações`,
@@ -177,7 +178,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
             },
             {
                 name: `Sincronização`,
-                route: `/dashboard/configurations/sync-data`
+                route: Navigation.routes.syncData
             }
         ];
     }

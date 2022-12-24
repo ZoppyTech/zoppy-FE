@@ -7,6 +7,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { MessageConfigService } from 'src/shared/services/message-config/message-config.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
     selector: 'app-message-config',
@@ -85,7 +86,7 @@ export class MessageConfigComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Configurações`,
@@ -93,7 +94,7 @@ export class MessageConfigComponent implements OnInit {
             },
             {
                 name: `Configuração de mensagens`,
-                route: `/dashboard/configurations/message-config`
+                route: Navigation.routes.messageConfig
             }
         ];
     }

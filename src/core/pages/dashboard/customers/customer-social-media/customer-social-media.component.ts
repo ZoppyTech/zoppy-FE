@@ -234,14 +234,14 @@ export class CustomerSocialMediaComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Área de membros`,
                 route: Navigation.routes.customers
             },
             {
-                name: this.details?.name ?? '',
+                name: this.details?.name ?? 'Novo',
                 route: undefined
             }
         ];

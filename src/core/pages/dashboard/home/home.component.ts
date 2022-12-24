@@ -133,7 +133,7 @@ export class HomeComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             }
         ];
     }

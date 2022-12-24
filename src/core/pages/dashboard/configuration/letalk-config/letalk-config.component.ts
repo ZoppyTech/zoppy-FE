@@ -7,6 +7,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { LetalkConfigService } from 'src/shared/services/letalk-config/letalk-config.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
     selector: 'app-letalk-config',
@@ -70,7 +71,7 @@ export class LetalkConfigComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Configurações`,
@@ -78,7 +79,7 @@ export class LetalkConfigComponent implements OnInit {
             },
             {
                 name: `Configuração Letalk`,
-                route: `/dashboard/configurations/letalk`
+                route: Navigation.routes.letalk
             }
         ];
     }

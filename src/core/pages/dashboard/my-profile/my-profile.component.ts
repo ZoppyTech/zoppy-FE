@@ -7,6 +7,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { UserService } from 'src/shared/services/user/user.service';
+import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -63,11 +64,11 @@ export class MyProfileComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Meu Perfil`,
-                route: '/dashboard/profile'
+                route: Navigation.routes.profile
             }
         ];
     }
