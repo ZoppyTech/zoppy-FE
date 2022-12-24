@@ -1,0 +1,47 @@
+<div class="box-content padding-2 margin-top-3" *ngIf="layout === 'box'">
+    <div
+        [ngClass]="{
+            'giftback-alert--success margin-bottom-1': giftback,
+            'giftback-alert--error': !giftback
+        }"
+        class="giftback-alert padding-2 line-height-3"
+    >
+        <ps-icon icon="icon-task_alt" class="margin-right-1" [ngClass]="{ success: giftback, negative: !giftback }"></ps-icon>
+        <span class="text-16 text--bold">{{ giftback ? 'Giftback disponível: ' : 'Giftback indisponível: ' }} </span>
+        <span class="text-16" *ngIf="giftback"> {{ name }} possui um giftback válido no valor de {{ giftback.amount }}. </span>
+        <span class="text-16" *ngIf="!giftback"> {{ name }} não possui giftback válido que possa ser aplicado. </span>
+    </div>
+    <div class="flex padding-y-1 align-center" *ngIf="giftback">
+        <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
+        <span class="text margin-left-1 text--700"> <b>Valor mínimo necessário: </b> {{ giftback.minPurchaseValue }}</span>
+    </div>
+    <div class="flex padding-y-1 align-center" *ngIf="giftback">
+        <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
+        <span class="text margin-left-1 text--700"> <b>Prazo de validade: </b> {{ giftback.expiryDate | date: 'dd/MM/yyyy' }}</span>
+    </div>
+    <div class="flex padding-y-1 align-center" *ngIf="giftback">
+        <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
+        <span class="text margin-left-1 text--700">
+            <b>Data mínima do giftback: </b>
+            {{ giftback.startDate ? (giftback.startDate | date: 'dd/MM/yyyy') : 'Imediato' }}</span
+        >
+    </div>
+</div>
+
+<div
+    *ngIf="layout === 'alert'"
+    class="giftback-alert padding-2 margin-bottom-2 line-height-3"
+    [ngClass]="{
+        'giftback-alert--success': giftback,
+        'giftback-alert--error': !giftback
+    }"
+>
+    <ps-icon
+        icon="{{ giftback ? 'icon-task_alt' : 'icon-unpublished' }}"
+        [ngClass]="{ success: giftback, negative: !giftback }"
+        class="margin-right-1"
+    ></ps-icon>
+    <span class="text-16 text--bold">{{ giftback ? 'Giftback disponível: ' : 'Giftback indisponível: ' }} </span>
+    <span class="text-16" *ngIf="giftback"> {{ name }} possui um giftback válido no valor de {{ giftback.amount }}. </span>
+    <span class="text-16" *ngIf="!giftback"> {{ name }} não possui giftback válido que possa ser aplicado. </span>
+</div>
