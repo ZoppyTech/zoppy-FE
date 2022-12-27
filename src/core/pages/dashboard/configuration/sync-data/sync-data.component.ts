@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
@@ -25,6 +26,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
     public steppers: Array<Stepper> = [];
 
     public loaded: boolean = false;
+    public loadingClean: boolean = false;
 
     public constructor(
         public sideMenuService: SideMenuService,
@@ -34,9 +36,31 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         private readonly wcSyncDataService: WcSyncService,
         private readonly shopifySyncDataService: ShopifySyncService,
         private readonly wcKeyService: WcKeyService,
-        private readonly toast: ToastService
+        private readonly toast: ToastService,
+        private readonly confirmAction: ConfirmActionService,
+        private readonly wcSyncService: WcSyncService
     ) {
         super(storage);
+    }
+
+    public async clean(): Promise<void> {
+        this.confirmAction.open(
+            'Apagar todos os dados',
+            'Tem certeza que deseja deletar todos os dados dessa Empresa? Caso tenha integraçao com qualquer E-commerce a importação de dados deverá ser refeita',
+            async (result: boolean) => {
+                if (!result) return;
+                try {
+                    this.loadingClean = true;
+                    await this.wcSyncService.clean();
+                    this.toast.success('Dados removidos com sucesso', 'Remoção concluída!');
+                } catch (ex: any) {
+                    ex = ex as ZoppyException;
+                    this.toast.error(ex.message, 'Erro!');
+                } finally {
+                    this.loadingClean = false;
+                }
+            }
+        );
     }
 
     public async ngOnInit() {
@@ -78,7 +102,12 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         const allSuccess: boolean = !this.steppers.find((step: Stepper) => step.state !== 'success');
         this.loading = false;
 
-        if (allSuccess) this.toast.success('Todos os dados foram sincronizados com sucesso', 'Sucesso!');
+        if (allSuccess)
+            this.modal.open(Modal.IDENTIFIER.INFO, {
+                title: 'Sucesso!',
+                button: 'Entendi',
+                description: `<b>Todas as sincronizações foram agendadas!</b> Você receberá um email confirmando a conclusão de cada sincronização solicitada..`
+            });
     }
 
     public getStepIndex(step: Stepper): number {
@@ -96,7 +125,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
             this.setResult(result.result, `customer`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível sincronizar os clientes, tente com uma data mais recente.');
+            this.toast.error(ex.message, 'Houve um erro!');
             this.setResult(false, `customer`);
         }
     }
@@ -111,7 +140,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
             this.setResult(result.result, `product`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível sincronizar os produtos, tente com uma data mais recente.');
+            this.toast.error(ex.message, 'Houve um erro!');
             this.setResult(false, `product`);
         }
     }
@@ -126,7 +155,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
             this.setResult(result.result, `coupon`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível sincronizar os clientes, tente com uma data mais recente.');
+            this.toast.error(ex.message, 'Houve um erro!');
             this.setResult(false, `coupon`);
         }
     }
@@ -141,7 +170,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
             this.setResult(result.result, `order`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível sincronizar os pedidos, tente com uma data mais recente.');
+            this.toast.error(ex.message, 'Houve um erro!');
             this.setResult(false, `order`);
         }
     }

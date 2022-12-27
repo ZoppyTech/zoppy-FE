@@ -37,7 +37,7 @@ export class AccessTokensComponent implements OnInit {
             button: 'Entendi',
             description: `Nada melhor do que ter uma <b>solução personalizada</b> pro seu
               negócio e <b>totalmente automatizada</b>, né? Essa etapa vem
-              para concretizar isso, auziliando a Zoppy a entender mais sobre como funcionam as vendas no seu ecommerce.`
+              para concretizar isso, auxiliando a Zoppy a entender mais sobre como funcionam as vendas no seu ecommerce.`
         });
     }
 

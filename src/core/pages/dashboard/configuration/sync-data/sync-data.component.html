@@ -1,6 +1,11 @@
 <div class="container">
-    <div class="header">
-        <h6 class="text--primary text--bold text-20 margin-y-3">Sincronização</h6>
+    <div class="header padding-x-3 flex space-between">
+        <h6 class="text--primary flex-grow text--bold text-20 margin-y-3">Sincronização</h6>
+        <div class="flex flex-bottom">
+            <ps-button type="error" [loading]="loadingClean" (onClick)="clean()">
+                <span class="text-14 text--100 text--bold"> Limpar dados </span>
+            </ps-button>
+        </div>
     </div>
     <div class="separator"></div>
 
@@ -12,7 +17,9 @@
             </span>
         </div>
         <div class="flex align-center">
-            <span class="text-16">Clique no calendário para selecionar uma data de início para a importação de dados do WooCommerce.</span>
+            <span class="text-16"
+                >Clique no calendário para selecionar uma data de início para a importação de dados do seu E-commerce.</span
+            >
             <ps-datepicker class="margin-left-1" type="icon" [(model)]="expirationDate"></ps-datepicker>
             <span class="text-14 text--600 margin-left-1 desktop" *ngIf="expirationDate">{{ expirationDate | date: 'dd/MM/yyyy' }}</span>
         </div>
@@ -20,7 +27,7 @@
 
     <div class="body-warning" *ngIf="loaded && !key">
         <ps-icon class="font-16" icon="icon-info"></ps-icon> &nbsp; &nbsp; <span class="text-16 text--bold">Atenção: </span>&nbsp;
-        <span class="text-16">você precisa ter configurado suas chaves do WooCommerce para poder ativar a sincronização de dados. </span
+        <span class="text-16">você precisa ter configurado suas chaves do seu E-commerce para poder ativar a sincronização de dados. </span
         >&nbsp; <a [routerLink]="'/dashboard/configurations/access-keys'" class="text-16">Clique aqui </a>&nbsp;
         <span class="text-16">para configurar. </span>
     </div>
