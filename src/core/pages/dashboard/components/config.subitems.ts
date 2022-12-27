@@ -13,28 +13,28 @@ export class ConfigSubItems {
                 icon: 'icon-arrow',
                 label: 'Tokens de Acesso',
                 route: Navigation.routes.accessTokens,
-                visible: true
+                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
             },
             {
                 id: `accessKeys`,
                 icon: 'icon-arrow',
                 label: 'Chaves de Acesso',
                 route: Navigation.routes.accessKeys,
-                visible: true
+                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
             },
             {
                 id: `giftback`,
                 icon: 'icon-arrow',
                 label: 'Configuração de Giftback',
                 route: Navigation.routes.giftback,
-                visible: true
+                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
             },
             {
                 id: `syncData`,
                 icon: 'icon-arrow',
                 label: 'Sincronização',
                 route: Navigation.routes.syncData,
-                visible: true
+                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
             },
             {
                 id: `whatsappConfig`,
@@ -62,21 +62,21 @@ export class ConfigSubItems {
                 icon: 'icon-arrow',
                 label: 'Configuração de mensagens',
                 route: Navigation.routes.messageConfig,
-                visible: true
+                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
             },
             {
                 id: `coupons`,
                 icon: 'icon-arrow',
                 label: 'Visualização de giftbacks',
                 route: Navigation.routes.coupons,
-                visible: UserUtil.isMaster(user)
+                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
             },
             {
                 id: `batchUpload`,
                 icon: 'icon-arrow',
                 label: 'Upload de dados por planilha',
                 route: Navigation.routes.batchUpload,
-                visible: UserUtil.isMaster(user)
+                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
             }
         ];
     }
