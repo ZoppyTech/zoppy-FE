@@ -69,6 +69,10 @@ main {
                         border-radius: 0.5rem;
                         position: relative;
 
+                        .search-customer {
+                            max-width: 8rem;
+                        }
+
                         .chat {
                             position: absolute;
                             right: -0.75rem;
