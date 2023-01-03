@@ -8,13 +8,15 @@ import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.ser
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { UserService } from 'src/shared/services/user/user.service';
 import { Navigation } from 'src/shared/utils/navigation';
+import { Storage } from 'src/shared/utils/storage';
+import { DashboardBasePage } from '../../dashboard.base.page';
 
 @Component({
     selector: 'app-my-company-users',
     templateUrl: './my-company-users.component.html',
     styleUrls: ['./my-company-users.component.scss']
 })
-export class MyCompanyUsersComponent implements OnInit {
+export class MyCompanyUsersComponent extends DashboardBasePage implements OnInit {
     public users: Array<UserEntity> = [];
 
     public constructor(
@@ -22,9 +24,12 @@ export class MyCompanyUsersComponent implements OnInit {
         public breadcrumb: BreadcrumbService,
         public userService: UserService,
         public toast: ToastService,
+        public override storage: Storage,
         private readonly confirmActionService: ConfirmActionService,
         private readonly router: Router
-    ) {}
+    ) {
+        super(storage);
+    }
 
     public async ngOnInit() {
         this.breadcrumb.items = [
