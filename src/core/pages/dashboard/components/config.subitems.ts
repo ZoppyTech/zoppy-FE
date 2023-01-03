@@ -10,6 +10,13 @@ export class ConfigSubItems {
     public static get(user: UserEntity, company: CompanyEntity): Array<SideMenuItem> {
         return [
             {
+                id: `giftback`,
+                icon: 'icon-arrow',
+                label: 'Configuração de Giftback',
+                route: Navigation.routes.giftback,
+                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master, AppConstants.Role.manager])
+            },
+            {
                 id: `accessTokens`,
                 icon: 'icon-arrow',
                 label: 'Tokens de Acesso',
@@ -21,13 +28,6 @@ export class ConfigSubItems {
                 icon: 'icon-arrow',
                 label: 'Chaves de Acesso',
                 route: Navigation.routes.accessKeys,
-                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
-            },
-            {
-                id: `giftback`,
-                icon: 'icon-arrow',
-                label: 'Configuração de Giftback',
-                route: Navigation.routes.giftback,
                 visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
             },
             {
