@@ -14,7 +14,15 @@ const routes: Routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: 'message-config'
+                redirectTo: 'giftback'
+            },
+            {
+                path: 'giftback',
+                loadChildren: () => import('./giftback-config/giftback-config.module').then((m: any) => m.GiftbackConfigModule),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: [AppConstants.Role.master, AppConstants.Role.admin, AppConstants.Role.manager]
+                }
             },
             {
                 path: 'access-keys',
@@ -35,14 +43,6 @@ const routes: Routes = [
             {
                 path: 'sync-data',
                 loadChildren: () => import('./sync-data/sync-data.module').then((m: any) => m.SyncDataModule),
-                canActivate: [RoleGuard],
-                data: {
-                    roles: [AppConstants.Role.master, AppConstants.Role.admin]
-                }
-            },
-            {
-                path: 'giftback',
-                loadChildren: () => import('./giftback-config/giftback-config.module').then((m: any) => m.GiftbackConfigModule),
                 canActivate: [RoleGuard],
                 data: {
                     roles: [AppConstants.Role.master, AppConstants.Role.admin]
