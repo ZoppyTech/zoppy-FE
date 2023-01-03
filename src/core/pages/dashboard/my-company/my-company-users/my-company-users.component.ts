@@ -2,7 +2,9 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
+import { AppConstants } from 'src/shared/constants/app.constants';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
+import { UserRequest } from 'src/shared/models/requests/user/user.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
@@ -18,6 +20,7 @@ import { DashboardBasePage } from '../../dashboard.base.page';
 })
 export class MyCompanyUsersComponent extends DashboardBasePage implements OnInit {
     public users: Array<UserEntity> = [];
+    public roles: Array<Item> = [];
 
     public constructor(
         public sideMenuService: SideMenuService,
@@ -48,7 +51,46 @@ export class MyCompanyUsersComponent extends DashboardBasePage implements OnInit
         ];
         this.sideMenuService.change(`myCompany`);
         this.sideMenuService.changeSub(`myCompanyUsers`);
+        this.setRoles();
         await this.fetchUsers();
+    }
+
+    public async updateUserRole(user: UserEntity): Promise<void> {
+        try {
+            const request: UserRequest = {
+                email: user.email,
+                name: user.name,
+                phone: user.phone,
+                birthDate: user.birthDate,
+                nickName: user.nickName,
+                role: user.role
+            };
+            await this.userService.update(user.id, request);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Ação não permitida');
+        } finally {
+            setTimeout(async () => {
+                await this.fetchUsers();
+            }, 250);
+        }
+    }
+
+    public setRoles(): void {
+        this.roles = [
+            {
+                label: this.getRoleLabel(AppConstants.Role.admin),
+                value: AppConstants.Role.admin
+            },
+            {
+                label: this.getRoleLabel(AppConstants.Role.manager),
+                value: AppConstants.Role.manager
+            },
+            {
+                label: this.getRoleLabel(AppConstants.Role.common),
+                value: AppConstants.Role.common
+            }
+        ];
     }
 
     public async fetchUsers(): Promise<void> {
@@ -89,4 +131,9 @@ export class MyCompanyUsersComponent extends DashboardBasePage implements OnInit
             }
         );
     }
+}
+
+interface Item {
+    label: string;
+    value: string;
 }

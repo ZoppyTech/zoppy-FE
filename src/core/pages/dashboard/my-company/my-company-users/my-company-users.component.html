@@ -27,7 +27,9 @@
                         <span [ngClass]="{ 'text--400': !user.email }" class="text-14 text--600">{{ user.email || 'vazio' }}</span>
                     </td>
                     <td class="desktop">
-                        <span [ngClass]="{ 'text--400': !user.phone }" class="text-14 text--600 desktop">{{ user.phone || 'vazio' }}</span>
+                        <span [ngClass]="{ 'text--400': !user.phone }" class="text-14 text--600 desktop">{{
+                            (user.phone | zoppyPhone) || 'vazio'
+                        }}</span>
                     </td>
                     <td class="desktop">
                         <span [ngClass]="{ 'text--400': !user.birthDate }" class="text-14 text--600 desktop">{{
@@ -35,7 +37,18 @@
                         }}</span>
                     </td>
                     <td class="desktop">
-                        <span class="text-14 text--600 desktop">{{ getRoleLabel(user.role) }}</span>
+                        <ps-dropdown
+                            class="wide"
+                            [wide]="true"
+                            [propertyValue]="'value'"
+                            [(value)]="user.role"
+                            [propertyLabel]="'label'"
+                            [items]="roles"
+                            [displayTop]="false"
+                            [enableSearch]="false"
+                            (valueChange)="updateUserRole(user)"
+                            noDataText="Selecionar"
+                        ></ps-dropdown>
                     </td>
                     <td>
                         <div class="actions">

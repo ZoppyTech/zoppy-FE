@@ -5,7 +5,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { StandardGuard } from 'src/shared/guards/standard.guard';
 import { RoleGuard } from 'src/shared/guards/role.guard';
 import { AppConstants } from 'src/shared/constants/app.constants';
-import { PremiumGuard } from 'src/shared/guards/premium.guard';
 
 const routes: Routes = [
     {
@@ -15,7 +14,7 @@ const routes: Routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: 'access-tokens'
+                redirectTo: 'message-config'
             },
             {
                 path: 'access-keys',
@@ -62,7 +61,7 @@ const routes: Routes = [
                 loadChildren: () => import('./message-config/message-config.module').then((m: any) => m.MessageConfigModule),
                 canActivate: [RoleGuard],
                 data: {
-                    roles: [AppConstants.Role.master]
+                    roles: [AppConstants.Role.master, AppConstants.Role.admin, AppConstants.Role.manager]
                 }
             },
             {
