@@ -1,3 +1,4 @@
+import { AppConstants } from 'src/shared/constants/app.constants';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { SideMenuItem } from 'src/shared/services/side-menu/side-menu.service';
@@ -13,28 +14,28 @@ export class ConfigSubItems {
                 icon: 'icon-arrow',
                 label: 'Tokens de Acesso',
                 route: Navigation.routes.accessTokens,
-                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
+                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
             },
             {
                 id: `accessKeys`,
                 icon: 'icon-arrow',
                 label: 'Chaves de Acesso',
                 route: Navigation.routes.accessKeys,
-                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
+                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
             },
             {
                 id: `giftback`,
                 icon: 'icon-arrow',
                 label: 'Configuração de Giftback',
                 route: Navigation.routes.giftback,
-                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
+                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
             },
             {
                 id: `syncData`,
                 icon: 'icon-arrow',
                 label: 'Sincronização',
                 route: Navigation.routes.syncData,
-                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
+                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
             },
             {
                 id: `whatsappConfig`,
@@ -55,28 +56,28 @@ export class ConfigSubItems {
                 icon: 'icon-arrow',
                 label: 'Configuração da Letalk',
                 route: Navigation.routes.letalk,
-                visible: CompanyUtil.isStandard(company)
+                visible: CompanyUtil.isStandard(company) && UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
             },
             {
                 id: `messageConfig`,
                 icon: 'icon-arrow',
                 label: 'Configuração de mensagens',
                 route: Navigation.routes.messageConfig,
-                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
+                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
             },
             {
                 id: `coupons`,
                 icon: 'icon-arrow',
                 label: 'Visualização de giftbacks',
                 route: Navigation.routes.coupons,
-                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
+                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
             },
             {
                 id: `batchUpload`,
                 icon: 'icon-arrow',
                 label: 'Upload de dados por planilha',
                 route: Navigation.routes.batchUpload,
-                visible: UserUtil.isAdmin(user) || UserUtil.isMaster(user)
+                visible: UserUtil.isMaster(user)
             }
         ];
     }

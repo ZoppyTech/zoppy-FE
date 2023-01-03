@@ -3,10 +3,7 @@ import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
-import { CompanyUtil } from 'src/shared/utils/company.util';
-import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
-import { UserUtil } from 'src/shared/utils/user.util';
 import { ConfigSubItems } from '../components/config.subitems';
 
 @Component({
