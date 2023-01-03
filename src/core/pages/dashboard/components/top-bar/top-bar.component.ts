@@ -21,7 +21,11 @@ export class TopBarComponent implements OnInit {
             label: 'Configurar Integrações',
             route: Navigation.routes.configuration,
             class: 'desktop',
-            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.Role.admin, AppConstants.Role.master])
+            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [
+                AppConstants.Role.admin,
+                AppConstants.Role.master,
+                AppConstants.Role.manager
+            ])
         },
         {
             label: 'Minha Conta',
@@ -45,7 +49,11 @@ export class TopBarComponent implements OnInit {
             label: 'Usuários',
             route: Navigation.routes.myCompanyUsers,
             class: '',
-            visible: UserUtil.isMaster(this.storage.getUser() as UserEntity)
+            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [
+                AppConstants.Role.admin,
+                AppConstants.Role.master,
+                AppConstants.Role.manager
+            ])
         }
     ];
 

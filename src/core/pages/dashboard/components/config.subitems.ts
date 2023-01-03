@@ -63,7 +63,7 @@ export class ConfigSubItems {
                 icon: 'icon-arrow',
                 label: 'Configuração de mensagens',
                 route: Navigation.routes.messageConfig,
-                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
+                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master, AppConstants.Role.manager])
             },
             {
                 id: `coupons`,
