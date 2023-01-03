@@ -11,7 +11,6 @@ import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service
 import { UserService } from 'src/shared/services/user/user.service';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
-import { UserUtil } from 'src/shared/utils/user.util';
 import { DashboardBasePage } from '../../dashboard.base.page';
 
 @Component({
