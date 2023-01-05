@@ -137,10 +137,10 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
         card.loading = true;
         try {
             await this.crmOrderService.upload(card.file);
-            this.toast.success('Seus produtos dos pedidos foram adicionados com sucesso!', 'Sucesso!');
+            this.toast.success('Seus pedidos foram adicionados com sucesso!', 'Sucesso!');
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível adicionar seus produtos dos pedidos');
+            this.toast.error(ex.message, 'Não foi possível adicionar seus pedidos');
         } finally {
             card.uploading = false;
         }
