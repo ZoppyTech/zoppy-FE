@@ -1,26 +1,8 @@
 export class MonthlyInvoiceResponse {
-    public invoices: MonthInvoice[] = [];
-
-    public constructor() {
-        this.invoices = [
-            new MonthInvoice(),
-            new MonthInvoice(),
-            new MonthInvoice(),
-            new MonthInvoice(),
-            new MonthInvoice(),
-            new MonthInvoice(),
-            new MonthInvoice(),
-            new MonthInvoice(),
-            new MonthInvoice(),
-            new MonthInvoice(),
-            new MonthInvoice(),
-            new MonthInvoice()
-        ];
-    }
+    public invoices: Record<string, MonthInvoice> = {};
 }
 
 export class MonthInvoice {
-    public invoice: number = 0;
+    public invoice?: number = 0;
     public zoppyInvoice?: number = 0;
-    public name: string = '';
 }
