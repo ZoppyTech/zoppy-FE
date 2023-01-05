@@ -1,5 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppConstants } from 'src/shared/constants/app.constants';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { PublicService } from 'src/shared/services/public/public.service';
@@ -56,7 +57,7 @@ export class SideMenuComponent implements OnInit {
                 icon: 'icon-inventory',
                 label: 'Relatórios',
                 route: `${Navigation.routes.reports}/1`,
-                visible: true
+                visible: UserUtil.hasRoles(this.user, [AppConstants.Role.admin, AppConstants.Role.manager, AppConstants.Role.master])
             },
             {
                 id: `whatsapp`,
@@ -107,7 +108,7 @@ export class SideMenuComponent implements OnInit {
                 icon: 'icon-location_away',
                 label: 'Minha empresa',
                 route: null,
-                visible: true,
+                visible: UserUtil.hasRoles(this.user, [AppConstants.Role.admin, AppConstants.Role.master]),
                 class: 'mobile',
                 subItems: [
                     {
@@ -115,14 +116,14 @@ export class SideMenuComponent implements OnInit {
                         icon: 'icon-arrow',
                         label: 'Dados',
                         route: '/dashboard/my-company/config',
-                        visible: true
+                        visible: UserUtil.hasRoles(this.user, [AppConstants.Role.admin, AppConstants.Role.master])
                     },
                     {
                         id: `myCompanyUsers`,
                         icon: 'icon-arrow',
                         label: 'Usuários',
                         route: '/dashboard/my-company/users',
-                        visible: true
+                        visible: UserUtil.hasRoles(this.user, [AppConstants.Role.admin, AppConstants.Role.master])
                     },
                     {
                         id: `whatsappConfig`,
