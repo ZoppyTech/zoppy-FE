@@ -14,6 +14,7 @@ import { Position } from 'src/shared/models/responses/reports/matrix-rfm.respons
 import { ShoppingFrequencyResponse } from 'src/shared/models/responses/reports/shopping-frequency.response';
 import { BuyerAgeResponse } from 'src/shared/models/responses/reports/buyer-age.response';
 import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
+import { AbcResponse } from 'src/shared/models/responses/reports/abc.response';
 
 @Injectable({
     providedIn: 'root'
@@ -103,6 +104,16 @@ export class ReportService extends ApiService {
         const promise: Promise<DailySalesResponse> = new Promise((resolve: any, reject: any) => {
             this.get<DailySalesResponse>(`${this.url}/daily-sales/${request.period}`).subscribe(
                 (response: DailySalesResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getAbc(request: GetReportRequest, type: string): Promise<AbcResponse> {
+        const promise: Promise<AbcResponse> = new Promise((resolve: any, reject: any) => {
+            this.get<AbcResponse>(`${this.url}/abc/${request.period}/${type}`).subscribe(
+                (response: AbcResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

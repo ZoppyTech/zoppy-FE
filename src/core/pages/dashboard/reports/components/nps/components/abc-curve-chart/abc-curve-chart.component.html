@@ -1,13 +1,21 @@
 <div class="container">
     <div class="header">
-        <div class="margin-bottom-2">
-            <span class="text--bold text--primary text-18">Curva ABC por produto</span>
+        <div class="margin-bottom-2 flex space-between">
+            <span class="text--bold text--primary text-18">Curva ABC por {{ type === 'categories' ? 'Categoria' : 'Produto' }}</span>
+            <ps-dropdown
+                (valueChange)="fetchData($event)"
+                [propertyValue]="'value'"
+                [enableSearch]="false"
+                [(value)]="type"
+                [propertyLabel]="'label'"
+                [items]="types"
+            ></ps-dropdown>
         </div>
     </div>
     <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
         <img [src]="logo" alt="" *ngIf="isLoading" />
         <div class="chart-content" *ngIf="!isLoading">
-            <canvas id="abcCurveChart" width="100%" height="100%" #abcCurveChart></canvas>
+            <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend"></canvas>
         </div>
     </div>
 </div>
