@@ -70,7 +70,6 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
 
     public async refreshMap(): Promise<void> {
         await this.fetchData();
-        debugger;
         this.isLoading = false;
         setTimeout(() => {
             this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, this.mapOptions);
