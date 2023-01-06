@@ -1,10 +1,12 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
+import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
 import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
 import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
 import { ZoppyException } from 'src/shared/services/api.service';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
@@ -12,11 +14,11 @@ import { ReportService } from 'src/shared/services/reports/report.service';
     templateUrl: './google-maps-chart.component.html',
     styleUrls: ['./google-maps-chart.component.scss']
 })
-export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
+export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewInit {
     @Input() public reportRequest: GetReportRequest = {
         period: 'all' as ReportPeriod
     };
-    public customers: Array<ReportCustomerResponse> = [];
+    public addresses: Array<WcAddressEntity> = [];
     @ViewChild('mapContainer', { static: false }) public declare gmap: ElementRef;
     @ViewChild(MapInfoWindow) public infoWindow: MapInfoWindow | undefined;
     public declare map: google.maps.Map;
@@ -47,6 +49,19 @@ export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
             mapTypeId: google.maps.MapTypeId.ROADMAP,
             panControl: false
         };
+        this.setEvents();
+    }
+
+    public setEvents(): void {
+        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
+            this.reportRequest.period = period;
+            this.isLoading = true;
+            await this.refreshMap();
+        });
+    }
+
+    public ngOnDestroy(): void {
+        BroadcastService.dispose(this);
     }
 
     public async ngAfterViewInit(): Promise<void> {
@@ -54,7 +69,7 @@ export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
     }
 
     public async refreshMap(): Promise<void> {
-        await this.fetchCustomers();
+        await this.fetchData();
         this.isLoading = false;
         setTimeout(() => {
             this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, this.mapOptions);
@@ -65,10 +80,9 @@ export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
         });
     }
 
-    public fetchCustomers(): void {
+    public async fetchData(): Promise<void> {
         try {
-            //this.customers = await this.reportsService.getCustomers(this.reportRequest);
-            this.customers = this.createFakeCustomers();
+            this.addresses = await this.reportsService.getAddresses(this.reportRequest);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');
@@ -118,45 +132,13 @@ export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
             });
     }
 
-    // public updateMapGeoLocation(lat: number, lng: number): void {
-    //     this.center = {
-    //         lat: lat,
-    //         lng: lng
-    //     };
-    // }
-
     public getPoints(): Array<google.maps.LatLng> {
-        const points: Array<google.maps.LatLng> = this.customers
-            .filter((customer: ReportCustomerResponse) => {
-                return customer.lat && customer.lng;
-            })
-            .map((customer: ReportCustomerResponse) => {
-                return new google.maps.LatLng(customer.lat ?? -19.912998, customer.lng ?? -43.940933);
+        const points: Array<google.maps.LatLng> = this.addresses
+            .filter((address: WcAddressEntity) => address.latitude && address.longitude)
+            .map((address: WcAddressEntity) => {
+                return new google.maps.LatLng(address.latitude, address.longitude);
             });
         return [...points];
-    }
-
-    private createFakeCustomers(): ReportCustomerResponse[] {
-        const points: Array<{ lat: number; lng: number }> = [
-            { lat: -19.9799293, lng: -43.9753619 },
-            { lat: -19.9396903, lng: -43.9599189 },
-            { lat: -19.9694479, lng: -43.9685091 },
-            { lat: -19.451237, lng: -44.2495303 },
-            { lat: -19.4925799, lng: -42.5316537 },
-            { lat: -19.8958262, lng: -44.0869711 },
-            { lat: -22.1842195, lng: -49.9273831 },
-            { lat: -19.9382333, lng: -43.9356312 },
-            { lat: -19.8612184, lng: -43.9342899 },
-            { lat: -19.9209654, lng: -44.0825165 },
-            { lat: -19.9301651, lng: -43.9945246 }
-        ];
-
-        return points.map((point: { lat: number; lng: number }) => {
-            const customer: ReportCustomerResponse = new ReportCustomerResponse();
-            customer.lat = point.lat;
-            customer.lng = point.lng;
-            return customer;
-        });
     }
 }
 

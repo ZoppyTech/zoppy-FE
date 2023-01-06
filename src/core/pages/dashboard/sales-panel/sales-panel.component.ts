@@ -80,7 +80,6 @@ export class SalesPanelComponent implements OnInit {
     }
 
     public async sendMessage(task: TaskView): Promise<void> {
-        debugger;
         task.loading = true;
         try {
             let message: MessageConfigTemplate = TaskUtil.getMessageTemplate(task.type);
