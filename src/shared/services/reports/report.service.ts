@@ -15,6 +15,7 @@ import { ShoppingFrequencyResponse } from 'src/shared/models/responses/reports/s
 import { BuyerAgeResponse } from 'src/shared/models/responses/reports/buyer-age.response';
 import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
 import { AbcResponse } from 'src/shared/models/responses/reports/abc.response';
+import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
 
 @Injectable({
     providedIn: 'root'
@@ -34,6 +35,16 @@ export class ReportService extends ApiService {
         const promise: Promise<Array<ReportCustomerResponse>> = new Promise((resolve: any, reject: any) => {
             this.get<Array<ReportCustomerResponse>>(`${this.url}/customers/${request.period}`).subscribe(
                 (response: Array<ReportCustomerResponse>) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getAddresses(request: GetReportRequest): Promise<Array<WcAddressEntity>> {
+        const promise: Promise<Array<WcAddressEntity>> = new Promise((resolve: any, reject: any) => {
+            this.get<Array<WcAddressEntity>>(`${this.url}/addresses/${request.period}`).subscribe(
+                (response: Array<WcAddressEntity>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

@@ -13,6 +13,8 @@ export class WcAddressEntity {
     public declare phone: string;
     public declare birthDate: Date;
     public declare gender: string;
+    public declare latitude: number;
+    public declare longitude: number;
     public declare createdAt: Date;
     public declare updatedAt: Date;
     public declare deletedAt: Date;
