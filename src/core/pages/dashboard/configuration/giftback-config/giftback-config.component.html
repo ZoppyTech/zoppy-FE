@@ -38,6 +38,15 @@
                 Número de dias que o sistema esperará para enviar a primeira mensagem ao seu cliente.
             </span>
         </div>
+        <div class="field">
+            <span class="text-14 margin-bottom-1">
+                Dias para iniciar o pós venda <span class="text-14 text--secondary">&nbsp;(Sugestão: 7 dias)</span></span
+            >
+            <ps-input type="number" placeholder="Digite a porcentagem" [(ngModel)]="giftback.afterSaleDays"></ps-input>
+            <span class="text--500 text-12 desktop">
+                Número de dias que o sistema dará para registrar uma tarefa de pós venda para esse cliente no painel do vendedor.
+            </span>
+        </div>
     </div>
     <div class="footer">
         <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary" [disabled]="getSaveDisabled()">
