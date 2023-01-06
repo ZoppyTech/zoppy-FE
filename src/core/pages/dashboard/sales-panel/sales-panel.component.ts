@@ -80,13 +80,10 @@ export class SalesPanelComponent implements OnInit {
     }
 
     public async sendMessage(task: TaskView): Promise<void> {
+        debugger;
         task.loading = true;
         try {
-            let message: string = '';
-            if (task.type === TaskConstants.TYPES.BIRTHDAY) message = MessageConfigConstants.BIRTHDAY_MESSAGE as MessageConfigTemplate;
-            if (task.type === TaskConstants.TYPES.CANT_LOSE)
-                message = MessageConfigConstants.CANT_LOSE_CLIENT_MESSAGE as MessageConfigTemplate;
-            else message = MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate;
+            let message: MessageConfigTemplate = TaskUtil.getMessageTemplate(task.type);
             const data: any = await this.crmCustomerService.findWhatsappLink(task.customer.id, message as MessageConfigTemplate);
             window?.open(data.data, '_blank')?.focus();
         } catch (ex: any) {

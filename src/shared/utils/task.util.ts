@@ -1,3 +1,4 @@
+import { MessageConfigConstants, MessageConfigTemplate } from '../constants/message-config.constants';
 import { TaskConstants, TaskContactTypes, TaskStatus, TaskTypes } from '../constants/task.constants';
 
 export class TaskUtil {
@@ -45,5 +46,16 @@ export class TaskUtil {
                 return 'icon-mood';
         }
         return '';
+    }
+
+    public static getMessageTemplate(type: TaskTypes): MessageConfigTemplate {
+        switch (type) {
+            case TaskConstants.TYPES.BIRTHDAY:
+                return MessageConfigConstants.BIRTHDAY_MESSAGE as MessageConfigTemplate;
+            case TaskConstants.TYPES.CANT_LOSE:
+                return MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate;
+            default:
+                return MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate;
+        }
     }
 }
