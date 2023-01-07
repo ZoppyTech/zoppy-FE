@@ -45,6 +45,23 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
             legend: {
                 display: false
             }
+        },
+        scales: {
+            A: {
+                id: 'A',
+                type: 'linear',
+                display: true,
+                position: 'left'
+            },
+            B: {
+                id: 'B',
+                type: 'linear',
+                display: true,
+                position: 'right',
+                grid: {
+                    drawOnChartArea: false
+                }
+            }
         }
     };
 
@@ -53,6 +70,7 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
             type: 'line',
             label: 'Porcentagem do total',
             data: [],
+            yAxisID: 'A',
             borderColor: '#7b3dff',
             pointBackgroundColor: '#7b3dff',
             pointBorderColor: '#7b3dff'
@@ -61,6 +79,7 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
             type: 'bar',
             label: 'Quantidade de itens',
             data: [],
+            yAxisID: 'B',
             backgroundColor: ['#CDD6FF']
         }
     ];
