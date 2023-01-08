@@ -5,9 +5,10 @@ import { ModalService } from './modal.service';
 import { InfoModule } from './info/info.module';
 import { ChatContactModule } from './chat-contact/chat-contact.module';
 import { InputInfoModule } from './input-info/input-info.module';
+import { SalesPanelContactModule } from './sales-panel-contact/sales-panel-contact.module';
 
 @NgModule({
-    imports: [CommonModule, InfoModule, ChatContactModule, InputInfoModule],
+    imports: [CommonModule, InfoModule, ChatContactModule, InputInfoModule, SalesPanelContactModule],
     declarations: [ModalComponent],
     exports: [ModalComponent],
     providers: [ModalService],

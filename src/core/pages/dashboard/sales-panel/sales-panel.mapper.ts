@@ -4,6 +4,7 @@ import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales
 import { TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
 import { DateUtil } from 'src/shared/utils/date.util';
 import { Navigation } from 'src/shared/utils/navigation';
+import { TaskUtil } from 'src/shared/utils/task.util';
 
 export class SalesPanelMapper {
     public static mapDays(tasks: TaskEntity[], filter: SalesPanelRequest): Day[] {
@@ -68,7 +69,7 @@ export class SalesPanelMapper {
 
         taskResponses.forEach((taskResponse: TaskView) => {
             taskResponse.route = `${Navigation.routes.customerSocialMedia}/${taskResponse.customer.id}`;
-            taskResponse.concluded = taskResponse.status === TaskConstants.STATUS.SUCCESS;
+            taskResponse.concluded = TaskUtil.getTaskIsConcluded(taskResponse);
         });
         return taskResponses;
     }
