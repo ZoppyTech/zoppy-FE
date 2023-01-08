@@ -51,7 +51,7 @@
                             class="chat"
                             [round]="true"
                             [fixedHeight]="false"
-                            (onClick)="openTaskDescriptionModal(task)"
+                            (onClick)="openTaskDescriptionModal(task, 'whatsapp')"
                         >
                             <div class="flex flex-center btn-content">
                                 <ps-icon class="text--100" icon="icon-wpp"></ps-icon>
@@ -62,14 +62,14 @@
                             class="call"
                             [round]="true"
                             [fixedHeight]="false"
-                            (onClick)="call(task)"
+                            (onClick)="openTaskDescriptionModal(task, 'call')"
                         >
                             <div class="flex flex-center btn-content">
                                 <ps-icon class="text--100" icon="icon-call"></ps-icon>
                             </div>
                         </ps-button>
 
-                        <span class="text text--bold margin-y-1" [ngClass]="{ 'text-decoration-line-through': task.status === 'success' }">
+                        <span class="text text--bold margin-y-1" [ngClass]="{ 'text-decoration-line-through': task.concluded }">
                             {{ task.customer.address.firstName }} {{ task.customer.address.lastName }}
                         </span>
                         <span class="text-12 text--600 margin-bottom-1">Posição: {{ getPosition(task) }}</span>
