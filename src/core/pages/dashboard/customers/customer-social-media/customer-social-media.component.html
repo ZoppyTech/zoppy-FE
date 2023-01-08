@@ -13,18 +13,18 @@
             </div>
         </div>
         <div class="flex align-center desktop">
-            <ps-button [wide]="true" class="margin-right-2" (onClick)="call()" type="secondary">
+            <ps-button [wide]="true" class="margin-right-2" (onClick)="createTask('call')" type="secondary">
                 <span class="text text--100 margin-x-3">Realizar ligação</span>
             </ps-button>
-            <ps-button [wide]="true" (onClick)="createTask()" [loading]="loadingOpenLink" type="secondary">
+            <ps-button [wide]="true" (onClick)="createTask('whatsapp')" [loading]="loadingOpenLink" type="secondary">
                 <span class="text text--100 margin-x-3">Enviar mensagem</span>
             </ps-button>
         </div>
         <div class="flex align-center mobile">
-            <ps-button [round]="true" class="margin-right-2" [fixedHeight]="true" (onClick)="call()" type="secondary">
+            <ps-button [round]="true" class="margin-right-2" [fixedHeight]="true" (onClick)="createTask('call')" type="secondary">
                 <ps-icon class="text--100 padding-1" icon="icon-call"></ps-icon>
             </ps-button>
-            <ps-button [round]="true" (onClick)="createTask()" [fixedHeight]="true" [loading]="loadingOpenLink" type="secondary">
+            <ps-button [round]="true" (onClick)="createTask('whatsapp')" [fixedHeight]="true" [loading]="loadingOpenLink" type="secondary">
                 <ps-icon class="text--100 padding-1" icon="icon-wpp"></ps-icon>
             </ps-button>
         </div>

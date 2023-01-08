@@ -3,6 +3,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
+import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-panel-contact/sales-panel-contact.request';
 import { MessageConfigConstants, MessageConfigTemplate } from 'src/shared/constants/message-config.constants';
 import { TaskConstants, TaskContactTypes, TaskStatus, TaskTypes } from 'src/shared/constants/task.constants';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
@@ -70,9 +71,9 @@ export class CustomerSocialMediaComponent implements OnInit {
 
     public statusTypes: TypeItem[] = [
         {
-            label: 'icon-mood_bad',
-            value: TaskConstants.STATUS.NEGATIVE,
-            class: 'negative'
+            label: 'icon-mood',
+            value: TaskConstants.STATUS.SUCCESS,
+            class: 'success'
         },
         {
             label: 'icon-sentiment_neutral',
@@ -80,9 +81,9 @@ export class CustomerSocialMediaComponent implements OnInit {
             class: 'warning'
         },
         {
-            label: 'icon-mood',
-            value: TaskConstants.STATUS.SUCCESS,
-            class: 'success'
+            label: 'icon-mood_bad',
+            value: TaskConstants.STATUS.NEGATIVE,
+            class: 'negative'
         }
     ];
 
@@ -112,41 +113,95 @@ export class CustomerSocialMediaComponent implements OnInit {
         window.open(`tel:+55${this.customer?.phone}`, '_self');
     }
 
-    public async createTask(): Promise<void> {
-        await this.sendMessage();
-        this.modal.open(
-            Modal.IDENTIFIER.INPUT_INFO,
-            {
-                title: `Conseguiu efetuar o contato com o(a) ${this.customer?.firstName}?`,
-                subtitle: 'Descreva como foi esse contato, qualquer informação que auxilie no processo de retenção do cliente',
-                cancelLabel: 'Cancelar',
-                placeholder: '',
-                mask: '',
-                rows: 4,
-                selectAll: false,
-                confirmLabel: 'Confirmar',
-                value: ''
+    public async createTask(contactType: TaskContactTypes): Promise<void> {
+        if (contactType === TaskConstants.CONTACT_TYPES.WHATSAPP) await this.sendMessage();
+        else if (contactType === TaskConstants.CONTACT_TYPES.CALL) await this.call();
+
+        const contactRequest: SalesPanelContactRequest = {
+            icon: 'icon-wpp',
+            title: 'Registro de atividade',
+            subtitle: `A Zoppy quer saber se você conseguiu efetuar o contato com o(a) ${this.customer?.firstName} para podermos registrar em seu histórico?`,
+            question: {
+                label: 'O contato foi realizado?',
+                options: [
+                    {
+                        value: true,
+                        label: 'Sim'
+                    },
+                    {
+                        value: false,
+                        label: 'Não'
+                    }
+                ],
+                response: ''
             },
-            async (description: string) => {
-                const request: SocialMediaRequest = {
-                    taskType: TaskConstants.TYPES.SALE,
-                    description: description,
-                    contactType: TaskConstants.CONTACT_TYPES.WHATSAPP,
-                    status: TaskConstants.STATUS.SUCCESS
-                };
-                try {
-                    await this.socialMediaService.create(this.customer?.id as string, request);
-                    setTimeout(async () => {
-                        await this.fetchData();
-                    });
-                } catch (ex: any) {
-                    ex = ex as ZoppyException;
-                    this.toast.error(ex.message, 'Não foi possível obter os dados');
-                } finally {
-                    this.modal.close();
+            description: {
+                value: '',
+                placeholder: 'Descreva como foi o contato'
+            },
+            contactType: {
+                label: 'Como foi feito o contato?',
+                options: [
+                    {
+                        value: TaskConstants.CONTACT_TYPES.CALL,
+                        label: 'Contato via ligação'
+                    },
+                    {
+                        value: TaskConstants.CONTACT_TYPES.WHATSAPP,
+                        label: 'Contato via whatsapp'
+                    }
+                ],
+                response: contactType
+            },
+            statusType: {
+                label: 'Classifique a atividade',
+                options: [
+                    {
+                        label: 'icon-mood',
+                        value: TaskConstants.STATUS.SUCCESS,
+                        class: 'success',
+                        explanation: 'Houve contato com sucesso'
+                    },
+                    {
+                        label: 'icon-sentiment_neutral',
+                        value: TaskConstants.STATUS.WARN,
+                        class: 'warning',
+                        explanation: 'Não houve contato'
+                    },
+                    {
+                        label: 'icon-mood_bad',
+                        value: TaskConstants.STATUS.NEGATIVE,
+                        class: 'negative',
+                        explanation: 'Houve contato com resposta negativa do cliente'
+                    }
+                ],
+                response: TaskConstants.STATUS.SUCCESS,
+                selectStatus: (modalData: SalesPanelContactRequest, status: string) => {
+                    modalData.statusType.response = status;
                 }
             }
-        );
+        };
+
+        this.modal.open(Modal.IDENTIFIER.SALES_PANEL_CONTACT, contactRequest, async (response: SalesPanelContactRequest) => {
+            if (!response.question.response) response.statusType.response = TaskConstants.STATUS.WARN;
+            const request: SocialMediaRequest = {
+                taskType: TaskConstants.TYPES.SALE,
+                description: response.description.value,
+                contactType: response.contactType.response as any,
+                status: response.statusType.response as any
+            };
+            try {
+                await this.socialMediaService.create(this.customer?.id as string, request);
+                setTimeout(async () => {
+                    await this.fetchData();
+                });
+            } catch (ex: any) {
+                ex = ex as ZoppyException;
+                this.toast.error(ex.message, 'Não foi possível obter os dados');
+            } finally {
+                this.modal.close();
+            }
+        });
     }
 
     public checkVisibility(index: number): boolean {
