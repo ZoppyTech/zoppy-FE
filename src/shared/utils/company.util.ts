@@ -17,6 +17,11 @@ export class CompanyUtil {
         return company.provider === AppConstants.Providers.shopify;
     }
 
+    public static isNuvemshop(company: CompanyEntity | undefined): boolean {
+        if (!company) return false;
+        return company.provider === AppConstants.Providers.nuvemshop;
+    }
+
     public static isWooCommerce(company: CompanyEntity | undefined): boolean {
         if (!company) return false;
         return company.provider === AppConstants.Providers.wooCommerce;

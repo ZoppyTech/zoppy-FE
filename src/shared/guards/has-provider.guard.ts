@@ -12,7 +12,8 @@ export class HasProviderGuard implements CanActivate {
     public canActivate(): boolean {
         const isShopify: boolean = CompanyUtil.isShopify(this.storage.getCompany() as CompanyEntity);
         const isWooCommerce: boolean = CompanyUtil.isWooCommerce(this.storage.getCompany() as CompanyEntity);
-        if (!isShopify && !isWooCommerce) {
+        const isNuvemshop: boolean = CompanyUtil.isNuvemshop(this.storage.getCompany() as CompanyEntity);
+        if (!isShopify && !isWooCommerce && !isNuvemshop) {
             this.router.navigate([Navigation.routes.batchUpload]);
             return false;
         }

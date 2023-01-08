@@ -57,7 +57,7 @@
                 <ps-icon (click)="copyToClipboard('key')" icon="icon-copy" class="text--primary font-16 clickable"></ps-icon>
             </div>
         </div>
-        <div class="field">
+        <div class="field" *ngIf="!getIsNuvemshop()">
             <p class="text-14">Url do seu E-commerce</p>
             <div class="flex-center flex">
                 <ps-input placeholder="Insira aqui a URL do seu E-commerce" type="url" [(ngModel)]="key.url"></ps-input>
