@@ -5,6 +5,7 @@ import { WcKeyEntity } from 'src/shared/models/entities/wc-key.entity';
 import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
+import { NuvemshopSyncService } from 'src/shared/services/nuvemshop-sync/nuvemshop-sync.service';
 import { ShopifySyncService } from 'src/shared/services/shopify-sync/shopify-sync.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
@@ -28,6 +29,7 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
         private readonly wcKeyService: WcKeyService,
         private readonly wcWebhookService: WcWebhookService,
         private readonly shopifySyncService: ShopifySyncService,
+        private readonly nuvemshopSyncService: NuvemshopSyncService,
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
         public modal: ModalService,
@@ -77,6 +79,7 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
         if (!this.sendWebhook) return;
         if (this.isWooCommerce) await this.wcWebhookService.syncWebhooks();
         if (this.isShopify) await this.shopifySyncService.syncWebhooks();
+        if (this.isNuvemshop) await this.nuvemshopSyncService.syncWebhooks();
     }
 
     public getSaveDisabled(): boolean {
