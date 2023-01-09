@@ -49,6 +49,7 @@ export class SalesPanelComponent implements OnInit {
         const firstAndlastDay: FirstAndLastDayOfWeek = DateUtil.getFirstAndLastDayOfCurrentWeek();
         this.filter.maxDate = firstAndlastDay.lastday;
         this.filter.minDate = firstAndlastDay.firstday;
+        this.filter.maxDate.setHours(23, 59, 59);
         await this.fetchData();
     }
 
