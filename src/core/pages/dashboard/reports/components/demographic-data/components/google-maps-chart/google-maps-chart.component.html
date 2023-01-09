@@ -6,21 +6,4 @@
         <ps-search-bar [debounce]="800" (onChanged)="onSearchTextChanged($event)"></ps-search-bar>
     </div>
     <div #mapContainer id="map"></div>
-    <!-- <google-map
-        id="gmap"
-        height="100%"
-        width="100%"
-        [center]="center"
-        [zoom]="zoom"
-        (mapClick)="moveMap($event)"
-        (mapMousemove)="move($event)"
-    >
-        <map-marker
-            #marker="mapMarker"
-            *ngFor="let markerPosition of markerPositions"
-            [position]="markerPosition"
-            (mapClick)="openInfoWindow(marker)"
-        ></map-marker>
-        <map-info-window>{{ mapInfoContent }}</map-info-window>
-    </google-map> -->
 </div>
