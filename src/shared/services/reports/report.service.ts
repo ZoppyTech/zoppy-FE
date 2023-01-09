@@ -4,7 +4,6 @@ import { environment } from 'src/environments/environment';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, ZoppyException } from '../api.service';
 import { Router } from '@angular/router';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer..response';
 import { ReportsGenderDistributionResponse } from 'src/shared/models/responses/reports/reports.gender.distribution.response';
 import { ReportOverviewCardResponse } from 'src/shared/models/responses/reports/report-overview-card.response';
 import { MonthlyInvoiceResponse } from 'src/shared/models/responses/reports/monthly-invoice.response';
@@ -12,6 +11,11 @@ import { ReportSaleByStateResponse } from 'src/shared/models/responses/reports/r
 import { DailySalesResponse } from 'src/shared/models/responses/reports/daily-sales.response';
 import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
 import { Position } from 'src/shared/models/responses/reports/matrix-rfm.response';
+import { ShoppingFrequencyResponse } from 'src/shared/models/responses/reports/shopping-frequency.response';
+import { BuyerAgeResponse } from 'src/shared/models/responses/reports/buyer-age.response';
+import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
+import { AbcResponse } from 'src/shared/models/responses/reports/abc.response';
+import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
 
 @Injectable({
     providedIn: 'root'
@@ -31,6 +35,36 @@ export class ReportService extends ApiService {
         const promise: Promise<Array<ReportCustomerResponse>> = new Promise((resolve: any, reject: any) => {
             this.get<Array<ReportCustomerResponse>>(`${this.url}/customers/${request.period}`).subscribe(
                 (response: Array<ReportCustomerResponse>) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getAddresses(request: GetReportRequest): Promise<Array<WcAddressEntity>> {
+        const promise: Promise<Array<WcAddressEntity>> = new Promise((resolve: any, reject: any) => {
+            this.get<Array<WcAddressEntity>>(`${this.url}/addresses/${request.period}`).subscribe(
+                (response: Array<WcAddressEntity>) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getBuyersAge(request: GetReportRequest): Promise<BuyerAgeResponse[]> {
+        const promise: Promise<BuyerAgeResponse[]> = new Promise((resolve: any, reject: any) => {
+            this.get<BuyerAgeResponse[]>(`${this.url}/buyers-age/${request.period}`).subscribe(
+                (response: BuyerAgeResponse[]) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getShoppingFrequency(request: GetReportRequest): Promise<ShoppingFrequencyResponse[]> {
+        const promise: Promise<ShoppingFrequencyResponse[]> = new Promise((resolve: any, reject: any) => {
+            this.get<ShoppingFrequencyResponse[]>(`${this.url}/shopping-frequency/${request.period}`).subscribe(
+                (response: ShoppingFrequencyResponse[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
@@ -81,6 +115,16 @@ export class ReportService extends ApiService {
         const promise: Promise<DailySalesResponse> = new Promise((resolve: any, reject: any) => {
             this.get<DailySalesResponse>(`${this.url}/daily-sales/${request.period}`).subscribe(
                 (response: DailySalesResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getAbc(request: GetReportRequest, type: string): Promise<AbcResponse> {
+        const promise: Promise<AbcResponse> = new Promise((resolve: any, reject: any) => {
+            this.get<AbcResponse>(`${this.url}/abc/${request.period}/${type}`).subscribe(
+                (response: AbcResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

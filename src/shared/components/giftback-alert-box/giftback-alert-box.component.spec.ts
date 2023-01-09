@@ -3,23 +3,20 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
-import { SalesPanelComponent } from './sales-panel.component';
-import { HttpClientTestingModule } from '@angular/common/http/testing';
-import { RouterTestingModule } from '@angular/router/testing';
+import { GiftbackAlertBoxComponent } from './giftback-alert-box.component';
 
-describe('SalesPanelComponent', () => {
-    let component: SalesPanelComponent;
-    let fixture: ComponentFixture<SalesPanelComponent>;
+describe('GiftbackAlertBoxComponent', () => {
+    let component: GiftbackAlertBoxComponent;
+    let fixture: ComponentFixture<GiftbackAlertBoxComponent>;
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [SalesPanelComponent],
-            imports: [HttpClientTestingModule, RouterTestingModule]
+            declarations: [GiftbackAlertBoxComponent]
         }).compileComponents();
     }));
 
     beforeEach(() => {
-        fixture = TestBed.createComponent(SalesPanelComponent);
+        fixture = TestBed.createComponent(GiftbackAlertBoxComponent);
         component = fixture.componentInstance;
         fixture.detectChanges();
     });

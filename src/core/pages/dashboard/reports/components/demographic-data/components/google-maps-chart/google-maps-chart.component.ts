@@ -1,40 +1,103 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ToastService } from '@ZoppyTech/toast';
+import { environment } from 'src/environments/environment';
+import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
+import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
+import { ZoppyException } from 'src/shared/services/api.service';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
+import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
     selector: 'google-maps-chart',
     templateUrl: './google-maps-chart.component.html',
     styleUrls: ['./google-maps-chart.component.scss']
 })
-export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
-    public display: any;
-    public center: google.maps.LatLngLiteral = {
+export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewInit {
+    @Input() public reportRequest: GetReportRequest = {
+        period: 'all' as ReportPeriod
+    };
+    public addresses: Array<WcAddressEntity> = [];
+    @ViewChild('mapContainer', { static: false }) public declare gmap: ElementRef;
+    @ViewChild(MapInfoWindow) public infoWindow: MapInfoWindow | undefined;
+    public declare map: google.maps.Map;
+    public declare heatmap: google.maps.visualization.HeatmapLayer;
+    public declare mapOptions: google.maps.MapOptions;
+    public declare marker: google.maps.Marker;
+    public markerPositions: google.maps.LatLngLiteral[] = [];
+    public coordinatesOfBrazil: google.maps.LatLngLiteral = {
         lat: -19.912998,
         lng: -43.940933
     };
     public zoom = 4;
-    public mapInfoContent: string = 'Amigo estou aqui! :)';
-    @ViewChild(MapInfoWindow) public infoWindow: MapInfoWindow | undefined;
+    public isLoading: boolean = true;
+    public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
 
-    public markerPositions: google.maps.LatLngLiteral[] = [];
+    public constructor(
+        public geocoder: MapGeocoder,
+        private readonly reportsService: ReportService,
+        private readonly toast: ToastService
+    ) {}
 
-    public constructor(public geocoder: MapGeocoder, private readonly toast: ToastService) {}
+    public ngOnInit(): void {
+        this.mapOptions = {
+            zoom: this.zoom,
+            center: this.coordinatesOfBrazil,
+            mapTypeControl: false,
+            streetViewControl: false,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            panControl: false
+        };
+        this.setEvents();
+    }
 
-    // public addMarker(event: google.maps.MapMouseEvent) {
-    //     if (event.latLng != null) this.markerPositions.push(event.latLng.toJSON());
-    // }
+    public setEvents(): void {
+        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
+            this.reportRequest.period = period;
+            this.isLoading = true;
+            await this.refreshMap();
+        });
+    }
+
+    public ngOnDestroy(): void {
+        BroadcastService.dispose(this);
+    }
+
+    public async ngAfterViewInit(): Promise<void> {
+        await this.refreshMap();
+    }
+
+    public async refreshMap(): Promise<void> {
+        await this.fetchData();
+        this.isLoading = false;
+        setTimeout(() => {
+            this.map = new google.maps.Map(document.getElementById('map') as HTMLElement, this.mapOptions);
+            this.heatmap = new google.maps.visualization.HeatmapLayer({
+                data: this.getPoints(),
+                map: this.map
+            });
+        });
+    }
+
+    public async fetchData(): Promise<void> {
+        try {
+            this.addresses = await this.reportsService.getAddresses(this.reportRequest);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Não foi possível obter os clientes');
+        }
+    }
 
     public openInfoWindow(marker: MapMarker) {
         if (this.infoWindow != undefined) this.infoWindow.open(marker);
     }
 
-    public ngOnInit(): void {}
-
     public resetMap(): void {
         this.markerPositions = [];
-        this.center = { lat: -19.912998, lng: -43.940933 };
-        this.zoom = 4;
+        this.marker.setMap(null);
+        this.map.setCenter(this.coordinatesOfBrazil);
+        this.map.setZoom(this.zoom);
     }
 
     public async onSearchTextChanged(searchText: string = ''): Promise<void> {
@@ -53,31 +116,29 @@ export class GoogleMapsChartComponent implements OnInit, AfterViewInit {
                     this.resetMap();
                     return;
                 }
-                this.center = { lat: results[0].geometry.location.lat(), lng: results[0].geometry.location.lng() };
+                const newCoordinates: google.maps.LatLngLiteral = {
+                    lat: results[0].geometry.location.lat(),
+                    lng: results[0].geometry.location.lng()
+                };
                 this.markerPositions = [];
-                this.markerPositions.push(this.center);
-                this.zoom = 15;
+                this.markerPositions.push(newCoordinates);
+                this.marker = new google.maps.Marker({
+                    position: newCoordinates,
+                    map: this.map
+                });
+                this.marker.setMap(this.map);
+                this.map.setCenter(newCoordinates);
+                this.map.setZoom(15);
             });
     }
 
-    public async ngAfterViewInit(): Promise<void> {}
-
-    // public updateMapGeoLocation(lat: number, lng: number): void {
-    //     this.center = {
-    //         lat: lat,
-    //         lng: lng
-    //     };
-    // }
-
-    public moveMap(event: google.maps.MapMouseEvent): void {
-        if (event.latLng != null) {
-            console.log(event.latLng.toJSON());
-            this.display = event.latLng.toJSON();
-        }
-    }
-
-    public move(event: google.maps.MapMouseEvent): void {
-        if (event.latLng != null) this.display = event.latLng.toJSON();
+    public getPoints(): Array<google.maps.LatLng> {
+        const points: Array<google.maps.LatLng> = this.addresses
+            .filter((address: WcAddressEntity) => address.latitude && address.longitude)
+            .map((address: WcAddressEntity) => {
+                return new google.maps.LatLng(address.latitude, address.longitude);
+            });
+        return [...points];
     }
 }
 

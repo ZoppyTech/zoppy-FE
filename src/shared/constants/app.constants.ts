@@ -17,6 +17,8 @@ export class AppConstants {
 
     public static Role = {
         admin: 'ADMIN',
-        master: 'MASTER'
+        master: 'MASTER',
+        manager: 'MANAGER',
+        common: 'COMMON'
     };
 }

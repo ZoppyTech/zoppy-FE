@@ -6,6 +6,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CompanyService } from 'src/shared/services/company/company.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -30,7 +31,7 @@ export class MyCompanyConfigComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Minha empresa`,
@@ -38,7 +39,7 @@ export class MyCompanyConfigComponent implements OnInit {
             },
             {
                 name: `Dados`,
-                route: `/dashboard/my-company/config`
+                route: Navigation.routes.myCompanyConfig
             }
         ];
         this.sideMenuService.change(`myCompany`);

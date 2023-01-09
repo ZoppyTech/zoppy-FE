@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { AppConstants } from 'src/shared/constants/app.constants';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { PublicService } from 'src/shared/services/public/public.service';
@@ -20,7 +21,11 @@ export class TopBarComponent implements OnInit {
             label: 'Configurar Integrações',
             route: Navigation.routes.configuration,
             class: 'desktop',
-            visible: true
+            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [
+                AppConstants.Role.admin,
+                AppConstants.Role.master,
+                AppConstants.Role.manager
+            ])
         },
         {
             label: 'Minha Conta',
@@ -32,19 +37,23 @@ export class TopBarComponent implements OnInit {
             label: 'Minha Empresa',
             route: Navigation.routes.myCompanyConfig,
             class: '',
-            visible: true
+            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.Role.admin, AppConstants.Role.master])
         },
         {
             label: 'WhatsApp',
             route: Navigation.routes.whatsapp,
             class: '',
-            visible: true
+            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.Role.master])
         },
         {
             label: 'Usuários',
             route: Navigation.routes.myCompanyUsers,
             class: '',
-            visible: UserUtil.isMaster(this.storage.getUser() as UserEntity)
+            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [
+                AppConstants.Role.admin,
+                AppConstants.Role.master,
+                AppConstants.Role.manager
+            ])
         }
     ];
 

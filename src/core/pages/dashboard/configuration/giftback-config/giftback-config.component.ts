@@ -6,6 +6,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcGiftbackService } from 'src/shared/services/wc-giftback/wc-giftback.service';
+import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
     selector: 'app-giftback-config',
@@ -47,7 +48,8 @@ export class GiftbackConfigComponent implements OnInit {
                 percentValue: parseInt(this.giftback.percentValue?.toString() ?? ''),
                 maxPercentValue: parseInt(this.giftback.maxPercentValue?.toString() ?? ''),
                 expirationDays: parseInt(this.giftback.expirationDays?.toString() ?? ''),
-                startDays: parseInt(this.giftback.startDays?.toString() ?? '')
+                startDays: parseInt(this.giftback.startDays?.toString() ?? ''),
+                afterSaleDays: parseInt(this.giftback.afterSaleDays?.toString() ?? '')
             };
             const response: WcGiftbackConfigEntity = this.giftback.id
                 ? await this.giftbackService.update(request)
@@ -70,7 +72,7 @@ export class GiftbackConfigComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Configurações`,
@@ -78,7 +80,7 @@ export class GiftbackConfigComponent implements OnInit {
             },
             {
                 name: `Configuração de Giftback`,
-                route: `/dashboard/configurations/giftback`
+                route: Navigation.routes.giftback
             }
         ];
     }

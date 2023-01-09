@@ -2,10 +2,11 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
 import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
-import { MonthInvoice, MonthlyInvoiceResponse } from 'src/shared/models/responses/reports/monthly-invoice.response';
+import { MonthlyInvoiceResponse } from 'src/shared/models/responses/reports/monthly-invoice.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
+import { DateUtil } from 'src/shared/utils/date.util';
 
 @Component({
     selector: 'monthly-invoices',
@@ -87,13 +88,13 @@ export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
             this.chartData[1].data = [];
             this.chartLabels = [];
             this.data = await this.reportService.getMonthlyInvoices(this.reportRequest);
-            this.data.invoices.forEach((invoice: MonthInvoice) => {
-                if (invoice.invoice > 0) {
-                    this.chartLabels.push(invoice.name);
-                    this.chartData[1].data.push(invoice.invoice);
-                    this.chartData[0].data.push(invoice.zoppyInvoice as number);
-                }
-            });
+            for (const invoice in this.data.invoices) {
+                const info: string[] = invoice.split(' / ');
+                const label: string = `${DateUtil.getMonthName(parseInt(info[1]) - 1).substring(0, 3)}/${info[0].substring(2, 4)}`;
+                this.chartLabels.push(label);
+                this.chartData[1].data.push(this.data.invoices[invoice].invoice);
+                this.chartData[0].data.push(this.data.invoices[invoice].zoppyInvoice as number);
+            }
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o card de informações');

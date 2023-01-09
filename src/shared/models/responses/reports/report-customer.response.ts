@@ -9,7 +9,10 @@ export class ReportCustomerResponse {
     public declare age: number;
     public declare gender: string;
     public declare city: string;
+    public declare postcode: string;
     public declare state: string;
+    public lat?: number;
+    public lng?: number;
     public declare avgTicket: number;
     public declare lastPurchaseDate: Date;
     public matrixRFM?: MatrixRFMResponse = new MatrixRFMResponse();

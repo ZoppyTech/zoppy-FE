@@ -33,7 +33,7 @@ export class CarrosselComponent implements OnInit {
                 image: './assets/imgs/carrossel_dashboard.jpg',
                 title: 'Dashboards',
                 subtitle:
-                    'Tenha acesso aos dados e padrôes de consumo do seu público e, com isso, tome decisões embasadas em dados e melhore ainda mais seus resultados. </br> <string>Dica: </strong> A Matriz RFM da Zoppy é feita exatamente para você trabalhar cadapúblico de maneira personalizada!'
+                    'Tenha acesso aos dados e padrôes de consumo do seu público e, com isso, tome decisões embasadas em dados e melhore ainda mais seus resultados. </br> <string>Dica: </strong> A Matriz RFM da Zoppy é feita exatamente para você trabalhar cada público de maneira personalizada!'
             },
             {
                 id: 2,

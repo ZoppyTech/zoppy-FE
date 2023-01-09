@@ -118,7 +118,7 @@
     </div>
 
     <div class="search-customer desktop margin-right-3 margin-bottom-3">
-        <div class="flex flex-column desktop margin-bottom-3">
+        <div class="wide flex flex-column desktop margin-bottom-3">
             <h6 class="text-20 text--bold text--primary margin-bottom-2">Conferência de giftback</h6>
             <span class="text-16">Para verificar um giftback, insira o telefone do cliente no campo abaixo.</span>
         </div>
@@ -137,28 +137,9 @@
         </div>
 
         <div *ngIf="customerDetail" class="flex flex-center flex-column">
-            <div
-                class="giftback-alert padding-2 margin-bottom-2 line-height-3"
-                [ngClass]="{
-                    'giftback-alert--success': customerDetail.coupon,
-                    'giftback-alert--error': !customerDetail.coupon
-                }"
-            >
-                <ps-icon
-                    icon="{{ customerDetail.coupon ? 'icon-task_alt' : 'icon-unpublished' }}"
-                    [ngClass]="{ success: customerDetail.coupon, negative: !customerDetail.coupon }"
-                    class="margin-right-1"
-                ></ps-icon>
-                <span class="text-16 text--bold">{{ customerDetail.coupon ? 'Giftback disponível: ' : 'Giftback indisponível: ' }} </span>
-                <span class="text-16" *ngIf="customerDetail.coupon">
-                    {{ customerDetail.name }} possui um giftback válido no valor de {{ customerDetail.coupon.amount }}.
-                </span>
-                <span class="text-16" *ngIf="!customerDetail.coupon">
-                    {{ customerDetail.name }} não possui giftbacck válido que possa ser aplicado.
-                </span>
-            </div>
+            <app-giftback-alert-box [giftback]="customerDetail.coupon" [name]="customerDetail.name" layout="alert"></app-giftback-alert-box>
             <div class="flex flex-grow flex-center">
-                <img class="margin-top-2" *ngIf="!customerDetail.coupon" src="./assets/svg/giftback_unavailable.svg" alt="" />
+                <img class="margin-top-3" *ngIf="!customerDetail.coupon" src="./assets/svg/giftback_unavailable.svg" alt="" />
             </div>
             <div class="margin-y-2 flex flex-column flex-grow wide" *ngIf="customerDetail.coupon">
                 <p class="text-16">Confira abaixo os dados do giftback:</p>
@@ -177,6 +158,10 @@
                 <span class="flex flex-center space-between wide">
                     <p class="text-16 text--bold">Data da última compra:</p>
                     <p class="text-16">{{ customerDetail.lastPurchaseDate | date: 'dd/MM/yyyy' }}</p>
+                </span>
+                <span class="flex flex-center space-between wide">
+                    <p class="text-16 text--bold">Código:</p>
+                    <p class="text-16">{{ customerDetail.coupon.code }}</p>
                 </span>
             </div>
             <div class="wide" *ngIf="getIsPremium()">

@@ -4,7 +4,7 @@ import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
 import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
 import { Position } from 'src/shared/models/responses/reports/matrix-rfm.response';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer..response';
+import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';

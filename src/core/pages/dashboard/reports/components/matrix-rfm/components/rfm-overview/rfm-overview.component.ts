@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer..response';
+import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
 
 @Component({
     selector: 'rfm-overview',

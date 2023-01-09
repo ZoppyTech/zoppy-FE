@@ -1,12 +1,10 @@
-import { MatrixRfmConstants } from 'src/shared/constants/matrix-rfm.constants';
 import { TaskConstants } from 'src/shared/constants/task.constants';
 import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
-import { SocialMediaMatrixRfmResponse } from 'src/shared/models/responses/social-media/social-media-matrix-rfm.response';
 import { TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
 import { DateUtil } from 'src/shared/utils/date.util';
-import { MatrixRfmUtil } from 'src/shared/utils/matrix-rfm.util';
 import { Navigation } from 'src/shared/utils/navigation';
+import { TaskUtil } from 'src/shared/utils/task.util';
 
 export class SalesPanelMapper {
     public static mapDays(tasks: TaskEntity[], filter: SalesPanelRequest): Day[] {
@@ -64,17 +62,6 @@ export class SalesPanelMapper {
         return days;
     }
 
-    public static mapRfm(items: SocialMediaMatrixRfmResponse[]): Rfm[] {
-        const response: Rfm[] = [];
-        for (const state in MatrixRfmConstants.STATE) {
-            response.push({
-                title: MatrixRfmUtil.getLabel(MatrixRfmConstants.STATE[state]),
-                users: items.filter((item: SocialMediaMatrixRfmResponse) => item.matrixRFM?.position === MatrixRfmConstants.STATE[state])
-            });
-        }
-        return response;
-    }
-
     private static filterTasks(tasks: TaskEntity[], date: Date): TaskView[] {
         const taskResponses: TaskView[] = tasks.filter((task: TaskEntity) => {
             return task.scheduledDate.getDate() === date.getDate() && task.scheduledDate.getMonth() === date.getMonth();
@@ -82,7 +69,7 @@ export class SalesPanelMapper {
 
         taskResponses.forEach((taskResponse: TaskView) => {
             taskResponse.route = `${Navigation.routes.customerSocialMedia}/${taskResponse.customer.id}`;
-            taskResponse.concluded = taskResponse.status === TaskConstants.STATUS.SUCCESS;
+            taskResponse.concluded = TaskUtil.getTaskIsConcluded(taskResponse);
         });
         return taskResponses;
     }
@@ -93,9 +80,4 @@ export interface Day {
     dayName: string;
     isToday: boolean;
     tasks: TaskView[];
-}
-
-export interface Rfm {
-    title: string;
-    users: SocialMediaMatrixRfmResponse[];
 }

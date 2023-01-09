@@ -1,4 +1,6 @@
+import { MessageConfigConstants, MessageConfigTemplate } from '../constants/message-config.constants';
 import { TaskConstants, TaskContactTypes, TaskStatus, TaskTypes } from '../constants/task.constants';
+import { TaskEntity } from '../models/entities/task.entity';
 
 export class TaskUtil {
     public static getTypeLabel(type: TaskTypes): string {
@@ -6,7 +8,7 @@ export class TaskUtil {
             case TaskConstants.TYPES.OBSERVATION:
                 return 'Observação';
             case TaskConstants.TYPES.SALE:
-                return 'Venda';
+                return 'Contato';
             case TaskConstants.TYPES.TASK:
                 return 'Tarefa';
             case TaskConstants.TYPES.BIRTHDAY:
@@ -45,5 +47,20 @@ export class TaskUtil {
                 return 'icon-mood';
         }
         return '';
+    }
+
+    public static getTaskIsConcluded(task: TaskEntity): boolean {
+        return task.status === TaskConstants.STATUS.SUCCESS || !!task.contactType;
+    }
+
+    public static getMessageTemplate(type: TaskTypes): MessageConfigTemplate {
+        switch (type) {
+            case TaskConstants.TYPES.BIRTHDAY:
+                return MessageConfigConstants.BIRTHDAY_MESSAGE as MessageConfigTemplate;
+            case TaskConstants.TYPES.CANT_LOSE:
+                return MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate;
+            default:
+                return MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate;
+        }
     }
 }

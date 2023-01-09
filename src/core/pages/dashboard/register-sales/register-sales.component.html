@@ -174,12 +174,13 @@
             >
                 <ps-icon
                     icon="{{ order.coupon.id ? 'icon-task_alt' : 'icon-unpublished' }}"
-                    class="margin-right-1 '{{ order.coupon.id ? 'success' : 'negative' }}'"
+                    class="margin-right-1"
+                    [ngClass]="{ success: order.coupon.id, negative: !order.coupon.id }"
                 ></ps-icon>
-                <span class="text-14">{{ order.coupon.id ? 'Giftback disponível:' : 'Giftback indisponível:' }} </span>
-                <span class="text">{{
+                <span class="text-14">{{ order.coupon.id ? 'Giftback disponível' : 'Giftback indisponível:' }} </span>
+                <span class="text-14">{{
                     order.coupon.id
-                        ? 'giftback no valor de '
+                        ? ' no valor de '
                         : 'seu cliente não possui giftback que possa ser aplicado. Forneça o desconto em % ou R$.'
                 }}</span>
 
@@ -261,6 +262,12 @@
                     [displayTop]="true"
                     noDataText="Selecionar"
                 ></ps-dropdown>
+            </div>
+
+            <div class="field">
+                <span class="text-14 text--secondary text--bold clickable" (click)="openAddDescriptionModal()">
+                    Deseja adicionar alguma observação?
+                </span>
             </div>
         </div>
 

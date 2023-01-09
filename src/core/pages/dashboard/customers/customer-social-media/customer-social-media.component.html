@@ -12,9 +12,20 @@
                 </span>
             </div>
         </div>
-        <div class="flex align-center">
-            <ps-button [wide]="true" (onClick)="createTask()" [loading]="loadingOpenLink" type="secondary">
+        <div class="flex align-center desktop">
+            <ps-button [wide]="true" class="margin-right-2" (onClick)="createTask('call')" type="secondary">
+                <span class="text text--100 margin-x-3">Realizar ligação</span>
+            </ps-button>
+            <ps-button [wide]="true" (onClick)="createTask('whatsapp')" [loading]="loadingOpenLink" type="secondary">
                 <span class="text text--100 margin-x-3">Enviar mensagem</span>
+            </ps-button>
+        </div>
+        <div class="flex align-center mobile">
+            <ps-button [round]="true" class="margin-right-2" [fixedHeight]="true" (onClick)="createTask('call')" type="secondary">
+                <ps-icon class="text--100 padding-1" icon="icon-call"></ps-icon>
+            </ps-button>
+            <ps-button [round]="true" (onClick)="createTask('whatsapp')" [fixedHeight]="true" [loading]="loadingOpenLink" type="secondary">
+                <ps-icon class="text--100 padding-1" icon="icon-wpp"></ps-icon>
             </ps-button>
         </div>
     </div>
@@ -80,33 +91,7 @@
                     <span class="text margin-left-1 text--700"> <b>Total gasto: </b> {{ details.totalSpent }}</span>
                 </div>
             </div>
-
-            <div class="box-content padding-2 margin-top-3" *ngIf="details.giftback">
-                <div class="giftback-alert giftback-alert--success padding-2 margin-bottom-1 line-height-3">
-                    <ps-icon icon="icon-task_alt" class="margin-right-1 success"></ps-icon>
-                    <span class="text-16 text--bold">Giftback disponível: </span>
-                    <span class="text-16"> {{ details.name }} possui um giftback válido no valor de {{ details.giftback.amount }}. </span>
-                </div>
-                <div class="flex padding-y-1 align-center">
-                    <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
-                    <span class="text margin-left-1 text--700">
-                        <b>Valor mínimo necessário: </b> {{ details.giftback.minPurchaseValue }}</span
-                    >
-                </div>
-                <div class="flex padding-y-1 align-center">
-                    <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
-                    <span class="text margin-left-1 text--700">
-                        <b>Prazo de validade: </b> {{ details.giftback.expiryDate | date: 'dd/MM/yyyy' }}</span
-                    >
-                </div>
-                <div class="flex padding-y-1 align-center">
-                    <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
-                    <span class="text margin-left-1 text--700">
-                        <b>Data mínima do giftback: </b>
-                        {{ details.giftback.startDate ? (details.giftback.startDate | date: 'dd/MM/yyyy') : 'Imediato' }}</span
-                    >
-                </div>
-            </div>
+            <app-giftback-alert-box [giftback]="details.giftback" [name]="details.name"></app-giftback-alert-box>
         </div>
 
         <div class="tasks flex-grow flex flex-column scroll tall">
@@ -160,6 +145,9 @@
             </div>
 
             <div *ngFor="let task of tasks; let index = index">
+                <div class="text text--bold margin-y-2 margin-bottom-3" *ngIf="checkVisibility(index)">
+                    {{ task.createdAt | date: 'mediumDate':'':'pt-BR' }}
+                </div>
                 <div class="box-content padding-2 margin-bottom-3">
                     <div class="flex align-center">
                         <ps-contact
@@ -197,7 +185,7 @@
                             }"
                         ></ps-icon>
                     </div>
-                    <table class="margin-top-2 wide" *ngIf="task.order?.products">
+                    <table class="margin-y-2 wide" *ngIf="visibleProducts(task)">
                         <thead>
                             <th><span class="text-16 text--primary text--bold">Produtos</span></th>
                             <th class="desktop"><span class="text-16 text--primary text--bold">Valor</span></th>
@@ -233,10 +221,26 @@
                             </tr>
                         </tbody>
                     </table>
-                </div>
 
-                <div class="text text--bold margin-y-2 margin-bottom-3" *ngIf="checkVisibility(index)">
-                    {{ task.createdAt | date: 'mediumDate':'':'pt-BR' }}
+                    <div *ngIf="task.order" class="flex flex-column">
+                        <span class="flex margin-y-1">
+                            <span class="flex align-center">
+                                <ps-icon icon="icon-local_atm" class="text--primary"></ps-icon>&nbsp;
+                                <span class="text text--bold text--primary">Valor: </span>
+                            </span>
+                            <span *ngIf="task.order.total" class="text">&nbsp;{{ task.order.total.toString() | zoppyCurrency }}</span>
+                            <span *ngIf="!task.order.total" class="text--600">&nbsp;vazio</span>
+                        </span>
+                        <span class="flex margin-y-1">
+                            <span class="flex align-center">
+                                <ps-icon icon="icon-confirmation_number" class="text--primary"></ps-icon>&nbsp;
+                                <span class="text text--bold text--primary">Cupom utilizado: </span>
+                            </span>
+                            <span class="text" [ngClass]="{ 'text--600': !task.order.wcCouponCode }"
+                                >&nbsp;{{ task.order.wcCouponCode ? task.order.wcCouponCode : 'vazio' }}</span
+                            >
+                        </span>
+                    </div>
                 </div>
             </div>
         </div>

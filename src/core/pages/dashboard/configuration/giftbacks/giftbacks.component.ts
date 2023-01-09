@@ -8,6 +8,7 @@ import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.ser
 import { CrmCouponService } from 'src/shared/services/crm-coupon/crm-coupon.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { FileUtils } from 'src/shared/utils/file.util';
+import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -77,8 +78,16 @@ export class GiftbacksComponent implements OnInit {
     private setBreadcrumb(): void {
         this.breadcrumb.items = [
             {
-                name: `Giftbacks`,
+                name: `Início`,
+                route: Navigation.routes.home
+            },
+            {
+                name: `Configurações`,
                 route: undefined
+            },
+            {
+                name: `Giftbacks`,
+                route: Navigation.routes.coupons
             }
         ];
     }

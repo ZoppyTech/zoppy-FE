@@ -14,6 +14,7 @@ import { DownloadService } from 'src/shared/services/download/download.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcSyncService } from 'src/shared/services/wc-sync/wc-sync.service';
 import { FileUtils } from 'src/shared/utils/file.util';
+import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
     selector: 'app-batch-upload-orders',
@@ -136,10 +137,10 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
         card.loading = true;
         try {
             await this.crmOrderService.upload(card.file);
-            this.toast.success('Seus produtos dos pedidos foram adicionados com sucesso!', 'Sucesso!');
+            this.toast.success('Seus pedidos foram adicionados com sucesso!', 'Sucesso!');
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível adicionar seus produtos dos pedidos');
+            this.toast.error(ex.message, 'Não foi possível adicionar seus pedidos');
         } finally {
             card.uploading = false;
         }
@@ -271,15 +272,15 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Configurações`,
                 route: undefined
             },
             {
-                name: `Upload em lote`,
-                route: `/dashboard/configurations/batch-upload`
+                name: `Upload de dados por planilha`,
+                route: Navigation.routes.batchUpload
             }
         ];
     }

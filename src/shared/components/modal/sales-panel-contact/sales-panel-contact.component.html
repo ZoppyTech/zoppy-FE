@@ -1,0 +1,74 @@
+<div class="modal-content">
+    <div class="padding-bottom-3">
+        <ps-icon *ngIf="modal.data.icon" icon="icon-wpp" class="secondary margin-right-2"></ps-icon>
+        <span class="text text--bold">{{ modal.data.title }}</span>
+    </div>
+
+    <div class="padding-bottom-3" *ngIf="modal.data.subtitle">
+        <span class="text text-14 text--600">{{ modal.data.subtitle }}</span>
+    </div>
+
+    <div class="padding-bottom-3" *ngIf="modal.data.question">
+        <span class="text text-14 text--bold">{{ modal.data.question.label }}</span>
+        <ps-radio-button
+            [items]="modal.data.question.options"
+            [(value)]="modal.data.question.response"
+            propertyLabel="label"
+            propertyValue="value"
+            [vertical]="false"
+        ></ps-radio-button>
+    </div>
+
+    <div *ngIf="modal.data.question.response">
+        <div class="padding-bottom-3">
+            <ps-input [rows]="4" [placeholder]="modal.data.description.placeholder" [(ngModel)]="modal.data.description.value"></ps-input>
+        </div>
+
+        <div class="padding-bottom-3" *ngIf="modal.data.contactType">
+            <span class="text text-14 text--bold">{{ modal.data.contactType.label }}</span>
+            <ps-radio-button
+                [items]="modal.data.contactType.options"
+                [(value)]="modal.data.contactType.response"
+                propertyLabel="label"
+                propertyValue="value"
+                [vertical]="false"
+            ></ps-radio-button>
+        </div>
+
+        <div class="padding-bottom-3" *ngIf="modal.data.statusType">
+            <span class="text text-14 text--bold">{{ modal.data.statusType.label }}</span>
+            <div class="flex margin-top-2 margin-left-1">
+                <div
+                    class="selector clickable margin-right-2 flex"
+                    *ngFor="let status of modal.data.statusType.options"
+                    [ngClass]="{ selected: status.value === modal.data.statusType.response }"
+                >
+                    <ps-icon
+                        class="text--300 clickable margin-right-1 {{ modal.data.statusType.response === status.value ? status.class : '' }}"
+                        (click)="modal.data.statusType.selectStatus(modal.data, status.value)"
+                        [icon]="status.label"
+                        tooltipWidth="180"
+                        appTooltip
+                        [tooltipText]="status.explanation"
+                        tooltipDirection="bottom"
+                    ></ps-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex wide margin-top-2">
+        <div class="wide">
+            <ps-button class="" [wide]="true" type="cancel" (click)="modal.close()">
+                <span class="text">{{ modal.data.cancelLabel ?? 'Cancelar' }}</span>
+            </ps-button>
+        </div>
+        <div class="margin-left-2 wide">
+            <ps-button class="" [wide]="true" type="secondary" (click)="modal.callback(modal.data)">
+                <span class="text--100">{{ modal.data.confirmLabel ?? 'Confirmar' }}</span>
+            </ps-button>
+        </div>
+    </div>
+</div>
+
+<ps-tooltip></ps-tooltip>

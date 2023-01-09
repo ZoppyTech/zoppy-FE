@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
@@ -8,6 +8,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { UserService } from 'src/shared/services/user/user.service';
+import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
     selector: 'app-my-company-user-config',
@@ -21,7 +22,8 @@ export class MyCompanyUserConfigComponent implements OnInit {
         private route: ActivatedRoute,
         private readonly userService: UserService,
         private readonly toast: ToastService,
-        private readonly confirmActionService: ConfirmActionService
+        private readonly confirmActionService: ConfirmActionService,
+        private readonly router: Router
     ) {}
 
     public id: string = '';
@@ -68,12 +70,14 @@ export class MyCompanyUserConfigComponent implements OnInit {
                 email: this.user.email,
                 name: this.user.name,
                 phone: this.user.phone,
+                nickName: this.user.nickName,
                 birthDate: this.user.birthDate
             };
             if (!this.id) request.password = this.user.password;
             const response: UserEntity = this.id ? await this.userService.update(this.id, request) : await this.userService.create(request);
             this.user = response;
             this.toast.success(`Informações atualizadas com sucesso`, `Sucesso!`);
+            this.router.navigate([Navigation.routes.myCompanyUsers]);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             const message: string = this.id ? 'Não foi possivel atualizar o usuário' : 'Não foi possivel criar o usuário';
@@ -87,7 +91,7 @@ export class MyCompanyUserConfigComponent implements OnInit {
         this.breadcrumb.items = [
             {
                 name: `Início`,
-                route: undefined
+                route: Navigation.routes.home
             },
             {
                 name: `Minha empresa`,
@@ -95,7 +99,7 @@ export class MyCompanyUserConfigComponent implements OnInit {
             },
             {
                 name: `Usuários`,
-                route: `/dashboard/my-company/users`
+                route: Navigation.routes.myCompanyUsers
             },
             {
                 name: this.id ? 'Edição' : 'Criação',
