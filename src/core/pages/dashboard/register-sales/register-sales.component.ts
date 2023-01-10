@@ -183,7 +183,7 @@ export class RegisterSalesComponent implements OnInit {
     }
 
     public formValid(): boolean {
-        return !this.order.address.phone || !this.order.address.firstName || !this.order.address.email;
+        return !this.order.address.phone || !this.order.address.firstName;
     }
 
     public changeState(state: number): void {
@@ -263,7 +263,6 @@ export class RegisterSalesComponent implements OnInit {
 
     public async fetchZipcode(zipcode: string) {
         if (zipcode.length !== 8) {
-            this.order.address.postcode = '';
             this.toast.error('Cep no formato incorreto', 'Corrija o formato do CEP');
             return;
         }

@@ -68,7 +68,7 @@
             </div>
 
             <div class="field">
-                <p class="text-14">E-mail do cliente*</p>
+                <p class="text-14">E-mail do cliente</p>
                 <ps-input
                     [disabled]="!order.address.phone"
                     placeholder="Digite seu email"
@@ -99,7 +99,7 @@
                 <ps-input
                     [disabled]="!order.address.phone"
                     mask="00.000-000"
-                    [debounce]="800"
+                    [debounce]="1200"
                     placeholder="Digite aqui seu CEP"
                     [(ngModel)]="order.address.postcode"
                     (ngModelChange)="fetchZipcode($event)"
