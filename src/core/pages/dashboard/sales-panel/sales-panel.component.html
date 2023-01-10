@@ -72,7 +72,10 @@
                         <span class="text text--bold margin-y-1" [ngClass]="{ 'text-decoration-line-through': task.concluded }">
                             {{ task.customer.address.firstName }} {{ task.customer.address.lastName }}
                         </span>
-                        <span class="text-12 text--600 margin-bottom-1">Posição: {{ getPosition(task) }}</span>
+                        <span class="text-12 text--600">Posição: {{ getPosition(task) }}</span>
+                        <span class="text-12 text--600 margin-bottom-1" *ngIf="task.customer.user"
+                            >Vendedor: {{ task.customer.user.name }}</span
+                        >
                         <a class="flex align-center clickable link text--link" [attr.href]="task.route">
                             <span class="text--primary text--bold text--link text-14"> Ver cliente </span>
                             <div class="rotate margin-left-1">
