@@ -1,3 +1,4 @@
+import { UserEntity } from './user.entity';
 import { WcAddressEntity } from './wc-address.entity';
 
 export class WcCustomerEntity {
@@ -20,4 +21,5 @@ export class WcCustomerEntity {
     public declare amount: number;
     public declare position: string;
     public declare address: WcAddressEntity;
+    public declare user: UserEntity;
 }
