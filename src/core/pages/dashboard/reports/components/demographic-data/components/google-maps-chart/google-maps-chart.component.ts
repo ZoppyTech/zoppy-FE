@@ -25,6 +25,7 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
     public declare heatmap: google.maps.visualization.HeatmapLayer;
     public declare mapOptions: google.maps.MapOptions;
     public declare marker: google.maps.Marker;
+    public markers: Array<google.maps.Marker> = [];
     public markerPositions: google.maps.LatLngLiteral[] = [];
     public coordinatesOfBrazil: google.maps.LatLngLiteral = {
         lat: -19.912998,
@@ -33,22 +34,8 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
     public zoom = 4;
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
-    public gradient: Array<string> = [
-        'rgba(0, 255, 255, 0)',
-        'rgba(0, 255, 255, 1)',
-        'rgba(0, 191, 255, 1)',
-        'rgba(0, 127, 255, 1)',
-        'rgba(0, 63, 255, 1)',
-        'rgba(0, 0, 255, 1)',
-        'rgba(0, 0, 223, 1)',
-        'rgba(0, 0, 191, 1)',
-        'rgba(0, 0, 159, 1)',
-        'rgba(0, 0, 127, 1)',
-        'rgba(63, 0, 91, 1)',
-        'rgba(127, 0, 63, 1)',
-        'rgba(191, 0, 31, 1)',
-        'rgba(255, 0, 0, 1)'
-    ];
+    public savedPoints: Array<google.maps.LatLng> = [];
+    public markersVisible: boolean = false;
 
     public constructor(
         public geocoder: MapGeocoder,
@@ -62,7 +49,7 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
             center: this.coordinatesOfBrazil,
             mapTypeControl: false,
             streetViewControl: false,
-            mapTypeId: google.maps.MapTypeId.ROADMAP,
+            mapTypeId: google.maps.MapTypeId.HYBRID,
             panControl: false
         };
         this.setEvents();
@@ -93,8 +80,7 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
                 data: this.getPoints(),
                 map: this.map,
                 radius: 20,
-                opacity: 1,
-                gradient: this.gradient
+                opacity: 1
             });
             this.heatmap.setMap(this.map);
         });
@@ -158,7 +144,27 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
             .map((address: WcAddressEntity) => {
                 return new google.maps.LatLng(address.latitude, address.longitude);
             });
+        this.savedPoints = points;
         return [...points];
+    }
+
+    public toggleMarkers(): void {
+        this.markersVisible = !this.markersVisible;
+        if (!this.markersVisible || this.savedPoints.length <= 0) {
+            this.markers.forEach((marker: google.maps.Marker) => {
+                marker.setMap(null);
+            });
+            return;
+        }
+
+        this.savedPoints.map((coordinate: google.maps.LatLng) => {
+            this.marker = new google.maps.Marker({
+                position: { lat: coordinate.lat(), lng: coordinate.lng() },
+                map: this.map
+            });
+            this.markers.push(this.marker);
+            this.marker.setMap(this.map);
+        });
     }
 }
 
