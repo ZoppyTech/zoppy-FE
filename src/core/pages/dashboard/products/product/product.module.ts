@@ -16,7 +16,16 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [CommonModule, IconModule, RouterModule.forChild(routes), DropdownModule, InputModule, ButtonModule, DatepickerModule],
+    imports: [
+        CommonModule,
+        IconModule,
+        RouterModule.forChild(routes),
+        DropdownModule,
+        InputModule,
+        ButtonModule,
+        DatepickerModule,
+        DropdownModule
+    ],
     declarations: [ProductComponent],
     exports: [ProductComponent]
 })
