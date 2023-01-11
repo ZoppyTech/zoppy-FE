@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { CrmProductRequest } from 'src/shared/models/requests/crm/crm-product.request';
+import { CrmCategoryResponse } from 'src/shared/models/responses/crm/crm-category.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmProductService } from 'src/shared/services/crm-product/crm-product.service';
@@ -28,6 +29,7 @@ export class ProductComponent implements OnInit {
     public loaded: boolean = false;
     public id: string = '';
     public product: CrmProductRequest = {};
+    public categories: CrmCategoryResponse[] = [];
 
     public constructor(
         public breadcrumb: BreadcrumbService,
@@ -52,6 +54,7 @@ export class ProductComponent implements OnInit {
         }
         try {
             const product: CrmProductRequest = await this.crmProductService.findById(this.id);
+            this.categories = await this.crmProductService.findCategories();
             if (product) this.product = product;
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -59,6 +62,13 @@ export class ProductComponent implements OnInit {
         } finally {
             this.loaded = true;
         }
+    }
+
+    public changeCategory(category: string, index: number) {
+        if (this.product.categories)
+            this.product.categories[index] = {
+                name: category
+            };
     }
 
     public async save(): Promise<void> {

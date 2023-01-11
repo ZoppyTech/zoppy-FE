@@ -60,7 +60,16 @@
 
             <ul>
                 <li class="flex wide space-between" *ngFor="let category of product.categories; let index = index">
-                    <ps-input [(ngModel)]="category.name"></ps-input>
+                    <ps-dropdown
+                        *ngIf="product.categories"
+                        [items]="categories"
+                        [enableAdd]="true"
+                        [wide]="true"
+                        [propertyLabel]="'name'"
+                        [propertyValue]="'name'"
+                        [(value)]="product.categories[index].name"
+                        (valueChange)="changeCategory($event, index)"
+                    ></ps-dropdown>
                     <ps-button type="clean" class="margin-left-2" (onClick)="removeCategory(index)">
                         <ps-icon class="icon-times"></ps-icon>
                     </ps-button>

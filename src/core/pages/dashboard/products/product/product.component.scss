@@ -4,6 +4,7 @@
     flex-grow: 1;
     min-height: 0;
     overflow: auto;
+    display: flex;
 }
 
 .container {
@@ -45,6 +46,7 @@
         flex-direction: row;
         overflow-y: auto;
         grid-gap: 2rem;
+        flex-grow: 1;
 
         .field {
             display: flex;
@@ -81,6 +83,12 @@
                     span {
                         width: 3rem;
                     }
+                }
+            }
+
+            li {
+                ps-dropdown {
+                    flex-grow: 1;
                 }
             }
         }

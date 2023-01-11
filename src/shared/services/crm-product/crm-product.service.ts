@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ZoppyFilter } from 'src/shared/models/filter';
 import { CrmProductRequest } from 'src/shared/models/requests/crm/crm-product.request';
+import { CrmCategoryResponse } from 'src/shared/models/responses/crm/crm-category.response';
 import { CrmProductResponse } from 'src/shared/models/responses/crm/crm-product.response';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
@@ -26,6 +27,16 @@ export class CrmProductService extends ApiService {
         const promise: Promise<CrmProductResponse[]> = new Promise((resolve: any, reject: any) => {
             this.get<CrmProductResponse[]>(`${this.url}`).subscribe(
                 (response: CrmProductResponse[]) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async findCategories(): Promise<CrmCategoryResponse[]> {
+        const promise: Promise<CrmCategoryResponse[]> = new Promise((resolve: any, reject: any) => {
+            this.get<CrmCategoryResponse[]>(`${this.url}/categories`).subscribe(
+                (response: CrmCategoryResponse[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
