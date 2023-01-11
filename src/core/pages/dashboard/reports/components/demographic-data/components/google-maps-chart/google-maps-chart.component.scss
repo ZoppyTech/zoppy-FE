@@ -25,6 +25,17 @@
         }
     }
 
+    .actions {
+        margin-left: 32px;
+        justify-content: start;
+        display: flex;
+        width: 100%;
+        height: fit-content;
+        position: absolute;
+        bottom: 32px;
+        z-index: 4;
+    }
+
     #map {
         height: 100%;
         width: 100%;

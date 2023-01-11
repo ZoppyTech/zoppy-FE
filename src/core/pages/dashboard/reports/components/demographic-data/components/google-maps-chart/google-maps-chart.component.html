@@ -5,5 +5,10 @@
     <div class="search-bar">
         <ps-search-bar [debounce]="800" (onChanged)="onSearchTextChanged($event)"></ps-search-bar>
     </div>
+    <div class="actions">
+        <ps-button (onClick)="toggleMarkers()" [fixedHeight]="false" [round]="true" type="secondary-border">
+            <ps-icon class="text-16" icon="icon-location_on text--secondary"></ps-icon>
+        </ps-button>
+    </div>
     <div #mapContainer id="map"></div>
 </div>
