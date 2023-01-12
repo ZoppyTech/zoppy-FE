@@ -1,6 +1,7 @@
 export class TaskConstants {
     public static TYPES: any = {
         OBSERVATION: 'observation',
+        CONTACT: 'contact',
         SALE: 'sale',
         TASK: 'task',
         BIRTHDAY: 'birthday',
