@@ -4,7 +4,6 @@ import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
 import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
 import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
@@ -26,7 +25,6 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
     public declare mapOptions: google.maps.MapOptions;
     public declare marker: google.maps.Marker;
     public markers: Array<google.maps.Marker> = [];
-    public markerPositions: google.maps.LatLngLiteral[] = [];
     public coordinatesOfBrazil: google.maps.LatLngLiteral = {
         lat: -19.912998,
         lng: -43.940933
@@ -34,8 +32,25 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
     public zoom = 4;
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
+    public beachflag: string = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
     public savedPoints: Array<google.maps.LatLng> = [];
     public markersVisible: boolean = false;
+    public gradient = [
+        'rgba(0, 255, 255, 0)',
+        'rgba(0, 255, 255, 1)',
+        'rgba(0, 191, 255, 1)',
+        'rgba(0, 127, 255, 1)',
+        'rgba(0, 63, 255, 1)',
+        'rgba(0, 0, 255, 1)',
+        'rgba(0, 0, 223, 1)',
+        'rgba(0, 0, 191, 1)',
+        'rgba(0, 0, 159, 1)',
+        'rgba(0, 0, 127, 1)',
+        'rgba(63, 0, 91, 1)',
+        'rgba(127, 0, 63, 1)',
+        'rgba(191, 0, 31, 1)',
+        'rgba(255, 0, 0, 1)'
+    ];
 
     public constructor(
         public geocoder: MapGeocoder,
@@ -47,9 +62,9 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
         this.mapOptions = {
             zoom: this.zoom,
             center: this.coordinatesOfBrazil,
-            mapTypeControl: false,
+            mapTypeControl: true,
             streetViewControl: false,
-            mapTypeId: google.maps.MapTypeId.HYBRID,
+            mapTypeId: google.maps.MapTypeId.ROADMAP,
             panControl: false
         };
         this.setEvents();
@@ -80,7 +95,8 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
                 data: this.getPoints(),
                 map: this.map,
                 radius: 20,
-                opacity: 1
+                opacity: 1,
+                gradient: this.gradient
             });
             this.heatmap.setMap(this.map);
         });
@@ -100,13 +116,14 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     public resetMap(): void {
-        this.markerPositions = [];
+        if (!this.marker) return;
         this.marker.setMap(null);
         this.map.setCenter(this.coordinatesOfBrazil);
         this.map.setZoom(this.zoom);
     }
 
     public async onSearchTextChanged(searchText: string = ''): Promise<void> {
+        debugger;
         if (searchText.trimEnd() === '') {
             this.resetMap();
             return;
@@ -122,14 +139,15 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
                     this.resetMap();
                     return;
                 }
+                this.resetMap();
                 const newCoordinates: google.maps.LatLngLiteral = {
                     lat: results[0].geometry.location.lat(),
                     lng: results[0].geometry.location.lng()
                 };
-                this.markerPositions = [];
-                this.markerPositions.push(newCoordinates);
                 this.marker = new google.maps.Marker({
                     position: newCoordinates,
+                    icon: this.beachflag,
+                    title: 'Você marcou este ponto!',
                     map: this.map
                 });
                 this.marker.setMap(this.map);
@@ -158,12 +176,12 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
         }
 
         this.savedPoints.map((coordinate: google.maps.LatLng) => {
-            this.marker = new google.maps.Marker({
+            const marker: google.maps.Marker = new google.maps.Marker({
                 position: { lat: coordinate.lat(), lng: coordinate.lng() },
                 map: this.map
             });
-            this.markers.push(this.marker);
-            this.marker.setMap(this.map);
+            this.markers.push(marker);
+            marker.setMap(this.map);
         });
     }
 }

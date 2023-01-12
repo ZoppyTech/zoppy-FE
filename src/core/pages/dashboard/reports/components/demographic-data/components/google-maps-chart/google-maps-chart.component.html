@@ -6,8 +6,8 @@
         <ps-search-bar [debounce]="800" (onChanged)="onSearchTextChanged($event)"></ps-search-bar>
     </div>
     <div class="actions">
-        <ps-button (onClick)="toggleMarkers()" [fixedHeight]="false" [round]="true" type="secondary-border">
-            <ps-icon class="text-16" icon="icon-location_on text--secondary"></ps-icon>
+        <ps-button (onClick)="toggleMarkers()" [fixedHeight]="false" [round]="true" type="secondary">
+            <ps-icon class="text-20" icon="icon-location_on text--100"></ps-icon>
         </ps-button>
     </div>
     <div #mapContainer id="map"></div>
