@@ -8,7 +8,7 @@ export class TaskUtil {
             case TaskConstants.TYPES.OBSERVATION:
                 return 'Observação';
             case TaskConstants.TYPES.SALE:
-                return 'Contato';
+                return 'Venda';
             case TaskConstants.TYPES.TASK:
                 return 'Tarefa';
             case TaskConstants.TYPES.BIRTHDAY:
@@ -17,6 +17,8 @@ export class TaskUtil {
                 return 'Pós venda';
             case TaskConstants.TYPES.CANT_LOSE:
                 return 'Reaquecimento';
+            case TaskConstants.TYPES.CONTACT:
+                return 'Contato';
             default:
                 return 'Nenhum';
         }
