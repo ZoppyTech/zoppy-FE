@@ -106,9 +106,7 @@ export class CustomerComponent implements OnInit {
     }
 
     public getDisabled(): boolean {
-        return (
-            !this.customer.lastName || !this.customer.firstName || !this.customer.phone || !this.customer.email || !this.customer.address1
-        );
+        return !this.customer.lastName || !this.customer.firstName || !this.customer.phone;
     }
 
     private setBreadcrumb(): void {
