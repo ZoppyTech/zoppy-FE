@@ -70,7 +70,7 @@
                         </ps-button>
 
                         <span class="text text--bold margin-y-1" [ngClass]="{ 'text-decoration-line-through': task.concluded }">
-                            {{ task.customer.address.firstName }} {{ task.customer.address.lastName }}
+                            {{ task.customer.address.firstName | zoppyName }} {{ task.customer.address.lastName | zoppyName }}
                         </span>
                         <span class="text-12 text--600">Posição: {{ getPosition(task) }}</span>
                         <span class="text-12 text--600 margin-bottom-1" *ngIf="task.customer.user"
