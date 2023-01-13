@@ -148,7 +148,7 @@
                     <tbody *ngIf="!isLoading">
                         <tr *ngFor="let customer of customersFiltered" [ngClass]="{ hidden: customer.hidden }">
                             <td>
-                                <span class="text-14">{{ customer.name }}</span>
+                                <span class="text-14">{{ customer.name | zoppyName }}</span>
                             </td>
                             <td>
                                 <span class="text-14">{{ customer.phone | zoppyPhone }}</span>

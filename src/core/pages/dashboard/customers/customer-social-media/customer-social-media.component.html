@@ -3,7 +3,7 @@
         <div class="left flex flex-center">
             <ps-contact [tooltip]="false" [name]="details.name" class="margin-right-2" [size]="'4rem'" [email]="details.email"></ps-contact>
             <div class="flex flex-column">
-                <h6 class="text--primary text--bold">{{ details.name }}</h6>
+                <h6 class="text--primary text--bold">{{ details.name | zoppyName }}</h6>
                 <span class="margin-top-2 desktop">
                     <span class="text text--14"> Última compra em {{ details.lastPurchaseDate | date: 'dd/MM/yyyy' || 'vazio' }} </span>
                     <span class="text text--14 margin-left-3">
