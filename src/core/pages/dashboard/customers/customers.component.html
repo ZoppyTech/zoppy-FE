@@ -48,7 +48,7 @@
                     <tr class="item" *ngFor="let customer of customers">
                         <td>
                             <span [ngClass]="{ 'text--400': !customer.firstName }" class="text-16 text--600"
-                                >{{ customer.firstName }} {{ customer.lastName }}</span
+                                >{{ customer.firstName ?? '' | zoppyName }} {{ customer.lastName ?? '' | zoppyName }}</span
                             >
                         </td>
                         <td class="desktop">

@@ -9,6 +9,7 @@ import { InputModule } from '@ZoppyTech/input';
 import { PaginationModule } from '@ZoppyTech/pagination';
 import { SearchBarModule } from '@ZoppyTech/search-bar';
 import { GiftbackAlertBoxModule } from 'src/shared/components/giftback-alert-box/giftback-alert-box.module';
+import { PipesModule } from 'src/shared/pipes/pipes.module';
 
 const routes: Routes = [
     {
@@ -27,7 +28,8 @@ const routes: Routes = [
         ButtonModule,
         SearchBarModule,
         PaginationModule,
-        GiftbackAlertBoxModule
+        GiftbackAlertBoxModule,
+        PipesModule
     ],
     declarations: [CustomersComponent],
     exports: [CustomersComponent],
