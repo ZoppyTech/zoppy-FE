@@ -10,6 +10,7 @@ export interface CrmOrderRequest {
     coupon: CrmCouponRequest;
     address: CrmAddressRequest;
     lineItems?: CrmLineItemRequest[];
+    userId: string;
 }
 
 export type Operations = 'show-room' | 'e-commerce';

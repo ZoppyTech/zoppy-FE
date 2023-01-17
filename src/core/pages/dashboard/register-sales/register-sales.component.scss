@@ -4,6 +4,8 @@
     flex-grow: 1;
     min-height: 0;
     overflow: auto;
+    display: flex;
+    flex-direction: column;
 }
 
 .container {
@@ -71,7 +73,6 @@
             p {
                 grid-row: 1;
                 grid-column: 1;
-                font-weight: 500;
                 margin: 8px 0rem;
             }
 
