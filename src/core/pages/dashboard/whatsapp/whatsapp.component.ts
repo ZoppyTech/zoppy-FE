@@ -181,6 +181,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             unreadMessage.readByManager = true;
             const socketData: ChatSocketData = { action: 'update', message: new WhatsappMessageEntity() };
             socketData.message.id = unreadMessage.id;
+            socketData.message.userId = this.user.id;
             this.webSocketService.emit(WebSocketConstants.CHAT_EVENTS.UPDATE, socketData);
         }
         this.chatRoomSelected.unreadThreads.splice(0, unreadMessages.length);

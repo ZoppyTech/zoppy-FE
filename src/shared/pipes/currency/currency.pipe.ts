@@ -5,7 +5,7 @@ import { FormatUtils } from 'src/shared/utils/format.util';
     name: 'zoppyCurrency'
 })
 export class CurrencyPipe implements PipeTransform {
-    public transform(value: string, args?: any): any {
-        return FormatUtils.toCurrency(value ? parseFloat(value) : 0);
+    public transform(value: string | number, args?: any): any {
+        return FormatUtils.toCurrency(value ? parseFloat(value.toString()) : 0);
     }
 }

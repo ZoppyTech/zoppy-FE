@@ -19,20 +19,22 @@ import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.s
 import { CrmCouponService } from 'src/shared/services/crm-coupon/crm-coupon.service';
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { CrmOrderService } from 'src/shared/services/crm-order/crm-order.service';
+import { UserService } from 'src/shared/services/user/user.service';
 import { CrmProductService } from 'src/shared/services/crm-product/crm-product.service';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
-import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
 import { FormatUtils } from 'src/shared/utils/format.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
+import { UserEntity } from 'src/shared/models/entities/user.entity';
+import { DashboardBasePage } from '../dashboard.base.page';
 
 @Component({
     selector: 'app-register-sales',
     templateUrl: './register-sales.component.html',
     styleUrls: ['./register-sales.component.scss']
 })
-export class RegisterSalesComponent implements OnInit {
+export class RegisterSalesComponent extends DashboardBasePage implements OnInit {
     public loading: boolean = false;
     public phone: string = '';
     public state: State = 1;
@@ -45,17 +47,19 @@ export class RegisterSalesComponent implements OnInit {
         },
         description: '',
         lineItems: [],
-        total: 0
+        total: 0,
+        userId: ''
     };
     public number: string = '';
     public complement: string = '';
     public loadingAddress: boolean = false;
     public customSubtotal: number = 0;
     public defaultCouponType: CouponType = 'fixed_cart';
-    public useCustomCoupon: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public disableTotal: boolean = true;
+    public discountType: string = '';
     public products: CrmProductResponse[] = [];
+    public users: UserEntity[] = [];
     public productsSelected: CrmProductResponse[] = [];
     public genders: Item[] = [
         {
@@ -72,17 +76,6 @@ export class RegisterSalesComponent implements OnInit {
         }
     ];
 
-    public couponTypes: Item[] = [
-        {
-            label: 'Porcentagem',
-            value: 'percent'
-        },
-        {
-            label: 'Reais',
-            value: 'fixed_cart'
-        }
-    ];
-
     public operations: Item[] = [
         {
             label: 'Showroom',
@@ -94,12 +87,31 @@ export class RegisterSalesComponent implements OnInit {
         }
     ];
 
+    public discountTypes: Item[] = [
+        {
+            label: 'Giftback',
+            value: 'giftback'
+        },
+        {
+            label: 'Desconto em reais',
+            value: 'fixed_cart'
+        },
+        {
+            label: 'Desconto em porcentagem',
+            value: 'percent'
+        },
+        {
+            label: 'Não aplicar desconto',
+            value: 'none'
+        }
+    ];
+
     public backupCoupon: CrmCouponResponse | undefined;
 
     public constructor(
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
-        public storage: Storage,
+        public override storage: Storage,
         public confirmActionService: ConfirmActionService,
         public modal: ModalService,
         private readonly route: ActivatedRoute,
@@ -109,10 +121,12 @@ export class RegisterSalesComponent implements OnInit {
         private readonly crmCustomerService: CrmCustomerService,
         private readonly crmProductService: CrmProductService,
         private readonly crmOrderService: CrmOrderService,
-        private readonly socialMediaService: SocialMediaService,
         private readonly publicService: PublicService,
+        private readonly userService: UserService,
         private readonly toast: ToastService
-    ) {}
+    ) {
+        super(storage);
+    }
 
     public openInfoModal(): void {
         this.modal.open(Modal.IDENTIFIER.INFO, {
@@ -165,13 +179,19 @@ export class RegisterSalesComponent implements OnInit {
     public async ngOnInit() {
         this.sideMenuService.change('registerSale');
         this.setBreadcrumb();
+        this.order.userId = this.storage.getUser()?.id ?? '';
+        this.loadingAddress = true;
         await this.fetchProducts();
+        await this.fetchUsers();
         const phone: string = this.route.snapshot.paramMap.get('phone') ?? '';
         if (phone) {
             await this.fetchCustomer(phone);
             this.state = 2;
             this.phone = phone;
         }
+        setTimeout(() => {
+            this.loadingAddress = false;
+        });
     }
 
     public async toggleState(): Promise<void> {
@@ -203,7 +223,7 @@ export class RegisterSalesComponent implements OnInit {
             this.loading = true;
             this.formatAddress();
             const order: CrmOrderResponse = await this.crmOrderService.create(this.order);
-            this.order = order as CrmOrderRequest;
+            this.order = { ...order, userId: this.storage.getUser()?.id } as CrmOrderRequest;
             this.toast.success('Sua venda foi registrada com sucesso!', 'Sucesso!');
             this.resetOrder();
             this.state = 1;
@@ -221,14 +241,20 @@ export class RegisterSalesComponent implements OnInit {
 
     public async fetchProducts(): Promise<void> {
         try {
-            this.loadingAddress = true;
             const products: CrmProductResponse[] = await this.crmProductService.findAll();
             this.products = products;
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível obter o telefone');
-        } finally {
-            this.loadingAddress = false;
+            this.toast.error(ex.message, 'Não foi possível obter os produtos');
+        }
+    }
+
+    public async fetchUsers(): Promise<void> {
+        try {
+            this.users = await this.userService.list();
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Não foi possível obter os usuários');
         }
     }
 
@@ -248,11 +274,12 @@ export class RegisterSalesComponent implements OnInit {
                 const existingCoupon: CrmCouponResponse = await this.crmCouponService.findByPhone(this.order.address.phone as string);
                 if (existingCoupon) {
                     this.order.coupon = existingCoupon as CrmCouponRequest;
-                    this.useCustomCoupon = false;
+                    this.backupCoupon = existingCoupon;
                 }
-            } else {
-                this.toast.alert(`Preencha as informações do cliente`, `Cliente não encontrado!`);
-            }
+                this.discountType = existingCoupon ? 'giftback' : 'none';
+                return;
+            } else this.toast.alert(`Preencha as informações do cliente`, `Cliente não encontrado!`);
+            this.discountType = 'none';
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o telefone');
@@ -318,20 +345,6 @@ export class RegisterSalesComponent implements OnInit {
         this.order.totalCurrency = FormatUtils.toCurrency(total);
     }
 
-    public toggleUseCustomCoupon(active: boolean) {
-        if (!active) {
-            this.order.coupon = this.backupCoupon as CrmCouponRequest;
-            return;
-        }
-        this.backupCoupon = this.order.coupon as CrmCouponResponse;
-        this.order.coupon = {
-            amount: 0,
-            amountCurrency: '',
-            type: this.defaultCouponType,
-            phone: this.order.address.phone
-        };
-    }
-
     public toCurrency(value: string | number): string {
         return FormatUtils.toCurrency(parseFloat(value as string));
     }
@@ -355,6 +368,36 @@ export class RegisterSalesComponent implements OnInit {
         return FormatUtils.toCurrency(this.order?.total);
     }
 
+    public onValueChange(value: CouponType) {
+        switch (value) {
+            case `percent`:
+            case 'fixed_cart':
+            case 'none':
+                this.order.coupon = {
+                    type: value,
+                    amount: 0,
+                    amountCurrency: ''
+                };
+                break;
+            default:
+                this.order.coupon = this.backupCoupon
+                    ? ({ ...this.backupCoupon } as any)
+                    : {
+                          type: value,
+                          amount: 0,
+                          amountCurrency: ''
+                      };
+        }
+        if ([`percent`, 'fixed_cart'].includes(value)) {
+            this.order.coupon = {
+                type: value,
+                amount: 0,
+                amountCurrency: ''
+            };
+            return;
+        }
+    }
+
     private setBreadcrumb(): void {
         this.breadcrumb.items = [
             {
@@ -373,7 +416,8 @@ export class RegisterSalesComponent implements OnInit {
                 amountCurrency: ''
             },
             lineItems: [],
-            total: 0
+            total: 0,
+            userId: this.storage.getUser()?.id ?? ''
         };
         this.productsSelected = [];
         this.customSubtotal = 0;
@@ -386,7 +430,7 @@ export class RegisterSalesComponent implements OnInit {
 }
 
 type State = 1 | 2;
-type CouponType = 'percent' | 'fixed_cart';
+type CouponType = 'percent' | 'fixed_cart' | 'giftback' | 'none';
 interface Item {
     label: string;
     value: string | null;

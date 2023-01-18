@@ -164,60 +164,44 @@
                 ></ps-multi-select>
             </div>
 
+            <div class="field">
+                <p class="text-14">Tipo de desconto</p>
+                <ps-dropdown
+                    propertyLabel="label"
+                    propertyValue="value"
+                    [wide]="true"
+                    [items]="discountTypes"
+                    [(value)]="discountType"
+                    (valueChange)="onValueChange($event)"
+                ></ps-dropdown>
+            </div>
+
             <div
                 class="giftback-alert padding-2 margin-x-2 margin-top-2"
-                *ngIf="!useCustomCoupon"
+                *ngIf="discountType === 'giftback' || discountType === 'none'"
                 [ngClass]="{
-                    'giftback-alert--success': order.coupon.id,
-                    'giftback-alert--error': !order.coupon.id
+                    'giftback-alert--success': backupCoupon?.id,
+                    'giftback-alert--error': !backupCoupon?.id
                 }"
             >
                 <ps-icon
-                    icon="{{ order.coupon.id ? 'icon-task_alt' : 'icon-unpublished' }}"
+                    icon="{{ backupCoupon?.id ? 'icon-task_alt' : 'icon-unpublished' }}"
                     class="margin-right-1"
-                    [ngClass]="{ success: order.coupon.id, negative: !order.coupon.id }"
+                    [ngClass]="{ success: backupCoupon?.id, negative: !backupCoupon?.id }"
                 ></ps-icon>
-                <span class="text-14">{{ order.coupon.id ? 'Giftback disponível' : 'Giftback indisponível:' }} </span>
+                <span class="text-14">{{ backupCoupon?.id ? 'Giftback disponível' : 'Giftback indisponível:' }} </span>
                 <span class="text-14">{{
-                    order.coupon.id
+                    backupCoupon?.id
                         ? ' no valor de '
                         : 'seu cliente não possui giftback que possa ser aplicado. Forneça o desconto em % ou R$.'
                 }}</span>
 
-                <span class="text-14" *ngIf="order.coupon.id">{{ toCurrency(order.coupon.amount.toString()) }}</span>
+                <span class="text-14" *ngIf="backupCoupon?.id">{{ backupCoupon?.amount ?? 0 | zoppyCurrency }}</span>
             </div>
 
-            <div class="field">
-                <p class="text-14">Giftback aplicado</p>
-                <ps-input
-                    *ngIf="order.coupon.type === 'fixed_cart' && !useCustomCoupon"
-                    class="margin-y-1"
-                    type="string"
-                    mask="currency"
-                    [selectAll]="true"
-                    [disabled]="true"
-                    [moveMaskedCursor]="false"
-                    placeholder="R$350,00"
-                    [(ngModel)]="order.coupon.amount"
-                ></ps-input>
-                <ps-checkbox class="margin-y-1" [(active)]="useCustomCoupon" (onToggleCheckbox)="toggleUseCustomCoupon($event)">
-                    <span class="text-14">Desejo aplicar meu próprio desconto</span>
-                </ps-checkbox>
-            </div>
-
-            <div class="field" *ngIf="useCustomCoupon">
+            <div class="field" *ngIf="discountType === 'fixed_cart'">
                 <p class="text-14">Valor do desconto</p>
-                <ps-radio-button
-                    [propertyValue]="'value'"
-                    [propertyLabel]="'label'"
-                    class="margin-y-1"
-                    [vertical]="false"
-                    [items]="couponTypes"
-                    [(value)]="order.coupon.type"
-                    *ngIf="useCustomCoupon"
-                ></ps-radio-button>
                 <ps-input
-                    *ngIf="order.coupon.type === 'fixed_cart' && useCustomCoupon"
                     class="margin-y-1"
                     type="string"
                     mask="currency"
@@ -226,9 +210,12 @@
                     placeholder="R$350,00"
                     [(ngModel)]="order.coupon.amount"
                 ></ps-input>
+            </div>
+
+            <div class="field" *ngIf="discountType === 'percent'">
+                <p class="text-14">Porcentagem do desconto</p>
                 <ps-input
                     class="margin-y-1"
-                    *ngIf="order.coupon.type === 'percent' && useCustomCoupon"
                     type="string"
                     mask="percent"
                     [selectAll]="true"
@@ -241,7 +228,7 @@
             <div class="field" *ngIf="order.coupon?.id">
                 <div class="flex wide space-between">
                     <p class="text-16 text--bold">Valor mínimo da compra:</p>
-                    <p class="text-14">{{ toCurrency(order.coupon.minPurchaseValue ?? 0) }}</p>
+                    <p class="text-14">{{ order.coupon.minPurchaseValue ?? 0 | zoppyCurrency }}</p>
                 </div>
                 <div class="flex wide space-between">
                     <p class="text-16 text--bold">Prazo de validade:</p>
@@ -250,7 +237,7 @@
             </div>
 
             <div class="field">
-                <p class="text-14">Operação</p>
+                <p class="text-14">Tipo de Operação</p>
                 <ps-dropdown
                     class="wide"
                     [wide]="true"
@@ -259,6 +246,21 @@
                     [(value)]="order.operation"
                     [propertyLabel]="'label'"
                     [items]="operations"
+                    [displayTop]="false"
+                    noDataText="Selecionar"
+                ></ps-dropdown>
+            </div>
+
+            <div class="field">
+                <p class="text-14">Vendedor</p>
+                <ps-dropdown
+                    class="wide"
+                    [wide]="true"
+                    [enableSearch]="false"
+                    propertyValue="id"
+                    [(value)]="order.userId"
+                    propertyLabel="name"
+                    [items]="users"
                     [displayTop]="true"
                     noDataText="Selecionar"
                 ></ps-dropdown>
