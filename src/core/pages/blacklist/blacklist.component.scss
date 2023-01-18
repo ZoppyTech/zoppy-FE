@@ -1,0 +1,13 @@
+main {
+    height: 100%;
+    width: 100%;
+
+    img {
+        max-width: 85vw;
+    }
+
+    div {
+        display: flex;
+        grid-gap: 1rem;
+    }
+}

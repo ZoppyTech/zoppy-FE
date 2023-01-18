@@ -2,7 +2,9 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
+import { request } from 'http';
 import { environment } from 'src/environments/environment';
+import { BlacklistEmailEntity } from 'src/shared/models/entities/blacklist-email.entity';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { LoginRequest } from 'src/shared/models/requests/public/login.request';
@@ -85,6 +87,18 @@ export class PublicService extends ApiService {
         const promise: Promise<UserEntity> = new Promise((resolve: any, reject: any) => {
             this.post<UserEntity, RegisterRequest>(`${this.url}/register`, request).subscribe(
                 (response: UserEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async blacklist(email: string): Promise<BlacklistEmailEntity> {
+        const promise: Promise<BlacklistEmailEntity> = new Promise((resolve: any, reject: any) => {
+            this.post<BlacklistEmailEntity, any>(`${this.url}/blacklist`, {
+                email: email
+            }).subscribe(
+                (response: BlacklistEmailEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
