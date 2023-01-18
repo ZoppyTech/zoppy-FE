@@ -7,7 +7,7 @@ import { Navigation } from 'src/shared/utils/navigation';
 import { TaskUtil } from 'src/shared/utils/task.util';
 
 export class SalesPanelMapper {
-    public static mapDays(tasks: TaskEntity[], filter: SalesPanelRequest): Day[] {
+    public static mapDays(tasks: TaskEntity[], filter: SalesPanelRequest, isMobile: boolean): Day[] {
         let days: Day[] = [
             {
                 date: filter.minDate,
@@ -57,6 +57,7 @@ export class SalesPanelMapper {
             const today: Date = new Date();
             today.setHours(0, 0, 0, 0);
             day.isToday = day.date.toDateString() === today.toDateString();
+            if (isMobile) day.isSelected = day.date.toDateString() === filter.minDate.toDateString();
             return day;
         });
         return days;
@@ -79,5 +80,6 @@ export interface Day {
     date: Date;
     dayName: string;
     isToday: boolean;
+    isSelected?: boolean;
     tasks: TaskView[];
 }

@@ -1,4 +1,5 @@
 <main *ngIf="!loading">
+    <h4 class="text--primary text--bold text-20 mobile padding-2">Painel de Vendas</h4>
     <div class="container">
         <div class="header space-between flex-center">
             <h5 class="text--primary text--bold text-20">Tarefas</h5>
@@ -17,7 +18,7 @@
         </div>
 
         <div class="body flex">
-            <div class="column flex-column flex-grow" *ngFor="let day of days">
+            <div class="column flex-column flex-grow" *ngFor="let day of days" [ngClass]="{ hidden: isMobile && !day.isSelected }">
                 <div class="header padding-2 flex align-center">
                     <div class="day" [ngClass]="{ today: day.isToday }">
                         <span class="text--bold" [ngClass]="{ 'text--500': !day.isToday, 'text--secondary': day.isToday }">{{
