@@ -13,6 +13,10 @@ main {
     display: flex;
     flex-direction: column;
 
+    h4 {
+        padding-bottom: 0;
+    }
+
     .container {
         display: flex;
         flex-direction: column;
