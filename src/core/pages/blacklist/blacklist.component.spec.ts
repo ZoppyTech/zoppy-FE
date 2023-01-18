@@ -4,6 +4,8 @@ import { By } from '@angular/platform-browser';
 import { DebugElement } from '@angular/core';
 
 import { BlacklistComponent } from './blacklist.component';
+import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { RouterTestingModule } from '@angular/router/testing';
 
 describe('BlacklistComponent', () => {
     let component: BlacklistComponent;
@@ -11,7 +13,8 @@ describe('BlacklistComponent', () => {
 
     beforeEach(async(() => {
         TestBed.configureTestingModule({
-            declarations: [BlacklistComponent]
+            declarations: [BlacklistComponent],
+            imports: [RouterTestingModule, HttpClientTestingModule]
         }).compileComponents();
     }));
 
