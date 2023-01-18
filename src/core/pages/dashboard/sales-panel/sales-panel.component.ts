@@ -19,7 +19,9 @@ import { SocialMediaService } from 'src/shared/services/social-media/social-medi
 import { DateUtil, FirstAndLastDayOfWeek } from 'src/shared/utils/date.util';
 import { MatrixRfmUtil } from 'src/shared/utils/matrix-rfm.util';
 import { Navigation } from 'src/shared/utils/navigation';
+import { Storage } from 'src/shared/utils/storage';
 import { TaskUtil } from 'src/shared/utils/task.util';
+import { DashboardBasePage } from '../dashboard.base.page';
 import { Day, SalesPanelMapper } from './sales-panel.mapper';
 
 @Component({
@@ -27,7 +29,7 @@ import { Day, SalesPanelMapper } from './sales-panel.mapper';
     templateUrl: './sales-panel.component.html',
     styleUrls: ['./sales-panel.component.scss']
 })
-export class SalesPanelComponent implements OnInit {
+export class SalesPanelComponent extends DashboardBasePage implements OnInit {
     public days: Day[] = [];
     public loading: boolean = false;
     public filter: SalesPanelRequest = new SalesPanelRequest();
@@ -40,16 +42,16 @@ export class SalesPanelComponent implements OnInit {
         private readonly crmCustomerService: CrmCustomerService,
         public router: Router,
         public sideMenuService: SideMenuService,
-        public breadcrumb: BreadcrumbService
-    ) {}
+        public breadcrumb: BreadcrumbService,
+        public override storage: Storage
+    ) {
+        super(storage);
+    }
 
     public async ngOnInit() {
         this.sideMenuService.change('salesPanel');
         this.setBreadcrumb();
-        const firstAndlastDay: FirstAndLastDayOfWeek = DateUtil.getFirstAndLastDayOfCurrentWeek();
-        this.filter.maxDate = firstAndlastDay.lastday;
-        this.filter.minDate = firstAndlastDay.firstday;
-        this.filter.maxDate.setHours(23, 59, 59);
+        this.initFilter();
         await this.fetchData();
     }
 
@@ -62,7 +64,7 @@ export class SalesPanelComponent implements OnInit {
             salesPanel.tasks.forEach((task: TaskEntity) => {
                 task.scheduledDate = new Date(task.scheduledDate);
             });
-            this.days = SalesPanelMapper.mapDays(salesPanel.tasks, this.filter);
+            this.days = SalesPanelMapper.mapDays(salesPanel.tasks, this.filter, this.isMobile);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os dados');
@@ -209,8 +211,9 @@ export class SalesPanelComponent implements OnInit {
     }
 
     public async move(direction: string) {
-        this.filter.minDate = DateUtil.addDays(this.filter.minDate, direction === 'forward' ? 7 : -7);
-        this.filter.maxDate = DateUtil.addDays(this.filter.maxDate, direction === 'forward' ? 7 : -7);
+        const days: number = this.isMobile ? 1 : 7;
+        this.filter.minDate = DateUtil.addDays(this.filter.minDate, direction === 'forward' ? days : -days);
+        this.filter.maxDate = DateUtil.addDays(this.filter.maxDate, direction === 'forward' ? days : -days);
         this.filter.maxDate.setHours(23, 59, 59);
         await this.fetchData();
     }
@@ -222,5 +225,18 @@ export class SalesPanelComponent implements OnInit {
                 route: undefined
             }
         ];
+    }
+
+    private initFilter(): void {
+        if (this.isMobile) {
+            this.filter.maxDate = new Date();
+            this.filter.minDate = new Date();
+        } else {
+            const firstAndlastDay: FirstAndLastDayOfWeek = DateUtil.getFirstAndLastDayOfCurrentWeek();
+            this.filter.maxDate = firstAndlastDay.lastday;
+            this.filter.minDate = firstAndlastDay.firstday;
+        }
+        this.filter.minDate.setHours(0, 0, 0);
+        this.filter.maxDate.setHours(23, 59, 59);
     }
 }
