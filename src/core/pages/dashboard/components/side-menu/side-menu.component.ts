@@ -50,7 +50,7 @@ export class SideMenuComponent implements OnInit {
                 icon: 'icon-home',
                 label: 'Início',
                 route: Navigation.routes.home,
-                visible: true
+                visible: UserUtil.hasRoles(this.user, [AppConstants.Role.admin, AppConstants.Role.master])
             },
             {
                 id: `reports`,
