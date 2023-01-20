@@ -208,7 +208,7 @@ export class CustomerSocialMediaComponent implements OnInit {
     public isBirthDay(): boolean {
         if (!this.customer || !this.customer.birthDate) return false;
         const birthDate: Date = new Date(this.customer.birthDate);
-        return birthDate.getDay() === this.today.getDay() && birthDate.getMonth() === this.today.getMonth();
+        return birthDate.getDay() + 1 === this.today.getDay() && birthDate.getMonth() === this.today.getMonth();
     }
 
     public checkVisibility(index: number): boolean {
