@@ -2,6 +2,7 @@ export class CrmAddressResponse {
     public declare id?: string;
     public declare customerId?: string;
     public declare wcId?: number;
+    public declare fullName?: string;
     public declare firstName?: string;
     public declare lastName?: string;
     public declare companyName?: string;

@@ -123,7 +123,6 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     public async onSearchTextChanged(searchText: string = ''): Promise<void> {
-        debugger;
         if (searchText.trimEnd() === '') {
             this.resetMap();
             return;

@@ -1,0 +1,42 @@
+<div class="modal-content flex flex-column" *ngIf="loadedInfo">
+    <span class="text text--bold text-16">Adicionar tarefa</span>
+    <span class="text">Preencha os campos abaixo para adicionar uma nova tarefa ao seu painel.</span>
+    <span class="text text--bold text-16 margin-top-2">Data da tarefa</span>
+    <ps-datepicker type="input" [(model)]="task.scheduledDate"></ps-datepicker>
+    <span class="text text--bold text-16 margin-top-2">Tipo de tarefa</span>
+    <ps-dropdown
+        [wide]="true"
+        [enableSearch]="false"
+        propertyLabel="label"
+        propertyValue="value"
+        [items]="types"
+        [(value)]="task.type"
+    ></ps-dropdown>
+    <span class="text text--bold text-16 margin-top-2">Cliente</span>
+    <ps-dropdown
+        [items]="customers"
+        propertyLabel="fullName"
+        propertyValue="customerId"
+        [customSearch]="true"
+        [wide]="true"
+        [(value)]="task.customerId"
+        (onSearchTextChanged)="onSearchTextChanged($event)"
+    ></ps-dropdown>
+    <span class="text text--bold text-16 margin-top-2">Cliente</span>
+    <ps-input [(ngModel)]="task.description" [rows]="3" [debounce]="0"></ps-input>
+    <div class="flex flex-center margin-top-2 wide footer">
+        <ps-button type="cancel" [wide]="true">
+            <span class="text text--bold">Cancelar</span>
+        </ps-button>
+        <ps-button
+            [loading]="loading"
+            type="secondary"
+            [wide]="true"
+            class="margin-left-2"
+            [disabled]="!task.scheduledDate || !task.type || !task.customerId"
+            (onClick)="addTask()"
+        >
+            <span class="text--100 text--bold">Adicionar</span>
+        </ps-button>
+    </div>
+</div>
