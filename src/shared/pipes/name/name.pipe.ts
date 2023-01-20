@@ -6,6 +6,7 @@ import { FormatUtils } from 'src/shared/utils/format.util';
 })
 export class NamePipe implements PipeTransform {
     public transform(value: string, args?: any): any {
+        if (!value) return '';
         const names: string[] = value.split(' ');
         const response: string[] = [];
 

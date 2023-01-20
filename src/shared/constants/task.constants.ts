@@ -19,7 +19,8 @@ export class TaskConstants {
     public static STATUS: any = {
         SUCCESS: 'success',
         WARN: 'warn',
-        NEGATIVE: 'negative'
+        NEGATIVE: 'negative',
+        NONE: 'none'
     };
 }
 

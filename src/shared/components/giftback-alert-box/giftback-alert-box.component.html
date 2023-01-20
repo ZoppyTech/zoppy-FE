@@ -17,13 +17,13 @@
     </div>
     <div class="flex padding-y-1 align-center" *ngIf="giftback">
         <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
-        <span class="text margin-left-1 text--700"> <b>Prazo de validade: </b> {{ giftback.expiryDate | date: 'dd/MM/yyyy' }}</span>
+        <span class="text margin-left-1 text--700"> <b>Prazo de validade: </b> {{ giftback.expiryDate | date : 'dd/MM/yyyy' }}</span>
     </div>
     <div class="flex padding-y-1 align-center" *ngIf="giftback">
         <ps-icon class="text--700" icon="icon-local_mall"></ps-icon> &nbsp;
         <span class="text margin-left-1 text--700">
             <b>Data mínima do giftback: </b>
-            {{ giftback.startDate ? (giftback.startDate | date: 'dd/MM/yyyy') : 'Imediato' }}</span
+            {{ giftback.startDate ? (giftback.startDate | date : 'dd/MM/yyyy') : 'Imediato' }}</span
         >
     </div>
     <div class="flex padding-y-1 align-center" *ngIf="giftback?.code">

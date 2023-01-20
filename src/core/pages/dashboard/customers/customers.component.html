@@ -58,7 +58,7 @@
                         </td>
                         <td class="desktop">
                             <span [ngClass]="{ 'text--400': !customer.lastPurchaseDate }" class="text-16 text--600 desktop">{{
-                                (customer.lastPurchaseDate | date: 'dd/MM/yyyy') || 'vazio'
+                                (customer.lastPurchaseDate | date : 'dd/MM/yyyy') || 'vazio'
                             }}</span>
                         </td>
                         <td class="desktop">
@@ -73,7 +73,7 @@
                         </td>
                         <td class="desktop">
                             <span [ngClass]="{ 'text--400': !customer.birthDate }" class="text-16 text--600 desktop">{{
-                                (customer.birthDate | date: 'dd/MM/yyyy') || 'vazio'
+                                (customer.birthDate | date : 'dd/MM/yyyy') || 'vazio'
                             }}</span>
                         </td>
                         <td class="actions">
@@ -153,11 +153,11 @@
                 </span>
                 <span class="flex flex-center space-between wide">
                     <p class="text-16 text--bold">Prazo de validade:</p>
-                    <p class="text-16">{{ customerDetail.coupon.expiryDate | date: 'dd/MM/yyyy' }}</p>
+                    <p class="text-16">{{ customerDetail.coupon.expiryDate | date : 'dd/MM/yyyy' }}</p>
                 </span>
                 <span class="flex flex-center space-between wide">
                     <p class="text-16 text--bold">Data da última compra:</p>
-                    <p class="text-16">{{ customerDetail.lastPurchaseDate | date: 'dd/MM/yyyy' }}</p>
+                    <p class="text-16">{{ customerDetail.lastPurchaseDate | date : 'dd/MM/yyyy' }}</p>
                 </span>
                 <span class="flex flex-center space-between wide">
                     <p class="text-16 text--bold">Código:</p>
