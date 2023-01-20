@@ -1,0 +1,14 @@
+@import 'src/styles.scss';
+
+.modal-content {
+    width: 25rem;
+    max-width: 90vw;
+    height: 35rem;
+    max-height: 90vh;
+
+    .footer {
+        ps-button {
+            flex-grow: 1;
+        }
+    }
+}

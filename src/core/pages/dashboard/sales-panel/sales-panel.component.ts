@@ -109,6 +109,18 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
         return TaskUtil.getTaskIsConcluded(task);
     }
 
+    public async addTask(day: Day): Promise<void> {
+        this.modal.open(
+            Modal.IDENTIFIER.NEW_TASK,
+            {
+                scheduledDate: day.date
+            },
+            async () => {
+                await this.fetchData();
+            }
+        );
+    }
+
     public async openTaskDescriptionModal(task: TaskView, contactType: TaskContactTypes): Promise<void> {
         if (TaskUtil.getTaskIsConcluded(task)) {
             this.toast.alert('Tarefa já concluída', 'Atenção');
@@ -202,7 +214,7 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
                 });
             } catch (ex: any) {
                 ex = ex as ZoppyException;
-                this.toast.error(ex.message, 'Não foi possível obter os dados');
+                this.toast.error(ex.message, 'Não foi salvar a tarefa');
             } finally {
                 this.loading = false;
                 this.modal.close();
