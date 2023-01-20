@@ -135,7 +135,7 @@
 
                 <div class="flex margin-top-2 status align-center" *ngIf="task.taskType === 'task'">
                     <span class="text text--12 margin-right-2">Classifique a atividade: </span>
-                    <div *ngFor="let status of statusTypes" class="margin-right-1">
+                    <div *ngFor="let status of statusTypes" class="margin-right-1 status">
                         <ps-icon
                             class="text--300 clickable {{ task.status === status.value ? status.class : '' }}"
                             (click)="selectStatus(status)"
