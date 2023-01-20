@@ -24,6 +24,6 @@ export class TaskConstants {
     };
 }
 
-export type TaskTypes = 'observation' | 'sale' | 'task' | 'birthday' | 'after_sale' | 'cant_lose';
+export type TaskTypes = 'observation' | 'sale' | 'task' | 'birthday' | 'after_sale' | 'cant_lose' | 'contact';
 export type TaskContactTypes = 'call' | 'whatsapp' | 'store' | 'other';
 export type TaskStatus = 'success' | 'warn' | 'negative';

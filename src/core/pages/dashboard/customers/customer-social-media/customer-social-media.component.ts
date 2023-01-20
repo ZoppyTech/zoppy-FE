@@ -31,6 +31,7 @@ export class CustomerSocialMediaComponent implements OnInit {
     public loadingOpenLink: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public id: string = '';
+    public today: Date = new Date();
     public task: SocialMediaRequest = new SocialMediaRequest();
     public tasks: SocialMediaCustomerTaskResponse[] = [];
     public customer?: CrmCustomerResponse;
@@ -113,8 +114,8 @@ export class CustomerSocialMediaComponent implements OnInit {
         window.open(`tel:+55${this.customer?.phone}`, '_self');
     }
 
-    public async createTask(contactType: TaskContactTypes): Promise<void> {
-        if (contactType === TaskConstants.CONTACT_TYPES.WHATSAPP) await this.sendMessage();
+    public async createTask(contactType: TaskContactTypes, taskType: TaskTypes): Promise<void> {
+        if (contactType === TaskConstants.CONTACT_TYPES.WHATSAPP) await this.sendMessage(taskType);
         else if (contactType === TaskConstants.CONTACT_TYPES.CALL) await this.call();
 
         const contactRequest: SalesPanelContactRequest = {
@@ -185,7 +186,7 @@ export class CustomerSocialMediaComponent implements OnInit {
         this.modal.open(Modal.IDENTIFIER.SALES_PANEL_CONTACT, contactRequest, async (response: SalesPanelContactRequest) => {
             if (!response.question.response) response.statusType.response = TaskConstants.STATUS.WARN;
             const request: SocialMediaRequest = {
-                taskType: TaskConstants.TYPES.SALE,
+                taskType: taskType,
                 description: response.description.value,
                 contactType: response.contactType.response as any,
                 status: response.statusType.response as any
@@ -204,18 +205,23 @@ export class CustomerSocialMediaComponent implements OnInit {
         });
     }
 
+    public isBirthDay(): boolean {
+        if (!this.customer || !this.customer.birthDate) return false;
+        const birthDate: Date = new Date(this.customer.birthDate);
+        return birthDate.getDay() === this.today.getDay() && birthDate.getMonth() === this.today.getMonth();
+    }
+
     public checkVisibility(index: number): boolean {
         if (index === 0) return true;
         return this.tasks[index - 1]?.createdAt?.getDate() !== this.tasks[index]?.createdAt?.getDate();
     }
 
-    public async sendMessage(): Promise<void> {
+    public async sendMessage(taskType: string): Promise<void> {
         this.loadingOpenLink = true;
         try {
-            const data: any = await this.crmCustomerService.findWhatsappLink(
-                this.id,
-                MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate
-            );
+            const template: string =
+                taskType === 'birthday' ? MessageConfigConstants.BIRTHDAY_MESSAGE : MessageConfigConstants.AFTER_SALE_MESSAGE;
+            const data: any = await this.crmCustomerService.findWhatsappLink(this.id, template as MessageConfigTemplate);
             window?.open(data.data, '_blank')?.focus();
         } catch (ex: any) {
             ex = ex as ZoppyException;
