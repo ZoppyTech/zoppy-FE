@@ -5,9 +5,9 @@
             <div class="flex flex-column">
                 <h6 class="text--primary text--bold">{{ details.name | zoppyName }}</h6>
                 <span class="margin-top-2 desktop">
-                    <span class="text text--14"> Última compra em {{ details.lastPurchaseDate | date: 'dd/MM/yyyy' || 'vazio' }} </span>
+                    <span class="text text--14"> Última compra em {{ details.lastPurchaseDate | date : 'dd/MM/yyyy' || 'vazio' }} </span>
                     <span class="text text--14 margin-left-3">
-                        Cliente desde {{ details.clientSince | date: 'dd/MM/yyyy' || 'vazio' }}
+                        Cliente desde {{ details.clientSince | date : 'dd/MM/yyyy' || 'vazio' }}
                     </span>
                 </span>
             </div>
@@ -60,7 +60,7 @@
                 <div class="flex padding-y-1 align-center">
                     <ps-icon class="text--700" icon="icon-cake"></ps-icon> &nbsp;
                     <span *ngIf="details.age" class="text margin-left-1"
-                        >{{ details.birthdate | date: 'dd/MM/yyyy' }}{{ ', ' + details.age + ' anos' }}</span
+                        >{{ details.birthdate | date : 'dd/MM/yyyy' }}{{ ', ' + details.age + ' anos' }}</span
                     >
                     <span class="text margin-left-1 text--500" *ngIf="!details.age">vazio</span>
                 </div>
@@ -184,7 +184,7 @@
 
             <div *ngFor="let task of tasks; let index = index">
                 <div class="text text--bold margin-y-2 margin-bottom-3" *ngIf="checkVisibility(index)">
-                    {{ task.createdAt | date: 'mediumDate':'':'pt-BR' }}
+                    {{ task.createdAt | date : 'mediumDate' : '' : 'pt-BR' }}
                 </div>
                 <div class="box-content padding-2 margin-bottom-3">
                     <div class="flex align-center">
@@ -196,7 +196,7 @@
                         ></ps-contact>
                         <div class="flex flex-column">
                             <span class="text text--bold text--primary">{{ task.userName ? task.userName : 'Zoppy' }}</span>
-                            <span class="text">{{ getTaskTypeLabel(task) }} &nbsp;|&nbsp; {{ task.createdAt | date: 'HH:mm' }}</span>
+                            <span class="text">{{ getTaskTypeLabel(task) }} &nbsp;|&nbsp; {{ task.createdAt | date : 'HH:mm' }}</span>
                         </div>
                     </div>
                     <div class="margin-top-2">

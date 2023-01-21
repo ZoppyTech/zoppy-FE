@@ -7,6 +7,7 @@ import { InputModule } from '@ZoppyTech/input';
 import { ButtonModule } from '@ZoppyTech/button';
 import { PageNotFoundModule } from './components/page-not-found/page-not-found.module';
 import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
+import { SupportRatingModule } from './components/support-rating/support-rating.module';
 
 const routes: Routes = [
     {
@@ -17,7 +18,16 @@ const routes: Routes = [
 
 @NgModule({
     exports: [NpsRatingComponent],
-    imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, PageNotFoundModule, IconModule, InputModule, ButtonModule],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        VisualIdentityModule,
+        PageNotFoundModule,
+        SupportRatingModule,
+        IconModule,
+        InputModule,
+        ButtonModule
+    ],
     declarations: [NpsRatingComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
