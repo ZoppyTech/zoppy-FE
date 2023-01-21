@@ -1,6 +1,6 @@
 <div *ngIf="visible" class="splitter-date-container">
     <span *ngIf="isToday" class="text-14 text--white">Hoje</span>
     <span *ngIf="isYesterday" class="text-14 text--white">Ontem</span>
-    <span *ngIf="date !== null && !isToday && !isYesterday" class="text-14 text--white">{{ date | date : 'dd/MM/yyyy' }}</span>
+    <span *ngIf="date !== null && !isToday && !isYesterday" class="text-14 text--white">{{ date | date: 'dd/MM/yyyy' }}</span>
     <div class="horizontal-line margin-left-1"></div>
 </div>

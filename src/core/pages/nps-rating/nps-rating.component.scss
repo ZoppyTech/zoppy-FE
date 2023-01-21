@@ -1,0 +1,105 @@
+@import '../../../styles.scss';
+
+.nps-rating-container {
+    width: 100vw;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background-color: aqua;
+    background-image: url('./../../../assets/imgs/nps_background.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    justify-content: center;
+    align-items: center;
+
+    &__content {
+        position: relative;
+        min-width: 1008px;
+        width: 1008px;
+        min-height: 734px;
+        max-height: 734px;
+        display: flex;
+        flex-direction: column;
+        margin: 2rem;
+        margin-top: 0px;
+        margin-bottom: 2rem;
+        flex-grow: 1;
+        justify-content: center;
+        align-items: center;
+        border-radius: 2rem;
+        background-color: #fdfdfd;
+        padding: 4rem;
+    }
+}
+
+// .container {
+//     background-color: rgba($color: #000000, $alpha: 0.1);
+//     position: fixed;
+//     top: 0;
+//     bottom: 0;
+//     left: 0;
+//     right: 0;
+//     z-index: 1000;
+//     display: flex;
+//     align-items: center;
+//     justify-content: center;
+
+//     .main-content {
+//         padding: 2rem 3rem;
+//         border-radius: 1rem;
+//         background-color: var(--neutral-100);
+//         max-width: 90vw;
+//     }
+// }
+
+// .container {
+//     position: relative;
+//     min-height: 100%;
+//     max-width: 100%;
+//     max-height: 100%;
+//     display: flex;
+//     flex-direction: column;
+//     margin: 2rem;
+//     margin-top: 0px;
+//     margin-bottom: 2rem;
+//     flex-grow: 1;
+//     background-image: url('./../../../assets/imgs/blurred_chat_layout.png');
+//     background-repeat: no-repeat;
+//     background-size: 100% 100%;
+//     justify-content: center;
+//     align-items: center;
+//     border-radius: 2rem;
+
+//     .main-content {
+//         display: flex;
+//         flex-direction: column;
+//         width: 32.5rem;
+//         height: fit-content;
+//         padding: 2rem;
+//         background-color: var(--neutral-100);
+//         border-radius: 2rem;
+//         box-shadow: rgba(0, 0, 0, 0.2) 0px 60px 40px -7px;
+//     }
+// }
+
+// @media only screen and (max-width: 1024px) {
+//     .container {
+//         background-color: transparent;
+//         background-image: none;
+//         max-height: none;
+//         margin: 0;
+
+//         .main-content {
+//             width: auto;
+//             border-radius: 0rem;
+//             box-shadow: none;
+
+//             .card-header {
+//                 img {
+//                     width: 8rem;
+//                     height: 8rem;
+//                 }
+//             }
+//         }
+//     }
+// }

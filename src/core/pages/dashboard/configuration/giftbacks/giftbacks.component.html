@@ -62,12 +62,12 @@
                     </td>
                     <td class="desktop">
                         <span [ngClass]="{ 'text--400': !coupon.createdAt }" class="text-16 text--600 desktop">{{
-                            (coupon.createdAt | date : 'dd/MM/yyyy') || 'vazio'
+                            (coupon.createdAt | date: 'dd/MM/yyyy') || 'vazio'
                         }}</span>
                     </td>
                     <td class="desktop">
                         <span [ngClass]="{ 'text--400': !coupon.expiryDate }" class="text-16 text--600 desktop">{{
-                            (coupon.expiryDate | date : 'dd/MM/yyyy') || 'vazio'
+                            (coupon.expiryDate | date: 'dd/MM/yyyy') || 'vazio'
                         }}</span>
                     </td>
                 </tr>
