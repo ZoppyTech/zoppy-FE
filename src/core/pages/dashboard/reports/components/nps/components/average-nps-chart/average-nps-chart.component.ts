@@ -26,7 +26,7 @@ export class AverageNpsChartComponent implements OnInit, AfterViewInit {
                 datasets: [
                     {
                         label: 'NPS médio',
-                        data: [40, 30, 30],
+                        data: [50, 25, 25],
                         backgroundColor: ['#EB0000', '#FFAD4E', '#30E1A1'],
                         cutout: '95%'
                     }
@@ -34,7 +34,7 @@ export class AverageNpsChartComponent implements OnInit, AfterViewInit {
                 labels: ['Valor corrente', 'Restante']
             },
             options: {
-                needleValue: 40,
+                needleValue: 88,
                 indexAxis: 'y',
                 responsive: true,
                 rotation: 270,
@@ -70,7 +70,7 @@ export class AverageNpsChartComponent implements OnInit, AfterViewInit {
                         ctx.moveTo(0, -2);
                         ctx.lineTo(height - ctx.canvas.height / 3, 0);
                         ctx.lineTo(0, 2);
-                        ctx.fillStyle = '#363636';
+                        ctx.fillStyle = this.getNeedleColorByValue(needleValue);
                         ctx.fill();
 
                         //needle dot
@@ -84,13 +84,25 @@ export class AverageNpsChartComponent implements OnInit, AfterViewInit {
                         let xCenter: any = chart.getDatasetMeta(0).data[0].x;
                         let yCenter: any = chart.getDatasetMeta(0).data[0].y;
                         ctx.font = 'bold 1.25rem sans-serif';
-                        ctx.fillStyle = '#363636';
+                        ctx.fillStyle = this.getNeedleColorByValue(needleValue);
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'bottom';
-                        ctx.fillText(needleValue + '%', cx, cy + 30);
+                        ctx.fillText(needleValue + '', cx, cy + 30);
                     }
                 }
             ]
         } as any);
+    }
+
+    public getNeedleColorByValue(value: any): any {
+        const fiftyPercent: any = 25;
+        const seventyFivePercent: any = 75;
+        if (value <= fiftyPercent) {
+            return '#EB0000';
+        } else if (value <= seventyFivePercent) {
+            return '#FFAD4E';
+        } else {
+            return '#30E1A1';
+        }
     }
 }

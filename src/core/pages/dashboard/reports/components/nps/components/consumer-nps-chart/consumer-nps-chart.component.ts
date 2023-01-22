@@ -11,7 +11,7 @@ export class ConsumerNpsChartComponent {
     public isLoading: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
 
-    public monthsOfYear: string[] = ['Jan', 'Fev', 'Mar', 'Abr', 'Maio', 'Jun', 'Jul', 'Ago', 'Set', 'Out', 'Nov', 'Dez'];
+    public grades: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
 
     public canvas: any;
     public ctx: any;
@@ -28,14 +28,14 @@ export class ConsumerNpsChartComponent {
                 datasets: [
                     {
                         label: 'NPS dos consumidores',
-                        data: [70, 30, 70, 100, 45, 11, 87, 78, 99, 8, 70, 30],
+                        data: [4, 0, 2, 1, 2, 9, 7, 8, 20, 25, 22],
                         backgroundColor: ['#B6C0FF']
                     }
                 ],
-                labels: this.monthsOfYear
+                labels: this.grades
             },
             options: {
-                indexAxis: 'y',
+                indexAxis: 'x',
                 responsive: true,
                 plugins: {
                     legend: {
