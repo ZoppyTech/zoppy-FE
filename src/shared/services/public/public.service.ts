@@ -108,7 +108,7 @@ export class PublicService extends ApiService {
 
     public async validateNpsToken(accessToken: string): Promise<boolean> {
         const promise: Promise<boolean> = new Promise((resolve: any, reject: any) => {
-            this.post<boolean, any>(`${this.url}/nps/check-available`, {
+            this.post<boolean, any>(`${this.url}/nps-rating/check-available`, {
                 accessToken: accessToken
             }).subscribe(
                 (response: boolean) => resolve(response),
@@ -120,7 +120,7 @@ export class PublicService extends ApiService {
 
     public async submitNpsReview(request: NpsRequest): Promise<any> {
         const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
-            this.post<any, any>(`${this.url}/nps/save-answers`, request).subscribe(
+            this.post<any, any>(`${this.url}/nps-rating/save-answers`, request).subscribe(
                 (response: any) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

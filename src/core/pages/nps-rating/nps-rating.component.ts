@@ -38,10 +38,10 @@ export class NpsRatingComponent {
     public async verifyToken(): Promise<void> {
         try {
             this.isLoading = true;
-            // const isValidToken: boolean = await this.publicService.validateNpsToken(this.token);
-            // if (!isValidToken) {
-            //     this.currentComponent = NpsComponents.PageNotFoundComponent;
-            // }
+            const isValidToken: boolean = await this.publicService.validateNpsToken(this.token);
+            if (!isValidToken) {
+                this.currentComponent = NpsComponents.PageNotFoundComponent;
+            }
         } catch (ex: any) {
             this.toast.error(ex.message, 'Erro');
         } finally {
