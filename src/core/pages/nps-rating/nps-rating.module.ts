@@ -8,6 +8,10 @@ import { ButtonModule } from '@ZoppyTech/button';
 import { PageNotFoundModule } from './components/page-not-found/page-not-found.module';
 import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { SupportRatingModule } from './components/support-rating/support-rating.module';
+import { RecommendationRatingModule } from './components/recommendation-rating/recommendation-rating.module';
+import { CommentaryOrSuggestionModule } from './components/commentary-or-suggestion/commentary-or-suggestion.module';
+import { ProductRatingModule } from './components/product-rating/product-rating.module';
+import { CongratulationsModule } from './components/congratulations/congratulations.module';
 
 const routes: Routes = [
     {
@@ -24,6 +28,10 @@ const routes: Routes = [
         VisualIdentityModule,
         PageNotFoundModule,
         SupportRatingModule,
+        ProductRatingModule,
+        RecommendationRatingModule,
+        CommentaryOrSuggestionModule,
+        CongratulationsModule,
         IconModule,
         InputModule,
         ButtonModule

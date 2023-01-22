@@ -1,1 +1,35 @@
-<p>commentary-or-suggestion works!</p>
+<div class="card-container">
+    <div class="card-header">
+        <span class="title margin-y-1">Pesquisa de satisfação</span>
+        <span class="subtitle"
+            >Seja bem-vindo(a) à nossa pesquisa de satisfação! A sua opinião é de extrema importância para a nossa excelência e, por isso,
+            faremos 4 perguntas bem rápidas para podermos melhorar ainda mais nosso trabalho.
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="progress-bar-container">
+            <div class="progress-bar margin-top-1 margin-bottom-1">
+                <div class="filled" [ngStyle]="{ width: percent + '%' }"></div>
+            </div>
+        </div>
+        <div class="question-section">
+            <span class="title margin-y-1">Pergunta 4</span>
+            <span class="subtitle">Por favor, deixe aqui um comentário ou sugestão para nossa equipe!</span>
+        </div>
+        <div class="answer-section">
+            <ps-input
+                style="width: 100%"
+                [wide]="100"
+                [moveMaskedCursor]="false"
+                [placeholder]="placeholder"
+                [rows]="rows"
+                [(ngModel)]="commentary"
+            ></ps-input>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="button-content">
+            <ps-button (onClick)="send()" [wide]="true" type="secondary"><span class="text text--100 text--bold">Enviar</span></ps-button>
+        </div>
+    </div>
+</div>

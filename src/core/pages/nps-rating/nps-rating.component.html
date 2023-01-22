@@ -1,6 +1,19 @@
 <div class="nps-rating-container">
-    <div class="nps-rating-container__content">
-        <!-- <page-not-found></page-not-found> -->
-        <support-rating></support-rating>
+    <div *ngIf="isLoading" class="nps-rating-container__content flex-center">
+        <img [src]="loadingIcon" alt="" />
+    </div>
+    <div *ngIf="!isLoading" class="nps-rating-container__content">
+        <page-not-found *ngIf="currentComponent === 'page-not-found-component'"></page-not-found>
+        <support-rating *ngIf="currentComponent === 'support-component'" [(currentComponent)]="currentComponent"></support-rating>
+        <product-rating *ngIf="currentComponent === 'product-component'" [(currentComponent)]="currentComponent"></product-rating>
+        <recommendation-rating
+            *ngIf="currentComponent === 'recommendation-component'"
+            [(currentComponent)]="currentComponent"
+        ></recommendation-rating>
+        <commentary-or-suggestion
+            *ngIf="currentComponent === 'commentary-or-suggestion-component'"
+            [(currentComponent)]="currentComponent"
+        ></commentary-or-suggestion>
+        <congratulations *ngIf="currentComponent === 'congratulations-component'"></congratulations>
     </div>
 </div>

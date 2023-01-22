@@ -1,4 +1,5 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { NpsComponents } from '../../nps-rating.component';
 
 @Component({
     selector: 'support-rating',
@@ -6,8 +7,9 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./support-rating.component.scss']
 })
 export class SupportRatingComponent {
-    @Input() public percent: number = 50;
-    public readonly UNEXPECTED_ERROR_LOADING_CHAT_IMAGE_DIR: string = './../../../../../assets/imgs/unavailable_service.png';
+    @Input() public percent: number = 25;
+    @Input() public currentComponent: string = '';
+    @Output() public currentComponentChange: EventEmitter<string> = new EventEmitter<string>();
 
     public constructor() {}
 
@@ -15,5 +17,8 @@ export class SupportRatingComponent {
         console.log('init');
     }
 
-    public nextCard(): void {}
+    public nextCard(): void {
+        this.currentComponent = NpsComponents.ProductComponent;
+        this.currentComponentChange.emit(this.currentComponent);
+    }
 }

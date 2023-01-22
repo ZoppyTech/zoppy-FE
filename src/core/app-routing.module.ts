@@ -40,7 +40,7 @@ const routes: Routes = [
         loadChildren: () => import('./pages/blacklist/blacklist.module').then((m: any) => m.BlacklistModule)
     },
     {
-        path: 'nps-rating',
+        path: 'nps-rating/:token',
         loadChildren: () => import('./pages/nps-rating/nps-rating.module').then((m: any) => m.NpsRatingModule)
     }
 ];

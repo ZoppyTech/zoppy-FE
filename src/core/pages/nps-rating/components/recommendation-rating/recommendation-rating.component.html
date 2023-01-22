@@ -1,1 +1,32 @@
-<p>recommendation-rating works!</p>
+<div class="card-container">
+    <div class="card-header">
+        <span class="title margin-y-1">Pesquisa de satisfação</span>
+        <span class="subtitle"
+            >Seja bem-vindo(a) à nossa pesquisa de satisfação! A sua opinião é de extrema importância para a nossa excelência e, por isso,
+            faremos 4 perguntas bem rápidas para podermos melhorar ainda mais nosso trabalho.
+        </span>
+    </div>
+    <div class="card-body">
+        <div class="progress-bar-container">
+            <div class="progress-bar margin-top-1 margin-bottom-1">
+                <div class="filled" [ngStyle]="{ width: percent + '%' }"></div>
+            </div>
+        </div>
+        <div class="question-section">
+            <span class="title margin-y-1">Pergunta 3</span>
+            <span class="subtitle">Qual a chance de você nos indicar para amigos e familiares?</span>
+        </div>
+        <div class="answer-section">
+            <div *ngFor="let option of answerOptions" (click)="optionSelected(option.value)" class="option">
+                <span class="text">{{ option.label }}</span>
+            </div>
+        </div>
+    </div>
+    <div class="card-footer">
+        <div class="button-content">
+            <ps-button (onClick)="nextCard()" [disabled]="lockedButton" [wide]="true" type="secondary"
+                ><span class="text text--100 text--bold">Próximo</span></ps-button
+            >
+        </div>
+    </div>
+</div>

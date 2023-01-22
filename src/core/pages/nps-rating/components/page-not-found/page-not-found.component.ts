@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
     selector: 'page-not-found',
@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./page-not-found.component.scss']
 })
 export class PageNotFoundComponent {
-    public readonly UNEXPECTED_ERROR_LOADING_CHAT_IMAGE_DIR: string = './../../../../../assets/imgs/unavailable_service.png';
+    public readonly PAGE_NOT_FOUND_IMAGE_DIR: string = './../../../../../assets/imgs/unavailable_service.png';
     public constructor() {}
 
     public ngOnInit(): void {
