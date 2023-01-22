@@ -2,12 +2,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
-import { request } from 'http';
 import { environment } from 'src/environments/environment';
 import { BlacklistEmailEntity } from 'src/shared/models/entities/blacklist-email.entity';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { NpsEntity } from 'src/shared/models/entities/nps.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
+import { NpsRequest } from 'src/shared/models/requests/nps/nps.request';
 import { LoginRequest } from 'src/shared/models/requests/public/login.request';
 import { RefreshTokenRequest } from 'src/shared/models/requests/public/refresh-token.request';
 import { RegisterRequest } from 'src/shared/models/requests/public/register.request';
@@ -112,6 +112,16 @@ export class PublicService extends ApiService {
                 accessToken: accessToken
             }).subscribe(
                 (response: boolean) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async submitNpsReview(request: NpsRequest): Promise<any> {
+        const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
+            this.post<any, any>(`${this.url}/nps/save-answers`, request).subscribe(
+                (response: any) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

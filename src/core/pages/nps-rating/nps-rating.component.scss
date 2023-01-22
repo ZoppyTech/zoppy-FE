@@ -35,6 +35,8 @@
 @media only screen and (max-width: 576px) {
     .nps-rating-container {
         &__content {
+            min-height: 50.875rem;
+            max-height: 50.875rem;
             background-color: rgba($color: #fdfdfd, $alpha: 0.9);
             min-width: 0;
             width: 34rem !important;

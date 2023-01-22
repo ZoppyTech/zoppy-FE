@@ -123,24 +123,11 @@
     }
 }
 
-/**Rating**/
-
-::ng-deep label.star {
-    padding: 0 5px !important;
-    font-size: 72px !important;
-    color: #ddd !important;
-    &::before {
-        content: '\f005' !important;
-    }
-    &:hover {
-        transform: rotate(0deg) scale(1.2) !important;
-    }
-}
-
 @media only screen and (max-width: 576px) {
     .card-container {
         .card-header {
             .title {
+                font-size: 2.5rem;
                 text-align: start;
             }
         }
@@ -150,18 +137,6 @@
                     width: 24rem !important;
                 }
             }
-        }
-    }
-
-    ::ng-deep label.star {
-        padding: 0 5px !important;
-        font-size: 36px !important;
-        color: #ddd !important;
-        &::before {
-            content: '\f005' !important;
-        }
-        &:hover {
-            transform: rotate(0deg) scale(1.2) !important;
         }
     }
 }

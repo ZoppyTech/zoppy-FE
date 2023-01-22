@@ -18,17 +18,17 @@ export class RecommendationRatingComponent {
 
     public lockedButton: boolean = true;
 
-    public answerOptions: Array<{ label: string; value: number }> = [
-        { label: '1', value: 1 },
-        { label: '2', value: 2 },
-        { label: '3', value: 3 },
-        { label: '4', value: 4 },
-        { label: '5', value: 5 },
-        { label: '6', value: 6 },
-        { label: '7', value: 7 },
-        { label: '8', value: 8 },
-        { label: '9', value: 9 },
-        { label: '10', value: 10 }
+    public answerOptions: Array<{ label: string; value: number; active: boolean }> = [
+        { label: '1', value: 1, active: false },
+        { label: '2', value: 2, active: false },
+        { label: '3', value: 3, active: false },
+        { label: '4', value: 4, active: false },
+        { label: '5', value: 5, active: false },
+        { label: '6', value: 6, active: false },
+        { label: '7', value: 7, active: false },
+        { label: '8', value: 8, active: false },
+        { label: '9', value: 9, active: false },
+        { label: '10', value: 10, active: false }
     ];
 
     public constructor() {}
@@ -37,15 +37,26 @@ export class RecommendationRatingComponent {
         console.log('init');
     }
 
-    public optionSelected(option: number): void {
-        debugger;
-        this.npsRequest.recommendationGrade = option;
+    public saveAnswer(recommendationGrade: number): void {
+        this.npsRequest.recommendationGrade = recommendationGrade;
         this.npsRequestChange.emit(this.npsRequest);
+    }
+
+    public optionSelected(option: { label: string; value: number; active: boolean }): void {
+        this.disableAllAnswerOptions();
+        option.active = true;
+        this.saveAnswer(option.value);
         this.lockedButton = false;
     }
 
     public nextCard(): void {
         this.currentComponent = NpsComponents.CommentaryOrSuggestionComponent;
         this.currentComponentChange.emit(this.currentComponent);
+    }
+
+    public disableAllAnswerOptions(): void {
+        this.answerOptions.forEach((option: { label: string; value: number; active: boolean }) => {
+            option.active = false;
+        });
     }
 }

@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
+import { NpsRequest } from 'src/shared/models/requests/nps/nps.request';
 import { PublicService } from 'src/shared/services/public/public.service';
 
 @Component({
@@ -10,7 +11,7 @@ import { PublicService } from 'src/shared/services/public/public.service';
     styleUrls: ['./nps-rating.component.scss']
 })
 export class NpsRatingComponent {
-    //public fields: Field[] = [];
+    public declare npsRequest: NpsRequest;
     public isLoading: boolean = true;
     public loadingIcon: string = `${environment.publicBucket}/imgs/loading.svg`;
     public acceptTerms: boolean = false;
@@ -29,6 +30,9 @@ export class NpsRatingComponent {
             this.token = paramMap.get('token');
             this.verifyToken();
         });
+        this.npsRequest = {
+            accessToken: this.token
+        };
     }
 
     public async verifyToken(): Promise<void> {
@@ -38,6 +42,18 @@ export class NpsRatingComponent {
             // if (!isValidToken) {
             //     this.currentComponent = NpsComponents.PageNotFoundComponent;
             // }
+        } catch (ex: any) {
+            this.toast.error(ex.message, 'Erro');
+        } finally {
+            this.isLoading = false;
+        }
+    }
+
+    public async onSubmitNpsReview(): Promise<void> {
+        try {
+            this.isLoading = true;
+            await this.publicService.submitNpsReview(this.npsRequest);
+            this.currentComponent = NpsComponents.CongratulationsComponent;
         } catch (ex: any) {
             this.toast.error(ex.message, 'Erro');
         } finally {

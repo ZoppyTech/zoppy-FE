@@ -8,7 +8,6 @@ export interface NpsRequest {
     answered?: boolean;
     accessToken?: string;
     customerId?: string;
-    wcCustomer?: string;
     sellerId?: string;
     sentAt?: Date;
 }

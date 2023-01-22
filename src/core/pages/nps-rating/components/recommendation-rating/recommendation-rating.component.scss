@@ -111,8 +111,8 @@
                 display: flex;
                 align-items: center;
                 justify-content: center;
-                width: 61px;
-                height: 62px;
+                width: 3.813rem;
+                height: 3.875rem;
                 background: #f1f5f8;
                 border-radius: 8px;
                 margin-right: 0.5rem;
@@ -121,8 +121,16 @@
                 .text {
                     font-weight: 700;
                     font-size: 1.5rem;
-                    line-height: 32px;
+                    line-height: 2rem;
                     color: #4d7eff;
+                }
+
+                &--active {
+                    background: #4d7eff;
+
+                    .text {
+                        color: #f1f5f8;
+                    }
                 }
             }
         }
@@ -144,24 +152,11 @@
     }
 }
 
-/**Rating**/
-
-::ng-deep label.star {
-    padding: 0 5px !important;
-    font-size: 72px !important;
-    color: #ddd !important;
-    &::before {
-        content: '\f005' !important;
-    }
-    &:hover {
-        transform: rotate(0deg) scale(1.2) !important;
-    }
-}
-
 @media only screen and (max-width: 576px) {
     .card-container {
         .card-header {
             .title {
+                font-size: 2.5rem;
                 text-align: start;
             }
         }
@@ -171,18 +166,6 @@
                     width: 24rem !important;
                 }
             }
-        }
-    }
-
-    ::ng-deep label.star {
-        padding: 0 5px !important;
-        font-size: 36px !important;
-        color: #ddd !important;
-        &::before {
-            content: '\f005' !important;
-        }
-        &:hover {
-            transform: rotate(0deg) scale(1.2) !important;
         }
     }
 }

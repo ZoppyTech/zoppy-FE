@@ -6,10 +6,20 @@ import { IconModule } from '@ZoppyTech/icon';
 import { ButtonModule } from '@ZoppyTech/button';
 import { InputModule } from '@ZoppyTech/input';
 import { NgxStarRatingModule } from 'ngx-star-rating';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
     declarations: [SupportRatingComponent],
-    imports: [CommonModule, VisualIdentityModule, NgxStarRatingModule, IconModule, ButtonModule, InputModule],
+    imports: [
+        CommonModule,
+        VisualIdentityModule,
+        NgxStarRatingModule,
+        FormsModule,
+        ReactiveFormsModule,
+        IconModule,
+        ButtonModule,
+        InputModule
+    ],
     exports: [SupportRatingComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
