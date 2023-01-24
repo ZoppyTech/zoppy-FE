@@ -18,6 +18,7 @@ export class DashboardBasePage {
     public isShopify: boolean = false;
     public isWooCommerce: boolean = false;
     public isNuvemshop: boolean = false;
+    public isTray: boolean = false;
 
     public isMobile: boolean = false;
 
@@ -35,6 +36,7 @@ export class DashboardBasePage {
         this.isShopify = CompanyUtil.isShopify(storage.getCompany() as CompanyEntity);
         this.isWooCommerce = CompanyUtil.isWooCommerce(storage.getCompany() as CompanyEntity);
         this.isNuvemshop = CompanyUtil.isNuvemshop(storage.getCompany() as CompanyEntity);
+        this.isTray = CompanyUtil.isTray(storage.getCompany() as CompanyEntity);
     }
 
     public getIsAdmin(): boolean {
@@ -67,6 +69,10 @@ export class DashboardBasePage {
 
     public getIsNuvemshop(): boolean {
         return CompanyUtil.isNuvemshop(this.storage?.getCompany() as CompanyEntity);
+    }
+
+    public getIsTray(): boolean {
+        return CompanyUtil.isTray(this.storage?.getCompany() as CompanyEntity);
     }
 
     public getIsWooCommerce(): boolean {

@@ -26,4 +26,9 @@ export class CompanyUtil {
         if (!company) return false;
         return company.provider === AppConstants.Providers.wooCommerce;
     }
+
+    public static isTray(company: CompanyEntity | undefined): boolean {
+        if (!company) return false;
+        return company.provider === AppConstants.Providers.tray;
+    }
 }
