@@ -151,5 +151,27 @@ main {
 @media only screen and (max-width: 576px) {
     main {
         padding: 1rem;
+
+        .body {
+            .nps-rating-section {
+                .recommendation-section {
+                    width: 80%;
+                }
+            }
+        }
+    }
+
+    /**Rating**/
+
+    ::ng-deep label.star {
+        padding: 0 5px !important;
+        font-size: 28px !important;
+        color: #ddd !important;
+        &::before {
+            content: '\f005' !important;
+        }
+        &:hover {
+            transform: rotate(0deg) scale(1.2) !important;
+        }
     }
 }
