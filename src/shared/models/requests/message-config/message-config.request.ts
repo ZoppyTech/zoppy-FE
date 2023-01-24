@@ -4,4 +4,5 @@ export interface MessageConfigRequest {
     afterSaleMessage?: string;
     birthdayMessage?: string;
     birthdayMonthMessage?: string;
+    npsRatingMessage?: string;
 }

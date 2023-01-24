@@ -33,6 +33,10 @@ export class MessageConfigComponent implements OnInit {
         {
             name: '{{last_purchase_date}}',
             description: 'Data da última compra do cliente'
+        },
+        {
+            name: '{{nps_rating_link}}',
+            description: 'Link para página de avaliação de satisfação'
         }
     ];
 
@@ -58,7 +62,8 @@ export class MessageConfigComponent implements OnInit {
                 cantLoseClientMessage: this.config.cantLoseClientMessage,
                 afterSaleMessage: this.config.afterSaleMessage,
                 birthdayMessage: this.config.birthdayMessage,
-                birthdayMonthMessage: this.config.birthdayMonthMessage
+                birthdayMonthMessage: this.config.birthdayMonthMessage,
+                npsRatingMessage: this.config.npsRatingMessage
             };
             const response: MessageConfigEntity = this.config?.id
                 ? await this.messageConfigService.update(this.config.id, request)

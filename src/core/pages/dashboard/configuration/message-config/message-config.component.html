@@ -89,6 +89,20 @@
                     </span>
                 </div>
             </div>
+            <div class="field">
+                <p class="text-16">Mensagem para avaliação de satisfação (NPS)</p>
+                <div class="flex flex-column">
+                    <ps-input
+                        placeholder="Insira aqui a mensagem de NPS para iniciar uma conversa no whatsapp com o cliente."
+                        type="text"
+                        [(ngModel)]="config.npsRatingMessage"
+                        [rows]="6"
+                    ></ps-input>
+                    <span class="text-12 text--500 desktop padding-top-1">
+                        Corpo da mensagem para enviar um link para a página de avaliação de satisfação.
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 

@@ -6,7 +6,8 @@ export class TaskConstants {
         TASK: 'task',
         BIRTHDAY: 'birthday',
         AFTER_SALE: 'after_sale',
-        CANT_LOSE: 'cant_lose'
+        CANT_LOSE: 'cant_lose',
+        NPS_RATING: 'nps_rating'
     };
 
     public static CONTACT_TYPES: any = {
@@ -24,6 +25,6 @@ export class TaskConstants {
     };
 }
 
-export type TaskTypes = 'observation' | 'sale' | 'task' | 'birthday' | 'after_sale' | 'cant_lose' | 'contact';
+export type TaskTypes = 'observation' | 'sale' | 'task' | 'birthday' | 'after_sale' | 'cant_lose' | 'contact' | 'nps_rating';
 export type TaskContactTypes = 'call' | 'whatsapp' | 'store' | 'other';
 export type TaskStatus = 'success' | 'warn' | 'negative';

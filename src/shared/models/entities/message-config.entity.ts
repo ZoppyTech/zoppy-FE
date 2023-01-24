@@ -4,6 +4,7 @@ export class MessageConfigEntity {
     public declare afterSaleMessage: string;
     public declare birthdayMessage: string;
     public declare birthdayMonthMessage: string;
+    public declare npsRatingMessage?: string;
     public declare createdAt: Date;
     public declare updatedAt: Date;
     public declare deletedAt: Date;

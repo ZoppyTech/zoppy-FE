@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
@@ -88,7 +89,21 @@ export class CustomerSocialMediaComponent implements OnInit {
         }
     ];
 
+    public recommendationGrades: Array<{ label: string; value: number; active: boolean }> = [
+        { label: '1', value: 1, active: false },
+        { label: '2', value: 2, active: false },
+        { label: '3', value: 3, active: false },
+        { label: '4', value: 4, active: false },
+        { label: '5', value: 5, active: false },
+        { label: '6', value: 6, active: false },
+        { label: '7', value: 7, active: false },
+        { label: '8', value: 8, active: false },
+        { label: '9', value: 9, active: false },
+        { label: '10', value: 10, active: false }
+    ];
+
     public constructor(
+        private fb: FormBuilder,
         private readonly socialMediaService: SocialMediaService,
         private readonly crmCustomerService: CrmCustomerService,
         private readonly router: Router,
@@ -239,6 +254,7 @@ export class CustomerSocialMediaComponent implements OnInit {
             this.customer = await this.crmCustomerService.findById(this.id);
             for (const task of this.tasks) {
                 task.createdAt = new Date(task.createdAt);
+                this.setNpsData(task);
             }
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -246,6 +262,18 @@ export class CustomerSocialMediaComponent implements OnInit {
         } finally {
             this.loaded = true;
         }
+    }
+
+    private setNpsData(task: SocialMediaCustomerTaskResponse): void {
+        if (!task.npsRating) return;
+        task.npsRating.formStarSupport = this.fb.group({
+            rating: [task.npsRating.supportGrade + '', Validators.required]
+        });
+        task.npsRating.formStarProduct = this.fb.group({
+            rating: [task.npsRating.productGrade + '', Validators.required]
+        });
+        if (!task.npsRating.recommendationGrade) return;
+        this.recommendationGrades[task.npsRating.recommendationGrade].active = true;
     }
 
     public async save(): Promise<void> {
