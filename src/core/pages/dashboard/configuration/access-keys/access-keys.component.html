@@ -14,12 +14,12 @@
     </div>
 
     <div class="body">
-        <div class="field" *ngIf="getIsShopify()">
-            <p class="text-14">Admin Token</p>
+        <div class="field" *ngIf="getIsShopify() || getIsTray()">
+            <p class="text-14">{{ adminVariables.label }}</p>
             <div class="flex-center flex">
                 <ps-input
                     icon="{{ key.keyVisible ? 'icon-visibility_off-1' : 'icon-visibility' }}"
-                    placeholder="Insira aqui seu Admin Token"
+                    [placeholder]="adminVariables.placeholder"
                     type="{{ key.keyVisible ? 'text' : 'password' }}"
                     [(ngModel)]="key.admin"
                     [iconClick]="true"
@@ -28,7 +28,7 @@
                 <ps-icon (click)="copyToClipboard('admin')" icon="icon-copy" class="text--primary font-16 clickable"></ps-icon>
             </div>
         </div>
-        <div class="field">
+        <div class="field" *ngIf="!getIsTray()">
             <p class="text-14">Secret</p>
             <div class="flex-center flex">
                 <ps-input
@@ -42,7 +42,7 @@
                 <ps-icon (click)="copyToClipboard('secret')" icon="icon-copy" class="text--primary font-16 clickable"></ps-icon>
             </div>
         </div>
-        <div class="field">
+        <div class="field" *ngIf="!getIsTray()">
             <p class="text-14">Key</p>
             <div class="flex-center flex">
                 <ps-input
@@ -65,7 +65,7 @@
             </div>
         </div>
 
-        <div class="field margin-top-2">
+        <div class="field margin-top-2" *ngIf="!getIsTray()">
             <ps-checkbox [(active)]="sendWebhook">
                 <span class="text-16">Configurar webhooks</span>
             </ps-checkbox>
