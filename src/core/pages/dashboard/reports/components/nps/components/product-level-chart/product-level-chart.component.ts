@@ -34,7 +34,7 @@ export class ProductLevelChartComponent {
                 labels: ['Valor corrente', 'Restante']
             },
             options: {
-                needleValue: 50,
+                needleValue: 76,
                 indexAxis: 'y',
                 responsive: true,
                 rotation: 270,
@@ -70,7 +70,7 @@ export class ProductLevelChartComponent {
                         ctx.moveTo(0, -2);
                         ctx.lineTo(height - ctx.canvas.height / 3, 0);
                         ctx.lineTo(0, 2);
-                        ctx.fillStyle = '#363636';
+                        ctx.fillStyle = this.getNeedleColorByValue(needleValue);
                         ctx.fill();
 
                         //needle dot
@@ -84,7 +84,7 @@ export class ProductLevelChartComponent {
                         let xCenter: any = chart.getDatasetMeta(0).data[0].x;
                         let yCenter: any = chart.getDatasetMeta(0).data[0].y;
                         ctx.font = 'bold 1.25rem sans-serif';
-                        ctx.fillStyle = '#363636';
+                        ctx.fillStyle = this.getNeedleColorByValue(needleValue);
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'bottom';
                         ctx.fillText(needleValue + '%', cx, cy + 30);
@@ -92,5 +92,18 @@ export class ProductLevelChartComponent {
                 }
             ]
         } as any);
+    }
+
+    public getNeedleColorByValue(value: any): any {
+        const fortyPercent: any = 40;
+        const thirtyPercent: any = 30;
+        const seventyPercent: any = 70;
+        if (value <= fortyPercent) {
+            return '#EB0000';
+        } else if (value <= seventyPercent) {
+            return '#FFAD4E';
+        } else {
+            return '#30E1A1';
+        }
     }
 }
