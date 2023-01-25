@@ -36,8 +36,9 @@ export class Modal {
         CHAT_CONTACT: 'chat_contact',
         INPUT_INFO: 'input_info',
         SALES_PANEL_CONTACT: 'sales_panel_contact',
-        NEW_TASK: 'new_task'
+        NEW_TASK: 'new_task',
+        MESSAGE_CONFIG_PARAMS: 'message_config_params'
     };
 }
 
-export type ModalId = 'INFO' | 'CHAT_CONTACT' | 'INPUT_INFO' | 'SALES_PANEL_CONTACT' | 'NEW_TASK';
+export type ModalId = 'INFO' | 'CHAT_CONTACT' | 'INPUT_INFO' | 'SALES_PANEL_CONTACT' | 'NEW_TASK' | 'MESSAGE_CONFIG_PARAMS';

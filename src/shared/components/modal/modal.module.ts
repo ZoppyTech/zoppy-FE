@@ -7,9 +7,18 @@ import { ChatContactModule } from './chat-contact/chat-contact.module';
 import { InputInfoModule } from './input-info/input-info.module';
 import { SalesPanelContactModule } from './sales-panel-contact/sales-panel-contact.module';
 import { NewTaskModule } from './new-task/new-task.module';
+import { MessageConfigParamsModule } from './message-config-params/message-config-params.module';
 
 @NgModule({
-    imports: [CommonModule, InfoModule, ChatContactModule, InputInfoModule, SalesPanelContactModule, NewTaskModule],
+    imports: [
+        CommonModule,
+        InfoModule,
+        ChatContactModule,
+        InputInfoModule,
+        SalesPanelContactModule,
+        NewTaskModule,
+        MessageConfigParamsModule
+    ],
     declarations: [ModalComponent],
     exports: [ModalComponent],
     providers: [ModalService],

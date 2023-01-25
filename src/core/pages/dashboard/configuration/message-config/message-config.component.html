@@ -16,25 +16,14 @@
     </div>
 
     <div class="body">
-        <div class="flex table-content">
-            <table>
-                <thead>
-                    <th><span class="text-16 text--primary text--bold">Nome</span></th>
-                    <th><span class="text-16 text--primary text--bold">Descrição</span></th>
-                </thead>
-                <tbody>
-                    <tr class="item" *ngFor="let param of params">
-                        <td>
-                            <span class="text-16 text--bold">{{ param.name }}</span>
-                        </td>
-                        <td>
-                            <span class="text-16 text--600">{{ param.description }}</span>
-                        </td>
-                    </tr>
-                </tbody>
-            </table>
+        <div class="info-params">
+            <ps-icon class="font-16" icon="icon-info"></ps-icon>
+            <span (click)="showModal()" class="text-16 text--700"
+                ><b class="text-16 text--800">Clique aqui</b> para ver os parâmetros disponíveis!
+            </span>
         </div>
-        <div class="fields flex-grow-1">
+
+        <div style="border-radius: 8px" class="fields flex-grow-1">
             <div class="field">
                 <p class="text-16">Mensagem de Pós venda</p>
                 <div class="flex flex-column">

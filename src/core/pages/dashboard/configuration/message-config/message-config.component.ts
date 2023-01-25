@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { MessageConfigEntity } from 'src/shared/models/entities/message-config.entity';
 import { MessageConfigRequest } from 'src/shared/models/requests/message-config/message-config.request';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -17,30 +18,9 @@ import { Navigation } from 'src/shared/utils/navigation';
 export class MessageConfigComponent implements OnInit {
     public loading: boolean = false;
     public config: MessageConfigRequest = {};
-    public params: Param[] = [
-        {
-            name: '{{client_name}}',
-            description: 'O primeiro nome do cliente'
-        },
-        {
-            name: '{{name}}',
-            description: 'Seu nome'
-        },
-        {
-            name: '{{company_name}}',
-            description: 'Nome Social da empresa'
-        },
-        {
-            name: '{{last_purchase_date}}',
-            description: 'Data da última compra do cliente'
-        },
-        {
-            name: '{{nps_rating_link}}',
-            description: 'Link para página de avaliação de satisfação'
-        }
-    ];
 
     public constructor(
+        public modal: ModalService,
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
         public confirmActionService: ConfirmActionService,
@@ -87,6 +67,10 @@ export class MessageConfigComponent implements OnInit {
         }
     }
 
+    public showModal(): void {
+        this.modal.open(Modal.IDENTIFIER.MESSAGE_CONFIG_PARAMS, {});
+    }
+
     private generateBreadcrumb(): void {
         this.breadcrumb.items = [
             {
@@ -103,9 +87,4 @@ export class MessageConfigComponent implements OnInit {
             }
         ];
     }
-}
-
-interface Param {
-    name: string;
-    description: string;
 }
