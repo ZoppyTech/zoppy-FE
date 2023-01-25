@@ -284,50 +284,64 @@
                         </span>
                     </div>
 
-                    <div *ngIf="task.npsRating" class="flex flex-column">
-                        <div class="field flex-column">
-                            <span class="text-16 text--bold padding-top-3">Pergunta 1</span>
+                    <div *ngIf="task.npsRating" class="flex flex-column nps-rating-content">
+                        <div class="field flex-column support-section">
+                            <span class="text-16 text--bold">Pergunta 1</span>
                             <span class="text-16 text--500 padding-top-1 desktop"> Como você avalia o nosso atendimento? </span>
-                            <div class="flex flex-column flex-center padding-y-2 padding-x-3 nps-rating-section">
+                            <div class="flex flex-column flex-center margin-top-1 padding-y-2 padding-x-3">
                                 <form [formGroup]="task.npsRating.formStarSupport">
                                     <ngx-star-rating formControlName="rating" [id]="'rating'" [disabled]="true"></ngx-star-rating>
                                 </form>
                             </div>
                         </div>
-                        <div class="field flex-column">
-                            <span class="text-16 text--bold padding-top-3">Pergunta 2</span>
+                        <div class="field flex-column product-section">
+                            <span class="text-16 text--bold">Pergunta 2</span>
                             <span class="text-16 text--500 padding-top-1 desktop">
                                 Qual o seu nível de satisfação com o nosso produto?
                             </span>
-                            <div class="flex flex-column flex-center padding-y-2 padding-x-3 nps-rating-section">
+                            <div class="flex flex-column flex-center margin-top-1 padding-y-2 padding-x-3">
                                 <form [formGroup]="task.npsRating.formStarProduct">
                                     <ngx-star-rating formControlName="rating" [id]="'rating'" [disabled]="true"></ngx-star-rating>
                                 </form>
                             </div>
                         </div>
-                        <div class="field flex-column">
-                            <span class="text-16 text--bold padding-top-3">Pergunta 3</span>
+                        <div class="field flex-column recommendation-section">
+                            <span class="text-16 text--bold">Pergunta 3</span>
                             <span class="text-16 text--500 padding-top-1 desktop">
                                 Qual a chance de você nos indicar para amigos e familiares?
                             </span>
-                            <div class="flex flex-column flex-center padding-y-2 padding-x-3 nps-rating-section">
-                                <div class="recommendation-section">
-                                    <div
-                                        *ngFor="let grade of recommendationGrades"
-                                        class="option"
-                                        [ngClass]="{ 'option--active': grade.active }"
-                                    >
-                                        <span class="text">{{ grade.label }}</span>
-                                    </div>
-                                </div>
+                            <div class="flex flex-row flex-center margin-top-1 padding-y-2 padding-x-3">
+                                <span
+                                    class="recommendation-section__value text--100 text-16"
+                                    [ngClass]="{
+                                        'recommendation-section__value--detractor': task.npsRating.recommendationGrade < 7,
+                                        'recommendation-section__value--neutral':
+                                            task.npsRating.recommendationGrade >= 7 && task.npsRating.recommendationGrade < 9,
+                                        'recommendation-section__value--promoter': task.npsRating.recommendationGrade >= 9
+                                    }"
+                                    >{{ task.npsRating.recommendationGrade }}</span
+                                >
+                                <span *ngIf="task.npsRating.recommendationGrade < 7" class="recommendation-section__label text--100 text-16"
+                                    >Detrator</span
+                                >
+                                <span
+                                    *ngIf="task.npsRating.recommendationGrade >= 7 && task.npsRating.recommendationGrade < 9"
+                                    class="recommendation-section__label text--100 text-16"
+                                    >Neutro</span
+                                >
+                                <span
+                                    *ngIf="task.npsRating.recommendationGrade >= 9"
+                                    class="recommendation-section__label text--100 text-16"
+                                    >Promotor</span
+                                >
                             </div>
                         </div>
-                        <div class="field flex-column">
-                            <span class="text-16 text--bold padding-top-3">Pergunta 4</span>
+                        <div class="field flex-column commentary-section">
+                            <span class="text-16 text--bold">Pergunta 4</span>
                             <span class="text-16 text--500 padding-top-1 desktop">
                                 Por favor, deixe aqui um comentário ou sugestão para nossa equipe!
                             </span>
-                            <div class="flex wide flex-column flex-start padding-y-2 padding-x-3 nps-rating-section">
+                            <div class="flex wide flex-column flex-start padding-y-2 padding-x-3 margin-top-1 commentary-section__content">
                                 <span class="flex-start padding-2">{{ task.npsRating.commentary }}</span>
                             </div>
                         </div>
