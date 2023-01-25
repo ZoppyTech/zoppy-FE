@@ -1,23 +1,68 @@
-import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import { ToastService } from '@ZoppyTech/toast';
 import { Chart, registerables } from 'chart.js';
 import { environment } from 'src/environments/environment';
+import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { ZoppyException } from 'src/shared/services/api.service';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
+import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
     selector: 'average-nps-chart',
     templateUrl: './average-nps-chart.component.html',
     styleUrls: ['./average-nps-chart.component.scss']
 })
-export class AverageNpsChartComponent implements OnInit, AfterViewInit {
+export class AverageNpsChartComponent implements OnInit {
+    @Input() public reportRequest: GetReportRequest = {
+        period: 'all' as ReportPeriod
+    };
     public isLoading: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
 
     public canvas: any;
     public ctx: any;
     @ViewChild('averageNpsChart') public averageNpsChart: any;
+    public average: number = -100;
+    public declare chart: any;
 
-    public ngOnInit(): void {}
+    public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
-    public ngAfterViewInit(): void {
+    public ngOnInit(): void {
+        this.setEvents();
+        this.initializeChart();
+    }
+
+    public async fetchChartData(): Promise<void> {
+        try {
+            this.average = await this.reportsService.getNpsAverage(this.reportRequest);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Não foi possível obter o gráfico de média nível dos produtos');
+        }
+    }
+
+    public async initializeChart(): Promise<void> {
+        this.isLoading = true;
+        await this.fetchChartData();
+        this.isLoading = false;
+        this.drawChart();
+    }
+
+    public setEvents(): void {
+        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
+            this.reportRequest.period = period;
+            this.initializeChart();
+        });
+    }
+
+    public drawChart(): void {
+        setTimeout(() => {
+            this.chart = this.createNewChartInstance();
+            this.chart?.update();
+        }, 0);
+    }
+
+    public createNewChartInstance(): void {
         this.canvas = this.averageNpsChart.nativeElement;
         this.ctx = this.canvas.getContext('2d');
         new Chart(this.ctx, {
@@ -26,15 +71,16 @@ export class AverageNpsChartComponent implements OnInit, AfterViewInit {
                 datasets: [
                     {
                         label: 'NPS médio',
-                        data: [50, 25, 25],
-                        backgroundColor: ['#EB0000', '#FFAD4E', '#30E1A1'],
+                        data: [50, 25, 12.5, 12.5],
+                        backgroundColor: ['#EB0000', '#FFAD4E', '#4D7EFF', '#30E1A1'],
                         cutout: '95%'
                     }
                 ],
                 labels: ['Valor corrente', 'Restante']
             },
             options: {
-                needleValue: 88,
+                needleValue: (this.average + 100) / 2,
+                needleAverageValue: this.average,
                 indexAxis: 'y',
                 responsive: true,
                 rotation: 270,
@@ -55,6 +101,7 @@ export class AverageNpsChartComponent implements OnInit, AfterViewInit {
                         ctx.save();
 
                         const needleValue: number = options.needleValue;
+                        const needleAverageValue: number = options.needleAverageValue;
                         const dataTotal: number = data.datasets[0].data.reduce((a: number, b: number) => a + b, 0);
                         const angle: number = Math.PI + (1 / dataTotal) * needleValue * Math.PI;
 
@@ -87,7 +134,8 @@ export class AverageNpsChartComponent implements OnInit, AfterViewInit {
                         ctx.fillStyle = this.getNeedleColorByValue(needleValue);
                         ctx.textAlign = 'center';
                         ctx.textBaseline = 'bottom';
-                        ctx.fillText(needleValue + '', cx, cy + 30);
+
+                        ctx.fillText(needleValue < 50 ? '-' + needleAverageValue : needleAverageValue, cx, cy + 30);
                     }
                 }
             ]
@@ -95,12 +143,12 @@ export class AverageNpsChartComponent implements OnInit, AfterViewInit {
     }
 
     public getNeedleColorByValue(value: any): any {
-        const fiftyPercent: any = 25;
-        const seventyFivePercent: any = 75;
-        if (value <= fiftyPercent) {
+        if (value < 50) {
             return '#EB0000';
-        } else if (value <= seventyFivePercent) {
+        } else if (value < 75) {
             return '#FFAD4E';
+        } else if (value < 86.5) {
+            return '#4D7EFF';
         } else {
             return '#30E1A1';
         }
