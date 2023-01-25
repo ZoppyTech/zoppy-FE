@@ -1,3 +1,4 @@
+import { FormGroup } from '@angular/forms';
 import { TaskContactTypes, TaskStatus, TaskTypes } from 'src/shared/constants/task.constants';
 
 export interface SocialMediaCustomerTaskResponse {
@@ -10,6 +11,7 @@ export interface SocialMediaCustomerTaskResponse {
     status?: TaskStatus;
     createdAt: Date;
     order?: SocialMediaCustomerOrderResponse;
+    npsRating?: WcNpsResponse;
 }
 
 export interface SocialMediaCustomerOrderResponse {
@@ -25,4 +27,20 @@ export interface SocialMediaCustomerProductResponse {
     specification: string;
     usedGiftback: boolean;
     isCrm: string;
+}
+
+export interface WcNpsResponse {
+    id: number;
+    total: number;
+    commentary: string;
+    supportGrade: number;
+    productGrade: number;
+    recommendationGrade: number;
+    answered: boolean;
+    customerId: string;
+    sellerId: string;
+    createdAt: Date;
+    updatedAt: Date;
+    formStarSupport: FormGroup;
+    formStarProduct: FormGroup;
 }

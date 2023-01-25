@@ -20,7 +20,7 @@
         [customSearch]="true"
         [wide]="true"
         [(value)]="task.customerId"
-        (onSearchTextChanged)="onSearchTextChanged($event)"
+        (onSearchTextChanged)="onSearchTextChanged(task.customerId)"
     ></ps-dropdown>
     <span class="text text--bold text-16 margin-top-2">Cliente</span>
     <ps-input [(ngModel)]="task.description" [rows]="3" [debounce]="0"></ps-input>

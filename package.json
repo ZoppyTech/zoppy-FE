@@ -19,7 +19,7 @@
     "private": true,
     "dependencies": {
         "@angular/animations": "~15.0.0",
-        "@angular/common": "~15.0.0",
+        "@angular/common": "^15.0.4",
         "@angular/compiler": "~15.0.0",
         "@angular/core": "~15.0.0",
         "@angular/forms": "~15.0.0",
@@ -51,6 +51,7 @@
         "ng2-charts": "^4.0.1",
         "ngx-currency": "^2.5.3",
         "ngx-mask": "^14.0.3",
+        "ngx-star-rating": "^2.1.0",
         "rxjs": "~7.5.0",
         "socket.io-client": "^4.1.2",
         "tslib": "^2.3.0",

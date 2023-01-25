@@ -47,6 +47,20 @@
                 Número de dias que o sistema dará para registrar uma tarefa de pós venda para esse cliente no painel do vendedor.
             </span>
         </div>
+        <div class="field">
+            <span class="text-14 margin-bottom-1">
+                Dias para iniciar o NPS <span class="text-14 text--secondary">&nbsp;(Sugestão: 1 dias)</span></span
+            >
+            <ps-input type="number" placeholder="Digite a porcentagem" [(ngModel)]="giftback.npsRatingDays"></ps-input>
+            <div class="flex-start flex-column">
+                <span class="text--500 text-12 desktop">
+                    Número de dias que o sistema dará para registrar uma tarefa de NPS para esse cliente no painel do vendedor.
+                </span>
+                <span class="text--warning text-12 desktop">
+                    *Obs: Valor igual a 0 (zero), o registro da atividade será desconsiderado.
+                </span>
+            </div>
+        </div>
     </div>
     <div class="footer">
         <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary" [disabled]="getSaveDisabled()">

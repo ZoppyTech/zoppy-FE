@@ -1,0 +1,188 @@
+@import '../../../../../styles.scss';
+
+:host {
+    width: 100%;
+    height: 100%;
+    min-height: 0;
+    //background-color: aqua;
+}
+
+.card-container {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+    height: 100%;
+
+    .card-header {
+        flex-grow: 0;
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: fit-content;
+        justify-content: flex-start;
+        align-items: flex-start;
+        //background-color: brown;
+        margin-bottom: 3rem;
+
+        .title {
+            text-align: justify;
+            font-weight: 700;
+            font-size: 3rem;
+            line-height: 3rem;
+            color: var(--neutral-800);
+        }
+
+        .subtitle {
+            color: var(--neutral-800);
+            font-weight: 400;
+            font-size: 1.125rem;
+            line-height: 1.75rem;
+        }
+    }
+
+    .card-body {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: fit-content;
+        justify-content: flex-start;
+        align-items: flex-start;
+        //background-color: cadetblue;
+
+        .progress-bar-container {
+            display: flex;
+            flex-direction: row;
+            align-items: baseline;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+
+            .progress-bar {
+                width: 54.938rem;
+                height: 0.5rem;
+                border-radius: 0.25rem;
+                position: relative;
+                background-color: #cdd6ff;
+
+                .filled {
+                    position: absolute;
+                    height: 0.5rem;
+                    border-radius: 0.25rem;
+                    background-color: #4e14d8;
+                }
+            }
+
+            .percent-display {
+                margin-left: 0.75rem;
+                font-weight: 700;
+                color: #363636;
+            }
+        }
+
+        .question-section {
+            display: flex;
+            flex-direction: column;
+            width: 100%;
+            height: fit-content;
+            justify-content: flex-start;
+            align-items: flex-start;
+            margin-bottom: 2.5rem;
+
+            .title {
+                text-align: justify;
+                font-weight: 700;
+                color: var(--neutral-800);
+                font-size: 1.25rem;
+            }
+
+            .subtitle {
+                color: var(--neutral-800);
+                font-weight: 500;
+                font-size: 1.125rem;
+            }
+        }
+
+        .answer-section {
+            width: 100%;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+
+            .option {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 3.813rem;
+                height: 3.875rem;
+                background: #f1f5f8;
+                border-radius: 8px;
+                margin-right: 0.5rem;
+                cursor: pointer;
+
+                .text {
+                    font-weight: 700;
+                    font-size: 1.5rem;
+                    line-height: 2rem;
+                    color: #4d7eff;
+                }
+
+                &--active {
+                    background: #4d7eff;
+
+                    .text {
+                        color: #f1f5f8;
+                    }
+                }
+            }
+        }
+    }
+
+    .card-footer {
+        width: 100%;
+        height: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: flex-end;
+
+        .button-content {
+            width: 100%;
+            ps-button {
+                width: 100%;
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .card-container {
+        .card-header {
+            .title {
+                font-size: 2.5rem;
+                text-align: start;
+            }
+        }
+        .card-body {
+            .progress-bar-container {
+                .progress-bar {
+                    width: 24rem !important;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 768px) {
+    .card-container {
+        .card-header {
+            .title {
+                text-align: start;
+            }
+        }
+        .card-body {
+            .progress-bar-container {
+                .progress-bar {
+                    width: 27rem !important;
+                }
+            }
+        }
+    }
+}
