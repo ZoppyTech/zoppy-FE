@@ -1,0 +1,52 @@
+@import 'src/styles.scss';
+
+.modal-content {
+    max-width: 600px;
+    min-width: 560px;
+
+    .modal-header {
+        width: 100%;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        justify-content: space-between;
+        margin-bottom: 3rem;
+
+        .button-go-back {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: center;
+            width: 2rem;
+            height: 2rem;
+            border-radius: 50%;
+            border: 1px solid var(--neutral-300);
+            cursor: pointer;
+            background-color: #fafbff;
+            padding: 18px;
+        }
+    }
+
+    .modal-body {
+        display: flex;
+        flex-direction: column;
+        flex-grow: 1;
+        width: 100%;
+        height: 100%;
+        border-radius: 2rem;
+        background-color: var(--neutral-100);
+
+        .table-content {
+            max-height: 100%;
+            table {
+                background-color: var(--neutral-100);
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .modal-content {
+        min-width: 0px;
+    }
+}

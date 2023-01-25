@@ -82,6 +82,62 @@ main {
                 font-size: 1.25rem;
             }
         }
+
+        .nps-rating-section {
+            margin-top: 1rem;
+            background-color: #edf2ff;
+            border-radius: 8px;
+
+            .recommendation-section {
+                padding: 1rem 0rem;
+                width: 50%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
+
+                .option {
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    width: 3rem;
+                    height: 2.375rem;
+                    background: #fdfdfd;
+                    border-radius: 8px;
+                    margin-right: 0.5rem;
+
+                    cursor: pointer;
+
+                    .text {
+                        font-weight: 700;
+                        font-size: 1.5rem;
+                        line-height: 2rem;
+                        color: #4d7eff;
+                    }
+
+                    &--active {
+                        background: #4d7eff;
+
+                        .text {
+                            color: #f1f5f8;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
+
+/**Rating**/
+
+::ng-deep label.star {
+    padding: 0 5px !important;
+    font-size: 48px !important;
+    color: #ddd !important;
+    &::before {
+        content: '\f005' !important;
+    }
+    &:hover {
+        transform: rotate(0deg) scale(1.2) !important;
     }
 }
 
@@ -95,5 +151,27 @@ main {
 @media only screen and (max-width: 576px) {
     main {
         padding: 1rem;
+
+        .body {
+            .nps-rating-section {
+                .recommendation-section {
+                    width: 80%;
+                }
+            }
+        }
+    }
+
+    /**Rating**/
+
+    ::ng-deep label.star {
+        padding: 0 5px !important;
+        font-size: 28px !important;
+        color: #ddd !important;
+        &::before {
+            content: '\f005' !important;
+        }
+        &:hover {
+            transform: rotate(0deg) scale(1.2) !important;
+        }
     }
 }

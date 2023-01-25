@@ -19,6 +19,8 @@ export class TaskUtil {
                 return 'Reaquecimento';
             case TaskConstants.TYPES.CONTACT:
                 return 'Contato';
+            case TaskConstants.TYPES.NPS_RATING:
+                return 'NPS';
             default:
                 return 'Nenhum';
         }
@@ -61,6 +63,8 @@ export class TaskUtil {
                 return MessageConfigConstants.BIRTHDAY_MESSAGE as MessageConfigTemplate;
             case TaskConstants.TYPES.CANT_LOSE:
                 return MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate;
+            case TaskConstants.TYPES.NPS_RATING:
+                return MessageConfigConstants.NPS_RATING_MESSAGE as MessageConfigTemplate;
             default:
                 return MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate;
         }

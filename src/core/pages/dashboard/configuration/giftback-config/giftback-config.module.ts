@@ -6,6 +6,7 @@ import { ButtonModule } from '@ZoppyTech/button';
 import { IconModule } from '@ZoppyTech/icon';
 import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { InputModule } from '@ZoppyTech/input';
+import { SwitchModule } from '@ZoppyTech/switch';
 
 const routes: Routes = [
     {
@@ -15,7 +16,7 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, IconModule, ButtonModule, InputModule],
+    imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, SwitchModule, IconModule, ButtonModule, InputModule],
     declarations: [GiftbackConfigComponent],
     exports: [GiftbackConfigComponent]
 })

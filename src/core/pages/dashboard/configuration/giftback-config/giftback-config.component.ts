@@ -16,6 +16,7 @@ import { Navigation } from 'src/shared/utils/navigation';
 export class GiftbackConfigComponent implements OnInit {
     public giftback: GiftbackRequest = {};
     public loading: boolean = false;
+    public npsRatingDaysActive: boolean = false;
 
     public constructor(
         private readonly toast: ToastService,
@@ -49,7 +50,8 @@ export class GiftbackConfigComponent implements OnInit {
                 maxPercentValue: parseInt(this.giftback.maxPercentValue?.toString() ?? ''),
                 expirationDays: parseInt(this.giftback.expirationDays?.toString() ?? ''),
                 startDays: parseInt(this.giftback.startDays?.toString() ?? ''),
-                afterSaleDays: parseInt(this.giftback.afterSaleDays?.toString() ?? '')
+                afterSaleDays: parseInt(this.giftback.afterSaleDays?.toString() ?? ''),
+                npsRatingDays: parseInt(this.giftback.npsRatingDays?.toString() ?? '')
             };
             const response: WcGiftbackConfigEntity = this.giftback.id
                 ? await this.giftbackService.update(request)

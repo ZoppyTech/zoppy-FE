@@ -6,6 +6,7 @@ import { DebugElement } from '@angular/core';
 import { CustomerSocialMediaComponent } from './customer-social-media.component';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { RouterTestingModule } from '@angular/router/testing';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 describe('CustomerSocialMediaComponent', () => {
     let component: CustomerSocialMediaComponent;
@@ -14,7 +15,7 @@ describe('CustomerSocialMediaComponent', () => {
     beforeEach(async(() => {
         TestBed.configureTestingModule({
             declarations: [CustomerSocialMediaComponent],
-            imports: [HttpClientTestingModule, RouterTestingModule]
+            imports: [HttpClientTestingModule, RouterTestingModule, FormsModule, ReactiveFormsModule]
         }).compileComponents();
     }));
 

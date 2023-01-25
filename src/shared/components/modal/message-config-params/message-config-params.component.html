@@ -1,0 +1,29 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="text--extra-large text--bold text--primary">Lista de parâmetros disponíveis</h5>
+        <div (click)="modal.close()" class="button-go-back clickable">
+            <ps-icon class="text-16 text--primary text--700" icon="icon-times"></ps-icon>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <div class="flex table-content">
+            <table>
+                <thead>
+                    <th><span class="text-16 text--primary text--bold">Nome</span></th>
+                    <th><span class="text-16 text--primary text--bold">Descrição</span></th>
+                </thead>
+                <tbody>
+                    <tr class="item" *ngFor="let param of params">
+                        <td>
+                            <span class="text-16 text--bold">{{ param.name }}</span>
+                        </td>
+                        <td>
+                            <span class="text-16 text--600">{{ param.description }}</span>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
