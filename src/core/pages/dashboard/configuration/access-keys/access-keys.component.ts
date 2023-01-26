@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
+import { AppConstants } from 'src/shared/constants/app.constants';
 import { WcKeyEntity } from 'src/shared/models/entities/wc-key.entity';
 import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -23,6 +24,10 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
     public key: wcKeyRequest = {};
     public loading: boolean = false;
     public sendWebhook: boolean = true;
+    public adminVariables: AdminVariables = {
+        label: '',
+        placeholder: ''
+    };
 
     public constructor(
         private readonly toast: ToastService,
@@ -42,6 +47,7 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
         this.setBreadcrumb();
         this.sideMenuService.changeSub(`accessKeys`);
         this.sideMenuService.change('configurations');
+        await this.setAdminVariables();
         await this.fetchData();
     }
 
@@ -83,7 +89,12 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
     }
 
     public getSaveDisabled(): boolean {
-        return !this.key.key || !this.key.secret || !this.key.url;
+        switch (this.storage.getCompany()?.provider) {
+            case AppConstants.Providers.tray:
+                return !this.key.admin || !this.key.url;
+            default:
+                return !this.key.key || !this.key.secret || !this.key.url;
+        }
     }
 
     public async fetchData(): Promise<void> {
@@ -116,4 +127,26 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
             }
         ];
     }
+
+    private setAdminVariables(): void {
+        switch (this.storage.getCompany()?.provider) {
+            case AppConstants.Providers.shopify:
+                this.adminVariables = {
+                    label: 'Admin Token',
+                    placeholder: 'Insira aqui seu Admin Token'
+                };
+                break;
+            case AppConstants.Providers.tray:
+                this.adminVariables = {
+                    label: 'Code',
+                    placeholder: 'Insira aqui seu Code'
+                };
+                break;
+        }
+    }
+}
+
+interface AdminVariables {
+    label: string;
+    placeholder: string;
 }

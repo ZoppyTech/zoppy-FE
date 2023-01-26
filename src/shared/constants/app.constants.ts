@@ -12,7 +12,8 @@ export class AppConstants {
     public static Providers = {
         wooCommerce: 'woo-commerce',
         shopify: 'shopify',
-        nuvemshop: 'nuvemshop'
+        nuvemshop: 'nuvemshop',
+        tray: 'tray'
     };
 
     public static Role = {
