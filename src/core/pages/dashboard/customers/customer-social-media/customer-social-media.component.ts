@@ -241,8 +241,8 @@ export class CustomerSocialMediaComponent implements OnInit {
             this.customer = await this.crmCustomerService.findById(this.id);
             for (const task of this.tasks) {
                 task.createdAt = new Date(task.createdAt);
-                this.setNpsData(task);
             }
+            this.filterMapNpsTasks();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
@@ -251,13 +251,22 @@ export class CustomerSocialMediaComponent implements OnInit {
         }
     }
 
-    private setNpsData(task: SocialMediaCustomerTaskResponse): void {
-        if (!task.npsRating) return;
-        task.npsRating.formStarSupport = this.fb.group({
-            rating: [task.npsRating.supportGrade + '', Validators.required]
+    private filterMapNpsTasks() {
+        this.tasks = this.tasks.filter((task: SocialMediaCustomerTaskResponse) => {
+            if (task.type !== TaskConstants.TYPES.NPS_RATING) return true;
+            if (task.npsRating && task.npsRating.answered) return true;
+            return false;
         });
-        task.npsRating.formStarProduct = this.fb.group({
-            rating: [task.npsRating.productGrade + '', Validators.required]
+        this.tasks = this.tasks.map((task: SocialMediaCustomerTaskResponse) => {
+            if (task.type !== TaskConstants.TYPES.NPS_RATING) return task;
+            if (!task.npsRating) return task;
+            task.npsRating.formStarSupport = this.fb.group({
+                rating: [task.npsRating.supportGrade + '', Validators.required]
+            });
+            task.npsRating.formStarProduct = this.fb.group({
+                rating: [task.npsRating.productGrade + '', Validators.required]
+            });
+            return task;
         });
     }
 
