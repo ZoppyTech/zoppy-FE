@@ -44,6 +44,24 @@
     <div class="body">
         <div class="side-info flex flex-column desktop">
             <div class="box-content padding-2">
+                <div class="padding-bottom-2 flex space-between side-info__header align-center clickable" (click)="openStatusInfo()">
+                    <span class="text text--primary text--bold">Status</span>
+                    <ps-icon icon="icon-info" class="text--primary"></ps-icon>
+                </div>
+                <div class="separator margin-bottom-2"></div>
+                <ps-dropdown
+                    *ngIf="customer"
+                    [wide]="true"
+                    [enableSearch]="false"
+                    [items]="statuses"
+                    [(value)]="customer.block"
+                    propertyLabel="label"
+                    propertyValue="value"
+                    (valueChange)="updateCustomer($event)"
+                ></ps-dropdown>
+            </div>
+
+            <div class="box-content padding-2 margin-top-3">
                 <div class="padding-bottom-2 flex space-between side-info__header align-center">
                     <span class="text text--primary text--bold">Sobre</span>
                     <ps-icon class="text--700" class="primary clickable" (click)="update()" icon="icon-edit_square"></ps-icon>
