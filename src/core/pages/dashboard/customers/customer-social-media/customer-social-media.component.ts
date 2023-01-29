@@ -37,6 +37,16 @@ export class CustomerSocialMediaComponent implements OnInit {
     public tasks: SocialMediaCustomerTaskResponse[] = [];
     public customer?: CrmCustomerResponse;
     public details: SocialMediaCustomerDetailResponse = new SocialMediaCustomerDetailResponse();
+    public statuses: TypeItem[] = [
+        {
+            label: 'Não quero receber mensagens',
+            value: true
+        },
+        {
+            label: 'Quero receber mensagens',
+            value: false
+        }
+    ];
     public taskTypes: TypeItem[] = [
         {
             label: 'Observações',
@@ -106,6 +116,24 @@ export class CustomerSocialMediaComponent implements OnInit {
         this.id = this.route.snapshot.paramMap.get('id') ?? '';
         await this.fetchData();
         this.setBreadcrumb();
+    }
+
+    public async updateCustomer(block: boolean): Promise<void> {
+        if (!this.customer) return;
+        try {
+            this.customer = await this.crmCustomerService.update(this.id, { ...this.customer, block: block });
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Houve um erro');
+        }
+    }
+
+    public openStatusInfo(): void {
+        this.modal.open(Modal.IDENTIFIER.INFO, {
+            title: 'Status',
+            button: 'Entendi',
+            description: `O status é referente ao desejo do seu cliente de receber mensagens. Caso seu cliente não queira mais receber suas mensagens, selecione a opção "Não quer receber mensagens" e ele será descadastrado da sua lista.`
+        });
     }
 
     public visibleProducts(task: SocialMediaCustomerTaskResponse): boolean {
@@ -328,6 +356,6 @@ export class CustomerSocialMediaComponent implements OnInit {
 
 interface TypeItem {
     label: string;
-    value: TaskTypes | TaskContactTypes | TaskStatus;
+    value: TaskTypes | TaskContactTypes | TaskStatus | boolean;
     class?: string;
 }
