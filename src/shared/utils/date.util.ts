@@ -19,13 +19,10 @@ export class DateUtil {
     }
 
     public static getFirstAndLastDayOfCurrentWeek(): FirstAndLastDayOfWeek {
+        debugger;
         const curr: Date = new Date();
-        const first: number = curr.getDate() - curr.getDay();
-        const last: number = first + 6;
-
-        const firstday: Date = new Date(curr.setDate(first));
-        const lastday: Date = new Date(curr.setDate(last));
-
+        const firstday: Date = new Date(curr.setDate(curr.getDate() - curr.getDay()));
+        const lastday: Date = new Date(curr.setDate(curr.getDate() - curr.getDay() + 6));
         return {
             firstday: firstday,
             lastday: lastday
