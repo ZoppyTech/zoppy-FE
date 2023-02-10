@@ -123,6 +123,11 @@ th {
     justify-content: flex-end;
 }
 
+.align-items-end {
+    display: flex;
+    align-items: flex-end;
+}
+
 .space-between {
     display: flex;
     justify-content: space-between;

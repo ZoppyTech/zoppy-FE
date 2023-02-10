@@ -6,6 +6,8 @@ export class AppConstants {
         Production: 'production'
     };
     public static Plan = {
+        free: 'free',
+        basic: 'basic',
         premium: 'premium',
         standard: 'standard'
     };
@@ -13,7 +15,9 @@ export class AppConstants {
         wooCommerce: 'woo-commerce',
         shopify: 'shopify',
         nuvemshop: 'nuvemshop',
-        tray: 'tray'
+        tray: 'tray',
+        yampi: 'yampi',
+        dooca: 'dooca'
     };
 
     public static Role = {
