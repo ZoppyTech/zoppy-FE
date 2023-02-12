@@ -1,8 +1,8 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { MessageConfigTemplate } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
-import { MessageConfigTemplate } from 'src/shared/constants/message-config.constants';
 import { CrmCustomerRequest } from 'src/shared/models/requests/crm/crm-customer.request';
 import { CrmCustomerDetailResponse, CrmCustomerResponse } from 'src/shared/models/responses/crm/crm-customer.response';
 import { Storage } from 'src/shared/utils/storage';

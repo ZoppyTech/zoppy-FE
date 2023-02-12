@@ -1,9 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
-import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-account.entity';
-import { SignWhatsappAccountRequest } from 'src/shared/models/requests/whatsapp-account/sign-whatsapp-account.request';
-import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappAccountService } from 'src/shared/services/whatsapp-account/whatsapp-account.service';
 
 @Component({

@@ -2,11 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
+import {
+    TaskConstants,
+    TaskContactTypes,
+    TaskTypes,
+    MessageConfigConstants,
+    MessageConfigTemplate,
+    TaskStatus
+} from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-panel-contact/sales-panel-contact.request';
-import { MessageConfigConstants, MessageConfigTemplate } from 'src/shared/constants/message-config.constants';
-import { TaskConstants, TaskContactTypes, TaskStatus, TaskTypes } from 'src/shared/constants/task.constants';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
 import { CrmCustomerResponse } from 'src/shared/models/responses/crm/crm-customer.response';
 import { SocialMediaCustomerDetailResponse } from 'src/shared/models/responses/social-media/social-media-customer-detail.response';
@@ -144,7 +150,7 @@ export class CustomerSocialMediaComponent implements OnInit {
         window.open(`tel:+55${this.customer?.phone}`, '_self');
     }
 
-    public async createTask(contactType: TaskContactTypes, taskType: TaskTypes): Promise<void> {
+    public async createTask(contactType: TaskContactTypes, taskType: TaskTypes | string): Promise<void> {
         if (contactType === TaskConstants.CONTACT_TYPES.WHATSAPP) await this.sendMessage(taskType);
         else if (contactType === TaskConstants.CONTACT_TYPES.CALL) await this.call();
 
@@ -216,7 +222,7 @@ export class CustomerSocialMediaComponent implements OnInit {
         this.modal.open(Modal.IDENTIFIER.SALES_PANEL_CONTACT, contactRequest, async (response: SalesPanelContactRequest) => {
             if (!response.question.response) response.statusType.response = TaskConstants.STATUS.WARN;
             const request: SocialMediaRequest = {
-                taskType: taskType,
+                taskType: taskType as TaskTypes,
                 description: response.description.value,
                 contactType: response.contactType.response as any,
                 status: response.statusType.response as any

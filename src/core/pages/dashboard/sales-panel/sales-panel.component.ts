@@ -1,11 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
+import { MessageConfigTemplate, TaskContactTypes, TaskConstants } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-panel-contact/sales-panel-contact.request';
-import { MessageConfigConstants, MessageConfigTemplate } from 'src/shared/constants/message-config.constants';
-import { TaskConstants, TaskContactTypes } from 'src/shared/constants/task.constants';
 import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';

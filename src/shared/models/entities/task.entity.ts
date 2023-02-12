@@ -1,4 +1,4 @@
-import { TaskContactTypes, TaskStatus, TaskTypes } from 'src/shared/constants/task.constants';
+import { TaskContactTypes, TaskStatus, TaskTypes } from '@ZoppyTech/utilities';
 import { WcCustomerEntity } from './wc-customer.entity';
 
 export class TaskEntity {

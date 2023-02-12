@@ -1,4 +1,4 @@
-import { AppConstants } from 'src/shared/constants/app.constants';
+import { AppConstants } from '@ZoppyTech/utilities';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { CompanyUtil } from 'src/shared/utils/company.util';
@@ -81,13 +81,13 @@ export class DashboardBasePage {
 
     public getRoleLabel(role: string) {
         switch (role) {
-            case AppConstants.Role.admin:
+            case AppConstants.ROLES.ADMIN:
                 return 'Administrador';
-            case AppConstants.Role.master:
+            case AppConstants.ROLES.MASTER:
                 return 'Master';
-            case AppConstants.Role.manager:
+            case AppConstants.ROLES.MANAGER:
                 return 'Gerente';
-            case AppConstants.Role.common:
+            case AppConstants.ROLES.COMMON:
                 return 'Vendedor';
             default:
                 return 'Nenhum';

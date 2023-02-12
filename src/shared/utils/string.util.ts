@@ -7,11 +7,7 @@ export class StringUtil {
     }
 
     public static convertArrayToText(arr: string[]): string {
-        let errorFormatted: string = '';
-        arr.forEach((err: string) => {
-            errorFormatted += err + ', ';
-        });
-        return errorFormatted.substring(0, errorFormatted.length - 2);
+        return arr.join(', ');
     }
 
     public static onlyNumbers(text: string): string {
