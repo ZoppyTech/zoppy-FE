@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
+import { WhatsappConstants } from '@ZoppyTech/utilities';
 import { ModalService } from 'src/shared/components/modal/modal.service';
-import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { WhatsappAccountPhoneNumberEntity } from 'src/shared/models/entities/whatsapp-account-phone-number.entity';
 import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-account.entity';

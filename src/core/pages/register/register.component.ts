@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
-import { AppConstants } from 'src/shared/constants/app.constants';
+import { AppConstants } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { CompanyProvider, CompanyRequest } from 'src/shared/models/requests/company/company.request';
 import { PaymentRequest } from 'src/shared/models/requests/company/payment.request';
@@ -140,7 +140,7 @@ export class RegisterComponent implements OnInit {
     }
 
     public async goToPayment(): Promise<void> {
-        if (this.getPlanSelected().value === AppConstants.Plan.free) {
+        if (this.getPlanSelected().value === AppConstants.PLANS.FREE) {
             await this.register();
             return;
         }
@@ -395,38 +395,38 @@ export class RegisterComponent implements OnInit {
             {
                 image: './assets/svg/woo-commerce.svg',
                 selected: false,
-                value: AppConstants.Providers.wooCommerce
+                value: AppConstants.PROVIDERS.WOO_COMMERCE
             },
             {
                 image: './assets/svg/shopify.svg',
                 selected: false,
-                value: AppConstants.Providers.shopify
+                value: AppConstants.PROVIDERS.SHOPIFY
             },
             {
                 image: './assets/svg/nuvemshop.svg',
                 selected: false,
-                value: AppConstants.Providers.nuvemshop
+                value: AppConstants.PROVIDERS.NUVEMSHOP
             },
             {
                 image: './assets/svg/tray.svg',
                 selected: false,
-                value: AppConstants.Providers.tray
+                value: AppConstants.PROVIDERS.TRAY
             },
             {
                 image: './assets/svg/yampi.svg',
                 selected: false,
-                value: AppConstants.Providers.yampi
+                value: AppConstants.PROVIDERS.YAMPI
             },
             {
                 image: './assets/svg/dooca.svg',
                 selected: false,
-                value: AppConstants.Providers.dooca
+                value: AppConstants.PROVIDERS.DOOCA
             }
         ];
     }
 
     private isPartner(): boolean {
-        return this.getPlanSelected()?.value === AppConstants.Providers.tray;
+        return this.getPlanSelected()?.value === AppConstants.PROVIDERS.TRAY;
     }
 
     private initPlans(): void {
@@ -446,7 +446,7 @@ export class RegisterComponent implements OnInit {
                 visible: this.isPartner(),
                 satisfaction: true,
                 special: false,
-                value: AppConstants.Plan.free,
+                value: AppConstants.PLANS.FREE,
                 selected: false
             },
             {
@@ -458,7 +458,7 @@ export class RegisterComponent implements OnInit {
                 visible: true,
                 satisfaction: true,
                 special: false,
-                value: AppConstants.Plan.basic,
+                value: AppConstants.PLANS.BASIC,
                 selected: false
             },
             {
@@ -470,7 +470,7 @@ export class RegisterComponent implements OnInit {
                 visible: true,
                 satisfaction: true,
                 special: true,
-                value: AppConstants.Plan.standard,
+                value: AppConstants.PLANS.STANDARD,
                 selected: false
             },
             {
@@ -489,7 +489,7 @@ export class RegisterComponent implements OnInit {
                 visible: true,
                 satisfaction: true,
                 special: false,
-                value: AppConstants.Plan.premium,
+                value: AppConstants.PLANS.PREMIUM,
                 selected: false
             }
         ];

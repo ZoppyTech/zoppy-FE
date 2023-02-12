@@ -129,7 +129,7 @@ export abstract class ApiService {
 
     public handleError(responseError: any) {
         const errorMessage: string = Array.isArray(responseError.error?.message)
-            ? StringUtil.convertArrayToText(responseError.error.message)
+            ? responseError.error.message.join(', ')
             : responseError.error.message || '';
         const error: ZoppyException = responseError.error as ZoppyException;
         error.message = errorMessage as string;

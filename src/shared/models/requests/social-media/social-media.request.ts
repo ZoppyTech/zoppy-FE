@@ -1,4 +1,4 @@
-import { TaskContactTypes, TaskStatus, TaskTypes } from 'src/shared/constants/task.constants';
+import { TaskTypes, TaskContactTypes, TaskStatus } from '@ZoppyTech/utilities';
 
 export class SocialMediaRequest {
     public declare taskType?: TaskTypes;

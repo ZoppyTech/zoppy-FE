@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
+import { WebSocketConstants, WhatsappConstants } from '@ZoppyTech/utilities';
 import { Subject } from 'rxjs';
-import { WebSocketConstants } from 'src/shared/constants/websocket.constants';
-import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { WhatsappAccountManagerEntity } from 'src/shared/models/entities/whatsapp-account-manager.entity';
 import { WhatsappAccountPhoneNumberEntity } from 'src/shared/models/entities/whatsapp-account-phone-number.entity';

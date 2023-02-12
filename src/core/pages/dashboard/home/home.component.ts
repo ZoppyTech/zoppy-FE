@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
-import { AppConstants } from 'src/shared/constants/app.constants';
+import { AppConstants } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { DashboardResponse } from 'src/shared/models/responses/dashboard/dashboard.response';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -36,7 +36,7 @@ export class HomeComponent implements OnInit {
 
     public async ngOnInit() {
         this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
-        if ([AppConstants.Role.common, AppConstants.Role.manager].includes(this.user.role)) {
+        if ([AppConstants.ROLES.COMMON, AppConstants.ROLES.MANAGER].includes(this.user.role)) {
             this.redirect();
             return;
         }
@@ -145,10 +145,10 @@ export class HomeComponent implements OnInit {
 
     private redirect(): void {
         switch (this.user.role) {
-            case AppConstants.Role.common:
+            case AppConstants.ROLES.COMMON:
                 this.router.navigate([Navigation.routes.salesPanel]);
                 break;
-            case AppConstants.Role.manager:
+            case AppConstants.ROLES.MANAGER:
                 this.router.navigate([Navigation.routes.reports]);
                 break;
         }

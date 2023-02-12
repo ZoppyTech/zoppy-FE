@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppConstants } from 'src/shared/constants/app.constants';
+import { AppConstants } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { PublicService } from 'src/shared/services/public/public.service';
@@ -22,9 +22,9 @@ export class TopBarComponent implements OnInit {
             route: Navigation.routes.configuration,
             class: 'desktop',
             visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [
-                AppConstants.Role.admin,
-                AppConstants.Role.master,
-                AppConstants.Role.manager
+                AppConstants.ROLES.ADMIN,
+                AppConstants.ROLES.MASTER,
+                AppConstants.ROLES.MANAGER
             ])
         },
         {
@@ -37,22 +37,22 @@ export class TopBarComponent implements OnInit {
             label: 'Minha Empresa',
             route: Navigation.routes.myCompanyConfig,
             class: '',
-            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.Role.admin, AppConstants.Role.master])
+            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
         },
         {
             label: 'WhatsApp',
             route: Navigation.routes.whatsapp,
             class: '',
-            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.Role.master])
+            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.ROLES.MASTER])
         },
         {
             label: 'Usuários',
             route: Navigation.routes.myCompanyUsers,
             class: '',
             visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [
-                AppConstants.Role.admin,
-                AppConstants.Role.master,
-                AppConstants.Role.manager
+                AppConstants.ROLES.ADMIN,
+                AppConstants.ROLES.MASTER,
+                AppConstants.ROLES.MANAGER
             ])
         }
     ];

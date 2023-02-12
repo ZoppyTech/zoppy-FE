@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
-import { AppConstants } from 'src/shared/constants/app.constants';
+import { AppConstants } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { UserRequest } from 'src/shared/models/requests/user/user.request';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -79,16 +79,16 @@ export class MyCompanyUsersComponent extends DashboardBasePage implements OnInit
     public setRoles(): void {
         this.roles = [
             {
-                label: this.getRoleLabel(AppConstants.Role.admin),
-                value: AppConstants.Role.admin
+                label: this.getRoleLabel(AppConstants.ROLES.ADMIN),
+                value: AppConstants.ROLES.ADMIN
             },
             {
-                label: this.getRoleLabel(AppConstants.Role.manager),
-                value: AppConstants.Role.manager
+                label: this.getRoleLabel(AppConstants.ROLES.MANAGER),
+                value: AppConstants.ROLES.MANAGER
             },
             {
-                label: this.getRoleLabel(AppConstants.Role.common),
-                value: AppConstants.Role.common
+                label: this.getRoleLabel(AppConstants.ROLES.COMMON),
+                value: AppConstants.ROLES.COMMON
             }
         ];
     }

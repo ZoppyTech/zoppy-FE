@@ -6,8 +6,8 @@ import { Router } from '@angular/router';
 import { Storage } from 'src/shared/utils/storage';
 import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
 import { WhatsappManagedMessageTemplateRequest } from 'src/shared/models/requests/whatsapp-business-management/whatsapp-managed-message-template.request';
-import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappUpdateMessageTemplateRequest } from 'src/shared/models/requests/whatsapp-business-management/whatsapp-update-message-template.request';
+import { WhatsappConstants } from '@ZoppyTech/utilities';
 
 @Injectable({
     providedIn: 'root'

@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
+import { AppConstants } from '@ZoppyTech/utilities';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
-import { AppConstants } from 'src/shared/constants/app.constants';
 import { WcKeyEntity } from 'src/shared/models/entities/wc-key.entity';
 import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -90,7 +90,7 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
 
     public getSaveDisabled(): boolean {
         switch (this.storage.getCompany()?.provider) {
-            case AppConstants.Providers.tray:
+            case AppConstants.PROVIDERS.TRAY:
                 return !this.key.admin || !this.key.url;
             default:
                 return !this.key.key || !this.key.secret || !this.key.url;
@@ -130,13 +130,13 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
 
     private setAdminVariables(): void {
         switch (this.storage.getCompany()?.provider) {
-            case AppConstants.Providers.shopify:
+            case AppConstants.PROVIDERS.SHOPIFY:
                 this.adminVariables = {
                     label: 'Admin Token',
                     placeholder: 'Insira aqui seu Admin Token'
                 };
                 break;
-            case AppConstants.Providers.tray:
+            case AppConstants.PROVIDERS.TRAY:
                 this.adminVariables = {
                     label: 'Code',
                     placeholder: 'Insira aqui seu Code'

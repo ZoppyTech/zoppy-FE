@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppConstants } from 'src/shared/constants/app.constants';
+import { AppConstants } from '@ZoppyTech/utilities';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { PublicService } from 'src/shared/services/public/public.service';
@@ -50,14 +50,14 @@ export class SideMenuComponent implements OnInit {
                 icon: 'icon-home',
                 label: 'Início',
                 route: Navigation.routes.home,
-                visible: UserUtil.hasRoles(this.user, [AppConstants.Role.admin, AppConstants.Role.master])
+                visible: UserUtil.hasRoles(this.user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
             },
             {
                 id: `reports`,
                 icon: 'icon-inventory',
                 label: 'Relatórios',
                 route: `${Navigation.routes.reports}/1`,
-                visible: UserUtil.hasRoles(this.user, [AppConstants.Role.admin, AppConstants.Role.manager, AppConstants.Role.master])
+                visible: UserUtil.hasRoles(this.user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MANAGER, AppConstants.ROLES.MASTER])
             },
             {
                 id: `whatsapp`,
@@ -108,7 +108,7 @@ export class SideMenuComponent implements OnInit {
                 icon: 'icon-location_away',
                 label: 'Minha empresa',
                 route: null,
-                visible: UserUtil.hasRoles(this.user, [AppConstants.Role.admin, AppConstants.Role.master]),
+                visible: UserUtil.hasRoles(this.user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER]),
                 class: 'mobile',
                 subItems: [
                     {
@@ -116,14 +116,14 @@ export class SideMenuComponent implements OnInit {
                         icon: 'icon-arrow',
                         label: 'Dados',
                         route: '/dashboard/my-company/config',
-                        visible: UserUtil.hasRoles(this.user, [AppConstants.Role.admin, AppConstants.Role.master])
+                        visible: UserUtil.hasRoles(this.user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
                     },
                     {
                         id: `myCompanyUsers`,
                         icon: 'icon-arrow',
                         label: 'Usuários',
                         route: '/dashboard/my-company/users',
-                        visible: UserUtil.hasRoles(this.user, [AppConstants.Role.admin, AppConstants.Role.master])
+                        visible: UserUtil.hasRoles(this.user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
                     },
                     {
                         id: `whatsappConfig`,

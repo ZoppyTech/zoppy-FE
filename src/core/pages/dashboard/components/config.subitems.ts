@@ -1,4 +1,4 @@
-import { AppConstants } from 'src/shared/constants/app.constants';
+import { AppConstants } from '@ZoppyTech/utilities';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { SideMenuItem } from 'src/shared/services/side-menu/side-menu.service';
@@ -14,28 +14,28 @@ export class ConfigSubItems {
                 icon: 'icon-arrow',
                 label: 'Configuração de Giftback',
                 route: Navigation.routes.giftback,
-                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master, AppConstants.Role.manager])
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
             },
             {
                 id: `accessTokens`,
                 icon: 'icon-arrow',
                 label: 'Tokens de Acesso',
                 route: Navigation.routes.accessTokens,
-                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
             },
             {
                 id: `accessKeys`,
                 icon: 'icon-arrow',
                 label: 'Chaves de Acesso',
                 route: Navigation.routes.accessKeys,
-                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
             },
             {
                 id: `syncData`,
                 icon: 'icon-arrow',
                 label: 'Sincronização',
                 route: Navigation.routes.syncData,
-                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
             },
             {
                 id: `whatsappConfig`,
@@ -56,21 +56,21 @@ export class ConfigSubItems {
                 icon: 'icon-arrow',
                 label: 'Configuração da Letalk',
                 route: Navigation.routes.letalk,
-                visible: CompanyUtil.isStandard(company) && UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
+                visible: CompanyUtil.isStandard(company) && UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
             },
             {
                 id: `messageConfig`,
                 icon: 'icon-arrow',
                 label: 'Configuração de mensagens',
                 route: Navigation.routes.messageConfig,
-                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master, AppConstants.Role.manager])
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
             },
             {
                 id: `coupons`,
                 icon: 'icon-arrow',
                 label: 'Visualização de giftbacks',
                 route: Navigation.routes.coupons,
-                visible: UserUtil.hasRoles(user, [AppConstants.Role.admin, AppConstants.Role.master])
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
             },
             {
                 id: `batchUpload`,
