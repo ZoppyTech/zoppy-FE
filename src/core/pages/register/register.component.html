@@ -49,12 +49,13 @@
                 </div>
 
                 <div class="field flex flex-center">
-                    <ps-checkbox [(active)]="acceptTerms"> </ps-checkbox>
-                    <span class="text--800">
-                        Eu aceito os
-                        <a class="text--primary text--bold text--link">Termos e Condições </a>
-                        <span class="desktop">da Zoppy.</span>
-                    </span>
+                    <ps-checkbox [(active)]="acceptTerms">
+                        <span class="text--800">
+                            Eu aceito os
+                            <a class="text--primary text--bold text--link">Termos e Condições </a>
+                            <span class="desktop">da Zoppy.</span>
+                        </span>
+                    </ps-checkbox>
                 </div>
 
                 <div class="wide">
@@ -78,16 +79,16 @@
                 </div>
 
                 <div class="buttons">
-                    <ps-button (onClick)="step = 1" [loading]="loading" [wide]="true" type="secondary-border"
+                    <ps-button (onClick)="step = 1" [wide]="true" [loading]="loading" type="secondary-border"
                         ><span class="text text--secondary text--bold">Voltar</span>
                     </ps-button>
                     <ps-button
                         (onClick)="goToThirdStep()"
-                        [loading]="loading"
                         [wide]="true"
+                        [loading]="loading"
                         type="secondary"
                         [disabled]="getSecondStepDisabled()"
-                        ><span class="text text--100 text--bold">Prosseguir123</span>
+                        ><span class="text text--100 text--bold">Prosseguir</span>
                     </ps-button>
                 </div>
             </div>
@@ -189,7 +190,7 @@
                     ></ps-dropdown>
                 </div>
 
-                <div class="wide">
+                <div class="wide buttons">
                     <ps-button (onClick)="backToThirdStep()" [loading]="loading" [wide]="true" type="secondary-border"
                         ><span class="text text--secondary text--bold">Voltar</span>
                     </ps-button>

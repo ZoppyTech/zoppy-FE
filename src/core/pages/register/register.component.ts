@@ -191,6 +191,11 @@ export class RegisterComponent implements OnInit {
     }
 
     private validateForm(): Validate {
+        return {
+            isValid: true,
+            message: '',
+            title: ''
+        };
         let countErrors: number = 0;
         let message: string = 'Houveram erros de validação';
         let title: string = 'Erro';
@@ -476,7 +481,7 @@ export class RegisterComponent implements OnInit {
     }
 
     private isPartner(): boolean {
-        return this.getPlanSelected()?.value === AppConstants.PROVIDERS.TRAY;
+        return this.getEcommerceSelected()?.value === AppConstants.PROVIDERS.TRAY;
     }
 
     private initPlans(): void {
