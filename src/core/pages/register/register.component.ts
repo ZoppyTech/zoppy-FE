@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
-import { AppConstants } from '@ZoppyTech/utilities';
+import { AppConstants, PasswordValidator } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { CompanyProvider, CompanyRequest } from 'src/shared/models/requests/company/company.request';
 import { PaymentRequest } from 'src/shared/models/requests/company/payment.request';
@@ -40,13 +40,21 @@ export class RegisterComponent implements OnInit {
     }
 
     public async register(): Promise<void> {
-        const formValid: boolean = this.validateForm();
+        const formValid: Validate = this.validateForm();
         const paymentFormValid: boolean = this.validatePaymentForm();
         if (!this.acceptTerms) {
             this.toast.error('É necessário aceitar os Termos e condições', 'Erro');
             return;
         }
-        if (!formValid) {
+        if (!PasswordValidator.validate(this.getById('password').model.toString())) {
+            this.toast.error(
+                'Sua senha deve ter no mínimo 8 caracteres, 1 caractere especial, 1 número e uma letra maiúscula',
+                'Senha não obedece padrões de segurança',
+                6
+            );
+            return;
+        }
+        if (!formValid.isValid) {
             this.toast.error('Houveram erros de validação', 'Erro');
             return;
         }
@@ -113,25 +121,49 @@ export class RegisterComponent implements OnInit {
         });
     }
 
-    public getPlanSelected(): Ecommerce {
+    public getEcommerceSelected(): Ecommerce {
         return this.ecommerces.find((ecommerce: Ecommerce) => ecommerce.selected) as Ecommerce;
     }
 
-    public getEcommerceSelected(): Plan {
+    public getPlanSelected(): Plan {
         return this.plans.find((plan: Plan) => plan.selected) as Plan;
     }
 
     public goToSecondStep(): void {
-        const formValid: boolean = this.validateForm();
+        const formValidator: Validate = this.validateForm();
         if (!this.acceptTerms) {
             this.toast.error('É necessário aceitar os Termos e condições', 'Erro');
             return;
         }
-        if (!formValid) {
-            this.toast.error('Houveram erros de validação', 'Erro');
+        if (!formValidator.isValid) {
+            this.toast.error(formValidator.message, formValidator.title);
+            return;
+        }
+        if (!this.getById('e-commerce').model) {
+            this.step = 3;
             return;
         }
         this.step = 2;
+    }
+
+    public backToSecondStep(): void {
+        if (!this.getById('e-commerce').model) {
+            this.step = 1;
+            return;
+        }
+        this.step = 2;
+    }
+
+    public backToThirdStep(): void {
+        if (!this.getById('e-commerce').model) {
+            this.backToSecondStep();
+            return;
+        }
+        this.step = 3;
+    }
+
+    public getSecondStepDisabled(): boolean {
+        return !this.getEcommerceSelected()?.value;
     }
 
     public goToThirdStep(): void {
@@ -140,11 +172,15 @@ export class RegisterComponent implements OnInit {
     }
 
     public async goToPayment(): Promise<void> {
-        if (this.getPlanSelected().value === AppConstants.PLANS.FREE) {
+        if (this.getPlanSelected()?.value === AppConstants.PLANS.FREE) {
             await this.register();
             return;
         }
         this.step = 4;
+    }
+
+    public getThirdStepDisabled(): boolean {
+        return !this.getPlanSelected()?.value;
     }
 
     private initForm(): void {
@@ -154,11 +190,13 @@ export class RegisterComponent implements OnInit {
         });
     }
 
-    private validateForm(): boolean {
+    private validateForm(): Validate {
         let countErrors: number = 0;
+        let message: string = 'Houveram erros de validação';
+        let title: string = 'Erro';
 
         this.fields.forEach((field: Field) => {
-            if (!field.model) {
+            if (field.model === null || field.model === undefined || field.model === '') {
                 field.errors = ['error'];
                 countErrors++;
             }
@@ -174,13 +212,25 @@ export class RegisterComponent implements OnInit {
             countErrors++;
         }
 
+        if (!PasswordValidator.validate(this.getById('password').model.toString())) {
+            this.getById('confirmPassword').errors = ['error'];
+            this.getById('password').errors = ['error'];
+            message = 'Sua senha deve ter no mínimo 8 caracteres, 1 caractere especial, 1 número e uma letra maiúscula';
+            title = 'Senha não obedece padrões de segurança';
+            countErrors++;
+        }
+
         if (this.getById('confirmPassword').model !== this.getById('password').model) {
             this.getById('confirmPassword').errors = ['error'];
             this.getById('password').errors = ['error'];
             countErrors++;
         }
 
-        return countErrors === 0;
+        return {
+            isValid: countErrors === 0,
+            message: message,
+            title: title
+        };
     }
 
     private validatePaymentForm(): boolean {
@@ -486,7 +536,7 @@ export class RegisterComponent implements OnInit {
                     'Gestor de contas exclusivo que vai te auxiliar a ter as melhores estratégias',
                     'Campanhas de reativação e marketing com seu próprio WhatsApp'
                 ],
-                visible: true,
+                visible: !this.isPartner(),
                 satisfaction: true,
                 special: false,
                 value: AppConstants.PLANS.PREMIUM,
@@ -528,4 +578,10 @@ class Plan {
     public tooltip?: string = '';
     public value: string = '';
     public selected: boolean = false;
+}
+
+interface Validate {
+    isValid: boolean;
+    message: string;
+    title: string;
 }

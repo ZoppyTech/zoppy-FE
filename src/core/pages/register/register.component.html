@@ -81,8 +81,13 @@
                     <ps-button (onClick)="step = 1" [loading]="loading" [wide]="true" type="secondary-border"
                         ><span class="text text--secondary text--bold">Voltar</span>
                     </ps-button>
-                    <ps-button (onClick)="goToThirdStep()" [loading]="loading" [wide]="true" type="secondary"
-                        ><span class="text text--100 text--bold">Prosseguir</span>
+                    <ps-button
+                        (onClick)="goToThirdStep()"
+                        [loading]="loading"
+                        [wide]="true"
+                        type="secondary"
+                        [disabled]="getSecondStepDisabled()"
+                        ><span class="text text--100 text--bold">Prosseguir123</span>
                     </ps-button>
                 </div>
             </div>
@@ -134,10 +139,15 @@
 
                 <div class="wide">
                     <div class="buttons">
-                        <ps-button (onClick)="step = 2" [loading]="loading" [wide]="true" type="secondary-border"
+                        <ps-button (onClick)="backToSecondStep()" [loading]="loading" [wide]="true" type="secondary-border"
                             ><span class="text text--secondary text--bold">Voltar</span>
                         </ps-button>
-                        <ps-button (onClick)="goToPayment()" [loading]="loading" [wide]="true" type="secondary"
+                        <ps-button
+                            (onClick)="goToPayment()"
+                            [disabled]="getThirdStepDisabled()"
+                            [loading]="loading"
+                            [wide]="true"
+                            type="secondary"
                             ><span class="text text--100 text--bold">Prosseguir</span>
                         </ps-button>
                     </div>
@@ -165,6 +175,7 @@
                     <ps-dropdown
                         [enableAdd]="false"
                         *ngIf="field.inputType === 'dropdown'"
+                        [displayTop]="true"
                         [enableSearch]="false"
                         [errors]="field.errors"
                         [hasImage]="true"
@@ -179,6 +190,9 @@
                 </div>
 
                 <div class="wide">
+                    <ps-button (onClick)="backToThirdStep()" [loading]="loading" [wide]="true" type="secondary-border"
+                        ><span class="text text--secondary text--bold">Voltar</span>
+                    </ps-button>
                     <ps-button (onClick)="register()" [loading]="loading" [wide]="true" type="secondary"
                         ><span class="text text--100 text--bold">Concluir</span>
                     </ps-button>
