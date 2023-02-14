@@ -1,6 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
+import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { ZoppyException } from 'src/shared/services/api.service';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
+import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
     selector: 'service-level-chart',
@@ -8,16 +13,56 @@ import { environment } from 'src/environments/environment';
     styleUrls: ['./service-level-chart.component.scss']
 })
 export class ServiceLevelChartComponent {
+    @Input() public reportRequest: GetReportRequest = {
+        period: 'all' as ReportPeriod
+    };
     public isLoading: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
+    public supportGrade: number = 0;
 
     public canvas: any;
     public ctx: any;
     @ViewChild('serviceLevelChart') public serviceLevelChart: any;
+    public declare chart: any;
 
-    public ngOnInit(): void {}
+    public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
-    public ngAfterViewInit() {
+    public ngOnInit(): void {
+        this.setEvents();
+        this.initializeChart();
+    }
+
+    public async fetchChartData(): Promise<void> {
+        try {
+            this.supportGrade = await this.reportsService.getNpsSupportGrade(this.reportRequest);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Não foi possível obter o gráfico de média nível do atendimento');
+        }
+    }
+
+    public async initializeChart(): Promise<void> {
+        this.isLoading = true;
+        await this.fetchChartData();
+        this.isLoading = false;
+        this.drawChart();
+    }
+
+    public setEvents(): void {
+        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
+            this.reportRequest.period = period;
+            this.initializeChart();
+        });
+    }
+
+    public drawChart(): void {
+        setTimeout(() => {
+            this.chart = this.createNewChartInstance();
+            this.chart?.update();
+        }, 0);
+    }
+
+    public createNewChartInstance(): any {
         this.canvas = this.serviceLevelChart.nativeElement;
         this.ctx = this.canvas.getContext('2d');
         new Chart(this.ctx, {
@@ -34,7 +79,7 @@ export class ServiceLevelChartComponent {
                 labels: ['Valor corrente', 'Restante']
             },
             options: {
-                needleValue: 92,
+                needleValue: this.supportGrade,
                 indexAxis: 'y',
                 responsive: true,
                 rotation: 270,

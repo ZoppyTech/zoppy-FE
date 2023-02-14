@@ -1,6 +1,11 @@
-import { Component, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
+import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
+import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { ZoppyException } from 'src/shared/services/api.service';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
+import { ReportService } from 'src/shared/services/reports/report.service';
 
 @Component({
     selector: 'consumer-nps-chart',
@@ -8,18 +13,58 @@ import { environment } from 'src/environments/environment';
     styleUrls: ['./consumer-nps-chart.component.scss']
 })
 export class ConsumerNpsChartComponent {
+    @Input() public reportRequest: GetReportRequest = {
+        period: 'all' as ReportPeriod
+    };
     public isLoading: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
 
-    public grades: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+    public gradeLabels: string[] = ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'];
+    public gradeValues: { grade: string; count: number }[] = [];
 
     public canvas: any;
     public ctx: any;
     @ViewChild('consumerNpsChart') public consumerNpsChart: any;
+    public declare chart: any;
 
-    public ngOnInit(): void {}
+    public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
-    public ngAfterViewInit() {
+    public ngOnInit(): void {
+        this.setEvents();
+        this.initializeChart();
+    }
+
+    public async fetchChartData(): Promise<void> {
+        try {
+            this.gradeValues = await this.reportsService.getNpsRecommendationGrade(this.reportRequest);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Não foi possível obter o gráfico de média nível dos produtos');
+        }
+    }
+
+    public async initializeChart(): Promise<void> {
+        this.isLoading = true;
+        await this.fetchChartData();
+        this.isLoading = false;
+        this.drawChart();
+    }
+
+    public setEvents(): void {
+        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
+            this.reportRequest.period = period;
+            this.initializeChart();
+        });
+    }
+
+    public drawChart(): void {
+        setTimeout(() => {
+            this.chart = this.createNewChartInstance();
+            this.chart?.update();
+        }, 0);
+    }
+
+    public createNewChartInstance() {
         this.canvas = this.consumerNpsChart.nativeElement;
         this.ctx = this.canvas.getContext('2d');
         new Chart(this.ctx, {
@@ -28,11 +73,11 @@ export class ConsumerNpsChartComponent {
                 datasets: [
                     {
                         label: 'NPS dos consumidores',
-                        data: [4, 0, 2, 1, 2, 9, 7, 8, 20, 25, 22],
+                        data: this.gradeValues.map((value: { grade: string; count: number }) => value.count),
                         backgroundColor: ['#B6C0FF']
                     }
                 ],
-                labels: this.grades
+                labels: this.gradeLabels
             },
             options: {
                 indexAxis: 'x',

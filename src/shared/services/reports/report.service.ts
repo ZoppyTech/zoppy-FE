@@ -131,6 +131,46 @@ export class ReportService extends ApiService {
         return promise;
     }
 
+    public async getNpsSupportGrade(request: GetReportRequest): Promise<number> {
+        const promise: Promise<number> = new Promise((resolve: any, reject: any) => {
+            this.get<number>(`${this.url}/nps-average/support-rating/${request.period}`).subscribe(
+                (response: number) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getNpsProductGrade(request: GetReportRequest): Promise<number> {
+        const promise: Promise<number> = new Promise((resolve: any, reject: any) => {
+            this.get<number>(`${this.url}/nps-average/product-rating/${request.period}`).subscribe(
+                (response: number) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getNpsRecommendationGrade(request: GetReportRequest): Promise<{ grade: string; count: number }[]> {
+        const promise: Promise<{ grade: string; count: number }[]> = new Promise((resolve: any, reject: any) => {
+            this.get<{ grade: string; count: number }[]>(`${this.url}/nps-average/recommendation-rating/${request.period}`).subscribe(
+                (response: { grade: string; count: number }[]) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getNpsAverage(request: GetReportRequest): Promise<number> {
+        const promise: Promise<number> = new Promise((resolve: any, reject: any) => {
+            this.get<number>(`${this.url}/nps-average/${request.period}`).subscribe(
+                (response: number) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async downloadCustomers(period: ReportPeriod, position: Position): Promise<any> {
         const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
             this.download<any>(`${this.url}/customers/download/${period}/${position}`).subscribe(
