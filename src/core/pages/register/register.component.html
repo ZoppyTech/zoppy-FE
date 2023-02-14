@@ -1,50 +1,205 @@
-<div class="register">
-    <div class="register__content">
-        <div class="logo-content">
-            <img class="logo" src="./assets/imgs/logo.png" alt="" />
+<main class="flex flex-center">
+    <div class="register flex flex-column box-content padding-3">
+        <div class="progress-bar margin-bottom-3">
+            <div class="fill" [ngStyle]="{ width: (100 * step) / 4 + '%' }"></div>
         </div>
-        <form (keydown.enter)="register()" class="form" id="registerForm">
-            <h4 class="text--primary margin-bottom-3 text--center text--bold">Faça seu cadastro</h4>
+        <div class="margin-bottom-3" *ngIf="step === 1">
+            <h5 class="text--primary margin-bottom-1">Dados Pessoais</h5>
+            <span class="text-14 text--600">Os campos abaixo são essenciais para a criação da sua conta.</span>
+        </div>
+        <div class="margin-bottom-3" *ngIf="step === 2">
+            <h5 class="text--primary margin-bottom-1">Plataforma de e-commerce</h5>
+            <span class="text-14 text--600">Selecione a plataforma de e-commerce que você utiliza.</span>
+        </div>
+        <div class="margin-bottom-3" *ngIf="step === 3">
+            <h5 class="text--primary margin-bottom-1">Planos</h5>
+            <span class="text-14 text--600">Selecione o plano ideal para a sua empresa.</span>
+        </div>
+        <div class="margin-bottom-3" *ngIf="step === 4">
+            <h5 class="text--primary margin-bottom-1">Método de pagamento</h5>
+            <span class="text-14 text--600">Preencha abaixo os dados do seu cartão.</span>
+        </div>
 
-            <div class="field {{ field.class }}" *ngFor="let field of fields">
-                <span class="text--small text--bold text--800" [ngClass]="{ 'text--negative': field.errors.length > 0 }">{{
-                    field.title
-                }}</span>
-                <ps-input
-                    [placeholder]="field.placeholder"
-                    [(ngModel)]="field.model"
-                    [errors]="field.errors"
-                    (onFocus)="field.errors = []"
-                    [ngClass]="{ 'text--negative': field.errors.length > 0 }"
-                    [type]="field.type"
-                    [icon]="field.icon || ''"
-                    [mask]="field.mask || ''"
-                ></ps-input>
+        <form (keydown.enter)="register()" class="form flex flex-column" id="registerForm">
+            <div *ngIf="step === 1" class="step-1">
+                <div class="field {{ field.class }}" *ngFor="let field of fields">
+                    <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
+                        {{ field.title }}
+                    </div>
+                    <ps-input
+                        *ngIf="field.inputType === 'input'"
+                        [placeholder]="field.placeholder"
+                        [(ngModel)]="field.model"
+                        [errors]="field.errors"
+                        (onFocus)="field.errors = []"
+                        [ngClass]="{ 'text--negative': field.errors.length > 0 }"
+                        [type]="field.type"
+                        [icon]="field.icon || ''"
+                        [mask]="field.mask || ''"
+                        (onIconClicked)="iconClicked(field)"
+                    ></ps-input>
+
+                    <ps-radio-button
+                        [items]="field.options ?? []"
+                        [(value)]="field.model"
+                        propertyLabel="label"
+                        propertyValue="value"
+                        [vertical]="false"
+                    ></ps-radio-button>
+                </div>
+
+                <div class="field flex flex-center">
+                    <ps-checkbox [(active)]="acceptTerms">
+                        <span class="text--800">
+                            Eu aceito os
+                            <a class="text--primary text--bold text--link">Termos e Condições </a>
+                            <span class="desktop">da Zoppy.</span>
+                        </span>
+                    </ps-checkbox>
+                </div>
+
+                <div class="wide">
+                    <ps-button (onClick)="goToSecondStep()" [loading]="loading" [wide]="true" type="secondary"
+                        ><span class="text text--100 text--bold">Prosseguir</span>
+                    </ps-button>
+                </div>
             </div>
 
-            <div class="field checkbox">
-                <ps-checkbox [(active)]="acceptTerms"> </ps-checkbox>
-                <span class="text--800">
-                    Eu aceito os
-                    <a class="text--primary text--bold text--link">Termos e Condições </a>
-                    <span class="desktop">da Zoppy.</span>
-                </span>
+            <div *ngIf="step === 2" class="step-2">
+                <div
+                    class="ecommerce clickable"
+                    (click)="selectEcommerce(ecommerce.value)"
+                    [ngClass]="{ selected: ecommerce.selected }"
+                    *ngFor="let ecommerce of ecommerces"
+                >
+                    <img [src]="ecommerce.image" alt="" />
+                    <div class="approval">
+                        <ps-icon icon="icon-approval"></ps-icon>
+                    </div>
+                </div>
+
+                <div class="buttons">
+                    <ps-button (onClick)="step = 1" [wide]="true" [loading]="loading" type="secondary-border"
+                        ><span class="text text--secondary text--bold">Voltar</span>
+                    </ps-button>
+                    <ps-button
+                        (onClick)="goToThirdStep()"
+                        [wide]="true"
+                        [loading]="loading"
+                        type="secondary"
+                        [disabled]="getSecondStepDisabled()"
+                        ><span class="text text--100 text--bold">Prosseguir</span>
+                    </ps-button>
+                </div>
             </div>
 
-            <div class="button-content">
-                <ps-button (onClick)="register()" [loading]="loading" [wide]="true" type="secondary"
-                    ><span class="text text--100 text--bold">Acessar</span>
-                </ps-button>
-            </div>
-
-            <div class="margin-top-2 wide">
-                <p class="text--800 text--center">
-                    Já é um cliente Zoppy?&nbsp; <br class="mobile" /><a [routerLink]="'/login'" class="text--primary text--bold text--link"
-                        >Acesse sua conta</a
+            <div *ngIf="step === 3" class="step-3">
+                <div class="plans">
+                    <div
+                        class="border"
+                        *ngFor="let plan of plans"
+                        [ngClass]="{ selected: plan.selected, 'special-border': plan.special && !plan.selected, hidden: !plan.visible }"
                     >
-                </p>
+                        <div class="plan clickable flex flex-column" (click)="selectPlan(plan.value)">
+                            <h6 class="text--bold margin-right-3">{{ plan.title }}</h6>
+                            <div class="flex align-items-end margin-top-3">
+                                <h6 class="text--secondary">{{ plan.price | zoppyCurrency }}</h6>
+                                <span class="text text--primary text--bold">&nbsp;/mês</span>
+                            </div>
+
+                            <div class="flex">
+                                <span class="text text--primary text--bold">+{{ plan.priceAction | zoppyCurrency }} {{ plan.action }}</span>
+                                &nbsp;
+                                <ps-icon
+                                    *ngIf="plan.tooltip"
+                                    class="tooltip"
+                                    icon="icon-info"
+                                    tooltipWidth="240"
+                                    appTooltip
+                                    [tooltipText]="plan.tooltip"
+                                    tooltipDirection="left"
+                                ></ps-icon>
+                            </div>
+
+                            <div class="items margin-top-3">
+                                <div class="item padding-y-1" *ngFor="let item of plan.items">
+                                    <ps-icon icon="icon-check"></ps-icon>&nbsp;
+                                    <span class="text">
+                                        {{ item }}
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="approval" [ngClass]="{ special: plan.special && !plan.selected }">
+                                <div class="padding-1">
+                                    <ps-icon icon="icon-approval"></ps-icon>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="wide">
+                    <div class="buttons">
+                        <ps-button (onClick)="backToSecondStep()" [loading]="loading" [wide]="true" type="secondary-border"
+                            ><span class="text text--secondary text--bold">Voltar</span>
+                        </ps-button>
+                        <ps-button
+                            (onClick)="goToPayment()"
+                            [disabled]="getThirdStepDisabled()"
+                            [loading]="loading"
+                            [wide]="true"
+                            type="secondary"
+                            ><span class="text text--100 text--bold">Prosseguir</span>
+                        </ps-button>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="step === 4" class="step-4">
+                <div class="field {{ field.class }}" *ngFor="let field of paymentFields">
+                    <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
+                        {{ field.title }}
+                    </div>
+                    <ps-input
+                        *ngIf="field.inputType === 'input'"
+                        [placeholder]="field.placeholder"
+                        [(ngModel)]="field.model"
+                        [errors]="field.errors"
+                        (onFocus)="field.errors = []"
+                        [ngClass]="{ 'text--negative': field.errors.length > 0 }"
+                        [type]="field.type"
+                        [icon]="field.icon || ''"
+                        [mask]="field.mask || ''"
+                        (onIconClicked)="iconClicked(field)"
+                    ></ps-input>
+
+                    <ps-dropdown
+                        [enableAdd]="false"
+                        *ngIf="field.inputType === 'dropdown'"
+                        [displayTop]="true"
+                        [enableSearch]="false"
+                        [errors]="field.errors"
+                        [hasImage]="true"
+                        [items]="field.options ?? []"
+                        [(value)]="field.model"
+                        propertyImage="img"
+                        propertyLabel="label"
+                        propertyValue="value"
+                        [wide]="true"
+                        [debounce]="0"
+                    ></ps-dropdown>
+                </div>
+
+                <div class="wide buttons">
+                    <ps-button (onClick)="backToThirdStep()" [loading]="loading" [wide]="true" type="secondary-border"
+                        ><span class="text text--secondary text--bold">Voltar</span>
+                    </ps-button>
+                    <ps-button (onClick)="register()" [loading]="loading" [wide]="true" type="secondary"
+                        ><span class="text text--100 text--bold">Concluir</span>
+                    </ps-button>
+                </div>
             </div>
         </form>
     </div>
-    <app-carrossel></app-carrossel>
-</div>
+</main>
+<ps-tooltip></ps-tooltip>

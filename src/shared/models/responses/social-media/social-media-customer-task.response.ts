@@ -1,5 +1,5 @@
 import { FormGroup } from '@angular/forms';
-import { TaskContactTypes, TaskStatus, TaskTypes } from 'src/shared/constants/task.constants';
+import { TaskContactTypes, TaskStatus, TaskTypes } from '@ZoppyTech/utilities';
 
 export interface SocialMediaCustomerTaskResponse {
     userName: string;

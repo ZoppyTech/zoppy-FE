@@ -1,9 +1,9 @@
 import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
+import { WhatsappConstants } from '@ZoppyTech/utilities';
 import { Observable, Subscription } from 'rxjs';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
-import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
 import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappBusinessManagementService } from 'src/shared/services/whatsapp-business-management/whatsapp-business-management.service';

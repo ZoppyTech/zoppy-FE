@@ -1,4 +1,3 @@
-import { TaskConstants } from 'src/shared/constants/task.constants';
 import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';

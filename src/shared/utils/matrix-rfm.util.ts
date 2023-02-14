@@ -1,4 +1,4 @@
-import { MatrixRfmConstants } from '../constants/matrix-rfm.constants';
+import { MatrixRfmConstants } from '@ZoppyTech/utilities';
 
 export class MatrixRfmUtil {
     public static getLabel(state: string): string {

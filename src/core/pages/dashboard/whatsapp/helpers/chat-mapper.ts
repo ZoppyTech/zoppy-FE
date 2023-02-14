@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { WhatsappConstants } from 'src/shared/constants/whatsapp.constants';
+import { WhatsappConstants } from '@ZoppyTech/utilities';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
 import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
 import { DateUtil } from 'src/shared/utils/date.util';

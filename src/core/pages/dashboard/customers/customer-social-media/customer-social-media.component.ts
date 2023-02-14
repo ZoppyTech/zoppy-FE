@@ -2,11 +2,17 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormBuilder, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
+import {
+    TaskConstants,
+    TaskContactTypes,
+    TaskTypes,
+    MessageConfigConstants,
+    MessageConfigTemplate,
+    TaskStatus
+} from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-panel-contact/sales-panel-contact.request';
-import { MessageConfigConstants, MessageConfigTemplate } from 'src/shared/constants/message-config.constants';
-import { TaskConstants, TaskContactTypes, TaskStatus, TaskTypes } from 'src/shared/constants/task.constants';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
 import { CrmCustomerResponse } from 'src/shared/models/responses/crm/crm-customer.response';
 import { SocialMediaCustomerDetailResponse } from 'src/shared/models/responses/social-media/social-media-customer-detail.response';
@@ -37,6 +43,16 @@ export class CustomerSocialMediaComponent implements OnInit {
     public tasks: SocialMediaCustomerTaskResponse[] = [];
     public customer?: CrmCustomerResponse;
     public details: SocialMediaCustomerDetailResponse = new SocialMediaCustomerDetailResponse();
+    public statuses: TypeItem[] = [
+        {
+            label: 'Não quero receber mensagens',
+            value: true
+        },
+        {
+            label: 'Quero receber mensagens',
+            value: false
+        }
+    ];
     public taskTypes: TypeItem[] = [
         {
             label: 'Observações',
@@ -108,6 +124,24 @@ export class CustomerSocialMediaComponent implements OnInit {
         this.setBreadcrumb();
     }
 
+    public async updateCustomer(block: boolean): Promise<void> {
+        if (!this.customer) return;
+        try {
+            this.customer = await this.crmCustomerService.update(this.id, { ...this.customer, block: block });
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Houve um erro');
+        }
+    }
+
+    public openStatusInfo(): void {
+        this.modal.open(Modal.IDENTIFIER.INFO, {
+            title: 'Status',
+            button: 'Entendi',
+            description: `O status é referente ao desejo do seu cliente de receber mensagens. Caso seu cliente não queira mais receber suas mensagens, selecione a opção "Não quer receber mensagens" e ele será descadastrado da sua lista.`
+        });
+    }
+
     public visibleProducts(task: SocialMediaCustomerTaskResponse): boolean {
         return (task.order && task.order.products && task.order.products.length > 0) as boolean;
     }
@@ -116,7 +150,7 @@ export class CustomerSocialMediaComponent implements OnInit {
         window.open(`tel:+55${this.customer?.phone}`, '_self');
     }
 
-    public async createTask(contactType: TaskContactTypes, taskType: TaskTypes): Promise<void> {
+    public async createTask(contactType: TaskContactTypes, taskType: TaskTypes | string): Promise<void> {
         if (contactType === TaskConstants.CONTACT_TYPES.WHATSAPP) await this.sendMessage(taskType);
         else if (contactType === TaskConstants.CONTACT_TYPES.CALL) await this.call();
 
@@ -188,7 +222,7 @@ export class CustomerSocialMediaComponent implements OnInit {
         this.modal.open(Modal.IDENTIFIER.SALES_PANEL_CONTACT, contactRequest, async (response: SalesPanelContactRequest) => {
             if (!response.question.response) response.statusType.response = TaskConstants.STATUS.WARN;
             const request: SocialMediaRequest = {
-                taskType: taskType,
+                taskType: taskType as TaskTypes,
                 description: response.description.value,
                 contactType: response.contactType.response as any,
                 status: response.statusType.response as any
@@ -241,8 +275,8 @@ export class CustomerSocialMediaComponent implements OnInit {
             this.customer = await this.crmCustomerService.findById(this.id);
             for (const task of this.tasks) {
                 task.createdAt = new Date(task.createdAt);
-                this.setNpsData(task);
             }
+            this.filterMapNpsTasks();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
@@ -251,13 +285,22 @@ export class CustomerSocialMediaComponent implements OnInit {
         }
     }
 
-    private setNpsData(task: SocialMediaCustomerTaskResponse): void {
-        if (!task.npsRating) return;
-        task.npsRating.formStarSupport = this.fb.group({
-            rating: [task.npsRating.supportGrade + '', Validators.required]
+    private filterMapNpsTasks() {
+        this.tasks = this.tasks.filter((task: SocialMediaCustomerTaskResponse) => {
+            if (task.type !== TaskConstants.TYPES.NPS_RATING) return true;
+            if (task.npsRating && task.npsRating.answered) return true;
+            return false;
         });
-        task.npsRating.formStarProduct = this.fb.group({
-            rating: [task.npsRating.productGrade + '', Validators.required]
+        this.tasks = this.tasks.map((task: SocialMediaCustomerTaskResponse) => {
+            if (task.type !== TaskConstants.TYPES.NPS_RATING) return task;
+            if (!task.npsRating) return task;
+            task.npsRating.formStarSupport = this.fb.group({
+                rating: [task.npsRating.supportGrade + '', Validators.required]
+            });
+            task.npsRating.formStarProduct = this.fb.group({
+                rating: [task.npsRating.productGrade + '', Validators.required]
+            });
+            return task;
         });
     }
 
@@ -328,6 +371,6 @@ export class CustomerSocialMediaComponent implements OnInit {
 
 interface TypeItem {
     label: string;
-    value: TaskTypes | TaskContactTypes | TaskStatus;
+    value: TaskTypes | TaskContactTypes | TaskStatus | boolean;
     class?: string;
 }

@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
-import { TaskConstants } from 'src/shared/constants/task.constants';
+import { TaskConstants } from '@ZoppyTech/utilities';
 import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { ZoppyFilter } from 'src/shared/models/filter';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';

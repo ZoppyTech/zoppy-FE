@@ -29,7 +29,9 @@ export class CustomerComponent implements OnInit {
     public loading: boolean = false;
     public loaded: boolean = false;
     public id: string = '';
-    public customer: CrmCustomerRequest = {};
+    public customer: CrmCustomerRequest = {
+        block: false
+    };
 
     public constructor(
         public breadcrumb: BreadcrumbService,

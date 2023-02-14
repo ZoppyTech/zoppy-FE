@@ -14,4 +14,5 @@ export class CrmCustomerRequest {
     public declare phone?: string;
     public declare birthDate?: Date;
     public declare gender?: string;
+    public declare block: boolean;
 }

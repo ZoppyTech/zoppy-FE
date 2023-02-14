@@ -1,5 +1,11 @@
-import { MessageConfigConstants, MessageConfigTemplate } from '../constants/message-config.constants';
-import { TaskConstants, TaskContactTypes, TaskStatus, TaskTypes } from '../constants/task.constants';
+import {
+    TaskTypes,
+    TaskConstants,
+    TaskContactTypes,
+    TaskStatus,
+    MessageConfigTemplate,
+    MessageConfigConstants
+} from '@ZoppyTech/utilities';
 import { TaskEntity } from '../models/entities/task.entity';
 
 export class TaskUtil {

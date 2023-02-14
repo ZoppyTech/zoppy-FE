@@ -7,6 +7,10 @@ import { IconModule } from '@ZoppyTech/icon';
 import { InputModule } from '@ZoppyTech/input';
 import { CarrosselModule } from 'src/shared/components/carrossel/carrossel.module';
 import { CheckboxModule } from '@ZoppyTech/checkbox';
+import { RadioButtonModule } from '@ZoppyTech/radio-button';
+import { PipesModule } from 'src/shared/pipes/pipes.module';
+import { TooltipModule } from '@ZoppyTech/tooltip';
+import { DropdownModule } from '@ZoppyTech/dropdown';
 
 const routes: Routes = [
     {
@@ -16,7 +20,19 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), IconModule, InputModule, ButtonModule, CarrosselModule, CheckboxModule],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        IconModule,
+        InputModule,
+        ButtonModule,
+        CarrosselModule,
+        CheckboxModule,
+        RadioButtonModule,
+        PipesModule,
+        TooltipModule,
+        DropdownModule
+    ],
     declarations: [RegisterComponent]
 })
 export class RegisterModule {}

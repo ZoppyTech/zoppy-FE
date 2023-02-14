@@ -1,4 +1,4 @@
-import { AppConstants } from 'src/shared/constants/app.constants';
+import { AppConstants } from '@ZoppyTech/utilities';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { CompanyUtil } from 'src/shared/utils/company.util';
@@ -18,6 +18,7 @@ export class DashboardBasePage {
     public isShopify: boolean = false;
     public isWooCommerce: boolean = false;
     public isNuvemshop: boolean = false;
+    public isTray: boolean = false;
 
     public isMobile: boolean = false;
 
@@ -35,6 +36,7 @@ export class DashboardBasePage {
         this.isShopify = CompanyUtil.isShopify(storage.getCompany() as CompanyEntity);
         this.isWooCommerce = CompanyUtil.isWooCommerce(storage.getCompany() as CompanyEntity);
         this.isNuvemshop = CompanyUtil.isNuvemshop(storage.getCompany() as CompanyEntity);
+        this.isTray = CompanyUtil.isTray(storage.getCompany() as CompanyEntity);
     }
 
     public getIsAdmin(): boolean {
@@ -69,19 +71,23 @@ export class DashboardBasePage {
         return CompanyUtil.isNuvemshop(this.storage?.getCompany() as CompanyEntity);
     }
 
+    public getIsTray(): boolean {
+        return CompanyUtil.isTray(this.storage?.getCompany() as CompanyEntity);
+    }
+
     public getIsWooCommerce(): boolean {
         return CompanyUtil.isWooCommerce(this.storage?.getCompany() as CompanyEntity);
     }
 
     public getRoleLabel(role: string) {
         switch (role) {
-            case AppConstants.Role.admin:
+            case AppConstants.ROLES.ADMIN:
                 return 'Administrador';
-            case AppConstants.Role.master:
+            case AppConstants.ROLES.MASTER:
                 return 'Master';
-            case AppConstants.Role.manager:
+            case AppConstants.ROLES.MANAGER:
                 return 'Gerente';
-            case AppConstants.Role.common:
+            case AppConstants.ROLES.COMMON:
                 return 'Vendedor';
             default:
                 return 'Nenhum';
