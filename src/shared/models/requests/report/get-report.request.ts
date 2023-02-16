@@ -1,5 +1,4 @@
 export class GetReportRequest {
-    public period: ReportPeriod = 30;
+    public startPeriod: Date = new Date();
+    public finishPeriod: Date = new Date();
 }
-
-export type ReportPeriod = 30 | 60 | 90 | 'all';

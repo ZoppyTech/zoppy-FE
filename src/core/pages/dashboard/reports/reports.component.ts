@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
@@ -14,6 +13,9 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class ReportsComponent implements OnInit {
     public view: View = '1';
+    public startPeriod: Date = new Date();
+    public finishPeriod: Date = new Date();
+
     public items: Array<Item> = [
         {
             label: 'Dashboard inicial',
@@ -53,6 +55,11 @@ export class ReportsComponent implements OnInit {
             label: 'Desde o início',
             selected: false,
             value: 'all'
+        },
+        {
+            label: 'Personalizado',
+            selected: false,
+            value: 'personalized'
         }
     ];
 
@@ -78,19 +85,13 @@ export class ReportsComponent implements OnInit {
             periodItem.selected = periodItem.value === period.value;
         });
         this.periodMenuOpen = false;
-        BroadcastService.emit('refresh-report', period.value);
+        BroadcastService.emit('refresh-report', this.startPeriod, this.finishPeriod);
     }
 
-    public selectReport(period: ReportPeriod): void {
-        this.router.navigate([Navigation.routes.reports, period.toString()]);
-
+    public selectReport(): void {
         setTimeout(() => {
-            BroadcastService.emit('refresh-report', this.getPeriod());
+            BroadcastService.emit('refresh-report', this.startPeriod, this.finishPeriod);
         }, 300);
-    }
-
-    public getPeriod(): ReportPeriod {
-        return this.periods.find((period: PeriodItem) => period.selected)?.value ?? 'all';
     }
 
     public periodSelectedLabel(): string {
