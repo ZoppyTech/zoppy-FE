@@ -31,4 +31,9 @@ export class CompanyUtil {
         if (!company) return false;
         return company.provider === AppConstants.PROVIDERS.TRAY;
     }
+
+    public static isYampi(company: CompanyEntity | undefined): boolean {
+        if (!company) return false;
+        return company.provider === AppConstants.PROVIDERS.YAMPI;
+    }
 }

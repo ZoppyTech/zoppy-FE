@@ -10,6 +10,7 @@ import { ShopifySyncService } from 'src/shared/services/shopify-sync/shopify-syn
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
 import { WcSyncService } from 'src/shared/services/wc-sync/wc-sync.service';
+import { YampiSyncService } from 'src/shared/services/yampi-sync/yampi-sync.service';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { DashboardBasePage } from '../../dashboard.base.page';
@@ -38,7 +39,8 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         private readonly wcKeyService: WcKeyService,
         private readonly toast: ToastService,
         private readonly confirmAction: ConfirmActionService,
-        private readonly wcSyncService: WcSyncService
+        private readonly wcSyncService: WcSyncService,
+        private readonly yampiSyncService: YampiSyncService
     ) {
         super(storage);
     }
@@ -119,10 +121,17 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         try {
             if (!this.isVisible('customer')) return;
             this.setInProgress('customer');
-            const result: BooleanResponse = this.getIsWooCommerce()
-                ? await this.wcSyncDataService.syncCustomers(request)
-                : await this.shopifySyncDataService.syncCustomers(request);
-            this.setResult(result.result, `customer`);
+            let result: BooleanResponse = {
+                result: false
+            };
+            // if (this.getIsWooCommerce()) result = await this.wcSyncDataService.syncCustomers(request);
+            // if (this.getIsShopify()) result = await this.shopifySyncDataService.syncCustomers(request);
+            // if (this.getIsTray())
+            //     result = await this// const result: BooleanResponse = this.getIsWooCommerce()
+            //     //     ? await this.wcSyncDataService.syncCustomers(request)
+            //     //     : await this.shopifySyncDataService.syncCustomers(request);
+            //     .this
+            //         .setResult(result.result, `customer`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro!');
