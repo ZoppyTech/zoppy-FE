@@ -36,7 +36,7 @@ export class ReportsComponent implements OnInit {
     public periods: Array<PeriodItem> = [
         {
             label: 'Últimos 30 dias',
-            selected: false,
+            selected: true,
             value: 30
         },
         {
@@ -51,7 +51,7 @@ export class ReportsComponent implements OnInit {
         },
         {
             label: 'Desde o início',
-            selected: true,
+            selected: false,
             value: 'all'
         }
     ];
