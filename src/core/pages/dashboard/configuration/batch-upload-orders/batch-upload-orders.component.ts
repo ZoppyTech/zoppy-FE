@@ -4,7 +4,6 @@ import { ToastService } from '@ZoppyTech/toast';
 import { debug } from 'console';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
-import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.service';
 import { CrmCouponService } from 'src/shared/services/crm-coupon/crm-coupon.service';
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { CrmLineItemService } from 'src/shared/services/crm-line-item/crm-line-item.service';
@@ -12,7 +11,7 @@ import { CrmOrderService } from 'src/shared/services/crm-order/crm-order.service
 import { CrmProductService } from 'src/shared/services/crm-product/crm-product.service';
 import { DownloadService } from 'src/shared/services/download/download.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
-import { WcSyncService } from 'src/shared/services/wc-sync/wc-sync.service';
+import { SyncDataService } from 'src/shared/services/wc-sync/sync-data.service';
 import { FileUtils } from 'src/shared/utils/file.util';
 import { Navigation } from 'src/shared/utils/navigation';
 
@@ -40,7 +39,7 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
         private readonly crmLineItemService: CrmLineItemService,
         private readonly crmCouponService: CrmCouponService,
         private readonly crmProductService: CrmProductService,
-        private readonly wcSyncService: WcSyncService,
+        private readonly syncDataService: SyncDataService,
         private readonly toast: ToastService,
         private readonly confirmAction: ConfirmActionService
     ) {}
@@ -65,7 +64,7 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
                 if (!result) return;
                 try {
                     this.loadingClean = true;
-                    await this.wcSyncService.clean();
+                    await this.syncDataService.clean();
                     this.toast.success('Dados removidos com sucesso', 'Remoção concluída!');
                 } catch (ex: any) {
                     ex = ex as ZoppyException;

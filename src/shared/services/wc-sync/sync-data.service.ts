@@ -9,8 +9,8 @@ import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
 @Injectable({
     providedIn: 'root'
 })
-export class WcSyncService extends ApiService {
-    public override url: string = `${environment.apiUrl}/api/woo-commerce/sync`;
+export class SyncDataService extends ApiService {
+    public override url: string = `${environment.apiUrl}/api/sync-data`;
     public constructor(
         public override readonly http: HttpClient,
         public override readonly router: Router,
