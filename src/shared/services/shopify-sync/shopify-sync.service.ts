@@ -19,46 +19,6 @@ export class ShopifySyncService extends ApiService {
         super(http, router, storage);
     }
 
-    public async syncCustomers(request: SyncRequest): Promise<BooleanResponse> {
-        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
-            this.post<BooleanResponse, SyncRequest>(`${this.url}/customers`, request).subscribe(
-                (response: BooleanResponse) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
-
-    public async syncProducts(request: SyncRequest): Promise<BooleanResponse> {
-        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
-            this.post<BooleanResponse, SyncRequest>(`${this.url}/products`, request).subscribe(
-                (response: BooleanResponse) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
-
-    public async syncCoupons(request: SyncRequest): Promise<BooleanResponse> {
-        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
-            this.post<BooleanResponse, SyncRequest>(`${this.url}/coupons`, request).subscribe(
-                (response: BooleanResponse) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
-
-    public async syncOrders(request: SyncRequest): Promise<BooleanResponse> {
-        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
-            this.post<BooleanResponse, SyncRequest>(`${this.url}/orders`, request).subscribe(
-                (response: BooleanResponse) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
-
     public async syncWebhooks(): Promise<BooleanResponse> {
         const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
             this.post<BooleanResponse, SyncRequest>(`${this.url}/webhooks`).subscribe(
