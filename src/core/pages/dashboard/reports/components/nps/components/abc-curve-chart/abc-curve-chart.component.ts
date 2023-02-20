@@ -1,8 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
-import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { AbcResponse } from 'src/shared/models/responses/reports/abc.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
@@ -34,7 +33,8 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
     ];
 
     @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
+        startPeriod: new Date(),
+        finishPeriod: new Date()
     };
 
     public chartOptions: any = {
@@ -131,8 +131,9 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (startPeriod: Date, finishPeriod: Date) => {
+            this.reportRequest.startPeriod = startPeriod;
+            this.reportRequest.finishPeriod = finishPeriod;
             await this.initializeData();
         });
     }

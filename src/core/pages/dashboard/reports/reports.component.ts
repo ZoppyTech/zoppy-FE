@@ -35,33 +35,33 @@ export class ReportsComponent implements OnInit {
         }
     ];
 
-    public periods: Array<PeriodItem> = [
-        {
-            label: 'Últimos 30 dias',
-            selected: true,
-            value: 30
-        },
-        {
-            label: 'Últimos 60 dias',
-            selected: false,
-            value: 60
-        },
-        {
-            label: 'Últimos 90 dias',
-            selected: false,
-            value: 90
-        },
-        {
-            label: 'Desde o início',
-            selected: false,
-            value: 'all'
-        },
-        {
-            label: 'Personalizado',
-            selected: false,
-            value: 'personalized'
-        }
-    ];
+    // public periods: Array<PeriodItem> = [
+    //     {
+    //         label: 'Últimos 30 dias',
+    //         selected: true,
+    //         value: 30
+    //     },
+    //     {
+    //         label: 'Últimos 60 dias',
+    //         selected: false,
+    //         value: 60
+    //     },
+    //     {
+    //         label: 'Últimos 90 dias',
+    //         selected: false,
+    //         value: 90
+    //     },
+    //     {
+    //         label: 'Desde o início',
+    //         selected: false,
+    //         value: 'all'
+    //     },
+    //     {
+    //         label: 'Personalizado',
+    //         selected: false,
+    //         value: 'personalized'
+    //     }
+    // ];
 
     public periodMenuOpen: boolean = false;
 
@@ -80,23 +80,29 @@ export class ReportsComponent implements OnInit {
         this.setBreadcrumb();
     }
 
-    public selectPeriod(period: PeriodItem) {
-        this.periods.forEach((periodItem: PeriodItem) => {
-            periodItem.selected = periodItem.value === period.value;
-        });
-        this.periodMenuOpen = false;
-        BroadcastService.emit('refresh-report', this.startPeriod, this.finishPeriod);
-    }
+    // public selectPeriod(period: PeriodItem) {
+    //     this.periods.forEach((periodItem: PeriodItem) => {
+    //         periodItem.selected = periodItem.value === period.value;
+    //     });
+    //     this.periodMenuOpen = false;
+    //     BroadcastService.emit('refresh-report', this.startPeriod, this.finishPeriod);
+    // }
 
-    public selectReport(): void {
+    public selectReport(event: any): void {
         setTimeout(() => {
-            BroadcastService.emit('refresh-report', this.startPeriod, this.finishPeriod);
+            BroadcastService.emit('refresh-report', { startPeriod: this.startPeriod, finishPeriod: this.finishPeriod });
         }, 300);
     }
 
-    public periodSelectedLabel(): string {
-        return this.periods.find((period: PeriodItem) => period.selected)?.label ?? '';
+    public updatePeriod(event: any): void {
+        setTimeout(() => {
+            BroadcastService.emit('refresh-report', { startPeriod: this.startPeriod, finishPeriod: this.finishPeriod });
+        }, 300);
     }
+
+    // public periodSelectedLabel(): string {
+    //     return this.periods.find((period: PeriodItem) => period.selected)?.label ?? '';
+    // }
 
     private setBreadcrumb(): void {
         this.breadcrumb.items = [
@@ -114,8 +120,8 @@ class Item {
     public declare value: View;
 }
 
-class PeriodItem {
-    public declare label: string;
-    public declare value: ReportPeriod;
-    public declare selected: boolean;
-}
+// class PeriodItem {
+//     public declare label: string;
+//     public declare value: ReportPeriod;
+//     public declare selected: boolean;
+// }

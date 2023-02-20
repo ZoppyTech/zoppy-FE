@@ -2,7 +2,7 @@ import { AfterViewInit, Component, Input, OnDestroy, ViewChild } from '@angular/
 import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { ReportsGenderDistributionResponse } from 'src/shared/models/responses/reports/reports.gender.distribution.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
@@ -16,8 +16,10 @@ import { MathUtil } from 'src/shared/utils/math.util';
 })
 export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
     @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
+        startPeriod: new Date(),
+        finishPeriod: new Date()
     };
+
     public data: ReportsGenderDistributionResponse | undefined;
     public legends: Legend[] = [];
     public isLoading: boolean = true;
@@ -202,8 +204,9 @@ export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (startPeriod: Date, finishPeriod: Date) => {
+            this.reportRequest.startPeriod = startPeriod;
+            this.reportRequest.finishPeriod = finishPeriod;
             await this.initializeChart();
         });
     }
