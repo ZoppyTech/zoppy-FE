@@ -1,14 +1,13 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
-import { AppConstants, PasswordValidator } from '@ZoppyTech/utilities';
+import { AppConstants, PasswordValidator, StringUtil } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { CompanyProvider, CompanyRequest } from 'src/shared/models/requests/company/company.request';
 import { PaymentRequest } from 'src/shared/models/requests/company/payment.request';
 import { CompanyPlan, RegisterRequest } from 'src/shared/models/requests/public/register.request';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { Navigation } from 'src/shared/utils/navigation';
-import { StringUtil } from 'src/shared/utils/string.util';
 
 @Component({
     selector: 'app-register',
@@ -191,11 +190,6 @@ export class RegisterComponent implements OnInit {
     }
 
     private validateForm(): Validate {
-        return {
-            isValid: true,
-            message: '',
-            title: ''
-        };
         let countErrors: number = 0;
         let message: string = 'Houveram erros de validação';
         let title: string = 'Erro';
@@ -244,8 +238,6 @@ export class RegisterComponent implements OnInit {
 
         this.paymentRequest = new PaymentRequest();
         this.paymentRequest.name = this.getPaymentById('name').model.toString();
-        this.paymentRequest.agency = StringUtil.onlyNumbers(this.getPaymentById('agency').model.toString());
-        this.paymentRequest.account = StringUtil.onlyNumbers(this.getPaymentById('account').model.toString());
         this.paymentRequest.cardNumber = this.getPaymentById('number').model.toString();
         this.paymentRequest.expirationDate = `${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`;
         this.paymentRequest.cvv = this.getPaymentById('cvv').model.toString();
@@ -253,8 +245,6 @@ export class RegisterComponent implements OnInit {
 
         if (
             !this.paymentRequest.name ||
-            !this.paymentRequest.agency ||
-            !this.paymentRequest.account ||
             !this.paymentRequest.cardNumber ||
             !this.paymentRequest.expirationDate ||
             !this.paymentRequest.cvv ||
@@ -285,7 +275,8 @@ export class RegisterComponent implements OnInit {
                 placeholder: 'Digite seu nome completo',
                 type: 'text',
                 class: 'half-size',
-                inputType: 'input'
+                inputType: 'input',
+                onChange: () => {}
             },
             {
                 errors: [],
@@ -296,7 +287,8 @@ export class RegisterComponent implements OnInit {
                 type: 'text',
                 mask: '(00) 00000-0000',
                 class: 'half-size',
-                inputType: 'input'
+                inputType: 'input',
+                onChange: () => {}
             },
 
             {
@@ -307,7 +299,8 @@ export class RegisterComponent implements OnInit {
                 placeholder: 'Digite seu e-mail',
                 type: 'email',
                 class: 'wide',
-                inputType: 'input'
+                inputType: 'input',
+                onChange: () => {}
             },
             {
                 errors: [],
@@ -317,7 +310,8 @@ export class RegisterComponent implements OnInit {
                 placeholder: 'Digite o nome da sua empresa',
                 type: 'text',
                 class: 'wide',
-                inputType: 'input'
+                inputType: 'input',
+                onChange: () => {}
             },
             {
                 errors: [],
@@ -337,7 +331,8 @@ export class RegisterComponent implements OnInit {
                         label: 'Não',
                         value: false
                     }
-                ]
+                ],
+                onChange: () => {}
             },
             {
                 errors: [],
@@ -348,7 +343,8 @@ export class RegisterComponent implements OnInit {
                 placeholder: 'Digite sua senha',
                 type: 'password',
                 class: 'half-size',
-                inputType: 'input'
+                inputType: 'input',
+                onChange: () => {}
             },
             {
                 errors: [],
@@ -359,7 +355,8 @@ export class RegisterComponent implements OnInit {
                 icon: 'icon-visibility_off',
                 type: 'password',
                 class: 'half-size',
-                inputType: 'input'
+                inputType: 'input',
+                onChange: () => {}
             }
         ];
     }
@@ -374,27 +371,12 @@ export class RegisterComponent implements OnInit {
                 placeholder: 'Digite seu nome conforme aparece no cartão',
                 type: 'text',
                 class: 'wide',
-                inputType: 'input'
-            },
-            {
-                errors: [],
-                model: '',
-                id: 'agency',
-                title: 'Agência',
-                placeholder: 'Digite sua Agência',
-                type: 'number',
-                class: 'half-size',
-                inputType: 'input'
-            },
-            {
-                errors: [],
-                model: '',
-                id: 'account',
-                title: 'Conta',
-                placeholder: 'Digite sua conta',
-                type: 'number',
-                class: 'half-size',
-                inputType: 'input'
+                inputType: 'input',
+                onChange: () => {
+                    setTimeout(() => {
+                        this.getPaymentById('name').model = (this.getPaymentById('name').model.toString() ?? '').replace(/[0-9]/g, '');
+                    });
+                }
             },
             {
                 errors: [],
@@ -404,7 +386,8 @@ export class RegisterComponent implements OnInit {
                 placeholder: 'Digite o número do cartão',
                 type: 'number',
                 class: 'wide',
-                inputType: 'input'
+                inputType: 'input',
+                onChange: () => {}
             },
             {
                 errors: [],
@@ -415,7 +398,8 @@ export class RegisterComponent implements OnInit {
                 type: 'text',
                 mask: '00/00',
                 class: 'half-size',
-                inputType: 'input'
+                inputType: 'input',
+                onChange: () => {}
             },
             {
                 errors: [],
@@ -425,7 +409,8 @@ export class RegisterComponent implements OnInit {
                 placeholder: 'Digite seu código de segurança',
                 type: 'number',
                 class: 'half-size',
-                inputType: 'input'
+                inputType: 'input',
+                onChange: () => {}
             },
             {
                 errors: [],
@@ -440,7 +425,8 @@ export class RegisterComponent implements OnInit {
                     { img: './assets/svg/mastercard.svg', value: 'mastercard', label: 'Mastercard' },
                     { img: './assets/svg/visa.svg', value: 'visa', label: 'Visa' },
                     { img: './assets/svg/american_express.svg', value: 'american_express', label: 'American Express' }
-                ]
+                ],
+                onChange: () => {}
             }
         ];
     }
@@ -563,6 +549,7 @@ class Field {
     public id: string = '';
     public inputType: string = '';
     public options?: Array<any> = [];
+    public onChange: any;
 }
 
 class Ecommerce {

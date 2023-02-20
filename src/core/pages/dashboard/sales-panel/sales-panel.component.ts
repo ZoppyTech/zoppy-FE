@@ -1,7 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
-import { MessageConfigTemplate, TaskContactTypes, TaskConstants } from '@ZoppyTech/utilities';
+import {
+    MessageConfigTemplate,
+    TaskContactTypes,
+    TaskConstants,
+    MatrixRfmUtil,
+    DateUtil,
+    FirstAndLastDayOfWeek
+} from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-panel-contact/sales-panel-contact.request';
@@ -15,8 +22,6 @@ import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.ser
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
-import { DateUtil, FirstAndLastDayOfWeek } from 'src/shared/utils/date.util';
-import { MatrixRfmUtil } from 'src/shared/utils/matrix-rfm.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { TaskUtil } from 'src/shared/utils/task.util';
