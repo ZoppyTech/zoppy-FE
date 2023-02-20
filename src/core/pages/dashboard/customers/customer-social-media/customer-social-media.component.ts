@@ -8,7 +8,9 @@ import {
     TaskTypes,
     MessageConfigConstants,
     MessageConfigTemplate,
-    TaskStatus
+    TaskStatus,
+    GenderUtil,
+    MatrixRfmUtil
 } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
@@ -22,8 +24,6 @@ import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.ser
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
-import { GenderUtil } from 'src/shared/utils/gender.util';
-import { MatrixRfmUtil } from 'src/shared/utils/matrix-rfm.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { TaskUtil } from 'src/shared/utils/task.util';
 

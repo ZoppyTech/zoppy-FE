@@ -1,6 +1,7 @@
 import { AfterViewInit, Component, OnInit, ViewChild } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
+import { FileUtils } from '@ZoppyTech/utilities';
 import { debug } from 'console';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
@@ -12,7 +13,6 @@ import { CrmProductService } from 'src/shared/services/crm-product/crm-product.s
 import { DownloadService } from 'src/shared/services/download/download.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { SyncDataService } from 'src/shared/services/wc-sync/sync-data.service';
-import { FileUtils } from 'src/shared/utils/file.util';
 import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({

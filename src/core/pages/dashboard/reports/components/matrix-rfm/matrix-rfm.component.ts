@@ -1,6 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
+import { FileUtils, FormatUtils } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
 import { Position } from 'src/shared/models/responses/reports/matrix-rfm.response';
@@ -8,8 +9,6 @@ import { ReportCustomerResponse } from 'src/shared/models/responses/reports/repo
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
-import { FileUtils } from 'src/shared/utils/file.util';
-import { FormatUtils } from 'src/shared/utils/format.util';
 import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({

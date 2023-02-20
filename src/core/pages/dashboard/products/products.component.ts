@@ -6,15 +6,13 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmProductService } from 'src/shared/services/crm-product/crm-product.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
-import { ArrayUtil } from 'src/shared/utils/array-util';
 import { Storage } from 'src/shared/utils/storage';
 import { DownloadService } from 'src/shared/services/download/download.service';
 import { ZoppyFilter } from 'src/shared/models/filter';
-import { FileUtils } from 'src/shared/utils/file.util';
-import { WcProductEntity } from 'src/shared/models/entities/wc-product.entity';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { Router } from '@angular/router';
 import { Navigation } from 'src/shared/utils/navigation';
+import { ArrayUtil, FileUtils } from '@ZoppyTech/utilities';
 
 @Component({
     selector: 'app-products',

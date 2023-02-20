@@ -1,5 +1,4 @@
-import { WhatsappConstants, CountryCodes } from '@ZoppyTech/utilities';
-import { StringUtil } from 'src/shared/utils/string.util';
+import { WhatsappConstants, CountryCodes, StringUtil } from '@ZoppyTech/utilities';
 import { ChatRoom } from '../models/chat-room';
 import { ThreadMessage } from '../models/thread-message';
 

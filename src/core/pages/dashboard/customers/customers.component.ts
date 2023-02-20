@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
+import { StringUtil, FileUtils } from '@ZoppyTech/utilities';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { ZoppyFilter } from 'src/shared/models/filter';
 import { CrmAddressResponse } from 'src/shared/models/responses/crm/crm-address.response';
@@ -12,10 +13,8 @@ import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.s
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { DownloadService } from 'src/shared/services/download/download.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
-import { FileUtils } from 'src/shared/utils/file.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
-import { StringUtil } from 'src/shared/utils/string.util';
 import { DashboardBasePage } from '../dashboard.base.page';
 
 @Component({

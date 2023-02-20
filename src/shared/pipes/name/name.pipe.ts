@@ -1,5 +1,4 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FormatUtils } from 'src/shared/utils/format.util';
 
 @Pipe({
     name: 'zoppyName'
