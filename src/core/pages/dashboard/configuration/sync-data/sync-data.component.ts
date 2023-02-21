@@ -6,10 +6,9 @@ import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { SyncRequest } from 'src/shared/models/requests/wc-sync/wc-sync.request';
 import { BooleanResponse, ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
-import { ShopifySyncService } from 'src/shared/services/shopify-sync/shopify-sync.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
-import { WcSyncService } from 'src/shared/services/wc-sync/wc-sync.service';
+import { SyncDataService } from 'src/shared/services/wc-sync/sync-data.service';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { DashboardBasePage } from '../../dashboard.base.page';
@@ -33,12 +32,10 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         public breadcrumb: BreadcrumbService,
         public modal: ModalService,
         public override storage: Storage,
-        private readonly wcSyncDataService: WcSyncService,
-        private readonly shopifySyncDataService: ShopifySyncService,
+        private readonly syncDataService: SyncDataService,
         private readonly wcKeyService: WcKeyService,
         private readonly toast: ToastService,
-        private readonly confirmAction: ConfirmActionService,
-        private readonly wcSyncService: WcSyncService
+        private readonly confirmAction: ConfirmActionService
     ) {
         super(storage);
     }
@@ -51,7 +48,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
                 if (!result) return;
                 try {
                     this.loadingClean = true;
-                    await this.wcSyncService.clean();
+                    await this.syncDataService.clean();
                     this.toast.success('Dados removidos com sucesso', 'Remoção concluída!');
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
@@ -119,9 +116,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         try {
             if (!this.isVisible('customer')) return;
             this.setInProgress('customer');
-            const result: BooleanResponse = this.getIsWooCommerce()
-                ? await this.wcSyncDataService.syncCustomers(request)
-                : await this.shopifySyncDataService.syncCustomers(request);
+            const result: BooleanResponse = await this.syncDataService.syncCustomers(request);
             this.setResult(result.result, `customer`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -134,9 +129,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         try {
             if (!this.isVisible('product')) return;
             this.setInProgress('product');
-            const result: BooleanResponse = this.getIsWooCommerce()
-                ? await this.wcSyncDataService.syncProducts(request)
-                : await this.shopifySyncDataService.syncProducts(request);
+            const result: BooleanResponse = await this.syncDataService.syncProducts(request);
             this.setResult(result.result, `product`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -149,9 +142,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         try {
             if (!this.isVisible('coupon')) return;
             this.setInProgress('coupon');
-            const result: BooleanResponse = this.getIsWooCommerce()
-                ? await this.wcSyncDataService.syncCoupons(request)
-                : await this.shopifySyncDataService.syncCoupons(request);
+            const result: BooleanResponse = await this.syncDataService.syncCoupons(request);
             this.setResult(result.result, `coupon`);
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -164,9 +155,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         try {
             if (!this.isVisible('order')) return;
             this.setInProgress('order');
-            const result: BooleanResponse = this.getIsWooCommerce()
-                ? await this.wcSyncDataService.syncOrders(request)
-                : await this.shopifySyncDataService.syncOrders(request);
+            const result: BooleanResponse = await this.syncDataService.syncOrders(request);
             this.setResult(result.result, `order`);
         } catch (ex: any) {
             ex = ex as ZoppyException;

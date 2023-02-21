@@ -23,11 +23,11 @@ import { UserService } from 'src/shared/services/user/user.service';
 import { CrmProductService } from 'src/shared/services/crm-product/crm-product.service';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
-import { FormatUtils } from 'src/shared/utils/format.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { DashboardBasePage } from '../dashboard.base.page';
+import { FormatUtils } from '@ZoppyTech/utilities';
 
 @Component({
     selector: 'app-register-sales',

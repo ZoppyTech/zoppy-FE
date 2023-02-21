@@ -34,6 +34,7 @@
                         (onFocus)="field.errors = []"
                         [ngClass]="{ 'text--negative': field.errors.length > 0 }"
                         [type]="field.type"
+                        (ngModelChange)="field.onChange()"
                         [icon]="field.icon || ''"
                         [mask]="field.mask || ''"
                         (onIconClicked)="iconClicked(field)"
@@ -79,7 +80,7 @@
                 </div>
 
                 <div class="buttons">
-                    <ps-button (onClick)="step = 1" [wide]="true" [loading]="loading" type="secondary-border"
+                    <ps-button (onClick)="step = 1" [wide]="true" type="secondary-border"
                         ><span class="text text--secondary text--bold">Voltar</span>
                     </ps-button>
                     <ps-button
@@ -140,7 +141,7 @@
 
                 <div class="wide">
                     <div class="buttons">
-                        <ps-button (onClick)="backToSecondStep()" [loading]="loading" [wide]="true" type="secondary-border"
+                        <ps-button (onClick)="backToSecondStep()" [wide]="true" type="secondary-border"
                             ><span class="text text--secondary text--bold">Voltar</span>
                         </ps-button>
                         <ps-button
@@ -170,6 +171,8 @@
                         [type]="field.type"
                         [icon]="field.icon || ''"
                         [mask]="field.mask || ''"
+                        (ngModelChange)="field.onChange()"
+                        [debounce]="0"
                         (onIconClicked)="iconClicked(field)"
                     ></ps-input>
 
@@ -191,7 +194,7 @@
                 </div>
 
                 <div class="wide buttons">
-                    <ps-button (onClick)="backToThirdStep()" [loading]="loading" [wide]="true" type="secondary-border"
+                    <ps-button (onClick)="backToThirdStep()" [wide]="true" type="secondary-border"
                         ><span class="text text--secondary text--bold">Voltar</span>
                     </ps-button>
                     <ps-button (onClick)="register()" [loading]="loading" [wide]="true" type="secondary"

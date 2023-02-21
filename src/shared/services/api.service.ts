@@ -5,7 +5,6 @@ import { catchError, map, take } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
 import { Navigation } from '../utils/navigation';
 import { Storage } from '../utils/storage';
-import { StringUtil } from '../utils/string.util';
 
 export abstract class ApiService {
     public url: string = `${environment.apiUrl}/api`;

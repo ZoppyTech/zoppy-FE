@@ -1,9 +1,7 @@
 import { Injectable } from '@angular/core';
-import { WhatsappConstants } from '@ZoppyTech/utilities';
+import { DateUtil, StringUtil, WhatsappConstants } from '@ZoppyTech/utilities';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
 import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
-import { DateUtil } from 'src/shared/utils/date.util';
-import { StringUtil } from 'src/shared/utils/string.util';
 import { ChatContact } from '../models/chat-contact';
 import { ChatManager } from '../models/chat-manager';
 import { ChatRoom } from '../models/chat-room';

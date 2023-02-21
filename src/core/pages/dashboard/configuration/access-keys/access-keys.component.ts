@@ -11,6 +11,7 @@ import { ShopifySyncService } from 'src/shared/services/shopify-sync/shopify-syn
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
 import { WcWebhookService } from 'src/shared/services/wc-webhook/wc-webhook.service';
+import { YampiSyncService } from 'src/shared/services/yampi-sync/yampi-sync.service';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { DashboardBasePage } from '../../dashboard.base.page';
@@ -35,6 +36,7 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
         private readonly wcWebhookService: WcWebhookService,
         private readonly shopifySyncService: ShopifySyncService,
         private readonly nuvemshopSyncService: NuvemshopSyncService,
+        private readonly yampiSyncService: YampiSyncService,
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
         public modal: ModalService,
@@ -86,12 +88,15 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
         if (this.isWooCommerce) await this.wcWebhookService.syncWebhooks();
         if (this.isShopify) await this.shopifySyncService.syncWebhooks();
         if (this.isNuvemshop) await this.nuvemshopSyncService.syncWebhooks();
+        if (this.isYampi) await this.yampiSyncService.syncWebhooks();
     }
 
     public getSaveDisabled(): boolean {
         switch (this.storage.getCompany()?.provider) {
             case AppConstants.PROVIDERS.TRAY:
                 return !this.key.admin || !this.key.url;
+            case AppConstants.PROVIDERS.YAMPI:
+                return !this.key.admin || !this.key.key || !this.key.secret;
             default:
                 return !this.key.key || !this.key.secret || !this.key.url;
         }
@@ -140,6 +145,12 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
                 this.adminVariables = {
                     label: 'Code',
                     placeholder: 'Insira aqui seu Code'
+                };
+                break;
+            case AppConstants.PROVIDERS.YAMPI:
+                this.adminVariables = {
+                    label: 'Alias',
+                    placeholder: 'Insira aqui seu alias'
                 };
                 break;
         }

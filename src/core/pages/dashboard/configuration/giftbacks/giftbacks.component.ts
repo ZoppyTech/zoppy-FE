@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
+import { FileUtils } from '@ZoppyTech/utilities';
 import { ModalService } from 'src/shared/components/modal/modal.service';
 import { ZoppyFilter } from 'src/shared/models/filter';
 import { CrmCouponResponse } from 'src/shared/models/responses/crm/crm-coupon.response';
@@ -7,7 +8,6 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmCouponService } from 'src/shared/services/crm-coupon/crm-coupon.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
-import { FileUtils } from 'src/shared/utils/file.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 

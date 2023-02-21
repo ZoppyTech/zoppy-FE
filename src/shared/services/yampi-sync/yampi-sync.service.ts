@@ -9,8 +9,9 @@ import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
 @Injectable({
     providedIn: 'root'
 })
-export class ShopifySyncService extends ApiService {
-    public override url: string = `${environment.apiUrl}/api/shopify/sync`;
+export class YampiSyncService extends ApiService {
+    public override url: string = `${environment.apiUrl}/api/yampi/sync`;
+
     public constructor(
         public override readonly http: HttpClient,
         public override readonly router: Router,
@@ -21,7 +22,7 @@ export class ShopifySyncService extends ApiService {
 
     public async syncWebhooks(): Promise<BooleanResponse> {
         const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
-            this.post<BooleanResponse, SyncRequest>(`${this.url}/webhooks`).subscribe(
+            this.post<BooleanResponse, {}>(`${this.url}/webhooks`).subscribe(
                 (response: BooleanResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

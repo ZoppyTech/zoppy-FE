@@ -1,7 +1,7 @@
+import { DateUtil } from '@ZoppyTech/utilities';
 import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
-import { DateUtil } from 'src/shared/utils/date.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { TaskUtil } from 'src/shared/utils/task.util';
 

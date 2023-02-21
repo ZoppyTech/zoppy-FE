@@ -1,5 +1,5 @@
+import { StringUtil } from '@ZoppyTech/utilities';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
-import { StringUtil } from 'src/shared/utils/string.util';
 import { ChatContact } from '../../models/chat-contact';
 import { WhatsappUtil } from '../../utils/whatsapp.util';
 
