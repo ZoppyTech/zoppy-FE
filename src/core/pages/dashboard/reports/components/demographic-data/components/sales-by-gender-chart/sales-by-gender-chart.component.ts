@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
+import { MathUtil } from '@ZoppyTech/utilities';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
 import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
@@ -7,7 +8,6 @@ import { ReportsGenderDistributionResponse } from 'src/shared/models/responses/r
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
-import { MathUtil } from 'src/shared/utils/math.util';
 
 @Component({
     selector: 'sales-by-gender-chart',

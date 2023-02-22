@@ -1,5 +1,5 @@
 import { Pipe, PipeTransform } from '@angular/core';
-import { FormatUtils } from 'src/shared/utils/format.util';
+import { FormatUtils } from '@ZoppyTech/utilities';
 
 @Pipe({
     name: 'zoppyCurrency'
