@@ -1,0 +1,14 @@
+@import '../../../../../../../../styles.scss';
+
+.image-message-container {
+    height: 100%;
+    width: 100%;
+    background-color: aquamarine;
+    padding: 12px;
+
+    img {
+        width: 330px;
+        height: 190px;
+        background-color: black;
+    }
+}

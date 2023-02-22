@@ -39,6 +39,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public scrollerElement: HTMLElement | null = null;
     public scrollerHandler: any = null;
     public readonly panelScrollableElementId: string = 'panel-scrollable';
+    public UNSUPPORTED_MESSAGE_TYPE = 'Mensagem não suportada.';
 
     public constructor(
         public readonly wppBusinessManagementService: WhatsappBusinessManagementService,

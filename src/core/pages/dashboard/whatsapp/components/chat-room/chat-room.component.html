@@ -18,11 +18,15 @@
         <div *ngFor="let thread of this.chatRoom.threads">
             <splitter-date [date]="thread.createdAt" [visible]="thread.isFirstMessageOfDay"></splitter-date>
             <thread-message
+                [ngSwitch]="thread.type"
                 class="flex-row wide margin-bottom-1"
                 [ngStyle]="{ 'justify-content': !thread.isBusiness ? 'flex-start' : 'flex-end' }"
                 [thread]="thread"
             >
-                <text-message thread-message-content [text]="thread.content"></text-message>
+                <audio-message *ngSwitchCase="'audio'" thread-message-content [url]="thread.content"></audio-message>
+                <image-message *ngSwitchCase="'image'" thread-message-content [url]="thread.content"></image-message>
+                <text-message *ngSwitchCase="'text'" thread-message-content [text]="thread.content"></text-message>
+                <text-message *ngSwitchDefault thread-message-content [text]="UNSUPPORTED_MESSAGE_TYPE"></text-message>
             </thread-message>
         </div>
     </div>
