@@ -57,7 +57,6 @@ export class WhatsappMapper {
     }
 
     public static mapMessage(messageEntity: WhatsappMessageEntity): ThreadMessage {
-        debugger;
         const threadMessage: ThreadMessage = new ThreadMessage();
         threadMessage.id = messageEntity.id;
         threadMessage.type = messageEntity.type;
