@@ -33,7 +33,9 @@ export class ReportService extends ApiService {
 
     public async getCustomers(request: GetReportRequest): Promise<Array<ReportCustomerResponse>> {
         const promise: Promise<Array<ReportCustomerResponse>> = new Promise((resolve: any, reject: any) => {
-            this.get<Array<ReportCustomerResponse>>(`${this.url}/customers/${request.startPeriod}/${request.finishPeriod}`).subscribe(
+            this.get<Array<ReportCustomerResponse>>(
+                `${this.url}/customers/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
                 (response: Array<ReportCustomerResponse>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -43,7 +45,9 @@ export class ReportService extends ApiService {
 
     public async getAddresses(request: GetReportRequest): Promise<Array<WcAddressEntity>> {
         const promise: Promise<Array<WcAddressEntity>> = new Promise((resolve: any, reject: any) => {
-            this.get<Array<WcAddressEntity>>(`${this.url}/addresses/${request.startPeriod}/${request.finishPeriod}`).subscribe(
+            this.get<Array<WcAddressEntity>>(
+                `${this.url}/addresses/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
                 (response: Array<WcAddressEntity>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -53,7 +57,9 @@ export class ReportService extends ApiService {
 
     public async getBuyersAge(request: GetReportRequest): Promise<BuyerAgeResponse[]> {
         const promise: Promise<BuyerAgeResponse[]> = new Promise((resolve: any, reject: any) => {
-            this.get<BuyerAgeResponse[]>(`${this.url}/buyers-age/${request.startPeriod}/${request.finishPeriod}`).subscribe(
+            this.get<BuyerAgeResponse[]>(
+                `${this.url}/buyers-age/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
                 (response: BuyerAgeResponse[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -64,7 +70,7 @@ export class ReportService extends ApiService {
     public async getShoppingFrequency(request: GetReportRequest): Promise<ShoppingFrequencyResponse[]> {
         const promise: Promise<ShoppingFrequencyResponse[]> = new Promise((resolve: any, reject: any) => {
             this.get<ShoppingFrequencyResponse[]>(
-                `${this.url}/shopping-frequency/${request.startPeriod}/${request.finishPeriod}`
+                `${this.url}/shopping-frequency/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
             ).subscribe(
                 (response: ShoppingFrequencyResponse[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
@@ -76,7 +82,7 @@ export class ReportService extends ApiService {
     public async getGenderDistribuion(request: GetReportRequest): Promise<ReportsGenderDistributionResponse> {
         const promise: Promise<ReportsGenderDistributionResponse> = new Promise((resolve: any, reject: any) => {
             this.get<ReportsGenderDistributionResponse>(
-                `${this.url}/gender-distribution/${request.startPeriod}/${request.finishPeriod}`
+                `${this.url}/gender-distribution/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
             ).subscribe(
                 (response: ReportsGenderDistributionResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
@@ -87,7 +93,9 @@ export class ReportService extends ApiService {
 
     public async getSalesByState(request: GetReportRequest): Promise<ReportSaleByStateResponse[]> {
         const promise: Promise<ReportSaleByStateResponse[]> = new Promise((resolve: any, reject: any) => {
-            this.get<ReportSaleByStateResponse[]>(`${this.url}/sales-by-state/${request.startPeriod}/${request.finishPeriod}`).subscribe(
+            this.get<ReportSaleByStateResponse[]>(
+                `${this.url}/sales-by-state/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
                 (response: ReportSaleByStateResponse[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -97,7 +105,9 @@ export class ReportService extends ApiService {
 
     public async getOverviewCard(request: GetReportRequest): Promise<ReportOverviewCardResponse> {
         const promise: Promise<ReportOverviewCardResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<ReportOverviewCardResponse>(`${this.url}/overview-card/${request.startPeriod}/${request.finishPeriod}`).subscribe(
+            this.get<ReportOverviewCardResponse>(
+                `${this.url}/overview-card/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
                 (response: ReportOverviewCardResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -107,7 +117,9 @@ export class ReportService extends ApiService {
 
     public async getMonthlyInvoices(request: GetReportRequest): Promise<MonthlyInvoiceResponse> {
         const promise: Promise<MonthlyInvoiceResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<MonthlyInvoiceResponse>(`${this.url}/monthly-invoices/${request.startPeriod}/${request.finishPeriod}`).subscribe(
+            this.get<MonthlyInvoiceResponse>(
+                `${this.url}/monthly-invoices/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
                 (response: MonthlyInvoiceResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -117,7 +129,9 @@ export class ReportService extends ApiService {
 
     public async getDailySales(request: GetReportRequest): Promise<DailySalesResponse> {
         const promise: Promise<DailySalesResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<DailySalesResponse>(`${this.url}/daily-sales/${request.startPeriod}/${request.finishPeriod}`).subscribe(
+            this.get<DailySalesResponse>(
+                `${this.url}/daily-sales/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
                 (response: DailySalesResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -127,7 +141,9 @@ export class ReportService extends ApiService {
 
     public async getAbc(request: GetReportRequest, type: string): Promise<AbcResponse> {
         const promise: Promise<AbcResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<AbcResponse>(`${this.url}/abc/${request.startPeriod}/${request.finishPeriod}/${type}`).subscribe(
+            this.get<AbcResponse>(
+                `${this.url}/abc/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}/${type}`
+            ).subscribe(
                 (response: AbcResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -137,7 +153,9 @@ export class ReportService extends ApiService {
 
     public async getNpsSupportGrade(request: GetReportRequest): Promise<number> {
         const promise: Promise<number> = new Promise((resolve: any, reject: any) => {
-            this.get<number>(`${this.url}/nps-average/support-rating/${request.startPeriod}/${request.finishPeriod}`).subscribe(
+            this.get<number>(
+                `${this.url}/nps-average/support-rating/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
                 (response: number) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -147,7 +165,9 @@ export class ReportService extends ApiService {
 
     public async getNpsProductGrade(request: GetReportRequest): Promise<number> {
         const promise: Promise<number> = new Promise((resolve: any, reject: any) => {
-            this.get<number>(`${this.url}/nps-average/product-rating/${request.startPeriod}/${request.finishPeriod}`).subscribe(
+            this.get<number>(
+                `${this.url}/nps-average/product-rating/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
                 (response: number) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -158,7 +178,7 @@ export class ReportService extends ApiService {
     public async getNpsRecommendationGrade(request: GetReportRequest): Promise<{ grade: string; count: number }[]> {
         const promise: Promise<{ grade: string; count: number }[]> = new Promise((resolve: any, reject: any) => {
             this.get<{ grade: string; count: number }[]>(
-                `${this.url}/nps-average/recommendation-rating/${request.startPeriod}/${request.finishPeriod}`
+                `${this.url}/nps-average/recommendation-rating/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
             ).subscribe(
                 (response: { grade: string; count: number }[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
@@ -169,7 +189,9 @@ export class ReportService extends ApiService {
 
     public async getNpsAverage(request: GetReportRequest): Promise<number> {
         const promise: Promise<number> = new Promise((resolve: any, reject: any) => {
-            this.get<number>(`${this.url}/nps-average/${request.startPeriod}/${request.finishPeriod}`).subscribe(
+            this.get<number>(
+                `${this.url}/nps-average/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
                 (response: number) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -179,7 +201,9 @@ export class ReportService extends ApiService {
 
     public async downloadCustomers(startPeriod: Date, finishPeriod: Date, position: Position): Promise<any> {
         const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
-            this.download<any>(`${this.url}/customers/download/${startPeriod}/${finishPeriod}/${position}`).subscribe(
+            this.download<any>(
+                `${this.url}/customers/download/${startPeriod?.toISOString()}/${finishPeriod?.toISOString()}/${position}`
+            ).subscribe(
                 (response: any) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

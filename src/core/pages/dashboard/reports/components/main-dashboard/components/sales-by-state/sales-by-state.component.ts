@@ -126,9 +126,9 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (startPeriod: Date, finishPeriod: Date) => {
-            this.reportRequest.startPeriod = startPeriod;
-            this.reportRequest.finishPeriod = finishPeriod;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            this.reportRequest.startPeriod = period.startPeriod;
+            this.reportRequest.finishPeriod = period.finishPeriod;
             this.isLoading = true;
             await this.fetchChartData();
             this.initializeChart();
