@@ -1,1 +1,6 @@
-<div class="audio-message-container"></div>
+<static-loading *ngIf="!url" [isLoading]="true" [label]="'carregando áudio...'"></static-loading>
+<div *ngIf="url" class="audio-message-container">
+    <audio controls>
+        <source src="{{ url }}" type="audio/ogg" />
+    </audio>
+</div>
