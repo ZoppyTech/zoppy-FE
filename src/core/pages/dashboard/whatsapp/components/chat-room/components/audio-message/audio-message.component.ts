@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./audio-message.component.scss']
 })
 export class AudioMessageComponent {
-    @Input() public url: string = '';
+    @Input() public url?: string = '';
 
     public constructor() {
         //no content

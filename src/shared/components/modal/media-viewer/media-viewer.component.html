@@ -1,0 +1,12 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <h5 class="text--extra-large text--bold text--primary">Visualizador de mídia</h5>
+        <div (click)="modal.close()" class="button-go-back clickable">
+            <ps-icon class="text-16 text--primary text--700" icon="icon-times"></ps-icon>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <img src="{{ modal.data.url }}" width="100%" height="100%" alt="" />
+    </div>
+</div>

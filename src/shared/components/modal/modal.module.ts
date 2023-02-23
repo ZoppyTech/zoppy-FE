@@ -8,6 +8,7 @@ import { InputInfoModule } from './input-info/input-info.module';
 import { SalesPanelContactModule } from './sales-panel-contact/sales-panel-contact.module';
 import { NewTaskModule } from './new-task/new-task.module';
 import { MessageConfigParamsModule } from './message-config-params/message-config-params.module';
+import { MediaViewerModule } from './media-viewer/media-viewer.module';
 
 @NgModule({
     imports: [
@@ -17,7 +18,8 @@ import { MessageConfigParamsModule } from './message-config-params/message-confi
         InputInfoModule,
         SalesPanelContactModule,
         NewTaskModule,
-        MessageConfigParamsModule
+        MessageConfigParamsModule,
+        MediaViewerModule
     ],
     declarations: [ModalComponent],
     exports: [ModalComponent],

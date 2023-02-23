@@ -6,7 +6,7 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./document-message.component.scss']
 })
 export class DocumentMessageComponent {
-    @Input() public url: string = '';
+    @Input() public url?: string = '';
 
     public constructor() {
         //no content

@@ -12,8 +12,19 @@
                 'thread-message-container__body__content--customer-user': !thread.isBusiness
             }"
         >
-            <div class="card-header">
-                <div [hidden]="thread.deletedAt || (!replyEnabled && !deleteEnabled)" class="card-header__options more-actions"></div>
+            <div class="card-header clickable">
+                <!-- <div
+                    class="card-header text--500 text-12"
+                    [ngClass]="{
+                        'card-header--business-user': thread.isBusiness,
+                        'card-header--customer-user': !thread.isBusiness
+                    }"
+                >
+                    Daniel Cardoso
+                </div> -->
+                <div [hidden]="thread.deletedAt || (!replyEnabled && !deleteEnabled)" class="card-header__options more-actions">
+                    <ps-icon class="icon-chevron font-16 text--500"></ps-icon>
+                </div>
             </div>
             <div class="card-body">
                 <ng-content select="[thread-message-content]"></ng-content>
@@ -29,24 +40,24 @@
                     <span *ngIf="thread.wamId">
                         <ps-icon
                             *ngIf="thread.status === 'delivered' || thread.status === 'read'"
-                            class="font-16"
+                            class="font-14"
                             [ngClass]="{
                                 'viewed-icon--status-delivered': thread.status === 'delivered',
                                 'viewed-icon--status-read': thread.status === 'read'
                             }"
                             icon="icon-done_all"
                         ></ps-icon>
-                        <ps-icon *ngIf="thread.status === 'sent'" class="font-16 viewed-icon--status-sent" icon="icon-approval"></ps-icon>
-                        <ps-icon *ngIf="thread.status === 'failed'" class="font-16 viewed-icon--status-failed" icon="icon-error"></ps-icon>
+                        <ps-icon *ngIf="thread.status === 'sent'" class="font-14 viewed-icon--status-sent" icon="icon-approval"></ps-icon>
+                        <ps-icon *ngIf="thread.status === 'failed'" class="font-14 viewed-icon--status-failed" icon="icon-error"></ps-icon>
                     </span>
                     <static-loading *ngIf="!thread.wamId" [isLoading]="true" [onlyLoading]="true"></static-loading>
                 </span>
-                <span *ngIf="thread?.createdAt !== null && !thread.deletedAt" class="text--500 text-14 datetime">{{
+                <span *ngIf="thread?.createdAt !== null && !thread.deletedAt" class="text--500 text-12 datetime">{{
                     thread.createdAt | date : 'h:mm a'
                 }}</span>
             </div>
         </div>
-        <div *ngIf="thread?.type === 'template'" class="thread-message-container__body__outline-content">
+        <div *ngIf="thread?.type === 'template'" class="thread-message-container__body__footer">
             <span class="text-16">Mensagem automática</span>
         </div>
     </div>

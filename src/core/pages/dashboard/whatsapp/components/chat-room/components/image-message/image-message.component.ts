@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 
 @Component({
     selector: 'image-message',
@@ -6,13 +7,19 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./image-message.component.scss']
 })
 export class ImageMessageComponent {
-    @Input() public url: string = '';
+    @Input() public url?: string = '';
 
-    public constructor() {
+    public constructor(public modal: ModalService) {
         //no content
     }
 
     public ngOnInit(): void {
         console.log('init');
+    }
+
+    public openMediaViewerModal(): void {
+        this.modal.open(Modal.IDENTIFIER.MEDIA_VIEWER_MODAL, {
+            url: this.url
+        });
     }
 }

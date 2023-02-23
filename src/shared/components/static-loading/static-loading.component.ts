@@ -6,6 +6,7 @@ import { Component, Input, OnInit } from '@angular/core';
     styleUrls: ['./static-loading.component.scss']
 })
 export class StaticLoadingComponent implements OnInit {
+    @Input() public label: string = 'Carregando...';
     @Input() public isLoading: boolean = false;
     @Input() public style: StaticLoading = StaticLoading.Dark;
     @Input() public onlyLoading: boolean = false;
