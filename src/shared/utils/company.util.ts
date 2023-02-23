@@ -36,4 +36,10 @@ export class CompanyUtil {
         if (!company) return false;
         return company.provider === AppConstants.PROVIDERS.YAMPI;
     }
+
+    public static isDooca(company: CompanyEntity | undefined): boolean {
+        if (!company) return false;
+        debugger;
+        return company.provider === AppConstants.PROVIDERS.DOOCA;
+    }
 }
