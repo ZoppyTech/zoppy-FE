@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { BuyerAgeResponse } from 'src/shared/models/responses/reports/buyer-age.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
@@ -15,8 +15,10 @@ import { ReportService } from 'src/shared/services/reports/report.service';
 })
 export class BuyerAgeChartComponent {
     @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
+        startPeriod: new Date(),
+        finishPeriod: new Date()
     };
+
     public data: BuyerAgeResponse[] | undefined;
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
@@ -123,8 +125,9 @@ export class BuyerAgeChartComponent {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (startPeriod: Date, finishPeriod: Date) => {
+            this.reportRequest.startPeriod = startPeriod;
+            this.reportRequest.finishPeriod = finishPeriod;
             this.isLoading = true;
             await this.fetchChartData();
             this.initializeChart();

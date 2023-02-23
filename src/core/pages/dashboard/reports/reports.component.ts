@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
@@ -14,6 +13,9 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class ReportsComponent implements OnInit {
     public view: View = '1';
+    public startPeriod: Date = new Date();
+    public finishPeriod: Date = new Date();
+
     public items: Array<Item> = [
         {
             label: 'Dashboard inicial',
@@ -33,28 +35,33 @@ export class ReportsComponent implements OnInit {
         }
     ];
 
-    public periods: Array<PeriodItem> = [
-        {
-            label: 'Últimos 30 dias',
-            selected: true,
-            value: 30
-        },
-        {
-            label: 'Últimos 60 dias',
-            selected: false,
-            value: 60
-        },
-        {
-            label: 'Últimos 90 dias',
-            selected: false,
-            value: 90
-        },
-        {
-            label: 'Desde o início',
-            selected: false,
-            value: 'all'
-        }
-    ];
+    // public periods: Array<PeriodItem> = [
+    //     {
+    //         label: 'Últimos 30 dias',
+    //         selected: true,
+    //         value: 30
+    //     },
+    //     {
+    //         label: 'Últimos 60 dias',
+    //         selected: false,
+    //         value: 60
+    //     },
+    //     {
+    //         label: 'Últimos 90 dias',
+    //         selected: false,
+    //         value: 90
+    //     },
+    //     {
+    //         label: 'Desde o início',
+    //         selected: false,
+    //         value: 'all'
+    //     },
+    //     {
+    //         label: 'Personalizado',
+    //         selected: false,
+    //         value: 'personalized'
+    //     }
+    // ];
 
     public periodMenuOpen: boolean = false;
 
@@ -73,29 +80,29 @@ export class ReportsComponent implements OnInit {
         this.setBreadcrumb();
     }
 
-    public selectPeriod(period: PeriodItem) {
-        this.periods.forEach((periodItem: PeriodItem) => {
-            periodItem.selected = periodItem.value === period.value;
-        });
-        this.periodMenuOpen = false;
-        BroadcastService.emit('refresh-report', period.value);
-    }
+    // public selectPeriod(period: PeriodItem) {
+    //     this.periods.forEach((periodItem: PeriodItem) => {
+    //         periodItem.selected = periodItem.value === period.value;
+    //     });
+    //     this.periodMenuOpen = false;
+    //     BroadcastService.emit('refresh-report', this.startPeriod, this.finishPeriod);
+    // }
 
-    public selectReport(period: ReportPeriod): void {
-        this.router.navigate([Navigation.routes.reports, period.toString()]);
-
+    public selectReport(event: any): void {
         setTimeout(() => {
-            BroadcastService.emit('refresh-report', this.getPeriod());
+            BroadcastService.emit('refresh-report', { startPeriod: this.startPeriod, finishPeriod: this.finishPeriod });
         }, 300);
     }
 
-    public getPeriod(): ReportPeriod {
-        return this.periods.find((period: PeriodItem) => period.selected)?.value ?? 'all';
+    public updatePeriod(event: any): void {
+        setTimeout(() => {
+            BroadcastService.emit('refresh-report', { startPeriod: this.startPeriod, finishPeriod: this.finishPeriod });
+        }, 300);
     }
 
-    public periodSelectedLabel(): string {
-        return this.periods.find((period: PeriodItem) => period.selected)?.label ?? '';
-    }
+    // public periodSelectedLabel(): string {
+    //     return this.periods.find((period: PeriodItem) => period.selected)?.label ?? '';
+    // }
 
     private setBreadcrumb(): void {
         this.breadcrumb.items = [
@@ -113,8 +120,8 @@ class Item {
     public declare value: View;
 }
 
-class PeriodItem {
-    public declare label: string;
-    public declare value: ReportPeriod;
-    public declare selected: boolean;
-}
+// class PeriodItem {
+//     public declare label: string;
+//     public declare value: ReportPeriod;
+//     public declare selected: boolean;
+// }

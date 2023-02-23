@@ -9,11 +9,28 @@
             [items]="items"
         ></ps-dropdown>
         <div class="relative padding-left-3 menu-content">
-            <div class="flex-center clickable" (click)="periodMenuOpen = !periodMenuOpen">
-                <ps-icon class="font-16 text--primary" icon="icon-filter_alt"></ps-icon>
-                <span class="text-14 text--500 margin-left-2">{{ periodSelectedLabel() }}</span>
+            <div class="flex-center clickable">
+                <p class="text-14">Data de início</p>
+                <ps-datepicker
+                    [displayTop]="true"
+                    type="input"
+                    [(model)]="startPeriod"
+                    (modelChange)="updatePeriod($event)"
+                    placeholder="DD/MM/AAAA"
+                ></ps-datepicker>
             </div>
-            <ul class="menu padding-2" *ngIf="periodMenuOpen">
+
+            <div class="flex-center clickable">
+                <p class="text-14">Data final</p>
+                <ps-datepicker
+                    [displayTop]="true"
+                    type="input"
+                    [(model)]="finishPeriod"
+                    (modelChange)="updatePeriod($event)"
+                    placeholder="DD/MM/AAAA"
+                ></ps-datepicker>
+            </div>
+            <!-- <ul class="menu padding-2" *ngIf="periodMenuOpen">
                 <li
                     [ngClass]="{ 'bg-secondary-600': period.selected, 'item-unselected': !period.selected }"
                     class="padding-2 wide flex space-between clickable"
@@ -30,7 +47,7 @@
                         ></ps-icon>
                     </div>
                 </li>
-            </ul>
+            </ul> -->
         </div>
     </section>
 
