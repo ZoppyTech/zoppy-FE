@@ -116,7 +116,9 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     }
 
     public calculate(position: CustomerPosition): string {
-        const percent: string = FormatUtils.toPercent(Math.round((position.phones.length * 100) / this.customers.length) / 100);
+        if (!this.customers?.length) return '';
+        const roundValue: number = Math.round((position.phones.length * 10000) / this.customers.length);
+        const percent: string = FormatUtils.toPercent(roundValue / 100);
         return `${position.phones.length} - ${percent}`;
     }
 
