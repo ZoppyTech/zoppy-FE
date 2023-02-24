@@ -1,6 +1,7 @@
 <div class="wrapper">
-    <section class="header flex flex-start margin-top-2">
+    <section class="header flex flex-start margin-top-2 flex-wrap">
         <ps-dropdown
+            class="margin-right-3"
             [enableSearch]="false"
             [propertyValue]="'value'"
             [(value)]="view"
@@ -8,7 +9,7 @@
             (valueChange)="selectReport($event)"
             [items]="items"
         ></ps-dropdown>
-        <div class="relative padding-left-3 menu-content">
+        <div class="relative padding-y-2 menu-content">
             <div class="flex-center clickable" (click)="periodMenuOpen = !periodMenuOpen">
                 <ps-icon class="font-16 text--primary" icon="icon-filter_alt"></ps-icon>
                 <span class="text-14 text--500 margin-left-2">{{ periodSelectedLabel() }}</span>
@@ -32,21 +33,47 @@
                 </li>
             </ul>
         </div>
+
+        <div class="relative padding-left-3 menu-content margin-y-1" *ngIf="periodSelectedValue() === 'personalized'">
+            <div class="flex-center clickable">
+                <span class="text-14 text--500 margin-right-2">Data de início:</span>
+                <ps-datepicker
+                    [displayTop]="false"
+                    type="input"
+                    [(model)]="period.startPeriod"
+                    (modelChange)="updatePeriod($event)"
+                    placeholder="DD/MM/AAAA"
+                ></ps-datepicker>
+            </div>
+        </div>
+
+        <div class="relative padding-left-3 menu-content margin-y-1" *ngIf="periodSelectedValue() === 'personalized'">
+            <div class="flex-center clickable">
+                <span class="text-14 text--500 margin-right-2">Data final:</span>
+                <ps-datepicker
+                    [displayTop]="false"
+                    type="input"
+                    [(model)]="period.finishPeriod"
+                    (modelChange)="updatePeriod($event)"
+                    placeholder="DD/MM/AAAA"
+                ></ps-datepicker>
+            </div>
+        </div>
     </section>
 
     <section *ngIf="view === '1'" class="main-dashboard">
-        <main-dashboard></main-dashboard>
+        <main-dashboard [reportRequest]="period"></main-dashboard>
     </section>
 
     <section *ngIf="view === '2'" class="matrix-rfm">
-        <matrix-rfm></matrix-rfm>
+        <matrix-rfm [reportRequest]="period"></matrix-rfm>
     </section>
 
     <section *ngIf="view === '3'" class="nps">
-        <nps></nps>
+        <nps [reportRequest]="period"></nps>
     </section>
 
     <section *ngIf="view === '4'" class="demographic-data">
-        <demographic-data></demographic-data>
+        <demographic-data [reportRequest]="period"></demographic-data>
     </section>
 </div>

@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+import { DatepickerModule } from '@ZoppyTech/datepicker';
 import { DropdownModule } from '@ZoppyTech/dropdown';
 import { IconModule } from '@ZoppyTech/icon';
 import { DemographicDataModule } from './components/demographic-data/demographic-data.module';
@@ -25,7 +26,8 @@ const routes: Routes = [
         MainDashboardModule,
         DemographicDataModule,
         MatrixRfmModule,
-        DropdownModule
+        DropdownModule,
+        DatepickerModule
     ],
     declarations: [ReportsComponent],
     exports: [ReportsComponent]

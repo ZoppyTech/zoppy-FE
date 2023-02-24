@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { ReportSaleByStateResponse } from 'src/shared/models/responses/reports/report-sale-by-state.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
@@ -30,9 +30,7 @@ export class SalesByStateChartComponent {
     public chartLabels: Array<string> = [];
     public chartData: Array<any> = [];
 
-    @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
-    };
+    @Input() public reportRequest?: GetReportRequest;
 
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
@@ -82,7 +80,7 @@ export class SalesByStateChartComponent {
 
     public async fetchChartData(): Promise<void> {
         try {
-            this.data = await this.reportsService.getSalesByState(this.reportRequest);
+            this.data = await this.reportsService.getSalesByState(this.reportRequest as GetReportRequest);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de vendas por estado');
@@ -125,8 +123,9 @@ export class SalesByStateChartComponent {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             this.isLoading = true;
             await this.fetchChartData();
             this.initializeChart();

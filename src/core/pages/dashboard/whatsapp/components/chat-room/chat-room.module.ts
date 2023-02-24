@@ -9,6 +9,9 @@ import { BubbleInfoModule } from './components/bubble-info/bubble-info.module';
 import { ThreadMessageModule } from './components/thread-message/thread-message.module';
 import { SplitterDateModule } from './components/splitter-date/splitter-date.module';
 import { ChatUtility } from './helpers/chat-utility';
+import { ImageMessageModule } from './components/image-message/image-message.module';
+import { AudioMessageModule } from './components/audio-message/audio-message.module';
+import { DocumentMessageModule } from './components/document-message/document-message.module';
 
 const providers: Provider[] = [ChatUtility];
 
@@ -22,7 +25,10 @@ const providers: Provider[] = [ChatUtility];
         TextMessageModule,
         SplitterDateModule,
         ThreadMessageModule,
-        BubbleInfoModule
+        BubbleInfoModule,
+        ImageMessageModule,
+        AudioMessageModule,
+        DocumentMessageModule
     ],
     providers: [providers],
     exports: [ChatRoomComponent],

@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { DateUtil } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { MonthlyInvoiceResponse } from 'src/shared/models/responses/reports/monthly-invoice.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
@@ -20,9 +20,7 @@ export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public legends: Legend[] = [];
-    @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
-    };
+    @Input() public reportRequest?: GetReportRequest;
 
     public chartOptions: any = {
         scaleShowVerticalLines: false,
@@ -87,7 +85,7 @@ export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
             this.chartData[0].data = [];
             this.chartData[1].data = [];
             this.chartLabels = [];
-            this.data = await this.reportService.getMonthlyInvoices(this.reportRequest);
+            this.data = await this.reportService.getMonthlyInvoices(this.reportRequest as GetReportRequest);
             for (const invoice in this.data.invoices) {
                 const info: string[] = invoice.split(' / ');
                 const label: string = `${DateUtil.getMonthName(parseInt(info[1]) - 1).substring(0, 3)}/${info[0].substring(2, 4)}`;
@@ -104,8 +102,9 @@ export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             await this.initializeData();
         });
     }

@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { DateUtil, ReportPeriod } from '@ZoppyTech/utilities';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
-import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
@@ -14,6 +14,11 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class ReportsComponent implements OnInit {
     public view: View = '1';
+    public period: GetReportRequest = {
+        startPeriod: DateUtil.addDays(new Date(), -30),
+        finishPeriod: new Date()
+    };
+
     public items: Array<Item> = [
         {
             label: 'Dashboard inicial',
@@ -53,6 +58,11 @@ export class ReportsComponent implements OnInit {
             label: 'Desde o início',
             selected: false,
             value: 'all'
+        },
+        {
+            label: 'Personalizado',
+            selected: false,
+            value: 'personalized'
         }
     ];
 
@@ -78,23 +88,53 @@ export class ReportsComponent implements OnInit {
             periodItem.selected = periodItem.value === period.value;
         });
         this.periodMenuOpen = false;
-        BroadcastService.emit('refresh-report', period.value);
+
+        if (period.value !== 'personalized') {
+            this.convertPeriodIntoDate(period.value);
+        }
     }
 
-    public selectReport(period: ReportPeriod): void {
-        this.router.navigate([Navigation.routes.reports, period.toString()]);
+    public selectReport(event: any): void {
+        let selectedPeriodValue: ReportPeriod = this.periodSelectedValue();
+        if (selectedPeriodValue !== 'personalized') this.convertPeriodIntoDate(selectedPeriodValue);
+        else
+            setTimeout(() => {
+                BroadcastService.emit('refresh-report', { startPeriod: this.period.startPeriod, finishPeriod: this.period.finishPeriod });
+            }, 300);
+    }
 
+    public updatePeriod(event: any): void {
         setTimeout(() => {
-            BroadcastService.emit('refresh-report', this.getPeriod());
-        }, 300);
-    }
-
-    public getPeriod(): ReportPeriod {
-        return this.periods.find((period: PeriodItem) => period.selected)?.value ?? 'all';
+            BroadcastService.emit('refresh-report', { startPeriod: this.period.startPeriod, finishPeriod: this.period.finishPeriod });
+        }, 1000);
     }
 
     public periodSelectedLabel(): string {
         return this.periods.find((period: PeriodItem) => period.selected)?.label ?? '';
+    }
+
+    public periodSelectedValue(): ReportPeriod {
+        return this.periods.find((period: PeriodItem) => period.selected)?.value ?? 30;
+    }
+
+    public convertPeriodIntoDate(periodValue: ReportPeriod): void {
+        this.period.startPeriod = new Date();
+        this.period.finishPeriod = new Date();
+
+        switch (periodValue) {
+            case 30:
+            case 60:
+            case 90:
+                this.period.startPeriod.setDate(this.period.startPeriod.getDate() - periodValue);
+                break;
+            case 'all':
+                this.period.startPeriod = new Date(0);
+                break;
+            default:
+                break;
+        }
+
+        BroadcastService.emit('refresh-report', { startPeriod: this.period.startPeriod, finishPeriod: this.period.finishPeriod });
     }
 
     private setBreadcrumb(): void {

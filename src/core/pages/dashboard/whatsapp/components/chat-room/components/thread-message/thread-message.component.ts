@@ -1,4 +1,8 @@
 import { Component, Input, OnInit } from '@angular/core';
+import { ToastService } from '@ZoppyTech/toast';
+import { FileUtils } from '@ZoppyTech/utilities';
+import { ZoppyException } from 'src/shared/services/api.service';
+import { WhatsappMediaService } from 'src/shared/services/whatsapp-media/whatsapp-media.service';
 import { ThreadMessage } from '../../../../models/thread-message';
 
 @Component({
@@ -11,12 +15,28 @@ export class ThreadMessageComponent implements OnInit {
     @Input() public replyEnabled: boolean = false;
     @Input() public deleteEnabled: boolean = false;
     public isHovered: boolean = false;
+    public downloading: boolean = false;
 
-    public constructor() {
+    public constructor(private readonly whatsappMediaService: WhatsappMediaService, private readonly toast: ToastService) {
         //no content
     }
 
     public ngOnInit(): void {
         console.log('init');
+    }
+
+    public async download(): Promise<void> {
+        if (this.downloading) return;
+        this.downloading = true;
+        try {
+            if (!this.thread?.media?.id) return;
+            const blob: any = await this.whatsappMediaService.downloadMedia(this.thread.media.id);
+            FileUtils.downloadBlob(this.thread.media.caption, blob);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Erro!');
+        } finally {
+            this.downloading = false;
+        }
     }
 }

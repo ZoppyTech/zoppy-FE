@@ -1,0 +1,4 @@
+<static-loading *ngIf="!url" [isLoading]="true" [label]="'carregando imagem...'"></static-loading>
+<div *ngIf="url" class="image-message-container">
+    <img class="clickable" (click)="openMediaViewerModal()" src="{{ url }}" alt="" />
+</div>

@@ -184,8 +184,9 @@ export class GenderChartComponent implements OnInit {
     }
 
     public setEvents(): void {
-        // BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-        //     this.reportRequest.period = period;
+        // BroadcastService.subscribe(this, 'refresh-report', async (startPeriod: Date, finishPeriod: Date) => {
+        //     this.reportRequest.startPeriod = startPeriod;
+        //     this.reportRequest.finishPeriod = finishPeriod;
         //     await this.initializeChart();
         // });
     }

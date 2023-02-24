@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { BuyerAgeResponse } from 'src/shared/models/responses/reports/buyer-age.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
@@ -14,9 +14,8 @@ import { ReportService } from 'src/shared/services/reports/report.service';
     styleUrls: ['./buyer-age-chart.component.scss']
 })
 export class BuyerAgeChartComponent {
-    @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
-    };
+    @Input() public reportRequest?: GetReportRequest;
+
     public data: BuyerAgeResponse[] | undefined;
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
@@ -43,7 +42,7 @@ export class BuyerAgeChartComponent {
 
     public async fetchChartData(): Promise<void> {
         try {
-            this.data = await this.reportsService.getBuyersAge(this.reportRequest);
+            this.data = await this.reportsService.getBuyersAge(this.reportRequest as GetReportRequest);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de compras por gênero');
@@ -123,8 +122,9 @@ export class BuyerAgeChartComponent {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             this.isLoading = true;
             await this.fetchChartData();
             this.initializeChart();

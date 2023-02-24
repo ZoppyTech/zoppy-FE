@@ -1,8 +1,7 @@
 import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
-import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { AbcResponse } from 'src/shared/models/responses/reports/abc.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
@@ -33,9 +32,7 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
         }
     ];
 
-    @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
-    };
+    @Input() public reportRequest?: GetReportRequest;
 
     public chartOptions: any = {
         scaleShowVerticalLines: false,
@@ -114,7 +111,7 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         try {
             this.type = type;
-            this.data = await this.reportService.getAbc(this.reportRequest, this.type);
+            this.data = await this.reportService.getAbc(this.reportRequest as GetReportRequest, this.type);
             this.processInformation();
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -131,8 +128,9 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             await this.initializeData();
         });
     }

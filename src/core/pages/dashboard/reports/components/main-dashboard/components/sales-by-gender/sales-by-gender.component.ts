@@ -3,7 +3,7 @@ import { ToastService } from '@ZoppyTech/toast';
 import { MathUtil } from '@ZoppyTech/utilities';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { ReportsGenderDistributionResponse } from 'src/shared/models/responses/reports/reports.gender.distribution.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
@@ -15,9 +15,8 @@ import { ReportService } from 'src/shared/services/reports/report.service';
     styleUrls: ['./sales-by-gender.component.scss']
 })
 export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
-    @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
-    };
+    @Input() public reportRequest?: GetReportRequest;
+
     public data: ReportsGenderDistributionResponse | undefined;
     public legends: Legend[] = [];
     public isLoading: boolean = true;
@@ -44,7 +43,7 @@ export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
 
     public async fetchChartData(): Promise<void> {
         try {
-            this.data = await this.reportsService.getGenderDistribuion(this.reportRequest);
+            this.data = await this.reportsService.getGenderDistribuion(this.reportRequest as GetReportRequest);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de compras por gênero');
@@ -202,8 +201,9 @@ export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             await this.initializeChart();
         });
     }

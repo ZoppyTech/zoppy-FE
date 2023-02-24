@@ -59,6 +59,7 @@ export class ChatMapper {
         threadMessage.isFirstMessageOfDay = false;
         threadMessage.createdAt = messageEntity.createdAt;
         threadMessage.deletedAt = messageEntity.deletedAt;
+        threadMessage.companyId = messageEntity.companyId;
         return threadMessage;
     }
 

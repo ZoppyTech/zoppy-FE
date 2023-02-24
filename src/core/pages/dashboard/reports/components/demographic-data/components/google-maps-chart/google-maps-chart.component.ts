@@ -3,7 +3,7 @@ import { MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
 import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
@@ -14,9 +14,8 @@ import { ReportService } from 'src/shared/services/reports/report.service';
     styleUrls: ['./google-maps-chart.component.scss']
 })
 export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewInit {
-    @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
-    };
+    @Input() public reportRequest?: GetReportRequest;
+
     public addresses: Array<WcAddressEntity> = [];
     @ViewChild('mapContainer', { static: false }) public declare gmap: ElementRef;
     @ViewChild(MapInfoWindow) public infoWindow: MapInfoWindow | undefined;
@@ -71,8 +70,9 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             this.isLoading = true;
             await this.refreshMap();
         });
@@ -104,7 +104,7 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
 
     public async fetchData(): Promise<void> {
         try {
-            this.addresses = await this.reportsService.getAddresses(this.reportRequest);
+            this.addresses = await this.reportsService.getAddresses(this.reportRequest as GetReportRequest);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');

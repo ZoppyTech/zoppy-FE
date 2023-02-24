@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
@@ -13,9 +13,8 @@ import { ReportService } from 'src/shared/services/reports/report.service';
     styleUrls: ['./service-level-chart.component.scss']
 })
 export class ServiceLevelChartComponent {
-    @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
-    };
+    @Input() public reportRequest?: GetReportRequest;
+
     public isLoading: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public supportGrade: number = 0;
@@ -28,13 +27,15 @@ export class ServiceLevelChartComponent {
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
     public ngOnInit(): void {
+        console.log('Aqui report');
+        console.log(this.reportRequest);
         this.setEvents();
         this.initializeChart();
     }
 
     public async fetchChartData(): Promise<void> {
         try {
-            this.supportGrade = await this.reportsService.getNpsSupportGrade(this.reportRequest);
+            this.supportGrade = await this.reportsService.getNpsSupportGrade(this.reportRequest as GetReportRequest);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de média nível do atendimento');
@@ -49,8 +50,9 @@ export class ServiceLevelChartComponent {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             this.initializeChart();
         });
     }

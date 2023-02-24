@@ -1,0 +1,5 @@
+<static-loading *ngIf="!url" [isLoading]="true" [label]="'carregando documento...'"></static-loading>
+<div *ngIf="url" class="document-message-container">
+    <ps-icon></ps-icon>
+    <div class="document-preview"></div>
+</div>

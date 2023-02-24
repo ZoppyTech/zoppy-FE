@@ -39,6 +39,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public scrollerElement: HTMLElement | null = null;
     public scrollerHandler: any = null;
     public readonly panelScrollableElementId: string = 'panel-scrollable';
+    public UNSUPPORTED_MESSAGE_TYPE = 'Mensagem não suportada.';
 
     public constructor(
         public readonly wppBusinessManagementService: WhatsappBusinessManagementService,
@@ -168,7 +169,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             status: WhatsappConstants.MessageStatus.Sent,
             isBusiness: true,
             isFirstMessageOfDay: false,
-            createdAt: new Date()
+            createdAt: new Date(),
+            companyId: this.chatRoom.account.companyId
         };
     }
 
@@ -180,7 +182,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             readByManager: true,
             isBusiness: true,
             isFirstMessageOfDay: false,
-            createdAt: new Date()
+            createdAt: new Date(),
+            companyId: this.chatRoom.account.companyId
         };
     }
 

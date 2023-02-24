@@ -37,8 +37,16 @@ export class Modal {
         INPUT_INFO: 'input_info',
         SALES_PANEL_CONTACT: 'sales_panel_contact',
         NEW_TASK: 'new_task',
-        MESSAGE_CONFIG_PARAMS: 'message_config_params'
+        MESSAGE_CONFIG_PARAMS: 'message_config_params',
+        MEDIA_VIEWER_MODAL: 'media_viewer_modal'
     };
 }
 
-export type ModalId = 'INFO' | 'CHAT_CONTACT' | 'INPUT_INFO' | 'SALES_PANEL_CONTACT' | 'NEW_TASK' | 'MESSAGE_CONFIG_PARAMS';
+export type ModalId =
+    | 'INFO'
+    | 'CHAT_CONTACT'
+    | 'INPUT_INFO'
+    | 'SALES_PANEL_CONTACT'
+    | 'NEW_TASK'
+    | 'MESSAGE_CONFIG_PARAMS'
+    | 'MEDIA_VIEWER_MODAL';

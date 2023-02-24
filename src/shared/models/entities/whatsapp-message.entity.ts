@@ -1,4 +1,5 @@
 import { WhatsappContactEntity } from './whatsapp-contact.entity';
+import { WhatsappMediaMessageEntity } from './whatsapp-media-message.entity';
 
 //TODO: Temporary use
 export class WhatsappMessageEntity {
@@ -24,4 +25,5 @@ export class WhatsappMessageEntity {
 
     /** Includes */
     public declare wppContact?: WhatsappContactEntity;
+    public declare wppMediaMessage?: WhatsappMediaMessageEntity;
 }

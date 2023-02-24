@@ -8,7 +8,18 @@ export class ThreadMessage {
     public declare readByManager: boolean;
     public declare isFirstMessageOfDay: boolean;
     public declare wamId?: string;
+    public declare media?: ThreadMediaMessage;
+    public declare companyId: string;
     public declare createdAt: Date;
     public declare updatedAt?: Date;
     public deletedAt?: Date | null = null;
+}
+
+export class ThreadMediaMessage {
+    public declare id: string;
+    public declare url: string;
+    public declare caption: string;
+    public declare mimeType: string;
+    public declare sha256: string;
+    public declare fileSize: number;
 }

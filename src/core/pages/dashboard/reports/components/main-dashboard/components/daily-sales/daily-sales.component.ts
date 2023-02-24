@@ -1,7 +1,7 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { DailySale, DailySalesResponse } from 'src/shared/models/responses/reports/daily-sales.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
@@ -19,9 +19,7 @@ export class DailySalesComponent implements OnInit, OnDestroy {
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public legends: Legend[] = [];
     public data: DailySalesResponse = new DailySalesResponse();
-    @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
-    };
+    @Input() public reportRequest?: GetReportRequest;
 
     public chartOptions: any = {
         scaleShowVerticalLines: false,
@@ -86,8 +84,9 @@ export class DailySalesComponent implements OnInit, OnDestroy {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             await this.initializeData();
         });
     }
@@ -108,7 +107,7 @@ export class DailySalesComponent implements OnInit, OnDestroy {
     public async fetchData(): Promise<void> {
         try {
             this.resetData();
-            this.data = await this.reportService.getDailySales(this.reportRequest);
+            this.data = await this.reportService.getDailySales(this.reportRequest as GetReportRequest);
             this.data.invoices.forEach((invoice: DailySale) => {
                 this.chartLabels.push(invoice.name);
                 this.chartData[1].data.push(invoice.sales);

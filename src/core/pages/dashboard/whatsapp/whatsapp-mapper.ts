@@ -1,9 +1,11 @@
 import { DateUtil, StringUtil, WhatsappConstants } from '@ZoppyTech/utilities';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
+import { WhatsappMediaMessageEntity } from 'src/shared/models/entities/whatsapp-media-message.entity';
 import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
 import { ChatAccount } from './models/chat-account';
 import { ChatContact } from './models/chat-contact';
 import { ChatManager } from './models/chat-manager';
+import { ChatMediaMessage } from './models/chat-media-message';
 import { ChatRoom } from './models/chat-room';
 import { ThreadMessage } from './models/thread-message';
 import { WhatsappUtil } from './utils/whatsapp.util';
@@ -66,6 +68,10 @@ export class WhatsappMapper {
         threadMessage.wamId = messageEntity.wamId;
         threadMessage.createdAt = messageEntity.createdAt;
         threadMessage.deletedAt = messageEntity.deletedAt;
+        threadMessage.companyId = messageEntity.companyId;
+        if (messageEntity.wppMediaMessage) {
+            threadMessage.media = this.mapMediaMessage(messageEntity.wppMediaMessage);
+        }
         return threadMessage;
     }
 
@@ -87,6 +93,17 @@ export class WhatsappMapper {
         return contact;
     }
 
+    public static mapMediaMessage(mediaEntity: WhatsappMediaMessageEntity): ChatMediaMessage {
+        const media: ChatMediaMessage = new ChatMediaMessage();
+        media.id = mediaEntity.id;
+        media.url = mediaEntity.url;
+        media.caption = mediaEntity.caption;
+        media.mimeType = mediaEntity.mimeType;
+        media.sha256 = mediaEntity.sha256;
+        media.fileSize = mediaEntity.fileSize;
+        return media;
+    }
+
     public static setFirstMessagesOfDay(threads: Array<ThreadMessage>): void {
         if (threads.length <= 0) return;
         const firstMessage: ThreadMessage = threads[0];
@@ -102,17 +119,9 @@ export class WhatsappMapper {
     public static setUnreadConversations(conversations: Map<string, ChatRoom>): void {
         for (const conversation of Array.from(conversations.entries())) {
             const unreadMessages: ThreadMessage[] = conversation[1].threads.filter((thread: ThreadMessage) => {
-                return thread.type === WhatsappConstants.MessageType.Text && thread.readByManager === false;
+                return thread.type !== WhatsappConstants.MessageType.Template && thread.readByManager === false;
             });
             conversation[1].unreadThreads.push(...unreadMessages);
         }
-    }
-
-    private static createEmptyContact(): ChatContact {
-        const contact: ChatContact = new ChatContact();
-        contact.id = '';
-        contact.displayName = 'Contato removido';
-        contact.displayPhone = 'Telefone indisponível';
-        return contact;
     }
 }

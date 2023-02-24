@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { FileUtils, FormatUtils } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { Position } from 'src/shared/models/responses/reports/matrix-rfm.response';
 import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -24,9 +24,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public positions: CustomerPositions = new CustomerPositions();
     public position: CustomerPosition = new CustomerPosition('all');
-    @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
-    };
+    @Input() public reportRequest?: GetReportRequest;
 
     public constructor(public router: Router, private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
@@ -34,7 +32,11 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         const fileName: string = `${new Date().toLocaleDateString()}_coupons.csv`;
         this.loadingDownload = true;
         try {
-            const file: any = await this.reportsService.downloadCustomers(this.reportRequest.period, this.position.position);
+            const file: any = await this.reportsService.downloadCustomers(
+                (this.reportRequest as GetReportRequest).startPeriod,
+                (this.reportRequest as GetReportRequest).finishPeriod,
+                this.position.position
+            );
             FileUtils.downloadBlob(fileName, file);
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -61,7 +63,9 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
 
     public async fetchData(): Promise<void> {
         try {
-            this.customers = (await this.reportsService.getCustomers(this.reportRequest)) as ReportCustomerResponseDto[];
+            this.customers = (await this.reportsService.getCustomers(
+                this.reportRequest as GetReportRequest
+            )) as ReportCustomerResponseDto[];
             this.customersFiltered = Array.from(this.customers.values());
             this.setPositions();
             this.setFilter(this.position);
@@ -132,8 +136,9 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             await this.initializeData();
         });
     }
