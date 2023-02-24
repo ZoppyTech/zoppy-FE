@@ -32,10 +32,7 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
         }
     ];
 
-    @Input() public reportRequest: GetReportRequest = {
-        startPeriod: new Date(),
-        finishPeriod: new Date()
-    };
+    @Input() public reportRequest?: GetReportRequest;
 
     public chartOptions: any = {
         scaleShowVerticalLines: false,
@@ -114,7 +111,7 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
         this.isLoading = true;
         try {
             this.type = type;
-            this.data = await this.reportService.getAbc(this.reportRequest, this.type);
+            this.data = await this.reportService.getAbc(this.reportRequest as GetReportRequest, this.type);
             this.processInformation();
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -132,8 +129,8 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
 
     public setEvents(): void {
         BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
-            this.reportRequest.startPeriod = period.startPeriod;
-            this.reportRequest.finishPeriod = period.finishPeriod;
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             await this.initializeData();
         });
     }

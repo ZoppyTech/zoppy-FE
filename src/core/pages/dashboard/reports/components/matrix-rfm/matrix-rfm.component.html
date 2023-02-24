@@ -112,7 +112,12 @@
                 </div>
             </div>
         </div>
-        <rfm-overview [isLoading]="isLoading" class="padding-top-3" [customers]="customersFiltered"></rfm-overview>
+        <rfm-overview
+            [isLoading]="isLoading"
+            class="padding-top-3"
+            [customers]="customersFiltered"
+            [reportRequest]="reportRequest"
+        ></rfm-overview>
     </section>
 
     <div class="content-box">

@@ -14,10 +14,8 @@ import { ReportService } from 'src/shared/services/reports/report.service';
     styleUrls: ['./google-maps-chart.component.scss']
 })
 export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewInit {
-    @Input() public reportRequest: GetReportRequest = {
-        startPeriod: new Date(),
-        finishPeriod: new Date()
-    };
+    @Input() public reportRequest?: GetReportRequest;
+
     public addresses: Array<WcAddressEntity> = [];
     @ViewChild('mapContainer', { static: false }) public declare gmap: ElementRef;
     @ViewChild(MapInfoWindow) public infoWindow: MapInfoWindow | undefined;
@@ -73,8 +71,8 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
 
     public setEvents(): void {
         BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
-            this.reportRequest.startPeriod = period.startPeriod;
-            this.reportRequest.finishPeriod = period.finishPeriod;
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             this.isLoading = true;
             await this.refreshMap();
         });
@@ -106,7 +104,7 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
 
     public async fetchData(): Promise<void> {
         try {
-            this.addresses = await this.reportsService.getAddresses(this.reportRequest);
+            this.addresses = await this.reportsService.getAddresses(this.reportRequest as GetReportRequest);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');

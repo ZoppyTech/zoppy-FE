@@ -39,7 +39,7 @@
                 <ps-datepicker
                     [displayTop]="false"
                     type="input"
-                    [(model)]="startPeriod"
+                    [(model)]="period.startPeriod"
                     (modelChange)="updatePeriod($event)"
                     placeholder="DD/MM/AAAA"
                 ></ps-datepicker>
@@ -52,7 +52,7 @@
                 <ps-datepicker
                     [displayTop]="false"
                     type="input"
-                    [(model)]="finishPeriod"
+                    [(model)]="period.finishPeriod"
                     (modelChange)="updatePeriod($event)"
                     placeholder="DD/MM/AAAA"
                 ></ps-datepicker>
@@ -61,18 +61,18 @@
     </section>
 
     <section *ngIf="view === '1'" class="main-dashboard">
-        <main-dashboard></main-dashboard>
+        <main-dashboard [reportRequest]="period"></main-dashboard>
     </section>
 
     <section *ngIf="view === '2'" class="matrix-rfm">
-        <matrix-rfm></matrix-rfm>
+        <matrix-rfm [reportRequest]="period"></matrix-rfm>
     </section>
 
     <section *ngIf="view === '3'" class="nps">
-        <nps></nps>
+        <nps [reportRequest]="period"></nps>
     </section>
 
     <section *ngIf="view === '4'" class="demographic-data">
-        <demographic-data></demographic-data>
+        <demographic-data [reportRequest]="period"></demographic-data>
     </section>
 </div>

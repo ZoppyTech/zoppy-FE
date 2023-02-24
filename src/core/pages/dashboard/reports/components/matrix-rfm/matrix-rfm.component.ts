@@ -24,10 +24,8 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public positions: CustomerPositions = new CustomerPositions();
     public position: CustomerPosition = new CustomerPosition('all');
-    @Input() public reportRequest: GetReportRequest = {
-        startPeriod: new Date(),
-        finishPeriod: new Date()
-    };
+    @Input() public reportRequest?: GetReportRequest;
+
     public constructor(public router: Router, private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
     public async downloadCustomers(): Promise<void> {
@@ -35,8 +33,8 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         this.loadingDownload = true;
         try {
             const file: any = await this.reportsService.downloadCustomers(
-                this.reportRequest.startPeriod,
-                this.reportRequest.finishPeriod,
+                (this.reportRequest as GetReportRequest).startPeriod,
+                (this.reportRequest as GetReportRequest).finishPeriod,
                 this.position.position
             );
             FileUtils.downloadBlob(fileName, file);
@@ -65,7 +63,9 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
 
     public async fetchData(): Promise<void> {
         try {
-            this.customers = (await this.reportsService.getCustomers(this.reportRequest)) as ReportCustomerResponseDto[];
+            this.customers = (await this.reportsService.getCustomers(
+                this.reportRequest as GetReportRequest
+            )) as ReportCustomerResponseDto[];
             this.customersFiltered = Array.from(this.customers.values());
             this.setPositions();
             this.setFilter(this.position);
@@ -137,8 +137,8 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
 
     public setEvents(): void {
         BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
-            this.reportRequest.startPeriod = period.startPeriod;
-            this.reportRequest.finishPeriod = period.finishPeriod;
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             await this.initializeData();
         });
     }

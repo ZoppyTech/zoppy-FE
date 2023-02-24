@@ -28,10 +28,7 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
     public chartLabels: Array<string> = [];
     public chartData: Array<any> = [];
 
-    @Input() public reportRequest: GetReportRequest = {
-        startPeriod: new Date(),
-        finishPeriod: new Date()
-    };
+    @Input() public reportRequest?: GetReportRequest;
 
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
@@ -82,7 +79,7 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
 
     public async fetchChartData(): Promise<void> {
         try {
-            this.data = await this.reportsService.getSalesByState(this.reportRequest);
+            this.data = await this.reportsService.getSalesByState(this.reportRequest as GetReportRequest);
             console.log(this.data);
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -127,8 +124,8 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
 
     public setEvents(): void {
         BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
-            this.reportRequest.startPeriod = period.startPeriod;
-            this.reportRequest.finishPeriod = period.finishPeriod;
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             this.isLoading = true;
             await this.fetchChartData();
             this.initializeChart();
