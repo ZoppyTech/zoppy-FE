@@ -1,6 +1,7 @@
 <div class="wrapper">
-    <section class="header flex flex-start margin-top-2">
+    <section class="header flex flex-start margin-top-2 flex-wrap">
         <ps-dropdown
+            class="margin-right-3"
             [enableSearch]="false"
             [propertyValue]="'value'"
             [(value)]="view"
@@ -8,7 +9,7 @@
             (valueChange)="selectReport($event)"
             [items]="items"
         ></ps-dropdown>
-        <div class="relative padding-left-3 menu-content">
+        <div class="relative padding-y-2 menu-content">
             <div class="flex-center clickable" (click)="periodMenuOpen = !periodMenuOpen">
                 <ps-icon class="font-16 text--primary" icon="icon-filter_alt"></ps-icon>
                 <span class="text-14 text--500 margin-left-2">{{ periodSelectedLabel() }}</span>
@@ -33,7 +34,7 @@
             </ul>
         </div>
 
-        <div class="relative padding-left-3 menu-content" *ngIf="periodSelectedValue() === 'personalized'">
+        <div class="relative padding-left-3 menu-content margin-y-1" *ngIf="periodSelectedValue() === 'personalized'">
             <div class="flex-center clickable">
                 <span class="text-14 text--500 margin-right-2">Data de início:</span>
                 <ps-datepicker
@@ -46,7 +47,7 @@
             </div>
         </div>
 
-        <div class="relative padding-left-3 menu-content" *ngIf="periodSelectedValue() === 'personalized'">
+        <div class="relative padding-left-3 menu-content margin-y-1" *ngIf="periodSelectedValue() === 'personalized'">
             <div class="flex-center clickable">
                 <span class="text-14 text--500 margin-right-2">Data final:</span>
                 <ps-datepicker

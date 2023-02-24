@@ -17,7 +17,7 @@
     padding: 0rem 3rem;
 
     .header {
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
         align-items: center;
 
         .menu {
@@ -59,5 +59,13 @@
 
     .demographic-data {
         width: 100%;
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .wrapper {
+        .header {
+            margin-bottom: 1rem;
+        }
     }
 }
