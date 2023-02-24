@@ -16,10 +16,7 @@ export class ReportCardComponent implements OnInit, OnDestroy {
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public data: ReportOverviewCardResponse = new ReportOverviewCardResponse();
-    @Input() public reportRequest: GetReportRequest = {
-        startPeriod: new Date(),
-        finishPeriod: new Date()
-    };
+    @Input() public reportRequest?: GetReportRequest;
 
     public ngOnDestroy(): void {
         BroadcastService.dispose(this);
@@ -35,7 +32,7 @@ export class ReportCardComponent implements OnInit, OnDestroy {
     public async fetchData(): Promise<void> {
         try {
             this.isLoading = true;
-            this.data = await this.reportService.getOverviewCard(this.reportRequest);
+            this.data = await this.reportService.getOverviewCard(this.reportRequest as GetReportRequest);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o card de informações');
@@ -46,8 +43,8 @@ export class ReportCardComponent implements OnInit, OnDestroy {
 
     public setEvents(): void {
         BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
-            this.reportRequest.startPeriod = period.startPeriod;
-            this.reportRequest.finishPeriod = period.finishPeriod;
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             await this.fetchData();
         });
     }

@@ -19,10 +19,7 @@ export class DailySalesComponent implements OnInit, OnDestroy {
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public legends: Legend[] = [];
     public data: DailySalesResponse = new DailySalesResponse();
-    @Input() public reportRequest: GetReportRequest = {
-        startPeriod: new Date(),
-        finishPeriod: new Date()
-    };
+    @Input() public reportRequest?: GetReportRequest;
 
     public chartOptions: any = {
         scaleShowVerticalLines: false,
@@ -88,8 +85,8 @@ export class DailySalesComponent implements OnInit, OnDestroy {
 
     public setEvents(): void {
         BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
-            this.reportRequest.startPeriod = period.startPeriod;
-            this.reportRequest.finishPeriod = period.finishPeriod;
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             await this.initializeData();
         });
     }
@@ -110,7 +107,7 @@ export class DailySalesComponent implements OnInit, OnDestroy {
     public async fetchData(): Promise<void> {
         try {
             this.resetData();
-            this.data = await this.reportService.getDailySales(this.reportRequest);
+            this.data = await this.reportService.getDailySales(this.reportRequest as GetReportRequest);
             this.data.invoices.forEach((invoice: DailySale) => {
                 this.chartLabels.push(invoice.name);
                 this.chartData[1].data.push(invoice.sales);

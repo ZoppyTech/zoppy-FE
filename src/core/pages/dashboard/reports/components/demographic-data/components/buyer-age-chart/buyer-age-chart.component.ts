@@ -14,10 +14,7 @@ import { ReportService } from 'src/shared/services/reports/report.service';
     styleUrls: ['./buyer-age-chart.component.scss']
 })
 export class BuyerAgeChartComponent {
-    @Input() public reportRequest: GetReportRequest = {
-        startPeriod: new Date(),
-        finishPeriod: new Date()
-    };
+    @Input() public reportRequest?: GetReportRequest;
 
     public data: BuyerAgeResponse[] | undefined;
     public isLoading: boolean = true;
@@ -45,7 +42,7 @@ export class BuyerAgeChartComponent {
 
     public async fetchChartData(): Promise<void> {
         try {
-            this.data = await this.reportsService.getBuyersAge(this.reportRequest);
+            this.data = await this.reportsService.getBuyersAge(this.reportRequest as GetReportRequest);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de compras por gênero');
@@ -126,8 +123,8 @@ export class BuyerAgeChartComponent {
 
     public setEvents(): void {
         BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
-            this.reportRequest.startPeriod = period.startPeriod;
-            this.reportRequest.finishPeriod = period.finishPeriod;
+            (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
+            (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
             this.isLoading = true;
             await this.fetchChartData();
             this.initializeChart();

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { ReportPeriod } from '@ZoppyTech/utilities';
+import { DateUtil, ReportPeriod } from '@ZoppyTech/utilities';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
@@ -13,8 +14,10 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class ReportsComponent implements OnInit {
     public view: View = '1';
-    public startPeriod: Date = new Date();
-    public finishPeriod: Date = new Date();
+    public period: GetReportRequest = {
+        startPeriod: DateUtil.addDays(new Date(), -30),
+        finishPeriod: new Date()
+    };
 
     public items: Array<Item> = [
         {
@@ -86,7 +89,9 @@ export class ReportsComponent implements OnInit {
         });
         this.periodMenuOpen = false;
 
-        if (period.value !== 'personalized') this.convertPeriodIntoDate(period.value);
+        if (period.value !== 'personalized') {
+            this.convertPeriodIntoDate(period.value);
+        }
     }
 
     public selectReport(event: any): void {
@@ -94,13 +99,13 @@ export class ReportsComponent implements OnInit {
         if (selectedPeriodValue !== 'personalized') this.convertPeriodIntoDate(selectedPeriodValue);
         else
             setTimeout(() => {
-                BroadcastService.emit('refresh-report', { startPeriod: this.startPeriod, finishPeriod: this.finishPeriod });
+                BroadcastService.emit('refresh-report', { startPeriod: this.period.startPeriod, finishPeriod: this.period.finishPeriod });
             }, 300);
     }
 
     public updatePeriod(event: any): void {
         setTimeout(() => {
-            BroadcastService.emit('refresh-report', { startPeriod: this.startPeriod, finishPeriod: this.finishPeriod });
+            BroadcastService.emit('refresh-report', { startPeriod: this.period.startPeriod, finishPeriod: this.period.finishPeriod });
         }, 1000);
     }
 
@@ -113,21 +118,23 @@ export class ReportsComponent implements OnInit {
     }
 
     public convertPeriodIntoDate(periodValue: ReportPeriod): void {
-        let startPeriod: Date = new Date();
+        this.period.startPeriod = new Date();
+        this.period.finishPeriod = new Date();
+
         switch (periodValue) {
             case 30:
             case 60:
             case 90:
-                startPeriod.setDate(startPeriod.getDate() - periodValue);
+                this.period.startPeriod.setDate(this.period.startPeriod.getDate() - periodValue);
                 break;
             case 'all':
-                startPeriod = new Date(0);
+                this.period.startPeriod = new Date(0);
                 break;
             default:
                 break;
         }
 
-        BroadcastService.emit('refresh-report', { startPeriod: startPeriod, finishPeriod: this.finishPeriod });
+        BroadcastService.emit('refresh-report', { startPeriod: this.period.startPeriod, finishPeriod: this.period.finishPeriod });
     }
 
     private setBreadcrumb(): void {
