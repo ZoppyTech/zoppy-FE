@@ -18,11 +18,17 @@
         <div *ngFor="let thread of this.chatRoom.threads">
             <splitter-date [date]="thread.createdAt" [visible]="thread.isFirstMessageOfDay"></splitter-date>
             <thread-message
+                [ngSwitch]="thread.type"
                 class="flex-row wide margin-bottom-1"
                 [ngStyle]="{ 'justify-content': !thread.isBusiness ? 'flex-start' : 'flex-end' }"
                 [thread]="thread"
             >
-                <text-message thread-message-content [text]="thread.content"></text-message>
+                <audio-message *ngSwitchCase="'audio'" thread-message-content [url]="thread.media?.url"></audio-message>
+                <image-message *ngSwitchCase="'image'" thread-message-content [url]="thread.media?.url"></image-message>
+                <text-message *ngSwitchCase="'text'" thread-message-content [text]="thread.content"></text-message>
+                <text-message *ngSwitchCase="'template'" thread-message-content [text]="thread.content"></text-message>
+                <document-message *ngSwitchCase="'document'" thread-message-content [url]="thread.media?.url"></document-message>
+                <text-message *ngSwitchDefault thread-message-content [text]="UNSUPPORTED_MESSAGE_TYPE"></text-message>
             </thread-message>
         </div>
     </div>
@@ -61,11 +67,11 @@
             class="send-button"
             [loading]="false"
             [wide]="true"
+            [round]="true"
             (onClick)="sendMessage()"
             type="secondary"
         >
-            <span class="text--100 text--bold desktop">Enviar</span>
-            <ps-icon icon="font-16 icon-send text--100 mobile"></ps-icon>
+            <ps-icon icon="font-28 icon-send text--100"></ps-icon>
         </ps-button>
     </div>
 </div>

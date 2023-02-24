@@ -145,7 +145,11 @@
 
         .send-button {
             margin-left: 2rem;
-            width: 116px;
+            width: 60px;
+
+            ps-icon {
+                font-size: 18px !important;
+            }
         }
     }
 }

@@ -23,10 +23,11 @@
             justify-content: flex-start;
             align-items: flex-start;
             flex-wrap: nowrap;
+            min-width: 6.25rem;
             width: 100%;
             max-width: -webkit-fill-available;
             height: fit-content;
-            padding: 1rem 2.5rem;
+            padding: 0.35rem 0.5rem 0.75rem 0.5rem;
             border-radius: 0.75rem;
             box-shadow: 0px 1rem 2.5rem rgba(29, 29, 38, 0.08);
 
@@ -72,23 +73,41 @@
                 }
             }
 
+            .card-header:hover {
+                display: flex;
+            }
+
             .card-header {
+                position: absolute;
+                right: 13px;
+                top: 10px;
                 width: 100%;
-                height: unset;
-                display: none;
+                height: fit-content;
+                display: flex;
                 flex-direction: row;
-                align-items: center;
-                justify-content: space-between;
+                justify-content: flex-end;
                 margin-bottom: 0.25rem;
+
+                &--business-user {
+                    color: var(--primary-400);
+                }
+
+                &--customer-user {
+                    color: var(--neutral-500);
+                }
 
                 &__options {
                     display: flex;
                     flex-direction: row;
                     justify-content: flex-end;
-                    width: 30px;
-                    height: 20px;
-                    background-color: transparent;
+                    padding: 5px;
+                    background-color: rgba($color: #fff, $alpha: 0.6);
+
                     border-radius: 100%;
+
+                    ps-icon {
+                        font-size: 20px;
+                    }
 
                     .more-actions {
                         cursor: pointer;
@@ -117,7 +136,7 @@
                 .datetime {
                     position: absolute;
                     right: 12px;
-                    bottom: 5px;
+                    bottom: 3px;
                     font-weight: 400;
                     padding: 0rem 0.25rem;
                 }
@@ -163,7 +182,7 @@
             }
         }
 
-        &__outline-content {
+        &__footer {
             display: flex;
             flex-direction: row;
             flex-wrap: nowrap;

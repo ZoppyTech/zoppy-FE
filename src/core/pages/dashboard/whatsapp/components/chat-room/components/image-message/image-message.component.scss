@@ -1,0 +1,13 @@
+@import '../../../../../../../../styles.scss';
+
+.image-message-container {
+    max-width: 330px;
+    max-height: 400px;
+    border-radius: 8px;
+
+    img {
+        border-radius: 0.5rem;
+        max-width: 330px;
+        max-height: 400px;
+    }
+}
