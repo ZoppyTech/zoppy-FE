@@ -3,7 +3,7 @@ import { MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
 import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
@@ -15,7 +15,8 @@ import { ReportService } from 'src/shared/services/reports/report.service';
 })
 export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewInit {
     @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
+        startPeriod: new Date(),
+        finishPeriod: new Date()
     };
     public addresses: Array<WcAddressEntity> = [];
     @ViewChild('mapContainer', { static: false }) public declare gmap: ElementRef;
@@ -71,8 +72,9 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            this.reportRequest.startPeriod = period.startPeriod;
+            this.reportRequest.finishPeriod = period.finishPeriod;
             this.isLoading = true;
             await this.refreshMap();
         });

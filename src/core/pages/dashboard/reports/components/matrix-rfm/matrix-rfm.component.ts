@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { FileUtils, FormatUtils } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { Position } from 'src/shared/models/responses/reports/matrix-rfm.response';
 import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -25,16 +25,20 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     public positions: CustomerPositions = new CustomerPositions();
     public position: CustomerPosition = new CustomerPosition('all');
     @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
+        startPeriod: new Date(),
+        finishPeriod: new Date()
     };
-
     public constructor(public router: Router, private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
     public async downloadCustomers(): Promise<void> {
         const fileName: string = `${new Date().toLocaleDateString()}_coupons.csv`;
         this.loadingDownload = true;
         try {
-            const file: any = await this.reportsService.downloadCustomers(this.reportRequest.period, this.position.position);
+            const file: any = await this.reportsService.downloadCustomers(
+                this.reportRequest.startPeriod,
+                this.reportRequest.finishPeriod,
+                this.position.position
+            );
             FileUtils.downloadBlob(fileName, file);
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -132,8 +136,9 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            this.reportRequest.startPeriod = period.startPeriod;
+            this.reportRequest.finishPeriod = period.finishPeriod;
             await this.initializeData();
         });
     }

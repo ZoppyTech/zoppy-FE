@@ -2,7 +2,7 @@ import { Component, Input, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
@@ -14,8 +14,10 @@ import { ReportService } from 'src/shared/services/reports/report.service';
 })
 export class ServiceLevelChartComponent {
     @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
+        startPeriod: new Date(),
+        finishPeriod: new Date()
     };
+
     public isLoading: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public supportGrade: number = 0;
@@ -49,8 +51,9 @@ export class ServiceLevelChartComponent {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            this.reportRequest.startPeriod = period.startPeriod;
+            this.reportRequest.finishPeriod = period.finishPeriod;
             this.initializeChart();
         });
     }

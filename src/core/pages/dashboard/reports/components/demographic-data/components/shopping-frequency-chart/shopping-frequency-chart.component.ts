@@ -2,7 +2,7 @@ import { Component, Input, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { GetReportRequest, ReportPeriod } from 'src/shared/models/requests/report/get-report.request';
+import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { ShoppingFrequencyResponse } from 'src/shared/models/responses/reports/shopping-frequency.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
@@ -15,8 +15,10 @@ import { ReportService } from 'src/shared/services/reports/report.service';
 })
 export class ShoppingFrequencyChartComponent implements OnInit, OnDestroy {
     @Input() public reportRequest: GetReportRequest = {
-        period: 'all' as ReportPeriod
+        startPeriod: new Date(),
+        finishPeriod: new Date()
     };
+
     public data: ShoppingFrequencyResponse[] | undefined;
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
@@ -125,8 +127,9 @@ export class ShoppingFrequencyChartComponent implements OnInit, OnDestroy {
     }
 
     public setEvents(): void {
-        BroadcastService.subscribe(this, 'refresh-report', async (period: ReportPeriod) => {
-            this.reportRequest.period = period;
+        BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
+            this.reportRequest.startPeriod = period.startPeriod;
+            this.reportRequest.finishPeriod = period.finishPeriod;
             this.isLoading = true;
             await this.fetchChartData();
             this.initializeChart();

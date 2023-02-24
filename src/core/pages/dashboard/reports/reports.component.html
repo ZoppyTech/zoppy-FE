@@ -32,6 +32,32 @@
                 </li>
             </ul>
         </div>
+
+        <div class="relative padding-left-3 menu-content" *ngIf="periodSelectedValue() === 'personalized'">
+            <div class="flex-center clickable">
+                <span class="text-14 text--500 margin-right-2">Data de início:</span>
+                <ps-datepicker
+                    [displayTop]="false"
+                    type="input"
+                    [(model)]="startPeriod"
+                    (modelChange)="updatePeriod($event)"
+                    placeholder="DD/MM/AAAA"
+                ></ps-datepicker>
+            </div>
+        </div>
+
+        <div class="relative padding-left-3 menu-content" *ngIf="periodSelectedValue() === 'personalized'">
+            <div class="flex-center clickable">
+                <span class="text-14 text--500 margin-right-2">Data final:</span>
+                <ps-datepicker
+                    [displayTop]="false"
+                    type="input"
+                    [(model)]="finishPeriod"
+                    (modelChange)="updatePeriod($event)"
+                    placeholder="DD/MM/AAAA"
+                ></ps-datepicker>
+            </div>
+        </div>
     </section>
 
     <section *ngIf="view === '1'" class="main-dashboard">

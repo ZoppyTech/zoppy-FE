@@ -81,6 +81,10 @@ export class DashboardBasePage {
         return CompanyUtil.isYampi(this.storage?.getCompany() as CompanyEntity);
     }
 
+    public getIsDooca(): boolean {
+        return CompanyUtil.isDooca(this.storage?.getCompany() as CompanyEntity);
+    }
+
     public getIsWooCommerce(): boolean {
         return CompanyUtil.isWooCommerce(this.storage?.getCompany() as CompanyEntity);
     }

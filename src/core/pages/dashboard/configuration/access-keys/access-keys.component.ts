@@ -97,6 +97,8 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
                 return !this.key.admin || !this.key.url;
             case AppConstants.PROVIDERS.YAMPI:
                 return !this.key.admin || !this.key.key || !this.key.secret;
+            case AppConstants.PROVIDERS.DOOCA:
+                return !this.key.admin;
             default:
                 return !this.key.key || !this.key.secret || !this.key.url;
         }
@@ -145,6 +147,12 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
                 this.adminVariables = {
                     label: 'Code',
                     placeholder: 'Insira aqui seu Code'
+                };
+                break;
+            case AppConstants.PROVIDERS.DOOCA:
+                this.adminVariables = {
+                    label: 'Token',
+                    placeholder: 'Insira aqui seu Token'
                 };
                 break;
             case AppConstants.PROVIDERS.YAMPI:
