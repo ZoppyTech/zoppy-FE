@@ -39,7 +39,6 @@ export class CompanyUtil {
 
     public static isDooca(company: CompanyEntity | undefined): boolean {
         if (!company) return false;
-        debugger;
         return company.provider === AppConstants.PROVIDERS.DOOCA;
     }
 }
