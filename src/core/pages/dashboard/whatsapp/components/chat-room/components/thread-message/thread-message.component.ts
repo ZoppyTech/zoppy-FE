@@ -26,13 +26,11 @@ export class ThreadMessageComponent implements OnInit {
     }
 
     public async download(): Promise<void> {
-        debugger;
         if (this.downloading) return;
         this.downloading = true;
         try {
             if (!this.thread?.media?.id) return;
             const blob: any = await this.whatsappMediaService.downloadMedia(this.thread.media.id);
-            debugger;
             FileUtils.downloadBlob(this.thread.media.caption, blob);
         } catch (ex: any) {
             ex = ex as ZoppyException;
