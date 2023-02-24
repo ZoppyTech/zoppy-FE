@@ -78,13 +78,9 @@
             }
 
             .card-header {
-                // width: 100%;
-                // height: unset;
-                // display: flex;
-                // flex-direction: row;
-                // align-items: center;
-                // justify-content: space-between;
-                // margin-bottom: 0.25rem;
+                position: absolute;
+                right: 13px;
+                top: 10px;
                 width: 100%;
                 height: fit-content;
                 display: flex;
@@ -104,14 +100,13 @@
                     display: flex;
                     flex-direction: row;
                     justify-content: flex-end;
-                    width: 30px;
-                    height: 15px;
-                    background-color: transparent;
+                    padding: 5px;
+                    background-color: rgba($color: #fff, $alpha: 0.6);
+
                     border-radius: 100%;
 
                     ps-icon {
-                        font-size: 24px;
-                        rotate: -90deg;
+                        font-size: 20px;
                     }
 
                     .more-actions {

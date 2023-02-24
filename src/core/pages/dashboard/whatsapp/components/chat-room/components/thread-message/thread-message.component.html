@@ -12,18 +12,14 @@
                 'thread-message-container__body__content--customer-user': !thread.isBusiness
             }"
         >
-            <div class="card-header clickable">
-                <!-- <div
-                    class="card-header text--500 text-12"
-                    [ngClass]="{
-                        'card-header--business-user': thread.isBusiness,
-                        'card-header--customer-user': !thread.isBusiness
-                    }"
-                >
-                    Daniel Cardoso
-                </div> -->
-                <div [hidden]="thread.deletedAt || (!replyEnabled && !deleteEnabled)" class="card-header__options more-actions">
-                    <ps-icon class="icon-chevron font-16 text--500"></ps-icon>
+            <div
+                *ngIf="isHovered && (thread.type === 'image' || thread.type === 'document')"
+                (click)="download()"
+                class="card-header clickable"
+            >
+                <div class="card-header__options more-actions">
+                    <ps-icon *ngIf="!downloading" class="icon-download font-16"></ps-icon>
+                    <static-loading *ngIf="downloading" [isLoading]="true" [label]="''"></static-loading>
                 </div>
             </div>
             <div class="card-body">

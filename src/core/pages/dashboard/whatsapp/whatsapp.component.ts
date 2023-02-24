@@ -191,7 +191,8 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             this.account = {
                 id: entity.id,
                 businessName: entity.businessName,
-                active: entity.active
+                active: entity.active,
+                companyId: entity.companyId
             };
         } catch (ex: any) {
             ex = ex as ZoppyException;

@@ -68,6 +68,7 @@ export class WhatsappMapper {
         threadMessage.wamId = messageEntity.wamId;
         threadMessage.createdAt = messageEntity.createdAt;
         threadMessage.deletedAt = messageEntity.deletedAt;
+        threadMessage.companyId = messageEntity.companyId;
         if (messageEntity.wppMediaMessage) {
             threadMessage.media = this.mapMediaMessage(messageEntity.wppMediaMessage);
         }
@@ -118,7 +119,7 @@ export class WhatsappMapper {
     public static setUnreadConversations(conversations: Map<string, ChatRoom>): void {
         for (const conversation of Array.from(conversations.entries())) {
             const unreadMessages: ThreadMessage[] = conversation[1].threads.filter((thread: ThreadMessage) => {
-                return thread.type === WhatsappConstants.MessageType.Text && thread.readByManager === false;
+                return thread.type !== WhatsappConstants.MessageType.Template && thread.readByManager === false;
             });
             conversation[1].unreadThreads.push(...unreadMessages);
         }

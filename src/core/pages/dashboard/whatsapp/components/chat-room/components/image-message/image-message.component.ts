@@ -13,8 +13,8 @@ export class ImageMessageComponent {
         //no content
     }
 
-    public ngOnInit(): void {
-        console.log('init');
+    public async ngOnInit(): Promise<void> {
+        setTimeout(() => {}, 1000);
     }
 
     public openMediaViewerModal(): void {
