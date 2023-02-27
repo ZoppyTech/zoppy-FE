@@ -1,9 +1,8 @@
-@import '../../../../styles.scss';
+@import 'src/styles.scss';
 
 :host {
     display: flex;
     flex-grow: 1;
-    min-height: 0;
 }
 
 .container {
@@ -17,7 +16,6 @@
     border-radius: 0.75rem;
     margin-bottom: 2rem;
     flex-grow: 1;
-    min-height: 0;
 
     .header {
         border-bottom: 1px solid var(--neutral-300);
@@ -28,6 +26,15 @@
         width: 100%;
         justify-content: space-between;
         padding: 0 2rem;
+
+        a {
+            text-decoration: none;
+
+            ps-icon {
+                font-size: 20px;
+            }
+        }
+
         margin-bottom: 1rem;
         h6 {
             margin-bottom: 1rem;

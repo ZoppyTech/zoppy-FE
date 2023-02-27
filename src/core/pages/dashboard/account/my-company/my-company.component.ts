@@ -23,6 +23,7 @@ export class MyCompanyComponent implements OnInit {
                 route: undefined
             }
         ];
-        this.sideMenuService.change(`myCompany`);
+        this.sideMenuService.change(`none`);
+        this.sideMenuService.changeSubAccount(`myCompany`);
     }
 }

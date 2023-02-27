@@ -37,16 +37,8 @@ const routes: Routes = [
                 loadChildren: () => import('./configuration/configuration.module').then((m: any) => m.ConfigurationModule)
             },
             {
-                path: 'my-company',
-                loadChildren: () => import('./my-company/my-company.module').then((m: any) => m.MyCompanyModule)
-            },
-            {
-                path: 'profile',
-                loadChildren: () => import('./my-profile/my-profile.module').then((m: any) => m.MyProfileModule)
-            },
-            {
-                path: 'membership',
-                loadChildren: () => import('./membership/membership.module').then((m: any) => m.MembershipModule)
+                path: 'account',
+                loadChildren: () => import('./account/account.module').then((m: any) => m.AccountModule)
             },
             {
                 path: 'sales',

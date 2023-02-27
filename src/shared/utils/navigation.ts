@@ -2,16 +2,18 @@ export class Navigation {
     public static routes: Record<Pages, string> = {
         login: '/login',
         landing: '/landing',
-        changePassword: '/change-password',
         resetPassword: '/reset-password',
         dashboard: '/dashboard',
         home: '/dashboard/home',
         register: '/register',
         configuration: '/dashboard/configurations',
-        profile: '/dashboard/profile',
-        myCompany: '/dashboard/my-company',
-        myCompanyConfig: '/dashboard/my-company/config',
-        myCompanyUsers: '/dashboard/my-company/users',
+        account: '/dashboard/account',
+        changePassword: 'change-password',
+        profile: '/dashboard/account/profile',
+        signature: '/dashboard/account/signature',
+        myCompany: '/dashboard/account/my-company',
+        myCompanyConfig: '/dashboard/account/my-company/config',
+        myCompanyUsers: '/dashboard/account/my-company/users',
         userConfig: '/dashboard/my-company/users/config',
         reports: '/dashboard/reports',
         accessKeys: '/dashboard/configurations/access-keys',
@@ -36,35 +38,37 @@ export class Navigation {
 }
 
 export type Pages =
-    | 'login'
-    | 'landing'
+    | 'accessKeys'
+    | 'accessTokens'
+    | 'account'
+    | 'batchUpload'
     | 'changePassword'
-    | 'resetPassword'
+    | 'coupons'
+    | 'customer'
+    | 'customers'
+    | 'customerSocialMedia'
     | 'dashboard'
+    | 'giftback'
     | 'home'
-    | 'register'
-    | `configuration`
-    | 'profile'
+    | 'landing'
+    | 'letalk'
+    | 'login'
+    | 'messageConfig'
     | 'myCompany'
     | 'myCompanyConfig'
     | 'myCompanyUsers'
-    | 'userConfig'
-    | 'reports'
-    | 'accessKeys'
-    | 'accessTokens'
-    | 'letalk'
-    | 'messageConfig'
-    | 'giftback'
-    | 'whatsappConfig'
-    | 'whatsappTemplateList'
-    | 'syncData'
-    | 'whatsapp'
-    | 'products'
     | 'product'
+    | 'products'
+    | 'profile'
+    | 'register'
+    | 'reports'
+    | 'resetPassword'
     | 'sales'
     | 'salesPanel'
-    | 'customers'
-    | 'customerSocialMedia'
-    | 'customer'
-    | 'coupons'
-    | 'batchUpload';
+    | 'signature'
+    | 'syncData'
+    | 'userConfig'
+    | 'whatsapp'
+    | 'whatsappConfig'
+    | 'whatsappTemplateList'
+    | `configuration`;

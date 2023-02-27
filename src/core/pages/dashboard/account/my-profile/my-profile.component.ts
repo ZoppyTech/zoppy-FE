@@ -31,8 +31,8 @@ export class MyProfileComponent implements OnInit {
     public ngOnInit() {
         this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
         this.setBreadcrumb();
-        this.sideMenuService.change(`myProfile`);
-        this.sideMenuService.changeSub(`none`);
+        this.sideMenuService.change(`none`);
+        this.sideMenuService.changeSubAccount(`myProfile`);
     }
 
     public getSaveDisabled(): boolean {

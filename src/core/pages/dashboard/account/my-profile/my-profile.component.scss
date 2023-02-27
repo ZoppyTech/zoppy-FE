@@ -1,10 +1,9 @@
-@import '../../../../../styles.scss';
+@import 'src/styles.scss';
 
 :host {
+    display: flex;
     flex-grow: 1;
     min-height: 0;
-    display: flex;
-    flex-direction: column;
 }
 
 .container {
@@ -22,10 +21,12 @@
 
     .header {
         border-bottom: 1px solid var(--neutral-300);
-        padding: 0 2rem;
     }
 
     .title {
+        display: flex;
+        width: 100%;
+        justify-content: space-between;
         padding: 0 2rem;
         margin-bottom: 1rem;
         h6 {
@@ -35,29 +36,20 @@
     }
 
     .body {
-        flex-grow: 1;
-        overflow: auto;
+        margin: 0 2rem;
+        padding: 2rem;
+        border: 1px solid var(--neutral-300);
+        padding-bottom: 2rem;
+        background-color: #fafbff;
+        border-radius: 0.75rem;
         min-height: 0;
-        padding: 0 2rem;
+        overflow: auto;
 
-        table {
-            width: 100%;
+        .field {
+            padding-bottom: 1rem;
 
-            .actions {
-                display: flex;
-                justify-content: flex-end;
-
-                ps-icon {
-                    margin-left: 1.5rem;
-                    font-size: 1.125rem;
-                }
-            }
-
-            .mobile-email {
-                white-space: nowrap;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                max-width: 10rem;
+            span {
+                line-height: 2rem;
             }
         }
     }

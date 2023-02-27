@@ -43,7 +43,7 @@ export class MyCompanyConfigComponent implements OnInit {
             }
         ];
         this.sideMenuService.change(`myCompany`);
-        this.sideMenuService.changeSub(`myCompanyConfig`);
+        this.sideMenuService.changeSubAccount(`myCompanyConfig`);
     }
 
     public async save(): Promise<void> {

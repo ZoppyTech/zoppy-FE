@@ -11,7 +11,7 @@ import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service
 import { UserService } from 'src/shared/services/user/user.service';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
-import { DashboardBasePage } from '../../dashboard.base.page';
+import { DashboardBasePage } from '../../../dashboard.base.page';
 
 @Component({
     selector: 'app-my-company-users',
@@ -50,7 +50,7 @@ export class MyCompanyUsersComponent extends DashboardBasePage implements OnInit
             }
         ];
         this.sideMenuService.change(`myCompany`);
-        this.sideMenuService.changeSub(`myCompanyUsers`);
+        this.sideMenuService.changeSubAccount(`myCompanyUsers`);
         this.setRoles();
         await this.fetchUsers();
     }

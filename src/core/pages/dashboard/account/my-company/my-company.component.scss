@@ -1,8 +1,9 @@
-@import '../../../../../styles.scss';
+@import 'src/styles.scss';
 
 :host {
     flex-grow: 1;
     min-height: 0;
+    display: flex;
 }
 
 .container {
@@ -15,8 +16,6 @@
     box-shadow: $box-shadow-1;
     border-radius: 0.75rem;
     margin-bottom: 2rem;
-    flex-grow: 1;
-    min-height: 0;
 
     .header {
         border-bottom: 1px solid var(--neutral-300);
@@ -27,7 +26,7 @@
         padding: 0 2rem;
         margin-bottom: 1rem;
         h6 {
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
         padding-bottom: 1rem;
     }
@@ -40,7 +39,6 @@
         border-radius: 0.75rem;
         display: flex;
         flex-wrap: wrap;
-        overflow: auto;
 
         .field {
             padding: 1rem 0.5rem;
