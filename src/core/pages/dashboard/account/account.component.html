@@ -9,15 +9,21 @@
         <div class="content">
             <ul class="items">
                 <li [routerLink]="item.route" *ngFor="let item of menuItems" [ngClass]="{ hidden: !item.visible }">
-                    <a class="text-decoration-none padding-2" [attr.href]="item.route">
-                        <span
-                            class="text-16"
-                            [ngClass]="{
-                                'text--secondary': sideMenuService.accountSelected === item.id,
-                                'text--500': sideMenuService.accountSelected !== item.id
-                            }"
-                            >{{ item.label }}</span
-                        >
+                    <a class="text-decoration-none" [attr.href]="item.route">
+                        <div>
+                            <ps-icon
+                                class="text-16 margin-right-2"
+                                icon="{{ item.icon }} {{ sideMenuService.accountSelected === item.id ? 'text--secondary' : 'text--500' }}"
+                            ></ps-icon>
+                            <span
+                                class="text-16"
+                                [ngClass]="{
+                                    'text--secondary': sideMenuService.accountSelected === item.id,
+                                    'text--500': sideMenuService.accountSelected !== item.id
+                                }"
+                                >{{ item.label }}</span
+                            >
+                        </div>
                     </a>
                 </li>
             </ul>

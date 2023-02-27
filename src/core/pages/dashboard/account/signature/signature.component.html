@@ -1,1 +1,50 @@
-<p>signature works!</p>
+<div class="container">
+    <div class="title margin-top-3 wide">
+        <a class="flex go-back margin-bottom-3">
+            <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
+            <span class="text-16 text--bold text--primary">Voltar</span>
+        </a>
+
+        <div class="left">
+            <h6 class="text-18 text--bold">Assinatura</h6>
+            <span class="text-16">Gerencie sua assinatura na Zoppy.</span>
+        </div>
+    </div>
+
+    <div *ngIf="state === 1" class="box padding-2">
+        <div class="box__container padding-bottom-2">
+            <h6 class="text--bold text--primary">Plano</h6>
+            <span class="text text--bold">{{ plan.name }}</span>
+            <ul>
+                <li *ngFor="let attribute of plan.attributes" class="flex align-center flex-start">
+                    <ps-icon class="success" icon="icon-approval"></ps-icon>
+                    <span class="text">{{ attribute }}</span>
+                </li>
+            </ul>
+        </div>
+        <div class="box__container padding-bottom-2" *ngIf="loaded">
+            <div class="flex space-between">
+                <h6 class="text--bold text--primary">Método de pagamento</h6>
+                <span class="text-14 info clickable">Alterar plano</span>
+            </div>
+
+            <ng-container class="margin-top-2" *ngIf="paymentMethod?.id; else noPayment">
+                <span class="text text--bold">Cartão de crédito</span>
+
+                <div class="flex align-center margin-top-1">
+                    <img [src]="paymentMethod.img" alt="" class="margin-right-1" />
+                    <span class="text">****.****.****.{{ paymentMethod.digits }}</span>
+                </div>
+            </ng-container>
+            <ng-template #noPayment>
+                <span class="text margin-top-2">Nenhum método de pagamento cadastrado.</span>
+            </ng-template>
+
+            <span class="text margin-top-1"></span>
+        </div>
+
+        <div class="box__container padding-bottom-2">
+            <span class="text neutral-500 clickable">Cancelar assinatura</span>
+        </div>
+    </div>
+</div>

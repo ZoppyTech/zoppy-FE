@@ -15,7 +15,7 @@ export class Navigation {
         myCompany: '/dashboard/account/my-company',
         myCompanyConfig: '/dashboard/account/my-company/config',
         myCompanyUsers: '/dashboard/account/my-company/users',
-        userConfig: '/dashboard/my-company/users/config',
+        userConfig: '/dashboard/account/my-company/users/config',
         reports: '/dashboard/reports',
         accessKeys: '/dashboard/configurations/access-keys',
         accessTokens: '/dashboard/configurations/access-tokens',

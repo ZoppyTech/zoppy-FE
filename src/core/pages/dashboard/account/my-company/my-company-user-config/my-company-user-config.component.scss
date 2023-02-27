@@ -8,30 +8,25 @@
 .container {
     display: flex;
     flex-direction: column;
-    margin: 3rem;
     margin-top: 0px;
     background-color: var(--neutral-100);
-    border: 1px solid var(--neutral-300);
-    box-shadow: $box-shadow-1;
-    border-radius: 0.75rem;
     margin-bottom: 2rem;
     flex-grow: 1;
 
-    .header {
-        border-bottom: 1px solid var(--neutral-300);
-    }
-
     .title {
         display: flex;
+        flex-direction: column;
         width: 100%;
-        justify-content: space-between;
         padding: 0 2rem;
+
+        .go-back {
+            align-items: center;
+        }
 
         a {
             text-decoration: none;
-
             ps-icon {
-                font-size: 20px;
+                font-size: 1rem;
             }
         }
 

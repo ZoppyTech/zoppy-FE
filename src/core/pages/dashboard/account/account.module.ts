@@ -1,3 +1,4 @@
+import { IconModule } from '@ZoppyTech/icon';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { AccountComponent } from './account.component';
@@ -37,6 +38,6 @@ const routes: Routes = [
 @NgModule({
     declarations: [AccountComponent],
     exports: [AccountComponent],
-    imports: [CommonModule, RouterModule.forChild(routes)]
+    imports: [CommonModule, IconModule, RouterModule.forChild(routes)]
 })
 export class AccountModule {}
