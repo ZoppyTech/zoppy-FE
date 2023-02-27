@@ -53,6 +53,7 @@ export type SideMenu =
     | `myProfile`
     | `signature`
     | `syncData`
+    | `updatePassword`
     | `whatsapp`;
 
 export interface SideMenuItem {

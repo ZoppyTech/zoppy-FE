@@ -30,12 +30,12 @@ export class ConfigAccountItems {
             {
                 id: `signature`,
                 icon: 'icon-credit_card',
-                label: 'Assinature',
+                label: 'Assinatura',
                 route: Navigation.routes.signature,
                 visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
             },
             {
-                id: `changePassword`,
+                id: `updatePassword`,
                 icon: 'icon-lock',
                 label: 'Redefinir senha',
                 route: Navigation.routes.changePassword,

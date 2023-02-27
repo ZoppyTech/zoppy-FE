@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { UserRequest } from 'src/shared/models/requests/user/user.request';
@@ -19,7 +18,6 @@ export class MyProfileComponent implements OnInit {
     public constructor(
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
-        private route: ActivatedRoute,
         private readonly userService: UserService,
         private readonly toast: ToastService,
         private readonly storage: Storage

@@ -9,6 +9,7 @@ export class Navigation {
         configuration: '/dashboard/configurations',
         account: '/dashboard/account',
         changePassword: 'change-password',
+        updatePassword: '/dashboard/account/change-password',
         profile: '/dashboard/account/profile',
         signature: '/dashboard/account/signature',
         myCompany: '/dashboard/account/my-company',
@@ -67,6 +68,7 @@ export type Pages =
     | 'salesPanel'
     | 'signature'
     | 'syncData'
+    | 'updatePassword'
     | 'userConfig'
     | 'whatsapp'
     | 'whatsappConfig'

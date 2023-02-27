@@ -8,11 +8,11 @@ import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 
 @Component({
-    selector: 'app-signature',
-    templateUrl: './signature.component.html',
-    styleUrls: ['./signature.component.scss']
+    selector: 'app-update-password',
+    templateUrl: './update-password.component.html',
+    styleUrls: ['./update-password.component.scss']
 })
-export class SignatureComponent implements OnInit {
+export class UpdatePasswordComponent implements OnInit {
     public user: UserEntity = new UserEntity();
     public loading: boolean = false;
 
@@ -28,7 +28,7 @@ export class SignatureComponent implements OnInit {
         this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
         this.setBreadcrumb();
         this.sideMenuService.change(`none`);
-        this.sideMenuService.changeSubAccount(`signature`);
+        this.sideMenuService.changeSubAccount(`updatePassword`);
     }
 
     private setBreadcrumb(): void {
@@ -38,8 +38,8 @@ export class SignatureComponent implements OnInit {
                 route: Navigation.routes.home
             },
             {
-                name: `Assinatura`,
-                route: Navigation.routes.profile
+                name: `Redefinir senha`,
+                route: Navigation.routes.updatePassword
             }
         ];
     }

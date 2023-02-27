@@ -3,7 +3,6 @@ import { CommonModule } from '@angular/common';
 import { AccountComponent } from './account.component';
 import { RouterModule, Routes } from '@angular/router';
 import { DashboardGuard } from 'src/shared/guards/dashboard.guard';
-
 const routes: Routes = [
     {
         path: '',
@@ -28,12 +27,8 @@ const routes: Routes = [
                 loadChildren: () => import('./signature/signature.module').then((m: any) => m.SignatureModule)
             },
             {
-                path: 'change-password/:token',
-                loadChildren: () => import('../../change-password/change-password.module').then((m: any) => m.ChangePasswordModule)
-            },
-            {
                 path: 'change-password',
-                loadChildren: () => import('../../change-password/change-password.module').then((m: any) => m.ChangePasswordModule)
+                loadChildren: () => import('./update-password/update-password.module').then((m: any) => m.UpdatePasswordModule)
             }
         ]
     }
