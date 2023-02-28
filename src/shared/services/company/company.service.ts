@@ -40,4 +40,14 @@ export class CompanyService extends ApiService {
         });
         return promise;
     }
+
+    public async inactivate(): Promise<void> {
+        const promise: Promise<void> = new Promise((resolve: any, reject: any) => {
+            this.delete<any>(`${this.url}`).subscribe(
+                (response: any) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
 }

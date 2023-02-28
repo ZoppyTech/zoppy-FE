@@ -38,7 +38,7 @@ export class ConfigAccountItems {
                 id: `updatePassword`,
                 icon: 'icon-lock',
                 label: 'Redefinir senha',
-                route: Navigation.routes.changePassword,
+                route: Navigation.routes.updatePassword,
                 visible: true
             }
         ];

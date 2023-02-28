@@ -30,31 +30,9 @@ export class TopBarComponent implements OnInit {
         {
             label: 'Minha Conta',
             route: Navigation.routes.account,
-            class: '',
+            class: 'desktop',
             visible: true
         }
-        // {
-        //     label: 'Minha Empresa',
-        //     route: Navigation.routes.myCompanyConfig,
-        //     class: '',
-        //     visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
-        // },
-        // {
-        //     label: 'WhatsApp',
-        //     route: Navigation.routes.whatsapp,
-        //     class: '',
-        //     visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.ROLES.MASTER])
-        // },
-        // {
-        //     label: 'Usuários',
-        //     route: Navigation.routes.myCompanyUsers,
-        //     class: '',
-        //     visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [
-        //         AppConstants.ROLES.ADMIN,
-        //         AppConstants.ROLES.MASTER,
-        //         AppConstants.ROLES.MANAGER
-        //     ])
-        // }
     ];
 
     public constructor(

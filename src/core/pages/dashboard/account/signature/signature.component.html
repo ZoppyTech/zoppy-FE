@@ -1,50 +1,180 @@
 <div class="container">
     <div class="title margin-top-3 wide">
-        <a class="flex go-back margin-bottom-3">
+        <a class="flex go-back margin-bottom-3 clickable" (click)="state = 1">
             <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
             <span class="text-16 text--bold text--primary">Voltar</span>
         </a>
 
         <div class="left">
-            <h6 class="text-18 text--bold">Assinatura</h6>
-            <span class="text-16">Gerencie sua assinatura na Zoppy.</span>
+            <h6 *ngIf="state === 1" class="text-18 text--bold">Assinatura</h6>
+            <h6 *ngIf="state === 2" class="text-18 text--bold">Assinatura</h6>
+            <h6 *ngIf="state === 3" class="text-18 text--bold">Planos</h6>
+            <span *ngIf="state === 1" class="text-16">Gerencie sua assinatura na Zoppy.</span>
+            <span *ngIf="state === 2" class="text-16">Gerencie sua assinatura na Zoppy.</span>
+            <span *ngIf="state === 3" class="text-16">Selecione o plano ideal para a sua empresa.</span>
         </div>
     </div>
 
-    <div *ngIf="state === 1" class="box padding-2">
-        <div class="box__container padding-bottom-2">
-            <h6 class="text--bold text--primary">Plano</h6>
-            <span class="text text--bold">{{ plan.name }}</span>
-            <ul>
-                <li *ngFor="let attribute of plan.attributes" class="flex align-center flex-start">
-                    <ps-icon class="success" icon="icon-approval"></ps-icon>
-                    <span class="text">{{ attribute }}</span>
-                </li>
-            </ul>
+    <div *ngIf="state === 1" class="step-1 box">
+        <div class="box__container padding-bottom-2 flex space-between">
+            <div>
+                <h6 class="text--bold text--primary">Plano</h6>
+                <div class="text text--bold padding-y-2">{{ plan.name }}</div>
+                <ul>
+                    <li *ngFor="let attribute of plan.attributes" class="flex align-center flex-start padding-y-1">
+                        <ps-icon class="success" icon="icon-approval"></ps-icon>
+                        <span class="text">{{ attribute }}</span>
+                    </li>
+                </ul>
+            </div>
+            <div>
+                <span class="text-14 info clickable margin-bottom-1" (click)="state = 3">Alterar plano</span>
+                <div class="margin-y-2 text text--bold">
+                    {{ plan.value | zoppyCurrency }}
+                    <span class="text">/mês</span>
+                </div>
+                <span class="text text-12">+{{ plan.unitValue | zoppyCurrency }}/por {{ plan.unit }}</span>
+            </div>
         </div>
-        <div class="box__container padding-bottom-2" *ngIf="loaded">
-            <div class="flex space-between">
+        <div class="box__container padding-bottom-2 flex space-between" *ngIf="loaded">
+            <div>
                 <h6 class="text--bold text--primary">Método de pagamento</h6>
-                <span class="text-14 info clickable">Alterar plano</span>
+                <ng-container class="padding-top-3" *ngIf="paymentMethod?.id; else noPayment">
+                    <div class="text text--bold padding-top-2">Cartão de crédito</div>
+                    <div class="flex align-center padding-top-2">
+                        <img [src]="paymentMethod.img" alt="" class="margin-right-1" />
+                        <span class="text">****.****.****.{{ paymentMethod.digits }}</span>
+                    </div>
+                </ng-container>
+                <ng-template #noPayment>
+                    <div class="text padding-top-2">Nenhum método de pagamento cadastrado.</div>
+                </ng-template>
+                <div class="text padding-top-2">Próxima fatura em: {{ nextPaymentDate | date : 'mediumDate' : '' : 'pt-BR' }}</div>
             </div>
 
-            <ng-container class="margin-top-2" *ngIf="paymentMethod?.id; else noPayment">
-                <span class="text text--bold">Cartão de crédito</span>
-
-                <div class="flex align-center margin-top-1">
-                    <img [src]="paymentMethod.img" alt="" class="margin-right-1" />
-                    <span class="text">****.****.****.{{ paymentMethod.digits }}</span>
+            <div>
+                <span class="text-14 info clickable margin-bottom-1" (click)="state = 2">Alterar pagamento</span>
+                <div class="margin-y-2 text text--bold">
+                    {{ plan.value | zoppyCurrency }}
+                    <span class="text">/mês</span>
                 </div>
-            </ng-container>
-            <ng-template #noPayment>
-                <span class="text margin-top-2">Nenhum método de pagamento cadastrado.</span>
-            </ng-template>
-
-            <span class="text margin-top-1"></span>
+                <span class="text text-12">+{{ plan.unitValue | zoppyCurrency }}/por {{ plan.unit }}</span>
+            </div>
         </div>
 
         <div class="box__container padding-bottom-2">
-            <span class="text neutral-500 clickable">Cancelar assinatura</span>
+            <span class="text neutral-500 clickable" (click)="cancel()">Cancelar assinatura</span>
+        </div>
+    </div>
+
+    <div *ngIf="state === 2" class="step-2 box__container padding-bottom-2 flex space-between">
+        <div class="information">
+            <ps-icon icon="icon-info" class="margin-right-1"></ps-icon> &nbsp;
+            <span class="text text--bold margin-right-1">Importante:</span>
+            <span class="text">a transação não é processada com cartão virtual. Certifique-se de utilizar seu cartão físico</span>
+        </div>
+
+        <div class="field {{ field.class }}" *ngFor="let field of paymentFields">
+            <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
+                {{ field.title }}
+            </div>
+            <ps-input
+                *ngIf="field.inputType === 'input'"
+                [placeholder]="field.placeholder"
+                [(ngModel)]="field.model"
+                [errors]="field.errors"
+                (onFocus)="field.errors = []"
+                [ngClass]="{ 'text--negative': field.errors.length > 0 }"
+                [type]="field.type"
+                [icon]="field.icon || ''"
+                [mask]="field.mask || ''"
+                (ngModelChange)="field.onChange()"
+                [debounce]="0"
+                (onIconClicked)="iconClicked(field)"
+            ></ps-input>
+
+            <ps-dropdown
+                [enableAdd]="false"
+                *ngIf="field.inputType === 'dropdown'"
+                [displayTop]="true"
+                [enableSearch]="false"
+                [errors]="field.errors"
+                [hasImage]="true"
+                [items]="field.options ?? []"
+                [(value)]="field.model"
+                propertyImage="img"
+                propertyLabel="label"
+                propertyValue="value"
+                [wide]="true"
+                [debounce]="0"
+            ></ps-dropdown>
+        </div>
+
+        <div class="margin-top-3 save">
+            <ps-button type="secondary" [wide]="true" (onClick)="savePaymentMethod()">
+                <div class="margin-x-3">
+                    <span class="neutral-100">Salvar</span>
+                </div>
+            </ps-button>
+        </div>
+    </div>
+
+    <div *ngIf="state === 3" class="box__container padding-bottom-2 flex space-between step-3">
+        <div class="plans">
+            <div
+                class="border"
+                *ngFor="let plan of planCards"
+                [ngClass]="{ selected: plan.selected, 'special-border': plan.special && !plan.selected, hidden: !plan.visible }"
+            >
+                <div class="plan clickable flex flex-column flex-grow">
+                    <h6 class="text--bold margin-right-3">{{ plan.title }}</h6>
+                    <div class="flex align-items-end margin-top-3">
+                        <h6 [ngClass]="{ text: plan.selected, 'text--secondary': !plan.selected }">{{ plan.price | zoppyCurrency }}</h6>
+                        <span [ngClass]="{ text: plan.selected, 'text--primary': !plan.selected }" class="text-14 text--bold"
+                            >&nbsp;/mês</span
+                        >
+                    </div>
+
+                    <div class="flex align-center action">
+                        <span [ngClass]="{ 'text-14': plan.selected, 'text--primary text--bold': !plan.selected }" class="text-14"
+                            >+{{ plan.priceAction | zoppyCurrency }} {{ plan.action }}</span
+                        >
+                        &nbsp; &nbsp;
+                        <ps-icon
+                            *ngIf="plan.tooltip"
+                            class="tooltip"
+                            icon="icon-info"
+                            tooltipWidth="240"
+                            appTooltip
+                            [tooltipText]="plan.tooltip"
+                            tooltipDirection="left"
+                        ></ps-icon>
+                    </div>
+
+                    <div class="items margin-top-3 flex-grow flex-column">
+                        <div class="item padding-y-1" *ngFor="let item of plan.items">
+                            <ps-icon icon="icon-check" class="success"></ps-icon>&nbsp;
+                            <span class="text">
+                                {{ item }}
+                            </span>
+                        </div>
+                    </div>
+                    <div class="approval" [ngClass]="{ special: plan.special && !plan.selected }">
+                        <div class="padding-1">
+                            <ps-icon icon="icon-approval" class="success"></ps-icon>
+                        </div>
+                    </div>
+                    <div class="margin-top-3 wide">
+                        <ps-button [wide]="true" [disabled]="company.plan === plan.value" type="secondary">
+                            <span [ngClass]="{ 'neutral-800': company.plan === plan.value, 'neutral-100': company.plan !== plan.value }">{{
+                                company.plan === plan.value ? 'Contratado' : 'Contratar'
+                            }}</span>
+                        </ps-button>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
+
+<ps-tooltip></ps-tooltip>
