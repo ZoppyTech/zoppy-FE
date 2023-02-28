@@ -1,0 +1,75 @@
+@import 'src/styles.scss';
+
+:host {
+    display: flex;
+    flex-grow: 1;
+}
+
+.container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 0px;
+    background-color: var(--neutral-100);
+    margin-bottom: 2rem;
+    flex-grow: 1;
+
+    .title {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        padding: 0 2rem;
+
+        .go-back {
+            align-items: center;
+        }
+
+        a {
+            text-decoration: none;
+            ps-icon {
+                font-size: 1rem;
+            }
+        }
+
+        margin-bottom: 1rem;
+        h6 {
+            margin-bottom: 1rem;
+        }
+        padding-bottom: 1rem;
+    }
+
+    .body {
+        margin: 0 2rem;
+        padding: 2rem;
+        border: 1px solid var(--neutral-300);
+        padding-bottom: 2rem;
+        background-color: #fafbff;
+        border-radius: 0.75rem;
+        min-height: 0;
+        overflow: auto;
+
+        .field {
+            padding-bottom: 1rem;
+
+            span {
+                line-height: 2rem;
+            }
+        }
+    }
+
+    .footer {
+        width: 100%;
+        display: flex;
+        align-items: center;
+        padding: 2rem;
+
+        ps-button {
+            width: 11.25rem;
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .container {
+        margin: 1rem;
+    }
+}
