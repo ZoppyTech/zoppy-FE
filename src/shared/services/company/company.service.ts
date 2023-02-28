@@ -6,6 +6,7 @@ import { Router } from '@angular/router';
 import { Storage } from 'src/shared/utils/storage';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { CompanyRequest } from 'src/shared/models/requests/company/company.request';
+import { PaymentRequest } from 'src/shared/models/requests/company/payment.request';
 
 @Injectable({
     providedIn: 'root'
@@ -24,6 +25,26 @@ export class CompanyService extends ApiService {
     public async update(request: CompanyRequest): Promise<CompanyEntity> {
         const promise: Promise<CompanyEntity> = new Promise((resolve: any, reject: any) => {
             this.put<CompanyEntity, CompanyRequest>(`${this.url}`, request).subscribe(
+                (response: CompanyEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async updatePaymentMethod(request: PaymentRequest): Promise<CompanyEntity> {
+        const promise: Promise<CompanyEntity> = new Promise((resolve: any, reject: any) => {
+            this.put<CompanyEntity, PaymentRequest>(`${this.url}/payment-method`, request).subscribe(
+                (response: CompanyEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async updatePlan(plan: string): Promise<CompanyEntity> {
+        const promise: Promise<CompanyEntity> = new Promise((resolve: any, reject: any) => {
+            this.put<CompanyEntity, CompanyRequest>(`${this.url}/plan/${plan}`).subscribe(
                 (response: CompanyEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

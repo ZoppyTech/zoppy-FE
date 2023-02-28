@@ -25,6 +25,7 @@ export class SignatureComponent implements OnInit {
     public user: UserEntity = new UserEntity();
     public company: CompanyEntity = new CompanyEntity();
     public loaded: boolean = false;
+    public paymentMethodLoading: boolean = false;
     public plan: Plan = {
         name: '',
         attributes: [],
@@ -35,7 +36,7 @@ export class SignatureComponent implements OnInit {
     public planCards: PlanCard[] = [];
     public paymentFields: Field[] = [];
 
-    public state: number = 3;
+    public state: number = 1;
     public paymentMethod: PaymentMethodView = new PaymentMethodView();
     public nextPaymentDate: Date = new Date();
     public paymentRequest?: PaymentRequest;
@@ -89,8 +90,28 @@ export class SignatureComponent implements OnInit {
         const paymentFormValid: boolean = this.validatePaymentForm();
 
         if (!paymentFormValid) {
+            this.paymentFields.forEach((field: Field) => {
+                field.errors = ['error'];
+            });
             this.toast.error('Houveram erros de validação dos valores de pagamento', 'Erro');
             return;
+        }
+
+        try {
+            this.paymentMethodLoading = true;
+            const company: CompanyEntity = await this.companyService.updatePaymentMethod(this.paymentRequest as PaymentRequest);
+            this.storage.setCompany(company);
+            this.toast.success('Plano atualizado com sucesso!', 'Tudo certo!');
+            this.state = 1;
+            this.company = company;
+            this.initPlans();
+            this.initPaymentFields();
+            await this.fetchData();
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Erro!');
+        } finally {
+            this.paymentMethodLoading = false;
         }
     }
 
@@ -99,8 +120,24 @@ export class SignatureComponent implements OnInit {
         field.icon = field.type === 'password' ? 'icon-visibility' : 'icon-visibility_off';
     }
 
+    public async updatePlan(plan: PlanCard): Promise<void> {
+        plan.loading = true;
+        try {
+            const company: CompanyEntity = await this.companyService.updatePlan(plan.value);
+            this.storage.setCompany(company);
+            this.toast.success('Plano atualizado com sucesso!', 'Tudo certo!');
+            this.state = 1;
+            this.company = company;
+            this.initPlans();
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Erro!');
+        } finally {
+            plan.loading = false;
+        }
+    }
+
     private validatePaymentForm(): boolean {
-        if (!this.getPaymentById('name').model) return true;
         const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
 
         this.paymentRequest = new PaymentRequest();
@@ -143,7 +180,8 @@ export class SignatureComponent implements OnInit {
                 satisfaction: true,
                 special: false,
                 value: AppConstants.PLANS.FREE,
-                selected: this.company.plan === AppConstants.PLANS.FREE
+                selected: this.company.plan === AppConstants.PLANS.FREE,
+                loading: false
             },
             {
                 title: 'Crescimento',
@@ -155,7 +193,8 @@ export class SignatureComponent implements OnInit {
                 satisfaction: true,
                 special: false,
                 value: AppConstants.PLANS.BASIC,
-                selected: this.company.plan === AppConstants.PLANS.BASIC
+                selected: this.company.plan === AppConstants.PLANS.BASIC,
+                loading: false
             },
             {
                 title: 'Desenvolvimento',
@@ -167,7 +206,8 @@ export class SignatureComponent implements OnInit {
                 satisfaction: true,
                 special: true,
                 value: AppConstants.PLANS.STANDARD,
-                selected: this.company.plan === AppConstants.PLANS.STANDARD
+                selected: this.company.plan === AppConstants.PLANS.STANDARD,
+                loading: false
             },
             {
                 title: 'Perpetuação',
@@ -186,28 +226,14 @@ export class SignatureComponent implements OnInit {
                 satisfaction: true,
                 special: false,
                 value: AppConstants.PLANS.PREMIUM,
-                selected: this.company.plan === AppConstants.PLANS.PREMIUM
+                selected: this.company.plan === AppConstants.PLANS.PREMIUM,
+                loading: false
             }
         ];
     }
 
     private setAttributes(): void {
         switch (this.company.plan) {
-            case AppConstants.PLANS.FREE:
-                this.plan = {
-                    name: 'Gratuito',
-                    attributes: [
-                        'Limite máximo de 50 vendas por mês',
-                        'Giftback disparado por email',
-                        'Dashboard personalizados',
-                        'NPS',
-                        'Painel do vendedor'
-                    ],
-                    unit: 'venda',
-                    unitValue: 0,
-                    value: 0
-                };
-                break;
             case AppConstants.PLANS.BASIC:
                 this.plan = {
                     name: 'Crescimento',
@@ -251,6 +277,21 @@ export class SignatureComponent implements OnInit {
                     unit: 'janela aberta',
                     unitValue: 0.5,
                     value: 297
+                };
+                break;
+            default:
+                this.plan = {
+                    name: 'Gratuito',
+                    attributes: [
+                        'Limite máximo de 50 vendas por mês',
+                        'Giftback disparado por email',
+                        'Dashboard personalizados',
+                        'NPS',
+                        'Painel do vendedor'
+                    ],
+                    unit: 'venda',
+                    unitValue: 0,
+                    value: 0
                 };
                 break;
         }
@@ -346,7 +387,7 @@ export class SignatureComponent implements OnInit {
             },
             {
                 errors: [],
-                model: true,
+                model: '',
                 id: 'flag',
                 title: 'Bandeira',
                 placeholder: '',
@@ -388,6 +429,7 @@ class PlanCard {
     public tooltip?: string = '';
     public value: string = '';
     public selected: boolean = false;
+    public loading: boolean = false;
 }
 
 class Field {

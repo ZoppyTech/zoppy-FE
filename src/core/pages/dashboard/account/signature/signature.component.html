@@ -1,16 +1,18 @@
 <div class="container">
     <div class="title margin-top-3 wide">
-        <a class="flex go-back margin-bottom-3 clickable" (click)="state = 1">
+        <a class="flex go-back margin-bottom-3 clickable" (click)="state = 1" *ngIf="state !== 1">
             <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
             <span class="text-16 text--bold text--primary">Voltar</span>
         </a>
 
         <div class="left">
             <h6 *ngIf="state === 1" class="text-18 text--bold">Assinatura</h6>
-            <h6 *ngIf="state === 2" class="text-18 text--bold">Assinatura</h6>
+            <h6 *ngIf="state === 2" class="text-18 text--bold">Cobrança</h6>
             <h6 *ngIf="state === 3" class="text-18 text--bold">Planos</h6>
             <span *ngIf="state === 1" class="text-16">Gerencie sua assinatura na Zoppy.</span>
-            <span *ngIf="state === 2" class="text-16">Gerencie sua assinatura na Zoppy.</span>
+            <span *ngIf="state === 2" class="text-16"
+                >Você pode atualizar seu método de pagamento inserindo os dados do cartão abaixo..</span
+            >
             <span *ngIf="state === 3" class="text-16">Selecione o plano ideal para a sua empresa.</span>
         </div>
     </div>
@@ -22,7 +24,7 @@
                 <div class="text text--bold padding-y-2">{{ plan.name }}</div>
                 <ul>
                     <li *ngFor="let attribute of plan.attributes" class="flex align-center flex-start padding-y-1">
-                        <ps-icon class="success" icon="icon-approval"></ps-icon>
+                        <ps-icon class="success" icon="icon-approval"></ps-icon>&nbsp;&nbsp;
                         <span class="text">{{ attribute }}</span>
                     </li>
                 </ul>
@@ -100,6 +102,7 @@
                 [enableSearch]="false"
                 [errors]="field.errors"
                 [hasImage]="true"
+                (onFocus)="field.errors = []"
                 [items]="field.options ?? []"
                 [(value)]="field.model"
                 propertyImage="img"
@@ -111,7 +114,7 @@
         </div>
 
         <div class="margin-top-3 save">
-            <ps-button type="secondary" [wide]="true" (onClick)="savePaymentMethod()">
+            <ps-button type="secondary" [wide]="true" [loading]="paymentMethodLoading" (onClick)="savePaymentMethod()">
                 <div class="margin-x-3">
                     <span class="neutral-100">Salvar</span>
                 </div>
@@ -165,7 +168,13 @@
                         </div>
                     </div>
                     <div class="margin-top-3 wide">
-                        <ps-button [wide]="true" [disabled]="company.plan === plan.value" type="secondary">
+                        <ps-button
+                            (onClick)="updatePlan(plan)"
+                            [loading]="plan.loading"
+                            [wide]="true"
+                            [disabled]="company.plan === plan.value"
+                            type="secondary"
+                        >
                             <span [ngClass]="{ 'neutral-800': company.plan === plan.value, 'neutral-100': company.plan !== plan.value }">{{
                                 company.plan === plan.value ? 'Contratado' : 'Contratar'
                             }}</span>

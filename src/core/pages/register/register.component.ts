@@ -414,7 +414,7 @@ export class RegisterComponent implements OnInit {
             },
             {
                 errors: [],
-                model: true,
+                model: '',
                 id: 'flag',
                 title: 'Bandeira',
                 placeholder: '',
