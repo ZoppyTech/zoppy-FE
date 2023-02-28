@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { CompanyService } from 'src/shared/services/company/company.service';
 import { UserService } from 'src/shared/services/user/user.service';
 import { Navigation } from 'src/shared/utils/navigation';
@@ -32,5 +33,24 @@ export class DashboardComponent implements OnInit {
             this.storage.clearAll();
             this.router.navigate([Navigation.routes.login]);
         }
+    }
+
+    public async loadDashboard() {
+        this.visible = false;
+        try {
+            const [user, company] = await Promise.all([this.userService.myself(), this.companyService.find()]);
+            if (user) this.storage.setUser(user);
+            if (company) this.storage.setCompany(company);
+            this.visible = true;
+        } catch (ex) {
+            this.storage.clearAll();
+            this.router.navigate([Navigation.routes.login]);
+        }
+    }
+
+    public setEvents(): void {
+        BroadcastService.subscribe(this, 'reload-dashboard', async () => {
+            await this.loadDashboard();
+        });
     }
 }

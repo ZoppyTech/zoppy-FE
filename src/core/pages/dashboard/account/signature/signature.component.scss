@@ -48,7 +48,7 @@
 
         &__container {
             border-bottom: 1px solid var(--neutral-300);
-            margin-top: -1px;
+            margin-top: -2px;
             padding: 2rem;
 
             ul {
@@ -59,10 +59,13 @@
                 }
             }
         }
+
+        &__cancel {
+            border-bottom: unset;
+        }
     }
 
     .step-1 {
-        height: 100%;
         overflow: auto;
     }
 

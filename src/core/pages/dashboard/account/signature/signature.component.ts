@@ -1,3 +1,4 @@
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { CompanyService } from './../../../../../shared/services/company/company.service';
 import { CompanyEntity } from './../../../../../shared/models/entities/company.entity';
 import { PaymentMethodEntity } from './../../../../../shared/models/entities/payment-method.entity';
@@ -107,6 +108,7 @@ export class SignatureComponent implements OnInit {
             this.initPlans();
             this.initPaymentFields();
             await this.fetchData();
+            BroadcastService.emit('reload-dashboard');
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Erro!');
@@ -129,6 +131,7 @@ export class SignatureComponent implements OnInit {
             this.state = 1;
             this.company = company;
             this.initPlans();
+            BroadcastService.emit('reload-dashboard');
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Erro!');

@@ -33,7 +33,6 @@ export type SideMenu =
     | 'coupons'
     | 'customers'
     | 'home'
-    | 'membership'
     | 'myCompanyConfig'
     | 'myCompanyUsers'
     | 'none'

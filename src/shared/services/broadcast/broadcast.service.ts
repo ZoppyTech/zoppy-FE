@@ -5,7 +5,7 @@ interface IEmitters {
     [globalEvent: string]: EventEmitter<any>;
 }
 
-type GlobalEventType = 'refresh-report';
+type GlobalEventType = 'refresh-report' | 'reload-dashboard';
 
 @Injectable({
     providedIn: 'root'
