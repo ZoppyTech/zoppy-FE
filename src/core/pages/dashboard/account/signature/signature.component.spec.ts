@@ -1,3 +1,4 @@
+import { PipesModule } from './../../../../../shared/pipes/pipes.module';
 import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -11,7 +12,7 @@ describe('SignatureComponent', () => {
     beforeEach(async () => {
         await TestBed.configureTestingModule({
             declarations: [SignatureComponent],
-            imports: [HttpClientTestingModule, RouterTestingModule]
+            imports: [HttpClientTestingModule, RouterTestingModule, PipesModule]
         }).compileComponents();
 
         fixture = TestBed.createComponent(SignatureComponent);
