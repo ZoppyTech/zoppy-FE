@@ -13,8 +13,8 @@
     background-color: #fafbff;
 
     .header {
-        min-height: 112px;
-        max-height: 112px;
+        min-height: 96px;
+        max-height: 96px;
         width: 100%;
         display: flex;
         flex-direction: column;
@@ -29,18 +29,18 @@
         }
 
         h6 {
-            font-size: 1rem;
+            font-size: 0.75rem;
             font-weight: 400;
             color: #363636;
         }
 
         .block-icon {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             color: var(--primary-300);
         }
 
         .edit-icon {
-            font-size: 1.5rem;
+            font-size: 1.25rem;
             color: var(--neutral-300);
         }
     }
@@ -103,9 +103,9 @@
             width: -webkit-fill-available;
             flex-wrap: nowrap;
             height: fit-content;
-            background: rgba(255, 255, 255, 1);
-            box-shadow: 0px 1rem 2.5rem #edeff2;
-            border-radius: 1rem;
+            background-color: rgba(#fdfdfd, 1);
+            box-shadow: 0px 16px 24px rgba(82, 75, 91, 0.1);
+            border-radius: 12px;
             max-height: 256px;
             overflow-y: auto;
             margin: 0px 2.5rem;
@@ -122,33 +122,157 @@
             }
         }
 
+        .attachment-options-list {
+            position: absolute;
+            left: 3rem;
+            bottom: 90px;
+            display: flex;
+            flex-direction: column;
+            justify-content: end;
+            align-items: center;
+            width: 8rem;
+            flex-wrap: nowrap;
+            height: 100vh;
+            border-radius: 1rem;
+            max-height: 256px;
+            overflow-y: auto;
+
+            ps-icon {
+                font-size: 2rem;
+            }
+
+            .item {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 3.5rem;
+                height: 3.5rem;
+                padding: 0.5rem;
+                margin-bottom: 1.25rem;
+                border-radius: 100%;
+
+                &--document-circle {
+                    //background-color: #ffad4e;
+                    background: rgb(77, 126, 255);
+                    background: linear-gradient(0deg, rgba(77, 126, 255, 1) 0%, rgba(0, 64, 232, 1) 100%);
+                    border: 0 solid;
+                    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+                    outline: 1px solid;
+                    outline-color: rgba(#4d7eff, 1);
+                    outline-offset: 0px;
+                    text-shadow: none;
+                    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+                    color: var(--neutral-100);
+
+                    &:hover {
+                        border: 1px solid;
+                        box-shadow: inset 0 0 20px rgba(225, 225, 225, 0.5), 0 0 20px rgba(225, 225, 225, 0.2);
+                        outline-color: rgba(#4d7eff, 0);
+                        outline-offset: 15px;
+                        text-shadow: 1px 1px 2px #427388;
+                    }
+                }
+
+                &--image-circle {
+                    // background-color: #00d085;
+                    background: rgb(0, 208, 133);
+                    background: linear-gradient(0deg, rgba(0, 208, 133, 1) 0%, rgba(0, 185, 118, 1) 100%);
+                    border: 0 solid;
+                    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
+                    outline: 1px solid;
+                    outline-color: rgba(#00d085, 1);
+                    outline-offset: 0px;
+                    text-shadow: none;
+                    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+                    color: var(--neutral-100);
+
+                    &:hover {
+                        border: 1px solid;
+                        box-shadow: inset 0 0 20px rgba(225, 225, 225, 0.5), 0 0 20px rgba(225, 225, 225, 0.2);
+                        outline-color: rgba(#00d085, 0);
+                        outline-offset: 15px;
+                        text-shadow: 1px 1px 2px #427388;
+                    }
+                }
+            }
+        }
+
         .templates-button {
             padding: 0.5rem;
             border-radius: 0.75rem;
             flex-direction: row;
+            align-items: center;
             justify-content: center;
-            width: 64px;
+            min-width: 3.5rem;
+            min-height: 3.5rem;
+            max-height: 3.5rem;
+            max-width: 3.5rem;
             display: flex;
-            height: fit-content;
             margin-right: 0.75rem;
+            color: var(--neutral-500);
+            border-radius: 100%;
+            position: relative;
 
             span {
                 font-size: 2rem;
-                font-weight: 700;
-                color: var(--neutral-300);
+                font-weight: 500;
+                font-size: 2rem;
+                color: var(--neutral-500);
             }
 
-            .active-color {
-                color: var(--secondary-800);
+            &.active-color {
+                color: #7b3dff;
+            }
+        }
+
+        .attach-file-button {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            min-width: 3.5rem;
+            min-height: 3.5rem;
+            max-height: 3.5rem;
+            max-width: 3.5rem;
+            display: flex;
+            height: -moz-fit-content;
+            margin-right: 0.35rem;
+            color: #002e72;
+            border-radius: 100%;
+            position: relative;
+
+            ps-icon {
+                font-size: 2rem;
+                color: #002e72;
+            }
+
+            &.active-color {
+                color: #7b3dff;
             }
         }
 
         .send-button {
-            margin-left: 2rem;
-            width: 60px;
+            padding: 1rem;
+            border-radius: 0.75rem;
+            flex-direction: row;
+            justify-content: center;
+            align-items: center;
+            min-width: 3.5rem;
+            min-height: 3.5rem;
+            max-height: 3.5rem;
+            max-width: 3.5rem;
+            display: flex;
+            height: -moz-fit-content;
+            margin-right: 0.75rem;
+            border-radius: 100%;
+            position: relative;
+            background-color: #7b3dff;
+            margin-left: 0.75rem;
 
             ps-icon {
-                font-size: 18px !important;
+                font-size: 1.125rem;
+                color: #fff;
             }
         }
     }

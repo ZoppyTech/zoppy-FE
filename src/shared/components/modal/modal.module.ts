@@ -9,6 +9,7 @@ import { SalesPanelContactModule } from './sales-panel-contact/sales-panel-conta
 import { NewTaskModule } from './new-task/new-task.module';
 import { MessageConfigParamsModule } from './message-config-params/message-config-params.module';
 import { MediaViewerModule } from './media-viewer/media-viewer.module';
+import { UploadImageMediaPreviewModalModule } from './upload-image-media-preview-modal/upload-image-media-preview-modal.module';
 
 @NgModule({
     imports: [
@@ -19,7 +20,8 @@ import { MediaViewerModule } from './media-viewer/media-viewer.module';
         SalesPanelContactModule,
         NewTaskModule,
         MessageConfigParamsModule,
-        MediaViewerModule
+        MediaViewerModule,
+        UploadImageMediaPreviewModalModule
     ],
     declarations: [ModalComponent],
     exports: [ModalComponent],

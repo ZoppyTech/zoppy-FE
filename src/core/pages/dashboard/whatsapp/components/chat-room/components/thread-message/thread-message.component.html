@@ -12,11 +12,7 @@
                 'thread-message-container__body__content--customer-user': !thread.isBusiness
             }"
         >
-            <div
-                *ngIf="isHovered && (thread.type === 'image' || thread.type === 'document')"
-                (click)="download()"
-                class="card-header clickable"
-            >
+            <div *ngIf="thread.type === 'image' || thread.type === 'document'" (click)="download()" class="card-header clickable">
                 <div class="card-header__options more-actions">
                     <ps-icon *ngIf="!downloading" class="icon-download font-16"></ps-icon>
                     <static-loading *ngIf="downloading" [isLoading]="true" [onlyLoading]="true"></static-loading>

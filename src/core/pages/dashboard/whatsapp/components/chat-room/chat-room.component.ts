@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { WhatsappConstants } from '@ZoppyTech/utilities';
@@ -7,6 +7,7 @@ import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappBusinessManagementService } from 'src/shared/services/whatsapp-business-management/whatsapp-business-management.service';
+import { WhatsappMediaService } from 'src/shared/services/whatsapp-media/whatsapp-media.service';
 import { ChatRoom } from '../../models/chat-room';
 import { ThreadMessage } from '../../models/thread-message';
 import { WhatsappUtil } from '../../utils/whatsapp.util';
@@ -27,22 +28,38 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     @Output() public goBackToChatList: EventEmitter<void> = new EventEmitter<void>();
     @Input() public events: Observable<void> = new Observable();
 
-    public isHovered: boolean = false;
-    public messageTemplateListVisible: boolean = false;
+    @ViewChild('inputFileImage') public inputFileImage: any;
+    @ViewChild('inputFileDocument') public inputFileDocument: any;
+
     public messageTemplates: Array<ChatMessageTemplate> = [];
     public messageTemplatesReplaced: Array<ChatMessageTemplate> = [];
-    public messageTemplatesLoading: boolean = true;
     public messageTemplateSelected: ChatMessageTemplate | null = null;
-    public messagesLoading: boolean = false;
-    public isLastMessage: boolean = false;
-    public messageInput: string = '';
+
     public scrollerElement: HTMLElement | null = null;
     public scrollerHandler: any = null;
+
+    public messageInput: string = '';
     public readonly panelScrollableElementId: string = 'panel-scrollable';
-    public UNSUPPORTED_MESSAGE_TYPE = 'Mensagem não suportada.';
+    public readonly UNSUPPORTED_MESSAGE_TYPE: string = 'Mensagem não suportada.';
+    public readonly UNSUPPORTED_FILE_TYPE: string = 'Tipo de arquivo para upload não suportado';
+
+    public isHovered: boolean = false;
+    public isLastMessage: boolean = false;
+    public messagesLoading: boolean = false;
+    public messageTemplatesLoading: boolean = false;
+    public messageTemplateListVisible: boolean = false;
+    public attachFileButtonClicked: boolean = false;
+
+    public footerOptions: Map<string, boolean> = new Map([
+        ['attachFileOption', false],
+        ['messageTemplateOption', false]
+    ]);
+
+    public declare uploadFileInput: UploadFileInput;
 
     public constructor(
         public readonly wppBusinessManagementService: WhatsappBusinessManagementService,
+        public readonly wppMediaService: WhatsappMediaService,
         public readonly toast: ToastService,
         public readonly confirmActionService: ConfirmActionService,
         public modal: ModalService,
@@ -56,6 +73,12 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         console.log('Chat Room initialized!');
     }
 
+    public selectFooterOptions(optionName: string, value: boolean): void {
+        this.footerOptions.set('attachFileOption', false);
+        this.footerOptions.set('messageTemplateOption', false);
+        this.footerOptions.set(optionName, value);
+    }
+
     public ngAfterViewInit(): void {
         this.addWheelEventListener();
     }
@@ -66,10 +89,66 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.removeWheelEventListener();
     }
 
+    public handleFileUpload(event: any, fileType: string): void {
+        debugger;
+        const file: any = event.target.files[0];
+        this.uploadFileInput = {
+            fileName: file.name,
+            type: fileType,
+            input: event,
+            data: file
+        };
+
+        switch (fileType) {
+            case 'image':
+                this.openUploadImageModal(this.uploadFileInput);
+                break;
+            case 'document':
+                this.openUploadDocumentModal(this.uploadFileInput);
+                break;
+            default:
+                this.toast.error(this.UNSUPPORTED_FILE_TYPE, WhatsappConstants.ToastTitles.Error);
+        }
+    }
+
+    public async chooseImageFile(): Promise<void> {
+        this.inputFileImage.nativeElement.click();
+    }
+
+    public async chooseDocumentFile(): Promise<void> {
+        this.inputFileDocument.nativeElement.click();
+    }
+
+    public openUploadImageModal(input: UploadFileInput) {
+        this.modal.open(
+            Modal.IDENTIFIER.UPLOAD_IMAGE_MEDIA_PREVIEW_MODAL,
+            {
+                fileName: input.fileName,
+                fileData: input.data,
+                fileInput: input.input
+            },
+            (message: any) => {
+                //this.chatRoom.threads = WhatsappMapper.mapContact(updatedContact);
+            }
+        );
+    }
+
+    public openUploadDocumentModal(input: UploadFileInput) {
+        //card.uploading = true;
+        // try {
+        //     await this.wppMediaService.uploadMediaDocument(input.fileName, input.data);
+        //     this.toast.success('Seu arquivo foi adicionado com sucesso!', 'Sucesso!');
+        // } catch (ex: any) {
+        //     ex = ex as ZoppyException;
+        //     this.toast.error(ex.message, 'Não foi possível adicionar seu arquivo');
+        // } finally {
+        //     //card.uploading = false;
+        // }
+    }
+
     public async loadMessageTemplates(): Promise<void> {
         try {
             this.messageTemplatesLoading = true;
-            console.log('Loading Template messages!');
             const entities: WhatsappMessageTemplateEntity[] = await this.wppBusinessManagementService.list(
                 WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.USER
             );
@@ -125,7 +204,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public toggleMessageTemplatesVisibility(): void {
         this.replaceMessageTemplatesVariables();
-        this.messageTemplateListVisible = !this.messageTemplateListVisible;
+        this.selectFooterOptions('messageTemplateOption', !this.footerOptions.get('messageTemplateOption'));
     }
 
     public seeLastMessage(): void {
@@ -203,4 +282,11 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         if (!this.messageInput || this.messageInput === '') return;
         this.sendMessage();
     }
+}
+
+export interface UploadFileInput {
+    type: string;
+    fileName: string;
+    data: any;
+    input: any;
 }
