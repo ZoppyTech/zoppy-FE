@@ -6,6 +6,7 @@ import { Injectable } from '@angular/core';
 export class SideMenuService {
     public selected: SideMenu = `home`;
     public subSelected: SideMenu = 'accessKeys';
+    public accountSelected: SideMenu = 'myProfile';
     public open: boolean = false;
     public constructor() {}
 
@@ -20,33 +21,39 @@ export class SideMenuService {
     public changeSub(selected: SideMenu): void {
         this.subSelected = selected;
     }
+
+    public changeSubAccount(selected: SideMenu): void {
+        this.accountSelected = selected;
+    }
 }
 
 export type SideMenu =
+    | 'batchUpload'
+    | 'changePassword'
+    | 'coupons'
+    | 'customers'
     | 'home'
-    | 'reports'
-    | `myCompany`
-    | `configurations`
-    | `whatsapp`
-    | `accessKeys`
-    | `accessTokens`
-    | `letalk`
-    | `messageConfig`
-    | `syncData`
-    | `giftback`
-    | `myProfile`
     | 'myCompanyConfig'
     | 'myCompanyUsers'
-    | 'membership'
-    | 'registerSale'
-    | 'salesPanel'
+    | 'none'
     | 'products'
-    | 'customers'
-    | 'coupons'
-    | 'batchUpload'
+    | 'registerSale'
+    | 'reports'
+    | 'salesPanel'
     | 'whatsappConfig'
     | 'whatsappTemplateList'
-    | 'none';
+    | `accessKeys`
+    | `accessTokens`
+    | `configurations`
+    | `giftback`
+    | `letalk`
+    | `messageConfig`
+    | `myCompany`
+    | `myProfile`
+    | `signature`
+    | `syncData`
+    | `updatePassword`
+    | `whatsapp`;
 
 export interface SideMenuItem {
     id: SideMenu;

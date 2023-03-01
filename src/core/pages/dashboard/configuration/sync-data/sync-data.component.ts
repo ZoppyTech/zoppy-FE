@@ -94,7 +94,6 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
         };
         await this.syncCustomers(request);
         await this.syncProducts(request);
-        await this.syncCupons(request);
         await this.syncOrders(request);
         const allSuccess: boolean = !this.steppers.find((step: Stepper) => step.state !== 'success');
         this.loading = false;
@@ -214,12 +213,6 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
                 state: 'waiting',
                 visible: true,
                 id: 'product'
-            },
-            {
-                label: 'Sincronização de cupons',
-                state: 'waiting',
-                visible: true,
-                id: 'coupon'
             },
             {
                 label: 'Sincronização de pedidos',
