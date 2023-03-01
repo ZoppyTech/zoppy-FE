@@ -8,5 +8,8 @@
         <message-config-params *ngIf="service.name === 'message_config_params'"></message-config-params>
         <media-viewer *ngIf="service.name === 'media_viewer_modal'"></media-viewer>
         <upload-image-media-preview-modal *ngIf="service.name === 'upload_image_media_preview_modal'"></upload-image-media-preview-modal>
+        <upload-document-media-preview-modal
+            *ngIf="service.name === 'upload_document_media_preview_modal'"
+        ></upload-document-media-preview-modal>
     </div>
 </div>

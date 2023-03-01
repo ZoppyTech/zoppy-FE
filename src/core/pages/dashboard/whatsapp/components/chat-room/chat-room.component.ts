@@ -47,8 +47,11 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public isLastMessage: boolean = false;
     public messagesLoading: boolean = false;
     public messageTemplatesLoading: boolean = false;
-    public messageTemplateListVisible: boolean = false;
-    public attachFileButtonClicked: boolean = false;
+
+    //TODO: REMOVER!
+    // public messageTemplateListVisible: boolean = false;
+    // public attachFileButtonClicked: boolean = false;
+    //END
 
     public footerOptions: Map<string, boolean> = new Map([
         ['attachFileOption', false],
@@ -111,11 +114,11 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    public async chooseImageFile(): Promise<void> {
+    public chooseImageFile(): void {
         this.inputFileImage.nativeElement.click();
     }
 
-    public async chooseDocumentFile(): Promise<void> {
+    public chooseDocumentFile(): void {
         this.inputFileDocument.nativeElement.click();
     }
 
@@ -125,7 +128,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             {
                 fileName: input.fileName,
                 fileData: input.data,
-                fileInput: input.input
+                contactId: this.chatRoom.contact.id,
+                contactName: this.chatRoom.contact.firstName
             },
             (message: any) => {
                 //this.chatRoom.threads = WhatsappMapper.mapContact(updatedContact);
@@ -134,16 +138,19 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public openUploadDocumentModal(input: UploadFileInput) {
-        //card.uploading = true;
-        // try {
-        //     await this.wppMediaService.uploadMediaDocument(input.fileName, input.data);
-        //     this.toast.success('Seu arquivo foi adicionado com sucesso!', 'Sucesso!');
-        // } catch (ex: any) {
-        //     ex = ex as ZoppyException;
-        //     this.toast.error(ex.message, 'Não foi possível adicionar seu arquivo');
-        // } finally {
-        //     //card.uploading = false;
-        // }
+        debugger;
+        this.modal.open(
+            Modal.IDENTIFIER.UPLOAD_DOCUMENT_MEDIA_PREVIEW_MODAL,
+            {
+                fileName: input.fileName,
+                fileData: input.data,
+                contactId: this.chatRoom.contact.id,
+                contactName: this.chatRoom.contact.firstName
+            },
+            (message: any) => {
+                //this.chatRoom.threads = WhatsappMapper.mapContact(updatedContact);
+            }
+        );
     }
 
     public async loadMessageTemplates(): Promise<void> {

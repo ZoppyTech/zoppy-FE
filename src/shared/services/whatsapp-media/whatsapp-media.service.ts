@@ -29,10 +29,10 @@ export class WhatsappMediaService extends ApiService {
         return promise;
     }
 
-    public async uploadMediaImage(fileName: string, fileData: any): Promise<BooleanResponse> {
-        debugger;
+    public async uploadImage(contactId: string, fileData: any): Promise<BooleanResponse> {
         const params: any = new FormData();
         params.append('file', fileData);
+        params.append('contactId', contactId);
 
         const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
             this.post<BooleanResponse, HttpParams>(`${this.url}/upload-image`, params).subscribe(
@@ -41,22 +41,12 @@ export class WhatsappMediaService extends ApiService {
             );
         });
         return promise;
-        // const params: any = new FormData();
-        // params.append('fileName', fileName);
-        // params.append('fileData', fileData);
-        // const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
-        //     this.post<BooleanResponse, HttpParams>(`${this.url}/upload-image`, params).subscribe(
-        //         (response: BooleanResponse) => resolve(response),
-        //         (error: ZoppyException) => reject(error)
-        //     );
-        // });
-        // return promise;
     }
 
-    public async uploadMediaDocument(fileName: string, fileData: string): Promise<BooleanResponse> {
+    public async uploadDocument(contactId: string, fileData: any): Promise<BooleanResponse> {
         const params: any = new FormData();
-        params.append('fileName', fileName);
-        params.append('fileData', fileData);
+        params.append('file', fileData);
+        params.append('contactId', contactId);
 
         const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
             this.post<BooleanResponse, HttpParams>(`${this.url}/upload-document`, params).subscribe(
