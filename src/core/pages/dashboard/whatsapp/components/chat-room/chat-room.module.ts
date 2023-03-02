@@ -12,6 +12,7 @@ import { ChatUtility } from './helpers/chat-utility';
 import { ImageMessageModule } from './components/image-message/image-message.module';
 import { AudioMessageModule } from './components/audio-message/audio-message.module';
 import { DocumentMessageModule } from './components/document-message/document-message.module';
+import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
 
 const providers: Provider[] = [ChatUtility];
 
@@ -28,7 +29,8 @@ const providers: Provider[] = [ChatUtility];
         BubbleInfoModule,
         ImageMessageModule,
         AudioMessageModule,
-        DocumentMessageModule
+        DocumentMessageModule,
+        StaticLoadingModule
     ],
     providers: [providers],
     exports: [ChatRoomComponent],

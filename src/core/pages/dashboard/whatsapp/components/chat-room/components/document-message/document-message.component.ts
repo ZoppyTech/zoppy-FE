@@ -1,4 +1,5 @@
 import { Component, Input } from '@angular/core';
+import { ThreadMediaMessage } from '../../../../models/thread-message';
 
 @Component({
     selector: 'document-message',
@@ -6,7 +7,8 @@ import { Component, Input } from '@angular/core';
     styleUrls: ['./document-message.component.scss']
 })
 export class DocumentMessageComponent {
-    @Input() public url?: string = '';
+    @Input() public media?: ThreadMediaMessage;
+    @Input() public isBusinessUser: boolean = true;
 
     public constructor() {
         //no content

@@ -1,5 +1,15 @@
-<static-loading *ngIf="!url" [isLoading]="true" [label]="'carregando documento...'"></static-loading>
-<div *ngIf="url" class="document-message-container">
-    <ps-icon></ps-icon>
-    <div class="document-preview"></div>
+<static-loading *ngIf="!media" [isLoading]="true" [label]="'carregando documento...'"></static-loading>
+<div
+    *ngIf="media"
+    class="document-message-container"
+    [ngClass]="{
+        'document-message-container--business-user': isBusinessUser,
+        'document-message-container--customer-user': !isBusinessUser
+    }"
+>
+    <ps-icon class="text--700" icon="icon-draft"></ps-icon>
+    <div class="document-info">
+        <span class="file-name">{{ media.caption }}</span>
+        <span class="file-size">{{ media.fileSize / 1024 }} KB</span>
+    </div>
 </div>

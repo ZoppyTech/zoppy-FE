@@ -36,102 +36,9 @@ export class HomeComponent implements OnInit {
 
     public async ngOnInit() {
         this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
-        if ([AppConstants.ROLES.COMMON, AppConstants.ROLES.MANAGER].includes(this.user.role)) {
-            this.redirect();
-            return;
-        }
+        this.redirect();
         this.sideMenuService.change(`home`);
         this.setBreadcrumb();
-        await this.fetchDashboardData();
-    }
-
-    private async fetchDashboardData(): Promise<void> {
-        try {
-            this.dashboard = await this.dashboardService.fetchOne();
-            this.setItems();
-            this.setCards();
-            this.setPosts();
-            this.setPercentage();
-        } catch (ex: any) {
-            ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível obter o dashboard');
-        }
-    }
-
-    private setItems(): void {
-        this.items = [
-            {
-                title: 'Criação de conta na plataforma',
-                label: 'Forneça seus dados para criarmos a sua conta na plataforma.',
-                completed: this.dashboard.accountCreated,
-                route: undefined
-            },
-            {
-                title: 'Preencher dados da empresa',
-                label: 'Preencha seu CNPJ para podermos concluir com a sua integração.',
-                completed: this.dashboard.companyFilled,
-                route: Navigation.routes.myCompanyConfig as Pages
-            },
-            {
-                title: 'Cadastrar chaves de acesso',
-                label: 'Cadastre as chaves de acesso para integrasmos com seu Ecommerce.',
-                completed: this.dashboard.accessKeysCreated,
-                route: Navigation.routes.accessKeys as Pages
-            },
-            {
-                title: 'Configurar token de acesso',
-                label: 'Configure um token de acesso para autenticar a nossa plataforma.',
-                completed: this.dashboard.accessTokenCreated,
-                route: Navigation.routes.accessTokens as Pages
-            },
-            {
-                title: 'Configurar seu giftback',
-                label: 'Configure os padrões de giftback automático por compra concluída.',
-                completed: this.dashboard.giftbackConfigCreated,
-                route: Navigation.routes.giftback as Pages
-            },
-            {
-                title: 'Sincronizar seus dados',
-                label: 'Importe cupons, pedidos, produtos e clientes para seu Ecommerce.',
-                completed: this.dashboard.syncDataConcluded,
-                route: Navigation.routes.syncData as Pages
-            }
-        ];
-    }
-
-    private setCards(): void {
-        this.cards = [
-            {
-                value: this.dashboard.invoice,
-                title: 'Faturamento (Últimos 30 dias)',
-                image: './assets/imgs/dashboard_2.png',
-                imageMobile: './assets/imgs/landing-circle.png'
-            },
-            {
-                value: this.dashboard.salesCount.toString() + ' vendas',
-                title: 'Vendas concluídas (Últimos 30 dias)',
-                image: './assets/imgs/dashboard_1.png',
-                imageMobile: './assets/imgs/landing-circle.png'
-            }
-        ];
-    }
-
-    private setPosts(): void {
-        this.posts = [
-            {
-                title: 'Como uma gigante do varejo conseguiu fidelizar seus clientes',
-                image: './assets/imgs/post_1.png'
-            },
-            {
-                title: 'Como fazer com que seus clientes comprem mais vezes e gastando mais',
-                image: './assets/imgs/post_2.png'
-            }
-        ];
-    }
-
-    private setPercentage(): void {
-        const completed: number = this.items.filter((item: Item) => item.completed).length;
-        this.percent = Math.floor((completed / this.items.length) * 100);
     }
 
     private setBreadcrumb(): void {
@@ -148,6 +55,8 @@ export class HomeComponent implements OnInit {
             case AppConstants.ROLES.COMMON:
                 this.router.navigate([Navigation.routes.salesPanel]);
                 break;
+            case AppConstants.ROLES.ADMIN:
+            case AppConstants.ROLES.MASTER:
             case AppConstants.ROLES.MANAGER:
                 this.router.navigate([Navigation.routes.reports]);
                 break;

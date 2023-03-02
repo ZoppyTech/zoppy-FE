@@ -1,0 +1,31 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <span class="title text--primary">
+            Compartilhar documento com
+            <span class="contact-name text--secondary">{{ modal.data.contactName }}</span>
+        </span>
+        <div (click)="modal.close()" class="button-go-back clickable">
+            <ps-icon class="text-16 text--primary text--700" icon="icon-times"></ps-icon>
+        </div>
+    </div>
+
+    <div class="modal-body">
+        <div class="document-wrapper">
+            <ps-icon icon="icon-draft"></ps-icon>
+        </div>
+
+        <div class="document-info">
+            <span class="margin-y-1 truncate font-16">{{ modal.data.fileName }}</span>
+            <span>{{ modal.data.file_size }}</span>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <ps-button class="padding-top-2" [loading]="false" [wide]="true" type="secondary-border" (click)="modal.close()">
+            <span class="text--secondary text-14 text--bold">Cancelar</span>
+        </ps-button>
+        <ps-button class="padding-top-2" [loading]="uploading" [wide]="true" type="secondary" (click)="sendDocument()">
+            <span class="text--100 text-14 text--bold">Enviar</span>
+        </ps-button>
+    </div>
+</div>

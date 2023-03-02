@@ -1,9 +1,10 @@
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import { WhatsappConstants } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { Storage } from 'src/shared/utils/storage';
-import { ApiService, ZoppyException } from '../api.service';
+import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
 
 @Injectable({
     providedIn: 'root'
@@ -22,6 +23,34 @@ export class WhatsappMediaService extends ApiService {
         const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
             this.download<any>(`${this.url}/${id}/download`).subscribe(
                 (response: any) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async uploadImage(contactId: string, fileData: any): Promise<BooleanResponse> {
+        const params: any = new FormData();
+        params.append('file', fileData);
+        params.append('contactId', contactId);
+
+        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
+            this.post<BooleanResponse, HttpParams>(`${this.url}/upload-image`, params).subscribe(
+                (response: BooleanResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async uploadDocument(contactId: string, fileData: any): Promise<BooleanResponse> {
+        const params: any = new FormData();
+        params.append('file', fileData);
+        params.append('contactId', contactId);
+
+        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
+            this.post<BooleanResponse, HttpParams>(`${this.url}/upload-document`, params).subscribe(
+                (response: BooleanResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
