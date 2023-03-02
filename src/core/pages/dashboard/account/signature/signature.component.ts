@@ -77,7 +77,11 @@ export class SignatureComponent implements OnInit {
                 if (!result) return;
                 try {
                     await this.companyService.inactivate();
-                    this.toast.success('Esperamos que volte!', 'Que pena te ver partir =[');
+                    this.toast.success(
+                        'Sua solicitação de cancelamento foi processada e em breve nossa equipe irá entrar em contato com você',
+                        'Cancelamento processado!',
+                        6
+                    );
                     this.publicService.logout();
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
