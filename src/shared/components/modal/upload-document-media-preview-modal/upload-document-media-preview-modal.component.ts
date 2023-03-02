@@ -24,8 +24,8 @@ export class UploadDocumentMediaPreviewModalComponent {
         if (this.uploading) return;
         this.uploading = true;
         try {
-            await this.wppMediaService.uploadDocument(this.modal.data.contactId, this.modal.data.fileData);
-            this.modal.close();
+            const newMessage: any = await this.wppMediaService.uploadDocument(this.modal.data.contactId, this.modal.data.fileData);
+            this.modal.close(true, newMessage);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível adicionar seu documento!');

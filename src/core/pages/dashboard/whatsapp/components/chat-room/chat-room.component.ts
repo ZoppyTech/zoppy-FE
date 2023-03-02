@@ -93,7 +93,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public handleFileUpload(event: any, fileType: string): void {
-        debugger;
         const file: any = event.target.files[0];
         this.uploadFileInput = {
             fileName: file.name,
@@ -131,14 +130,15 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 contactId: this.chatRoom.contact.id,
                 contactName: this.chatRoom.contact.firstName
             },
-            (message: any) => {
-                //this.chatRoom.threads = WhatsappMapper.mapContact(updatedContact);
+            (newMessage: any) => {
+                this.chatRoom.threads.push(WhatsappMapper.mapMessage(newMessage));
+                WhatsappMapper.setFirstMessagesOfDay(this.chatRoom.threads);
+                this.seeLastMessage();
             }
         );
     }
 
     public openUploadDocumentModal(input: UploadFileInput) {
-        debugger;
         this.modal.open(
             Modal.IDENTIFIER.UPLOAD_DOCUMENT_MEDIA_PREVIEW_MODAL,
             {
@@ -147,8 +147,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 contactId: this.chatRoom.contact.id,
                 contactName: this.chatRoom.contact.firstName
             },
-            (message: any) => {
-                //this.chatRoom.threads = WhatsappMapper.mapContact(updatedContact);
+            (newMessage: any) => {
+                this.chatRoom.threads.push(WhatsappMapper.mapMessage(newMessage));
+                WhatsappMapper.setFirstMessagesOfDay(this.chatRoom.threads);
+                this.seeLastMessage();
             }
         );
     }
