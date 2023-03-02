@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 
 @Component({
@@ -6,6 +6,13 @@ import { GetReportRequest } from 'src/shared/models/requests/report/get-report.r
     templateUrl: './demographic-data.component.html',
     styleUrls: ['./demographic-data.component.scss']
 })
-export class DemographicDataComponent {
+export class DemographicDataComponent implements OnInit {
+    public loaded: boolean = false;
+
+    public ngOnInit(): void {
+        setTimeout(() => {
+            this.loaded = true;
+        });
+    }
     @Input() public reportRequest?: GetReportRequest;
 }

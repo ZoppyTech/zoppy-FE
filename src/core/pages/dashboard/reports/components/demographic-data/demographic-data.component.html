@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" *ngIf="loaded">
     <div class="chart1">
         <sales-by-state-chart [reportRequest]="reportRequest"></sales-by-state-chart>
     </div>

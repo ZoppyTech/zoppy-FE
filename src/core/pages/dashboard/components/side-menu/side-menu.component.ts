@@ -46,13 +46,6 @@ export class SideMenuComponent implements OnInit {
         this.setCompany();
         this.menuItems = [
             {
-                id: `home`,
-                icon: 'icon-home',
-                label: 'Início',
-                route: Navigation.routes.home,
-                visible: UserUtil.hasRoles(this.user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
-            },
-            {
                 id: `reports`,
                 icon: 'icon-inventory',
                 label: 'Relatórios',

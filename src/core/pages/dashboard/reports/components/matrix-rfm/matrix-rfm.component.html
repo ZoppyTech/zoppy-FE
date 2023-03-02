@@ -1,4 +1,4 @@
-<div class="main-content">
+<div class="main-content" *ngIf="!isLoading">
     <section class="flex-column wide flex-start">
         <div class="matrix">
             <div
@@ -183,3 +183,5 @@
         </div>
     </div>
 </div>
+
+<static-loading *ngIf="isLoading" [isLoading]="isLoading"></static-loading>
