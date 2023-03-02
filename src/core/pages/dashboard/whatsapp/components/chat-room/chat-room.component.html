@@ -5,11 +5,11 @@
             <span class="text--500 text-18 margin-x-1">Voltar</span>
         </div>
         <div class="flex-row align-center display-name">
-            <span class="text--800 text--bold margin-y-1 text-24 truncate">{{ chatRoom.contact.displayName }}</span>
-            <ps-icon *ngIf="chatRoom.contact.isBlocked" class="font-16 block-icon margin-x-1" icon="icon-block"></ps-icon>
-            <ps-icon (click)="editContactModal()" class="font-16 edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
+            <span class="text--800 text--bold text-20 truncate">{{ chatRoom.contact.displayName }}</span>
+            <ps-icon *ngIf="chatRoom.contact.isBlocked" class="font-14 block-icon margin-x-1" icon="icon-block"></ps-icon>
+            <ps-icon (click)="editContactModal()" class="font-14 edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
         </div>
-        <h6 class="text--800 text-14">{{ chatRoom.contact.displayPhone }}</h6>
+        <h6 class="text--800">{{ chatRoom.contact.displayPhone }}</h6>
     </div>
 
     <!-- <div *ngIf="messagesLoading"></div> -->
@@ -23,11 +23,16 @@
                 [ngStyle]="{ 'justify-content': !thread.isBusiness ? 'flex-start' : 'flex-end' }"
                 [thread]="thread"
             >
-                <audio-message *ngSwitchCase="'audio'" thread-message-content [url]="thread.media?.url"></audio-message>
-                <image-message *ngSwitchCase="'image'" thread-message-content [url]="thread.media?.url"></image-message>
+                <audio-message *ngSwitchCase="'audio'" thread-message-content [media]="thread.media"></audio-message>
+                <image-message *ngSwitchCase="'image'" thread-message-content [media]="thread.media"></image-message>
                 <text-message *ngSwitchCase="'text'" thread-message-content [text]="thread.content"></text-message>
                 <text-message *ngSwitchCase="'template'" thread-message-content [text]="thread.content"></text-message>
-                <document-message *ngSwitchCase="'document'" thread-message-content [url]="thread.media?.url"></document-message>
+                <document-message
+                    *ngSwitchCase="'document'"
+                    thread-message-content
+                    [media]="thread.media"
+                    [isBusinessUser]="thread.isBusiness"
+                ></document-message>
                 <text-message *ngSwitchDefault thread-message-content [text]="UNSUPPORTED_MESSAGE_TYPE"></text-message>
             </thread-message>
         </div>
@@ -37,23 +42,68 @@
         <div *ngIf="!isLastMessage" class="see-last-message-button clickable" (click)="seeLastMessage()">
             <ps-icon class="font-16 arrow-icon" icon="icon-chevron text--primary"></ps-icon>
         </div>
-        <div
-            *ngIf="messageTemplateListVisible"
-            (mouseover)="messageTemplateListVisible = true"
-            (mouseleave)="messageTemplateListVisible = false"
-            class="message-template-list"
-        >
+        <div class="flex-row">
             <div
-                *ngFor="let messageTemplate of messageTemplatesReplaced"
-                (click)="selectMessageTemplate(messageTemplate)"
-                class="item clickable"
+                *ngIf="footerOptions.get('messageTemplateOption')"
+                (click)="selectFooterOptions('messageTemplateOption', !this.footerOptions.get('messageTemplateOption'))"
+                class="message-template-list clickable"
             >
-                <span class="text-16">{{ messageTemplate.content }}</span>
+                <div *ngIf="messageTemplatesLoading" class="item">
+                    <static-loading
+                        *ngIf="messageTemplatesLoading"
+                        [isLoading]="messageTemplatesLoading"
+                        [label]="'Carregando modelos de mensagem'"
+                    ></static-loading>
+                </div>
+
+                <div *ngIf="!messageTemplatesLoading">
+                    <div
+                        *ngFor="let messageTemplate of messageTemplatesReplaced"
+                        (click)="selectMessageTemplate(messageTemplate)"
+                        class="item clickable"
+                    >
+                        <span class="text-16">{{ messageTemplate.content }}</span>
+                    </div>
+                    <div *ngIf="messageTemplates.length <= 0" class="item">Nenhum modelo de mensagem disponível!</div>
+                </div>
+            </div>
+            <div
+                class="templates-button clickable"
+                [ngStyle]="{ 'background-color': footerOptions.get('messageTemplateOption') ? '#f3f3f3' : 'transparent' }"
+                [ngClass]="{ 'active-color': footerOptions.get('messageTemplateOption') }"
+                (click)="toggleMessageTemplatesVisibility()"
+            >
+                <span class="font-16 text--500">#</span>
             </div>
         </div>
-        <div *ngIf="messageTemplates.length > 0" class="templates-button clickable" (click)="toggleMessageTemplatesVisibility()">
-            <span class="text--800 text--bold" [ngClass]="{ 'active-color': messageTemplateListVisible }">#</span>
+        <div class="flex-row">
+            <div
+                *ngIf="footerOptions.get('attachFileOption')"
+                (click)="selectFooterOptions('attachFileOption', !this.footerOptions.get('attachFileOption'))"
+                class="attachment-options-list clickable"
+            >
+                <ps-icon
+                    (click)="chooseDocumentFile()"
+                    class="item item--document-circle font-28 text--100"
+                    icon="icon-draft font-28 text--100"
+                >
+                </ps-icon>
+                <ps-icon
+                    (click)="chooseImageFile()"
+                    class="item item--image-circle font-28 text--100"
+                    icon="icon-image font-28 text--100"
+                ></ps-icon>
+            </div>
+            <div
+                (click)="selectFooterOptions('attachFileOption', !this.footerOptions.get('attachFileOption'))"
+                class="attach-file-button clickable"
+                [ngClass]="{ 'active-color': footerOptions.get('attachFileOption') }"
+                [ngStyle]="{ 'background-color': footerOptions.get('attachFileOption') ? '#f3f3f3' : 'transparent' }"
+            >
+                <ps-icon class="font-16 text--500" icon="icon-attach_file text--500"></ps-icon>
+            </div>
         </div>
+
         <ps-input
             icon="{{ 'icon-times' }}"
             (onIconClicked)="clearMessageInput()"
@@ -62,16 +112,12 @@
             [placeholder]="getInputTextPlaceholder()"
             [(ngModel)]="messageInput"
         ></ps-input>
-        <ps-button
-            [disabled]="!messageInput || chatRoom.contact.isBlocked"
-            class="send-button"
-            [loading]="false"
-            [wide]="true"
-            [round]="true"
-            (onClick)="sendMessage()"
-            type="secondary"
-        >
+
+        <div class="send-button clickable" (click)="sendMessage()">
             <ps-icon icon="font-28 icon-send text--100"></ps-icon>
-        </ps-button>
+        </div>
     </div>
 </div>
+
+<input class="hidden" (change)="handleFileUpload($event, 'image')" type="file" #inputFileImage />
+<input class="hidden" (change)="handleFileUpload($event, 'document')" type="file" #inputFileDocument />

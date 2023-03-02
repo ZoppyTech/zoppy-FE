@@ -38,7 +38,9 @@ export class Modal {
         SALES_PANEL_CONTACT: 'sales_panel_contact',
         NEW_TASK: 'new_task',
         MESSAGE_CONFIG_PARAMS: 'message_config_params',
-        MEDIA_VIEWER_MODAL: 'media_viewer_modal'
+        MEDIA_VIEWER_MODAL: 'media_viewer_modal',
+        UPLOAD_IMAGE_MEDIA_PREVIEW_MODAL: 'upload_image_media_preview_modal',
+        UPLOAD_DOCUMENT_MEDIA_PREVIEW_MODAL: 'upload_document_media_preview_modal'
     };
 }
 
@@ -49,4 +51,6 @@ export type ModalId =
     | 'SALES_PANEL_CONTACT'
     | 'NEW_TASK'
     | 'MESSAGE_CONFIG_PARAMS'
-    | 'MEDIA_VIEWER_MODAL';
+    | 'MEDIA_VIEWER_MODAL'
+    | 'UPLOAD_IMAGE_MEDIA_PREVIEW_MODAL'
+    | 'UPLOAD_DOCUMENT_MEDIA_PREVIEW_MODAL';
