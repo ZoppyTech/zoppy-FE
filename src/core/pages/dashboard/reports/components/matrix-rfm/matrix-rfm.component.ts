@@ -58,7 +58,9 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     public async initializeData(): Promise<void> {
         this.isLoading = true;
         await this.fetchData();
-        this.isLoading = false;
+        setTimeout(() => {
+            this.isLoading = false;
+        });
     }
 
     public async fetchData(): Promise<void> {
