@@ -18,13 +18,7 @@ export class UploadDocumentMediaPreviewModalComponent {
         public modal: ModalService
     ) {}
 
-    public ngOnInit() {
-        // const reader: any = new FileReader();
-        // reader.onload = function (e: any) {
-        //     document.getElementById('image-wrapper')?.setAttribute('src', e.target.result);
-        // };
-        // reader.readAsDataURL(this.modal.data.fileData);
-    }
+    public ngOnInit() {}
 
     public async sendDocument(): Promise<void> {
         if (this.uploading) return;

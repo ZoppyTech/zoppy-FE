@@ -23,11 +23,16 @@
                 [ngStyle]="{ 'justify-content': !thread.isBusiness ? 'flex-start' : 'flex-end' }"
                 [thread]="thread"
             >
-                <audio-message *ngSwitchCase="'audio'" thread-message-content [url]="thread.media?.url"></audio-message>
-                <image-message *ngSwitchCase="'image'" thread-message-content [url]="thread.media?.url"></image-message>
+                <audio-message *ngSwitchCase="'audio'" thread-message-content [media]="thread.media"></audio-message>
+                <image-message *ngSwitchCase="'image'" thread-message-content [media]="thread.media"></image-message>
                 <text-message *ngSwitchCase="'text'" thread-message-content [text]="thread.content"></text-message>
                 <text-message *ngSwitchCase="'template'" thread-message-content [text]="thread.content"></text-message>
-                <document-message *ngSwitchCase="'document'" thread-message-content [url]="thread.media?.url"></document-message>
+                <document-message
+                    *ngSwitchCase="'document'"
+                    thread-message-content
+                    [media]="thread.media"
+                    [isBusinessUser]="thread.isBusiness"
+                ></document-message>
                 <text-message *ngSwitchDefault thread-message-content [text]="UNSUPPORTED_MESSAGE_TYPE"></text-message>
             </thread-message>
         </div>

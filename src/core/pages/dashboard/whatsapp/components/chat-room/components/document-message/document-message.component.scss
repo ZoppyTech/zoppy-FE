@@ -3,4 +3,44 @@
 .document-message-container {
     height: 100%;
     width: 100%;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: nowrap;
+
+    border-radius: 8px;
+
+    &--business-user {
+        background-color: var(--primary-200);
+    }
+
+    &--customer-user {
+        background-color: var(--neutral-200);
+    }
+
+    ps-icon {
+        font-size: 3rem;
+        color: var(--primary-500);
+    }
+
+    .document-info {
+        display: flex;
+        flex-direction: column;
+        width: 100%;
+        height: fit-content;
+        min-width: 296px;
+
+        .file-name {
+            font-size: 1rem;
+            font-weight: 900;
+            color: var(--neutral-800);
+        }
+
+        .file-size {
+            font-size: 0.75rem;
+            font-weight: 400;
+            color: var(--neutral-800);
+        }
+    }
 }
