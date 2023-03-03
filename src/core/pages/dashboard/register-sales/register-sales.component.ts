@@ -50,6 +50,7 @@ export class RegisterSalesComponent extends DashboardBasePage implements OnInit 
         total: 0,
         userId: ''
     };
+    public code: string = '';
     public number: string = '';
     public complement: string = '';
     public loadingAddress: boolean = false;
@@ -103,6 +104,10 @@ export class RegisterSalesComponent extends DashboardBasePage implements OnInit 
         {
             label: 'Não aplicar desconto',
             value: 'none'
+        },
+        {
+            label: 'Aplicar desconto utilizando código',
+            value: 'code'
         }
     ];
 
@@ -368,6 +373,16 @@ export class RegisterSalesComponent extends DashboardBasePage implements OnInit 
         return FormatUtils.toCurrency(this.order?.total);
     }
 
+    public async getCouponByCode(code: string): Promise<void> {
+        try {
+            const coupon: CrmCouponResponse = await this.crmCouponService.findByCode(code);
+            this.order.coupon = { ...coupon } as CrmCouponRequest;
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Erro!');
+        }
+    }
+
     public onValueChange(value: CouponType) {
         switch (value) {
             case `percent`:
@@ -375,6 +390,13 @@ export class RegisterSalesComponent extends DashboardBasePage implements OnInit 
             case 'none':
                 this.order.coupon = {
                     type: value,
+                    amount: 0,
+                    amountCurrency: ''
+                };
+                break;
+            case 'code':
+                this.order.coupon = {
+                    type: 'none',
                     amount: 0,
                     amountCurrency: ''
                 };
@@ -430,7 +452,7 @@ export class RegisterSalesComponent extends DashboardBasePage implements OnInit 
 }
 
 type State = 1 | 2;
-type CouponType = 'percent' | 'fixed_cart' | 'giftback' | 'none';
+type CouponType = 'percent' | 'fixed_cart' | 'giftback' | 'none' | 'code';
 interface Item {
     label: string;
     value: string | null;
