@@ -44,6 +44,16 @@ export class CrmCouponService extends ApiService {
         return promise;
     }
 
+    public async findByCode(code: string): Promise<CrmCouponResponse> {
+        const promise: Promise<CrmCouponResponse> = new Promise((resolve: any, reject: any) => {
+            this.get<CrmCouponResponse>(`${this.url}/code/${code}`).subscribe(
+                (response: CrmCouponResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async findAllPaginated(filter: ZoppyFilter<CrmCouponResponse>): Promise<ZoppyFilter<CrmCouponResponse>> {
         const promise: Promise<ZoppyFilter<CrmCouponResponse>> = new Promise((resolve: any, reject: any) => {
             this.post<ZoppyFilter<CrmCouponResponse>, ZoppyFilter<CrmCouponResponse>>(`${this.url}/list`, filter).subscribe(
