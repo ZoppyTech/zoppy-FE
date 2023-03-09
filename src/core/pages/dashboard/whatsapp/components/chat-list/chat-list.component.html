@@ -2,7 +2,7 @@
     <div class="header">
         <div class="flex-row chat-info">
             <ps-contact [tooltip]="false" [name]="'Domno'" class="margin-right-1" [size]="'3rem'" [email]="'(31) 98339-0869'"></ps-contact>
-            <span class="text--primary text--bold text-20 margin-y-1">(31) 98339-0869</span>
+            <span class="text--100 text--bold text-20 margin-y-1">(31) 98339-0869</span>
         </div>
         <span class="text--primary text--bold text-24 margin-y-1 mobile"></span>
         <div (click)="pullNewCustomer()" class="pull-customers-wrapper">
@@ -14,10 +14,10 @@
     </div>
 
     <div (click)="isCollapsedFilter = !isCollapsedFilter" class="section-title">
-        <div class="item text-16 text--primary text--bold clickable">
+        <div class="item text-16 text--bold clickable">
             <span class="margin-right-1">Filtros </span>
             <div class="collapsible" [ngClass]="{ 'collapsible--close': isCollapsedFilter }">
-                <ps-icon icon="icon-chevron text--primary"></ps-icon>
+                <ps-icon icon="icon-chevron"></ps-icon>
             </div>
         </div>
     </div>
