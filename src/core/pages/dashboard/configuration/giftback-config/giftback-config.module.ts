@@ -1,3 +1,4 @@
+import { MultiSelectModule } from '@ZoppyTech/multi-select';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { GiftbackConfigComponent } from './giftback-config.component';
@@ -16,7 +17,16 @@ const routes: Routes = [
 ];
 
 @NgModule({
-    imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, SwitchModule, IconModule, ButtonModule, InputModule],
+    imports: [
+        CommonModule,
+        RouterModule.forChild(routes),
+        VisualIdentityModule,
+        SwitchModule,
+        IconModule,
+        ButtonModule,
+        InputModule,
+        MultiSelectModule
+    ],
     declarations: [GiftbackConfigComponent],
     exports: [GiftbackConfigComponent]
 })
