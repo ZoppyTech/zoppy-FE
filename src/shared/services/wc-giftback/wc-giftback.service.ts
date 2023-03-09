@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { WcGiftbackConfigEntity } from 'src/shared/models/entities/wc-giftback-config.entity';
-import { GiftbackRequest } from 'src/shared/models/requests/giftback/giftback.request';
+import { GiftbackCategoryRequest, GiftbackRequest } from 'src/shared/models/requests/giftback/giftback.request';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
 
@@ -45,6 +45,16 @@ export class WcGiftbackService extends ApiService {
         const promise: Promise<WcGiftbackConfigEntity> = new Promise((resolve: any, reject: any) => {
             this.get<WcGiftbackConfigEntity>(`${this.url}`).subscribe(
                 (response: WcGiftbackConfigEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async listCategories(): Promise<GiftbackCategoryRequest[]> {
+        const promise: Promise<GiftbackCategoryRequest[]> = new Promise((resolve: any, reject: any) => {
+            this.get<GiftbackCategoryRequest[]>(`${this.url}/categories`).subscribe(
+                (response: GiftbackCategoryRequest[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
