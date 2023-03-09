@@ -12,30 +12,32 @@
     max-width: 384px;
     display: flex;
     flex-direction: column;
-    background-color: #fafbff;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
 
     .header {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
-        background: rgb(205, 214, 255);
-        background: linear-gradient(180deg, rgba(205, 214, 255, 1) 0%, rgba(255, 255, 255, 1) 70%);
         height: fit-content;
         border-top-left-radius: 8px;
 
         .chat-info {
+            background-color: #f0f2f5;
             justify-content: flex-start;
             align-items: center;
-            padding: 1rem 2rem;
-            padding-bottom: 0.5rem;
+            padding: 1rem 1rem 2rem 1rem;
+            margin-bottom: 2rem;
             width: 100%;
             height: fit-content;
+            border-top-left-radius: 8px;
         }
 
         .pull-customers-wrapper {
+            top: 3.5rem;
+            position: absolute;
             display: flex;
             flex-direction: row;
             align-items: center;
@@ -46,14 +48,14 @@
 
             ps-icon {
                 color: #fafbff;
-                font-size: 1.875rem;
+                font-size: 1.5rem;
             }
 
             .button {
                 display: flex;
                 justify-content: center;
                 align-items: center;
-                padding: 0.5rem 2rem;
+                padding: 0.675rem 2rem;
                 border-radius: 50px;
                 background-color: var(--secondary);
                 color: #fafbff;
