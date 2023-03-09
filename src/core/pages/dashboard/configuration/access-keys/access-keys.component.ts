@@ -7,6 +7,7 @@ import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { NuvemshopSyncService } from 'src/shared/services/nuvemshop-sync/nuvemshop-sync.service';
+import { OneChatSyncService } from 'src/shared/services/one-chat-sync/one-chat-sync.service';
 import { ShopifySyncService } from 'src/shared/services/shopify-sync/shopify-sync.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
