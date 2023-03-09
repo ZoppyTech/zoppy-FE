@@ -15,6 +15,17 @@ export class ChatListComponent implements OnInit {
     public readonly EMPTY_lIST_IMAGE_DIR: string = './../../../../../../assets/imgs/empty-chat-list.png';
     public readonly NEW_MESSAGE_IMAGE_DIR: string = './../../../../../../assets/imgs/new-message.png';
 
+    public filters: Map<string, boolean> = new Map([
+        ['recent', false],
+        ['in-progress', false],
+        ['finished', false],
+        ['unread', false]
+    ]);
+
+    public isCollapsedFilter: boolean = false;
+
+    //public filterCount: number = 0;
+
     public constructor() {}
 
     public ngOnInit(): void {
@@ -28,4 +39,23 @@ export class ChatListComponent implements OnInit {
     public onConversationSelected(chatRoomSelected: ChatRoom): void {
         this.selectedConversationEvent.emit(chatRoomSelected);
     }
+
+    public selectFilter(filterName: string): void {
+        this.filters.set(filterName, !this.filters.get(filterName));
+        // this.filterCount = this.countSelectedFilters();
+    }
+
+    public pullNewCustomer(): void {}
+
+    // public countSelectedFilters(): number {
+    //     let counter: number = 0;
+    //     const currFilter: IterableIterator<boolean> = this.filters.values();
+    //     while (currFilter.next().done) {
+    //         if (!currFilter.next().value) {
+    //             continue;
+    //         }
+    //         ++counter;
+    //     }
+    //     return counter;
+    // }
 }
