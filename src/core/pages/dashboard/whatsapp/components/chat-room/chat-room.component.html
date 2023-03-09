@@ -1,15 +1,43 @@
 <div class="container">
     <div class="header">
-        <div class="flex-row margin-y-2 mobile clickable" (click)="goBackToChatList.emit()">
-            <ps-icon icon="font-16 icon-chevron go-back-icon" class="text--secondary text-18"></ps-icon>
-            <span class="text--500 text-18 margin-x-1">Voltar</span>
+        <div class="contact-info">
+            <div class="flex-row margin-y-2 mobile clickable" (click)="goBackToChatList.emit()">
+                <ps-icon icon="font-16 icon-chevron go-back-icon" class="text--secondary text-18"></ps-icon>
+                <span class="text--500 text-18 margin-x-1">Voltar</span>
+            </div>
+            <div class="flex-row align-center display-name">
+                <span class="text--800 text--bold text-20 truncate">{{ chatRoom.contact.displayName }}</span>
+                <ps-icon *ngIf="chatRoom.contact.isBlocked" class="font-14 block-icon margin-x-1" icon="icon-block"></ps-icon>
+                <ps-icon (click)="editContactModal()" class="font-14 edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
+            </div>
+            <h6 class="text--800">{{ chatRoom.contact.displayPhone }}</h6>
         </div>
-        <div class="flex-row align-center display-name">
-            <span class="text--800 text--bold text-20 truncate">{{ chatRoom.contact.displayName }}</span>
-            <ps-icon *ngIf="chatRoom.contact.isBlocked" class="font-14 block-icon margin-x-1" icon="icon-block"></ps-icon>
-            <ps-icon (click)="editContactModal()" class="font-14 edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
+        <div class="countdown-timer">
+            <span class="text--800 text--bold text-16 truncate value">00</span>
+            <span class="text--secondary text--bold unit">h</span>
+            <span class="text--800 text--bold text-16 truncate value">00</span>
+            <span class="text--secondary text--bold unit">m</span>
+            <span class="text--800 text--bold text-16 truncate value">00</span>
+            <span class="text--secondary text--bold unit">s</span>
         </div>
-        <h6 class="text--800">{{ chatRoom.contact.displayPhone }}</h6>
+        <div class="more-options">
+            <div class="flex-row align-center">
+                <ps-button
+                    class="margin-right-2"
+                    (onClick)="goBackToChatList.emit()"
+                    [loading]="false"
+                    [wide]="true"
+                    type="secondary-border"
+                >
+                    <ps-icon icon="text-18 icon-swap_horiz go-back-icon margin-right-2" class="text--secondary text-18"></ps-icon>
+                    <span class="text--secondary text-12 text--bold">Transferir</span>
+                </ps-button>
+                <ps-button (onClick)="goBackToChatList.emit()" [loading]="false" [wide]="true" type="secondary">
+                    <ps-icon icon="text-18 icon-check go-back-icon margin-right-2" class="text--100 text-18"></ps-icon>
+                    <span class="text--100 text-12 text--bold">Finalizar</span>
+                </ps-button>
+            </div>
+        </div>
     </div>
 
     <!-- <div *ngIf="messagesLoading"></div> -->
@@ -114,7 +142,7 @@
         ></ps-input>
 
         <div class="send-button clickable" (click)="sendMessage()">
-            <ps-icon icon="font-28 icon-send text--100"></ps-icon>
+            <ps-icon icon="font-28 icon-send_fill text--100"></ps-icon>
         </div>
     </div>
 </div>

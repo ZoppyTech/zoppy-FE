@@ -12,7 +12,11 @@
             </div>
         </div>
         <div class="flex-center wide">
-            <ps-search-bar [text]="filter.searchText" (onChanged)="onSearchTextChanged($event)"></ps-search-bar>
+            <ps-search-bar
+                [searchStyle]="'border-bottom'"
+                [text]="filter.searchText"
+                (onChanged)="onSearchTextChanged($event)"
+            ></ps-search-bar>
         </div>
     </div>
 

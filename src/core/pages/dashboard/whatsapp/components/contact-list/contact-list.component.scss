@@ -15,6 +15,8 @@
 
     .header {
         border-bottom: 1px solid var(--neutral-300);
+        background: rgb(205, 214, 255);
+        background: linear-gradient(180deg, rgba(205, 214, 255, 1) 0%, rgba(255, 255, 255, 1) 70%);
 
         .title-section {
             min-height: fit-content;
@@ -59,6 +61,10 @@
         ps-search-bar {
             padding: 0rem 2rem;
             margin-bottom: 2rem;
+
+            div {
+                background-color: #fff !important;
+            }
         }
     }
 

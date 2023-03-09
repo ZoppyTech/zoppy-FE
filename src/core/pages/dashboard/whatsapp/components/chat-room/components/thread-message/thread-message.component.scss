@@ -29,7 +29,7 @@
             height: fit-content;
             padding: 0.35rem 0.5rem 0.75rem 0.5rem;
             border-radius: 0.75rem;
-            box-shadow: 0px 16px 24px rgba(82, 75, 91, 0.1);
+            box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 16px 0px;
 
             &--business-user {
                 position: relative;
@@ -48,7 +48,7 @@
                     border-left-color: #cdd6ff;
                     border-right: 0;
                     margin-top: -10px;
-                    margin-right: -10px;
+                    margin-right: -9px;
                 }
             }
 
@@ -56,7 +56,7 @@
                 position: relative;
                 margin-left: 2.5rem;
                 margin-right: 20rem;
-                background-color: #fdfdfd;
+                background-color: #fff;
 
                 &::after {
                     content: '';
@@ -66,10 +66,10 @@
                     width: 0;
                     height: 0;
                     border: 10px solid transparent;
-                    border-right-color: #fdfdfd;
+                    border-right-color: #fff;
                     border-left: 0;
                     margin-top: -10px;
-                    margin-left: -10px;
+                    margin-left: -9px;
                 }
             }
 

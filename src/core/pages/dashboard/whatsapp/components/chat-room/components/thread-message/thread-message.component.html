@@ -44,13 +44,13 @@
                     </span>
                     <static-loading *ngIf="!thread.wamId" [isLoading]="true" [onlyLoading]="true"></static-loading>
                 </span>
-                <span *ngIf="thread?.createdAt !== null && !thread.deletedAt" class="text--500 text-12 datetime">{{
+                <span *ngIf="thread?.createdAt !== null && !thread.deletedAt" class="text--600 text-12 datetime">{{
                     thread.createdAt | date : 'h:mm a'
                 }}</span>
             </div>
         </div>
         <div *ngIf="thread?.type === 'template'" class="thread-message-container__body__footer">
-            <span class="text-16">Mensagem automática</span>
+            <span class="text-14">Mensagem automática</span>
         </div>
     </div>
 </div>

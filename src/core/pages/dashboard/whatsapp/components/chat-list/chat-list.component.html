@@ -1,8 +1,56 @@
 <div class="container">
     <div class="header">
-        <span class="text--primary text--bold text-24 margin-y-3">Mensagens</span>
-        <div (click)="newMessage()" class="button-plus">
-            <ps-icon class="font-16 text--primary text--700" icon="icon-add"></ps-icon>
+        <div class="flex-row chat-info">
+            <ps-contact [tooltip]="false" [name]="'Domno'" class="margin-right-1" [size]="'3rem'" [email]="'(31) 98339-0869'"></ps-contact>
+            <span class="text--primary text--bold text-20 margin-y-1">(31) 98339-0869</span>
+        </div>
+        <span class="text--primary text--bold text-24 margin-y-1 mobile"></span>
+        <div (click)="pullNewCustomer()" class="pull-customers-wrapper">
+            <div (click)="pullNewCustomer()" class="button">
+                <ps-icon icon="icon-upcoming_fill"></ps-icon>
+                <span class="margin-left-2"> puxar novos clientes (0)</span>
+            </div>
+        </div>
+    </div>
+
+    <div (click)="isCollapsedFilter = !isCollapsedFilter" class="section-title">
+        <div class="item text-16 text--primary text--bold clickable">
+            <span class="margin-right-1">Filtros </span>
+            <div class="collapsible" [ngClass]="{ 'collapsible--close': isCollapsedFilter }">
+                <ps-icon icon="icon-chevron text--primary"></ps-icon>
+            </div>
+        </div>
+    </div>
+
+    <div class="filters" [ngClass]="{ 'filters--close': isCollapsedFilter }">
+        <div (click)="selectFilter('recent')" class="flex-row item clickable" [ngClass]="{ 'item--recent': filters.get('recent') }">
+            <span class="label text-500 text-12 margin-right-1">recentes</span>
+            <span class="text-14">5</span>
+        </div>
+        <div
+            (click)="selectFilter('in-progress')"
+            class="flex-row item clickable"
+            [ngClass]="{ 'item--in-progress': filters.get('in-progress') }"
+        >
+            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">em andamento</span>
+            <span class="text-14">9</span>
+        </div>
+        <div (click)="selectFilter('finished')" class="flex-row item clickable" [ngClass]="{ 'item--finished': filters.get('finished') }">
+            <span class="label text-500 text-12 margin-right-1">concluídas</span>
+            <span class="text-14">50</span>
+        </div>
+        <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
+            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">não lidas</span>
+            <span class="text-14">0</span>
+        </div>
+    </div>
+
+    <div class="section-title">
+        <div class="item text-16 text--primary text--bold clickable">
+            <span class="margin-right-1">Conversas </span>
+            <div class="bag-counter">
+                <span class="text">9</span>
+            </div>
         </div>
     </div>
 
@@ -23,17 +71,17 @@
             >
                 <div class="item-header">
                     <div class="flex-row">
-                        <span class="text text--bold text--800 text-16 truncate">{{ conversation[1].contact.displayName }}</span>
+                        <span class="text--bold text--800 text-14 truncate">{{ conversation[1].contact.displayName }}</span>
                         <ps-icon
                             *ngIf="conversation[1].contact.isBlocked"
-                            class="font-16 block-icon margin-x-1"
+                            class="font-14 block-icon margin-x-1"
                             icon="icon-block"
                         ></ps-icon>
                     </div>
                     <div class="flex-row">
                         <span
                             *ngIf="conversation[1].threads.length > 0"
-                            class="text-14 text--400 margin-x-1"
+                            class="text-12 text--400 margin-x-1"
                             [ngClass]="{
                                 'text--bold text--700 text--secondary':
                                     !conversation[1].threads[conversation[1].threads.length - 1].readByManager
@@ -79,7 +127,7 @@
                         </span>
                     </span>
                     <span
-                        class="text-message text-16 truncate"
+                        class="text-message text-14 truncate"
                         [ngClass]="{ 'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager }"
                         >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
                     </span>
@@ -89,5 +137,9 @@
                 </div>
             </div>
         </div>
+    </div>
+
+    <div (click)="newMessage()" class="new-message-float">
+        <ps-icon icon="icon-chat_fill"></ps-icon>
     </div>
 </div>
