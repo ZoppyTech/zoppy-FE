@@ -1,14 +1,13 @@
 <div class="container">
     <div class="header">
         <div class="flex-row chat-info">
-            <!-- <ps-contact [tooltip]="false" [name]="'Domno'" class="margin-right-1" [size]="'3rem'" [email]="'(31) 98339-0869'"></ps-contact> -->
             <img src="./assets/imgs/mini-logo.png" class="clickable margin-right-1" alt="" />
             <div (click)="newMessage()" class="new-message">
                 <ps-icon class="text-14 text--primary text--700" icon="icon-add"></ps-icon>
             </div>
         </div>
         <span class="text--primary text--bold text-24 margin-y-1 mobile"></span>
-        <div (click)="pullNewCustomer()" class="pull-customers-wrapper">
+        <div class="pull-customers-wrapper">
             <div class="flex-column flex-center wide margin-bottom-1">
                 <span class="queue_customers_length text--bold text-20">0</span>
                 <span class="text--primary text--bold text-14">Clientes na fila de espera!</span>

@@ -26,7 +26,7 @@
             flex-direction: row;
             align-items: center;
             justify-content: space-between;
-            padding: 2rem;
+            padding: 2rem 1rem;
             padding-bottom: 1.5rem;
 
             .button-new-contact-modal {
@@ -59,7 +59,7 @@
         }
 
         ps-search-bar {
-            padding: 0rem 2rem;
+            padding: 0rem 1rem;
             margin-bottom: 2rem;
         }
     }
