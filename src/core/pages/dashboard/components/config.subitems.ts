@@ -42,14 +42,14 @@ export class ConfigSubItems {
                 icon: 'icon-arrow',
                 label: 'Configuração do Whatsapp',
                 route: Navigation.routes.whatsappConfig,
-                visible: UserUtil.isMaster(user)
+                visible: UserUtil.isMaster(user) && !CompanyUtil.isTray(company)
             },
             {
                 id: `whatsappTemplateList`,
                 icon: 'icon-arrow',
                 label: 'Modelos de Mensagem Whatsapp',
                 route: Navigation.routes.whatsappTemplateList,
-                visible: UserUtil.isMaster(user)
+                visible: UserUtil.isMaster(user) && !CompanyUtil.isTray(company)
             },
             {
                 id: `letalk`,

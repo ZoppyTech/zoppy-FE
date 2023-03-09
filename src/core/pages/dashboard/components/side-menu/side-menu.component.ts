@@ -5,6 +5,7 @@ import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuItem, SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { CompanyUtil } from 'src/shared/utils/company.util';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { UserUtil } from 'src/shared/utils/user.util';
@@ -57,7 +58,7 @@ export class SideMenuComponent implements OnInit {
                 icon: 'icon-wpp',
                 label: 'Whatsapp',
                 route: Navigation.routes.whatsapp,
-                visible: true
+                visible: !CompanyUtil.isTray(this.company)
             },
             {
                 id: `products`,
