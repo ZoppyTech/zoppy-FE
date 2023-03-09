@@ -20,18 +20,17 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        height: 86px;
         width: 100%;
         height: -moz-fit-content;
-        margin-bottom: 2rem;
+        //margin-bottom: 2rem;
         border-top-left-radius: 8px;
 
         .chat-info {
-            background-color: #fafbfc;
+            //background-color: #fafbfc;
             justify-content: space-between;
             border-bottom: 1px solid var(--neutral-200);
             align-items: center;
-            padding: 2rem 1rem;
+            padding: 1rem;
             width: 100%;
             height: -moz-fit-content;
             height: fit-content;
@@ -41,55 +40,64 @@
                 width: 32px;
                 height: auto;
             }
-        }
 
-        .new-message {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
-            width: 2rem;
-            height: 2rem;
-            border-radius: 50%;
-            border: 1px solid var(--neutral-300);
-            cursor: pointer;
-            background-color: #fafbff;
-            padding: 18px;
+            .new-message {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                border: 1px solid var(--neutral-300);
+                cursor: pointer;
+                background-color: #fafbff;
+                padding: 18px;
 
-            ps-icon {
-                font-size: 0.75rem;
+                ps-icon {
+                    font-size: 0.75rem;
+                }
             }
         }
 
         .pull-customers-wrapper {
-            top: 1.75rem;
-            position: absolute;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-            width: fit-content;
-            height: 86px;
-            cursor: pointer;
+            width: 100%;
+            height: auto;
+            padding: 1rem;
 
-            .queue_customers_length {
-                color: var(--quaternary-200);
-            }
-
-            ps-icon {
-                color: #fff;
-                font-size: 1.5rem;
-            }
-
-            .button {
+            .display {
                 display: flex;
-                justify-content: center;
+                flex-direction: row;
                 align-items: center;
-                padding: 0.675rem 2rem;
-                border-radius: 50px;
-                background-color: var(--secondary);
-                color: #fff;
-                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                justify-content: center;
+                width: 100%;
+                height: auto;
+                cursor: pointer;
+                padding: 1rem;
+                background-color: #fafbfc;
+                border: 1px solid var(--neutral-200);
+                border-radius: 8px;
+                //box-shadow: rgba(0, 0, 0, 0.1) 0px 0px 5px 0px, rgba(0, 0, 0, 0.1) 0px 0px 1px 0px;
+                //box-shadow: rgb(0 0 0 / 5%) 0px 6px 24px 0px, rgb(0 0 0 / 8%) 0px 0px 0px 1px;
+
+                .queue_customers_length {
+                    color: var(--quaternary-200);
+                }
+
+                ps-icon {
+                    color: #fff;
+                    font-size: 1.5rem;
+                }
+
+                .button {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0.675rem 1rem;
+                    border-radius: 50px;
+                    background-color: var(--quaternary-200);
+                    color: #fff;
+                }
             }
         }
     }

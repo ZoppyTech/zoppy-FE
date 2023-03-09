@@ -2,19 +2,21 @@
     <div class="header">
         <div class="flex-row chat-info">
             <img src="./assets/imgs/mini-logo.png" class="clickable margin-right-1" alt="" />
+            <span class="text-20 text--primary text--bold">Chat</span>
             <div (click)="newMessage()" class="new-message">
                 <ps-icon class="text-14 text--primary text--700" icon="icon-add"></ps-icon>
             </div>
         </div>
-        <span class="text--primary text--bold text-24 margin-y-1 mobile"></span>
         <div class="pull-customers-wrapper">
-            <div class="flex-column flex-center wide margin-bottom-1">
-                <span class="queue_customers_length text--bold text-20">0</span>
-                <span class="text--primary text--bold text-14">Clientes na fila de espera!</span>
-            </div>
-            <div (click)="pullNewCustomer()" class="button">
-                <ps-icon icon="icon-upcoming_fill"></ps-icon>
-                <span class="text-14 margin-left-2"> puxar da fila</span>
+            <div class="display">
+                <div class="flex-column flex-center wide">
+                    <span class="queue_customers_length text--bold text-20">0</span>
+                    <span class="text--primary text--bold text-14">Clientes na fila de espera!</span>
+                </div>
+                <div (click)="pullNewCustomer()" class="button">
+                    <!-- <ps-icon icon="icon-upcoming_fill"></ps-icon> -->
+                    <span class="text-14">Puxar</span>
+                </div>
             </div>
         </div>
     </div>
