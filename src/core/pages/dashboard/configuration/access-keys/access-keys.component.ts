@@ -7,7 +7,6 @@ import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { NuvemshopSyncService } from 'src/shared/services/nuvemshop-sync/nuvemshop-sync.service';
-import { OneChatSyncService } from 'src/shared/services/one-chat-sync/one-chat-sync.service';
 import { ShopifySyncService } from 'src/shared/services/shopify-sync/shopify-sync.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
@@ -100,6 +99,8 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
                 return !this.key.admin || !this.key.key || !this.key.secret;
             case AppConstants.PROVIDERS.DOOCA:
                 return !this.key.admin;
+            case AppConstants.PROVIDERS.ONE_CHAT:
+                return !this.key.key || !this.key.secret;
             default:
                 return !this.key.key || !this.key.secret || !this.key.url;
         }
