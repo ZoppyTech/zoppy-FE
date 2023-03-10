@@ -51,6 +51,7 @@
                             [type]="day.isToday ? 'secondary' : 'cancel'"
                             class="chat"
                             [round]="true"
+                            [loading]="task.loadingWpp ?? false"
                             [fixedHeight]="false"
                             (onClick)="openTaskDescriptionModal(task, 'whatsapp')"
                         >
