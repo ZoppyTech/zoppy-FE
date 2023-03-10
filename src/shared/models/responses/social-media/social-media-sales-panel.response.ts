@@ -10,4 +10,5 @@ export interface TaskView extends TaskEntity {
     route: string;
     concluded: boolean;
     loading: boolean;
+    loadingWpp?: boolean;
 }
