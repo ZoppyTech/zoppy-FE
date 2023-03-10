@@ -19,15 +19,15 @@
         border-top-left-radius: 12px;
 
         .title-section {
-            min-height: fit-content;
-            height: fit-content;
-            max-height: 112px;
             display: flex;
-            flex-direction: row;
-            align-items: center;
             justify-content: space-between;
-            padding: 2rem 1rem;
-            padding-bottom: 1.5rem;
+            //border-bottom: 1px solid var(--neutral-200);
+            align-items: center;
+            padding: 1rem;
+            width: 100%;
+            height: -moz-fit-content;
+            height: fit-content;
+            border-top-left-radius: 8px;
 
             .button-new-contact-modal {
                 display: flex;
@@ -60,7 +60,7 @@
 
         ps-search-bar {
             padding: 0rem 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
     }
 
