@@ -14,7 +14,7 @@ const routes: Routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: 'giftback'
+                redirectTo: 'access-keys'
             },
             {
                 path: 'giftback',

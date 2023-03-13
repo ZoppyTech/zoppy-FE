@@ -7,7 +7,6 @@ import {
     TaskContactTypes,
     TaskTypes,
     MessageConfigConstants,
-    MessageConfigTemplate,
     TaskStatus,
     GenderUtil,
     MatrixRfmUtil
@@ -36,6 +35,7 @@ export class CustomerSocialMediaComponent implements OnInit {
     public loaded: boolean = false;
     public loadingNewTask: boolean = false;
     public loadingOpenLink: boolean = false;
+    public loadingOpenLinkBirthDay: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public id: string = '';
     public today: Date = new Date();
@@ -253,17 +253,15 @@ export class CustomerSocialMediaComponent implements OnInit {
     }
 
     public async sendMessage(taskType: string): Promise<void> {
-        this.loadingOpenLink = true;
+        taskType === 'birthday' ? (this.loadingOpenLinkBirthDay = true) : (this.loadingOpenLink = true);
         try {
-            const template: string =
-                taskType === 'birthday' ? MessageConfigConstants.BIRTHDAY_MESSAGE : MessageConfigConstants.AFTER_SALE_MESSAGE;
-            const data: any = await this.crmCustomerService.findWhatsappLink(this.id, template as MessageConfigTemplate);
+            const data: any = await this.crmCustomerService.findWhatsappLink(this.id, taskType);
             window?.open(data.data, '_blank')?.focus();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
         } finally {
-            this.loadingOpenLink = false;
+            taskType === 'birthday' ? (this.loadingOpenLinkBirthDay = false) : (this.loadingOpenLink = false);
         }
     }
 
