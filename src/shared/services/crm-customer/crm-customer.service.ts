@@ -1,7 +1,6 @@
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { MessageConfigTemplate } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { CrmCustomerRequest } from 'src/shared/models/requests/crm/crm-customer.request';
 import { CrmCustomerDetailResponse, CrmCustomerResponse } from 'src/shared/models/responses/crm/crm-customer.response';
@@ -45,7 +44,7 @@ export class CrmCustomerService extends ApiService {
         return promise;
     }
 
-    public async findWhatsappLink(id: string, linkTemplateId: MessageConfigTemplate): Promise<string> {
+    public async findWhatsappLink(id: string, linkTemplateId: string): Promise<string> {
         const promise: Promise<string> = new Promise((resolve: any, reject: any) => {
             this.get<string>(`${this.url}/${id}/links/${linkTemplateId}`).subscribe(
                 (response: string) => resolve(response),

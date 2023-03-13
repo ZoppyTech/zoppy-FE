@@ -1,14 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
-import {
-    MessageConfigTemplate,
-    TaskContactTypes,
-    TaskConstants,
-    MatrixRfmUtil,
-    DateUtil,
-    FirstAndLastDayOfWeek
-} from '@ZoppyTech/utilities';
+import { TaskContactTypes, TaskConstants, MatrixRfmUtil, DateUtil, FirstAndLastDayOfWeek } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-panel-contact/sales-panel-contact.request';
@@ -88,16 +81,15 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
     }
 
     public async sendWppMessage(task: TaskView): Promise<void> {
-        task.loading = true;
+        task.loadingWpp = true;
         try {
-            let message: MessageConfigTemplate = TaskUtil.getMessageTemplate(task.type);
-            const data: any = await this.crmCustomerService.findWhatsappLink(task.customer.id, message as MessageConfigTemplate);
+            const data: any = await this.crmCustomerService.findWhatsappLink(task.customer.id, task.type);
             window?.open(data.data, '_blank')?.focus();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
         } finally {
-            task.loading = false;
+            task.loadingWpp = false;
         }
     }
 
