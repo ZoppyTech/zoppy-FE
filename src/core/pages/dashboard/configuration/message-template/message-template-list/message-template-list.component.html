@@ -1,6 +1,13 @@
 <div class="container">
-    <div class="header padding-3">
-        <h6 class="text--primary text--bold text-20">Configuração de Templates de mensagens</h6>
+    <div class="header wide space-between">
+        <div class="padding-3">
+            <h6 class="text--primary text--bold text-20">Configuração de Templates de mensagens</h6>
+        </div>
+        <div class="margin-right-3 tall flex flex-center">
+            <ps-button (onClick)="createGroup()" [wide]="true" type="secondary">
+                <span class="text--100 text--bold text-14 margin-x-3">Criar novo</span>
+            </ps-button>
+        </div>
     </div>
     <div class="separator"></div>
 
@@ -8,7 +15,7 @@
         <span class="text-16">Edição e adição de templates de mensagens.</span>
     </div>
 
-    <div class="body">
+    <div class="body padding-bottom-3">
         <table>
             <thead>
                 <th><span class="text-14 text--primary desktop">Nome</span></th>
@@ -45,11 +52,5 @@
                 </tr>
             </tbody>
         </table>
-    </div>
-
-    <div class="footer">
-        <ps-button (onClick)="createGroup()" [wide]="true" type="secondary">
-            <span class="text--100 text--bold text-14">Criar novo template de mensagem</span>
-        </ps-button>
     </div>
 </div>
