@@ -21,6 +21,9 @@ export class Navigation {
         accessTokens: '/dashboard/configurations/access-tokens',
         letalk: '/dashboard/configurations/letalk',
         messageConfig: '/dashboard/configurations/message-config',
+        messageTemplate: '/dashboard/configurations/message-template',
+        messageTemplateList: '/dashboard/configurations/message-template/list',
+        messageTemplateConfig: '/dashboard/configurations/message-template/config',
         giftback: '/dashboard/configurations/giftback',
         coupons: '/dashboard/configurations/coupons',
         batchUpload: '/dashboard/configurations/batch-upload',
@@ -55,6 +58,9 @@ export type Pages =
     | 'letalk'
     | 'login'
     | 'messageConfig'
+    | 'messageTemplate'
+    | 'messageTemplateList'
+    | 'messageTemplateConfig'
     | 'myCompany'
     | 'myCompanyConfig'
     | 'myCompanyUsers'

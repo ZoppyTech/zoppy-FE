@@ -65,6 +65,14 @@ const routes: Routes = [
                 }
             },
             {
+                path: 'message-template',
+                loadChildren: () => import('./message-template/message-template.module').then((m: any) => m.MessageTemplateModule),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: [AppConstants.ROLES.MASTER, AppConstants.ROLES.ADMIN, AppConstants.ROLES.MANAGER]
+                }
+            },
+            {
                 path: 'whatsapp-setup',
                 loadChildren: () => import('./whatsapp-config/whatsapp-config.module').then((m: any) => m.WhatsappConfigModule),
                 canActivate: [RoleGuard],

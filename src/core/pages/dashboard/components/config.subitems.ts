@@ -31,18 +31,25 @@ export class ConfigSubItems {
                 visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
             },
             {
+                id: `messageTemplate`,
+                icon: 'icon-arrow',
+                label: 'Modelos de Mensagem',
+                route: Navigation.routes.messageTemplate,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
+            },
+            {
                 id: `whatsappConfig`,
                 icon: 'icon-arrow',
                 label: 'Configuração do Whatsapp',
                 route: Navigation.routes.whatsappConfig,
-                visible: UserUtil.isMaster(user) && !CompanyUtil.isTray(company)
+                visible: UserUtil.isMaster(user) && !CompanyUtil.isTray(company) && CompanyUtil.isPremium(company)
             },
             {
                 id: `whatsappTemplateList`,
                 icon: 'icon-arrow',
                 label: 'Modelos de Mensagem Whatsapp',
                 route: Navigation.routes.whatsappTemplateList,
-                visible: UserUtil.isMaster(user) && !CompanyUtil.isTray(company)
+                visible: UserUtil.isMaster(user) && !CompanyUtil.isTray(company) && CompanyUtil.isPremium(company)
             },
             {
                 id: `coupons`,

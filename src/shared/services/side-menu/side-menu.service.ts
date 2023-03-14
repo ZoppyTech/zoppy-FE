@@ -48,6 +48,8 @@ export type SideMenu =
     | `giftback`
     | `letalk`
     | `messageConfig`
+    | `messageTemplate`
+    | `messageTemplateList`
     | `myCompany`
     | `myProfile`
     | `signature`

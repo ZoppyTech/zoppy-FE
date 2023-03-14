@@ -1,0 +1,62 @@
+<div class="container">
+    <div class="header space-between align-center">
+        <h6 class="text--primary text--bold text-20 margin-y-3">{{ group ? group.name : 'Mensagens' }}</h6>
+        <ps-button type="secondary" (onClick)="addNewMessage()">
+            <span class="text neutral-100 margin-x-2">Nova Mensagem</span>
+        </ps-button>
+    </div>
+    <div>
+        <div class="separator"></div>
+    </div>
+
+    <div class="title">
+        <div class="flex wide flex-column">
+            <h6 class="text-18 text--bold margin-bottom-2">Preencha as mensagens automáticas que serão enviadas através desse template</h6>
+            <span class="text-16"
+                >Insira nos campos abaixo as mensagens, você poderá inserir os seguintes parâmetros no corpo das mensagens:
+            </span>
+        </div>
+    </div>
+
+    <div class="body">
+        <div class="info-params">
+            <ps-icon class="font-16" icon="icon-info"></ps-icon>
+            <span (click)="showModal()" class="text-16 text--700"
+                ><b class="text-16 text--800">Clique aqui</b> para ver os parâmetros disponíveis!
+            </span>
+        </div>
+
+        <div style="border-radius: 8px" class="fields flex-grow-1">
+            <div class="flex space-between" *ngIf="!group?.id">
+                <div class="field flex-grow flex flex-column">
+                    <p class="text-16 text--bold">Nome*</p>
+                    <ps-input [(ngModel)]="name"></ps-input>
+                </div>
+
+                <div class="field flex-grow flex flex-column padding-left-3">
+                    <p class="text-16 text--bold">Description*</p>
+                    <ps-input [(ngModel)]="description"></ps-input>
+                </div>
+            </div>
+            <div class="field" *ngFor="let template of templates; let index = index">
+                <div class="wide flex space-between margin-bottom-1">
+                    <p class="text-16 text--bold">{{ index + 1 }}ª Mensagem</p>
+                    <ps-button type="clean" (onClick)="deleteTemplate(template, index)">
+                        <div class="flex flex-center">
+                            <ps-icon icon="icon-delete" class="text-18 padding-x-1"></ps-icon>
+                        </div>
+                    </ps-button>
+                </div>
+                <div class="flex flex-column">
+                    <ps-input placeholder="Insira aqui o conteúdo." type="text" [(ngModel)]="template.text" [rows]="6"></ps-input>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary">
+            <span class="text--100 text-14 text--bold">Salvar</span>
+        </ps-button>
+    </div>
+</div>
