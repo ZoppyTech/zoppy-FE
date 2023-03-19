@@ -96,6 +96,7 @@ export class BatchUploadOrdersComponent implements OnInit, AfterViewInit {
     }
 
     public handleFileUpload(event: any, id: CardId): void {
+        debugger;
         const file: any = event.target.files[0];
         this.cards.forEach((card: Card) => {
             if (card.id === id) {

@@ -14,7 +14,7 @@ const routes: Routes = [
             {
                 path: '',
                 pathMatch: 'full',
-                redirectTo: 'giftback'
+                redirectTo: 'access-keys'
             },
             {
                 path: 'giftback',
@@ -59,6 +59,14 @@ const routes: Routes = [
             {
                 path: 'message-config',
                 loadChildren: () => import('./message-config/message-config.module').then((m: any) => m.MessageConfigModule),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: [AppConstants.ROLES.MASTER, AppConstants.ROLES.ADMIN, AppConstants.ROLES.MANAGER]
+                }
+            },
+            {
+                path: 'message-template',
+                loadChildren: () => import('./message-template/message-template.module').then((m: any) => m.MessageTemplateModule),
                 canActivate: [RoleGuard],
                 data: {
                     roles: [AppConstants.ROLES.MASTER, AppConstants.ROLES.ADMIN, AppConstants.ROLES.MANAGER]

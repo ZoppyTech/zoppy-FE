@@ -1,31 +1,38 @@
 <div class="container">
     <div class="header">
         <div class="flex-row chat-info">
-            <ps-contact [tooltip]="false" [name]="'Domno'" class="margin-right-1" [size]="'3rem'" [email]="'(31) 98339-0869'"></ps-contact>
-            <span class="text--primary text--bold text-20 margin-y-1">(31) 98339-0869</span>
+            <img src="./assets/imgs/mini-logo.png" class="clickable margin-right-1" alt="" />
+            <span class="text-20 text--primary text--bold">Chat</span>
+            <div (click)="newMessage()" class="new-message">
+                <ps-icon class="text-14 text--primary text--700" icon="icon-add"></ps-icon>
+            </div>
         </div>
-        <span class="text--primary text--bold text-24 margin-y-1 mobile"></span>
-        <div (click)="pullNewCustomer()" class="pull-customers-wrapper">
-            <div (click)="pullNewCustomer()" class="button">
-                <ps-icon icon="icon-upcoming_fill"></ps-icon>
-                <span class="margin-left-2"> puxar novos clientes (0)</span>
+        <div class="pull-customers-wrapper">
+            <div class="display">
+                <div class="flex-row flex-center wide">
+                    <span class="queue_customers_length text--secondary text--bold text-18 margin-right-1">0</span>
+                    <span class="text-info text--bold text-14">Clientes na fila de espera!</span>
+                </div>
+                <div (click)="pullNewCustomer()" class="button">
+                    <span class="text-14">Puxar</span>
+                </div>
             </div>
         </div>
     </div>
 
     <div (click)="isCollapsedFilter = !isCollapsedFilter" class="section-title">
-        <div class="item text-16 text--primary text--bold clickable">
+        <div class="item text-16 text--bold clickable">
             <span class="margin-right-1">Filtros </span>
             <div class="collapsible" [ngClass]="{ 'collapsible--close': isCollapsedFilter }">
-                <ps-icon icon="icon-chevron text--primary"></ps-icon>
+                <ps-icon icon="icon-chevron"></ps-icon>
             </div>
         </div>
     </div>
 
     <div class="filters" [ngClass]="{ 'filters--close': isCollapsedFilter }">
-        <div (click)="selectFilter('recent')" class="flex-row item clickable" [ngClass]="{ 'item--recent': filters.get('recent') }">
-            <span class="label text-500 text-12 margin-right-1">recentes</span>
-            <span class="text-14">5</span>
+        <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
+            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">não lidas</span>
+            <span class="text-14">0</span>
         </div>
         <div
             (click)="selectFilter('in-progress')"
@@ -38,10 +45,6 @@
         <div (click)="selectFilter('finished')" class="flex-row item clickable" [ngClass]="{ 'item--finished': filters.get('finished') }">
             <span class="label text-500 text-12 margin-right-1">concluídas</span>
             <span class="text-14">50</span>
-        </div>
-        <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
-            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">não lidas</span>
-            <span class="text-14">0</span>
         </div>
     </div>
 
@@ -137,9 +140,5 @@
                 </div>
             </div>
         </div>
-    </div>
-
-    <div (click)="newMessage()" class="new-message-float">
-        <ps-icon icon="icon-chat_fill"></ps-icon>
     </div>
 </div>

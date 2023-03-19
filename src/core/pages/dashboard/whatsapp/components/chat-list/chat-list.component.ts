@@ -45,7 +45,9 @@ export class ChatListComponent implements OnInit {
         // this.filterCount = this.countSelectedFilters();
     }
 
-    public pullNewCustomer(): void {}
+    public pullNewCustomer(): void {
+        this.currentSubcomponentChange.emit(Subcomponents.UnregisteredContactList);
+    }
 
     // public countSelectedFilters(): number {
     //     let counter: number = 0;

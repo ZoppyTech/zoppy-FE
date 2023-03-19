@@ -67,11 +67,18 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     public async ngOnInit(): Promise<void> {
         this.setLoggedUser();
         this.setBreadcrumb();
+        this.onStartWhatsapp();
     }
 
     public async onStartWhatsapp(): Promise<void> {
         console.log('Whatsapp loading...');
         await this.loadRegisteredWhatsappAccount();
+
+        if (!this.isWhatsappActive) {
+            this.whatsappLoading = false;
+            return;
+        }
+
         await this.loadBusinessAccounManager();
         await setTimeout(async () => {
             await this.loadConversations();
@@ -191,9 +198,11 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             this.account = {
                 id: entity.id,
                 businessName: entity.businessName,
+                scenario: entity.scenario,
                 active: entity.active,
                 companyId: entity.companyId
             };
+            this.setWhatsappActive();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -290,6 +299,11 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         const sortByMostRecent: Array<[string, ChatRoom]> = Array.from(this.conversations.entries());
         sortByMostRecent.unshift([chatRoom.contact.id, chatRoom]);
         this.conversations = new Map(sortByMostRecent);
+    }
+
+    private setWhatsappActive(): void {
+        this.isWhatsappActive =
+            this.account.id !== null && this.account.active && this.account.scenario === WhatsappConstants.ACCOUNT_SCENARIO.INTEGRATED;
     }
 
     private setLoggedUser(): void {

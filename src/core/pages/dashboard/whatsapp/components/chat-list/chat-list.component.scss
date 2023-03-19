@@ -12,52 +12,97 @@
     max-width: 384px;
     display: flex;
     flex-direction: column;
-    background-color: #fafbff;
     border-top-left-radius: 12px;
     border-bottom-left-radius: 12px;
 
     .header {
+        position: relative;
         display: flex;
         flex-direction: column;
         align-items: center;
         width: 100%;
-        background: rgb(205, 214, 255);
-        background: linear-gradient(180deg, rgba(205, 214, 255, 1) 0%, rgba(255, 255, 255, 1) 70%);
-        height: fit-content;
+        height: -moz-fit-content;
         border-top-left-radius: 8px;
 
         .chat-info {
-            justify-content: flex-start;
+            justify-content: space-between;
+            border-bottom: 1px solid var(--neutral-200);
             align-items: center;
-            padding: 1rem 2rem;
-            padding-bottom: 0.5rem;
+            padding: 1rem;
             width: 100%;
+            height: -moz-fit-content;
             height: fit-content;
+            border-top-left-radius: 8px;
+
+            img {
+                width: 32px;
+                height: auto;
+            }
+
+            .new-message {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+                width: 2rem;
+                height: 2rem;
+                border-radius: 50%;
+                border: 1px solid var(--neutral-300);
+                cursor: pointer;
+                background-color: #fafbff;
+                padding: 18px;
+
+                ps-icon {
+                    font-size: 0.75rem;
+                }
+            }
         }
 
         .pull-customers-wrapper {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            justify-content: center;
             width: 100%;
-            height: 5.25rem;
-            cursor: pointer;
+            height: auto;
 
-            ps-icon {
-                color: #fafbff;
-                font-size: 1.875rem;
-            }
-
-            .button {
+            .display {
                 display: flex;
-                justify-content: center;
+                flex-direction: row;
                 align-items: center;
-                padding: 0.5rem 2rem;
-                border-radius: 50px;
-                background-color: var(--secondary);
-                color: #fafbff;
-                box-shadow: rgba(0, 0, 0, 0.24) 0px 3px 8px;
+                justify-content: center;
+                width: 100%;
+                height: auto;
+                cursor: pointer;
+                padding: 1rem;
+                background-color: #fafbff;
+
+                .queue_customers_length {
+                    width: fit-content;
+                    height: -moz-fit-content;
+                    height: fit-content;
+                    padding: 0.25rem 0.75rem;
+                    border-radius: 12px;
+                    border: 1px solid var(--neutral-300);
+                    background-color: #fafbff;
+                    margin-right: 0.75rem;
+                }
+
+                ps-icon {
+                    color: #fff;
+                    font-size: 1.5rem;
+                }
+
+                .text-info {
+                    color: #54656f;
+                    font-size: 0.75rem;
+                }
+
+                .button {
+                    display: flex;
+                    justify-content: center;
+                    align-items: center;
+                    padding: 0.675rem 1rem;
+                    border-radius: 50px;
+                    background-color: var(--secondary);
+                    color: #fff;
+                }
             }
         }
     }
@@ -103,6 +148,7 @@
             justify-content: space-between;
             padding: 0.5rem 1rem;
             cursor: pointer;
+            color: #54656f;
 
             .bag-counter {
                 width: max-content;
@@ -110,9 +156,9 @@
 
                 .text {
                     padding: 0.25rem 0.5rem;
-                    background-color: rgba($color: #002e73, $alpha: 0.1);
-                    font-size: 12px;
-                    color: var(--primary);
+                    font-size: 0.75rem;
+                    background-color: rgba(123, 61, 255, 0.1);
+                    color: var(--secondary);
                     border-radius: 14px;
                 }
             }
@@ -120,6 +166,7 @@
             .collapsible {
                 rotate: 270deg;
                 ps-icon {
+                    color: #54656f;
                     font-size: 24px;
                 }
 
@@ -158,34 +205,34 @@
             margin-right: 0.5rem;
             margin-bottom: 0.5rem;
 
-            background-color: rgba(0, 46, 115, 0.1);
-            color: var(--primary);
+            background-color: rgba(123, 61, 255, 0.1);
+            color: var(--secondary);
             font-weight: 700;
 
             &--recent {
-                background-color: var(--primary);
-                color: var(--primary-100);
+                background-color: var(--secondary);
+                color: #fafbff;
                 font-weight: 600;
                 box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
             }
 
             &--in-progress {
-                background-color: var(--primary);
-                color: var(--primary-100);
+                background-color: var(--secondary);
+                color: #fafbff;
                 font-weight: 600;
                 box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
             }
 
             &--finished {
-                background-color: var(--primary);
-                color: var(--primary-100);
+                background-color: var(--secondary);
+                color: #fafbff;
                 font-weight: 600;
                 box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
             }
 
             &--unread {
-                background-color: var(--primary);
-                color: var(--primary-100);
+                background-color: var(--secondary);
+                color: #fafbff;
                 font-weight: 600;
                 box-shadow: rgba(0, 0, 0, 0.05) 0px 6px 24px 0px, rgba(0, 0, 0, 0.08) 0px 0px 0px 1px;
             }

@@ -48,11 +48,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public messagesLoading: boolean = false;
     public messageTemplatesLoading: boolean = false;
 
-    //TODO: REMOVER!
-    // public messageTemplateListVisible: boolean = false;
-    // public attachFileButtonClicked: boolean = false;
-    //END
-
     public footerOptions: Map<string, boolean> = new Map([
         ['attachFileOption', false],
         ['messageTemplateOption', false]
