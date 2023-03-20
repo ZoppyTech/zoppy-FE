@@ -57,6 +57,7 @@ export class GiftbackConfigComponent implements OnInit {
             CompanyUtil.isDooca(this.company) ||
             CompanyUtil.isWooCommerce(this.company) ||
             CompanyUtil.isYampi(this.company) ||
+            CompanyUtil.isNuvemshop(this.company) ||
             CompanyUtil.isShopify(this.company)
         );
     }
