@@ -1,3 +1,4 @@
+import { environment } from 'src/environments/environment';
 import { Component, OnInit } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
@@ -17,6 +18,7 @@ import { Navigation } from 'src/shared/utils/navigation';
 })
 export class AccessTokensComponent implements OnInit {
     public loading: boolean = false;
+    public partnersUrl: string = environment.partnersUrl;
     public token: ExternalTokenRequest = {
         hash: ``,
         active: true
@@ -33,11 +35,9 @@ export class AccessTokensComponent implements OnInit {
 
     public openInfoModal(): void {
         this.modal.open(Modal.IDENTIFIER.INFO, {
-            title: 'Cadastrando suas chaves de Acesso?',
+            title: 'Como utilizar a chave de acesso?',
             button: 'Entendi',
-            description: `Nada melhor do que ter uma <b>solução personalizada</b> pro seu
-              negócio e <b>totalmente automatizada</b>, né? Essa etapa vem
-              para concretizar isso, auxiliando a Zoppy a entender mais sobre como funcionam as vendas no seu ecommerce.`
+            description: `A chave de acesso irá autenticar seu sistema externo a interagir com nossa api através do Zoppy Partners! <b>${environment.partnersUrl}</b>`
         });
     }
 
@@ -93,11 +93,7 @@ export class AccessTokensComponent implements OnInit {
                 route: Navigation.routes.home
             },
             {
-                name: `Configurações`,
-                route: undefined
-            },
-            {
-                name: `Tokens de Acesso`,
+                name: `Chave de API`,
                 route: Navigation.routes.accessTokens
             }
         ];

@@ -1,4 +1,4 @@
-@import '../../../../../styles.scss';
+@import 'src/styles.scss';
 
 :host {
     flex-grow: 1;
@@ -11,10 +11,6 @@
     margin-bottom: 2rem;
     padding-bottom: 2rem;
     height: 100%;
-
-    .header {
-        padding: 0 2rem;
-    }
 
     .title {
         padding: 0 2rem;

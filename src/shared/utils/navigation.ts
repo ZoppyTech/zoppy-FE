@@ -18,7 +18,7 @@ export class Navigation {
         userConfig: '/dashboard/account/my-company/users/config',
         reports: '/dashboard/reports',
         accessKeys: '/dashboard/configurations/access-keys',
-        accessTokens: '/dashboard/configurations/access-tokens',
+        accessTokens: '/dashboard/access-tokens',
         letalk: '/dashboard/configurations/letalk',
         messageConfig: '/dashboard/configurations/message-config',
         messageTemplate: '/dashboard/configurations/message-template',

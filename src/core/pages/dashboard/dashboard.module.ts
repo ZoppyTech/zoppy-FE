@@ -8,6 +8,8 @@ import { TopBarModule } from './components/top-bar/top-bar.module';
 import { DashboardGuard } from 'src/shared/guards/dashboard.guard';
 import { PremiumGuard } from 'src/shared/guards/premium.guard';
 import { StandardGuard } from 'src/shared/guards/standard.guard';
+import { RoleGuard } from 'src/shared/guards/role.guard';
+import { AppConstants } from '@ZoppyTech/utilities';
 
 const routes: Routes = [
     {
@@ -39,6 +41,14 @@ const routes: Routes = [
             {
                 path: 'account',
                 loadChildren: () => import('./account/account.module').then((m: any) => m.AccountModule)
+            },
+            {
+                path: 'access-tokens',
+                loadChildren: () => import('./access-tokens/access-tokens.module').then((m: any) => m.AccessTokensModule),
+                canActivate: [RoleGuard],
+                data: {
+                    roles: [AppConstants.ROLES.MASTER, AppConstants.ROLES.ADMIN]
+                }
             },
             {
                 path: 'sales',
@@ -93,7 +103,7 @@ const routes: Routes = [
     imports: [CommonModule, RouterModule.forChild(routes), VisualIdentityModule, SideMenuModule, TopBarModule],
     declarations: [DashboardComponent],
     exports: [DashboardComponent],
-    providers: [DashboardGuard, PremiumGuard, StandardGuard],
+    providers: [DashboardGuard, PremiumGuard, StandardGuard, RoleGuard],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]
 })
 export class DashboardModule {}
