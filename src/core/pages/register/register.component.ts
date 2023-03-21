@@ -394,7 +394,7 @@ export class RegisterComponent implements OnInit {
                 model: '',
                 id: 'expirationDate',
                 title: 'Data de validade*',
-                placeholder: 'Digite o nome da sua empresa',
+                placeholder: 'Digite a data de validade do cartão MM/AA',
                 type: 'text',
                 mask: '00/00',
                 class: 'half-size',
