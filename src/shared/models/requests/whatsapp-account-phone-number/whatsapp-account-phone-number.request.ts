@@ -2,6 +2,6 @@ export interface WhatsappAccountPhoneNumberRequest {
     id: string;
     phoneNumberId: string;
     wppAccountId: string;
-    permissions: string;
+    businessHoursEnabled: boolean;
     default: boolean;
 }

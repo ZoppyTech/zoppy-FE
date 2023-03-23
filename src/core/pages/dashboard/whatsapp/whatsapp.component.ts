@@ -52,9 +52,8 @@ export class WhatsappComponent implements OnInit, OnDestroy {
 
     public constructor(
         public readonly wppAccountService: WhatsappAccountService,
-        public readonly wppAccountPhoneNumberService: WhatsappAccountPhoneNumberService,
         public readonly wppAccountManagerService: WhatsappAccountManagerService,
-        public readonly wppContactService: WhatsappContactService,
+        //public readonly wppContactService: WhatsappContactService,
         public readonly wppMessageService: WhatsappMessageService,
         public readonly toast: ToastService,
         public readonly confirmActionService: ConfirmActionService,
@@ -78,13 +77,11 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             this.whatsappLoading = false;
             return;
         }
-
         await this.loadBusinessAccounManager();
-        await setTimeout(async () => {
-            await this.loadConversations();
-        }, 1000);
+        await this.loadConversations();
         this.setWebSocket();
-        await this.setWhatsappLoading();
+        this.whatsappLoading = false;
+        //await this.setWhatsappLoading();
         console.log('Whatsapp initialized!');
     }
 
@@ -221,30 +218,10 @@ export class WhatsappComponent implements OnInit, OnDestroy {
                 accountId: entity.wppAccountId
             };
         } catch (ex: any) {
-            await this.createAccountManager();
-        } finally {
-            this.whatsappPercentLoading = 50;
-        }
-    }
-
-    public async createAccountManager(): Promise<void> {
-        try {
-            const accountPhoneNumber: WhatsappAccountPhoneNumberEntity = await this.wppAccountPhoneNumberService.findDefault(
-                this.account.id
-            );
-            const entity: WhatsappAccountManagerEntity = await this.wppAccountManagerService.create(this.account.id, {
-                userId: this.user.id,
-                wppPhoneNumberId: accountPhoneNumber.id
-            });
-            this.manager = {
-                id: entity.id,
-                name: this.user.name,
-                phoneNumberId: entity.wppPhoneNumberId,
-                accountId: entity.wppAccountId
-            };
-        } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+        } finally {
+            this.whatsappPercentLoading = 50;
         }
     }
 
@@ -325,8 +302,8 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.sideMenuService.changeSub('none');
     }
 
-    private async setWhatsappLoading(): Promise<void> {
-        await DateUtil.delay(1000);
-        this.whatsappLoading = false;
-    }
+    // private async setWhatsappLoading(): Promise<void> {
+    //     await DateUtil.delay(1000);
+    //     this.whatsappLoading = false;
+    // }
 }

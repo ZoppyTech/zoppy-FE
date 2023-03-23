@@ -230,7 +230,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 id: this.chatRoom.contact.id,
                 firstName: this.chatRoom.contact.firstName,
                 lastName: this.chatRoom.contact.lastName,
-                phoneNumber: WhatsappUtil.removeCountryCode(this.chatRoom.contact.displayPhone),
+                phone: WhatsappUtil.removeCountryCode(this.chatRoom.contact.displayPhone),
                 isBlocked: this.chatRoom.contact.isBlocked
             },
             (updatedContact: any) => {

@@ -47,9 +47,8 @@
                 width: 2rem;
                 height: 2rem;
                 border-radius: 50%;
-                border: 1px solid var(--neutral-300);
                 cursor: pointer;
-                background-color: #fafbff;
+                background-color: var(--neutral-200);
                 padding: 18px;
 
                 ps-icon {
@@ -71,17 +70,23 @@
                 height: auto;
                 cursor: pointer;
                 padding: 1rem;
-                background-color: #fafbff;
+                background-color: rgba(123, 61, 255, 0.1);
+                border-top: 1px solid #9d5aff;
 
                 .queue_customers_length {
                     width: fit-content;
                     height: -moz-fit-content;
                     height: fit-content;
-                    padding: 0.25rem 0.75rem;
+                    padding: 0.35rem 0.75rem;
                     border-radius: 12px;
                     border: 1px solid var(--neutral-300);
-                    background-color: #fafbff;
+                    background-color: #fff;
                     margin-right: 0.75rem;
+                    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+
+                    &--has-many {
+                        box-shadow: rgba(0, 224, 201, 0.4) 4px 0px 10px 0px, rgba(123, 61, 255, 0.4) -5px 0px 10px 0px;
+                    }
                 }
 
                 ps-icon {

@@ -37,7 +37,7 @@ export class UpgradePendingCardComponent implements OnInit {
                 description: this.descriptionField,
                 businessPhone: {
                     phoneNumber: this.phoneNumberField,
-                    permissions: WhatsappConstants.BUSINESS_PHONE_PERMISSIONS.ONLY_SEND,
+                    businessHoursEnabled: false,
                     default: true
                 }
             };

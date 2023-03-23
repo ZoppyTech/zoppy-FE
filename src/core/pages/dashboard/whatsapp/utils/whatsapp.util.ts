@@ -11,15 +11,12 @@ export class WhatsappUtil {
         return message;
     }
 
-    public static removeCountryCode(phoneNumber: string): string {
-        return phoneNumber.replace('+55 ', '');
+    public static removeCountryCode(phone: string): string {
+        return phone.replace('+55 ', '');
     }
 
-    public static formatDisplayPhone(countryCode: string, subdivisionCode: string, phoneNumber: string): string {
-        return `+${countryCode} ${subdivisionCode} ${phoneNumber.slice(0, phoneNumber.length - 4)}-${phoneNumber.slice(
-            phoneNumber.length - 4,
-            phoneNumber.length
-        )}`;
+    public static formatDisplayPhone(countryCode: string, subdivisionCode: string, phone: string): string {
+        return `+${countryCode} ${subdivisionCode} ${phone.slice(2, phone.length - 4)}-${phone.slice(phone.length - 4, phone.length)}`;
     }
 
     public static findLastIndexOfMessageSent(threads: ThreadMessage[]): number {
@@ -71,13 +68,17 @@ export class WhatsappUtil {
 }
 
 export class PhoneNumberSliced {
-    public constructor(public countryCode: string, public subdivisionCode: string, public phoneNumber: string) {
+    public constructor(public countryCode: string, public subdivisionCode: string, public phone: string) {
         this.countryCode = countryCode;
         this.subdivisionCode = subdivisionCode;
-        this.phoneNumber = phoneNumber;
+        this.phone = phone;
     }
 
     public getFullPhone(): string {
-        return `${this.countryCode}${this.subdivisionCode}${this.phoneNumber}`;
+        return `${this.countryCode}${this.subdivisionCode}${this.phone}`;
+    }
+
+    public getPhoneWithoutCountryCode(): string {
+        return `${this.subdivisionCode}${this.phone}`;
     }
 }
