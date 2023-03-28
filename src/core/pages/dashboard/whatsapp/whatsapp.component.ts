@@ -214,7 +214,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             this.manager = {
                 id: entity.id,
                 name: this.user.name,
-                phoneNumberId: entity.wppPhoneNumberId,
+                wppPhoneNumberId: entity.wppPhoneNumberId,
                 accountId: entity.wppAccountId
             };
         } catch (ex: any) {
@@ -227,7 +227,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
 
     public async loadConversations(): Promise<void> {
         try {
-            const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByPhoneNumberId(this.manager.phoneNumberId);
+            const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByPhoneNumberId(this.manager.wppPhoneNumberId);
             this.conversations = WhatsappMapper.mapConversations(this.account, this.manager, entities);
             WhatsappMapper.setUnreadConversations(this.conversations);
         } catch (ex: any) {
@@ -246,7 +246,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             origin: WhatsappConstants.MessageOrigin.BusinessInitiated,
             content: thread.templateName ?? '',
             wppContactId: this.chatRoomSelected.contact.id,
-            wppPhoneNumberId: this.manager.phoneNumberId,
+            wppPhoneNumberId: this.manager.wppPhoneNumberId,
             userId: this.user.id,
             parameters: WhatsappUtil.getMessageTemplateParams(thread.templateName ?? '', this.chatRoomSelected),
             createdAt: new Date(),
@@ -263,7 +263,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             origin: WhatsappConstants.MessageOrigin.BusinessInitiated,
             content: thread.content,
             wppContactId: this.chatRoomSelected.contact.id,
-            wppPhoneNumberId: this.manager.phoneNumberId,
+            wppPhoneNumberId: this.manager.wppPhoneNumberId,
             userId: this.user.id,
             createdAt: new Date(),
             updatedAt: new Date(),
