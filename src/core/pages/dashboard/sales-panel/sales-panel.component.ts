@@ -85,7 +85,9 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
         task.loadingWpp = true;
         try {
             const data: CrmCustomerLinkResponse = await this.crmCustomerService.findWhatsappLink(task.customer.id, task.type);
-            window?.open(`https://api.whatsapp.com/send/?phone=${data.phoneNumber}&text=${data.text}`, '_blank')?.focus();
+            window
+                ?.open(`https://api.whatsapp.com/send/?phone=${data.phoneNumber}&text=${encodeURIComponent(data.text)}`, '_blank')
+                ?.focus();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
