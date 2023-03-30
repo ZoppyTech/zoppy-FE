@@ -10,7 +10,7 @@
         <div class="pull-customers-wrapper">
             <div class="display">
                 <div class="flex-row flex-center wide">
-                    <span class="queue_customers_length text--secondary text--bold text-18 margin-right-1">0</span>
+                    <span class="queue_customers_length text--secondary text--bold text-18 margin-right-1">{{ queueCount }}</span>
                     <span class="text-info text-14">Clientes na fila de espera!</span>
                 </div>
                 <div (click)="pullNewCustomer()" class="button">

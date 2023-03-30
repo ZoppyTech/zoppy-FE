@@ -7,6 +7,7 @@
             [(currentSubcomponent)]="currentSubcomponent"
             (selectedConversationEvent)="onConversationSelected($event)"
             [conversations]="getConversations()"
+            [queueCount]="queueCount"
         ></chat-list>
         <contact-list
             *ngIf="currentSubcomponent === subcomponents.ContactList"

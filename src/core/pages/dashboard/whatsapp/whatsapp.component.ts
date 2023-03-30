@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { DateUtil, WebSocketConstants, WhatsappConstants } from '@ZoppyTech/utilities';
@@ -33,7 +33,7 @@ import { WhatsappMapper } from './whatsapp-mapper';
     templateUrl: './whatsapp.component.html',
     styleUrls: ['./whatsapp.component.scss']
 })
-export class WhatsappComponent implements OnInit, OnDestroy {
+export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public openConversationMobile: boolean = false;
     public isWhatsappActive: boolean = false;
     public user: UserEntity = new UserEntity();
@@ -49,6 +49,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     public conversations: Map<string, ChatRoom> = new Map();
     public manager: ChatManager = new ChatManager();
     public account: ChatAccount = new ChatAccount();
+    public queueCount: number = 0;
 
     public constructor(
         public readonly wppAccountService: WhatsappAccountService,
@@ -69,6 +70,10 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.onStartWhatsapp();
     }
 
+    public ngAfterViewInit(): void {
+        this.setWebSocket();
+    }
+
     public async onStartWhatsapp(): Promise<void> {
         console.log('Whatsapp loading...');
         await this.loadRegisteredWhatsappAccount();
@@ -79,9 +84,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         }
         await this.loadBusinessAccounManager();
         await this.loadConversations();
-        this.setWebSocket();
         this.whatsappLoading = false;
-        //await this.setWhatsappLoading();
         console.log('Whatsapp initialized!');
     }
 
@@ -100,6 +103,10 @@ export class WhatsappComponent implements OnInit, OnDestroy {
                 .subscribe((socketData: ChatSocketData) => {
                     let targetChatRoom: ChatRoom | undefined = undefined;
                     switch (socketData.action) {
+                        case WebSocketConstants.CHAT_ACTIONS.NEW_CONVERSATION_COUNT:
+                            if (socketData.message.companyId !== this.account.companyId) return;
+                            this.queueCount = socketData.queueCount ?? 0;
+                            break;
                         case WebSocketConstants.CHAT_ACTIONS.CREATE:
                             targetChatRoom = this.conversations.get(socketData.message.wppContactId);
                             if (!targetChatRoom) return;
@@ -303,9 +310,4 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.sideMenuService.change('whatsapp');
         this.sideMenuService.changeSub('none');
     }
-
-    // private async setWhatsappLoading(): Promise<void> {
-    //     await DateUtil.delay(1000);
-    //     this.whatsappLoading = false;
-    // }
 }
