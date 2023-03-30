@@ -12,6 +12,7 @@ export class ChatListComponent implements OnInit {
     @Output() public currentSubcomponentChange: EventEmitter<Subcomponents> = new EventEmitter<Subcomponents>();
     @Output() public selectedConversationEvent: EventEmitter<any> = new EventEmitter<any>();
     @Input() public conversations: Array<[string, ChatRoom]> = new Array<[string, ChatRoom]>();
+    @Input() public queueCount: number = 0;
     public readonly EMPTY_lIST_IMAGE_DIR: string = './../../../../../../assets/imgs/empty-chat-list.png';
     public readonly NEW_MESSAGE_IMAGE_DIR: string = './../../../../../../assets/imgs/new-message.png';
 
@@ -45,7 +46,9 @@ export class ChatListComponent implements OnInit {
         // this.filterCount = this.countSelectedFilters();
     }
 
-    public pullNewCustomer(): void {}
+    public pullNewCustomer(): void {
+        this.currentSubcomponentChange.emit(Subcomponents.UnregisteredContactList);
+    }
 
     // public countSelectedFilters(): number {
     //     let counter: number = 0;

@@ -84,7 +84,7 @@ export class WhatsappMapper {
         contact.displayPhone = WhatsappUtil.formatDisplayPhone(
             contactEntity.countryCode,
             contactEntity.subdivisionCode,
-            contactEntity.phoneNumber
+            contactEntity.phone
         );
         contact.isBlocked = contactEntity.isBlocked;
         contact.hasIndex = false;

@@ -11,7 +11,7 @@ export class WhatsappContactMapper {
             mappedContact.firstName = contact.firstName;
             mappedContact.lastName = contact.lastName;
             mappedContact.displayName = StringUtil.buildFullName(contact.firstName, contact.lastName);
-            mappedContact.displayPhone = WhatsappUtil.formatDisplayPhone(contact.countryCode, contact.subdivisionCode, contact.phoneNumber);
+            mappedContact.displayPhone = WhatsappUtil.formatDisplayPhone(contact.countryCode, contact.subdivisionCode, contact.phone);
             mappedContact.hasIndex = false;
             mappedContact.isBlocked = contact.isBlocked;
             mappedContact.createdAt = contact.createdAt;

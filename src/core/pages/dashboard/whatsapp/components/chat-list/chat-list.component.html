@@ -10,8 +10,8 @@
         <div class="pull-customers-wrapper">
             <div class="display">
                 <div class="flex-row flex-center wide">
-                    <span class="queue_customers_length text--secondary text--bold text-18 margin-right-1">0</span>
-                    <span class="text-info text--bold text-14">Clientes na fila de espera!</span>
+                    <span class="queue_customers_length text--secondary text--bold text-18 margin-right-1">{{ queueCount }}</span>
+                    <span class="text-info text-14">Clientes na fila de espera!</span>
                 </div>
                 <div (click)="pullNewCustomer()" class="button">
                     <span class="text-14">Puxar</span>
@@ -30,10 +30,6 @@
     </div>
 
     <div class="filters" [ngClass]="{ 'filters--close': isCollapsedFilter }">
-        <!-- <div (click)="selectFilter('recent')" class="flex-row item clickable" [ngClass]="{ 'item--recent': filters.get('recent') }">
-            <span class="label text-500 text-12 margin-right-1">recentes</span>
-            <span class="text-14">5</span>
-        </div> -->
         <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
             <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">não lidas</span>
             <span class="text-14">0</span>
@@ -145,8 +141,4 @@
             </div>
         </div>
     </div>
-
-    <!-- <div (click)="newMessage()" class="new-message-float">
-        <ps-icon icon="icon-chat_fill"></ps-icon>
-    </div> -->
 </div>

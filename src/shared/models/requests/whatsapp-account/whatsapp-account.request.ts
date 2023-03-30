@@ -6,6 +6,6 @@ export interface WhatsappAccountRequest {
     description: string;
     wabaId: string;
     appId: string;
-    apiAccessToken: string | null;
+    accessToken: string | null;
     businessPhone: WhatsappAccountPhoneNumberRequest;
 }

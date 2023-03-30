@@ -4,9 +4,11 @@ import { ToastService } from '@ZoppyTech/toast';
 import { WhatsappConstants } from '@ZoppyTech/utilities';
 import { Observable, Subscription } from 'rxjs';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
+import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
 import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappBusinessManagementService } from 'src/shared/services/whatsapp-business-management/whatsapp-business-management.service';
+import { WhatsappConversationService } from 'src/shared/services/whatsapp-conversation/whatsapp-conversation.service';
 import { WhatsappMediaService } from 'src/shared/services/whatsapp-media/whatsapp-media.service';
 import { ChatRoom } from '../../models/chat-room';
 import { ThreadMessage } from '../../models/thread-message';
@@ -31,6 +33,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('inputFileImage') public inputFileImage: any;
     @ViewChild('inputFileDocument') public inputFileDocument: any;
 
+    public latestConversation: WhatsappConversationEntity = new WhatsappConversationEntity();
     public messageTemplates: Array<ChatMessageTemplate> = [];
     public messageTemplatesReplaced: Array<ChatMessageTemplate> = [];
     public messageTemplateSelected: ChatMessageTemplate | null = null;
@@ -48,11 +51,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public messagesLoading: boolean = false;
     public messageTemplatesLoading: boolean = false;
 
-    //TODO: REMOVER!
-    // public messageTemplateListVisible: boolean = false;
-    // public attachFileButtonClicked: boolean = false;
-    //END
-
     public footerOptions: Map<string, boolean> = new Map([
         ['attachFileOption', false],
         ['messageTemplateOption', false]
@@ -61,6 +59,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public declare uploadFileInput: UploadFileInput;
 
     public constructor(
+        public readonly wppConversationService: WhatsappConversationService,
         public readonly wppBusinessManagementService: WhatsappBusinessManagementService,
         public readonly wppMediaService: WhatsappMediaService,
         public readonly toast: ToastService,
@@ -70,8 +69,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {}
 
     public async ngOnInit(): Promise<void> {
+        debugger;
         this.eventsSubscription = this.events.subscribe(() => this.seeLastMessage());
         this.seeLastMessage();
+        await this.loadLatestConversation();
         await this.loadMessageTemplates();
         console.log('Chat Room initialized!');
     }
@@ -90,6 +91,15 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         //this.clearUnreadMessages();
         this.eventsSubscription.unsubscribe();
         this.removeWheelEventListener();
+    }
+
+    public async loadLatestConversation(): Promise<void> {
+        try {
+            this.latestConversation = await this.wppConversationService.findByContactId(this.chatRoom.contact.id);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+        }
     }
 
     public handleFileUpload(event: any, fileType: string): void {
@@ -235,7 +245,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 id: this.chatRoom.contact.id,
                 firstName: this.chatRoom.contact.firstName,
                 lastName: this.chatRoom.contact.lastName,
-                phoneNumber: WhatsappUtil.removeCountryCode(this.chatRoom.contact.displayPhone),
+                phone: WhatsappUtil.removeCountryCode(this.chatRoom.contact.displayPhone),
                 isBlocked: this.chatRoom.contact.isBlocked
             },
             (updatedContact: any) => {

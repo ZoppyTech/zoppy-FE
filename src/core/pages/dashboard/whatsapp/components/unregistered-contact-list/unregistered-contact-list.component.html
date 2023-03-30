@@ -1,0 +1,40 @@
+<div class="container">
+    <div class="header">
+        <div class="title-section">
+            <span class="text--primary text--bold text-20">Fila de espera</span>
+            <div class="flex-row">
+                <div (click)="goBack()" class="button-go-back">
+                    <ps-icon class="text-14 text--primary text--700" icon="icon-times"></ps-icon>
+                </div>
+            </div>
+        </div>
+        <div class="flex-center wide">
+            <ps-search-bar
+                [searchStyle]="'border-bottom'"
+                [text]="filter.searchText"
+                (onChanged)="onSearchTextChanged($event)"
+            ></ps-search-bar>
+        </div>
+    </div>
+
+    <static-loading *ngIf="hasContactsLoading" [isLoading]="true" class="loading"></static-loading>
+    <div *ngIf="!hasContactsLoading && contacts.length <= 0 && !syncHasDone" class="empty-list">
+        <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
+        <span class="text--primary text-14">Nenhum contato na fila de espera.</span>
+    </div>
+    <div *ngIf="!hasContactsLoading && contacts.length <= 0 && syncHasDone" class="empty-list">
+        <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
+        <span class="text--primary text-14">Nenhum contato encontrado! </span>
+    </div>
+    <div *ngIf="!hasContactsLoading && contacts.length > 0" class="contacts">
+        <div *ngFor="let contact of contacts; let i = index" class="item clickable" (click)="selectContact(contact)">
+            <div *ngIf="contact.hasIndex" class="item-header">
+                <span class="text--primary text--bold text-16">{{ contact.displayName.substring(0, 1).toUpperCase() }}</span>
+            </div>
+            <div class="item-body">
+                <span class="item-content text-16 truncate">{{ contact.displayName }} </span>
+                <ps-icon *ngIf="contact.isBlocked" class="font-16 block-icon margin-x-1" icon="icon-block"></ps-icon>
+            </div>
+        </div>
+    </div>
+</div>

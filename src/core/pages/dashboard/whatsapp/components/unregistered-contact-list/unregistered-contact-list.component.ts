@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { WhatsappConstants } from '@ZoppyTech/utilities';
@@ -10,14 +10,14 @@ import { WhatsappContactService } from 'src/shared/services/whatsapp-contact/wha
 import { ChatContact } from '../../models/chat-contact';
 import { Subcomponents } from '../../models/subcomponents';
 import { WhatsappMapper } from '../../whatsapp-mapper';
-import { WhatsappContactMapper } from './contact-mapper';
+import { WhatsappContactMapper } from '../contact-list/contact-mapper';
 
 @Component({
-    selector: 'contact-list',
-    templateUrl: './contact-list.component.html',
-    styleUrls: ['./contact-list.component.scss']
+    selector: 'unregistered-contact-list',
+    templateUrl: './unregistered-contact-list.component.html',
+    styleUrls: ['./unregistered-contact-list.component.scss']
 })
-export class ContactListComponent implements OnInit {
+export class UnregisteredContactListComponent {
     @Input() public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
     @Output() public currentSubcomponentChange: EventEmitter<Subcomponents> = new EventEmitter<Subcomponents>();
     @Output() public selectedContactEvent: EventEmitter<ChatContact> = new EventEmitter<ChatContact>();
@@ -77,21 +77,21 @@ export class ContactListComponent implements OnInit {
         this.goBack();
     }
 
-    public openNewContactModal(): void {
-        this.modal.open(
-            Modal.IDENTIFIER.CHAT_CONTACT,
-            {
-                id: '',
-                firstName: '',
-                lastName: '',
-                phone: '',
-                isBlocked: false
-            },
-            (newContact: any) => {
-                this.contacts.push(WhatsappMapper.mapContact(newContact));
-            }
-        );
-    }
+    // public openNewContactModal(): void {
+    //     this.modal.open(
+    //         Modal.IDENTIFIER.CHAT_CONTACT,
+    //         {
+    //             id: '',
+    //             firstName: '',
+    //             lastName: '',
+    //             phoneNumber: '',
+    //             isBlocked: false
+    //         },
+    //         (newContact: any) => {
+    //             this.contacts.push(WhatsappMapper.mapContact(newContact));
+    //         }
+    //     );
+    // }
 
     public async loadContacts(): Promise<void> {
         try {

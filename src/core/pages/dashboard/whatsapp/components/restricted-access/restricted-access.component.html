@@ -1,14 +1,11 @@
 <div class="container">
-    <static-loading *ngIf="whatsappAccountLoading" [isLoading]="true" class="main-content"></static-loading>
-    <div *ngIf="!whatsappAccountLoading" class="main-content">
-        <integration-error-card *ngIf="activationPending && accountEntity?.scenario === 'revoked'"></integration-error-card>
-        <activation-pending-card
-            *ngIf="activationPending && accountEntity?.scenario !== 'revoked'"
-            [account]="accountEntity"
-        ></activation-pending-card>
+    <!-- <static-loading *ngIf="whatsappAccountLoading" [isLoading]="true" class="main-content"></static-loading> -->
+    <div class="main-content">
+        <integration-error-card *ngIf="activationPending && account?.scenario === 'revoked'"></integration-error-card>
+        <activation-pending-card *ngIf="activationPending && account?.scenario !== 'revoked'" [account]="account"></activation-pending-card>
         <upgrade-pending-card
             *ngIf="upgradePending"
-            [account]="accountEntity"
+            [account]="account"
             (changeWhatsappStatusEvent)="onUpgradeWhatsappAccount($event)"
         ></upgrade-pending-card>
     </div>

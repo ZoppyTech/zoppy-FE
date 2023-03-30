@@ -12,14 +12,7 @@
             </div>
             <h6 class="text--800">{{ chatRoom.contact.displayPhone }}</h6>
         </div>
-        <div class="countdown-timer">
-            <span class="text--800 text--bold text-16 truncate value">00</span>
-            <span class="text--secondary text--bold unit">h</span>
-            <span class="text--800 text--bold text-16 truncate value">00</span>
-            <span class="text--secondary text--bold unit">m</span>
-            <span class="text--800 text--bold text-16 truncate value">00</span>
-            <span class="text--secondary text--bold unit">s</span>
-        </div>
+        <countdown-timer [timestamp]="latestConversation.sessionExpiration"></countdown-timer>
         <div class="more-options">
             <div class="flex-row align-center">
                 <ps-button
@@ -83,7 +76,6 @@
                         [label]="'Carregando modelos de mensagem'"
                     ></static-loading>
                 </div>
-
                 <div *ngIf="!messageTemplatesLoading">
                     <div
                         *ngFor="let messageTemplate of messageTemplatesReplaced"

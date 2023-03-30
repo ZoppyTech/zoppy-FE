@@ -30,7 +30,7 @@ export class ChatContactComponent {
                 lastName: this.modal.data.lastName.trim(),
                 countryCode: '55',
                 subdivisionCode: this.getOnlySubdivisionCode(),
-                phoneNumber: this.getOnlyPhoneNumber(),
+                phone: this.getOnlyPhoneNumber(),
                 isBlocked: false
             };
             const createdContact: WhatsappContactEntity = await this.wppContactService.create(request);
@@ -53,7 +53,7 @@ export class ChatContactComponent {
                 lastName: this.modal.data.lastName.trim(),
                 countryCode: '55',
                 subdivisionCode: this.getOnlySubdivisionCode(),
-                phoneNumber: this.getOnlyPhoneNumber(),
+                phone: this.getOnlyPhoneNumber(),
                 isBlocked: this.modal.data.isBlocked
             };
             const updatedContact: WhatsappContactEntity = await this.wppContactService.update(request);
@@ -73,16 +73,16 @@ export class ChatContactComponent {
     }
 
     private getOnlyPhoneNumber(): string {
-        return this.modal.data.phoneNumber.substring(2, this.modal.data.phoneNumber.length).replace('-', '').trim();
+        return this.modal.data.phone.substring(0, this.modal.data.phone.length).replace(' ', '').replace('-', '').trim();
     }
 
     private getOnlySubdivisionCode(): string {
-        return this.modal.data.phoneNumber.substring(0, 2).trim();
+        return this.modal.data.phone.substring(0, 2).trim();
     }
 
     private validateFields(): void {
         if (!this.modal.data.firstName) throw Error('Primeiro nome obrigatório');
         if (!this.modal.data.lastName) throw Error('Último nome');
-        if (!this.modal.data.phoneNumber) throw Error('Número do Whatsapp');
+        if (!this.modal.data.phone) throw Error('Número do Whatsapp');
     }
 }

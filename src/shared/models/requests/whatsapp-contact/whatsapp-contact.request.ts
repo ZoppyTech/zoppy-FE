@@ -4,6 +4,6 @@ export interface WhatsappContactRequest {
     lastName: string;
     countryCode: string;
     subdivisionCode: string;
-    phoneNumber: string;
+    phone: string;
     isBlocked: boolean;
 }
