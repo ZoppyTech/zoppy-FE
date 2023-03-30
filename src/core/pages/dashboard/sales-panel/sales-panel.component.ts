@@ -8,6 +8,7 @@ import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-pane
 import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
+import { CrmCustomerLinkResponse } from 'src/shared/models/responses/crm/crm-customer-link.response';
 import { SocialMediaMatrixRfmResponse } from 'src/shared/models/responses/social-media/social-media-matrix-rfm.response';
 import { SocialMediaSalesPanelResponse, TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -83,8 +84,10 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
     public async sendWppMessage(task: TaskView): Promise<void> {
         task.loadingWpp = true;
         try {
-            const data: any = await this.crmCustomerService.findWhatsappLink(task.customer.id, task.type);
-            window?.open(data.data, '_blank')?.focus();
+            const data: CrmCustomerLinkResponse = await this.crmCustomerService.findWhatsappLink(task.customer.id, task.type);
+            window
+                ?.open(`https://api.whatsapp.com/send/?phone=${data.phoneNumber}&text=${encodeURIComponent(data.text)}`, '_blank')
+                ?.focus();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');
