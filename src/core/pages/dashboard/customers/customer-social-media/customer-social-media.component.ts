@@ -15,6 +15,7 @@ import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-panel-contact/sales-panel-contact.request';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
+import { CrmCustomerLinkResponse } from 'src/shared/models/responses/crm/crm-customer-link.response';
 import { CrmCustomerResponse } from 'src/shared/models/responses/crm/crm-customer.response';
 import { SocialMediaCustomerDetailResponse } from 'src/shared/models/responses/social-media/social-media-customer-detail.response';
 import { SocialMediaCustomerTaskResponse } from 'src/shared/models/responses/social-media/social-media-customer-task.response';
@@ -255,8 +256,11 @@ export class CustomerSocialMediaComponent implements OnInit {
     public async sendMessage(taskType: string): Promise<void> {
         taskType === 'birthday' ? (this.loadingOpenLinkBirthDay = true) : (this.loadingOpenLink = true);
         try {
-            const data: any = await this.crmCustomerService.findWhatsappLink(this.id, taskType);
-            window?.open(data.data, '_blank')?.focus();
+            const data: CrmCustomerLinkResponse = await this.crmCustomerService.findWhatsappLink(this.id, taskType);
+            window
+                ?.open(`https://api.whatsapp.com/send/?phone=${encodeURIComponent(data.phoneNumber)}&text=${data.text}`, '_blank')
+                ?.focus();
+            debugger;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');

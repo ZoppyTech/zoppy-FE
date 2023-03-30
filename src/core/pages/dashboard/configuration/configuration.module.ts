@@ -33,14 +33,6 @@ const routes: Routes = [
                 }
             },
             {
-                path: 'access-tokens',
-                loadChildren: () => import('./access-tokens/access-tokens.module').then((m: any) => m.AccessTokensModule),
-                canActivate: [RoleGuard],
-                data: {
-                    roles: [AppConstants.ROLES.MASTER, AppConstants.ROLES.ADMIN]
-                }
-            },
-            {
                 path: 'sync-data',
                 loadChildren: () => import('./sync-data/sync-data.module').then((m: any) => m.SyncDataModule),
                 canActivate: [RoleGuard],
