@@ -33,7 +33,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     @ViewChild('inputFileImage') public inputFileImage: any;
     @ViewChild('inputFileDocument') public inputFileDocument: any;
 
-    public declare latestConversation: WhatsappConversationEntity;
+    public latestConversation: WhatsappConversationEntity = new WhatsappConversationEntity();
     public messageTemplates: Array<ChatMessageTemplate> = [];
     public messageTemplatesReplaced: Array<ChatMessageTemplate> = [];
     public messageTemplateSelected: ChatMessageTemplate | null = null;
@@ -73,7 +73,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.eventsSubscription = this.events.subscribe(() => this.seeLastMessage());
         this.seeLastMessage();
         await this.loadLatestConversation();
-        console.log(this.latestConversation);
         await this.loadMessageTemplates();
         console.log('Chat Room initialized!');
     }

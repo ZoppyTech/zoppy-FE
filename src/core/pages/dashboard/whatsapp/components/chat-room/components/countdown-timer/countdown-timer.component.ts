@@ -5,7 +5,7 @@ import { AfterViewInit, Component, Input, OnInit } from '@angular/core';
     templateUrl: './countdown-timer.component.html',
     styleUrls: ['./countdown-timer.component.scss']
 })
-export class CountdownTimerComponent implements OnInit {
+export class CountdownTimerComponent implements OnInit, AfterViewInit {
     @Input() public timestamp: string = '0';
     public date: any;
     public now: any;
