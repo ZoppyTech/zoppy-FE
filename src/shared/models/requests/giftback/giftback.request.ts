@@ -7,6 +7,7 @@ export interface GiftbackRequest extends WcGiftbackConfigEntity {
     expirationDays?: number;
     startDays?: number;
     afterSaleDays?: number;
+    abandonedCartDelay: number;
     npsRatingDays?: number;
     excludeSaleItems: boolean;
     allowedCategories: Array<GiftbackCategoryRequest>;
