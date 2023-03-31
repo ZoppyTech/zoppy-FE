@@ -20,7 +20,8 @@ export class GiftbackConfigComponent implements OnInit {
     public giftback: GiftbackRequest = {
         excludeSaleItems: false,
         acumulative: false,
-        allowedCategories: []
+        allowedCategories: [],
+        abandonedCartDelay: 4
     };
     public loading: boolean = false;
     public npsRatingDaysActive: boolean = false;
@@ -107,6 +108,7 @@ export class GiftbackConfigComponent implements OnInit {
                 startDays: parseInt(this.giftback.startDays?.toString() ?? ''),
                 afterSaleDays: parseInt(this.giftback.afterSaleDays?.toString() ?? ''),
                 npsRatingDays: parseInt(this.giftback.npsRatingDays?.toString() ?? ''),
+                abandonedCartDelay: parseInt(this.giftback.abandonedCartDelay?.toString() ?? ''),
                 acumulative: this.giftback.acumulative,
                 excludeSaleItems: this.giftback.excludeSaleItems,
                 allowedCategories: this.mapAllowedCategories()
