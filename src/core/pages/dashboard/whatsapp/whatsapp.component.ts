@@ -203,6 +203,11 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         this.destroyAndReload();
     }
 
+    public onFinishChatRoom(chatRoom: ChatRoom): void {
+        this.conversations.delete(chatRoom.contact.id);
+        this.toast.success('Conversa finalizada!', WhatsappConstants.ToastTitles.Success);
+    }
+
     public updateUnreadMessages(): void {
         const unreadMessages: ThreadMessage[] = this.chatRoomSelected.unreadThreads;
         for (const unreadMessage of unreadMessages) {

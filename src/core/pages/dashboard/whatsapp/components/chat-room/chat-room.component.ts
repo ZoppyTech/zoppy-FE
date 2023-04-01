@@ -29,6 +29,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     @Output() public chatRoomChange: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
     @Output() public sendMessageEvent: EventEmitter<ThreadMessage> = new EventEmitter<ThreadMessage>();
     @Output() public goBackToChatList: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public finishChatRoom: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
     @Input() public events: Observable<void> = new Observable();
 
     @ViewChild('inputFileImage') public inputFileImage: any;
@@ -277,11 +278,30 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
+    public async finishConversation(): Promise<void> {
+        try {
+            debugger;
+            const request: WhatsappConversationRequest = {
+                ticket: this.latestConversation.ticket,
+                wppContactId: this.latestConversation.wppContactId,
+                wppManagerId: this.latestConversation.wppManagerId
+            };
+            const conversationFinished: WhatsappConversationEntity = await this.wppConversationService.finish(
+                this.latestConversation.id,
+                request
+            );
+            this.finishChatRoom.emit(this.chatRoom);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+        }
+    }
+
     public getInputTextPlaceholder(): string {
         if (this.chatRoom.contact.isBlocked) {
             return 'Este contato está bloqueado.';
         } else if (!this.latestConversation.sessionExpiration) {
-            return "Por favor, clique no ícone ao lado de '#' e selecione uma nova mensagem.";
+            return "Por favor, clique no ícone '#' e selecione uma nova mensagem.";
         }
         return 'Escreva sua mensagem';
     }

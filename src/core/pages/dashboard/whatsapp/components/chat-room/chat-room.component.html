@@ -17,7 +17,7 @@
             <div class="flex-row align-center">
                 <ps-button
                     class="margin-right-2"
-                    (onClick)="goBackToChatList.emit()"
+                    (onClick)="transferConversation()"
                     [loading]="false"
                     [wide]="true"
                     type="secondary-border"
@@ -25,7 +25,7 @@
                     <ps-icon icon="text-18 icon-swap_horiz go-back-icon margin-right-2" class="text--secondary text-18"></ps-icon>
                     <span class="text--secondary text-12 text--bold">Transferir</span>
                 </ps-button>
-                <ps-button (onClick)="goBackToChatList.emit()" [loading]="false" [wide]="true" type="secondary">
+                <ps-button (onClick)="finishConversation()" [loading]="false" [wide]="true" type="secondary">
                     <ps-icon icon="text-18 icon-check go-back-icon margin-right-2" class="text--100 text-18"></ps-icon>
                     <span class="text--100 text-12 text--bold">Finalizar</span>
                 </ps-button>

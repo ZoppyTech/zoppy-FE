@@ -50,9 +50,9 @@ export class WhatsappConversationService extends ApiService {
         return promise;
     }
 
-    public async conclude(id: string, request: WhatsappConversationRequest): Promise<WhatsappConversationEntity> {
+    public async finish(id: string, request: WhatsappConversationRequest): Promise<WhatsappConversationEntity> {
         const promise: Promise<WhatsappConversationEntity> = new Promise((resolve: any, reject: any) => {
-            this.post<WhatsappConversationEntity, WhatsappConversationRequest>(`${this.url}/${id}/conclude`, request).subscribe(
+            this.post<WhatsappConversationEntity, WhatsappConversationRequest>(`${this.url}/${id}/finish`, request).subscribe(
                 (response: WhatsappConversationEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

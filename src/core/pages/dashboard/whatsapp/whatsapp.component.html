@@ -29,6 +29,7 @@
             [(chatRoom)]="chatRoomSelected"
             (sendMessageEvent)="onSendingMessage($event)"
             (goBackToChatList)="openConversationMobile = false"
+            (finishChatRoom)="onFinishChatRoom($event)"
         ></chat-room>
     </div>
 </div>

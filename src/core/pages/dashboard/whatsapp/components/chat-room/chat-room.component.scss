@@ -194,44 +194,14 @@
 
                 &--document-circle {
                     background: rgb(0, 125, 186);
-                    background: linear-gradient(180deg, rgba(0, 125, 186, 1) 50%, rgba(0, 146, 208, 1) 53%);
-                    border: 0 solid;
-                    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
-                    outline: 1px solid;
-                    outline-color: rgba(#4d7eff, 1);
-                    outline-offset: 0px;
-                    text-shadow: none;
-                    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+                    background: linear-gradient(180deg, rgba(0, 125, 186, 1) 50%, rgba(0, 146, 208, 1) 54%);
                     color: var(--neutral-100);
-
-                    &:hover {
-                        border: 1px solid rgba(0, 125, 186, 1);
-                        box-shadow: inset 0 0 20px rgba(225, 225, 225, 0.5), 0 0 20px rgba(225, 225, 225, 0.2);
-                        outline-color: rgba(#4d7eff, 0);
-                        outline-offset: 15px;
-                        text-shadow: 1px 1px 2px #427388;
-                    }
                 }
 
                 &--image-circle {
-                    background: rgb(0, 114, 96);
-                    background: linear-gradient(180deg, rgba(0, 114, 96, 1) 50%, rgba(0, 157, 136, 1) 53%);
-                    border: 0 solid;
-                    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
-                    outline: 1px solid;
-                    outline-color: rgba(#00d085, 1);
-                    outline-offset: 0px;
-                    text-shadow: none;
-                    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+                    background: rgb(0, 135, 116);
+                    background: linear-gradient(180deg, rgba(0, 135, 116, 1) 50%, rgba(0, 157, 136, 1) 54%);
                     color: var(--neutral-100);
-
-                    &:hover {
-                        border: 1px solid rgba(0, 114, 96, 1);
-                        box-shadow: inset 0 0 20px rgba(225, 225, 225, 0.5), 0 0 20px rgba(225, 225, 225, 0.2);
-                        outline-color: rgba(#00d085, 0);
-                        outline-offset: 15px;
-                        text-shadow: 1px 1px 2px #427388;
-                    }
                 }
             }
         }
