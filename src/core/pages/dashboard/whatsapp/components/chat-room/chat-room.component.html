@@ -126,7 +126,7 @@
                 [ngClass]="{ 'active-color': footerOptions.get('attachFileOption') }"
                 [ngStyle]="{ 'background-color': footerOptions.get('attachFileOption') ? '#f3f3f3' : 'transparent' }"
             >
-                <ps-icon class="font-16 text--500" icon="icon-attach_file text--500"></ps-icon>
+                <ps-icon class="font-16" icon="icon-attach_file"></ps-icon>
             </div>
         </div>
 
@@ -140,7 +140,7 @@
         ></ps-input>
 
         <div class="send-button clickable" (click)="sendMessage()">
-            <ps-icon icon="font-28 icon-send_fill text--100"></ps-icon>
+            <ps-icon [ngClass]="{ 'has-message': this.messageInput }" icon="font-28 icon-send_fill"></ps-icon>
         </div>
     </div>
 </div>

@@ -1,3 +1,6 @@
+import { WhatsappContactEntity } from './whatsapp-contact.entity';
+import { WhatsappMessageEntity } from './whatsapp-message.entity';
+
 export class WhatsappConversationEntity {
     public declare id: string;
     public declare ticket: string;
@@ -9,6 +12,9 @@ export class WhatsappConversationEntity {
     public declare finishedAt: Date;
     public declare deletedAt: Date;
     public declare companyId: string;
+
+    public declare contact: WhatsappContactEntity;
+    public declare messages: WhatsappMessageEntity[];
 
     public static validateSessionExpiration(entity: WhatsappConversationEntity): WhatsappConversationEntity {
         debugger;

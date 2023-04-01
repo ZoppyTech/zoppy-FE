@@ -104,8 +104,8 @@
         align-items: center;
         justify-content: flex-end;
         padding: 18px 1rem;
-        border-top: 1px solid var(--neutral-300);
-        background-color: #ffffff;
+        border-top: 1px solid #d1d7db;
+        background-color: #f0f2f5;
 
         .see-last-message-button {
             width: 48px;
@@ -168,7 +168,7 @@
             bottom: 90px;
             display: flex;
             flex-direction: column;
-            justify-content: end;
+            justify-content: flex-end;
             align-items: center;
             width: 7rem;
             flex-wrap: nowrap;
@@ -220,26 +220,30 @@
             margin-right: 0.25rem;
             border-radius: 100%;
             position: relative;
-            background-color: transparent;
+            border: 1px solid transparent;
 
             .hashtag {
-                color: var(--neutral-500);
+                color: #54656f;
             }
 
             &--highlight {
-                animation: heartbeat 3s infinite;
+                box-shadow: 0 0 0 0 #7b3dff;
+                background-color: rgba(123, 61, 255, 0.1) !important;
+                animation: pulse 2s infinite;
+                transform: scale(1);
 
                 .hashtag {
-                    color: #7b3dff;
+                    color: var(--secondary);
                     font-weight: 900;
                 }
             }
 
             &--active {
-                color: var(--neutral-500);
+                border: 1px solid transparent;
+                color: #54656f;
 
                 .hashtag {
-                    color: var(--neutral-500);
+                    color: #54656f;
                 }
             }
 
@@ -247,7 +251,7 @@
                 font-size: 2rem;
                 font-weight: 500;
                 font-size: 2rem;
-                color: var(--neutral-500);
+                color: #54656f;
             }
         }
 
@@ -264,17 +268,17 @@
             display: flex;
             height: -moz-fit-content;
             margin-right: 0.35rem;
-            color: #002e72;
+            color: #54656f;
             border-radius: 100%;
             position: relative;
 
             ps-icon {
                 font-size: 2rem;
-                color: #002e72;
+                color: #54656f;
             }
 
             &.active-color {
-                color: #7b3dff;
+                color: #54656f;
             }
         }
 
@@ -293,12 +297,19 @@
             margin-right: 0.75rem;
             border-radius: 100%;
             position: relative;
-            background-color: #7b3dff;
             margin-left: 0.75rem;
 
             ps-icon {
-                font-size: 1.875rem;
-                color: #fff;
+                font-size: 2rem;
+                display: flex;
+                color: #54656f;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+                &.has-message {
+                    color: #7b3dff;
+                }
             }
         }
     }
@@ -328,29 +339,17 @@
     }
 }
 
-@keyframes heartbeat {
+@keyframes pulse {
     0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(#7b3dff, 0.7);
+    }
+    70% {
         transform: scale(1);
-        color: rgba(#7b3dff, 1);
-    }
-    20% {
-        transform: scale(1.25);
-        color: rgba(#7b3dff, 0.7);
-    }
-    40% {
-        transform: scale(1);
-        color: rgba(#7b3dff, 1);
-    }
-    60% {
-        transform: scale(1.25);
-        color: rgba(#7b3dff, 0.7);
-    }
-    80% {
-        transform: scale(1);
-        color: rgba(#7b3dff, 1);
+        box-shadow: 0 0 0 10px rgba(#7b3dff, 0);
     }
     100% {
-        transform: scale(1);
-        color: rgba(#7b3dff, 1);
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(#7b3dff, 0);
     }
 }

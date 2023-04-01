@@ -59,4 +59,14 @@ export class WhatsappConversationService extends ApiService {
         });
         return promise;
     }
+
+    public async pull(): Promise<WhatsappConversationEntity> {
+        const promise: Promise<WhatsappConversationEntity> = new Promise((resolve: any, reject: any) => {
+            this.put<WhatsappConversationEntity, WhatsappConversationRequest>(`${this.url}/pull`).subscribe(
+                (response: WhatsappConversationEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
 }

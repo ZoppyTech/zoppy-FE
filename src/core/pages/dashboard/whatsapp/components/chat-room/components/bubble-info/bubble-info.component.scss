@@ -8,19 +8,19 @@
     max-width: 100%;
     height: fit-content;
     margin: 0rem 18px;
-    justify-self: center;
+    justify-content: center;
     align-items: center;
     padding: 0.625rem 0.75rem;
 
-    border: 1px solid rgba($color: #4d7eff, $alpha: 0.7);
-    background-color: rgba($color: #e5edff, $alpha: 0.9);
+    background-color: rgba(229, 237, 255, 0.9);
     border-radius: 8px;
+    border-left: 8px solid rgba(77, 126, 255, 0.7);
 
     ps-icon {
         width: fit-content;
         height: fit-content;
         color: #4d7eff;
-        font-size: 1.25rem;
+        font-size: 1.5rem;
     }
 
     &__message {

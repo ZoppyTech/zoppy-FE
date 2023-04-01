@@ -81,6 +81,9 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public selectFooterOptions(optionName: string, value: boolean): void {
+        if (!this.latestConversation.sessionExpiration && optionName === 'attachFileOption') {
+            return;
+        }
         this.footerOptions.set('attachFileOption', false);
         this.footerOptions.set('messageTemplateOption', false);
         this.footerOptions.set(optionName, value);
@@ -260,22 +263,22 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         );
     }
 
-    //TODO: Add Modal
     public async transferConversation(): Promise<void> {
-        try {
-            const request: WhatsappConversationRequest = {
+        debugger;
+        this.modal.open(
+            Modal.IDENTIFIER.CHAT_CONVERSATION_TRANSFER_MODAL,
+            {
+                id: this.latestConversation.id,
                 ticket: this.latestConversation.ticket,
                 wppContactId: this.latestConversation.wppContactId,
-                wppManagerId: this.latestConversation.wppManagerId
-            };
-            const conversationTransfered: WhatsappConversationEntity = await this.wppConversationService.transfer(
-                this.latestConversation.id,
-                request
-            );
-        } catch (ex: any) {
-            ex = ex as ZoppyException;
-            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
-        }
+                wppManagerId: this.latestConversation.wppManagerId,
+                wppAccountId: this.chatRoom.account.id
+            },
+            (conversation: any) => {
+                debugger;
+                this.finishChatRoom.emit(this.chatRoom);
+            }
+        );
     }
 
     public async finishConversation(): Promise<void> {

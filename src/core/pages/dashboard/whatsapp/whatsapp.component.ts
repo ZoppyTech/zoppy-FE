@@ -25,6 +25,8 @@ import { Subcomponents } from './models/subcomponents';
 import { ThreadMessage } from './models/thread-message';
 import { WhatsappUtil } from './utils/whatsapp.util';
 import { WhatsappMapper } from './whatsapp-mapper';
+import { WhatsappConversationService } from 'src/shared/services/whatsapp-conversation/whatsapp-conversation.service';
+import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
 
 @Component({
     selector: 'app-whatsapp',
@@ -49,11 +51,13 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public account: ChatAccount = new ChatAccount();
     public queueCount: number = 0;
 
+    public pullLoading: boolean = false;
     public isChatRoomVisible$ = new BehaviorSubject(false);
 
     public constructor(
         public readonly wppAccountService: WhatsappAccountService,
         public readonly wppAccountManagerService: WhatsappAccountManagerService,
+        public readonly wppConversationService: WhatsappConversationService,
         public readonly wppMessageService: WhatsappMessageService,
         public readonly toast: ToastService,
         public readonly confirmActionService: ConfirmActionService,
@@ -218,6 +222,28 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
             this.webSocketService.emit(WebSocketConstants.CHAT_EVENTS.UPDATE, socketData);
         }
         this.chatRoomSelected.unreadThreads.splice(0, unreadMessages.length);
+    }
+
+    public async onPullNewConversationButtonClicked(): Promise<void> {
+        debugger;
+        try {
+            if (this.pullLoading) {
+                return;
+            }
+            this.pullLoading = true;
+            const entity: WhatsappConversationEntity = await this.wppConversationService.pull();
+            console.log(entity);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+        } finally {
+            this.pullLoading = false;
+        }
+    }
+
+    public async onFilterChange(filter: string): Promise<void> {
+        console.log(filter);
+        debugger;
     }
 
     public async loadRegisteredWhatsappAccount(): Promise<void> {

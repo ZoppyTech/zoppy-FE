@@ -5,7 +5,9 @@
         <chat-list
             *ngIf="currentSubcomponent === subcomponents.ChatList"
             [(currentSubcomponent)]="currentSubcomponent"
+            (filterChangeEvent)="onFilterChange($event)"
             (selectedConversationEvent)="onConversationSelected($event)"
+            (pullNewConversationEvent)="onPullNewConversationButtonClicked()"
             [conversations]="getConversations()"
             [queueCount]="queueCount"
         ></chat-list>
