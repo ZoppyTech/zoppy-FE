@@ -12,7 +12,7 @@
             </div>
             <h6 class="text--800">{{ chatRoom.contact.displayPhone }}</h6>
         </div>
-        <countdown-timer [timestamp]="latestConversation.sessionExpiration"></countdown-timer>
+        <countdown-timer *ngIf="countdownTimerVisible" [timestamp]="latestConversation.sessionExpiration"></countdown-timer>
         <div class="more-options">
             <div class="flex-row align-center">
                 <ps-button
@@ -35,7 +35,10 @@
 
     <!-- <div *ngIf="messagesLoading"></div> -->
     <div *ngIf="!messagesLoading" id="panel-scrollable" class="chat-content">
-        <bubble-info class="flex-center" *ngIf="this.chatRoom.threads.length <= 0"></bubble-info>
+        <bubble-info
+            class="bubble-info"
+            *ngIf="this.chatRoom.threads.length <= 0 || !this.latestConversation.sessionExpiration"
+        ></bubble-info>
         <div *ngFor="let thread of this.chatRoom.threads">
             <splitter-date [date]="thread.createdAt" [visible]="thread.isFirstMessageOfDay"></splitter-date>
             <thread-message
@@ -90,10 +93,13 @@
             <div
                 class="templates-button clickable"
                 [ngStyle]="{ 'background-color': footerOptions.get('messageTemplateOption') ? '#f3f3f3' : 'transparent' }"
-                [ngClass]="{ 'active-color': footerOptions.get('messageTemplateOption') }"
+                [ngClass]="{
+                    'templates-button--active': footerOptions.get('messageTemplateOption'),
+                    'templates-button--highlight': !latestConversation.sessionExpiration
+                }"
                 (click)="toggleMessageTemplatesVisibility()"
             >
-                <span class="font-16 text--500">#</span>
+                <span class="font-16 hashtag">#</span>
             </div>
         </div>
         <div class="flex-row">

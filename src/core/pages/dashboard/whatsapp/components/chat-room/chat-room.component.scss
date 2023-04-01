@@ -71,6 +71,7 @@
     }
 
     .chat-content {
+        position: relative;
         flex-wrap: nowrap;
         flex-grow: 1;
         flex-direction: column;
@@ -80,6 +81,18 @@
         padding-bottom: 2rem;
         overflow-x: hidden;
         overflow-y: auto;
+
+        .bubble-info {
+            height: fit-content;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 1rem;
+            align-self: flex-start;
+            z-index: 1;
+        }
     }
 
     .footer {
@@ -108,6 +121,7 @@
             cursor: pointer;
             background-color: #fafbff;
             box-shadow: 0 1px 1px 0 rgba(#363636, 0.06), 0 0.125rem 5px 0 rgba(#363636, 0.2);
+            z-index: 2;
 
             ps-icon {
                 display: flex;
@@ -133,7 +147,8 @@
             border-radius: 12px;
             max-height: 256px;
             overflow-y: auto;
-            margin: 0px 2.5rem;
+            margin-right: 1rem;
+            z-index: 3;
 
             .item {
                 cursor: pointer;
@@ -161,6 +176,7 @@
             border-radius: 1rem;
             max-height: 256px;
             overflow-y: auto;
+            z-index: 3;
 
             ps-icon {
                 font-size: 2rem;
@@ -177,8 +193,8 @@
                 border-radius: 100%;
 
                 &--document-circle {
-                    background: rgb(77, 126, 255);
-                    background: linear-gradient(0deg, rgba(77, 126, 255, 1) 0%, rgba(0, 64, 232, 1) 100%);
+                    background: rgb(0, 125, 186);
+                    background: linear-gradient(180deg, rgba(0, 125, 186, 1) 50%, rgba(0, 146, 208, 1) 53%);
                     border: 0 solid;
                     box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
                     outline: 1px solid;
@@ -189,7 +205,7 @@
                     color: var(--neutral-100);
 
                     &:hover {
-                        border: 1px solid;
+                        border: 1px solid rgba(0, 125, 186, 1);
                         box-shadow: inset 0 0 20px rgba(225, 225, 225, 0.5), 0 0 20px rgba(225, 225, 225, 0.2);
                         outline-color: rgba(#4d7eff, 0);
                         outline-offset: 15px;
@@ -198,8 +214,8 @@
                 }
 
                 &--image-circle {
-                    background: rgb(0, 208, 133);
-                    background: linear-gradient(0deg, rgba(0, 208, 133, 1) 0%, rgba(0, 185, 118, 1) 100%);
+                    background: rgb(0, 114, 96);
+                    background: linear-gradient(180deg, rgba(0, 114, 96, 1) 50%, rgba(0, 157, 136, 1) 53%);
                     border: 0 solid;
                     box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
                     outline: 1px solid;
@@ -210,7 +226,7 @@
                     color: var(--neutral-100);
 
                     &:hover {
-                        border: 1px solid;
+                        border: 1px solid rgba(0, 114, 96, 1);
                         box-shadow: inset 0 0 20px rgba(225, 225, 225, 0.5), 0 0 20px rgba(225, 225, 225, 0.2);
                         outline-color: rgba(#00d085, 0);
                         outline-offset: 15px;
@@ -232,19 +248,36 @@
             max-width: 3.5rem;
             display: flex;
             margin-right: 0.25rem;
-            color: var(--neutral-500);
             border-radius: 100%;
             position: relative;
+            background-color: transparent;
+
+            .hashtag {
+                color: var(--neutral-500);
+            }
+
+            &--highlight {
+                animation: heartbeat 3s infinite;
+
+                .hashtag {
+                    color: #7b3dff;
+                    font-weight: 900;
+                }
+            }
+
+            &--active {
+                color: var(--neutral-500);
+
+                .hashtag {
+                    color: var(--neutral-500);
+                }
+            }
 
             span {
                 font-size: 2rem;
                 font-weight: 500;
                 font-size: 2rem;
                 color: var(--neutral-500);
-            }
-
-            &.active-color {
-                color: #7b3dff;
             }
         }
 
@@ -322,5 +355,32 @@
                 max-width: 256px;
             }
         }
+    }
+}
+
+@keyframes heartbeat {
+    0% {
+        transform: scale(1);
+        color: rgba(#7b3dff, 1);
+    }
+    20% {
+        transform: scale(1.25);
+        color: rgba(#7b3dff, 0.7);
+    }
+    40% {
+        transform: scale(1);
+        color: rgba(#7b3dff, 1);
+    }
+    60% {
+        transform: scale(1.25);
+        color: rgba(#7b3dff, 0.7);
+    }
+    80% {
+        transform: scale(1);
+        color: rgba(#7b3dff, 1);
+    }
+    100% {
+        transform: scale(1);
+        color: rgba(#7b3dff, 1);
     }
 }

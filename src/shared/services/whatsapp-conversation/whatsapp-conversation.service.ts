@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
+import { WhatsappConversationRequest } from 'src/shared/models/requests/whatsapp-conversation/whatsapp-conversation.request';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
 
@@ -19,10 +20,10 @@ export class WhatsappConversationService extends ApiService {
         super(http, router, storage);
     }
 
-    public async list(): Promise<Array<WhatsappConversationEntity>> {
-        const promise: Promise<Array<WhatsappConversationEntity>> = new Promise((resolve: any, reject: any) => {
-            this.get<Array<WhatsappConversationEntity>>(`${this.url}`).subscribe(
-                (response: Array<WhatsappConversationEntity>) => resolve(response),
+    public async list(): Promise<WhatsappConversationEntity> {
+        const promise: Promise<WhatsappConversationEntity> = new Promise((resolve: any, reject: any) => {
+            this.get<WhatsappConversationEntity>(`${this.url}`).subscribe(
+                (response: WhatsappConversationEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
@@ -32,6 +33,26 @@ export class WhatsappConversationService extends ApiService {
     public async findByContactId(contactId: string): Promise<WhatsappConversationEntity> {
         const promise: Promise<WhatsappConversationEntity> = new Promise((resolve: any, reject: any) => {
             this.get<WhatsappConversationEntity>(`${this.url}/latest/from-contact/${contactId}`).subscribe(
+                (response: WhatsappConversationEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async transfer(id: string, request: WhatsappConversationRequest): Promise<WhatsappConversationEntity> {
+        const promise: Promise<WhatsappConversationEntity> = new Promise((resolve: any, reject: any) => {
+            this.post<WhatsappConversationEntity, WhatsappConversationRequest>(`${this.url}/${id}/transfer`, request).subscribe(
+                (response: WhatsappConversationEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async conclude(id: string, request: WhatsappConversationRequest): Promise<WhatsappConversationEntity> {
+        const promise: Promise<WhatsappConversationEntity> = new Promise((resolve: any, reject: any) => {
+            this.post<WhatsappConversationEntity, WhatsappConversationRequest>(`${this.url}/${id}/conclude`, request).subscribe(
                 (response: WhatsappConversationEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

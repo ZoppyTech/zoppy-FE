@@ -26,7 +26,6 @@
 
         .chat-info {
             justify-content: space-between;
-            //border-bottom: 1px solid var(--neutral-200);
             align-items: center;
             padding: 1rem;
             width: 100%;
@@ -69,23 +68,28 @@
                 width: 100%;
                 height: auto;
                 cursor: pointer;
-                padding: 1rem;
+                padding: 1.5rem;
                 background-color: rgba(123, 61, 255, 0.1);
                 border-top: 1px solid #9d5aff;
 
+                &--empty {
+                    background-color: #f0f2f5;
+                    border-top: 1px solid #d1d7db;
+                }
+
                 .queue_customers_length {
                     width: fit-content;
-                    height: -moz-fit-content;
                     height: fit-content;
-                    padding: 0.35rem 0.75rem;
+                    padding: 0.5rem 1rem;
                     border-radius: 12px;
                     border: 1px solid var(--neutral-300);
                     background-color: #fff;
                     margin-right: 0.75rem;
                     box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
+                    color: var(--secondary);
 
-                    &--has-many {
-                        box-shadow: rgba(0, 224, 201, 0.4) 4px 0px 10px 0px, rgba(123, 61, 255, 0.4) -5px 0px 10px 0px;
+                    &--empty {
+                        color: var(--neutral-500);
                     }
                 }
 
@@ -107,6 +111,10 @@
                     border-radius: 50px;
                     background-color: var(--secondary);
                     color: #fff;
+
+                    &--empty {
+                        background-color: var(--neutral-500);
+                    }
                 }
             }
         }
