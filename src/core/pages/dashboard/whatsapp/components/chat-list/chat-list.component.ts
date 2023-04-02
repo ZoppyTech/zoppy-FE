@@ -24,7 +24,6 @@ export class ChatListComponent implements OnInit {
         [ChatFilters.Finished, false],
         [ChatFilters.Unread, false]
     ]);
-    //public filterCount: number = 0;
 
     public ngOnInit(): void {
         console.log('Start Chat List Component');

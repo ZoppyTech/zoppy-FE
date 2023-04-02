@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, ElementRef, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
-import { WebSocketConstants, WhatsappConstants } from '@ZoppyTech/utilities';
+import { AppConstants, WebSocketConstants, WhatsappConstants } from '@ZoppyTech/utilities';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { WhatsappAccountManagerEntity } from 'src/shared/models/entities/whatsapp-account-manager.entity';
@@ -80,7 +80,6 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public async onStartWhatsapp(): Promise<void> {
         console.log('Whatsapp loading...');
         await this.loadRegisteredWhatsappAccount();
-
         if (!this.isWhatsappActive) {
             this.whatsappLoading = false;
             return;
@@ -157,6 +156,12 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
                             debugger;
                             console.log(socketData.message);
                             this.loadConversationByContact(socketData.message.wppContactId);
+                            break;
+                        case 'update_current_chat_room':
+                            debugger;
+                            if (socketData.message.companyId !== this.account.companyId) return;
+                            if (socketData.message.wppContactId !== this.chatRoomSelected.contact.id) return;
+                            this.destroyAndReload();
                             break;
                     }
                 });

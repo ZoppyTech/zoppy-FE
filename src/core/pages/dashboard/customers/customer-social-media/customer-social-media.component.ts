@@ -260,7 +260,6 @@ export class CustomerSocialMediaComponent implements OnInit {
             window
                 ?.open(`https://api.whatsapp.com/send/?phone=${encodeURIComponent(data.phoneNumber)}&text=${data.text}`, '_blank')
                 ?.focus();
-            debugger;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');

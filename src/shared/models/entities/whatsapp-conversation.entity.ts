@@ -17,7 +17,6 @@ export class WhatsappConversationEntity {
     public declare messages: WhatsappMessageEntity[];
 
     public static validateSessionExpiration(entity: WhatsappConversationEntity): WhatsappConversationEntity {
-        debugger;
         if (!entity.sessionExpiration) {
             return entity;
         }

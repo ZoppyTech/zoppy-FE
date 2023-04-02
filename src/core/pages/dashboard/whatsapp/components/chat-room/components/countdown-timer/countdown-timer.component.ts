@@ -17,7 +17,6 @@ export class CountdownTimerComponent implements OnInit, AfterViewInit, OnDestroy
     public timerInterval: any = null;
 
     public ngOnInit(): void {
-        debugger;
         if (!this.timestamp) this.timestamp = '0';
         this.targetTime = new Date(Number.parseInt(this.timestamp));
     }
