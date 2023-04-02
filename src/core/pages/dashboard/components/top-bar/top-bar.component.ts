@@ -32,6 +32,12 @@ export class TopBarComponent implements OnInit {
             route: Navigation.routes.account,
             class: 'desktop',
             visible: true
+        },
+        {
+            label: 'Chave de API',
+            route: Navigation.routes.accessTokens,
+            class: '',
+            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
         }
     ];
 

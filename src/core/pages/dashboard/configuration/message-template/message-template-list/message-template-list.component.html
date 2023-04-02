@@ -1,0 +1,56 @@
+<div class="container">
+    <div class="header wide space-between">
+        <div class="padding-3">
+            <h6 class="text--primary text--bold text-20">Configuração de Templates de mensagens</h6>
+        </div>
+        <div class="margin-right-3 tall flex flex-center">
+            <ps-button (onClick)="createGroup()" [wide]="true" type="secondary">
+                <span class="text--100 text--bold text-14 margin-x-3">Criar novo</span>
+            </ps-button>
+        </div>
+    </div>
+    <div class="separator"></div>
+
+    <div class="title margin-top-3">
+        <span class="text-16">Edição e adição de templates de mensagens.</span>
+    </div>
+
+    <div class="body padding-bottom-3">
+        <table>
+            <thead>
+                <th><span class="text-14 text--primary desktop">Nome</span></th>
+                <th class="desktop"><span class="text-14 text--primary">Descrição</span></th>
+                <th><span class="text-14 text--primary"></span></th>
+            </thead>
+            <tbody>
+                <tr class="item" *ngFor="let group of groups">
+                    <td class="desktop">
+                        <div class="flex align-center">
+                            <span [ngClass]="{ 'text--400': !group.name }" class="text-14 text--600 desktop">{{
+                                group.name || 'vazio'
+                            }}</span
+                            >&nbsp;
+                            <span class="text-12 text--400" *ngIf="group.default">(Padrão)</span>
+                        </div>
+                    </td>
+                    <td>
+                        <span [ngClass]="{ 'text--400': !group.description }" class="text-14 text--600">{{
+                            group.description || 'vazio'
+                        }}</span>
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <ps-icon
+                                (click)="updateGroup(group)"
+                                [attr.href]="getEditHref(group)"
+                                class="font-18 primary clickable"
+                                icon="icon-edit_square"
+                            ></ps-icon>
+                            <ps-icon (click)="destroy(group)" class="primary font-18 clickable" icon="icon-delete"></ps-icon>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</div>

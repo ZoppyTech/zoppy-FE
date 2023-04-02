@@ -11,6 +11,7 @@ import { MessageConfigParamsModule } from './message-config-params/message-confi
 import { MediaViewerModule } from './media-viewer/media-viewer.module';
 import { UploadImageMediaPreviewModalModule } from './upload-image-media-preview-modal/upload-image-media-preview-modal.module';
 import { UploadDocumentMediaPreviewModalModule } from './upload-document-media-preview-modal/upload-document-media-preview-modal.module';
+import { ChatConversationTransferModalModule } from './chat-conversation-transfer-modal/chat-conversation-transfer-modal.module';
 
 @NgModule({
     imports: [
@@ -23,7 +24,8 @@ import { UploadDocumentMediaPreviewModalModule } from './upload-document-media-p
         MessageConfigParamsModule,
         MediaViewerModule,
         UploadImageMediaPreviewModalModule,
-        UploadDocumentMediaPreviewModalModule
+        UploadDocumentMediaPreviewModalModule,
+        ChatConversationTransferModalModule
     ],
     declarations: [ModalComponent],
     exports: [ModalComponent],

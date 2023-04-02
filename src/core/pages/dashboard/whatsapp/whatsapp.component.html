@@ -1,31 +1,37 @@
-<restricted-access
-    *ngIf="!isWhatsappActive"
-    [(isWhatsappActive)]="isWhatsappActive"
-    (startWhatsappAppEvent)="onStartWhatsapp()"
-></restricted-access>
-<div *ngIf="isWhatsappActive" class="container">
+<restricted-access *ngIf="!whatsappLoading && !isWhatsappActive" [account]="account"></restricted-access>
+<div class="container">
     <chat-loading *ngIf="whatsappLoading" [percent]="whatsappPercentLoading"></chat-loading>
-    <div *ngIf="!whatsappLoading" class="left-panel" [ngClass]="{ 'left-panel--hidden': openConversationMobile }">
+    <div *ngIf="!whatsappLoading && isWhatsappActive" class="left-panel" [ngClass]="{ 'left-panel--hidden': openConversationMobile }">
         <chat-list
             *ngIf="currentSubcomponent === subcomponents.ChatList"
             [(currentSubcomponent)]="currentSubcomponent"
+            (filterChangeEvent)="onFilterChange($event)"
             (selectedConversationEvent)="onConversationSelected($event)"
+            (pullNewConversationEvent)="onPullNewConversationButtonClicked()"
             [conversations]="getConversations()"
+            [queueCount]="queueCount"
         ></chat-list>
         <contact-list
             *ngIf="currentSubcomponent === subcomponents.ContactList"
             [(currentSubcomponent)]="currentSubcomponent"
             (selectedContactEvent)="onContactSelected($event)"
         ></contact-list>
+        <unregistered-contact-list
+            *ngIf="currentSubcomponent === subcomponents.UnregisteredContactList"
+            [(currentSubcomponent)]="currentSubcomponent"
+            (selectedContactEvent)="onContactSelected($event)"
+        ></unregistered-contact-list>
     </div>
     <div *ngIf="!whatsappLoading" class="right-panel" [ngClass]="{ 'right-panel--show': openConversationMobile }">
-        <welcome-chat *ngIf="!chatRoomSelected"></welcome-chat>
+        <welcome-chat *ngIf="!isChatRoomVisible$"></welcome-chat>
         <chat-room
-            *ngIf="chatRoomSelected"
+            #chatRoom
+            *ngIf="isChatRoomVisible$ | async"
             [events]="scrollDownEvent.asObservable()"
             [(chatRoom)]="chatRoomSelected"
             (sendMessageEvent)="onSendingMessage($event)"
             (goBackToChatList)="openConversationMobile = false"
+            (finishChatRoom)="onFinishChatRoom($event)"
         ></chat-room>
     </div>
 </div>

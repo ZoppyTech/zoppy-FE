@@ -3,6 +3,14 @@ import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-messa
 export interface ChatSocketData {
     action: ChatAction;
     message: WhatsappMessageEntity;
+    queueCount?: number;
 }
 
-export type ChatAction = 'create' | 'update' | 'delete' | 'receive';
+export type ChatAction =
+    | 'create'
+    | 'update'
+    | 'delete'
+    | 'receive'
+    | 'change_status'
+    | 'new_conversation_count'
+    | 'update_current_chat_room';

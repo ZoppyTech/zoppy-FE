@@ -4,9 +4,12 @@ import { ToastService } from '@ZoppyTech/toast';
 import { WhatsappConstants } from '@ZoppyTech/utilities';
 import { Observable, Subscription } from 'rxjs';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
+import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
 import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
+import { WhatsappConversationRequest } from 'src/shared/models/requests/whatsapp-conversation/whatsapp-conversation.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappBusinessManagementService } from 'src/shared/services/whatsapp-business-management/whatsapp-business-management.service';
+import { WhatsappConversationService } from 'src/shared/services/whatsapp-conversation/whatsapp-conversation.service';
 import { WhatsappMediaService } from 'src/shared/services/whatsapp-media/whatsapp-media.service';
 import { ChatRoom } from '../../models/chat-room';
 import { ThreadMessage } from '../../models/thread-message';
@@ -26,11 +29,13 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     @Output() public chatRoomChange: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
     @Output() public sendMessageEvent: EventEmitter<ThreadMessage> = new EventEmitter<ThreadMessage>();
     @Output() public goBackToChatList: EventEmitter<void> = new EventEmitter<void>();
+    @Output() public finishChatRoom: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
     @Input() public events: Observable<void> = new Observable();
 
     @ViewChild('inputFileImage') public inputFileImage: any;
     @ViewChild('inputFileDocument') public inputFileDocument: any;
 
+    public latestConversation: WhatsappConversationEntity = new WhatsappConversationEntity();
     public messageTemplates: Array<ChatMessageTemplate> = [];
     public messageTemplatesReplaced: Array<ChatMessageTemplate> = [];
     public messageTemplateSelected: ChatMessageTemplate | null = null;
@@ -47,11 +52,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public isLastMessage: boolean = false;
     public messagesLoading: boolean = false;
     public messageTemplatesLoading: boolean = false;
-
-    //TODO: REMOVER!
-    // public messageTemplateListVisible: boolean = false;
-    // public attachFileButtonClicked: boolean = false;
-    //END
+    public countdownTimerVisible: boolean = false;
 
     public footerOptions: Map<string, boolean> = new Map([
         ['attachFileOption', false],
@@ -61,6 +62,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public declare uploadFileInput: UploadFileInput;
 
     public constructor(
+        public readonly wppConversationService: WhatsappConversationService,
         public readonly wppBusinessManagementService: WhatsappBusinessManagementService,
         public readonly wppMediaService: WhatsappMediaService,
         public readonly toast: ToastService,
@@ -70,13 +72,18 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {}
 
     public async ngOnInit(): Promise<void> {
+        debugger;
         this.eventsSubscription = this.events.subscribe(() => this.seeLastMessage());
         this.seeLastMessage();
+        await this.loadLatestConversation();
         await this.loadMessageTemplates();
         console.log('Chat Room initialized!');
     }
 
     public selectFooterOptions(optionName: string, value: boolean): void {
+        if (!this.latestConversation.sessionExpiration && optionName === 'attachFileOption') {
+            return;
+        }
         this.footerOptions.set('attachFileOption', false);
         this.footerOptions.set('messageTemplateOption', false);
         this.footerOptions.set(optionName, value);
@@ -87,9 +94,21 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public ngOnDestroy(): void {
-        //this.clearUnreadMessages();
         this.eventsSubscription.unsubscribe();
         this.removeWheelEventListener();
+    }
+
+    public async loadLatestConversation(): Promise<void> {
+        try {
+            this.countdownTimerVisible = false;
+            this.latestConversation = await this.wppConversationService.findByContactId(this.chatRoom.contact.id);
+            debugger;
+            WhatsappConversationEntity.validateSessionExpiration(this.latestConversation);
+        } catch (error: any) {
+            this.latestConversation = new WhatsappConversationEntity();
+        } finally {
+            this.countdownTimerVisible = true;
+        }
     }
 
     public handleFileUpload(event: any, fileType: string): void {
@@ -235,7 +254,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 id: this.chatRoom.contact.id,
                 firstName: this.chatRoom.contact.firstName,
                 lastName: this.chatRoom.contact.lastName,
-                phoneNumber: WhatsappUtil.removeCountryCode(this.chatRoom.contact.displayPhone),
+                phone: WhatsappUtil.removeCountryCode(this.chatRoom.contact.displayPhone),
                 isBlocked: this.chatRoom.contact.isBlocked
             },
             (updatedContact: any) => {
@@ -244,8 +263,50 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         );
     }
 
+    public async transferConversation(): Promise<void> {
+        debugger;
+        this.modal.open(
+            Modal.IDENTIFIER.CHAT_CONVERSATION_TRANSFER_MODAL,
+            {
+                id: this.latestConversation.id,
+                ticket: this.latestConversation.ticket,
+                wppContactId: this.latestConversation.wppContactId,
+                wppManagerId: this.latestConversation.wppManagerId,
+                wppAccountId: this.chatRoom.account.id
+            },
+            (conversation: any) => {
+                debugger;
+                this.finishChatRoom.emit(this.chatRoom);
+            }
+        );
+    }
+
+    public async finishConversation(): Promise<void> {
+        try {
+            debugger;
+            const request: WhatsappConversationRequest = {
+                ticket: this.latestConversation.ticket,
+                wppContactId: this.latestConversation.wppContactId,
+                wppManagerId: this.latestConversation.wppManagerId
+            };
+            const conversationFinished: WhatsappConversationEntity = await this.wppConversationService.finish(
+                this.latestConversation.id,
+                request
+            );
+            this.finishChatRoom.emit(this.chatRoom);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+        }
+    }
+
     public getInputTextPlaceholder(): string {
-        return !this.chatRoom.contact.isBlocked ? 'Escreva sua mensagem' : 'Este contato está bloqueado.';
+        if (this.chatRoom.contact.isBlocked) {
+            return 'Este contato está bloqueado.';
+        } else if (!this.latestConversation.sessionExpiration) {
+            return "Por favor, clique no ícone '#' e selecione uma nova mensagem.";
+        }
+        return 'Escreva sua mensagem';
     }
 
     private buildTemplateMessage(): ThreadMessage {

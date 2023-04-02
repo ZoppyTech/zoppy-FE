@@ -12,16 +12,16 @@
     border-radius: 8px;
 
     &--business-user {
-        background-color: var(--primary-200);
+        background-color: rgba($color: #fff, $alpha: 0.2);
     }
 
     &--customer-user {
-        background-color: var(--neutral-200);
+        background-color: #f5f6f6;
     }
 
     ps-icon {
         font-size: 3rem;
-        color: var(--primary-500);
+        color: #79909b;
     }
 
     .document-info {
@@ -30,17 +30,19 @@
         width: 100%;
         height: fit-content;
         min-width: 296px;
+        margin-right: 4rem;
+        max-width: 296px;
 
         .file-name {
             font-size: 1rem;
-            font-weight: 900;
-            color: var(--neutral-800);
+            font-weight: 500;
+            color: rgba(17, 27, 33, 0.87);
         }
 
         .file-size {
             font-size: 0.75rem;
             font-weight: 400;
-            color: var(--neutral-800);
+            color: var(--neutral-500);
         }
     }
 }

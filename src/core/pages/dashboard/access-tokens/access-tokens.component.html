@@ -1,17 +1,17 @@
 <div class="container">
-    <div class="header desktop">
-        <h6 class="text--primary text--bold text-20 margin-y-3">Tokens de Acesso</h6>
-    </div>
-    <div class="separator"></div>
     <div class="title">
-        <div class="flex align-center clickable padding-top-3 padding-bottom-2" (click)="openInfoModal()">
-            <h6 class="text-18 text--bold">Gerador de token</h6>
+        <div class="flex align-center clickable padding-bottom-2" (click)="openInfoModal()">
+            <h6 class="text-18 text--bold">Sua chave de API</h6>
             &nbsp;
             <ps-icon icon="icon-info secondary" class="font-16 secondary"></ps-icon>
         </div>
         <span class="text-16"
-            >Você pode gerar o token de acesso para inserir no WooCommerce, esse token pode ser usado na integração dos webhooks.</span
+            >Essa chave de API serve pra você integrar a Zoppy com qualquer sistema externo, utilizando a documentação presente no Zoppy
+            Partners! Lembrando que esse token também autentica sistemas externos a interagirem com nossa API através dos webhooks!</span
         >
+        <div class="margin-y-2">
+            <a class="text--link text-16" target="_blank" href="{{ partnersUrl }}">Acesse a documentação da API Zoppy Partners!</a>
+        </div>
     </div>
 
     <div class="body">

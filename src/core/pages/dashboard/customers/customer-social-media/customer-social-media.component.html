@@ -191,7 +191,7 @@
                         <ps-button
                             [wide]="true"
                             (onClick)="createTask('whatsapp', 'birthday')"
-                            [loading]="loadingOpenLink"
+                            [loading]="loadingOpenLinkBirthDay"
                             type="secondary"
                         >
                             <span class="text text--100 margin-x-3">Enviar mensagem</span>
@@ -202,7 +202,7 @@
 
             <div *ngFor="let task of tasks; let index = index">
                 <div class="text text--bold margin-y-2 margin-bottom-3" *ngIf="checkVisibility(index)">
-                    {{ task.createdAt | date : 'mediumDate' : '' : 'pt-BR' }}
+                    {{ task.updatedAt | date : 'mediumDate' : '' : 'pt-BR' }}
                 </div>
                 <div class="box-content padding-2 margin-bottom-3">
                     <div class="flex align-center">
@@ -214,7 +214,7 @@
                         ></ps-contact>
                         <div class="flex flex-column">
                             <span class="text text--bold text--primary">{{ task.userName ? task.userName : 'Zoppy' }}</span>
-                            <span class="text">{{ getTaskTypeLabel(task) }} &nbsp;|&nbsp; {{ task.createdAt | date : 'HH:mm' }}</span>
+                            <span class="text">{{ getTaskTypeLabel(task) }} &nbsp;|&nbsp; {{ task.updatedAt | date : 'HH:mm' }}</span>
                         </div>
                     </div>
                     <div class="margin-top-2">

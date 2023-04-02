@@ -1,11 +1,4 @@
-import {
-    TaskTypes,
-    TaskConstants,
-    TaskContactTypes,
-    TaskStatus,
-    MessageConfigTemplate,
-    MessageConfigConstants
-} from '@ZoppyTech/utilities';
+import { TaskTypes, TaskConstants, TaskContactTypes, TaskStatus, MessageConfigConstants } from '@ZoppyTech/utilities';
 import { TaskEntity } from '../models/entities/task.entity';
 
 export class TaskUtil {
@@ -27,6 +20,8 @@ export class TaskUtil {
                 return 'Contato';
             case TaskConstants.TYPES.NPS_RATING:
                 return 'NPS';
+            case TaskConstants.TYPES.ABANDONED_CART:
+                return 'Carrinho abandonado';
             default:
                 return 'Nenhum';
         }
@@ -61,18 +56,5 @@ export class TaskUtil {
 
     public static getTaskIsConcluded(task: TaskEntity): boolean {
         return task.status === TaskConstants.STATUS.SUCCESS || !!task.contactType;
-    }
-
-    public static getMessageTemplate(type: TaskTypes): MessageConfigTemplate {
-        switch (type) {
-            case TaskConstants.TYPES.BIRTHDAY:
-                return MessageConfigConstants.BIRTHDAY_MESSAGE as MessageConfigTemplate;
-            case TaskConstants.TYPES.CANT_LOSE:
-                return MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate;
-            case TaskConstants.TYPES.NPS_RATING:
-                return MessageConfigConstants.NPS_RATING_MESSAGE as MessageConfigTemplate;
-            default:
-                return MessageConfigConstants.AFTER_SALE_MESSAGE as MessageConfigTemplate;
-        }
     }
 }

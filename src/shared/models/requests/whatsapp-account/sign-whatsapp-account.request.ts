@@ -6,6 +6,6 @@ export interface SignWhatsappAccountRequest {
 
 export interface SignWhatsappAccountPhoneNumberRequest {
     phoneNumber: string;
-    permissions: string;
+    businessHoursEnabled: boolean;
     default: boolean;
 }

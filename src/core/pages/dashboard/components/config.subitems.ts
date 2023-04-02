@@ -10,25 +10,18 @@ export class ConfigSubItems {
     public static get(user: UserEntity, company: CompanyEntity): Array<SideMenuItem> {
         return [
             {
-                id: `giftback`,
-                icon: 'icon-arrow',
-                label: 'Configuração de Giftback',
-                route: Navigation.routes.giftback,
-                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
-            },
-            {
-                id: `accessTokens`,
-                icon: 'icon-arrow',
-                label: 'Tokens de Acesso',
-                route: Navigation.routes.accessTokens,
-                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
-            },
-            {
                 id: `accessKeys`,
                 icon: 'icon-arrow',
                 label: 'Chaves de Acesso',
                 route: Navigation.routes.accessKeys,
                 visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
+            },
+            {
+                id: `giftback`,
+                icon: 'icon-arrow',
+                label: 'Configuração de Giftback',
+                route: Navigation.routes.giftback,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
             },
             {
                 id: `syncData`,
@@ -38,32 +31,25 @@ export class ConfigSubItems {
                 visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
             },
             {
+                id: `messageTemplate`,
+                icon: 'icon-arrow',
+                label: 'Modelos de Mensagem',
+                route: Navigation.routes.messageTemplate,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
+            },
+            {
                 id: `whatsappConfig`,
                 icon: 'icon-arrow',
                 label: 'Configuração do Whatsapp',
                 route: Navigation.routes.whatsappConfig,
-                visible: UserUtil.isMaster(user)
+                visible: UserUtil.isMaster(user) && !CompanyUtil.isTray(company) && CompanyUtil.isPremium(company)
             },
             {
                 id: `whatsappTemplateList`,
                 icon: 'icon-arrow',
                 label: 'Modelos de Mensagem Whatsapp',
                 route: Navigation.routes.whatsappTemplateList,
-                visible: UserUtil.isMaster(user)
-            },
-            {
-                id: `letalk`,
-                icon: 'icon-arrow',
-                label: 'Configuração da Letalk',
-                route: Navigation.routes.letalk,
-                visible: CompanyUtil.isStandard(company) && UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
-            },
-            {
-                id: `messageConfig`,
-                icon: 'icon-arrow',
-                label: 'Configuração de mensagens',
-                route: Navigation.routes.messageConfig,
-                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
+                visible: UserUtil.isMaster(user) && !CompanyUtil.isTray(company) && CompanyUtil.isPremium(company)
             },
             {
                 id: `coupons`,

@@ -38,6 +38,51 @@
                 Número de dias que o sistema esperará para enviar a primeira mensagem ao seu cliente.
             </span>
         </div>
+
+        <div class="field" *ngIf="acumulativeVisible()">
+            <span class="text-14 margin-bottom-2">
+                Permitir que cupom seja cumulativo <span class="text-14 text--secondary">&nbsp;(Sugestão: Sim)</span>
+            </span>
+            <div class="padding-y-1">
+                <ps-switch type="number" placeholder="Digite a porcentagem" [(active)]="giftback.acumulative">
+                    <span class="text--500 text-12 desktop"> Permitir que esse cupom seja utilizado com outros descontos. </span>
+                </ps-switch>
+            </div>
+        </div>
+        <div class="field" *ngIf="excludeSaleItemsVisible()">
+            <span class="text-14 margin-bottom-2">
+                Excluir items em promoção <span class="text-14 text--secondary">&nbsp;(Sugestão: Não)</span>
+            </span>
+            <div class="padding-y-1">
+                <ps-switch type="number" placeholder="Digite a porcentagem" [(active)]="giftback.excludeSaleItems">
+                    <span class="text--500 text-12 desktop"> Proibir que esse cupom seja utilizado com produtos em liquidação </span>
+                </ps-switch>
+            </div>
+        </div>
+        <div class="field" *ngIf="allowedCategoriesVisible()">
+            <span class="text-14 margin-bottom-2">
+                Filtrar categorias <span class="text-14 text--secondary">&nbsp;(Sugestão: Deixar todas)</span>
+            </span>
+            <div class="padding-y-1">
+                <ps-switch type="number" placeholder="Digite a porcentagem" [(active)]="filterCategories">
+                    <span class="text--500 text-12 desktop">
+                        Definir quais categorias de produtos poderão ser usadas com os cupons gerados</span
+                    >
+                </ps-switch>
+            </div>
+
+            <ps-multi-select
+                *ngIf="filterCategories && categories.length > 0"
+                [enableSearch]="true"
+                [displayTop]="true"
+                [wide]="true"
+                [items]="categories"
+                [(values)]="selectedCategories"
+                propertyLabel="name"
+                propertyValue="id"
+            ></ps-multi-select>
+        </div>
+
         <div class="field">
             <span class="text-14 margin-bottom-1">
                 Dias para iniciar o pós venda <span class="text-14 text--secondary">&nbsp;(Sugestão: 7 dias)</span></span
@@ -60,6 +105,18 @@
                     *Obs: Valor igual a 0 (zero), o registro da atividade será desconsiderado.
                 </span>
             </div>
+        </div>
+        <div class="field">
+            <span class="text-14 margin-bottom-1">
+                Horas para considerar pedido nao concluído como carrinho abandonado<span class="text-14 text--secondary"
+                    >&nbsp;(Sugestão: 4 horas)</span
+                ></span
+            >
+            <ps-input type="number" placeholder="Digite a quantidade de horas" [(ngModel)]="giftback.abandonedCartDelay"></ps-input>
+            <span class="text--500 text-12 desktop">
+                Número de horas que o sistema considerará para tratar o pedido como carrinho abandonado, criando uma tarefa de carrinho
+                abandonado no painel do vendedor.
+            </span>
         </div>
     </div>
     <div class="footer">

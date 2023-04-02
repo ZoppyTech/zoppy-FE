@@ -1,7 +1,7 @@
 <div class="container">
     <div class="header">
         <div class="title-section">
-            <span class="text--primary text--bold text-24">Nova Conversa</span>
+            <span class="text--primary text--bold text-20">Nova Conversa</span>
             <div class="flex-row">
                 <div (click)="openNewContactModal()" class="button-new-contact-modal margin-x-2">
                     <ps-icon class="text-14 text--primary text--700" icon="icon-person_add"></ps-icon>
@@ -12,7 +12,11 @@
             </div>
         </div>
         <div class="flex-center wide">
-            <ps-search-bar [text]="filter.searchText" (onChanged)="onSearchTextChanged($event)"></ps-search-bar>
+            <ps-search-bar
+                [searchStyle]="'border-bottom'"
+                [text]="filter.searchText"
+                (onChanged)="onSearchTextChanged($event)"
+            ></ps-search-bar>
         </div>
     </div>
 
