@@ -205,7 +205,7 @@ export class SyncDataComponent extends DashboardBasePage implements OnInit {
             {
                 label: 'Sincronização de clientes',
                 state: 'waiting',
-                visible: true,
+                visible: this.getIsOneChat() ? false : true,
                 id: 'customer'
             },
             {
