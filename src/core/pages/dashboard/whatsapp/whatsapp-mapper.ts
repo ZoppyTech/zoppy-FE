@@ -11,11 +11,33 @@ import { ThreadMessage } from './models/thread-message';
 import { WhatsappUtil } from './utils/whatsapp.util';
 
 export class WhatsappMapper {
+    public static mapConversation(
+        account: ChatAccount,
+        manager: ChatManager,
+        contact: WhatsappContactEntity,
+        messages: WhatsappMessageEntity[] = []
+    ): [string, ChatRoom] {
+        if (!messages || messages.length <= 0) {
+            return [contact.id, new ChatRoom()];
+        }
+        const threads: Array<ThreadMessage> = messages.map((message: WhatsappMessageEntity) => {
+            return this.mapMessage(message);
+        });
+        const chatRoom: ChatRoom = new ChatRoom();
+        chatRoom.account = account;
+        chatRoom.manager = manager;
+        chatRoom.threads = threads;
+        chatRoom.contact = this.mapContact(contact);
+        this.setFirstMessagesOfDay(chatRoom.threads);
+        return [contact.id, chatRoom];
+    }
+
     public static mapConversations(
         account: ChatAccount,
         manager: ChatManager,
         messages: WhatsappMessageEntity[] = []
     ): Map<string, ChatRoom> {
+        debugger;
         if (!manager || messages.length <= 0) new Map();
         const whatsappConversations: Map<string, ChatRoom> = new Map<string, ChatRoom>();
         for (let conversation of this.groupConversationsByContact(messages).entries()) {

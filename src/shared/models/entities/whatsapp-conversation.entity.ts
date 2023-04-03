@@ -13,8 +13,8 @@ export class WhatsappConversationEntity {
     public declare deletedAt: Date;
     public declare companyId: string;
 
-    public declare contact: WhatsappContactEntity;
-    public declare messages: WhatsappMessageEntity[];
+    public declare wppContact: WhatsappContactEntity;
+    public declare WppMessages: WhatsappMessageEntity[];
 
     public static validateSessionExpiration(entity: WhatsappConversationEntity): WhatsappConversationEntity {
         if (!entity.sessionExpiration) {

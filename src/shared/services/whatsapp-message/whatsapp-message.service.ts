@@ -41,6 +41,16 @@ export class WhatsappMessageService extends ApiService {
         return promise;
     }
 
+    public async listByManagerId(managerId: string): Promise<Array<WhatsappMessageEntity>> {
+        const promise: Promise<Array<WhatsappMessageEntity>> = new Promise((resolve: any, reject: any) => {
+            this.get<Array<WhatsappMessageEntity>>(`${this.url}/from-manager/${managerId}`).subscribe(
+                (response: Array<WhatsappMessageEntity>) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async createTextMessage(request: WhatsappTextMessageRequest): Promise<Array<WhatsappMessageEntity>> {
         const promise: Promise<Array<WhatsappMessageEntity>> = new Promise((resolve: any, reject: any) => {
             this.post<Array<WhatsappMessageEntity>, WhatsappTextMessageRequest>(`${this.url}/text`, request).subscribe(

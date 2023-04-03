@@ -13,4 +13,6 @@ export type ChatAction =
     | 'receive'
     | 'change_status'
     | 'new_conversation_count'
-    | 'update_current_chat_room';
+    | 'chat_transfer'
+    | 'update_current_chat_room'
+    | 'update_new_conversation_count';
