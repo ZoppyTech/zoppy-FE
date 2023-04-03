@@ -277,6 +277,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             (conversation: any) => {
                 debugger;
                 this.finishChatRoom.emit(this.chatRoom);
+                this.toast.success('Conversa transferida com sucesso!', WhatsappConstants.ToastTitles.Success);
             }
         );
     }

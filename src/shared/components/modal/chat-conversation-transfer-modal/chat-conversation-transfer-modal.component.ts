@@ -70,6 +70,7 @@ export class ChatConversationTransferModalComponent implements OnInit {
                 this.modal.data.id,
                 request
             );
+            this.modal.close(true, conversationTransfered);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);

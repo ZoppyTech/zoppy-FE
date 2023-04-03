@@ -139,6 +139,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
                             break;
                         case WebSocketConstants.CHAT_ACTIONS.RECEIVE:
                             if (socketData.message.companyId !== this.account.companyId) return;
+                            this.updateNewConversationCount();
                             targetChatRoom = this.conversations.get(socketData.message.wppContactId);
                             if (!targetChatRoom) return;
                             const receivedMessage: ThreadMessage = WhatsappMapper.mapMessage(socketData.message);
@@ -216,6 +217,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public onFinishChatRoom(chatRoom: ChatRoom): void {
         this.conversations.delete(chatRoom.contact.id);
+        this.chatRoomSelected = new ChatRoom();
         this.toast.success('Conversa finalizada!', WhatsappConstants.ToastTitles.Success);
     }
 
@@ -231,6 +233,14 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         this.chatRoomSelected.unreadThreads.splice(0, unreadMessages.length);
     }
 
+    public updateNewConversationCount(): void {
+        const socketData: ChatSocketData = {
+            action: 'new_conversation_count',
+            message: { companyId: this.account.companyId } as WhatsappMessageEntity
+        };
+        this.webSocketService.emit('update_new_conversation_count', socketData);
+    }
+
     public async onPullNewConversationButtonClicked(): Promise<void> {
         debugger;
         try {
@@ -240,11 +250,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
             this.pullLoading = true;
             const entity: WhatsappConversationEntity = await this.wppConversationService.pull();
             debugger;
-            const socketData: ChatSocketData = {
-                action: 'new_conversation_count',
-                message: { companyId: this.account.companyId } as WhatsappMessageEntity
-            };
-            this.webSocketService.emit('update_new_conversation_count', socketData);
+            this.updateNewConversationCount();
             debugger;
             const newConversation: [string, ChatRoom] = WhatsappMapper.mapConversation(
                 this.account,
