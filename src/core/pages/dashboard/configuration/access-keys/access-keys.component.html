@@ -29,8 +29,7 @@
             </div>
         </div>
         <div class="field" *ngIf="!getIsTray() && !getIsDooca()">
-            <p class="text-14" *ngIf="!getIsOneChat()">Secret</p>
-            <p class="text-14" *ngIf="getIsOneChat()">Celular</p>
+            <p class="text-14">Secret</p>
             <div class="flex-center flex">
                 <ps-input
                     icon="{{ key.keyVisible ? 'icon-visibility_off-1' : 'icon-visibility' }}"
@@ -44,7 +43,8 @@
             </div>
         </div>
         <div class="field" *ngIf="!getIsTray() && !getIsDooca()">
-            <p class="text-14">Key</p>
+            <p class="text-14" *ngIf="!getIsOneChat()">Key</p>
+            <p class="text-14" *ngIf="getIsOneChat()">Celular</p>
             <div class="flex-center flex">
                 <ps-input
                     placeholder="Insira aqui a sua Key"
