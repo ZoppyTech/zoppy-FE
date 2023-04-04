@@ -6,6 +6,7 @@ import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { CompanyProvider, CompanyRequest } from 'src/shared/models/requests/company/company.request';
 import { PaymentRequest } from 'src/shared/models/requests/company/payment.request';
 import { CompanyPlan, RegisterRequest } from 'src/shared/models/requests/public/register.request';
+import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { Navigation } from 'src/shared/utils/navigation';
 
@@ -16,13 +17,183 @@ import { Navigation } from 'src/shared/utils/navigation';
 })
 export class RegisterComponent implements OnInit {
     public fields: Field[] = [];
+    public secondStepFields: Field[] = [];
+    public thirdStepFields: Field[] = [];
     public ecommerces: Ecommerce[] = [];
     public paymentFields: Field[] = [];
     public plans: Plan[] = [];
     public loading: boolean = false;
-    public acceptTerms: boolean = false;
-    public step: number = 1;
+    public step: number = 4;
     public paymentRequest?: PaymentRequest;
+    public steps: string[] = ['Sobre você', 'Planos', 'Dados cadastrais', 'Pagamento'];
+    public roles: Item[] = [
+        {
+            value: 'founder',
+            label: 'Fundador(a)'
+        },
+        {
+            value: 'director',
+            label: 'Diretor(a)'
+        },
+        {
+            value: 'manager',
+            label: 'Gerente'
+        },
+        {
+            value: 'founder',
+            label: 'Analista'
+        },
+        {
+            value: 'seller',
+            label: 'Vendedor(a)'
+        }
+    ];
+    public segments: Item[] = [
+        {
+            value: 'food',
+            label: 'Alimentos'
+        },
+        {
+            value: 'automotive',
+            label: 'Automotivos'
+        },
+        {
+            value: 'beverage',
+            label: 'Bebidas'
+        },
+        {
+            value: 'camping',
+            label: 'Camping'
+        },
+        {
+            value: 'house_decoration',
+            label: 'Casa e decoração'
+        },
+        {
+            value: 'cosmetics',
+            label: 'Cosméticos'
+        },
+        {
+            value: 'electronics',
+            label: 'Eletrodomésticos'
+        },
+        {
+            value: 'manage_relationships',
+            label: 'Eletroeletrônicos'
+        },
+        {
+            value: 'sport',
+            label: 'Esportes'
+        },
+        {
+            value: 'geek',
+            label: 'Geek'
+        },
+        {
+            value: 'child',
+            label: 'Infantil'
+        },
+        {
+            value: 'computing',
+            label: 'Informática'
+        },
+        {
+            value: 'jewelry',
+            label: 'Jóias'
+        },
+        {
+            value: 'hardware_store',
+            label: 'Material de Construção'
+        },
+        {
+            value: 'fashion',
+            label: 'Moda'
+        },
+        {
+            value: 'optical',
+            label: 'Óptica'
+        },
+        {
+            value: 'paper',
+            label: 'Papelaria'
+        },
+        {
+            value: 'perfume',
+            label: 'Perfumaria'
+        },
+        {
+            value: 'petshop',
+            label: 'Petshop'
+        },
+        {
+            value: 'natural_products',
+            label: 'Produtos Naturais'
+        },
+        {
+            value: 'shoes',
+            label: 'Sapatos'
+        },
+        {
+            value: 'customer_fidelity',
+            label: 'Saúde e Beleza'
+        },
+        {
+            value: 'sexshop',
+            label: 'Sexshop'
+        },
+        {
+            value: 'others',
+            label: 'Outros'
+        }
+    ];
+    public goals: Item[] = [
+        {
+            value: 'manage_sellers',
+            label: 'Acompanhar melhor os meus vendedores.'
+        },
+        {
+            value: 'manage_relationships',
+            label: 'Gerenciar melhor os relacionamentos da marca.'
+        },
+        {
+            value: 'giftback',
+            label: 'Programa de Giftback.'
+        },
+        {
+            value: 'customer_fidelity',
+            label: 'Diminuir o tempo de recompra dos meus clientes.'
+        },
+        {
+            value: 'improve_products_mix',
+            label: 'Melhorar meu mix de produtos'
+        },
+        {
+            value: 'manage_consume_patterns',
+            label: 'Entender mais sobre os padrões de consumo dos meus clientes.'
+        }
+    ];
+    public channels: Item[] = [
+        {
+            value: 'outbound',
+            label: 'Anúncios'
+        },
+        {
+            value: 'inbound',
+            label: 'Comercial entrou em contato'
+        },
+        {
+            value: 'events',
+            label: 'Eventos'
+        },
+        {
+            value: 'indications',
+            label: 'Indicações'
+        },
+        {
+            value: 'social_media',
+            label: 'Mídias sociais'
+        }
+    ];
 
     public constructor(
         private readonly publicService: PublicService,
@@ -41,10 +212,7 @@ export class RegisterComponent implements OnInit {
     public async register(): Promise<void> {
         const formValid: Validate = this.validateForm();
         const paymentFormValid: boolean = this.validatePaymentForm();
-        if (!this.acceptTerms) {
-            this.toast.error('É necessário aceitar os Termos e condições', 'Erro');
-            return;
-        }
+
         if (!PasswordValidator.validate(this.getById('password').model.toString())) {
             this.toast.error(
                 'Sua senha deve ter no mínimo 8 caracteres, 1 caractere especial, 1 número e uma letra maiúscula',
@@ -130,18 +298,12 @@ export class RegisterComponent implements OnInit {
 
     public goToSecondStep(): void {
         const formValidator: Validate = this.validateForm();
-        if (!this.acceptTerms) {
-            this.toast.error('É necessário aceitar os Termos e condições', 'Erro');
-            return;
-        }
+
         if (!formValidator.isValid) {
             this.toast.error(formValidator.message, formValidator.title);
             return;
         }
-        if (!this.getById('e-commerce').model) {
-            this.step = 3;
-            return;
-        }
+
         this.step = 2;
     }
 
@@ -161,10 +323,6 @@ export class RegisterComponent implements OnInit {
         this.step = 3;
     }
 
-    public getSecondStepDisabled(): boolean {
-        return !this.getEcommerceSelected()?.value;
-    }
-
     public goToThirdStep(): void {
         this.initPlans();
         this.step = 3;
@@ -180,6 +338,23 @@ export class RegisterComponent implements OnInit {
 
     public getThirdStepDisabled(): boolean {
         return !this.getPlanSelected()?.value;
+    }
+
+    public secondStepDisabled(): boolean {
+        let countErrors: number = 0;
+
+        this.fields.forEach((field: Field) => {
+            if (field.model === null || field.model === undefined || field.model === '') {
+                countErrors++;
+            }
+        });
+
+        if (this.getById('phone').model.toString().length !== 11) countErrors++;
+        if (!StringUtil.validateEmail(this.getById('email').model.toString())) countErrors++;
+        if (!PasswordValidator.validate(this.getById('password').model.toString())) countErrors++;
+        if (this.getById('confirmPassword').model !== this.getById('password').model) countErrors++;
+
+        return countErrors > 0;
     }
 
     private initForm(): void {
@@ -261,6 +436,14 @@ export class RegisterComponent implements OnInit {
         return this.fields.find((field: Field) => field.id === id) as Field;
     }
 
+    private getSecondStepById(id: string): Field {
+        return this.secondStepFields.find((field: Field) => field.id === id) as Field;
+    }
+
+    private getThirdStepById(id: string): Field {
+        return this.thirdStepFields.find((field: Field) => field.id === id) as Field;
+    }
+
     private getPaymentById(id: string): Field {
         return this.paymentFields.find((field: Field) => field.id === id) as Field;
     }
@@ -274,6 +457,17 @@ export class RegisterComponent implements OnInit {
                 title: 'Nome*',
                 placeholder: 'Digite seu nome completo',
                 type: 'text',
+                class: 'wide',
+                inputType: 'input',
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'email',
+                title: 'E-mail*',
+                placeholder: 'Digite seu e-mail',
+                type: 'email',
                 class: 'half-size',
                 inputType: 'input',
                 onChange: () => {}
@@ -290,23 +484,11 @@ export class RegisterComponent implements OnInit {
                 inputType: 'input',
                 onChange: () => {}
             },
-
-            {
-                errors: [],
-                model: '',
-                id: 'email',
-                title: 'E-mail*',
-                placeholder: 'Digite seu e-mail',
-                type: 'email',
-                class: 'wide',
-                inputType: 'input',
-                onChange: () => {}
-            },
             {
                 errors: [],
                 model: '',
                 id: 'company',
-                title: 'Empresa',
+                title: 'Empresa*',
                 placeholder: 'Digite o nome da sua empresa',
                 type: 'text',
                 class: 'wide',
@@ -315,23 +497,14 @@ export class RegisterComponent implements OnInit {
             },
             {
                 errors: [],
-                model: true,
-                id: 'e-commerce',
-                title: 'Você possui e-commerce?',
+                model: '',
+                id: 'channel',
+                title: 'Por onde conheceu a Zoppy?',
                 placeholder: '',
                 type: '',
                 class: 'wide',
-                inputType: 'radio-button',
-                options: [
-                    {
-                        label: 'Sim',
-                        value: true
-                    },
-                    {
-                        label: 'Não',
-                        value: false
-                    }
-                ],
+                inputType: 'dropdown',
+                options: this.channels,
                 onChange: () => {}
             },
             {
@@ -354,6 +527,124 @@ export class RegisterComponent implements OnInit {
                 placeholder: 'Digite novamente sua senha',
                 icon: 'icon-visibility_off',
                 type: 'password',
+                class: 'half-size',
+                inputType: 'input',
+                onChange: () => {}
+            }
+        ];
+        this.secondStepFields = [
+            {
+                errors: [],
+                model: '',
+                id: 'segment',
+                title: 'Qual é o segmento da sua empresa?',
+                placeholder: '',
+                type: '',
+                class: 'wide',
+                inputType: 'dropdown',
+                options: this.segments,
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'role',
+                title: 'Qual é o seu cargo na empresa?',
+                placeholder: '',
+                type: '',
+                class: 'wide',
+                inputType: 'dropdown',
+                options: this.roles,
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'goal',
+                title: 'Qual o seu objetivo com a Zoppy?',
+                placeholder: '',
+                type: '',
+                class: 'wide',
+                inputType: 'dropdown',
+                options: this.goals,
+                onChange: () => {}
+            }
+        ];
+        this.thirdStepFields = [
+            {
+                errors: [],
+                model: '',
+                id: 'revenueRecord',
+                title: 'CPF*',
+                placeholder: 'Digite seu CPF',
+                type: 'text',
+                mask: '000.000.000-00',
+                class: 'wide',
+                inputType: 'input',
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'postcode',
+                title: 'CEP*',
+                placeholder: 'Digite seu CEP',
+                type: 'text',
+                mask: '00.000-000',
+                class: 'wide',
+                inputType: 'input',
+                onChange: async (zipCode: string) => {
+                    try {
+                        debugger;
+                        if (!zipCode || zipCode.length !== 8) return;
+                        const zipcodeResponse: ZipcodeResponse = await this.publicService.fetchZipcode(zipCode);
+                        if (zipcodeResponse && zipcodeResponse.cep) {
+                            this.getThirdStepById('street').model = zipcodeResponse.logradouro;
+                            this.getThirdStepById('neighbor').model = zipcodeResponse.bairro;
+                        }
+                    } catch (ex: any) {}
+                }
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'street',
+                title: 'Rua*',
+                placeholder: 'Digite seu logradouro',
+                type: 'text',
+                class: 'half-size',
+                inputType: 'input',
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'number',
+                title: 'Número',
+                placeholder: 'Digite o número',
+                type: 'text',
+                class: 'half-size',
+                inputType: 'input',
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'neighbor',
+                title: 'Bairro',
+                placeholder: 'Digite o bairro',
+                type: 'text',
+                class: 'half-size',
+                inputType: 'input',
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'complement',
+                title: 'Complemento',
+                placeholder: 'Digite o complemento',
+                type: 'text',
                 class: 'half-size',
                 inputType: 'input',
                 onChange: () => {}
@@ -394,7 +685,7 @@ export class RegisterComponent implements OnInit {
                 model: '',
                 id: 'expirationDate',
                 title: 'Data de validade*',
-                placeholder: 'Digite a data de validade do cartão MM/AA',
+                placeholder: 'MM/AA',
                 type: 'text',
                 mask: '00/00',
                 class: 'half-size',
@@ -406,26 +697,10 @@ export class RegisterComponent implements OnInit {
                 model: '',
                 id: 'cvv',
                 title: 'CVV (código de segurança)*',
-                placeholder: 'Digite seu código de segurança',
+                placeholder: 'XXX',
                 type: 'number',
                 class: 'half-size',
                 inputType: 'input',
-                onChange: () => {}
-            },
-            {
-                errors: [],
-                model: '',
-                id: 'flag',
-                title: 'Bandeira*',
-                placeholder: '',
-                type: '',
-                class: 'wide',
-                inputType: 'dropdown',
-                options: [
-                    { img: './assets/svg/mastercard.svg', value: 'mastercard', label: 'Mastercard' },
-                    { img: './assets/svg/visa.svg', value: 'visa', label: 'Visa' },
-                    { img: './assets/svg/american_express.svg', value: 'american_express', label: 'American Express' }
-                ],
                 onChange: () => {}
             }
         ];
@@ -473,66 +748,116 @@ export class RegisterComponent implements OnInit {
     private initPlans(): void {
         this.plans = [
             {
-                title: 'Gratuito',
+                title: 'Freemium',
                 price: 0,
                 priceAction: 0,
                 action: 'por venda',
                 items: [
-                    'Limite máximo de 50 vendas por mês',
-                    'Giftback disparado por email',
-                    'Dashboard personalizados',
-                    'NPS',
-                    'Painel do vendedor',
-                    '90 dias de garantia'
+                    {
+                        label: 'Giftback',
+                        value: '',
+                        icon: 'icon-confirmation_number',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Relatórios inteligentes',
+                        value: '',
+                        icon: 'icon-register_reports',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Whatsapp Zoppy',
+                        value: '',
+                        icon: 'icon-wpp',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Gestor de conta',
+                        value: '',
+                        icon: 'icon-manage_accounts',
+                        class: 'text--400'
+                    },
+                    {
+                        label: 'Painel do Vendedor',
+                        value: '',
+                        icon: 'icon-assignment_ind',
+                        class: 'text--400'
+                    },
+                    {
+                        label: 'Carrinho Abandonado',
+                        value: '',
+                        icon: 'icon-shopping_cart',
+                        class: 'text--400'
+                    },
+                    {
+                        label: 'NPS',
+                        value: '',
+                        icon: 'icon-star',
+                        class: 'text--400'
+                    }
                 ],
-                visible: this.isPartner(),
-                satisfaction: true,
-                special: false,
-                value: AppConstants.PLANS.FREE,
-                selected: false
-            },
-            {
-                title: 'Crescimento',
-                price: 297,
-                priceAction: 0.15,
-                action: 'por venda',
-                items: ['Giftback disparado por email', 'Dashboard personalizados', 'NPS', '90 dias de garantia'],
                 visible: true,
                 satisfaction: true,
                 special: false,
-                value: AppConstants.PLANS.BASIC,
-                selected: false
+                value: AppConstants.PLANS.FREE,
+                selected: false,
+                description: 'Limite de 50 vendas mensais.'
             },
             {
                 title: 'Desenvolvimento',
                 price: 297,
                 priceAction: 0.5,
                 action: 'por venda',
-                items: ['Tudo do plano Crescimento', 'Giftback disparado pelo WhastApp Zoppy', 'NPS', '90 dias de garantia'],
+                items: [
+                    {
+                        label: 'Giftback',
+                        value: '',
+                        icon: 'icon-confirmation_number',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Relatórios inteligentes',
+                        value: '',
+                        icon: 'icon-register_reports',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Whatsapp Zoppy',
+                        value: '',
+                        icon: 'icon-wpp',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Gestor de conta',
+                        value: '',
+                        icon: 'icon-manage_accounts',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Painel do Vendedor',
+                        value: '',
+                        icon: 'icon-assignment_ind',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Carrinho Abandonado',
+                        value: '',
+                        icon: 'icon-shopping_cart',
+                        class: 'text'
+                    },
+                    {
+                        label: 'NPS',
+                        value: '',
+                        icon: 'icon-star',
+                        class: 'text'
+                    }
+                ],
                 visible: true,
                 satisfaction: true,
                 special: true,
                 value: AppConstants.PLANS.STANDARD,
-                selected: false
-            },
-            {
-                title: 'Perpetuação',
-                price: 297,
-                priceAction: 0.5,
-                action: 'por janela aberta',
-                tooltip:
-                    'A janela de conversa engloba todas as mensagens trocadas em um prazo de 24 horas a partir da primeira mensagem da empresa, seja por iniciativa própria ou como uma resposta ao cliente.',
-                items: [
-                    'Dashboard personalizados e inteligentes',
-                    'Giftback disparado pelo seu próprio Whatsapp',
-                    'Gestor de contas exclusivo que vai te auxiliar a ter as melhores estratégias',
-                    'Campanhas de reativação e marketing com seu próprio WhatsApp'
-                ],
-                visible: !this.isPartner(),
-                satisfaction: true,
-                special: false,
-                value: AppConstants.PLANS.PREMIUM,
-                selected: false
+                selected: false,
+                description: '90 dias de garantia'
             }
         ];
     }
@@ -551,6 +876,8 @@ class Field {
     public inputType: string = '';
     public options?: Array<any> = [];
     public onChange: any;
+    public description?: string = '';
+    public displayTop?: boolean = false;
 }
 
 class Ecommerce {
@@ -559,18 +886,27 @@ class Ecommerce {
     public value: string = '';
 }
 
+class Item {
+    public label: string = '';
+    public value: string = '';
+    public img?: string = '';
+    public icon?: string = '';
+    public class?: string = '';
+}
+
 class Plan {
     public title: string = '';
     public price: number = 0;
     public priceAction: number = 0;
     public action: string = '';
-    public items: string[] = [];
+    public items: Item[] = [];
     public satisfaction: boolean = false;
     public visible: any;
     public special: boolean = false;
     public tooltip?: string = '';
     public value: string = '';
     public selected: boolean = false;
+    public description: string = '';
 }
 
 interface Validate {
