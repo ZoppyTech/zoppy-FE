@@ -587,6 +587,7 @@ export class RegisterComponent implements OnInit {
                 title: 'Por onde conheceu a Zoppy?',
                 placeholder: '',
                 type: '',
+                displayTop: true,
                 class: 'wide',
                 inputType: 'dropdown',
                 options: this.channels,
@@ -963,7 +964,7 @@ export class RegisterComponent implements OnInit {
                 ],
                 visible: true,
                 satisfaction: true,
-                special: true,
+                special: false,
                 value: AppConstants.PLANS.STANDARD,
                 selected: false,
                 description: '90 dias de garantia'

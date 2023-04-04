@@ -67,7 +67,7 @@
                     <ps-dropdown
                         [enableAdd]="false"
                         *ngIf="field.inputType === 'dropdown'"
-                        [displayTop]="false"
+                        [displayTop]="field.displayTop ?? false"
                         [enableSearch]="false"
                         [errors]="field.errors"
                         [hasImage]="true"
@@ -130,10 +130,10 @@
                     <ps-dropdown
                         [enableAdd]="false"
                         *ngIf="field.inputType === 'dropdown'"
-                        [displayTop]="field.displayTop ?? false"
                         [enableSearch]="true"
                         [errors]="field.errors"
                         [hasImage]="true"
+                        [displayTop]="field.displayTop ?? false"
                         (onFocus)="field.errors = []"
                         [items]="field.options ?? []"
                         [(value)]="field.model"
