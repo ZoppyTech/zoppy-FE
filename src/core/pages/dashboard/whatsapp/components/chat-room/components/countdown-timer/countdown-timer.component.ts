@@ -20,14 +20,12 @@ export class CountdownTimerComponent implements OnInit, AfterViewInit {
     public timerInterval: any = null;
 
     public ngOnInit(): void {
-        debugger;
         const timestamp: number = Number.parseInt(this.timestamp + '000');
         this.targetTime = new Date(timestamp);
     }
 
     public ngAfterViewInit() {
         this.timerInterval = setInterval(() => {
-            debugger;
             this.tickTock();
             // this.difference = this.targetTime - this.now;
             // this.difference = this.difference / (1000 * 60 * 60 * 24);
@@ -39,7 +37,6 @@ export class CountdownTimerComponent implements OnInit, AfterViewInit {
     }
 
     public tickTock() {
-        debugger;
         this.date = new Date();
         this.now = this.date.getTime();
         this.hours = 23 - this.date.getHours();

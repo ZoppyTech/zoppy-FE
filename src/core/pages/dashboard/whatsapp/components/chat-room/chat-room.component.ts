@@ -69,7 +69,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     ) {}
 
     public async ngOnInit(): Promise<void> {
-        debugger;
         this.eventsSubscription = this.events.subscribe(() => this.seeLastMessage());
         this.seeLastMessage();
         await this.loadLatestConversation();

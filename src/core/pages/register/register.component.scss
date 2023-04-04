@@ -293,7 +293,7 @@ main {
             padding-bottom: 1rem;
 
             ps-button {
-                width: calc(50% - 1rem);
+                width: 100%;
             }
         }
 
@@ -306,6 +306,8 @@ main {
 @media screen and (max-width: 576px) {
     main {
         .register {
+            overflow: auto;
+
             .step-3 {
                 .plans {
                     justify-content: center;
@@ -321,6 +323,10 @@ main {
 
             .half-size {
                 width: 100%;
+            }
+
+            form {
+                overflow: unset;
             }
         }
     }

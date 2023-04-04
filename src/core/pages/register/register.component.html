@@ -1,6 +1,6 @@
 <main class="flex flex-center">
     <div class="register flex flex-column box-content padding-3">
-        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 1">
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === -1">
             <div class="logo-content">
                 <img class="logo" src="./assets/imgs/logo.png" alt="" />
             </div>
@@ -8,38 +8,44 @@
             <span class="text-14 text--600">Preencha os campos abaixo para iniciarmos a criação da sua conta.</span>
         </div>
         <div class="flex flex-center">
-            <ps-stepper *ngIf="step > 1" [selected]="step - 2" class="margin-bottom-3" [items]="steps"></ps-stepper>
+            <ps-stepper
+                *ngIf="step >= 0"
+                [selected]="step"
+                class="margin-bottom-3"
+                (onChangeSelected)="changeStep($event)"
+                [items]="steps"
+            ></ps-stepper>
         </div>
-        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 2">
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 0">
             <h5 class="text--primary margin-bottom-1 text--bold">Conte-nos mais sobre você</h5>
             <span class="text-14 text--600">Queremos te conhecer melhor para oferecer uma experiência personalizada!</span>
         </div>
-        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 3">
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 1">
             <h5 class="text--primary margin-bottom-1 text--bold">Nossos planos</h5>
             <span class="text-14 text--600">Clique no plano desejado para a sua empresa.</span>
         </div>
-        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 4">
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 2">
             <h5 class="text--primary margin-bottom-1 text--bold">Informações pessoais</h5>
             <span class="text-14 text--600">Os dados abaixo são essenciais para a criação da sua conta.</span>
         </div>
-        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 5">
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 3">
             <h5 class="text--primary margin-bottom-1 text--bold">Método de pagamento</h5>
             <span class="text-14 text--600">Preencha o formulário abaixo com os dados do seu cartão de crédito.</span>
         </div>
 
-        <div class="info-box flex align-center margin-bottom-3" *ngIf="[4, 5].includes(step)">
+        <div class="info-box flex align-center margin-bottom-3" *ngIf="[0, 1].includes(step)">
             <ps-icon icon="icon-info-inverted" class="margin-right-2"></ps-icon>
-            <span class="text text-14" *ngIf="step === 5">
+            <span class="text text-14" *ngIf="step === 1">
                 <strong>Importante: </strong> a transação não será processada com cartão virtual, verifique-se de utilizar seu cartão
                 físico. <a class="text--info text--link">Clique aqui</a> para saber mais.
             </span>
-            <span class="text text-14" *ngIf="step === 4">
+            <span class="text text-14" *ngIf="step === 0">
                 <strong>Observação: </strong> o endereço informado deve ser o mesmo referente ao de cobrança.
             </span>
         </div>
 
         <form (keydown.enter)="register()" class="form flex flex-column" id="registerForm">
-            <div *ngIf="step === 1" class="step-1">
+            <div *ngIf="step === -1" class="step-1">
                 <div class="field {{ field.class }}" *ngFor="let field of fields">
                     <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                         {{ field.title }}
@@ -90,7 +96,7 @@
 
                 <div class="wide">
                     <ps-button
-                        (onClick)="goToSecondStep()"
+                        (onClick)="changeStep(0)"
                         [disabled]="secondStepDisabled()"
                         [loading]="loading"
                         [wide]="true"
@@ -106,7 +112,7 @@
                     </div>
                 </div>
 
-                <div class="field flex flex-center wide">
+                <div class="field flex flex-center wide margin-bottom-2">
                     <span class="text--800 text-14">
                         Ao prosseguir, declaro que li e aceito os
                         <a class="text--primary text--bold text--link">Termos e Condições </a>
@@ -115,8 +121,8 @@
                 </div>
             </div>
 
-            <div *ngIf="step === 2" class="step-2">
-                <div class="field {{ field.class }}" *ngFor="let field of secondStepFields">
+            <div *ngIf="step === 0" class="step-2">
+                <div class="field {{ field.class }}" *ngFor="let field of aboutYouFields">
                     <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                         {{ field.title }}
                     </div>
@@ -125,7 +131,7 @@
                         [enableAdd]="false"
                         *ngIf="field.inputType === 'dropdown'"
                         [displayTop]="field.displayTop ?? false"
-                        [enableSearch]="false"
+                        [enableSearch]="true"
                         [errors]="field.errors"
                         [hasImage]="true"
                         (onFocus)="field.errors = []"
@@ -139,7 +145,7 @@
                 </div>
 
                 <div class="wide">
-                    <ps-button (onClick)="goToThirdStep()" [loading]="loading" [wide]="true" type="secondary"
+                    <ps-button (onClick)="changeStep(1)" [loading]="loading" [wide]="true" type="secondary"
                         ><span class="text text--100 text--bold">Prosseguir</span>
                     </ps-button>
                     <div class="wide flex flex-column flex-center">
@@ -152,7 +158,7 @@
                 </div>
             </div>
 
-            <div *ngIf="step === 3" class="step-3">
+            <div *ngIf="step === 1" class="step-3">
                 <div class="plans">
                     <div
                         class="border"
@@ -208,7 +214,7 @@
 
                 <div class="wide">
                     <ps-button
-                        (onClick)="goToPayment()"
+                        (onClick)="changeStep(2)"
                         [disabled]="getThirdStepDisabled()"
                         [loading]="loading"
                         [wide]="true"
@@ -218,8 +224,8 @@
                 </div>
             </div>
 
-            <div *ngIf="step === 4" class="step-1">
-                <div class="field {{ field.class }}" *ngFor="let field of thirdStepFields">
+            <div *ngIf="step === 2" class="step-1">
+                <div class="field {{ field.class }}" *ngFor="let field of registerDataFields">
                     <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                         {{ field.title }}
                     </div>
@@ -239,7 +245,12 @@
                 </div>
 
                 <div class="wide">
-                    <ps-button [loading]="loading" [wide]="true" type="secondary"
+                    <ps-button
+                        (onClick)="changeStep(3)"
+                        [disabled]="disableRegisterData()"
+                        [loading]="loading"
+                        [wide]="true"
+                        type="secondary"
                         ><span class="text text--100 text--bold">Prosseguir</span>
                     </ps-button>
                 </div>
@@ -253,7 +264,7 @@
                 </div>
             </div>
 
-            <div *ngIf="step === 5" class="step-4">
+            <div *ngIf="step === 3" class="step-4">
                 <div class="field {{ field.class }}" *ngFor="let field of paymentFields">
                     <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                         {{ field.title }}
@@ -267,8 +278,9 @@
                         [ngClass]="{ 'text--negative': field.errors.length > 0 }"
                         [type]="field.type"
                         [icon]="field.icon || ''"
+                        [img]="field.img || ''"
                         [mask]="field.mask || ''"
-                        (ngModelChange)="field.onChange()"
+                        (ngModelChange)="field.onChange($event)"
                         [debounce]="0"
                         (onIconClicked)="iconClicked(field)"
                     ></ps-input>
@@ -291,10 +303,7 @@
                 </div>
 
                 <div class="wide buttons">
-                    <ps-button (onClick)="backToThirdStep()" [wide]="true" type="secondary-border"
-                        ><span class="text text--secondary text--bold">Voltar</span>
-                    </ps-button>
-                    <ps-button (onClick)="register()" [loading]="loading" [wide]="true" type="secondary"
+                    <ps-button (onClick)="register()" [disabled]="disablePaymentForm()" [loading]="loading" [wide]="true" type="secondary"
                         ><span class="text text--100 text--bold">Concluir</span>
                     </ps-button>
                 </div>

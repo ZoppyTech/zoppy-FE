@@ -29,7 +29,6 @@ export class RestrictedAccessComponent implements OnInit {
     }
 
     private setWhatsappActive(): void {
-        debugger;
         this.upgradePending = !this.account || !this.account.id;
         this.activationPending = !this.upgradePending && !this.account?.active;
     }

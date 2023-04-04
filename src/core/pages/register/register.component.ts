@@ -3,8 +3,7 @@ import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { AppConstants, PasswordValidator, StringUtil } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
-import { CompanyProvider, CompanyRequest } from 'src/shared/models/requests/company/company.request';
-import { PaymentRequest } from 'src/shared/models/requests/company/payment.request';
+import { CompanyProvider } from 'src/shared/models/requests/company/company.request';
 import { CompanyPlan, RegisterRequest } from 'src/shared/models/requests/public/register.request';
 import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
 import { PublicService } from 'src/shared/services/public/public.service';
@@ -17,14 +16,13 @@ import { Navigation } from 'src/shared/utils/navigation';
 })
 export class RegisterComponent implements OnInit {
     public fields: Field[] = [];
-    public secondStepFields: Field[] = [];
-    public thirdStepFields: Field[] = [];
+    public aboutYouFields: Field[] = [];
+    public registerDataFields: Field[] = [];
     public ecommerces: Ecommerce[] = [];
     public paymentFields: Field[] = [];
     public plans: Plan[] = [];
     public loading: boolean = false;
-    public step: number = 4;
-    public paymentRequest?: PaymentRequest;
+    public step: number = -1;
     public steps: string[] = ['Sobre você', 'Planos', 'Dados cadastrais', 'Pagamento'];
     public roles: Item[] = [
         {
@@ -209,38 +207,94 @@ export class RegisterComponent implements OnInit {
         this.initPaymentFields();
     }
 
+    public disableRegisterData(): boolean {
+        if (this.getRegisterDataFieldById('revenueRecord').model.toString().length !== 11) return true;
+        if (this.getRegisterDataFieldById('postcode').model.toString().length !== 8) return true;
+        if (!this.getRegisterDataFieldById('street').model) return true;
+        if (!this.getRegisterDataFieldById('number').model) return true;
+        if (!this.getRegisterDataFieldById('complement').model) return true;
+        if (!this.getRegisterDataFieldById('neighbor').model) return true;
+        return false;
+    }
+
+    public disablePaymentForm(): boolean {
+        const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
+        if (!this.getPaymentById('name').model.toString()) return true;
+        if (!this.getPaymentById('number').model.toString()) return true;
+        if (`${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`.length !== 5) return true;
+        if (!this.getPaymentById('cvv').model.toString()) return true;
+        if (!this.calculateFlag(this.getPaymentById('number').model.toString())) return true;
+        return false;
+    }
+
+    public getThirdStepDisabled(): boolean {
+        return !this.getPlanSelected()?.value;
+    }
+
+    public secondStepDisabled(): boolean {
+        let countErrors: number = 0;
+
+        if (this.getById('phone').model.toString().length !== 11) countErrors++;
+        if (!this.getById('name').model) countErrors++;
+        if (!StringUtil.validateEmail(this.getById('email').model.toString())) countErrors++;
+        if (!PasswordValidator.validate(this.getById('password').model.toString())) countErrors++;
+        if (this.getById('confirmPassword').model !== this.getById('password').model) countErrors++;
+
+        return countErrors > 0;
+    }
+
     public async register(): Promise<void> {
         const formValid: Validate = this.validateForm();
-        const paymentFormValid: boolean = this.validatePaymentForm();
+        const paymentFormValid: Validate = this.validatePaymentForm();
+        const thirdStepValid: Validate = this.validateRegisterDataForm();
 
-        if (!PasswordValidator.validate(this.getById('password').model.toString())) {
-            this.toast.error(
-                'Sua senha deve ter no mínimo 8 caracteres, 1 caractere especial, 1 número e uma letra maiúscula',
-                'Senha não obedece padrões de segurança',
-                6
-            );
-            return;
-        }
         if (!formValid.isValid) {
+            this.step = -1;
             this.toast.error('Houveram erros de validação', 'Erro');
             return;
         }
-        if (!paymentFormValid) {
+        if (!thirdStepValid.isValid) {
+            this.step = 2;
+            this.toast.error('Houveram erros de validação', 'Erro');
+            return;
+        }
+        if (!paymentFormValid.isValid) {
             this.toast.error('Houveram erros de validação dos valores de pagamento', 'Erro');
+            this.step = 3;
             return;
         }
 
         try {
             this.loading = true;
+            const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
+
             const request: RegisterRequest = {
                 name: this.getById('name').model.toString(),
                 phone: this.getById('phone').model.toString(),
                 email: this.getById('email').model.toString(),
                 companyName: this.getById('company').model.toString(),
+                revenueRecord: this.getRegisterDataFieldById('revenueRecord').model.toString(),
+                segment: this.getAboutYouFieldById('segment').model.toString(),
+                companyRole: this.getAboutYouFieldById('role').model.toString(),
+                goal: this.getAboutYouFieldById('goal').model.toString(),
+                channel: this.getById('channel').model.toString(),
                 password: this.getById('password').model.toString(),
                 plan: this.getPlanSelected()?.value?.toString() as CompanyPlan,
                 provider: this.getEcommerceSelected()?.value?.toString() as CompanyProvider,
-                payment: this.paymentRequest
+                payment: {
+                    name: this.getPaymentById('name').model.toString(),
+                    expirationDate: `${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`,
+                    cardNumber: this.getPaymentById('number').model.toString(),
+                    cvv: this.getPaymentById('cvv').model.toString(),
+                    flag: this.calculateFlag(this.getPaymentById('number').model.toString())
+                },
+                address: {
+                    street: this.getRegisterDataFieldById('street').model.toString(),
+                    number: this.getRegisterDataFieldById('number').model.toString(),
+                    neighbor: this.getRegisterDataFieldById('neighbor').model.toString(),
+                    complement: this.getRegisterDataFieldById('complement').model.toString(),
+                    postcode: this.getRegisterDataFieldById('postcode').model.toString()
+                }
             };
             const thisUser: UserEntity = await this.publicService.register(request);
             this.toast.success('Seu usuário foi registrado com sucesso!', 'Tudo certo!');
@@ -249,10 +303,49 @@ export class RegisterComponent implements OnInit {
             this.fields.forEach((field: Field) => {
                 field.errors = ['error'];
             });
-            this.toast.error(ex.message, 'Erro');
+            this.toast.error(ex.message, 'Erro!');
         } finally {
             this.loading = false;
         }
+    }
+
+    public changeStep(index: number): void {
+        if (index < this.step) {
+            this.step = index;
+            return;
+        }
+
+        const formValid: Validate =
+            index > -1
+                ? this.validateForm()
+                : {
+                      isValid: true,
+                      message: '',
+                      title: ''
+                  };
+
+        const thirdFormValid: Validate =
+            index > 3
+                ? this.validateRegisterDataForm()
+                : {
+                      isValid: true,
+                      message: '',
+                      title: ''
+                  };
+
+        if (!formValid.isValid) {
+            this.step = -1;
+            this.toast.error(formValid.message, formValid.title);
+            return;
+        }
+
+        if (!thirdFormValid.isValid) {
+            this.step = 1;
+            this.toast.error(thirdFormValid.message, thirdFormValid.title);
+            return;
+        }
+
+        this.step = index;
     }
 
     public goBack(email: string): void {
@@ -296,67 +389,6 @@ export class RegisterComponent implements OnInit {
         return this.plans.find((plan: Plan) => plan.selected) as Plan;
     }
 
-    public goToSecondStep(): void {
-        const formValidator: Validate = this.validateForm();
-
-        if (!formValidator.isValid) {
-            this.toast.error(formValidator.message, formValidator.title);
-            return;
-        }
-
-        this.step = 2;
-    }
-
-    public backToSecondStep(): void {
-        if (!this.getById('e-commerce').model) {
-            this.step = 1;
-            return;
-        }
-        this.step = 2;
-    }
-
-    public backToThirdStep(): void {
-        if (!this.getById('e-commerce').model) {
-            this.backToSecondStep();
-            return;
-        }
-        this.step = 3;
-    }
-
-    public goToThirdStep(): void {
-        this.initPlans();
-        this.step = 3;
-    }
-
-    public async goToPayment(): Promise<void> {
-        if (this.getPlanSelected()?.value === AppConstants.PLANS.FREE) {
-            await this.register();
-            return;
-        }
-        this.step = 4;
-    }
-
-    public getThirdStepDisabled(): boolean {
-        return !this.getPlanSelected()?.value;
-    }
-
-    public secondStepDisabled(): boolean {
-        let countErrors: number = 0;
-
-        this.fields.forEach((field: Field) => {
-            if (field.model === null || field.model === undefined || field.model === '') {
-                countErrors++;
-            }
-        });
-
-        if (this.getById('phone').model.toString().length !== 11) countErrors++;
-        if (!StringUtil.validateEmail(this.getById('email').model.toString())) countErrors++;
-        if (!PasswordValidator.validate(this.getById('password').model.toString())) countErrors++;
-        if (this.getById('confirmPassword').model !== this.getById('password').model) countErrors++;
-
-        return countErrors > 0;
-    }
-
     private initForm(): void {
         const form: any = document.getElementById('registerForm');
         form.addEventListener('submit', (event: any) => {
@@ -369,12 +401,10 @@ export class RegisterComponent implements OnInit {
         let message: string = 'Houveram erros de validação';
         let title: string = 'Erro';
 
-        this.fields.forEach((field: Field) => {
-            if (field.model === null || field.model === undefined || field.model === '') {
-                field.errors = ['error'];
-                countErrors++;
-            }
-        });
+        if (!this.getById('name').model) {
+            this.getById('name').errors = ['error'];
+            countErrors++;
+        }
 
         if (this.getById('phone').model.toString().length !== 11) {
             this.getById('phone').errors = ['error'];
@@ -407,41 +437,96 @@ export class RegisterComponent implements OnInit {
         };
     }
 
-    private validatePaymentForm(): boolean {
-        if (!this.getPaymentById('name').model) return true;
-        const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
+    private validateRegisterDataForm(): Validate {
+        let countErrors: number = 0;
+        let message: string = 'Houveram erros de validação';
+        let title: string = 'Erro';
 
-        this.paymentRequest = new PaymentRequest();
-        this.paymentRequest.name = this.getPaymentById('name').model.toString();
-        this.paymentRequest.cardNumber = this.getPaymentById('number').model.toString();
-        this.paymentRequest.expirationDate = `${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`;
-        this.paymentRequest.cvv = this.getPaymentById('cvv').model.toString();
-        this.paymentRequest.flag = this.getPaymentById('flag').model.toString();
-
-        if (
-            !this.paymentRequest.name ||
-            !this.paymentRequest.cardNumber ||
-            !this.paymentRequest.expirationDate ||
-            !this.paymentRequest.cvv ||
-            !this.paymentRequest.flag ||
-            this.paymentRequest.expirationDate?.length !== 5
-        ) {
-            return false;
+        if (this.getRegisterDataFieldById('revenueRecord').model.toString().length !== 11) {
+            this.getRegisterDataFieldById('revenueRecord').errors = ['error'];
+            countErrors++;
         }
 
-        return true;
+        if (this.getRegisterDataFieldById('postcode').model.toString().length !== 8) {
+            this.getRegisterDataFieldById('postcode').errors = ['error'];
+            countErrors++;
+        }
+
+        if (!this.getRegisterDataFieldById('street').model) {
+            this.getRegisterDataFieldById('street').errors = ['error'];
+            countErrors++;
+        }
+
+        if (!this.getRegisterDataFieldById('number').model) {
+            this.getRegisterDataFieldById('number').errors = ['error'];
+            countErrors++;
+        }
+
+        if (!this.getRegisterDataFieldById('neighbor').model) {
+            this.getRegisterDataFieldById('neighbor').errors = ['error'];
+            countErrors++;
+        }
+
+        if (!this.getRegisterDataFieldById('complement').model) {
+            this.getRegisterDataFieldById('complement').errors = ['error'];
+            countErrors++;
+        }
+
+        return {
+            isValid: countErrors === 0,
+            message: message,
+            title: title
+        };
+    }
+
+    private validatePaymentForm(): Validate {
+        let countErrors: number = 0;
+        let message: string = 'Houveram erros de validação';
+        let title: string = 'Erro';
+
+        if (!this.getPaymentById('name').model) {
+            this.getById('name').errors = ['error'];
+            countErrors++;
+        }
+        const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
+
+        if (!this.getPaymentById('name').model.toString()) {
+            this.getPaymentById('name').errors = ['error'];
+            countErrors++;
+        }
+        if (!this.getPaymentById('number').model.toString()) {
+            this.getPaymentById('number').errors = ['error'];
+            countErrors++;
+        }
+        if (`${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`.length !== 5) {
+            this.getPaymentById('expirationDate').errors = ['error'];
+            countErrors++;
+        }
+        if (!this.getPaymentById('cvv').model.toString()) {
+            this.getPaymentById('cvv').errors = ['error'];
+            countErrors++;
+        }
+        if (!this.calculateFlag(this.getPaymentById('number').model.toString())) {
+            countErrors++;
+        }
+
+        return {
+            isValid: countErrors === 0,
+            message: message,
+            title: title
+        };
     }
 
     private getById(id: string): Field {
         return this.fields.find((field: Field) => field.id === id) as Field;
     }
 
-    private getSecondStepById(id: string): Field {
-        return this.secondStepFields.find((field: Field) => field.id === id) as Field;
+    private getAboutYouFieldById(id: string): Field {
+        return this.aboutYouFields.find((field: Field) => field.id === id) as Field;
     }
 
-    private getThirdStepById(id: string): Field {
-        return this.thirdStepFields.find((field: Field) => field.id === id) as Field;
+    private getRegisterDataFieldById(id: string): Field {
+        return this.registerDataFields.find((field: Field) => field.id === id) as Field;
     }
 
     private getPaymentById(id: string): Field {
@@ -532,7 +617,7 @@ export class RegisterComponent implements OnInit {
                 onChange: () => {}
             }
         ];
-        this.secondStepFields = [
+        this.aboutYouFields = [
             {
                 errors: [],
                 model: '',
@@ -570,7 +655,7 @@ export class RegisterComponent implements OnInit {
                 onChange: () => {}
             }
         ];
-        this.thirdStepFields = [
+        this.registerDataFields = [
             {
                 errors: [],
                 model: '',
@@ -595,12 +680,11 @@ export class RegisterComponent implements OnInit {
                 inputType: 'input',
                 onChange: async (zipCode: string) => {
                     try {
-                        debugger;
                         if (!zipCode || zipCode.length !== 8) return;
                         const zipcodeResponse: ZipcodeResponse = await this.publicService.fetchZipcode(zipCode);
                         if (zipcodeResponse && zipcodeResponse.cep) {
-                            this.getThirdStepById('street').model = zipcodeResponse.logradouro;
-                            this.getThirdStepById('neighbor').model = zipcodeResponse.bairro;
+                            this.getRegisterDataFieldById('street').model = zipcodeResponse.logradouro;
+                            this.getRegisterDataFieldById('neighbor').model = zipcodeResponse.bairro;
                         }
                     } catch (ex: any) {}
                 }
@@ -620,7 +704,7 @@ export class RegisterComponent implements OnInit {
                 errors: [],
                 model: '',
                 id: 'number',
-                title: 'Número',
+                title: 'Número*',
                 placeholder: 'Digite o número',
                 type: 'text',
                 class: 'half-size',
@@ -631,7 +715,7 @@ export class RegisterComponent implements OnInit {
                 errors: [],
                 model: '',
                 id: 'neighbor',
-                title: 'Bairro',
+                title: 'Bairro*',
                 placeholder: 'Digite o bairro',
                 type: 'text',
                 class: 'half-size',
@@ -642,7 +726,7 @@ export class RegisterComponent implements OnInit {
                 errors: [],
                 model: '',
                 id: 'complement',
-                title: 'Complemento',
+                title: 'Complemento*',
                 placeholder: 'Digite o complemento',
                 type: 'text',
                 class: 'half-size',
@@ -677,8 +761,25 @@ export class RegisterComponent implements OnInit {
                 placeholder: 'Digite o número do cartão',
                 type: 'number',
                 class: 'wide',
+                icon: 'icon-visa',
                 inputType: 'input',
-                onChange: () => {}
+                onChange: (number: string) => {
+                    const flag: string = this.calculateFlag(number ?? '');
+                    switch (flag) {
+                        case 'visa':
+                            this.getPaymentById('number').img = './assets/svg/visa.svg';
+                            break;
+                        case 'american_express':
+                            this.getPaymentById('number').img = './assets/svg/american_express.svg';
+                            break;
+                        case 'mastercard':
+                            this.getPaymentById('number').img = './assets/svg/mastercard.svg';
+                            break;
+                        default:
+                            this.getPaymentById('number').img = '';
+                            break;
+                    }
+                }
             },
             {
                 errors: [],
@@ -741,8 +842,11 @@ export class RegisterComponent implements OnInit {
         ];
     }
 
-    private isPartner(): boolean {
-        return this.getEcommerceSelected()?.value === AppConstants.PROVIDERS.TRAY;
+    private calculateFlag(number: string) {
+        if (number[0] === '4') return 'visa';
+        else if (['34', '37'].includes(number.substring(0, 2))) return 'american_express';
+        else if (['51', '52', '53', '54', '55'].includes(number.substring(0, 2))) return 'mastercard';
+        return '';
     }
 
     private initPlans(): void {
@@ -867,6 +971,7 @@ class Field {
     public errors: string[] = [];
     public model: string | number | boolean = '';
     public icon?: string = '';
+    public img?: string = '';
     public placeholder: string = '';
     public title: string = '';
     public type: string = '';
