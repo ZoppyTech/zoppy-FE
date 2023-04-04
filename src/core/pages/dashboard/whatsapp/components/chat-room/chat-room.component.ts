@@ -1,7 +1,7 @@
 import { AfterViewInit, Component, EventEmitter, HostListener, Input, OnDestroy, OnInit, Output, ViewChild } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
-import { WhatsappConstants } from '@ZoppyTech/utilities';
+import { StringUtil, WhatsappConstants } from '@ZoppyTech/utilities';
 import { Observable, Subscription } from 'rxjs';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
@@ -53,6 +53,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public messagesLoading: boolean = false;
     public messageTemplatesLoading: boolean = false;
     public countdownTimerVisible: boolean = false;
+    public finishConversationLoading: boolean = false;
 
     public footerOptions: Map<string, boolean> = new Map([
         ['attachFileOption', false],
@@ -284,19 +285,20 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public async finishConversation(): Promise<void> {
         try {
             debugger;
+            if (this.finishConversationLoading) return;
+            this.finishConversationLoading = true;
             const request: WhatsappConversationRequest = {
                 ticket: this.latestConversation.ticket,
                 wppContactId: this.latestConversation.wppContactId,
                 wppManagerId: this.latestConversation.wppManagerId
             };
-            const conversationFinished: WhatsappConversationEntity = await this.wppConversationService.finish(
-                this.latestConversation.id,
-                request
-            );
+            await this.wppConversationService.finish(this.latestConversation.id, request);
             this.finishChatRoom.emit(this.chatRoom);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+        } finally {
+            this.finishConversationLoading = false;
         }
     }
 
@@ -311,6 +313,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private buildTemplateMessage(): ThreadMessage {
         return {
+            id: StringUtil.generateUuid(),
             type: WhatsappConstants.MessageType.Template,
             templateName: this.messageTemplateSelected?.name,
             content: this.messageTemplateSelected?.content ?? '',
@@ -325,6 +328,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private buildTextMessage(): ThreadMessage {
         return {
+            id: StringUtil.generateUuid(),
             type: WhatsappConstants.MessageType.Text,
             content: this.messageInput,
             status: WhatsappConstants.MessageStatus.Sent,

@@ -40,6 +40,16 @@ export class WhatsappConversationService extends ApiService {
         return promise;
     }
 
+    public async findInProgressByManagerId(managerId: string): Promise<WhatsappConversationEntity[]> {
+        const promise: Promise<WhatsappConversationEntity[]> = new Promise((resolve: any, reject: any) => {
+            this.get<WhatsappConversationEntity[]>(`${this.url}/in-progress/from-manager/${managerId}`).subscribe(
+                (response: WhatsappConversationEntity[]) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async transfer(id: string, request: WhatsappConversationRequest): Promise<WhatsappConversationEntity> {
         const promise: Promise<WhatsappConversationEntity> = new Promise((resolve: any, reject: any) => {
             this.post<WhatsappConversationEntity, WhatsappConversationRequest>(`${this.url}/${id}/transfer`, request).subscribe(

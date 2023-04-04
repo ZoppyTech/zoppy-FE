@@ -1,3 +1,4 @@
+import { WhatsappAccountManagerEntity } from './whatsapp-account-manager.entity';
 import { WhatsappContactEntity } from './whatsapp-contact.entity';
 import { WhatsappMediaMessageEntity } from './whatsapp-media-message.entity';
 
@@ -13,6 +14,7 @@ export class WhatsappMessageEntity {
     public declare wppManagerId?: string;
     public declare wppPhoneNumberId: string;
     public declare wppMessageTemplateId?: string;
+    public declare wppMediaMessageId?: string;
     public declare parentMessageId?: string;
     public declare createdAt: Date;
     public declare updatedAt: Date;
@@ -24,6 +26,7 @@ export class WhatsappMessageEntity {
     public declare parameters?: Array<string>;
 
     /** Includes */
+    public declare wppAccountManager?: WhatsappAccountManagerEntity;
     public declare wppContact?: WhatsappContactEntity;
     public declare wppMediaMessage?: WhatsappMediaMessageEntity;
 }

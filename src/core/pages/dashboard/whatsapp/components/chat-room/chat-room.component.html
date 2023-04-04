@@ -25,7 +25,7 @@
                     <ps-icon icon="text-18 icon-swap_horiz go-back-icon margin-right-2" class="text--secondary text-18"></ps-icon>
                     <span class="text--secondary text-12 text--bold">Transferir</span>
                 </ps-button>
-                <ps-button (onClick)="finishConversation()" [loading]="false" [wide]="true" type="secondary">
+                <ps-button (onClick)="finishConversation()" [loading]="finishConversationLoading" [wide]="true" type="secondary">
                     <ps-icon icon="text-18 icon-check go-back-icon margin-right-2" class="text--100 text-18"></ps-icon>
                     <span class="text--100 text-12 text--bold">Finalizar</span>
                 </ps-button>
@@ -35,10 +35,7 @@
 
     <!-- <div *ngIf="messagesLoading"></div> -->
     <div *ngIf="!messagesLoading" id="panel-scrollable" class="chat-content">
-        <bubble-info
-            class="bubble-info"
-            *ngIf="this.chatRoom.threads.length <= 0 || !this.latestConversation.sessionExpiration"
-        ></bubble-info>
+        <bubble-info class="bubble-info" *ngIf="!this.latestConversation.sessionExpiration"></bubble-info>
         <div *ngFor="let thread of this.chatRoom.threads">
             <splitter-date [date]="thread.createdAt" [visible]="thread.isFirstMessageOfDay"></splitter-date>
             <thread-message
