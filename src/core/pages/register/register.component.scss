@@ -17,7 +17,31 @@ main {
     .register {
         max-width: 90vw;
         max-height: 90vh;
-        width: 80rem;
+        width: 50rem;
+
+        .logo-content {
+            img {
+                height: 3rem;
+                margin-bottom: 3rem;
+            }
+        }
+
+        ps-stepper {
+            max-width: 90%;
+            width: 35rem;
+        }
+
+        .info-box {
+            padding: 1rem;
+            border-radius: 0.75rem;
+            background-color: #e5edff;
+            border: 1px solid #4d7eff;
+
+            ps-icon {
+                color: var(--info);
+                font-size: 1.5rem;
+            }
+        }
 
         form {
             flex-grow: 1;
@@ -83,10 +107,12 @@ main {
             }
 
             .selected {
-                border: 2px solid var(--success);
+                border: 2px solid var(--secondary);
+                background-color: rgba($color: var(--secondary), $alpha: 0.15);
+
                 .approval {
                     border: unset;
-                    background-color: var(--success);
+                    background-color: var(--secondary);
 
                     ps-icon {
                         color: var(--neutral-100);
@@ -123,14 +149,15 @@ main {
                     }
                 }
                 .selected {
-                    border: 2px solid var(--success);
+                    border: 2px solid var(--secondary);
+                    background-color: #eff1fe;
                     border-radius: 0.5rem;
 
                     .plan {
                         border: unset !important;
                         .approval {
                             border: unset;
-                            background-color: var(--success);
+                            background-color: var(--secondary);
                             .padding-1 {
                                 ps-icon {
                                     color: var(--neutral-100);
@@ -266,7 +293,7 @@ main {
             padding-bottom: 1rem;
 
             ps-button {
-                width: calc(50% - 1rem);
+                width: 100%;
             }
         }
 
@@ -279,6 +306,8 @@ main {
 @media screen and (max-width: 576px) {
     main {
         .register {
+            overflow: auto;
+
             .step-3 {
                 .plans {
                     justify-content: center;
@@ -290,6 +319,14 @@ main {
                         width: 100%;
                     }
                 }
+            }
+
+            .half-size {
+                width: 100%;
+            }
+
+            form {
+                overflow: unset;
             }
         }
     }
