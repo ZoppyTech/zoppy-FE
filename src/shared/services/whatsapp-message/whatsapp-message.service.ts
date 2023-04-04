@@ -51,20 +51,20 @@ export class WhatsappMessageService extends ApiService {
         return promise;
     }
 
-    public async createTextMessage(request: WhatsappTextMessageRequest): Promise<Array<WhatsappMessageEntity>> {
-        const promise: Promise<Array<WhatsappMessageEntity>> = new Promise((resolve: any, reject: any) => {
-            this.post<Array<WhatsappMessageEntity>, WhatsappTextMessageRequest>(`${this.url}/text`, request).subscribe(
-                (response: Array<WhatsappMessageEntity>) => resolve(response),
+    public async createTextMessage(request: WhatsappTextMessageRequest): Promise<WhatsappMessageEntity> {
+        const promise: Promise<WhatsappMessageEntity> = new Promise((resolve: any, reject: any) => {
+            this.post<WhatsappMessageEntity, WhatsappTextMessageRequest>(`${this.url}/text`, request).subscribe(
+                (response: WhatsappMessageEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
         return promise;
     }
 
-    public async createTemplateMessage(request: WhatsappTemplateMessageRequest): Promise<Array<WhatsappMessageEntity>> {
-        const promise: Promise<Array<WhatsappMessageEntity>> = new Promise((resolve: any, reject: any) => {
-            this.post<Array<WhatsappMessageEntity>, WhatsappTemplateMessageRequest>(`${this.url}/template`, request).subscribe(
-                (response: Array<WhatsappMessageEntity>) => resolve(response),
+    public async createTemplateMessage(request: WhatsappTemplateMessageRequest): Promise<WhatsappMessageEntity> {
+        const promise: Promise<WhatsappMessageEntity> = new Promise((resolve: any, reject: any) => {
+            this.post<WhatsappMessageEntity, WhatsappTemplateMessageRequest>(`${this.url}/template`, request).subscribe(
+                (response: WhatsappMessageEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

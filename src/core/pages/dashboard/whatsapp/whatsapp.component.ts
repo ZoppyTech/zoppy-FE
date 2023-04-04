@@ -28,6 +28,10 @@ import { WhatsappMapper } from './whatsapp-mapper';
 import { WhatsappConversationService } from 'src/shared/services/whatsapp-conversation/whatsapp-conversation.service';
 import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
+import { ChatMapper } from './helpers/chat-mapper';
+import { WppConversation } from './models/wpp-conversation';
+import { WhatsappTemplateMessageRequest } from 'src/shared/models/requests/whatsapp-message/whatsapp-template-message.request';
+import { WhatsappTextMessageRequest } from 'src/shared/models/requests/whatsapp-message/whatsapp-text-message.request';
 
 @Component({
     selector: 'app-whatsapp',
@@ -38,6 +42,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public openConversationMobile: boolean = false;
     public isWhatsappActive: boolean = false;
     public user: UserEntity = new UserEntity();
+    public isAdmin: boolean = false;
     public readonly subcomponents = Subcomponents;
     public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
     public whatsappPercentLoading: number = 0;
@@ -135,7 +140,9 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
                             const messageFound: ThreadMessage | undefined = targetChatRoom?.threads.find(
                                 (thread: ThreadMessage) => thread.id === socketData.message.id
                             );
-                            if (messageFound) messageFound.status = socketData.message.status;
+                            if (!messageFound) return;
+                            messageFound.status = socketData.message.status;
+                            messageFound.wamId = socketData.message.wamId;
                             break;
                         case WebSocketConstants.CHAT_ACTIONS.RECEIVE:
                             if (socketData.message.companyId !== this.account.companyId) return;
@@ -157,6 +164,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
                         case WebSocketConstants.CHAT_ACTIONS.CHAT_TRANSFER:
                             if (socketData.message.companyId !== this.account.companyId) return;
                             debugger;
+                            if (socketData.message.wppManagerId !== this.manager.id) return;
                             console.log(socketData.message);
                             this.loadConversationByContact(socketData.message.wppContactId);
                             break;
@@ -173,17 +181,35 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    public onSendingMessage(thread: ThreadMessage): void {
-        const socketData: ChatSocketData = { action: 'create', message: new WhatsappMessageEntity() };
-        socketData.message =
-            thread.type === WhatsappConstants.MessageType.Template
-                ? this.buildTemplateMessageFromThread(thread)
-                : this.buildTextMessageFromThread(thread);
-        this.chatRoomSelected.threads.push(WhatsappMapper.mapMessage(socketData.message));
-        WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
-        this.scrollDownEvent.next();
-        this.webSocketService.emit(WebSocketConstants.CHAT_EVENTS.CREATE, socketData);
-        this.setRoomAsMostRecent(this.chatRoomSelected);
+    public async onSendingMessage(thread: ThreadMessage): Promise<void> {
+        //const socketData: ChatSocketData = { action: 'create', message: new WhatsappMessageEntity() };
+        try {
+            debugger;
+            this.chatRoomSelected.threads.push(thread);
+            WhatsappMapper.setFirstMessagesOfDay(this.chatRoomSelected.threads);
+            this.scrollDownEvent.next();
+            this.setRoomAsMostRecent(this.chatRoomSelected);
+
+            if (thread.type === WhatsappConstants.MessageType.Template) {
+                const request: WhatsappTemplateMessageRequest = this.buildTemplateMessageRequestFrom(thread);
+                const messageSent: WhatsappMessageEntity = await this.wppMessageService.createTemplateMessage(request);
+                debugger;
+                console.log(messageSent);
+                return;
+            }
+            const request: WhatsappTextMessageRequest = this.buildTextMessageRequestFrom(thread);
+            const messageSent: WhatsappMessageEntity = await this.wppMessageService.createTextMessage(request);
+            debugger;
+            console.log(messageSent);
+            return;
+        } catch (ex: any) {
+            const threadIndex: number = this.chatRoomSelected.threads.findIndex(
+                (threadValue: ThreadMessage) => threadValue.id === thread.id
+            );
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+            if (threadIndex === -1) return;
+            this.chatRoomSelected.threads.splice(threadIndex, 1);
+        }
     }
 
     public onContactSelected(contact: ChatContact): void {
@@ -218,6 +244,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public onFinishChatRoom(chatRoom: ChatRoom): void {
         this.conversations.delete(chatRoom.contact.id);
         this.chatRoomSelected = new ChatRoom();
+        this.isChatRoomVisible$ = new BehaviorSubject(false);
         this.toast.success('Conversa finalizada!', WhatsappConstants.ToastTitles.Success);
     }
 
@@ -252,12 +279,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
             debugger;
             this.updateNewConversationCount();
             debugger;
-            const newConversation: [string, ChatRoom] = WhatsappMapper.mapConversation(
-                this.account,
-                this.manager,
-                entity.wppContact,
-                entity.WppMessages
-            );
+            const newConversation: [string, ChatRoom] = WhatsappMapper.mapConversation(this.account, this.manager, entity.WppMessages);
             this.conversations.set(entity.wppContactId, newConversation[1]);
             WhatsappMapper.setUnreadConversations(this.conversations);
             this.onConversationSelected(newConversation[1]);
@@ -331,14 +353,9 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
             debugger;
             const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByContactId(contactId);
             debugger;
-
-            const contact: WhatsappContactEntity =
-                entities.find((entity: WhatsappMessageEntity) => {
-                    return entity.wppContactId === contactId;
-                })?.wppContact ?? new WhatsappContactEntity();
-
-            const newConversation: [string, ChatRoom] = WhatsappMapper.mapConversation(this.account, this.manager, contact, entities);
+            const newConversation: [string, ChatRoom] = WhatsappMapper.mapConversation(this.account, this.manager, entities);
             this.conversations.set(contactId, newConversation[1]);
+            this.setRoomAsMostRecent(newConversation[1]);
             WhatsappMapper.setUnreadConversations(this.conversations);
             return entities;
         } catch (ex: any) {
@@ -347,38 +364,24 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
-    private buildTemplateMessageFromThread(thread: ThreadMessage): WhatsappMessageEntity {
+    private buildTemplateMessageRequestFrom(thread: ThreadMessage): WhatsappTemplateMessageRequest {
         return {
             id: thread.id,
-            type: WhatsappConstants.MessageType.Template,
-            status: WhatsappConstants.MessageStatus.Sent,
-            origin: WhatsappConstants.MessageOrigin.BusinessInitiated,
-            content: thread.templateName ?? '',
+            name: thread.templateName ?? '',
             wppManagerId: this.chatRoomSelected.manager.id,
             wppContactId: this.chatRoomSelected.contact.id,
             wppPhoneNumberId: this.manager.wppPhoneNumberId,
-            userId: this.user.id,
-            parameters: WhatsappUtil.getMessageTemplateParams(thread.templateName ?? '', this.chatRoomSelected),
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            companyId: this.user.companyId
+            parameters: WhatsappUtil.getMessageTemplateParams(thread.templateName ?? '', this.chatRoomSelected)
         };
     }
 
-    private buildTextMessageFromThread(thread: ThreadMessage): WhatsappMessageEntity {
+    private buildTextMessageRequestFrom(thread: ThreadMessage): WhatsappTextMessageRequest {
         return {
             id: thread.id,
-            type: WhatsappConstants.MessageType.Text,
-            status: WhatsappConstants.MessageStatus.Sent,
-            origin: WhatsappConstants.MessageOrigin.BusinessInitiated,
             content: thread.content,
             wppManagerId: this.chatRoomSelected.manager.id,
             wppContactId: this.chatRoomSelected.contact.id,
-            wppPhoneNumberId: this.manager.wppPhoneNumberId,
-            userId: this.user.id,
-            createdAt: new Date(),
-            updatedAt: new Date(),
-            companyId: this.user.companyId
+            wppPhoneNumberId: this.manager.wppPhoneNumberId
         };
     }
 
@@ -396,6 +399,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
 
     private setLoggedUser(): void {
         this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
+        this.isAdmin = this.user.role !== AppConstants.ROLES.COMMON;
     }
 
     private setBreadcrumb(): void {

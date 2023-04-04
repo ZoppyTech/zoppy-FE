@@ -1,3 +1,4 @@
+import { WhatsappAccountManagerEntity } from './whatsapp-account-manager.entity';
 import { WhatsappContactEntity } from './whatsapp-contact.entity';
 import { WhatsappMessageEntity } from './whatsapp-message.entity';
 
@@ -13,6 +14,8 @@ export class WhatsappConversationEntity {
     public declare deletedAt: Date;
     public declare companyId: string;
 
+    /** INCLUDES */
+    public declare wppAccountManager: WhatsappAccountManagerEntity;
     public declare wppContact: WhatsappContactEntity;
     public declare WppMessages: WhatsappMessageEntity[];
 

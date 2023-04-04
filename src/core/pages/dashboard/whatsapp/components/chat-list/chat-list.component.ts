@@ -9,6 +9,8 @@ import { ChatFilters } from '../../models/chat-filters';
     styleUrls: ['./chat-list.component.scss']
 })
 export class ChatListComponent implements OnInit {
+    @Input() public isAdmin: boolean = false;
+    @Input() public pullLoading: boolean = false;
     @Input() public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
     @Output() public currentSubcomponentChange: EventEmitter<Subcomponents> = new EventEmitter<Subcomponents>();
     @Output() public filterChangeEvent: EventEmitter<string> = new EventEmitter<string>();
@@ -18,6 +20,7 @@ export class ChatListComponent implements OnInit {
     @Input() public queueCount: number = 0;
     public readonly EMPTY_lIST_IMAGE_DIR: string = './../../../../../../assets/imgs/empty-chat-list.png';
     public readonly NEW_MESSAGE_IMAGE_DIR: string = './../../../../../../assets/imgs/new-message.png';
+
     public isCollapsedFilter: boolean = false;
     public filters: Map<string, boolean> = new Map([
         [ChatFilters.InProgress, true],
@@ -50,7 +53,6 @@ export class ChatListComponent implements OnInit {
     }
 
     public pullNewConversation(): void {
-        debugger;
         this.pullNewConversationEvent.emit();
     }
 }
