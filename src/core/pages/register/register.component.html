@@ -303,7 +303,14 @@
                 </div>
 
                 <div class="wide buttons">
-                    <ps-button (onClick)="register()" [disabled]="disablePaymentForm()" [loading]="loading" [wide]="true" type="secondary"
+                    <ps-button
+                        (onClick)="register()"
+                        [disabled]="disablePaymentForm()"
+                        [loadingText]="'Criando a sua empresa...'"
+                        [loading]="loading"
+                        [wide]="true"
+                        [theme]="'dark'"
+                        type="secondary"
                         ><span class="text text--100 text--bold">Concluir</span>
                     </ps-button>
                 </div>

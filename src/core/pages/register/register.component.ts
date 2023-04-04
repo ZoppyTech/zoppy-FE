@@ -650,6 +650,7 @@ export class RegisterComponent implements OnInit {
                 title: 'Qual o seu objetivo com a Zoppy?',
                 placeholder: '',
                 type: '',
+                displayTop: true,
                 class: 'wide',
                 inputType: 'dropdown',
                 options: this.goals,
