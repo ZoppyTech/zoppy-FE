@@ -6,4 +6,13 @@ export interface ChatSocketData {
     queueCount?: number;
 }
 
-export type ChatAction = 'create' | 'update' | 'delete' | 'receive' | 'change_status' | 'new_conversation_count';
+export type ChatAction =
+    | 'create'
+    | 'update'
+    | 'delete'
+    | 'receive'
+    | 'change_status'
+    | 'new_conversation_count'
+    | 'chat_transfer'
+    | 'update_current_chat_room'
+    | 'update_new_conversation_count';

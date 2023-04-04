@@ -12,12 +12,12 @@
             </div>
             <h6 class="text--800">{{ chatRoom.contact.displayPhone }}</h6>
         </div>
-        <countdown-timer [timestamp]="latestConversation.sessionExpiration"></countdown-timer>
+        <countdown-timer *ngIf="countdownTimerVisible" [timestamp]="latestConversation.sessionExpiration"></countdown-timer>
         <div class="more-options">
             <div class="flex-row align-center">
                 <ps-button
                     class="margin-right-2"
-                    (onClick)="goBackToChatList.emit()"
+                    (onClick)="transferConversation()"
                     [loading]="false"
                     [wide]="true"
                     type="secondary-border"
@@ -25,7 +25,7 @@
                     <ps-icon icon="text-18 icon-swap_horiz go-back-icon margin-right-2" class="text--secondary text-18"></ps-icon>
                     <span class="text--secondary text-12 text--bold">Transferir</span>
                 </ps-button>
-                <ps-button (onClick)="goBackToChatList.emit()" [loading]="false" [wide]="true" type="secondary">
+                <ps-button (onClick)="finishConversation()" [loading]="false" [wide]="true" type="secondary">
                     <ps-icon icon="text-18 icon-check go-back-icon margin-right-2" class="text--100 text-18"></ps-icon>
                     <span class="text--100 text-12 text--bold">Finalizar</span>
                 </ps-button>
@@ -35,7 +35,10 @@
 
     <!-- <div *ngIf="messagesLoading"></div> -->
     <div *ngIf="!messagesLoading" id="panel-scrollable" class="chat-content">
-        <bubble-info class="flex-center" *ngIf="this.chatRoom.threads.length <= 0"></bubble-info>
+        <bubble-info
+            class="bubble-info"
+            *ngIf="this.chatRoom.threads.length <= 0 || !this.latestConversation.sessionExpiration"
+        ></bubble-info>
         <div *ngFor="let thread of this.chatRoom.threads">
             <splitter-date [date]="thread.createdAt" [visible]="thread.isFirstMessageOfDay"></splitter-date>
             <thread-message
@@ -90,10 +93,13 @@
             <div
                 class="templates-button clickable"
                 [ngStyle]="{ 'background-color': footerOptions.get('messageTemplateOption') ? '#f3f3f3' : 'transparent' }"
-                [ngClass]="{ 'active-color': footerOptions.get('messageTemplateOption') }"
+                [ngClass]="{
+                    'templates-button--active': footerOptions.get('messageTemplateOption'),
+                    'templates-button--highlight': !latestConversation.sessionExpiration
+                }"
                 (click)="toggleMessageTemplatesVisibility()"
             >
-                <span class="font-16 text--500">#</span>
+                <span class="font-16 hashtag">#</span>
             </div>
         </div>
         <div class="flex-row">
@@ -120,7 +126,7 @@
                 [ngClass]="{ 'active-color': footerOptions.get('attachFileOption') }"
                 [ngStyle]="{ 'background-color': footerOptions.get('attachFileOption') ? '#f3f3f3' : 'transparent' }"
             >
-                <ps-icon class="font-16 text--500" icon="icon-attach_file text--500"></ps-icon>
+                <ps-icon class="font-16" icon="icon-attach_file"></ps-icon>
             </div>
         </div>
 
@@ -134,7 +140,7 @@
         ></ps-input>
 
         <div class="send-button clickable" (click)="sendMessage()">
-            <ps-icon icon="font-28 icon-send_fill text--100"></ps-icon>
+            <ps-icon [ngClass]="{ 'has-message': this.messageInput }" icon="font-28 icon-send_fill"></ps-icon>
         </div>
     </div>
 </div>

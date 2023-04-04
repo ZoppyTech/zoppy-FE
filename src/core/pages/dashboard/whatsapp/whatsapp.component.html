@@ -5,7 +5,9 @@
         <chat-list
             *ngIf="currentSubcomponent === subcomponents.ChatList"
             [(currentSubcomponent)]="currentSubcomponent"
+            (filterChangeEvent)="onFilterChange($event)"
             (selectedConversationEvent)="onConversationSelected($event)"
+            (pullNewConversationEvent)="onPullNewConversationButtonClicked()"
             [conversations]="getConversations()"
             [queueCount]="queueCount"
         ></chat-list>
@@ -21,13 +23,15 @@
         ></unregistered-contact-list>
     </div>
     <div *ngIf="!whatsappLoading" class="right-panel" [ngClass]="{ 'right-panel--show': openConversationMobile }">
-        <welcome-chat *ngIf="!chatRoomSelected"></welcome-chat>
+        <welcome-chat *ngIf="!isChatRoomVisible$"></welcome-chat>
         <chat-room
-            *ngIf="chatRoomSelected"
+            #chatRoom
+            *ngIf="isChatRoomVisible$ | async"
             [events]="scrollDownEvent.asObservable()"
             [(chatRoom)]="chatRoomSelected"
             (sendMessageEvent)="onSendingMessage($event)"
             (goBackToChatList)="openConversationMobile = false"
+            (finishChatRoom)="onFinishChatRoom($event)"
         ></chat-room>
     </div>
 </div>

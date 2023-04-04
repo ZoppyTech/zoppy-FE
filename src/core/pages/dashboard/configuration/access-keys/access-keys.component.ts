@@ -99,6 +99,8 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
                 return !this.key.admin || !this.key.key || !this.key.secret;
             case AppConstants.PROVIDERS.DOOCA:
                 return !this.key.admin;
+            case AppConstants.PROVIDERS.ONE_CHAT:
+                return !this.key.key || !this.key.secret;
             default:
                 return !this.key.key || !this.key.secret || !this.key.url;
         }

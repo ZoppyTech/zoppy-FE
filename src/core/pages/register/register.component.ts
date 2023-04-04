@@ -825,6 +825,11 @@ export class RegisterComponent implements OnInit {
                 value: AppConstants.PROVIDERS.NUVEMSHOP
             },
             {
+                image: '',
+                selected: false,
+                value: AppConstants.PROVIDERS.ONE_CHAT
+            },
+            {
                 image: './assets/svg/tray.svg',
                 selected: false,
                 value: AppConstants.PROVIDERS.TRAY

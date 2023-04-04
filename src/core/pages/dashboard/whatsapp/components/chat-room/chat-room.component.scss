@@ -71,6 +71,7 @@
     }
 
     .chat-content {
+        position: relative;
         flex-wrap: nowrap;
         flex-grow: 1;
         flex-direction: column;
@@ -80,6 +81,18 @@
         padding-bottom: 2rem;
         overflow-x: hidden;
         overflow-y: auto;
+
+        .bubble-info {
+            height: fit-content;
+            width: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: sticky;
+            top: 1rem;
+            align-self: flex-start;
+            z-index: 1;
+        }
     }
 
     .footer {
@@ -91,8 +104,7 @@
         align-items: center;
         justify-content: flex-end;
         padding: 18px 1rem;
-        border-top: 1px solid var(--neutral-300);
-        background-color: #ffffff;
+        background-color: #f0f2f5;
 
         .see-last-message-button {
             width: 48px;
@@ -108,6 +120,7 @@
             cursor: pointer;
             background-color: #fafbff;
             box-shadow: 0 1px 1px 0 rgba(#363636, 0.06), 0 0.125rem 5px 0 rgba(#363636, 0.2);
+            z-index: 2;
 
             ps-icon {
                 display: flex;
@@ -133,7 +146,8 @@
             border-radius: 12px;
             max-height: 256px;
             overflow-y: auto;
-            margin: 0px 2.5rem;
+            margin-right: 1rem;
+            z-index: 3;
 
             .item {
                 cursor: pointer;
@@ -153,7 +167,7 @@
             bottom: 90px;
             display: flex;
             flex-direction: column;
-            justify-content: end;
+            justify-content: flex-end;
             align-items: center;
             width: 7rem;
             flex-wrap: nowrap;
@@ -161,6 +175,7 @@
             border-radius: 1rem;
             max-height: 256px;
             overflow-y: auto;
+            z-index: 3;
 
             ps-icon {
                 font-size: 2rem;
@@ -177,45 +192,15 @@
                 border-radius: 100%;
 
                 &--document-circle {
-                    background: rgb(77, 126, 255);
-                    background: linear-gradient(0deg, rgba(77, 126, 255, 1) 0%, rgba(0, 64, 232, 1) 100%);
-                    border: 0 solid;
-                    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
-                    outline: 1px solid;
-                    outline-color: rgba(#4d7eff, 1);
-                    outline-offset: 0px;
-                    text-shadow: none;
-                    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+                    background: rgb(0, 125, 186);
+                    background: linear-gradient(180deg, rgba(0, 125, 186, 1) 50%, rgba(0, 146, 208, 1) 54%);
                     color: var(--neutral-100);
-
-                    &:hover {
-                        border: 1px solid;
-                        box-shadow: inset 0 0 20px rgba(225, 225, 225, 0.5), 0 0 20px rgba(225, 225, 225, 0.2);
-                        outline-color: rgba(#4d7eff, 0);
-                        outline-offset: 15px;
-                        text-shadow: 1px 1px 2px #427388;
-                    }
                 }
 
                 &--image-circle {
-                    background: rgb(0, 208, 133);
-                    background: linear-gradient(0deg, rgba(0, 208, 133, 1) 0%, rgba(0, 185, 118, 1) 100%);
-                    border: 0 solid;
-                    box-shadow: inset 0 0 20px rgba(255, 255, 255, 0);
-                    outline: 1px solid;
-                    outline-color: rgba(#00d085, 1);
-                    outline-offset: 0px;
-                    text-shadow: none;
-                    transition: all 1250ms cubic-bezier(0.19, 1, 0.22, 1);
+                    background: rgb(0, 135, 116);
+                    background: linear-gradient(180deg, rgba(0, 135, 116, 1) 50%, rgba(0, 157, 136, 1) 54%);
                     color: var(--neutral-100);
-
-                    &:hover {
-                        border: 1px solid;
-                        box-shadow: inset 0 0 20px rgba(225, 225, 225, 0.5), 0 0 20px rgba(225, 225, 225, 0.2);
-                        outline-color: rgba(#00d085, 0);
-                        outline-offset: 15px;
-                        text-shadow: 1px 1px 2px #427388;
-                    }
                 }
             }
         }
@@ -232,19 +217,40 @@
             max-width: 3.5rem;
             display: flex;
             margin-right: 0.25rem;
-            color: var(--neutral-500);
             border-radius: 100%;
             position: relative;
+            border: 1px solid transparent;
+
+            .hashtag {
+                color: #54656f;
+            }
+
+            &--highlight {
+                box-shadow: 0 0 0 0 #7b3dff;
+                background-color: rgba(123, 61, 255, 0.1) !important;
+                animation: pulse 2s infinite;
+                transform: scale(1);
+
+                .hashtag {
+                    color: var(--secondary);
+                    font-weight: 900;
+                }
+            }
+
+            &--active {
+                border: 1px solid transparent;
+                color: #54656f;
+
+                .hashtag {
+                    color: #54656f;
+                }
+            }
 
             span {
                 font-size: 2rem;
                 font-weight: 500;
                 font-size: 2rem;
-                color: var(--neutral-500);
-            }
-
-            &.active-color {
-                color: #7b3dff;
+                color: #54656f;
             }
         }
 
@@ -261,17 +267,17 @@
             display: flex;
             height: -moz-fit-content;
             margin-right: 0.35rem;
-            color: #002e72;
+            color: #54656f;
             border-radius: 100%;
             position: relative;
 
             ps-icon {
                 font-size: 2rem;
-                color: #002e72;
+                color: #54656f;
             }
 
             &.active-color {
-                color: #7b3dff;
+                color: #54656f;
             }
         }
 
@@ -290,12 +296,19 @@
             margin-right: 0.75rem;
             border-radius: 100%;
             position: relative;
-            background-color: #7b3dff;
             margin-left: 0.75rem;
 
             ps-icon {
-                font-size: 1.875rem;
-                color: #fff;
+                font-size: 2rem;
+                display: flex;
+                color: #54656f;
+                flex-direction: row;
+                justify-content: center;
+                align-items: center;
+
+                &.has-message {
+                    color: #7b3dff;
+                }
             }
         }
     }
@@ -322,5 +335,20 @@
                 max-width: 256px;
             }
         }
+    }
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(#7b3dff, 0.7);
+    }
+    70% {
+        transform: scale(1);
+        box-shadow: 0 0 0 10px rgba(#7b3dff, 0);
+    }
+    100% {
+        transform: scale(0.95);
+        box-shadow: 0 0 0 0 rgba(#7b3dff, 0);
     }
 }
