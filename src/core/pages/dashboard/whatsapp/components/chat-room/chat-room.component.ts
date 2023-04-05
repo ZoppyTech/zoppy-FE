@@ -102,7 +102,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         try {
             this.countdownTimerVisible = false;
             this.latestConversation = await this.wppConversationService.findByContactId(this.chatRoom.contact.id);
-            debugger;
             WhatsappConversationEntity.validateSessionExpiration(this.latestConversation);
         } catch (error: any) {
             this.latestConversation = new WhatsappConversationEntity();
@@ -150,7 +149,9 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 contactName: this.chatRoom.contact.firstName
             },
             (newMessage: any) => {
-                this.chatRoom.threads.push(WhatsappMapper.mapMessage(newMessage));
+                const thread: ThreadMessage = WhatsappMapper.mapMessage(newMessage);
+                thread.senderName = this.chatRoom.manager.name;
+                this.chatRoom.threads.push(thread);
                 WhatsappMapper.setFirstMessagesOfDay(this.chatRoom.threads);
                 this.seeLastMessage();
             }
@@ -167,7 +168,9 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 contactName: this.chatRoom.contact.firstName
             },
             (newMessage: any) => {
-                this.chatRoom.threads.push(WhatsappMapper.mapMessage(newMessage));
+                const thread: ThreadMessage = WhatsappMapper.mapMessage(newMessage);
+                thread.senderName = this.chatRoom.manager.name;
+                this.chatRoom.threads.push(thread);
                 WhatsappMapper.setFirstMessagesOfDay(this.chatRoom.threads);
                 this.seeLastMessage();
             }
@@ -264,7 +267,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public async transferConversation(): Promise<void> {
-        debugger;
         this.modal.open(
             Modal.IDENTIFIER.CHAT_CONVERSATION_TRANSFER_MODAL,
             {
@@ -275,7 +277,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 wppAccountId: this.chatRoom.account.id
             },
             (conversation: any) => {
-                debugger;
                 this.finishChatRoom.emit(this.chatRoom);
                 this.toast.success('Conversa transferida com sucesso!', WhatsappConstants.ToastTitles.Success);
             }
@@ -284,7 +285,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public async finishConversation(): Promise<void> {
         try {
-            debugger;
             if (this.finishConversationLoading) return;
             this.finishConversationLoading = true;
             const request: WhatsappConversationRequest = {
@@ -317,6 +317,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             type: WhatsappConstants.MessageType.Template,
             templateName: this.messageTemplateSelected?.name,
             content: this.messageTemplateSelected?.content ?? '',
+            senderName: this.chatRoom.manager.name,
             readByManager: true,
             status: WhatsappConstants.MessageStatus.Sent,
             isBusiness: true,
@@ -331,6 +332,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             id: StringUtil.generateUuid(),
             type: WhatsappConstants.MessageType.Text,
             content: this.messageInput,
+            senderName: this.chatRoom.manager.name,
             status: WhatsappConstants.MessageStatus.Sent,
             readByManager: true,
             isBusiness: true,

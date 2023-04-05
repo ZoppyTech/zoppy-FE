@@ -5,9 +5,10 @@ import { ButtonModule } from '@ZoppyTech/button';
 import { IconModule } from '@ZoppyTech/icon';
 import { InputModule } from '@ZoppyTech/input';
 import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
+import { StaticLoadingModule } from '../../static-loading/static-loading.module';
 
 @NgModule({
-    imports: [CommonModule, ButtonModule, IconModule, VisualIdentityModule],
+    imports: [CommonModule, ButtonModule, IconModule, VisualIdentityModule, StaticLoadingModule],
     declarations: [ChatConversationTransferModalComponent],
     exports: [ChatConversationTransferModalComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA, NO_ERRORS_SCHEMA]

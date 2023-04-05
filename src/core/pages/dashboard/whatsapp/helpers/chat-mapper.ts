@@ -15,7 +15,6 @@ import { WhatsappUtil } from '../utils/whatsapp.util';
 })
 export class ChatMapper {
     public mapConversations(conversations: WhatsappConversationEntity[] = []): Map<string, WppConversation> {
-        debugger;
         if (!conversations || conversations.length <= 0) return new Map<string, WppConversation>();
         const conversationsMapped: Map<string, WppConversation> = new Map();
         for (const conversation of conversations) {

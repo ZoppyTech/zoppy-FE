@@ -6,7 +6,10 @@
         </div>
     </div>
 
-    <div class="modal-body">
+    <div class="loading-wrapper" *ngIf="managersLoading">
+        <static-loading [isLoading]="true"></static-loading>
+    </div>
+    <div *ngIf="!managersLoading" class="modal-body">
         <div
             (click)="onManagerSelected(manager)"
             *ngFor="let manager of managers"

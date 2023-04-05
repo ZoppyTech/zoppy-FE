@@ -33,7 +33,6 @@ export class ChatConversationTransferModalComponent implements OnInit {
 
     public async loadManagers(): Promise<void> {
         try {
-            debugger;
             if (this.managersLoading) return;
             this.managersLoading = true;
             const entities: WhatsappAccountManagerEntity[] = await this.wppAccountManagerService.list(this.modal.data.wppAccountId);
@@ -57,7 +56,6 @@ export class ChatConversationTransferModalComponent implements OnInit {
 
     public async transfer(): Promise<void> {
         try {
-            debugger;
             if (!this.managerSelected) return;
             if (this.transferLoading) return;
             this.transferLoading = true;

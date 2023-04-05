@@ -77,22 +77,6 @@ export class UnregisteredContactListComponent {
         this.goBack();
     }
 
-    // public openNewContactModal(): void {
-    //     this.modal.open(
-    //         Modal.IDENTIFIER.CHAT_CONTACT,
-    //         {
-    //             id: '',
-    //             firstName: '',
-    //             lastName: '',
-    //             phoneNumber: '',
-    //             isBlocked: false
-    //         },
-    //         (newContact: any) => {
-    //             this.contacts.push(WhatsappMapper.mapContact(newContact));
-    //         }
-    //     );
-    // }
-
     public async loadContacts(): Promise<void> {
         try {
             const response: ZoppyFilter<WhatsappContactEntity> = await this.wppContactService.findAllPaginated(this.filter);

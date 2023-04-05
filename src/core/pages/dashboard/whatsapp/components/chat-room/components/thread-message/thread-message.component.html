@@ -12,8 +12,19 @@
                 'thread-message-container__body__content--customer-user': !thread.isBusiness
             }"
         >
-            <div *ngIf="thread.type === 'image' || thread.type === 'document'" (click)="download()" class="card-header clickable">
-                <div class="card-header__options more-actions">
+            <div
+                class="thread-message-container__body__content__header"
+                [ngClass]="{
+                    'thread-message-container__body__content__header--business-user': thread.isBusiness,
+                    'thread-message-container__body__content__header--customer-user': !thread.isBusiness
+                }"
+            >
+                <span class="text-14">
+                    {{ thread.senderName }}
+                </span>
+            </div>
+            <div *ngIf="thread.type === 'image' || thread.type === 'document'" (click)="download()" class="download-float-btn clickable">
+                <div class="download-float-btn__options more-actions">
                     <ps-icon *ngIf="!downloading" class="icon-download font-16"></ps-icon>
                     <static-loading *ngIf="downloading" [isLoading]="true" [onlyLoading]="true"></static-loading>
                 </div>

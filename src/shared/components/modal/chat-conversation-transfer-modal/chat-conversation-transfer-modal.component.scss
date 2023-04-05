@@ -37,6 +37,21 @@
         }
     }
 
+    .loading-wrapper {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        flex-grow: 1;
+        width: 40rem;
+        min-width: 100%;
+        height: 25rem;
+        border-radius: 0.5rem;
+        overflow: auto;
+        position: relative;
+        padding: 0.5rem;
+    }
+
     .modal-body {
         display: flex;
         flex-direction: column;
