@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { StepperItem } from '@ZoppyTech/stepper';
 import { ToastService } from '@ZoppyTech/toast';
-import { AppConstants, DateUtil, PasswordValidator, StringUtil, WhatsappUtil } from '@ZoppyTech/utilities';
+import { AppConstants, DateUtil, PasswordValidator, RevenueRecordUtil, StringUtil, WhatsappUtil } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { CompanyProvider } from 'src/shared/models/requests/company/company.request';
 import { CompanyPlan, RegisterRequest } from 'src/shared/models/requests/public/register.request';
 import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { Navigation } from 'src/shared/utils/navigation';
+
+type Step = 'initial' | 'about_you' | 'plan' | 'data' | 'payment';
 
 @Component({
     selector: 'app-register',
@@ -22,8 +25,13 @@ export class RegisterComponent implements OnInit {
     public paymentFields: Field[] = [];
     public plans: Plan[] = [];
     public loading: boolean = false;
-    public step: number = -1;
-    public steps: string[] = ['Sobre você', 'Planos', 'Dados cadastrais', 'Pagamento'];
+    public step: Step = 'initial';
+    public steps: StepperItem[] = [
+        { label: 'Sobre você', value: 'about_you', index: 0 },
+        { label: 'Planos', value: 'plan', index: 1 },
+        { label: 'Dados cadastrais', value: 'data', index: 2 },
+        { label: 'Pagamento', value: 'payment', index: 3 }
+    ];
     public provider: string = '';
     public roles: Item[] = [
         { value: 'founder', label: 'Fundador(a)' },
@@ -82,18 +90,18 @@ export class RegisterComponent implements OnInit {
     ) {}
 
     public ngOnInit() {
-        this.initFields();
-        this.initForm();
-        this.initEcommerce();
-        this.initPlans();
-        this.initPaymentFields();
         this.route.paramMap.subscribe((paramMap: any) => {
             this.provider = paramMap.get('provider');
+            this.initFields();
+            this.initForm();
+            this.initEcommerce();
+            this.initPlans();
+            this.initPaymentFields();
         });
     }
 
     public disableRegisterData(): boolean {
-        if (this.getRegisterDataFieldById('revenueRecord').model.toString().length !== 11) return true;
+        if (!RevenueRecordUtil.isCpfValid(this.getRegisterDataFieldById('revenueRecord').model.toString())) return true;
         if (this.getRegisterDataFieldById('postcode').model.toString().length !== 8) return true;
         if (!this.getRegisterDataFieldById('street').model) return true;
         if (!this.getRegisterDataFieldById('number').model) return true;
@@ -103,12 +111,13 @@ export class RegisterComponent implements OnInit {
     }
 
     public disablePaymentForm(): boolean {
-        if (!this.getPaymentById('name').model.toString()) return true;
-        if (!StringUtil.calculateCreditCardFlag(this.getPaymentById('number').model.toString())) return true;
-        if (!DateUtil.validateCardExpiryDate(this.getPaymentById('expirationDate').model.toString())) return true;
-        if (!this.getPaymentById('cvv').model.toString()) return true;
-        if (!this.calculateFlag(this.getPaymentById('number').model.toString())) return true;
-        return false;
+        let disabled: boolean = false;
+        if (!this.getPaymentById('name').model.toString()) disabled = true;
+        if (!StringUtil.validateCreditCard(this.getPaymentById('number').model.toString())) disabled = true;
+        if (!StringUtil.calculateCreditCardFlag(this.getPaymentById('number').model.toString())) disabled = true;
+        if (!DateUtil.validateCardExpiryDate(this.getPaymentById('expirationDate').model.toString())) disabled = true;
+        if (!this.getPaymentById('cvv').model.toString()) disabled = true;
+        return disabled;
     }
 
     public getThirdStepDisabled(): boolean {
@@ -133,18 +142,18 @@ export class RegisterComponent implements OnInit {
         const thirdStepValid: Validate = this.validateRegisterDataForm();
 
         if (!formValid.isValid) {
-            this.step = -1;
-            this.toast.error('Houveram erros de validação', 'Erro');
+            this.step = 'initial';
+            this.toast.error('Houveram erros de validação das informações iniciais', 'Erro');
             return;
         }
         if (!thirdStepValid.isValid) {
-            this.step = 2;
+            this.step = 'data';
             this.toast.error('Houveram erros de validação', 'Erro');
             return;
         }
         if (!paymentFormValid.isValid) {
             this.toast.error('Houveram erros de validação dos valores de pagamento', 'Erro');
-            this.step = 3;
+            this.step = 'payment';
             return;
         }
 
@@ -163,14 +172,14 @@ export class RegisterComponent implements OnInit {
                 goal: this.getAboutYouFieldById('goal').model.toString(),
                 channel: this.getById('channel').model.toString(),
                 password: this.getById('password').model.toString(),
-                plan: this.getPlanSelected()?.value?.toString() as CompanyPlan,
+                plan: (this.getPlanSelected()?.value?.toString() as CompanyPlan) ?? AppConstants.PLANS.STANDARD,
                 provider: this.provider as CompanyProvider,
                 payment: {
                     name: this.getPaymentById('name').model.toString(),
                     expirationDate: `${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`,
                     cardNumber: this.getPaymentById('number').model.toString(),
                     cvv: this.getPaymentById('cvv').model.toString(),
-                    flag: this.calculateFlag(this.getPaymentById('number').model.toString())
+                    flag: StringUtil.calculateCreditCardFlag(this.getPaymentById('number').model.toString())
                 },
                 address: {
                     street: this.getRegisterDataFieldById('street').model.toString(),
@@ -193,22 +202,39 @@ export class RegisterComponent implements OnInit {
         }
     }
 
-    public async changeStep(index: number): Promise<void> {
-        if (index < this.step) {
-            this.step = index;
+    public async changeStep(stepValue: Step): Promise<void> {
+        if (!this.provider) {
+            if (stepValue.toString() === 'plan') stepValue = 'data';
+            this.selectPlan(AppConstants.PLANS.STANDARD);
+            this.steps = [
+                { label: 'Sobre você', value: 'about_you', index: 0 },
+                { label: 'Dados cadastrais', value: 'data', index: 1 },
+                { label: 'Pagamento', value: 'payment', index: 2 }
+            ];
+        }
+
+        if (stepValue === 'payment') {
+            await this.register();
+            return;
+        }
+
+        const currentIndex: number = this.steps.findIndex((step: StepperItem) => step.value === this.step);
+        const desiredStepIndex: number = this.steps.findIndex((step: StepperItem) => step.value === stepValue);
+        if (desiredStepIndex < currentIndex) {
+            this.step = this.steps[desiredStepIndex].value as any;
             return;
         }
 
         const planSelected: Plan = this.getPlanSelected();
         if (this.provider === AppConstants.PROVIDERS.TRAY && planSelected?.value === AppConstants.PLANS.FREE) {
-            this.steps = ['Sobre você', 'Planos', 'Dados cadastrais'];
-            if (index === 3) {
-                await this.register();
-                return;
-            }
+            this.steps = [
+                { label: 'Sobre você', value: 'about_you', index: 0 },
+                { label: 'Planos', value: 'plans', index: 1 },
+                { label: 'Dados cadastrais', value: 'data', index: 2 }
+            ];
         }
 
-        this.step = index;
+        this.step = this.steps[desiredStepIndex].value as any;
     }
 
     public goBack(email: string): void {
@@ -266,7 +292,7 @@ export class RegisterComponent implements OnInit {
             countErrors++;
         }
 
-        if (WhatsappUtil.fullPhoneValidation(this.getById('phone').model.toString())) {
+        if (!WhatsappUtil.fullPhoneValidation(this.getById('phone').model.toString())) {
             this.getById('phone').errors = ['error'];
             countErrors++;
         }
@@ -355,17 +381,16 @@ export class RegisterComponent implements OnInit {
             this.getById('name').errors = ['error'];
             countErrors++;
         }
-        const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
 
         if (!this.getPaymentById('name').model.toString()) {
             this.getPaymentById('name').errors = ['error'];
             countErrors++;
         }
-        if (!this.getPaymentById('number').model.toString()) {
+        if (!StringUtil.validateCreditCard(this.getPaymentById('number').model.toString())) {
             this.getPaymentById('number').errors = ['error'];
             countErrors++;
         }
-        if (`${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`.length !== 5) {
+        if (!DateUtil.validateCardExpiryDate(this.getPaymentById('expirationDate').model.toString())) {
             this.getPaymentById('expirationDate').errors = ['error'];
             countErrors++;
         }
@@ -373,7 +398,7 @@ export class RegisterComponent implements OnInit {
             this.getPaymentById('cvv').errors = ['error'];
             countErrors++;
         }
-        if (!this.calculateFlag(this.getPaymentById('number').model.toString())) {
+        if (!StringUtil.calculateCreditCardFlag(this.getPaymentById('number').model.toString())) {
             countErrors++;
         }
 
@@ -638,7 +663,7 @@ export class RegisterComponent implements OnInit {
                 propertyImage: 'img',
                 inputType: 'input',
                 onChange: (number: string) => {
-                    const flag: string = this.calculateFlag(number ?? '');
+                    const flag: string = StringUtil.calculateCreditCardFlag(number ?? '');
                     switch (flag) {
                         case 'visa':
                             this.getPaymentById('number').img = './assets/svg/visa.svg';
@@ -719,13 +744,6 @@ export class RegisterComponent implements OnInit {
                 value: AppConstants.PROVIDERS.DOOCA
             }
         ];
-    }
-
-    private calculateFlag(number: string) {
-        if (number[0] === '4') return 'visa';
-        else if (['34', '37'].includes(number.substring(0, 2))) return 'american_express';
-        else if (['51', '52', '53', '54', '55'].includes(number.substring(0, 2))) return 'mastercard';
-        return '';
     }
 
     private initPlans(): void {
