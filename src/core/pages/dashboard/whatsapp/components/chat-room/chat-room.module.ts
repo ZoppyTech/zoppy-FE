@@ -14,6 +14,7 @@ import { AudioMessageModule } from './components/audio-message/audio-message.mod
 import { DocumentMessageModule } from './components/document-message/document-message.module';
 import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
 import { CountdownTimerModule } from './components/countdown-timer/countdown-timer.module';
+import { ContactInfoPanelModule } from './components/contact-info-panel/contact-info-panel.module';
 
 const providers: Provider[] = [ChatUtility];
 
@@ -32,7 +33,8 @@ const providers: Provider[] = [ChatUtility];
         AudioMessageModule,
         DocumentMessageModule,
         StaticLoadingModule,
-        CountdownTimerModule
+        CountdownTimerModule,
+        ContactInfoPanelModule
     ],
     providers: [providers],
     exports: [ChatRoomComponent],
