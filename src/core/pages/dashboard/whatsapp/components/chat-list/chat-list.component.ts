@@ -10,6 +10,7 @@ import { ChatFilters } from '../../models/chat-filters';
 })
 export class ChatListComponent implements OnInit {
     @Input() public isAdmin: boolean = false;
+    @Input() public filterLoading: boolean = false;
     @Input() public pullLoading: boolean = false;
     @Input() public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
     @Output() public currentSubcomponentChange: EventEmitter<Subcomponents> = new EventEmitter<Subcomponents>();
