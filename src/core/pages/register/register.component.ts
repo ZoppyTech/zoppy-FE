@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
 import { AppConstants, PasswordValidator, StringUtil } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
@@ -24,179 +24,61 @@ export class RegisterComponent implements OnInit {
     public loading: boolean = false;
     public step: number = -1;
     public steps: string[] = ['Sobre você', 'Planos', 'Dados cadastrais', 'Pagamento'];
+    public provider: string = '';
     public roles: Item[] = [
-        {
-            value: 'founder',
-            label: 'Fundador(a)'
-        },
-        {
-            value: 'director',
-            label: 'Diretor(a)'
-        },
-        {
-            value: 'manager',
-            label: 'Gerente'
-        },
-        {
-            value: 'founder',
-            label: 'Analista'
-        },
-        {
-            value: 'seller',
-            label: 'Vendedor(a)'
-        }
+        { value: 'founder', label: 'Fundador(a)' },
+        { value: 'director', label: 'Diretor(a)' },
+        { value: 'manager', label: 'Gerente' },
+        { value: 'founder', label: 'Analista' },
+        { value: 'seller', label: 'Vendedor(a)' }
     ];
     public segments: Item[] = [
-        {
-            value: 'food',
-            label: 'Alimentos'
-        },
-        {
-            value: 'automotive',
-            label: 'Automotivos'
-        },
-        {
-            value: 'beverage',
-            label: 'Bebidas'
-        },
-        {
-            value: 'camping',
-            label: 'Camping'
-        },
-        {
-            value: 'house_decoration',
-            label: 'Casa e decoração'
-        },
-        {
-            value: 'cosmetics',
-            label: 'Cosméticos'
-        },
-        {
-            value: 'electronics',
-            label: 'Eletrodomésticos'
-        },
-        {
-            value: 'manage_relationships',
-            label: 'Eletroeletrônicos'
-        },
-        {
-            value: 'sport',
-            label: 'Esportes'
-        },
-        {
-            value: 'geek',
-            label: 'Geek'
-        },
-        {
-            value: 'child',
-            label: 'Infantil'
-        },
-        {
-            value: 'computing',
-            label: 'Informática'
-        },
-        {
-            value: 'jewelry',
-            label: 'Jóias'
-        },
-        {
-            value: 'hardware_store',
-            label: 'Material de Construção'
-        },
-        {
-            value: 'fashion',
-            label: 'Moda'
-        },
-        {
-            value: 'optical',
-            label: 'Óptica'
-        },
-        {
-            value: 'paper',
-            label: 'Papelaria'
-        },
-        {
-            value: 'perfume',
-            label: 'Perfumaria'
-        },
-        {
-            value: 'petshop',
-            label: 'Petshop'
-        },
-        {
-            value: 'natural_products',
-            label: 'Produtos Naturais'
-        },
-        {
-            value: 'shoes',
-            label: 'Sapatos'
-        },
-        {
-            value: 'customer_fidelity',
-            label: 'Saúde e Beleza'
-        },
-        {
-            value: 'sexshop',
-            label: 'Sexshop'
-        },
-        {
-            value: 'others',
-            label: 'Outros'
-        }
+        { value: 'food', label: 'Alimentos' },
+        { value: 'automotive', label: 'Automotivos' },
+        { value: 'beverage', label: 'Bebidas' },
+        { value: 'camping', label: 'Camping' },
+        { value: 'house_decoration', label: 'Casa e decoração' },
+        { value: 'cosmetics', label: 'Cosméticos' },
+        { value: 'electronics', label: 'Eletrodomésticos' },
+        { value: 'manage_relationships', label: 'Eletroeletrônicos' },
+        { value: 'sport', label: 'Esportes' },
+        { value: 'geek', label: 'Geek' },
+        { value: 'child', label: 'Infantil' },
+        { value: 'computing', label: 'Informática' },
+        { value: 'jewelry', label: 'Jóias' },
+        { value: 'hardware_store', label: 'Material de Construção' },
+        { value: 'fashion', label: 'Moda' },
+        { value: 'optical', label: 'Óptica' },
+        { value: 'paper', label: 'Papelaria' },
+        { value: 'perfume', label: 'Perfumaria' },
+        { value: 'petshop', label: 'Petshop' },
+        { value: 'natural_products', label: 'Produtos Naturais' },
+        { value: 'shoes', label: 'Sapatos' },
+        { value: 'customer_fidelity', label: 'Saúde e Beleza' },
+        { value: 'sexshop', label: 'Sexshop' },
+        { value: 'others', label: 'Outros' }
     ];
     public goals: Item[] = [
-        {
-            value: 'manage_sellers',
-            label: 'Acompanhar melhor os meus vendedores.'
-        },
-        {
-            value: 'manage_relationships',
-            label: 'Gerenciar melhor os relacionamentos da marca.'
-        },
-        {
-            value: 'giftback',
-            label: 'Programa de Giftback.'
-        },
-        {
-            value: 'customer_fidelity',
-            label: 'Diminuir o tempo de recompra dos meus clientes.'
-        },
-        {
-            value: 'improve_products_mix',
-            label: 'Melhorar meu mix de produtos'
-        },
-        {
-            value: 'manage_consume_patterns',
-            label: 'Entender mais sobre os padrões de consumo dos meus clientes.'
-        }
+        { icon: 'icon-add_shopping_cart', value: 'consume_patterns', label: 'Entender mais sobre os padrões de consumo dos meus clientes' },
+        { icon: 'icon-follow', value: 'follow_up_sellers', label: 'Acompanhar melhor os meus vendedores' },
+        { icon: 'icon-giftback', value: 'giftback', label: 'Programa de Giftback' },
+        { icon: 'icon-handshake', value: 'manage_brand_relationships', label: 'Gerencia melhor os relacionamento da marca.' },
+        { icon: 'icon-mix_products', value: 'improve_products_mix', label: 'Melhorar meu mix de produtos.' },
+        { icon: 'icon-time_count', value: 'reduce_repurchase_span', label: 'Diminuir tempo de recompra dos meus clientes.' }
     ];
     public channels: Item[] = [
-        {
-            value: 'outbound',
-            label: 'Anúncios'
-        },
-        {
-            value: 'inbound',
-            label: 'Comercial entrou em contato'
-        },
-        {
-            value: 'events',
-            label: 'Eventos'
-        },
-        {
-            value: 'indications',
-            label: 'Indicações'
-        },
-        {
-            value: 'social_media',
-            label: 'Mídias sociais'
-        }
+        { value: 'outbound', label: 'Anúncios' },
+        { value: 'inbound', label: 'Comercial entrou em contato' },
+        { value: 'events', label: 'Eventos' },
+        { value: 'indications', label: 'Indicações' },
+        { value: 'social_media', label: 'Mídias sociais' }
     ];
 
     public constructor(
         private readonly publicService: PublicService,
         private readonly toast: ToastService,
-        private readonly router: Router
+        private readonly router: Router,
+        private readonly route: ActivatedRoute
     ) {}
 
     public ngOnInit() {
@@ -205,6 +87,9 @@ export class RegisterComponent implements OnInit {
         this.initEcommerce();
         this.initPlans();
         this.initPaymentFields();
+        this.route.paramMap.subscribe((paramMap: any) => {
+            this.provider = paramMap.get('provider');
+        });
     }
 
     public disableRegisterData(): boolean {
@@ -280,7 +165,7 @@ export class RegisterComponent implements OnInit {
                 channel: this.getById('channel').model.toString(),
                 password: this.getById('password').model.toString(),
                 plan: this.getPlanSelected()?.value?.toString() as CompanyPlan,
-                provider: this.getEcommerceSelected()?.value?.toString() as CompanyProvider,
+                provider: this.provider as CompanyProvider,
                 payment: {
                     name: this.getPaymentById('name').model.toString(),
                     expirationDate: `${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`,
@@ -309,40 +194,19 @@ export class RegisterComponent implements OnInit {
         }
     }
 
-    public changeStep(index: number): void {
+    public async changeStep(index: number): Promise<void> {
         if (index < this.step) {
             this.step = index;
             return;
         }
 
-        const formValid: Validate =
-            index > -1
-                ? this.validateForm()
-                : {
-                      isValid: true,
-                      message: '',
-                      title: ''
-                  };
-
-        const thirdFormValid: Validate =
-            index > 3
-                ? this.validateRegisterDataForm()
-                : {
-                      isValid: true,
-                      message: '',
-                      title: ''
-                  };
-
-        if (!formValid.isValid) {
-            this.step = -1;
-            this.toast.error(formValid.message, formValid.title);
-            return;
-        }
-
-        if (!thirdFormValid.isValid) {
-            this.step = 1;
-            this.toast.error(thirdFormValid.message, thirdFormValid.title);
-            return;
+        const planSelected: Plan = this.getPlanSelected();
+        if (this.provider === AppConstants.PROVIDERS.TRAY && planSelected?.value === AppConstants.PLANS.FREE) {
+            this.steps = ['Sobre você', 'Planos', 'Dados cadastrais'];
+            if (index === 3) {
+                await this.register();
+                return;
+            }
         }
 
         this.step = index;
@@ -381,12 +245,9 @@ export class RegisterComponent implements OnInit {
         });
     }
 
-    public getEcommerceSelected(): Ecommerce {
-        return this.ecommerces.find((ecommerce: Ecommerce) => ecommerce.selected) as Ecommerce;
-    }
-
     public getPlanSelected(): Plan {
-        return this.plans.find((plan: Plan) => plan.selected) as Plan;
+        const selected: Plan = this.plans.find((plan: Plan) => plan.selected) as Plan;
+        return selected;
     }
 
     private initForm(): void {
@@ -480,6 +341,13 @@ export class RegisterComponent implements OnInit {
     }
 
     private validatePaymentForm(): Validate {
+        if (this.provider === AppConstants.PROVIDERS.TRAY && this.getPlanSelected()?.value === AppConstants.PLANS.FREE)
+            return {
+                isValid: true,
+                message: '',
+                title: ''
+            };
+
         let countErrors: number = 0;
         let message: string = 'Houveram erros de validação';
         let title: string = 'Erro';
@@ -588,6 +456,7 @@ export class RegisterComponent implements OnInit {
                 placeholder: '',
                 type: '',
                 displayTop: true,
+                hasImage: false,
                 class: 'wide',
                 inputType: 'dropdown',
                 options: this.channels,
@@ -652,8 +521,11 @@ export class RegisterComponent implements OnInit {
                 type: '',
                 displayTop: true,
                 class: 'wide',
-                inputType: 'dropdown',
+                inputType: 'selector',
                 options: this.goals,
+                propertyLabel: 'label',
+                propertyValue: 'value',
+                icon: 'icon',
                 onChange: () => {}
             }
         ];
@@ -764,6 +636,7 @@ export class RegisterComponent implements OnInit {
                 type: 'number',
                 class: 'wide',
                 icon: 'icon-visa',
+                propertyImage: 'img',
                 inputType: 'input',
                 onChange: (number: string) => {
                     const flag: string = this.calculateFlag(number ?? '');
@@ -886,28 +759,28 @@ export class RegisterComponent implements OnInit {
                         label: 'Gestor de conta',
                         value: '',
                         icon: 'icon-manage_accounts',
-                        class: 'text--400'
+                        class: 'text'
                     },
                     {
                         label: 'Painel do Vendedor',
                         value: '',
                         icon: 'icon-assignment_ind',
-                        class: 'text--400'
+                        class: 'text'
                     },
                     {
                         label: 'Carrinho Abandonado',
                         value: '',
                         icon: 'icon-shopping_cart',
-                        class: 'text--400'
+                        class: 'text'
                     },
                     {
                         label: 'NPS',
                         value: '',
                         icon: 'icon-star',
-                        class: 'text--400'
+                        class: 'text'
                     }
                 ],
-                visible: true,
+                visible: this.provider === AppConstants.PROVIDERS.TRAY,
                 satisfaction: true,
                 special: false,
                 value: AppConstants.PLANS.FREE,
@@ -990,6 +863,10 @@ class Field {
     public onChange: any;
     public description?: string = '';
     public displayTop?: boolean = false;
+    public hasImage?: boolean = false;
+    public propertyImage?: string = '';
+    public propertyLabel?: string = '';
+    public propertyValue?: string = '';
 }
 
 class Ecommerce {

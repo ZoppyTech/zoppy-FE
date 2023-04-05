@@ -33,13 +33,13 @@
             <span class="text-14 text--600">Preencha o formulário abaixo com os dados do seu cartão de crédito.</span>
         </div>
 
-        <div class="info-box flex align-center margin-bottom-3" *ngIf="[0, 1].includes(step)">
+        <div class="info-box flex align-center margin-bottom-3" *ngIf="[2, 3].includes(step)">
             <ps-icon icon="icon-info-inverted" class="margin-right-2"></ps-icon>
-            <span class="text text-14" *ngIf="step === 1">
+            <span class="text text-14" *ngIf="step === 3">
                 <strong>Importante: </strong> a transação não será processada com cartão virtual, verifique-se de utilizar seu cartão
                 físico. <a class="text--info text--link">Clique aqui</a> para saber mais.
             </span>
-            <span class="text text-14" *ngIf="step === 0">
+            <span class="text text-14" *ngIf="step === 2">
                 <strong>Observação: </strong> o endereço informado deve ser o mesmo referente ao de cobrança.
             </span>
         </div>
@@ -70,7 +70,7 @@
                         [displayTop]="field.displayTop ?? false"
                         [enableSearch]="false"
                         [errors]="field.errors"
-                        [hasImage]="true"
+                        [hasImage]="field.hasImage ?? false"
                         (onFocus)="field.errors = []"
                         [items]="field.options ?? []"
                         [(value)]="field.model"
@@ -79,6 +79,16 @@
                         [wide]="true"
                         [debounce]="0"
                     ></ps-dropdown>
+
+                    <ps-selector
+                        *ngIf="field.inputType === 'selector'"
+                        (onFocus)="field.errors = []"
+                        [items]="field.options ?? []"
+                        [(value)]="field.model"
+                        [propertyLabel]="field.propertyLabel ?? ''"
+                        [propertyValue]="field.propertyValue ?? ''"
+                        [propertyIcon]="field.icon ?? ''"
+                    ></ps-selector>
 
                     <ps-radio-button
                         *ngIf="field.inputType === 'radio-button'"
@@ -132,16 +142,27 @@
                         *ngIf="field.inputType === 'dropdown'"
                         [enableSearch]="true"
                         [errors]="field.errors"
-                        [hasImage]="true"
+                        [hasImage]="field.hasImage ?? false"
                         [displayTop]="field.displayTop ?? false"
                         (onFocus)="field.errors = []"
                         [items]="field.options ?? []"
                         [(value)]="field.model"
                         propertyLabel="label"
                         propertyValue="value"
+                        [propertyImage]="field.propertyImage"
                         [wide]="true"
                         [debounce]="0"
                     ></ps-dropdown>
+
+                    <ps-selector
+                        *ngIf="field.inputType === 'selector'"
+                        (onFocus)="field.errors = []"
+                        [items]="field.options ?? []"
+                        [(value)]="field.model"
+                        [propertyLabel]="field.propertyLabel ?? ''"
+                        [propertyValue]="field.propertyValue ?? ''"
+                        [propertyIcon]="field.icon ?? ''"
+                    ></ps-selector>
                 </div>
 
                 <div class="wide">
@@ -167,6 +188,7 @@
                     >
                         <div class="plan clickable flex flex-column" (click)="selectPlan(plan.value)">
                             <h6 class="text--bold margin-right-3">{{ plan.title }}</h6>
+                            {{ plan.visible }}
                             <div class="flex align-items-end margin-top-3">
                                 <h6 class="text--secondary">{{ plan.price | zoppyCurrency }}</h6>
                                 <span class="text">&nbsp;/mês</span>
@@ -291,10 +313,10 @@
                         [displayTop]="true"
                         [enableSearch]="false"
                         [errors]="field.errors"
-                        [hasImage]="true"
+                        [hasImage]="field.hasImage ?? false"
                         [items]="field.options ?? []"
                         [(value)]="field.model"
-                        propertyImage="img"
+                        [propertyImage]="field.propertyImage"
                         propertyLabel="label"
                         propertyValue="value"
                         [wide]="true"
