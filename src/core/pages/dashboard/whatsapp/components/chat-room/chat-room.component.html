@@ -6,7 +6,9 @@
                 <span class="text--500 text-18 margin-x-1">Voltar</span>
             </div>
             <div class="flex-row align-center display-name">
-                <span class="text--800 text--bold text-20 truncate">{{ chatRoom.contact.displayName }}</span>
+                <span (click)="rightPanelVisible = !rightPanelVisible" class="text--800 text--bold text-20 truncate">{{
+                    chatRoom.contact.displayName
+                }}</span>
                 <ps-icon *ngIf="chatRoom.contact.isBlocked" class="font-14 block-icon margin-x-1" icon="icon-block"></ps-icon>
                 <ps-icon (click)="editContactModal()" class="font-14 edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
             </div>
@@ -34,6 +36,7 @@
     </div>
 
     <!-- <div *ngIf="messagesLoading"></div> -->
+    <contact-info-panel *ngIf="rightPanelVisible" [contact]="chatRoom.contact" [(close)]="rightPanelVisible"> </contact-info-panel>
     <div *ngIf="!messagesLoading" id="panel-scrollable" class="chat-content">
         <bubble-info class="bubble-info" *ngIf="!this.latestConversation.sessionExpiration"></bubble-info>
         <div *ngFor="let thread of this.chatRoom.threads">

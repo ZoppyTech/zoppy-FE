@@ -54,6 +54,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public messageTemplatesLoading: boolean = false;
     public countdownTimerVisible: boolean = false;
     public finishConversationLoading: boolean = false;
+    public rightPanelVisible: boolean = false;
 
     public footerOptions: Map<string, boolean> = new Map([
         ['attachFileOption', false],
@@ -300,6 +301,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         } finally {
             this.finishConversationLoading = false;
         }
+    }
+
+    public showContactInfo(value: boolean): void {
+        this.rightPanelVisible = !value;
     }
 
     public getInputTextPlaceholder(): string {

@@ -1,0 +1,57 @@
+<div class="contact-info-panel">
+    <div class="contact-info-panel__header">
+        <span class="text-20 text--bold text--primary"> Dados do contato </span>
+        <div (click)="onCloseClicked()" class="button-go-back clickable">
+            <ps-icon class="text-16 text--primary text--700" icon="icon-times"></ps-icon>
+        </div>
+    </div>
+
+    <div *ngIf="contactInfoLoading" class="loading-wrapper">
+        <static-loading [isLoading]="true"></static-loading>
+    </div>
+
+    <div class="flex-center contact-photo">
+        <ps-contact class="margin-top-3" [tooltip]="false" [size]="'7rem'" [name]="contact.firstName"></ps-contact>
+    </div>
+
+    <div *ngIf="!contactInfoLoading" class="contact-info-panel__body margin-top-3">
+        <span class="text text--primary text--bold">Sobre</span>
+        <div class="info-box padding-2 margin-top-2">
+            <div class="flex padding-y-1 align-center">
+                <ps-icon class="icon-color" icon="icon-call"></ps-icon> &nbsp;
+                <span class="text margin-left-1 text--700">{{ contact.displayPhone }}</span>
+            </div>
+            <div class="flex padding-y-1 align-center">
+                <ps-icon class="icon-color" icon="icon-mail"></ps-icon> &nbsp;
+                <span class="text margin-left-1 text--500" *ngIf="!contactInfo?.Address?.email">vazio</span>
+                <span class="text margin-left-1 text--700">{{ contactInfo.Address?.email }}</span>
+            </div>
+            <div class="flex padding-y-1 align-center">
+                <ps-icon class="icon-color" icon="icon-cake"></ps-icon> &nbsp;
+                <span *ngIf="contactInfo?.Address?.birthDate" class="text margin-left-1">{{
+                    contactInfo.Address?.birthDate | date : 'dd/MM/yyyy'
+                }}</span>
+                <span class="text margin-left-1 text--500" *ngIf="!contactInfo?.Address?.birthDate">vazio</span>
+            </div>
+            <div class="flex padding-y-1 align-center">
+                <ps-icon class="icon-color" icon="icon-location_on"></ps-icon> &nbsp;
+                <span class="text margin-left-1 text--500" *ngIf="!contactInfo?.Address?.address1">vazio</span>
+                <span class="text margin-left-1 text--700" *ngIf="contactInfo?.Address?.address1">{{ contactInfo.Address?.address1 }}</span>
+            </div>
+            <div class="flex padding-y-1 align-center">
+                <ps-icon class="icon-color" icon="icon-female"></ps-icon> &nbsp;
+                <span class="text margin-left-1 text--500" *ngIf="!contactInfo?.Address?.gender">vazio</span>
+                <span class="text margin-left-1 text--700" *ngIf="contactInfo?.Address?.gender">{{ contactInfo.Address?.gender }}</span>
+            </div>
+            <div class="flex padding-y-1 align-center">
+                <ps-icon class="icon-color" icon="icon-store"></ps-icon> &nbsp;
+                <div class="flex-column">
+                    <span class="text margin-left-1 text--500" *ngIf="!contactInfo?.Address?.Customer?.user?.name">não definido</span>
+                    <span class="text margin-left-1 text--700" *ngIf="contactInfo?.Address?.Customer?.user?.name"
+                        >Vendedor: {{ contactInfo.Address?.Customer?.user?.name }}</span
+                    >
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
