@@ -213,9 +213,12 @@ export class RegisterComponent implements OnInit {
             ];
         }
 
-        if (stepValue === 'payment') {
-            await this.register();
-            return;
+        const planSelected: Plan = this.getPlanSelected();
+        if (this.provider === AppConstants.PROVIDERS.TRAY && planSelected?.value === AppConstants.PLANS.FREE) {
+            if (stepValue === 'payment') {
+                await this.register();
+                return;
+            }
         }
 
         const currentIndex: number = this.steps.findIndex((step: StepperItem) => step.value === this.step);
@@ -225,7 +228,6 @@ export class RegisterComponent implements OnInit {
             return;
         }
 
-        const planSelected: Plan = this.getPlanSelected();
         if (this.provider === AppConstants.PROVIDERS.TRAY && planSelected?.value === AppConstants.PLANS.FREE) {
             this.steps = [
                 { label: 'Sobre você', value: 'about_you', index: 0 },
