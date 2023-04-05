@@ -290,8 +290,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             this.finishConversationLoading = true;
             const request: WhatsappConversationRequest = {
                 ticket: this.latestConversation.ticket,
-                wppContactId: this.latestConversation.wppContactId,
-                wppManagerId: this.latestConversation.wppManagerId
+                wppContactId: this.chatRoom.contact.id,
+                wppManagerId: this.chatRoom.manager.id
             };
             await this.wppConversationService.finish(this.latestConversation.id, request);
             this.finishChatRoom.emit(this.chatRoom);
@@ -301,10 +301,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         } finally {
             this.finishConversationLoading = false;
         }
-    }
-
-    public showContactInfo(value: boolean): void {
-        this.rightPanelVisible = !value;
     }
 
     public getInputTextPlaceholder(): string {
