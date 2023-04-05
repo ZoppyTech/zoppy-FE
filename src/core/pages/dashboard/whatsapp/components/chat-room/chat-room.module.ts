@@ -13,6 +13,7 @@ import { ImageMessageModule } from './components/image-message/image-message.mod
 import { AudioMessageModule } from './components/audio-message/audio-message.module';
 import { DocumentMessageModule } from './components/document-message/document-message.module';
 import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
+import { CountdownTimerModule } from './components/countdown-timer/countdown-timer.module';
 
 const providers: Provider[] = [ChatUtility];
 
@@ -30,7 +31,8 @@ const providers: Provider[] = [ChatUtility];
         ImageMessageModule,
         AudioMessageModule,
         DocumentMessageModule,
-        StaticLoadingModule
+        StaticLoadingModule,
+        CountdownTimerModule
     ],
     providers: [providers],
     exports: [ChatRoomComponent],

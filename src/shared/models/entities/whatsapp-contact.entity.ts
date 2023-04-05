@@ -4,7 +4,7 @@ export class WhatsappContactEntity {
     public declare lastName: string;
     public declare countryCode: string;
     public declare subdivisionCode: string;
-    public declare phoneNumber: string;
+    public declare phone: string;
     public declare isBlocked: boolean;
     public declare gdprTermsSentAt: Date;
     public declare createdAt: Date;

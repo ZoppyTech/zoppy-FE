@@ -11,4 +11,4 @@ export class CompanyRequest {
     public payment?: PaymentRequest;
 }
 
-export type CompanyProvider = 'woo-commerce' | 'shopify' | 'nuvemshop' | 'tray' | 'yampi' | 'dooca';
+export type CompanyProvider = 'woo-commerce' | 'shopify' | 'nuvemshop' | 'one-chat' | 'tray' | 'yampi' | 'dooca';

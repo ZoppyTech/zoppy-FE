@@ -23,7 +23,7 @@ export class WhatsappMessageService extends ApiService {
 
     public async listByPhoneNumberId(phoneNumberId: string): Promise<Array<WhatsappMessageEntity>> {
         const promise: Promise<Array<WhatsappMessageEntity>> = new Promise((resolve: any, reject: any) => {
-            this.get<Array<WhatsappMessageEntity>>(`${this.url}/${phoneNumberId}`).subscribe(
+            this.get<Array<WhatsappMessageEntity>>(`${this.url}/from-phone/${phoneNumberId}`).subscribe(
                 (response: Array<WhatsappMessageEntity>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -31,9 +31,9 @@ export class WhatsappMessageService extends ApiService {
         return promise;
     }
 
-    public async createTextMessage(request: WhatsappTextMessageRequest): Promise<Array<WhatsappMessageEntity>> {
+    public async listByContactId(contactId: string): Promise<Array<WhatsappMessageEntity>> {
         const promise: Promise<Array<WhatsappMessageEntity>> = new Promise((resolve: any, reject: any) => {
-            this.post<Array<WhatsappMessageEntity>, WhatsappTextMessageRequest>(`${this.url}/text`, request).subscribe(
+            this.get<Array<WhatsappMessageEntity>>(`${this.url}/from-contact/${contactId}`).subscribe(
                 (response: Array<WhatsappMessageEntity>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -41,10 +41,30 @@ export class WhatsappMessageService extends ApiService {
         return promise;
     }
 
-    public async createTemplateMessage(request: WhatsappTemplateMessageRequest): Promise<Array<WhatsappMessageEntity>> {
+    public async listByManagerId(managerId: string): Promise<Array<WhatsappMessageEntity>> {
         const promise: Promise<Array<WhatsappMessageEntity>> = new Promise((resolve: any, reject: any) => {
-            this.post<Array<WhatsappMessageEntity>, WhatsappTemplateMessageRequest>(`${this.url}/template`, request).subscribe(
+            this.get<Array<WhatsappMessageEntity>>(`${this.url}/from-manager/${managerId}`).subscribe(
                 (response: Array<WhatsappMessageEntity>) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async createTextMessage(request: WhatsappTextMessageRequest): Promise<WhatsappMessageEntity> {
+        const promise: Promise<WhatsappMessageEntity> = new Promise((resolve: any, reject: any) => {
+            this.post<WhatsappMessageEntity, WhatsappTextMessageRequest>(`${this.url}/text`, request).subscribe(
+                (response: WhatsappMessageEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async createTemplateMessage(request: WhatsappTemplateMessageRequest): Promise<WhatsappMessageEntity> {
+        const promise: Promise<WhatsappMessageEntity> = new Promise((resolve: any, reject: any) => {
+            this.post<WhatsappMessageEntity, WhatsappTemplateMessageRequest>(`${this.url}/template`, request).subscribe(
+                (response: WhatsappMessageEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

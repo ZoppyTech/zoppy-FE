@@ -106,6 +106,18 @@
                 </span>
             </div>
         </div>
+        <div class="field">
+            <span class="text-14 margin-bottom-1">
+                Horas para considerar pedido nao concluído como carrinho abandonado<span class="text-14 text--secondary"
+                    >&nbsp;(Sugestão: 4 horas)</span
+                ></span
+            >
+            <ps-input type="number" placeholder="Digite a quantidade de horas" [(ngModel)]="giftback.abandonedCartDelay"></ps-input>
+            <span class="text--500 text-12 desktop">
+                Número de horas que o sistema considerará para tratar o pedido como carrinho abandonado, criando uma tarefa de carrinho
+                abandonado no painel do vendedor.
+            </span>
+        </div>
     </div>
     <div class="footer">
         <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary" [disabled]="getSaveDisabled()">

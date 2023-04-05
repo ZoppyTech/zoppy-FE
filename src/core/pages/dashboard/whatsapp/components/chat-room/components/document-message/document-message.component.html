@@ -7,9 +7,9 @@
         'document-message-container--customer-user': !isBusinessUser
     }"
 >
-    <ps-icon class="text--700" icon="icon-draft"></ps-icon>
+    <ps-icon class="text--700" icon="icon-draft_fill"></ps-icon>
     <div class="document-info">
-        <span class="file-name">{{ media.caption }}</span>
-        <span class="file-size">{{ media.fileSize / 1024 }} KB</span>
+        <span class="file-name truncate">{{ media.caption }}</span>
+        <span class="file-size">{{ fileSizeConverted }}</span>
     </div>
 </div>

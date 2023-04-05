@@ -111,7 +111,8 @@ export class WhatsappConfigComponent implements OnInit {
         try {
             this.whatsappAccountPhone = await this.wppAccountPhoneNumberService.findDefault(this.whatsappAccount.id);
         } catch (ex: any) {
-            this.whatsappAccountPhone.permissions = WhatsappConstants.BUSINESS_PHONE_PERMISSIONS.ALL;
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Erro!');
         }
     }
 
@@ -182,11 +183,11 @@ export class WhatsappConfigComponent implements OnInit {
             description: this.whatsappAccount.description,
             wabaId: this.whatsappAccount.wabaId,
             appId: this.whatsappAccount.appId,
-            apiAccessToken: !this.whatsappAccount.apiAccessToken ? null : this.whatsappAccount.apiAccessToken,
+            accessToken: !this.whatsappAccount.accessToken ? null : this.whatsappAccount.accessToken,
             businessPhone: {
                 id: this.whatsappAccountPhone.id,
                 phoneNumberId: this.whatsappAccountPhone.phoneNumberId,
-                permissions: this.whatsappAccountPhone.permissions,
+                businessHoursEnabled: this.whatsappAccountPhone.businessHoursEnabled,
                 default: true
             } as WhatsappAccountPhoneNumberRequest
         };
@@ -207,7 +208,7 @@ export class WhatsappConfigComponent implements OnInit {
             !this.whatsappAccount.wabaId ||
             (this.whatsappAccount.scenario === WhatsappConstants.ACCOUNT_SCENARIO.IDLE ||
             this.whatsappAccount.scenario === WhatsappConstants.ACCOUNT_SCENARIO.ACQUISITION
-                ? !this.whatsappAccount.apiAccessToken
+                ? !this.whatsappAccount.accessToken
                 : false) ||
             !this.whatsappAccountPhone.phoneNumberId
         );

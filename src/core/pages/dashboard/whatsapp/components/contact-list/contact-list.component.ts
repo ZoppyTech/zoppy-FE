@@ -84,7 +84,7 @@ export class ContactListComponent implements OnInit {
                 id: '',
                 firstName: '',
                 lastName: '',
-                phoneNumber: '',
+                phone: '',
                 isBlocked: false
             },
             (newContact: any) => {

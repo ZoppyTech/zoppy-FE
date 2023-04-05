@@ -6,6 +6,7 @@ import { ChatLoadingModule } from './components/chat-loading/chat-loading.module
 import { ChatRoomModule } from './components/chat-room/chat-room.module';
 import { ContactListModule } from './components/contact-list/contact-list.module';
 import { RestrictedAccessModule } from './components/restricted-access/restricted-access.module';
+import { UnregisteredContactListModule } from './components/unregistered-contact-list/unregistered-contact-list.module';
 import { WelcomeChatModule } from './components/welcome-chat/welcome-chat.module';
 import { ChatMapper } from './helpers/chat-mapper';
 import { ChatSocket } from './helpers/chat-socket';
@@ -30,7 +31,8 @@ const routes: Routes = [
         ContactListModule,
         ChatRoomModule,
         WelcomeChatModule,
-        RestrictedAccessModule
+        RestrictedAccessModule,
+        UnregisteredContactListModule
     ],
     exports: [WhatsappComponent],
     providers: [providers],
