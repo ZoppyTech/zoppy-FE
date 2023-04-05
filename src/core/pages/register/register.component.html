@@ -1,6 +1,6 @@
 <main class="flex flex-center">
     <div class="register flex flex-column box-content padding-3">
-        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === -1">
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 'initial'">
             <div class="logo-content">
                 <img class="logo" src="./assets/imgs/logo.png" alt="" />
             </div>
@@ -9,43 +9,43 @@
         </div>
         <div class="flex flex-center">
             <ps-stepper
-                *ngIf="step >= 0"
-                [selected]="step"
+                *ngIf="step !== 'initial'"
+                [value]="step"
                 class="margin-bottom-3"
                 (onChangeSelected)="changeStep($event)"
                 [items]="steps"
             ></ps-stepper>
         </div>
-        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 0">
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 'about_you'">
             <h5 class="text--primary margin-bottom-1 text--bold">Conte-nos mais sobre você</h5>
             <span class="text-14 text--600">Queremos te conhecer melhor para oferecer uma experiência personalizada!</span>
         </div>
-        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 1">
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 'plan'">
             <h5 class="text--primary margin-bottom-1 text--bold">Nossos planos</h5>
             <span class="text-14 text--600">Clique no plano desejado para a sua empresa.</span>
         </div>
-        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 2">
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 'data'">
             <h5 class="text--primary margin-bottom-1 text--bold">Informações pessoais</h5>
             <span class="text-14 text--600">Os dados abaixo são essenciais para a criação da sua conta.</span>
         </div>
-        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 3">
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 'payment'">
             <h5 class="text--primary margin-bottom-1 text--bold">Método de pagamento</h5>
             <span class="text-14 text--600">Preencha o formulário abaixo com os dados do seu cartão de crédito.</span>
         </div>
 
-        <div class="info-box flex align-center margin-bottom-3" *ngIf="[0, 1].includes(step)">
+        <div class="info-box flex align-center margin-bottom-3" *ngIf="['data', 'payment'].includes(step)">
             <ps-icon icon="icon-info-inverted" class="margin-right-2"></ps-icon>
-            <span class="text text-14" *ngIf="step === 1">
+            <span class="text text-14" *ngIf="step === 'payment'">
                 <strong>Importante: </strong> a transação não será processada com cartão virtual, verifique-se de utilizar seu cartão
                 físico. <a class="text--info text--link">Clique aqui</a> para saber mais.
             </span>
-            <span class="text text-14" *ngIf="step === 0">
+            <span class="text text-14" *ngIf="step === 'data'">
                 <strong>Observação: </strong> o endereço informado deve ser o mesmo referente ao de cobrança.
             </span>
         </div>
 
         <form (keydown.enter)="register()" class="form flex flex-column" id="registerForm">
-            <div *ngIf="step === -1" class="step-1">
+            <div *ngIf="step === 'initial'" class="step-1">
                 <div class="field {{ field.class }}" *ngFor="let field of fields">
                     <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                         {{ field.title }}
@@ -70,7 +70,7 @@
                         [displayTop]="field.displayTop ?? false"
                         [enableSearch]="false"
                         [errors]="field.errors"
-                        [hasImage]="true"
+                        [hasImage]="field.hasImage ?? false"
                         (onFocus)="field.errors = []"
                         [items]="field.options ?? []"
                         [(value)]="field.model"
@@ -79,6 +79,16 @@
                         [wide]="true"
                         [debounce]="0"
                     ></ps-dropdown>
+
+                    <ps-selector
+                        *ngIf="field.inputType === 'selector'"
+                        (onFocus)="field.errors = []"
+                        [items]="field.options ?? []"
+                        [(value)]="field.model"
+                        [propertyLabel]="field.propertyLabel ?? ''"
+                        [propertyValue]="field.propertyValue ?? ''"
+                        [propertyIcon]="field.icon ?? ''"
+                    ></ps-selector>
 
                     <ps-radio-button
                         *ngIf="field.inputType === 'radio-button'"
@@ -96,7 +106,7 @@
 
                 <div class="wide">
                     <ps-button
-                        (onClick)="changeStep(0)"
+                        (onClick)="changeStep('about_you')"
                         [disabled]="secondStepDisabled()"
                         [loading]="loading"
                         [wide]="true"
@@ -121,7 +131,7 @@
                 </div>
             </div>
 
-            <div *ngIf="step === 0" class="step-2">
+            <div *ngIf="step === 'about_you'" class="step-2">
                 <div class="field {{ field.class }}" *ngFor="let field of aboutYouFields">
                     <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                         {{ field.title }}
@@ -132,20 +142,37 @@
                         *ngIf="field.inputType === 'dropdown'"
                         [enableSearch]="true"
                         [errors]="field.errors"
-                        [hasImage]="true"
+                        [hasImage]="field.hasImage ?? false"
                         [displayTop]="field.displayTop ?? false"
                         (onFocus)="field.errors = []"
                         [items]="field.options ?? []"
                         [(value)]="field.model"
                         propertyLabel="label"
                         propertyValue="value"
+                        [propertyImage]="field.propertyImage"
                         [wide]="true"
                         [debounce]="0"
                     ></ps-dropdown>
+
+                    <ps-selector
+                        *ngIf="field.inputType === 'selector'"
+                        (onFocus)="field.errors = []"
+                        [items]="field.options ?? []"
+                        [(value)]="field.model"
+                        [propertyLabel]="field.propertyLabel ?? ''"
+                        [propertyValue]="field.propertyValue ?? ''"
+                        [propertyIcon]="field.icon ?? ''"
+                    ></ps-selector>
                 </div>
 
                 <div class="wide">
-                    <ps-button (onClick)="changeStep(1)" [loading]="loading" [wide]="true" type="secondary"
+                    <ps-button
+                        (onClick)="changeStep('plan')"
+                        [loading]="loading"
+                        [wide]="true"
+                        type="secondary"
+                        [loadingText]="'Registrando informações...'"
+                        [theme]="'light'"
                         ><span class="text text--100 text--bold">Prosseguir</span>
                     </ps-button>
                     <div class="wide flex flex-column flex-center">
@@ -158,7 +185,7 @@
                 </div>
             </div>
 
-            <div *ngIf="step === 1" class="step-3">
+            <div *ngIf="step === 'plan'" class="step-3">
                 <div class="plans">
                     <div
                         class="border"
@@ -214,9 +241,11 @@
 
                 <div class="wide">
                     <ps-button
-                        (onClick)="changeStep(2)"
+                        (onClick)="changeStep('data')"
                         [disabled]="getThirdStepDisabled()"
                         [loading]="loading"
+                        [loadingText]="'Criando a sua empresa...'"
+                        [theme]="'light'"
                         [wide]="true"
                         type="secondary"
                         ><span class="text text--100 text--bold">Prosseguir</span>
@@ -224,7 +253,7 @@
                 </div>
             </div>
 
-            <div *ngIf="step === 2" class="step-1">
+            <div *ngIf="step === 'data'" class="step-1">
                 <div class="field {{ field.class }}" *ngFor="let field of registerDataFields">
                     <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                         {{ field.title }}
@@ -246,9 +275,11 @@
 
                 <div class="wide">
                     <ps-button
-                        (onClick)="changeStep(3)"
+                        (onClick)="changeStep('payment')"
                         [disabled]="disableRegisterData()"
                         [loading]="loading"
+                        [loadingText]="'Criando a sua empresa...'"
+                        [theme]="'light'"
                         [wide]="true"
                         type="secondary"
                         ><span class="text text--100 text--bold">Prosseguir</span>
@@ -264,7 +295,7 @@
                 </div>
             </div>
 
-            <div *ngIf="step === 3" class="step-4">
+            <div *ngIf="step === 'payment'" class="step-4">
                 <div class="field {{ field.class }}" *ngFor="let field of paymentFields">
                     <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                         {{ field.title }}
@@ -291,10 +322,10 @@
                         [displayTop]="true"
                         [enableSearch]="false"
                         [errors]="field.errors"
-                        [hasImage]="true"
+                        [hasImage]="field.hasImage ?? false"
                         [items]="field.options ?? []"
                         [(value)]="field.model"
-                        propertyImage="img"
+                        [propertyImage]="field.propertyImage"
                         propertyLabel="label"
                         propertyValue="value"
                         [wide]="true"

@@ -12,6 +12,7 @@ import { PipesModule } from 'src/shared/pipes/pipes.module';
 import { TooltipModule } from '@ZoppyTech/tooltip';
 import { DropdownModule } from '@ZoppyTech/dropdown';
 import { StepperModule } from '@ZoppyTech/stepper';
+import { SelectorModule } from '@ZoppyTech/selector';
 
 const routes: Routes = [
     {
@@ -33,7 +34,8 @@ const routes: Routes = [
         PipesModule,
         TooltipModule,
         DropdownModule,
-        StepperModule
+        StepperModule,
+        SelectorModule
     ],
     declarations: [RegisterComponent]
 })
