@@ -112,7 +112,6 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
             this.webSocketService
                 .fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE)
                 .subscribe((socketData: ChatSocketData) => {
-                    debugger;
                     let targetChatRoom: ChatRoom | undefined = undefined;
                     switch (socketData.action) {
                         case WebSocketConstants.CHAT_ACTIONS.NEW_CONVERSATION_COUNT:
@@ -163,12 +162,10 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
                             break;
                         case WebSocketConstants.CHAT_ACTIONS.CHAT_TRANSFER:
                             if (socketData.message.companyId !== this.account.companyId) return;
-                            debugger;
                             if (socketData.message.wppManagerId !== this.manager.id) return;
                             this.loadConversationByContact(socketData.message.wppContactId);
                             break;
                         case 'update_current_chat_room':
-                            debugger;
                             if (socketData.message.companyId !== this.account.companyId) return;
                             if (socketData.message.wppContactId !== this.chatRoomSelected.contact.id) return;
                             this.destroyAndReload();
@@ -282,7 +279,6 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public async onFilterChange(filter: string): Promise<void> {
         console.log(filter);
-        debugger;
     }
 
     public async loadRegisteredWhatsappAccount(): Promise<void> {
