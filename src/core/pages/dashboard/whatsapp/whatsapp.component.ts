@@ -28,6 +28,7 @@ import { Subcomponents } from './models/subcomponents';
 import { ThreadMessage } from './models/thread-message';
 import { WhatsappUtil } from './utils/whatsapp.util';
 import { WhatsappMapper } from './whatsapp-mapper';
+import { ChatFilters } from './models/chat-filters';
 
 @Component({
     selector: 'app-whatsapp',
@@ -53,6 +54,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public account: ChatAccount = new ChatAccount();
     public queueCount: number = 0;
 
+    public filterLoading: boolean = false;
     public pullLoading: boolean = false;
     public isChatRoomVisible$ = new BehaviorSubject(false);
 
@@ -278,7 +280,18 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public async onFilterChange(filter: string): Promise<void> {
-        console.log(filter);
+        switch (filter) {
+            case ChatFilters.Unread:
+                await this.filterUnreadConversations();
+                break;
+            case ChatFilters.Finished:
+                //Not Implemented!
+                break;
+            case ChatFilters.InProgress:
+            default:
+                this.loadConversations();
+                break;
+        }
     }
 
     public async loadRegisteredWhatsappAccount(): Promise<void> {
@@ -341,6 +354,14 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
         }
+    }
+
+    private filterUnreadConversations(): void {
+        this.conversations = new Map(
+            Array.from(this.conversations).filter((conversation: [string, ChatRoom]) => {
+                return conversation[1].unreadThreads.length > 0;
+            })
+        );
     }
 
     private buildTemplateMessageRequestFrom(thread: ThreadMessage): WhatsappTemplateMessageRequest {
