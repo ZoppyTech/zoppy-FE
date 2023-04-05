@@ -41,6 +41,9 @@ export class WebSocketService {
     private getSocketOptions(): any {
         const authorization: string = `Bearer ${this.storage.getToken()}`;
         return {
+            path: '/socket.io',
+            //transports: ['websocket', 'polling'],
+            secure: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 15000,
             reconnectionDelayMax: 60000,
