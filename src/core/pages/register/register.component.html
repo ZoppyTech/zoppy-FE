@@ -194,6 +194,7 @@
                     >
                         <div class="plan clickable flex flex-column" (click)="selectPlan(plan.value)">
                             <h6 class="text--bold margin-right-3">{{ plan.title }}</h6>
+                            {{ plan.visible }}
                             <div class="flex align-items-end margin-top-3">
                                 <h6 class="text--secondary">{{ plan.price | zoppyCurrency }}</h6>
                                 <span class="text">&nbsp;/mês</span>
