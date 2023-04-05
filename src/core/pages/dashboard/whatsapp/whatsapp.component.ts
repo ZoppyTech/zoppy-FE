@@ -280,18 +280,20 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public async onFilterChange(filter: string): Promise<void> {
+        this.filterLoading = true;
         switch (filter) {
             case ChatFilters.Unread:
-                await this.filterUnreadConversations();
+                this.filterUnreadConversations();
                 break;
             case ChatFilters.Finished:
-                //Not Implemented!
+                await this.loadFinishedConversations();
                 break;
             case ChatFilters.InProgress:
             default:
-                this.loadConversations();
+                await this.loadConversations();
                 break;
         }
+        this.filterLoading = false;
     }
 
     public async loadRegisteredWhatsappAccount(): Promise<void> {
@@ -333,13 +335,27 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public async loadConversations(): Promise<void> {
         try {
             const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByManagerId(this.manager.id);
+            this.whatsappPercentLoading = 90;
             this.conversations = WhatsappMapper.mapConversations(this.account, this.manager, entities);
             WhatsappMapper.setUnreadConversations(this.conversations);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+            this.conversations = new Map();
         } finally {
             this.whatsappPercentLoading = 100;
+        }
+    }
+
+    public async loadFinishedConversations(): Promise<void> {
+        try {
+            const entities: WhatsappMessageEntity[] = await this.wppMessageService.listFinishedByManagerId(this.manager.id);
+            this.conversations = WhatsappMapper.mapConversations(this.account, this.manager, entities);
+            WhatsappMapper.setUnreadConversations(this.conversations);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+            this.conversations = new Map();
         }
     }
 
