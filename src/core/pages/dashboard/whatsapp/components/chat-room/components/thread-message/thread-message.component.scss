@@ -31,6 +31,30 @@
             border-radius: 0.75rem;
             box-shadow: rgba(0, 0, 0, 0.1) 0px 1px 3px 0px, rgba(0, 0, 0, 0.06) 0px 1px 16px 0px;
 
+            &__header {
+                display: flex;
+                flex-direction: column;
+                flex-wrap: nowrap;
+                min-width: 6.25rem;
+                width: 100%;
+                height: fit-content;
+                padding: 0.125rem 0.35rem;
+
+                &--business-user {
+                    font-weight: 400;
+                    justify-content: flex-end;
+                    align-items: flex-end;
+                    color: var(--primary);
+                }
+
+                &--customer-user {
+                    font-weight: 400;
+                    justify-content: flex-start;
+                    align-items: flex-start;
+                    color: var(--primary);
+                }
+            }
+
             &--business-user {
                 position: relative;
                 margin-left: 20rem;
@@ -73,14 +97,15 @@
                 }
             }
 
-            .card-header:hover {
+            .download-float-btn:hover {
                 display: flex;
+                cursor: pointer;
             }
 
-            .card-header {
+            .download-float-btn {
                 position: absolute;
-                right: 13px;
-                top: 10px;
+                right: 12px;
+                top: 36px;
                 width: 100%;
                 height: fit-content;
                 display: flex;

@@ -11,6 +11,20 @@ import { ThreadMessage } from './models/thread-message';
 import { WhatsappUtil } from './utils/whatsapp.util';
 
 export class WhatsappMapper {
+    public static mapConversation(account: ChatAccount, manager: ChatManager, messages: WhatsappMessageEntity[] = []): [string, ChatRoom] {
+        if (!messages || messages.length <= 0) {
+            return ['', new ChatRoom()];
+        }
+        const contact: WhatsappContactEntity | undefined = messages[0].wppContact ?? new WhatsappContactEntity();
+        const chatRoom: ChatRoom = new ChatRoom();
+        chatRoom.account = account;
+        chatRoom.manager = manager;
+        chatRoom.threads = messages.map((message: WhatsappMessageEntity) => this.mapMessage(message));
+        chatRoom.contact = this.mapContact(contact);
+        this.setFirstMessagesOfDay(chatRoom.threads);
+        return [contact.id, chatRoom];
+    }
+
     public static mapConversations(
         account: ChatAccount,
         manager: ChatManager,
@@ -64,6 +78,9 @@ export class WhatsappMapper {
         threadMessage.status = messageEntity.status;
         threadMessage.isBusiness = messageEntity.origin === WhatsappConstants.MessageOrigin.BusinessInitiated;
         threadMessage.readByManager = threadMessage.isBusiness || !!messageEntity.wppManagerId;
+        threadMessage.senderName = threadMessage.isBusiness
+            ? messageEntity.wppAccountManager?.user.name ?? 'Sistema'
+            : messageEntity.wppContact?.firstName ?? messageEntity.wppContact?.phone ?? '';
         threadMessage.isFirstMessageOfDay = false;
         threadMessage.wamId = messageEntity.wamId;
         threadMessage.createdAt = messageEntity.createdAt;
@@ -84,7 +101,7 @@ export class WhatsappMapper {
         contact.displayPhone = WhatsappUtil.formatDisplayPhone(
             contactEntity.countryCode,
             contactEntity.subdivisionCode,
-            contactEntity.phoneNumber
+            contactEntity.phone
         );
         contact.isBlocked = contactEntity.isBlocked;
         contact.hasIndex = false;

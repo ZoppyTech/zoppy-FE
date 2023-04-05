@@ -1,0 +1,23 @@
+.countdown-timer {
+    height: 100%;
+    width: 100%;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: center;
+
+    .unit {
+        font-size: 1rem;
+        font-weight: 700;
+        margin: 0 0.5rem;
+    }
+
+    .value {
+        width: fit-content;
+        height: fit-content;
+        padding: 0.25rem 0.5rem;
+        border-radius: 12px;
+        border: 1px solid var(--neutral-300);
+        background-color: #fafbff;
+    }
+}

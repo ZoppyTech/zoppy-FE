@@ -5,7 +5,7 @@ export class WhatsappAccountEntity {
     public declare scenario: string;
     public declare wabaId: string;
     public declare appId: string;
-    public declare apiAccessToken: string;
+    public declare accessToken: string;
     public declare webhookVerifyToken: string;
     public declare webhookUrl: string;
     public declare active: boolean;

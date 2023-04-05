@@ -1,3 +1,5 @@
+import { WcCustomerEntity } from './wc-customer.entity';
+
 export class WcAddressEntity {
     public declare id: string;
     public declare firstName: string;

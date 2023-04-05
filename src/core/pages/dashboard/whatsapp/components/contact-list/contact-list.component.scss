@@ -21,7 +21,6 @@
         .title-section {
             display: flex;
             justify-content: space-between;
-            //border-bottom: 1px solid var(--neutral-200);
             align-items: center;
             padding: 1rem;
             width: 100%;
@@ -37,9 +36,8 @@
                 width: 2rem;
                 height: 2rem;
                 border-radius: 50%;
-                border: 1px solid var(--neutral-300);
                 cursor: pointer;
-                background-color: #fafbff;
+                background-color: var(--neutral-200);
                 padding: 18px;
             }
 
@@ -51,9 +49,8 @@
                 width: 2rem;
                 height: 2rem;
                 border-radius: 50%;
-                border: 1px solid var(--neutral-300);
                 cursor: pointer;
-                background-color: #fafbff;
+                background-color: var(--neutral-200);
                 padding: 18px;
             }
         }

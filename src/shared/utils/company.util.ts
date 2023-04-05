@@ -22,6 +22,11 @@ export class CompanyUtil {
         return company.provider === AppConstants.PROVIDERS.NUVEMSHOP;
     }
 
+    public static isOneChat(company: CompanyEntity | undefined): boolean {
+        if (!company) return false;
+        return company.provider === AppConstants.PROVIDERS.ONE_CHAT;
+    }
+
     public static isWooCommerce(company: CompanyEntity | undefined): boolean {
         if (!company) return false;
         return company.provider === AppConstants.PROVIDERS.WOO_COMMERCE;

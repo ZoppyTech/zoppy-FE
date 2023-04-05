@@ -34,7 +34,7 @@
 
     <div class="body">
         <div class="" *ngFor="let step of steppers">
-            <ps-checkbox [(active)]="step.visible" [disabled]="!key || !expirationDate"
+            <ps-checkbox [(active)]="step.visible" [disabled]="!key || !expirationDate || (getIsOneChat() && step.id === 'customer')"
                 ><span class="text-16">{{ step.label }}</span></ps-checkbox
             >
         </div>

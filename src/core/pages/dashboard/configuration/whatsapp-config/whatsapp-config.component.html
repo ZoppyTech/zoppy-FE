@@ -56,7 +56,7 @@
                     <span class="text-14"> Token de acesso da aplicação do Whatsapp </span>
                     <ps-input
                         type="text"
-                        [(ngModel)]="whatsappAccount.apiAccessToken"
+                        [(ngModel)]="whatsappAccount.accessToken"
                         placeholder="Digite aqui o token de acesso da api"
                     ></ps-input>
                 </div>
@@ -105,23 +105,11 @@
                 <div class="field">
                     <span class="text-14"> Número do Whatsapp </span>
                     <ps-input
-                        [(ngModel)]="whatsappAccountPhone.phoneNumber"
+                        [(ngModel)]="whatsappAccountPhone.fullPhone"
                         mask="+00 (00) 00000-0000"
                         placeholder="Digite aqui o número do Whatsapp com DDD"
+                        [disabled]="true"
                     ></ps-input>
-                </div>
-
-                <div class="field">
-                    <span class="text-14"> Permissões </span>
-                    <ps-dropdown
-                        class="margin-left-2"
-                        [enableSearch]="false"
-                        [propertyValue]="'value'"
-                        [wide]="true"
-                        [(value)]="whatsappAccountPhone.permissions"
-                        [propertyLabel]="'label'"
-                        [items]="items"
-                    ></ps-dropdown>
                 </div>
             </div>
         </div>

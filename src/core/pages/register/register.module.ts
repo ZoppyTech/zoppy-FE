@@ -11,6 +11,7 @@ import { RadioButtonModule } from '@ZoppyTech/radio-button';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
 import { TooltipModule } from '@ZoppyTech/tooltip';
 import { DropdownModule } from '@ZoppyTech/dropdown';
+import { StepperModule } from '@ZoppyTech/stepper';
 
 const routes: Routes = [
     {
@@ -31,7 +32,8 @@ const routes: Routes = [
         RadioButtonModule,
         PipesModule,
         TooltipModule,
-        DropdownModule
+        DropdownModule,
+        StepperModule
     ],
     declarations: [RegisterComponent]
 })
