@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
-import { AppConstants, PasswordValidator, StringUtil } from '@ZoppyTech/utilities';
+import { AppConstants, DateUtil, PasswordValidator, StringUtil, WhatsappUtil } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { CompanyProvider } from 'src/shared/models/requests/company/company.request';
 import { CompanyPlan, RegisterRequest } from 'src/shared/models/requests/public/register.request';
@@ -103,10 +103,9 @@ export class RegisterComponent implements OnInit {
     }
 
     public disablePaymentForm(): boolean {
-        const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
         if (!this.getPaymentById('name').model.toString()) return true;
-        if (!this.getPaymentById('number').model.toString()) return true;
-        if (`${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`.length !== 5) return true;
+        if (!StringUtil.calculateCreditCardFlag(this.getPaymentById('number').model.toString())) return true;
+        if (!DateUtil.validateCardExpiryDate(this.getPaymentById('expirationDate').model.toString())) return true;
         if (!this.getPaymentById('cvv').model.toString()) return true;
         if (!this.calculateFlag(this.getPaymentById('number').model.toString())) return true;
         return false;
@@ -119,7 +118,7 @@ export class RegisterComponent implements OnInit {
     public secondStepDisabled(): boolean {
         let countErrors: number = 0;
 
-        if (this.getById('phone').model.toString().length !== 11) countErrors++;
+        if (!WhatsappUtil.fullPhoneValidation(this.getById('phone').model.toString())) countErrors++;
         if (!this.getById('name').model) countErrors++;
         if (!StringUtil.validateEmail(this.getById('email').model.toString())) countErrors++;
         if (!PasswordValidator.validate(this.getById('password').model.toString())) countErrors++;
@@ -267,7 +266,7 @@ export class RegisterComponent implements OnInit {
             countErrors++;
         }
 
-        if (this.getById('phone').model.toString().length !== 11) {
+        if (WhatsappUtil.fullPhoneValidation(this.getById('phone').model.toString())) {
             this.getById('phone').errors = ['error'];
             countErrors++;
         }
