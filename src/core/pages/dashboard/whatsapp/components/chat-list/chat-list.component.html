@@ -62,7 +62,7 @@
         </div>
     </div>
 
-    <div *ngIf="conversations.length <= 0" class="empty-list">
+    <div *ngIf="!filterLoading && conversations.length <= 0" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
         <span class="text--primary text-14"
             >Você não tem um histórico de mensagens. <br />
@@ -70,7 +70,11 @@
         >
     </div>
 
-    <div *ngIf="conversations.length > 0" class="conversations">
+    <div *ngIf="filterLoading" class="empty-list">
+        <static-loading [isLoading]="true" [label]="'Filtrando conversas...'"></static-loading>
+    </div>
+
+    <div *ngIf="!filterLoading && conversations.length > 0" class="conversations">
         <div *ngFor="let conversation of conversations">
             <div
                 class="item clickable"

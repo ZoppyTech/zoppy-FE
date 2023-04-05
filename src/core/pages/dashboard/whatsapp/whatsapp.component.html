@@ -6,6 +6,7 @@
             *ngIf="currentSubcomponent === subcomponents.ChatList"
             [isAdmin]="isAdmin"
             [pullLoading]="pullLoading"
+            [filterLoading]="filterLoading"
             [(currentSubcomponent)]="currentSubcomponent"
             (filterChangeEvent)="onFilterChange($event)"
             (selectedConversationEvent)="onConversationSelected($event)"
