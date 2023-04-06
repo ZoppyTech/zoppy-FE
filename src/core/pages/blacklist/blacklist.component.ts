@@ -22,7 +22,7 @@ export class BlacklistComponent implements OnInit {
     public goTo(state: string): void {
         switch (state) {
             case 'whatsapp':
-                window.open('https://wa.me/message/CJXGJ7WXEAGQM1');
+                window.open('https://wa.me/message/7XWZOLXUFLNOM1');
                 break;
             case 'linkedin':
                 window.open('https://www.linkedin.com/company/zoppytech');

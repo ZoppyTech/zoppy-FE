@@ -79,11 +79,6 @@ export class AutomationComponent extends DashboardBasePage implements OnInit {
                 icon: 'icon-shopping_cart',
                 description:
                     'Configure as propriedades da criação da tarefa de carrinho abandonado e defina o template da mensagem enviada nessa tarefa!'
-            },
-            {
-                name: 'Modelos de mensagem',
-                icon: 'icon-wpp',
-                description: 'Visualize e edite todos os modelos de mensagem disponíveis para ser utilizados em seus fluxos!'
             }
         ];
     }

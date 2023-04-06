@@ -1,0 +1,84 @@
+<div class="key" (click)="close()">
+    <div class="form" (mouseenter)="hoverMenu = true" (mouseleave)="hoverMenu = false">
+        <div class="header padding-3 flex space-between flex-center">
+            <h5 class="primary">{{ form.title }}</h5>
+            <ps-button type="clean" [round]="true" class="margin-left-2 padding-x-1" (onClick)="close(true)">
+                <ps-icon class="padding-x-1" icon="icon-times"></ps-icon>
+            </ps-button>
+        </div>
+        <div class="subtitle padding-x-3 padding-top-2">
+            <p class="text text--bold">{{ form.label }}</p>
+            <p class="text margin-top-2">{{ form.description }}</p>
+            <div class="margin-top-1 margin-left-3" *ngIf="form.steps && form.steps.length > 0">
+                <div class="text text--bold margin-bottom-2">Passos:</div>
+                <div *ngFor="let step of form.steps; let index = index" class="padding-y-1">
+                    <span class="text text--600">{{ index + 1 }}) &nbsp;</span>
+                    <span class="text text--600" [innerHTML]="step | safeHtml"></span>
+                </div>
+            </div>
+            <a *ngIf="form.link" target="_blank" class="text--link text--info margin-top-1" [href]="form.link">Documentação oficial</a>
+        </div>
+
+        <form (keydown.enter)="register()" class="flex flex-column" id="registerForm">
+            <div class="field {{ field.class }}" *ngFor="let field of form.fields">
+                <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
+                    {{ field.title }}
+                </div>
+
+                <div class="wide flex flex-center grid-gap-2">
+                    <div class="flex flex-grow">
+                        <ps-input
+                            *ngIf="field.inputType === 'input'"
+                            [placeholder]="field.placeholder"
+                            [(ngModel)]="field.model"
+                            [errors]="field.errors"
+                            (onFocus)="field.errors = []"
+                            [ngClass]="{ 'text--negative': field.errors.length > 0 }"
+                            [type]="field.type"
+                            (ngModelChange)="field.onChange()"
+                            (onIconClicked)="field.onIconClick(field)"
+                            [icon]="field.icon || ''"
+                            [mask]="field.mask || ''"
+                        ></ps-input>
+
+                        <ps-dropdown
+                            [enableAdd]="false"
+                            *ngIf="field.inputType === 'dropdown'"
+                            [displayTop]="field.displayTop ?? false"
+                            [enableSearch]="false"
+                            [errors]="field.errors"
+                            [hasImage]="field.hasImage ?? false"
+                            (onFocus)="field.errors = []"
+                            [items]="field.options ?? []"
+                            [(value)]="field.model"
+                            propertyLabel="label"
+                            propertyValue="value"
+                            [wide]="true"
+                            [debounce]="0"
+                        ></ps-dropdown>
+                    </div>
+                    <ps-icon
+                        *ngIf="field.hasCopy"
+                        (click)="copyToClipboard(field)"
+                        icon="icon-copy"
+                        class="text--primary font-28 clickable icon-large"
+                    ></ps-icon>
+                </div>
+            </div>
+
+            <div class="field" *ngIf="form.hasWebhook">
+                <ps-checkbox [(active)]="configWebhooks">
+                    <span class="text text-12">Configurar webhooks</span>
+                </ps-checkbox>
+            </div>
+
+            <ps-button type="secondary" class="margin-top-2" [wide]="true">
+                <span class="text neutral-100 padding-x-3">Salvar</span>
+            </ps-button>
+
+            <div class="flex flex-center wide margin-top-3">
+                <a target="_blank" class="text--link text--info" href="https://wa.me/message/7XWZOLXUFLNOM1">Precisa de ajuda? </a>
+            </div>
+        </form>
+    </div>
+</div>

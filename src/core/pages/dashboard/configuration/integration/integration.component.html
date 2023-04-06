@@ -5,24 +5,39 @@
         automatizados da Zoppy com a sua Loja!
     </span>
 
-    <div class="flex flex-wrap wide grid-gap-3 margin-top-3 margin-bottom-3">
-        <div class="provider" *ngFor="let provider of providers">
+    <div class="flex flex-wrap wide grid-gap-3 margin-top-3 margin-bottom-3" *ngIf="!loading">
+        <div class="provider" *ngFor="let provider of providers" [ngClass]="{ installed: provider.active }">
             <div class="header flex space-between wide">
                 <div class="flex flex-center">
                     <img [src]="provider.image" alt="" />
                     <span class="text text--bold margin-left-1">{{ provider.name }}</span>
                 </div>
-                <ps-switch [disabled]="true" [(active)]="provider.active"></ps-switch>
+                <ps-icon
+                    icon="icon-task_alt"
+                    *ngIf="provider.active"
+                    class="success icon-large"
+                    tooltipWidth="140"
+                    appTooltip
+                    tooltipText="App Instalado"
+                    tooltipDirection="down"
+                ></ps-icon>
             </div>
             <div class="padding-x-3 margin-bottom-3">
                 <span class="text--600 text-16">{{ provider.description }}</span>
             </div>
-            <div class="footer flex wide clickable text-center">
-                <span class="text--primary text--bold">Gerenciar</span>
+            <div class="footer flex wide clickable text-center" (click)="select(provider)">
+                <span class="text--primary text--bold">Configurar</span>
                 <div class="rotate margin-left-1 flex flex-center">
                     <ps-icon icon="icon-chevron" class="text--primary text-24 margin-top-1"></ps-icon>
                 </div>
             </div>
         </div>
     </div>
+
+    <div class="flex flex-center flex-grow" *ngIf="loading">
+        <static-loading [isLoading]="true" class="loading"></static-loading>
+    </div>
 </main>
+
+<app-key [provider]="provider" [(open)]="open" [key]="key" *ngIf="open"></app-key>
+<ps-tooltip></ps-tooltip>
