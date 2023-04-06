@@ -204,6 +204,18 @@ h6 {
     text-justify: inter-word;
 }
 
+.text--underline {
+    text-decoration: underline;
+}
+
+.grid-gap-2 {
+    grid-gap: 1rem;
+}
+
+.grid-gap-3 {
+    grid-gap: 2rem;
+}
+
 $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
 
 @media only screen and (max-width: 576px) {
