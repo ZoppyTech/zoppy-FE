@@ -39,7 +39,7 @@ export class KeyComponent implements OnInit {
 
     private initProvider(): void {
         const company: CompanyEntity = this.storage.getCompany() as CompanyEntity;
-        if (company.provider && company.provider !== this.provider) this.key = new WcKeyEntity();
+        if (company?.provider && company.provider !== this.provider) this.key = new WcKeyEntity();
     }
 
     private setForm(): void {
