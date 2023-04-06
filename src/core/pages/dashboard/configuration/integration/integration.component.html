@@ -1,8 +1,8 @@
 <main>
     <p class="text text--bold">Integrações</p>
     <span class="text text-12 text--light">
-        Possui Loja Virtual em algum desses provedores? Basta configurar rapidamente essa integração para usufruir de todos os processos
-        automatizados da Zoppy com a sua Loja!
+        Utiliza algum desses provedores? Basta configurar rapidamente essa integração para usufruir de todos os processos automatizados da
+        Zoppy com a sua Loja!
     </span>
 
     <div class="flex flex-wrap wide grid-gap-3 margin-top-3 margin-bottom-3" *ngIf="!loading">
@@ -39,5 +39,6 @@
     </div>
 </main>
 
-<app-key [provider]="provider" [(open)]="open" [key]="key" *ngIf="open"></app-key>
+<app-key [provider]="provider" [(open)]="open" [key]="key" *ngIf="open && !isSupportProvider()"></app-key>
+<app-support [identifier]="provider" [(open)]="open" *ngIf="open && isSupportProvider()"></app-support>
 <ps-tooltip></ps-tooltip>

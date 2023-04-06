@@ -52,6 +52,10 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
         this.open = true;
     }
 
+    public isSupportProvider(): boolean {
+        return [AppConstants.PROVIDERS.NUVEMSHOP, AppConstants.PROVIDERS.DOOCA, 'bagy', 'whatsapp'].includes(this.provider);
+    }
+
     private setBreadcrumbItems(): void {
         this.breadcrumb.items = [
             {
@@ -112,6 +116,21 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
                 description: 'Possui loja na WooCommerce? Faça a integração com a Zoppy agora mesmo!',
                 active: !!(this.company?.provider === AppConstants.PROVIDERS.WOO_COMMERCE && this.key.id),
                 provider: AppConstants.PROVIDERS.WOO_COMMERCE
+            },
+            {
+                name: 'Bagy',
+                image: './assets/svg/bagy_mini.svg',
+                description: 'Possui loja na Bagy? Faça a integração com a Zoppy agora mesmo!',
+                active: !!(this.company?.provider === 'dooca' && this.key.id),
+                provider: 'bagy'
+            },
+            {
+                name: 'Whatsapp Businees',
+                image: './assets/svg/wpp_mini.svg',
+                description: 'Gostaria de configurar o Whatsapp Business? Faça a integração com a Zoppy agora mesmo!',
+                active: this.company?.plan === AppConstants.PLANS.PREMIUM,
+                provider: 'whatsapp',
+                hidden: this.company?.provider === AppConstants.PROVIDERS.TRAY
             }
         ];
     }
@@ -123,4 +142,5 @@ interface ProviderCard {
     description: string;
     active: boolean;
     provider: string;
+    hidden?: boolean;
 }

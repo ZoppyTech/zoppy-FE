@@ -312,6 +312,7 @@ class Field {
     public displayTop?: boolean = false;
     public hasImage?: boolean = false;
     public hasCopy?: boolean = false;
+    public hidden?: boolean = false;
     public propertyImage?: string = '';
     public propertyLabel?: string = '';
     public propertyValue?: string = '';
