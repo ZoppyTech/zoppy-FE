@@ -89,15 +89,6 @@ export class SideMenuComponent implements OnInit {
                 visible: true
             },
             {
-                id: `configurations`,
-                icon: 'icon-tune',
-                label: 'Configurações',
-                route: null,
-                visible: true,
-                class: 'mobile',
-                subItems: ConfigSubItems.get(this.user as UserEntity, this.company as CompanyEntity)
-            },
-            {
                 id: `myCompany`,
                 icon: 'icon-location_away',
                 label: 'Minha empresa',

@@ -1,53 +1,36 @@
 @import 'src/styles.scss';
 
 :host {
-    flex-grow: 1;
+    display: flex;
     min-height: 0;
-    margin-bottom: 2rem;
+    flex-grow: 1;
 }
 
 .configurations {
     display: flex;
-    height: 100%;
+    min-height: 0;
+    flex-grow: 1;
+    flex-direction: column;
+    border-radius: 0.5rem;
+    border: 1px solid #c9d0d9;
+    margin: 2rem;
     background-color: var(--neutral-100);
-    margin: 3rem;
-    margin-top: 0;
-    border: 1px solid var(--neutral-300);
-    box-shadow: $box-shadow-1;
-    border-radius: 0.75rem;
-
-    .config-content {
-        display: flex;
-        flex-grow: 1;
-        overflow: auto;
-    }
 
     .submenu {
-        min-width: 21rem;
-        border-right: 1px solid var(--neutral-300);
+        padding: 2rem;
+        padding-bottom: 0;
+        width: 100%;
 
-        .content {
-            padding: unset;
-            ul {
-                margin-top: 1rem;
-                li {
-                    padding: 1rem 1rem;
-                }
+        .items {
+            display: flex;
+            grid-gap: 2rem;
+            .item {
+                padding: 0rem;
+                padding-bottom: 0.5rem;
+            }
+            .selected {
+                border-bottom: 0.25rem solid var(--primary);
             }
         }
-    }
-}
-
-@media only screen and (max-width: 576px) {
-    :host {
-        margin-bottom: unset;
-        max-width: 100%;
-    }
-    .configurations {
-        margin: unset;
-        box-shadow: unset;
-        border-radius: unset;
-        max-width: 100%;
-        background-color: unset;
     }
 }

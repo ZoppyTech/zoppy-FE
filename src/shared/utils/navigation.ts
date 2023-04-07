@@ -30,6 +30,8 @@ export class Navigation {
         whatsappConfig: '/dashboard/configurations/whatsapp-setup',
         whatsappTemplateList: '/dashboard/configurations/whatsapp-template-list',
         syncData: '/dashboard/configurations/sync-data',
+        integrations: '/dashboard/configurations/integrations ',
+        automations: '/dashboard/configurations/automations ',
         whatsapp: '/dashboard/whatsapp',
         products: '/dashboard/products',
         product: '/dashboard/products/add',
@@ -79,4 +81,6 @@ export type Pages =
     | 'whatsapp'
     | 'whatsappConfig'
     | 'whatsappTemplateList'
-    | `configuration`;
+    | `configuration`
+    | 'integrations'
+    | 'automations';
