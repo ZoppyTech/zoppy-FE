@@ -155,6 +155,27 @@ export class FormComponent extends DashboardBasePage implements OnInit {
                         MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_MISSED_CLOSE_REMINDER
                     ].includes(group.identifier);
                 });
+                break;
+            case 'after_sale':
+                this.filteredGroups = this.groups.filter((group: MessageTemplateGroupEntity) => {
+                    return [MessageTemplateConstants.DEFAULT_IDENTIFIERS.AFTER_SALE].includes(group.identifier);
+                });
+                break;
+            case 'nps':
+                this.filteredGroups = this.groups.filter((group: MessageTemplateGroupEntity) => {
+                    return [MessageTemplateConstants.DEFAULT_IDENTIFIERS.NPS_RATING].includes(group.identifier);
+                });
+                break;
+            case 'birthday':
+                this.filteredGroups = this.groups.filter((group: MessageTemplateGroupEntity) => {
+                    return [MessageTemplateConstants.DEFAULT_IDENTIFIERS.BIRTHDAY].includes(group.identifier);
+                });
+                break;
+            case 'abandoned_cart':
+                this.filteredGroups = this.groups.filter((group: MessageTemplateGroupEntity) => {
+                    return [MessageTemplateConstants.DEFAULT_IDENTIFIERS.ABANDONED_CART].includes(group.identifier);
+                });
+                break;
         }
     }
 
