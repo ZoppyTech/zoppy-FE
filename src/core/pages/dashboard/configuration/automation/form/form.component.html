@@ -124,7 +124,7 @@
         </div>
     </div>
 
-    <div class="flex flex-bottom padding-x-3 wide">
+    <div class="flex flex-bottom padding-x-3 wide" *ngIf="tab !== 'birthday'">
         <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary" [disabled]="getSaveDisabled()">
             <span class="text--100 text--bold text-14 margin-x-3 padding-x-3">Salvar</span>
         </ps-button>
