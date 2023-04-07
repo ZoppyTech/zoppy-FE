@@ -142,7 +142,7 @@ export class FormComponent extends DashboardBasePage implements OnInit {
     }
 
     public async updateGroup(group: MessageTemplateGroupEntity): Promise<void> {
-        window.open(`${environment.appUrl}/dashboard/configurations/templates/config/${group.id}`, '_blank');
+        window.open(`${environment.appUrl}/dashboard/configurations/templates/config/${group.id}/${this.tab}`, '_blank');
     }
 
     public filterGroups(): void {

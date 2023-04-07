@@ -6,7 +6,7 @@
                 <span class="text-16 text--bold text--primary">Voltar</span>
             </a>
 
-            <div class="flex space-between wide">
+            <div class="flex space-between wide" *ngIf="tab !== 'birthday'">
                 <div class="margin-left-2">
                     <div class="flex align-center margin-top-2">
                         <span class="text text--bold margin-right-1">{{ getRouteName() }}</span>
@@ -130,7 +130,7 @@
         </ps-button>
     </div>
 
-    <div class="padding-3 flex flex-column">
+    <div class="padding-3 flex flex-column" [ngClass]="{ 'padding-top-0': tab === 'birthday' }">
         <span class="text text--bold margin-right-1">Templates de Mensagem:</span>
         <span class="text text--500 margin-y-2">Edite as mensagens desse fluxo:</span>
         <table>
@@ -156,7 +156,7 @@
                     </td>
                     <td>
                         <div class="actions">
-                            <ps-icon (click)="updateGroup(group)" class="font-18 primary clickable" icon="icon-edit_square"></ps-icon>
+                            <ps-icon (click)="updateGroup(group)" class="icon-large primary clickable" icon="icon-edit_square"></ps-icon>
                         </div>
                     </td>
                 </tr>

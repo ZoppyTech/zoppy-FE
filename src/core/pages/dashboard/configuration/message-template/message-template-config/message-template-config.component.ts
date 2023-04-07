@@ -24,6 +24,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
     public loaded: boolean = false;
     public loading: boolean = false;
     public groupId: string = '';
+    public tab: string = '';
     public name: string = '';
     public description: string = '';
 
@@ -48,6 +49,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
     public async ngOnInit() {
         this.route.paramMap.subscribe(async (paramMap: any) => {
             this.groupId = paramMap.get('id');
+            this.tab = paramMap.get('tab');
             if (!this.groupId) this.loaded = true;
             await this.fetchData();
             this.setBreadcrumb();
@@ -96,7 +98,10 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         });
         await Promise.all(promises);
         this.toast.success('Informações salvas com sucesso.', `Sucesso!`);
-        this.router.navigate([Navigation.routes.messageTemplateList]);
+        debugger;
+        this.tab
+            ? this.router.navigate([Navigation.routes.automationForm, this.tab])
+            : this.router.navigate([Navigation.routes.messageTemplateList]);
     }
 
     public async deleteTemplate(template: MessageTemplateEntity, index: number): Promise<void> {
@@ -124,6 +129,11 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
 
     public addNewMessage(): void {
         this.templates.push(new MessageTemplateEntity());
+    }
+
+    public getHref(): string {
+        if (!this.tab) return '/dashboard/configurations/templates';
+        return `/dashboard/configurations/automations/form/${this.tab}`;
     }
 
     private setBreadcrumb(): void {

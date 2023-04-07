@@ -26,6 +26,11 @@ const routes: Routes = [
                     import('./message-template-config/message-template-config.module').then((m: any) => m.MessageTemplateConfigModule)
             },
             {
+                path: 'config/:id/:tab',
+                loadChildren: () =>
+                    import('./message-template-config/message-template-config.module').then((m: any) => m.MessageTemplateConfigModule)
+            },
+            {
                 path: 'list',
                 loadChildren: () =>
                     import('./message-template-list/message-template-list.module').then((m: any) => m.MessageTemplateListModule)
