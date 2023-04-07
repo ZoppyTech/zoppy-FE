@@ -1,3 +1,4 @@
+import { SignatureModule } from './../account/signature/signature.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfigurationComponent } from './configuration.component';

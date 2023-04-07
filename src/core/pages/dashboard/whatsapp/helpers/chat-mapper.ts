@@ -31,7 +31,7 @@ export class ChatMapper {
             companyId: conversationEntity.companyId,
             manager: this.mapManager(conversationEntity.wppAccountManager),
             contact: this.mapContact(conversationEntity.wppContact),
-            threads: this.mapMessages(conversationEntity.WppMessages),
+            threads: this.mapMessages(conversationEntity.messages),
             unreadThreads: [],
             actived: false
         };

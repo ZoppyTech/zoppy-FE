@@ -33,6 +33,7 @@ export class WhatsappUtil {
     public static getMessageTemplateParams(templateName: string, chatRoom: ChatRoom): Array<string> {
         switch (templateName) {
             case WhatsappConstants.MessageTemplates.GDPR_TERMS_NOTIFICATION:
+            case 'answer_me_a_question':
                 return [chatRoom.contact.firstName];
             case WhatsappConstants.MessageTemplates.NEW_CONTACT_PHONE_NUMBER_TO_ASK_QUESTIONS:
                 return [chatRoom.contact.firstName];
@@ -43,7 +44,9 @@ export class WhatsappUtil {
             case WhatsappConstants.MessageTemplates.ISSUE_RESOLUTION:
                 return [chatRoom.contact.firstName];
             case WhatsappConstants.MessageTemplates.OUT_OF_BUSINESS_HOURS:
-                return [chatRoom.account.businessName, '9h', '18h'];
+                return [chatRoom.account.businessName, '8h', '18h'];
+            case 'greetings_to_user_2':
+                return [chatRoom.manager.name];
             case WhatsappConstants.MessageTemplates.WAITING_A_FEW_MINUTES:
             default:
                 return [];
