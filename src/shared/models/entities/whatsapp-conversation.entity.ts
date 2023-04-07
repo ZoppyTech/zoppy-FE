@@ -17,7 +17,7 @@ export class WhatsappConversationEntity {
     /** INCLUDES */
     public declare wppAccountManager: WhatsappAccountManagerEntity;
     public declare wppContact: WhatsappContactEntity;
-    public declare WppMessages: WhatsappMessageEntity[];
+    public declare messages: WhatsappMessageEntity[];
 
     public static validateSessionExpiration(entity: WhatsappConversationEntity): WhatsappConversationEntity {
         if (!entity.sessionExpiration) {
