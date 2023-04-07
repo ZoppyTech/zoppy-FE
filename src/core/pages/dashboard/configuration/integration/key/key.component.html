@@ -19,7 +19,7 @@
             <a *ngIf="form.link" target="_blank" class="text--link text--info margin-top-1" [href]="form.link">Documentação oficial</a>
         </div>
 
-        <form (keydown.enter)="register()" class="flex flex-column" id="registerForm">
+        <form (keydown.enter)="save()" class="flex flex-column" id="registerForm">
             <div class="field {{ field.class }}" *ngFor="let field of form.fields">
                 <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                     {{ field.title }}
@@ -72,7 +72,13 @@
                 </ps-checkbox>
             </div>
 
-            <ps-button type="secondary" class="margin-top-2" [wide]="true">
+            <div class="field">
+                <ps-checkbox [(active)]="sync">
+                    <span class="text text-12">Sincronizar dados automaticamente</span>
+                </ps-checkbox>
+            </div>
+
+            <ps-button type="secondary" class="margin-top-2" (onClick)="save()" [loading]="loading" [wide]="true">
                 <span class="text neutral-100 padding-x-3">Salvar</span>
             </ps-button>
 

@@ -1,27 +1,43 @@
 import { ToastService } from '@ZoppyTech/toast';
 import { AppConstants } from '@ZoppyTech/utilities';
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { WcKeyEntity } from 'src/shared/models/entities/wc-key.entity';
 import { Storage } from 'src/shared/utils/storage';
+import { DashboardBasePage } from '../../../dashboard.base.page';
+import { ZoppyException } from 'src/shared/services/api.service';
+import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
+import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 
 @Component({
     selector: 'app-key',
     templateUrl: './key.component.html',
     styleUrls: ['./key.component.scss']
 })
-export class KeyComponent implements OnInit {
+export class KeyComponent extends DashboardBasePage implements OnInit {
     @Input() public provider: string = '';
     @Input() public key: WcKeyEntity = new WcKeyEntity();
     @Input() public open: boolean = false;
     @Output() public openChange: EventEmitter<boolean> = new EventEmitter();
     public form: KeyForm = new KeyForm();
     public hoverMenu: boolean = false;
+    public loading: boolean = false;
     public configWebhooks: boolean = true;
+    public sync: boolean = true;
 
-    public constructor(private readonly storage: Storage, private readonly toast: ToastService) {}
+    public constructor(
+        public override readonly storage: Storage,
+        private readonly toast: ToastService,
+        private readonly modal: ModalService,
+        private readonly keyService: WcKeyService
+    ) {
+        super(storage);
+    }
 
     public ngOnInit(): void {
+        this.initForm();
         this.initProvider();
         this.setForm();
     }
@@ -35,6 +51,41 @@ export class KeyComponent implements OnInit {
     public copyToClipboard(field: Field): void {
         navigator.clipboard.writeText(field.model as string);
         this.toast.success('Texto copiado para a área de transferência', `Copiado!`);
+    }
+
+    public async save(): Promise<void> {
+        this.loading = true;
+        try {
+            const request: wcKeyRequest = {
+                key: this.getFieldById('key')?.model as string,
+                secret: this.getFieldById('secret')?.model as string,
+                url: this.getFieldById('url')?.model as string,
+                admin: this.getFieldById('admin')?.model as string,
+                provider: this.provider,
+                syncWebhooks: this.configWebhooks,
+                syncData: this.sync
+            };
+
+            if (this.key?.id) request.id = this.key.id;
+
+            this.key?.id ? await this.keyService.update(request) : await this.keyService.create(request);
+            if (this.company) this.company.provider = this.provider;
+            this.storage.setCompany(this.company as CompanyEntity);
+            setTimeout(() => {
+                this.modal.open(Modal.IDENTIFIER.INFO, {
+                    title: 'Sucesso!',
+                    button: 'Entendi',
+                    description: `<b>Sua integração foi concluída com sucesso!</b> Caso tenha pedido a sincronização dos dados, você receberá um email confirmando a conclusão de cada sincronização solicitada. Pedimos um prazo máximo de 24 horas para concluir sua sincronização de dados.`
+                });
+            });
+            BroadcastService.emit('reload-providers');
+            this.close(true);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Houve algum problema com a integração, favor entre em contato com o suporte');
+        } finally {
+            this.loading = false;
+        }
     }
 
     private initProvider(): void {
@@ -59,6 +110,10 @@ export class KeyComponent implements OnInit {
         }
     }
 
+    private getFieldById(id: formId): Field | undefined {
+        return this.form.fields.find((field: Field) => field.id === id);
+    }
+
     private setYampiForm(): void {
         this.form = {
             title: 'Yampi',
@@ -80,20 +135,20 @@ export class KeyComponent implements OnInit {
                     type: 'text',
                     class: 'wide',
                     hasCopy: true,
-                    id: 'key',
+                    id: 'admin',
                     onChange: () => {}
                 },
                 {
                     title: 'Secret',
                     inputType: 'input',
-                    placeholder: 'Digite sua secret',
+                    placeholder: 'Digite sua chave secreta',
                     errors: [],
                     model: this.key.secret,
                     type: 'password',
                     icon: 'icon-visibility_off',
                     class: 'wide',
                     hasCopy: true,
-                    id: 'secret ',
+                    id: 'secret',
                     onIconClick: (field: Field) => {
                         field.type = field.type === 'password' ? 'text' : 'password';
                         field.icon = field.type === 'password' ? 'icon-visibility_off' : 'icon-visibility';
@@ -103,14 +158,14 @@ export class KeyComponent implements OnInit {
                 {
                     title: 'Key',
                     inputType: 'input',
-                    placeholder: 'Digite sua chave',
+                    placeholder: 'Digite seu token',
                     errors: [],
                     model: this.key.key,
                     type: 'password',
                     icon: 'icon-visibility_off',
                     class: 'wide',
                     hasCopy: true,
-                    id: 'secret ',
+                    id: 'key',
                     onIconClick: (field: Field) => {
                         field.type = field.type === 'password' ? 'text' : 'password';
                         field.icon = field.type === 'password' ? 'icon-visibility_off' : 'icon-visibility';
@@ -155,7 +210,7 @@ export class KeyComponent implements OnInit {
                     type: 'text',
                     class: 'wide',
                     hasCopy: true,
-                    id: 'admin',
+                    id: 'url',
                     onChange: () => {}
                 }
             ]
@@ -196,7 +251,7 @@ export class KeyComponent implements OnInit {
                     icon: 'icon-visibility_off',
                     class: 'wide',
                     hasCopy: true,
-                    id: 'key',
+                    id: 'admin',
                     onIconClick: (field: Field) => {
                         field.type = field.type === 'password' ? 'text' : 'password';
                         field.icon = field.type === 'password' ? 'icon-visibility_off' : 'icon-visibility';
@@ -212,7 +267,7 @@ export class KeyComponent implements OnInit {
                     type: 'text',
                     class: 'wide',
                     hasCopy: true,
-                    id: 'admin',
+                    id: 'url',
                     onChange: () => {}
                 }
             ]
@@ -255,7 +310,7 @@ export class KeyComponent implements OnInit {
                     icon: 'icon-visibility_off',
                     class: 'wide',
                     hasCopy: true,
-                    id: 'secret ',
+                    id: 'secret',
                     onIconClick: (field: Field) => {
                         field.type = field.type === 'password' ? 'text' : 'password';
                         field.icon = field.type === 'password' ? 'icon-visibility_off' : 'icon-visibility';
@@ -271,15 +326,18 @@ export class KeyComponent implements OnInit {
                     type: 'text',
                     class: 'wide',
                     hasCopy: true,
-                    id: 'admin',
+                    id: 'url',
                     onChange: () => {}
                 }
             ]
         };
     }
 
-    public async register() {
-        console.log('registrando....');
+    private initForm(): void {
+        const form: any = document.getElementById('registerForm');
+        form.addEventListener('submit', (event: any) => {
+            event.preventDefault();
+        });
     }
 }
 
@@ -293,6 +351,8 @@ class KeyForm {
     public declare fields: Field[];
 }
 
+type formId = 'admin' | 'secret' | 'key' | 'url';
+
 class Field {
     public errors: string[] = [];
     public model: string | number | boolean = '';
@@ -303,7 +363,7 @@ class Field {
     public type: string = '';
     public mask?: string = '';
     public class?: string = '';
-    public id: string = '';
+    public id?: formId;
     public inputType: string = '';
     public options?: Array<any> = [];
     public onChange: any;

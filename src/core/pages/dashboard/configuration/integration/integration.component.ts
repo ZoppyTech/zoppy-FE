@@ -11,6 +11,7 @@ import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
 import { WcKeyEntity } from 'src/shared/models/entities/wc-key.entity';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { AppConstants } from '@ZoppyTech/utilities';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 
 @Component({
     selector: 'app-integration',
@@ -21,7 +22,6 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
     public providers: ProviderCard[] = [];
     public key: WcKeyEntity = new WcKeyEntity();
     public loading?: boolean = true;
-    public company?: CompanyEntity;
     public provider: string = '';
     public open: boolean = false;
 
@@ -45,11 +45,14 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
         this.company = this.storage.getCompany() as CompanyEntity;
         this.setProviders();
         this.loading = false;
+        this.initEvents();
     }
 
     public select(card: ProviderCard): void {
         this.provider = card.provider;
-        this.open = true;
+        setTimeout(() => {
+            this.open = true;
+        });
     }
 
     public isSupportProvider(): boolean {
@@ -79,49 +82,49 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
                 name: 'Tray',
                 image: './assets/svg/tray_mini.svg',
                 description: 'Possui loja na Tray? Faça a integração com a Zoppy agora mesmo!',
-                active: !!(this.company?.provider === AppConstants.PROVIDERS.TRAY && this.key.id),
+                active: !!(this.company?.provider === AppConstants.PROVIDERS.TRAY && this.key?.id),
                 provider: AppConstants.PROVIDERS.TRAY
             },
             {
                 name: 'Shopify',
                 image: './assets/svg/shopify_mini.svg',
                 description: 'Possui loja na Shopify? Faça a integração com a Zoppy agora mesmo!',
-                active: !!(this.company?.provider === AppConstants.PROVIDERS.SHOPIFY && this.key.id),
+                active: !!(this.company?.provider === AppConstants.PROVIDERS.SHOPIFY && this.key?.id),
                 provider: AppConstants.PROVIDERS.SHOPIFY
             },
             {
                 name: 'Yampi',
                 image: './assets/svg/yampi_mini.svg',
                 description: 'Possui loja na Yampi? Faça a integração com a Zoppy agora mesmo!',
-                active: !!(this.company?.provider === AppConstants.PROVIDERS.YAMPI && this.key.id),
+                active: !!(this.company?.provider === AppConstants.PROVIDERS.YAMPI && this.key?.id),
                 provider: AppConstants.PROVIDERS.YAMPI
             },
             {
                 name: 'Dooca Commerce',
                 image: './assets/svg/dooca_mini.svg',
                 description: 'Possui loja Dooca? Faça a integração com a Zoppy agora mesmo!',
-                active: !!(this.company?.provider === AppConstants.PROVIDERS.DOOCA && this.key.id),
+                active: !!(this.company?.provider === AppConstants.PROVIDERS.DOOCA && this.key?.id),
                 provider: AppConstants.PROVIDERS.DOOCA
             },
             {
                 name: 'Nuvemshop',
                 image: './assets/svg/nuvemshop_mini.svg',
                 description: 'Possui loja na Nuvemshop? Faça a integração com a Zoppy agora mesmo!',
-                active: !!(this.company?.provider === AppConstants.PROVIDERS.NUVEMSHOP && this.key.id),
+                active: !!(this.company?.provider === AppConstants.PROVIDERS.NUVEMSHOP && this.key?.id),
                 provider: AppConstants.PROVIDERS.NUVEMSHOP
             },
             {
                 name: 'WooCommerce',
                 image: './assets/svg/woo_commerce_mini.svg',
                 description: 'Possui loja na WooCommerce? Faça a integração com a Zoppy agora mesmo!',
-                active: !!(this.company?.provider === AppConstants.PROVIDERS.WOO_COMMERCE && this.key.id),
+                active: !!(this.company?.provider === AppConstants.PROVIDERS.WOO_COMMERCE && this.key?.id),
                 provider: AppConstants.PROVIDERS.WOO_COMMERCE
             },
             {
                 name: 'Bagy',
                 image: './assets/svg/bagy_mini.svg',
                 description: 'Possui loja na Bagy? Faça a integração com a Zoppy agora mesmo!',
-                active: !!(this.company?.provider === 'dooca' && this.key.id),
+                active: !!(this.company?.provider === 'dooca' && this.key?.id),
                 provider: 'bagy'
             },
             {
@@ -133,6 +136,12 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
                 hidden: this.company?.provider === AppConstants.PROVIDERS.TRAY
             }
         ];
+    }
+
+    private initEvents(): void {
+        BroadcastService.subscribe(this, 'reload-providers', async () => {
+            await this.ngOnInit();
+        });
     }
 }
 

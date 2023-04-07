@@ -1,4 +1,3 @@
-import { MessageTemplateListComponent } from './message-template-list.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule, Routes } from '@angular/router';
@@ -7,6 +6,7 @@ import { DropdownModule } from '@ZoppyTech/dropdown';
 import { IconModule } from '@ZoppyTech/icon';
 import { InputModule } from '@ZoppyTech/input';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
+import { MessageTemplateListComponent } from './message-template-list.component';
 
 const routes: Routes = [
     {

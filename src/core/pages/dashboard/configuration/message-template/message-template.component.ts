@@ -11,6 +11,6 @@ export class MessageTemplateComponent implements OnInit {
 
     public ngOnInit() {
         this.sideMenuService.change('configurations');
-        this.sideMenuService.changeSub(`messageTemplate`);
+        this.sideMenuService.changeSub('messageTemplate');
     }
 }

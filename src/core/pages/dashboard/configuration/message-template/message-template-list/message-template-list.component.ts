@@ -1,15 +1,15 @@
 import { Router } from '@angular/router';
-import { MessageTemplateService } from './../../../../../../shared/services/message-template/message-template.service';
-import { MessageTemplateGroupEntity } from './../../../../../../shared/models/entities/message-template-group.entity';
 import { Component, OnInit } from '@angular/core';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { ToastService } from '@ZoppyTech/toast';
 import { Storage } from 'src/shared/utils/storage';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
-import { DashboardBasePage } from '../../../dashboard.base.page';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { Navigation } from 'src/shared/utils/navigation';
+import { DashboardBasePage } from 'src/core/pages/dashboard/dashboard.base.page';
+import { MessageTemplateGroupEntity } from 'src/shared/models/entities/message-template-group.entity';
+import { MessageTemplateService } from 'src/shared/services/message-template/message-template.service';
 
 @Component({
     selector: 'app-message-template-list',

@@ -1,5 +1,3 @@
-import { MessageTemplateGroupEntity } from './../../../../../../shared/models/entities/message-template-group.entity';
-import { ModalService } from './../../../../../../shared/components/modal/modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { Component, OnInit } from '@angular/core';
@@ -10,9 +8,10 @@ import { MessageTemplateService } from 'src/shared/services/message-template/mes
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { Storage } from 'src/shared/utils/storage';
 import { Navigation } from 'src/shared/utils/navigation';
-import { Modal } from 'src/shared/components/modal/modal.service';
-import { DashboardBasePage } from '../../../dashboard.base.page';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { ZoppyException } from 'src/shared/services/api.service';
+import { DashboardBasePage } from 'src/core/pages/dashboard/dashboard.base.page';
+import { MessageTemplateGroupEntity } from 'src/shared/models/entities/message-template-group.entity';
 
 @Component({
     selector: 'app-message-template-config',
@@ -53,7 +52,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
             await this.fetchData();
             this.setBreadcrumb();
             this.sideMenuService.change('configurations');
-            this.sideMenuService.changeSub(`messageTemplate`);
+            this.sideMenuService.changeSub('messageTemplate');
         });
     }
 

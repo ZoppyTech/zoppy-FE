@@ -24,7 +24,12 @@ export class DashboardBasePage {
 
     public isMobile: boolean = false;
 
+    public user?: UserEntity;
+    public company?: CompanyEntity;
+
     public constructor(public storage: Storage) {
+        this.user = storage.getUser() as UserEntity;
+        this.company = storage.getCompany() as CompanyEntity;
         this.isMobile = OsUtil.getMobileOperatingSystem() !== 'unknown' || window.screen.width < 576;
 
         this.isAdmin = UserUtil.isAdmin(storage.getUser() as UserEntity);
