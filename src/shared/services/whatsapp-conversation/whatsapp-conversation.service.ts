@@ -30,6 +30,16 @@ export class WhatsappConversationService extends ApiService {
         return promise;
     }
 
+    public async countUnstarted(): Promise<number> {
+        const promise: Promise<number> = new Promise((resolve: any, reject: any) => {
+            this.get<number>(`${this.url}/count-unstarted`).subscribe(
+                (response: number) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async findByContactId(contactId: string): Promise<WhatsappConversationEntity> {
         const promise: Promise<WhatsappConversationEntity> = new Promise((resolve: any, reject: any) => {
             this.get<WhatsappConversationEntity>(`${this.url}/latest/from-contact/${contactId}`).subscribe(

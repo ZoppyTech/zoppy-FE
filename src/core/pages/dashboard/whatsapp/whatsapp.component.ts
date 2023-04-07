@@ -1,7 +1,7 @@
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { AppConstants, WebSocketConstants, WhatsappConstants } from '@ZoppyTech/utilities';
-import { AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { WhatsappAccountManagerEntity } from 'src/shared/models/entities/whatsapp-account-manager.entity';
@@ -90,6 +90,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         }
         await this.loadBusinessAccounManager();
         await this.loadConversations();
+        await this.countUnstarted();
         this.whatsappLoading = false;
         console.log('Whatsapp initialized!');
     }
@@ -265,12 +266,9 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
             this.pullLoading = true;
             const entity: WhatsappConversationEntity = await this.wppConversationService.pull();
             this.updateNewConversationCount();
-            const newConversation: [string, ChatRoom] = WhatsappMapper.mapConversation(this.account, this.manager, entity.WppMessages);
-            this.conversations.set(entity.wppContactId, newConversation[1]);
-            WhatsappMapper.setUnreadConversations(this.conversations);
+            const newConversation: [string, ChatRoom] = WhatsappMapper.mapConversation(this.account, this.manager, entity.messages);
+            this.setRoomAsMostRecent(newConversation[1]);
             this.onConversationSelected(newConversation[1]);
-
-            console.log(entity);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -335,13 +333,23 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public async loadConversations(): Promise<void> {
         try {
             const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByManagerId(this.manager.id);
-            this.whatsappPercentLoading = 90;
             this.conversations = WhatsappMapper.mapConversations(this.account, this.manager, entities);
             WhatsappMapper.setUnreadConversations(this.conversations);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
             this.conversations = new Map();
+        } finally {
+            this.whatsappPercentLoading = 75;
+        }
+    }
+
+    public async countUnstarted(): Promise<void> {
+        try {
+            this.queueCount = await this.wppConversationService.countUnstarted();
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
         } finally {
             this.whatsappPercentLoading = 100;
         }
