@@ -13,14 +13,11 @@ main {
     height: 100%;
     display: flex;
     flex-direction: column;
-    flex-grow: 1;
 
     .provider {
         border-radius: 0.5rem;
         border: 1px solid #c9d0d9;
         width: 25rem;
-        display: flex;
-        flex-direction: column;
 
         .header {
             align-items: flex-start;
@@ -38,13 +35,6 @@ main {
             padding: 2rem;
             justify-content: flex-end;
             align-items: center;
-        }
-    }
-
-    .installed {
-        border: 2px solid var(--success);
-        .footer {
-            border-top: 1px solid var(--success);
         }
     }
 }

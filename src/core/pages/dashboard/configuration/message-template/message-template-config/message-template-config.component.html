@@ -1,21 +1,14 @@
 <div class="container">
+    <a class="flex go-back margin-left-2 padding-left-1 padding-top-2" href="/dashboard/configurations/templates">
+        <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
+        <span class="text-16 text--bold text--primary">Voltar</span>
+    </a>
+
     <div class="header space-between align-center">
-        <h6 class="text--primary text--bold text-20 margin-y-3">{{ group ? group.name : 'Mensagens' }}</h6>
+        <h6 class="text margin-y-3">{{ group ? group.name : 'Mensagens' }}</h6>
         <ps-button type="secondary" (onClick)="addNewMessage()">
             <span class="text neutral-100 margin-x-2">Nova Mensagem</span>
         </ps-button>
-    </div>
-    <div>
-        <div class="separator"></div>
-    </div>
-
-    <div class="title">
-        <div class="flex wide flex-column">
-            <h6 class="text-18 text--bold margin-bottom-2">Preencha as mensagens automáticas que serão enviadas através desse template</h6>
-            <span class="text-16"
-                >Insira nos campos abaixo as mensagens, você poderá inserir os seguintes parâmetros no corpo das mensagens:
-            </span>
-        </div>
     </div>
 
     <div class="body">

@@ -9,11 +9,32 @@ import { PaginationModule } from '@ZoppyTech/pagination';
 import { SearchBarModule } from '@ZoppyTech/search-bar';
 import { Routes, RouterModule } from '@angular/router';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
+import { FormModule } from './form/form.module';
+import { BaseModule } from './base/base.module';
 
 const routes: Routes = [
     {
         path: '',
-        component: AutomationComponent
+        component: AutomationComponent,
+        children: [
+            {
+                path: '',
+                pathMatch: 'full',
+                redirectTo: 'base'
+            },
+            {
+                path: 'base',
+                loadChildren: () => import('./base/base.module').then((m: any) => m.BaseModule)
+            },
+            {
+                path: 'form',
+                loadChildren: () => import('./form/form.module').then((m: any) => m.FormModule)
+            },
+            {
+                path: 'form/:tab',
+                loadChildren: () => import('./form/form.module').then((m: any) => m.FormModule)
+            }
+        ]
     }
 ];
 
@@ -27,7 +48,9 @@ const routes: Routes = [
         ButtonModule,
         SearchBarModule,
         PaginationModule,
-        PipesModule
+        PipesModule,
+        BaseModule,
+        FormModule
     ],
     declarations: [AutomationComponent],
     exports: [AutomationComponent]

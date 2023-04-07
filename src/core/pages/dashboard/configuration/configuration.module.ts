@@ -1,11 +1,9 @@
-import { SignatureModule } from './../account/signature/signature.module';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ConfigurationComponent } from './configuration.component';
 import { RouterModule, Routes } from '@angular/router';
 import { StandardGuard } from 'src/shared/guards/standard.guard';
 import { RoleGuard } from 'src/shared/guards/role.guard';
-import { AppConstants } from '@ZoppyTech/utilities';
 
 const routes: Routes = [
     {
@@ -24,6 +22,23 @@ const routes: Routes = [
             {
                 path: 'automations',
                 loadChildren: () => import('./automation/automation.module').then((m: any) => m.AutomationModule)
+            },
+            {
+                path: 'templates',
+                loadChildren: () => import('./message-template/message-template.module').then((m: any) => m.MessageTemplateModule)
+            },
+            {
+                path: 'whatsapp-setup',
+                loadChildren: () => import('./whatsapp-config/whatsapp-config.module').then((m: any) => m.WhatsappConfigModule)
+            },
+            {
+                path: 'whatsapp-template-list',
+                loadChildren: () =>
+                    import('./whatsapp-template-list/whatsapp-template-list.module').then((m: any) => m.WhatsappTemplateListModule)
+            },
+            {
+                path: 'giftbacks',
+                loadChildren: () => import('./giftbacks/giftbacks.module').then((m: any) => m.GiftbacksModule)
             }
         ]
     }
