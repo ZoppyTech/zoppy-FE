@@ -37,6 +37,7 @@ export class KeyComponent extends DashboardBasePage implements OnInit {
     }
 
     public ngOnInit(): void {
+        if (!this.key) this.key = new WcKeyEntity();
         this.initForm();
         this.initProvider();
         this.setForm();
