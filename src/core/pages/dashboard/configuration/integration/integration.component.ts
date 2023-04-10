@@ -134,7 +134,7 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
                 provider: 'bagy'
             },
             {
-                name: 'Whatsapp Businees',
+                name: 'Whatsapp Business',
                 image: './assets/svg/wpp_mini.svg',
                 description: 'Gostaria de configurar o Whatsapp Business? Faça a integração com a Zoppy agora mesmo!',
                 active: this.company?.plan === AppConstants.PLANS.PREMIUM,
