@@ -130,7 +130,7 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
                 name: 'Bagy',
                 image: './assets/svg/bagy_mini.svg',
                 description: 'Possui loja na Bagy? Faça a integração com a Zoppy agora mesmo!',
-                active: !!(this.company?.provider === 'dooca' && this.key?.id),
+                active: !!(this.company?.provider === 'bagy' && this.key?.id),
                 provider: 'bagy'
             },
             {
