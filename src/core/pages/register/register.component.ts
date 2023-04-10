@@ -25,6 +25,7 @@ export class RegisterComponent implements OnInit {
     public paymentFields: Field[] = [];
     public plans: Plan[] = [];
     public loading: boolean = false;
+    public createdLead: boolean = false;
     public step: Step = 'initial';
     public steps: StepperItem[] = [
         { label: 'Sobre você', value: 'about_you', index: 0 },
@@ -203,6 +204,17 @@ export class RegisterComponent implements OnInit {
     }
 
     public async changeStep(stepValue: Step): Promise<void> {
+        if (!this.createdLead && this.step === 'initial') {
+            this.createdLead = true;
+            await this.publicService.createLead({
+                channel: this.getById('channel').model?.toString() ?? '',
+                name: this.getById('name').model?.toString() ?? '',
+                companyName: this.getById('company').model?.toString() ?? '',
+                email: this.getById('email').model?.toString() ?? '',
+                phone: this.getById('phone').model?.toString() ?? ''
+            });
+        }
+
         if (!this.provider) {
             if (stepValue.toString() === 'plan') stepValue = 'data';
             this.selectPlan(AppConstants.PLANS.STANDARD);
