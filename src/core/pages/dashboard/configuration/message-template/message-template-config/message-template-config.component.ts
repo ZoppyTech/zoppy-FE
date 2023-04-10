@@ -1,5 +1,3 @@
-import { MessageTemplateGroupEntity } from './../../../../../../shared/models/entities/message-template-group.entity';
-import { ModalService } from './../../../../../../shared/components/modal/modal.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { Component, OnInit } from '@angular/core';
@@ -10,9 +8,10 @@ import { MessageTemplateService } from 'src/shared/services/message-template/mes
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { Storage } from 'src/shared/utils/storage';
 import { Navigation } from 'src/shared/utils/navigation';
-import { Modal } from 'src/shared/components/modal/modal.service';
-import { DashboardBasePage } from '../../../dashboard.base.page';
+import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { ZoppyException } from 'src/shared/services/api.service';
+import { DashboardBasePage } from 'src/core/pages/dashboard/dashboard.base.page';
+import { MessageTemplateGroupEntity } from 'src/shared/models/entities/message-template-group.entity';
 
 @Component({
     selector: 'app-message-template-config',
@@ -25,6 +24,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
     public loaded: boolean = false;
     public loading: boolean = false;
     public groupId: string = '';
+    public tab: string = '';
     public name: string = '';
     public description: string = '';
 
@@ -49,11 +49,12 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
     public async ngOnInit() {
         this.route.paramMap.subscribe(async (paramMap: any) => {
             this.groupId = paramMap.get('id');
+            this.tab = paramMap.get('tab');
             if (!this.groupId) this.loaded = true;
             await this.fetchData();
             this.setBreadcrumb();
             this.sideMenuService.change('configurations');
-            this.sideMenuService.changeSub(`messageTemplate`);
+            this.sideMenuService.changeSub('messageTemplate');
         });
     }
 
@@ -97,7 +98,10 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         });
         await Promise.all(promises);
         this.toast.success('Informações salvas com sucesso.', `Sucesso!`);
-        this.router.navigate([Navigation.routes.messageTemplateList]);
+        debugger;
+        this.tab
+            ? this.router.navigate([Navigation.routes.automationForm, this.tab])
+            : this.router.navigate([Navigation.routes.messageTemplateList]);
     }
 
     public async deleteTemplate(template: MessageTemplateEntity, index: number): Promise<void> {
@@ -125,6 +129,11 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
 
     public addNewMessage(): void {
         this.templates.push(new MessageTemplateEntity());
+    }
+
+    public getHref(): string {
+        if (!this.tab) return '/dashboard/configurations/templates';
+        return `/dashboard/configurations/automations/form/${this.tab}`;
     }
 
     private setBreadcrumb(): void {

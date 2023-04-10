@@ -194,10 +194,17 @@
                     >
                         <div class="plan clickable flex flex-column" (click)="selectPlan(plan.value)">
                             <h6 class="text--bold margin-right-3">{{ plan.title }}</h6>
-                            {{ plan.visible }}
                             <div class="flex align-items-end margin-top-3">
-                                <h6 class="text--secondary">{{ plan.price | zoppyCurrency }}</h6>
-                                <span class="text">&nbsp;/mês</span>
+                                <h6
+                                    class="text--secondary"
+                                    [ngClass]="{ 'text-decoration-line-through neutral-500 text-thin': plan.promotionalPrice }"
+                                >
+                                    {{ plan.price | zoppyCurrency }}
+                                </h6>
+                                <h6 class="text--secondary margin-left-1" *ngIf="plan.promotionalPrice">
+                                    {{ plan.promotionalPrice | zoppyCurrency }}
+                                </h6>
+                                <span class="text-14 margin-left-1">{{ plan.priceUnit }}</span>
                             </div>
 
                             <div class="flex">
@@ -214,7 +221,7 @@
                                 ></ps-icon>
                             </div>
 
-                            <div class="items margin-top-3">
+                            <div class="items flex-grow flex-column margin-top-3">
                                 <div class="item padding-y-1" *ngFor="let item of plan.items">
                                     <ps-icon icon="{{ item.icon }}" class="{{ item.class }}"></ps-icon>&nbsp;
                                     <span class="text" class="{{ item.class }}">
@@ -227,7 +234,7 @@
                                 <div class="separator margin-y-3"></div>
                                 <div class="flex flex-start align-center">
                                     <ps-icon icon="icon-info-inverted" class="secondary text-24 margin-right-1"></ps-icon>
-                                    <span class="text">{{ plan.description }}</span>
+                                    <span class="text text-16" [innerHTML]="plan.description | safeHtml"></span>
                                 </div>
                             </div>
 

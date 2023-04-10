@@ -21,15 +21,20 @@ export class Navigation {
         accessTokens: '/dashboard/access-tokens',
         letalk: '/dashboard/configurations/letalk',
         messageConfig: '/dashboard/configurations/message-config',
-        messageTemplate: '/dashboard/configurations/message-template',
-        messageTemplateList: '/dashboard/configurations/message-template/list',
-        messageTemplateConfig: '/dashboard/configurations/message-template/config',
-        giftback: '/dashboard/configurations/giftback',
         coupons: '/dashboard/configurations/coupons',
         batchUpload: '/dashboard/configurations/batch-upload',
+        syncData: '/dashboard/configurations/sync-data',
+
+        integrations: '/dashboard/configurations/integrations ',
+        automations: '/dashboard/configurations/automations ',
+        automationForm: '/dashboard/configurations/automations/form',
+        messageTemplate: '/dashboard/configurations/templates',
+        messageTemplateList: '/dashboard/configurations/templates/list',
+        messageTemplateConfig: '/dashboard/configurations/templates/config',
         whatsappConfig: '/dashboard/configurations/whatsapp-setup',
         whatsappTemplateList: '/dashboard/configurations/whatsapp-template-list',
-        syncData: '/dashboard/configurations/sync-data',
+        giftback: '/dashboard/configurations/giftbacks',
+
         whatsapp: '/dashboard/whatsapp',
         products: '/dashboard/products',
         product: '/dashboard/products/add',
@@ -79,4 +84,7 @@ export type Pages =
     | 'whatsapp'
     | 'whatsappConfig'
     | 'whatsappTemplateList'
-    | `configuration`;
+    | `configuration`
+    | 'integrations'
+    | 'automations'
+    | 'automationForm';

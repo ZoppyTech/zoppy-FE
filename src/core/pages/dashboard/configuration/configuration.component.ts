@@ -36,6 +36,6 @@ export class ConfigurationComponent implements OnInit {
     }
 
     private setMenuItems(): void {
-        this.menuItems = ConfigSubItems.get(this.user as UserEntity, this.company as CompanyEntity);
+        this.menuItems = ConfigSubItems.getNewConfig(this.user as UserEntity, this.company as CompanyEntity);
     }
 }

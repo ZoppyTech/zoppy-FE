@@ -1,15 +1,10 @@
 <div class="container">
-    <div class="header padding-3 desktop">
-        <h6 class="text--primary text--bold text-20">Modelos de Mensagem Whatsapp</h6>
-    </div>
-    <div class="separator"></div>
-
     <div class="title margin-y-3">
         <h6 class="text-18 text--bold text--large padding-bottom-2">Gerenciamento dos modelos de mensagem</h6>
         <span class="text-16 desktop">Confira abaixo a listagem dos modelos cadastrados.</span>
     </div>
 
-    <div class="main-content" [ngStyle]="{ 'justify-content': messageTemplatesLoading ? 'center' : 'flex-start' }">
+    <div class="main-content padding-bottom-3" [ngStyle]="{ 'justify-content': messageTemplatesLoading ? 'center' : 'flex-start' }">
         <table *ngIf="!messageTemplatesLoading">
             <thead>
                 <th><span class="text-16 text--primary text--bold">Identificador</span></th>
@@ -66,11 +61,5 @@
                 <span class="text--100 text--bold text-14">Baixar</span>
             </ps-button>
         </div>
-    </div>
-
-    <div class="footer">
-        <!-- <ps-button [disabled]="messageTemplates.length === 0" [loading]="saveLoading" [wide]="true" (onClick)="save()" type="secondary">
-            <span class="text--100 text--bold">Salvar</span>
-        </ps-button> -->
     </div>
 </div>

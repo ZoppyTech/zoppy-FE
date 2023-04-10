@@ -8,6 +8,7 @@ import { IconModule } from '@ZoppyTech/icon';
 import { InputModule } from '@ZoppyTech/input';
 import { PaginationModule } from '@ZoppyTech/pagination';
 import { SearchBarModule } from '@ZoppyTech/search-bar';
+import { PipesModule } from 'src/shared/pipes/pipes.module';
 
 const routes: Routes = [
     {
@@ -25,7 +26,8 @@ const routes: Routes = [
         InputModule,
         ButtonModule,
         SearchBarModule,
-        PaginationModule
+        PaginationModule,
+        PipesModule
     ],
     declarations: [GiftbacksComponent],
     exports: [GiftbacksComponent]

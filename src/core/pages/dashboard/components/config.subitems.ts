@@ -67,4 +67,51 @@ export class ConfigSubItems {
             }
         ];
     }
+
+    public static getNewConfig(user: UserEntity, company: CompanyEntity): Array<SideMenuItem> {
+        return [
+            {
+                id: `integrations`,
+                icon: 'icon-arrow',
+                label: 'Integrações',
+                route: Navigation.routes.integrations,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
+            },
+            {
+                id: `automations`,
+                icon: 'icon-arrow',
+                label: 'Automações',
+                route: Navigation.routes.automations,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
+            },
+            {
+                id: `coupons`,
+                icon: 'icon-arrow',
+                label: 'Visualização de Giftbacks',
+                route: Navigation.routes.giftback,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
+            },
+            {
+                id: `messageTemplate`,
+                icon: 'icon-arrow',
+                label: 'Templates de Mensagens',
+                route: Navigation.routes.messageTemplate,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
+            },
+            {
+                id: `whatsappConfig`,
+                icon: 'icon-arrow',
+                label: 'Configuração do Whatsapp',
+                route: Navigation.routes.whatsappConfig,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER]) && !CompanyUtil.isTray(company)
+            },
+            {
+                id: `whatsappTemplateList`,
+                icon: 'icon-arrow',
+                label: 'Templates do Whatsapp',
+                route: Navigation.routes.whatsappTemplateList,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER]) && !CompanyUtil.isTray(company)
+            }
+        ];
+    }
 }

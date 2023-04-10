@@ -1,0 +1,20 @@
+<div class="key" (click)="close()">
+    <div class="container" (mouseenter)="hoverMenu = true" (mouseleave)="hoverMenu = false">
+        <div class="padding-3 flex flex-center flex-column">
+            <img src="./assets/svg/active_support.svg" alt="" />
+
+            <div class="subtitle padding-x-3 padding-top-2 flex flex-column flex-center text--center">
+                <h5 class="text--bold text--primary">{{ form.label }}</h5>
+                <p class="text margin-top-2">{{ form.description }}</p>
+            </div>
+            <div class="flex flex-center wide margin-top-3 wide flex-column">
+                <ps-button type="secondary" class="wide" (onClick)="openSupport()" [wide]="true"
+                    ><span class="neutral-100">Vamos lá?</span></ps-button
+                >
+                <ps-button type="clean" class="wide margin-top-2" (onClick)="close(true)" [wide]="true"
+                    ><span class="neutral-500 text--bold">Cancelar?</span></ps-button
+                >
+            </div>
+        </div>
+    </div>
+</div>

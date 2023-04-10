@@ -149,6 +149,10 @@ th {
     line-height: 1.5rem;
 }
 
+.icon-large {
+    font-size: 1.5rem;
+}
+
 .wide {
     width: 100%;
 }
@@ -202,6 +206,18 @@ h6 {
 .justify {
     text-align: justify;
     text-justify: inter-word;
+}
+
+.text--underline {
+    text-decoration: underline;
+}
+
+.grid-gap-2 {
+    grid-gap: 1rem;
+}
+
+.grid-gap-3 {
+    grid-gap: 2rem;
 }
 
 $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
@@ -277,6 +293,10 @@ $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
     text-decoration: line-through;
 }
 
+.text-thin {
+    font-weight: lighter !important;
+}
+
 .cursor-not-allowed {
     cursor: not-allowed !important;
 }
@@ -284,6 +304,10 @@ $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
 .scroll {
     overflow: auto;
     min-height: 0;
+}
+
+.padding-top-0 {
+    padding-top: 0 !important;
 }
 
 @media screen and (max-width: 1920px) {
@@ -309,4 +333,12 @@ $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
 
 main {
     display: unset;
+}
+
+.go-back {
+    align-items: center;
+    text-decoration: none;
+    ps-icon {
+        font-size: 1rem;
+    }
 }
