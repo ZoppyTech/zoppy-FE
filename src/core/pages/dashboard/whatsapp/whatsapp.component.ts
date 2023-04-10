@@ -1,6 +1,6 @@
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
-import { AppConstants, WebSocketConstants, WhatsappConstants } from '@ZoppyTech/utilities';
+import { AppConstants, DateUtil, WebSocketConstants, WhatsappConstants } from '@ZoppyTech/utilities';
 import { AfterViewChecked, AfterViewInit, Component, OnDestroy, OnInit } from '@angular/core';
 import { BehaviorSubject, Subject } from 'rxjs';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
@@ -58,6 +58,9 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public pullLoading: boolean = false;
     public isChatRoomVisible$ = new BehaviorSubject(false);
 
+    /** NEW VARS */
+    public latestMessages: Array<[string, ChatRoom]> = [];
+
     public constructor(
         public readonly wppAccountService: WhatsappAccountService,
         public readonly wppAccountManagerService: WhatsappAccountManagerService,
@@ -91,6 +94,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         await this.loadBusinessAccounManager();
         await this.loadConversations();
         await this.countUnstarted();
+        this.updateConversations();
         this.whatsappLoading = false;
         console.log('Whatsapp initialized!');
     }
@@ -106,8 +110,19 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         }, 1);
     }
 
-    public getConversations(): Array<any> {
+    public getConversations(): Array<[string, ChatRoom]> {
         return Array.from(this.conversations.entries());
+    }
+
+    public updateConversations(): void {
+        const conversations: Array<[string, ChatRoom]> = this.getConversations();
+        this.latestMessages = conversations.sort((a: [string, ChatRoom], b: [string, ChatRoom]) => {
+            const leftDate: Date = new Date(a[1].threads[a[1].threads.length - 1].createdAt);
+            const rightDate: Date = new Date(b[1].threads[b[1].threads.length - 1].createdAt);
+            if (leftDate.getTime() - rightDate.getTime() === 0) return 0;
+            else if (leftDate.getTime() - rightDate.getTime() > 0) return -1;
+            else return 1;
+        });
     }
 
     public setWebSocket(): void {
@@ -115,6 +130,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
             this.webSocketService
                 .fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE)
                 .subscribe((socketData: ChatSocketData) => {
+                    this.updateConversations();
                     let targetChatRoom: ChatRoom | undefined = undefined;
                     switch (socketData.action) {
                         case WebSocketConstants.CHAT_ACTIONS.NEW_CONVERSATION_COUNT:

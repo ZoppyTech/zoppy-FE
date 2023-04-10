@@ -11,7 +11,7 @@
             (filterChangeEvent)="onFilterChange($event)"
             (selectedConversationEvent)="onConversationSelected($event)"
             (pullNewConversationEvent)="onPullNewConversationButtonClicked()"
-            [conversations]="getConversations()"
+            [conversations]="latestMessages"
             [queueCount]="queueCount"
         ></chat-list>
         <contact-list
