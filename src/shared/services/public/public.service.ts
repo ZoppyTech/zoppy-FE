@@ -18,6 +18,7 @@ import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.res
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, ZoppyException } from '../api.service';
+import { LeadRequest } from 'src/shared/models/requests/public/lead.request';
 
 @Injectable({
     providedIn: 'root'
@@ -121,6 +122,16 @@ export class PublicService extends ApiService {
     public async submitNpsReview(request: NpsRequest): Promise<any> {
         const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
             this.post<any, any>(`${this.url}/nps-rating/save-answers`, request).subscribe(
+                (response: any) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async createLead(request: LeadRequest): Promise<any> {
+        const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
+            this.post<any, any>(`${this.url}/lead`, request).subscribe(
                 (response: any) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
