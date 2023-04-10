@@ -293,6 +293,10 @@ $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
     text-decoration: line-through;
 }
 
+.text-thin {
+    font-weight: lighter !important;
+}
+
 .cursor-not-allowed {
     cursor: not-allowed !important;
 }

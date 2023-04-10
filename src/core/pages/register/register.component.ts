@@ -755,6 +755,7 @@ export class RegisterComponent implements OnInit {
                 price: 0,
                 priceAction: 0,
                 action: 'por venda',
+                priceUnit: '/mês',
                 items: [
                     {
                         label: 'Giftback',
@@ -810,7 +811,10 @@ export class RegisterComponent implements OnInit {
                 title: 'Desenvolvimento',
                 price: 297,
                 priceAction: 0.5,
+                priceUnit: 'no 1º mês',
                 action: 'por venda',
+                subAction: '150 vendas/mês gratuitas',
+                promotionalPrice: 1,
                 items: [
                     {
                         label: 'Giftback',
@@ -853,6 +857,12 @@ export class RegisterComponent implements OnInit {
                         value: '',
                         icon: 'icon-star',
                         class: 'text'
+                    },
+                    {
+                        label: 'Primeiras 150 vendas/mês gratuitas.',
+                        value: '',
+                        icon: 'icon-thumb_up',
+                        class: 'text'
                     }
                 ],
                 visible: true,
@@ -860,7 +870,7 @@ export class RegisterComponent implements OnInit {
                 special: false,
                 value: AppConstants.PLANS.STANDARD,
                 selected: false,
-                description: '90 dias de garantia'
+                description: '90 dias de garantia.'
             }
         ];
     }
@@ -907,6 +917,9 @@ class Plan {
     public price: number = 0;
     public priceAction: number = 0;
     public action: string = '';
+    public subAction?: string = '';
+    public priceUnit: string = '';
+    public promotionalPrice?: number = 0;
     public items: Item[] = [];
     public satisfaction: boolean = false;
     public visible: any;
