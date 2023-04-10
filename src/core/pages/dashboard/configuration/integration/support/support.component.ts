@@ -37,6 +37,8 @@ export class SupportComponent {
                 return this.setBagyForm();
             case 'nuvemshop':
                 return this.setNuvemshopForm();
+            case 'shopify':
+                return this.setShopifyForm();
         }
     }
 
@@ -57,6 +59,16 @@ export class SupportComponent {
             link: 'https://wa.me/message/7XWZOLXUFLNOM1',
             description:
                 'A integração com a Dooca é um pouco mais complexa, por isso, sugerimos que você entre em contato com o nosso suporte para obter ajuda nessa integração, aproveite também para tirar suas dúvidas!'
+        };
+    }
+
+    private setShopifyForm(): void {
+        this.form = {
+            title: 'Shopify',
+            label: 'Cadastrar chaves na Shopify',
+            link: 'https://wa.me/message/7XWZOLXUFLNOM1',
+            description:
+                'A integração com a Shopify é um pouco mais complexa, por isso, sugerimos que você entre em contato com o nosso suporte para obter ajuda nessa integração, aproveite também para tirar suas dúvidas!'
         };
     }
 

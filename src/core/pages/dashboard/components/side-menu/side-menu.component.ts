@@ -1,6 +1,6 @@
 import { Component, HostListener, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { AppConstants } from '@ZoppyTech/utilities';
+import { AppConstants, OsUtil } from '@ZoppyTech/utilities';
 import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { PublicService } from 'src/shared/services/public/public.service';
@@ -83,10 +83,24 @@ export class SideMenuComponent implements OnInit {
             },
             {
                 id: `customers`,
-                icon: 'icon-group_add',
+                icon: 'icon-person_add',
                 label: 'Área de membros',
                 route: Navigation.routes.customers,
                 visible: true
+            },
+            {
+                id: `configurations`,
+                icon: 'icon-settings',
+                class: 'desktop',
+                label: 'Configurações',
+                route: Navigation.routes.configuration,
+                visible:
+                    OsUtil.getMobileOperatingSystem() === 'unknown' &&
+                    UserUtil.hasRoles(this.storage.getUser() as UserEntity, [
+                        AppConstants.ROLES.ADMIN,
+                        AppConstants.ROLES.MASTER,
+                        AppConstants.ROLES.MANAGER
+                    ])
             },
             {
                 id: `myCompany`,

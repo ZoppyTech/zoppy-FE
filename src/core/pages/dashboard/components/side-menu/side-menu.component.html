@@ -37,7 +37,6 @@
                 <a [attr.href]="item.route" (click)="itemClicked(item)">
                     <div class="icon-container flex flex-center" [ngClass]="{ 'padding-right-2': sideMenuService.open }">
                         <ps-icon
-                            class="text-16"
                             icon="{{ item.icon }} {{ sideMenuService.selected === item.id ? 'text--secondary' : 'text--500' }}"
                         ></ps-icon>
                     </div>
