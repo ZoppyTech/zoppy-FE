@@ -51,7 +51,9 @@
                     ></ps-icon>
                     <ps-icon *ngIf="thread.status === 'sent'" class="font-14 viewed-icon--status-sent" icon="icon-approval"></ps-icon>
                     <ps-icon *ngIf="thread.status === 'failed'" class="font-14 viewed-icon--status-failed" icon="icon-error"></ps-icon>
-                    <static-loading *ngIf="thread.status === 'forwarded'" [isLoading]="true" [onlyLoading]="true"></static-loading>
+                    <div *ngIf="thread.status === 'forwarded'">
+                        <static-loading [isLoading]="true" [onlyLoading]="true"></static-loading>
+                    </div>
                 </span>
                 <span *ngIf="thread?.createdAt !== null && !thread.deletedAt" class="text--600 text-12 datetime">{{
                     thread.createdAt | date : 'h:mm a'

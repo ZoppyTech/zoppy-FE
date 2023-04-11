@@ -107,7 +107,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnChanges {
 
     public sendMessage() {
         if (!this.isContentTextEmpty()) {
-            this.message = this.textContent;
+            this.message = this.inputElement?.innerText;
             this.messageChange.emit(this.message);
         }
         this.cleanInput();
@@ -130,14 +130,14 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnChanges {
             this.cleanInput();
             return;
         }
-        this.message = this.textContent;
+        this.message = this.inputElement?.innerText;
         this.messageChange.emit(this.message);
     }
 
     public onKeyDown(keyboardEvent: KeyboardEvent): void {
         if (keyboardEvent.code !== this.KEY_ENTER_CODE || keyboardEvent.shiftKey) return;
         if (this.isContentTextEmpty()) return;
-        this.message = this.textContent;
+        this.message = this.inputElement?.innerText;
         this.messageChange.emit(this.message);
         //this.cleanInput();
     }
@@ -151,7 +151,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnChanges {
     public cleanInput(): void {
         this.textContent = '';
         this.contentEmpty = true;
-        this.message = this.textContent;
+        this.message = this.inputElement?.innerText;
         this.messageChange.emit(this.message);
         this.onCleanInputEvent.emit();
     }
