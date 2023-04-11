@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { ChatRoom } from '../../models/chat-room';
 import { Subcomponents } from '../../models/subcomponents';
 import { ChatFilters } from '../../models/chat-filters';
@@ -8,8 +8,10 @@ import { ChatFilters } from '../../models/chat-filters';
     templateUrl: './chat-list.component.html',
     styleUrls: ['./chat-list.component.scss']
 })
-export class ChatListComponent implements OnInit {
+export class ChatListComponent implements OnInit, OnChanges {
     @Input() public isAdmin: boolean = false;
+    @Input() public selectedFilter: string = ChatFilters.InProgress;
+    @Output() public selectedFilterChange: EventEmitter<string> = new EventEmitter<string>();
     @Input() public filterLoading: boolean = false;
     @Input() public pullLoading: boolean = false;
     @Input() public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
@@ -30,7 +32,13 @@ export class ChatListComponent implements OnInit {
     ]);
 
     public ngOnInit(): void {
-        console.log('Start Chat List Component');
+        //console.log('Start Chat List Component');
+    }
+
+    public ngOnChanges(changes: SimpleChanges): void {
+        if (!changes['selectedFilter']) return;
+        this.selectedFilter = changes['selectedFilter'].currentValue;
+        this.selectFilter(this.selectedFilter, false);
     }
 
     public newMessage(): void {
@@ -41,7 +49,7 @@ export class ChatListComponent implements OnInit {
         this.selectedConversationEvent.emit(chatRoomSelected);
     }
 
-    public selectFilter(filterName: string): void {
+    public selectFilter(filterName: string, propagateEvent: boolean = true): void {
         const entries: IterableIterator<[string, boolean]> = this.filters.entries();
         let iteratorResult: IteratorResult<[string, boolean]> | null = null;
         do {
@@ -50,6 +58,13 @@ export class ChatListComponent implements OnInit {
             this.filters.set(iteratorResult.value[0], false);
         } while (!iteratorResult.done);
         this.filters.set(filterName, true);
+
+        if (!propagateEvent) {
+            return;
+        }
+
+        this.selectedFilter = filterName;
+        this.selectedFilterChange.emit(this.selectedFilter);
         this.filterChangeEvent.emit(filterName);
     }
 

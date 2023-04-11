@@ -20,7 +20,7 @@ export class DocumentMessageComponent {
 
     public ngOnInit(): void {
         this.fileSizeConverted = this.fileConverter(this.media?.fileSize ?? 0);
-        console.log('init');
+        //console.log('init');
     }
 
     private fileConverter(fileSize: number): string {

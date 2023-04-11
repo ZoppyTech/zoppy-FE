@@ -19,7 +19,7 @@ export class StaticLoadingComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 
     private setStyle(): void {

@@ -11,6 +11,6 @@ export class BubbleInfoComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 }

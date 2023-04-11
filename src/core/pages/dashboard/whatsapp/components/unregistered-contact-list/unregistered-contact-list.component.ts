@@ -36,7 +36,7 @@ export class UnregisteredContactListComponent {
     ) {}
 
     public async ngOnInit(): Promise<void> {
-        console.log('Contact list loading...');
+        //console.log('Contact list loading...');
         this.filter.searchFields = ['firstName'];
         this.filter.pagination.page = 1;
         this.filter.pagination.pageSize = Number.MAX_SAFE_INTEGER;
@@ -52,7 +52,7 @@ export class UnregisteredContactListComponent {
         ];
         await this.loadContacts();
         this.syncHasDone = this.contacts.length > 0;
-        console.log('Contact list initialized!');
+        //console.log('Contact list initialized!');
     }
 
     public async onSearchTextChanged(searchText: string = ''): Promise<void> {
