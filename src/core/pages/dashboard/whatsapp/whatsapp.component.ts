@@ -115,10 +115,11 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public updateConversations(conversations: Array<[string, ChatRoom]> = []): void {
-        if (conversations.length <= 0) {
+        if (conversations.length <= 1) {
             this.latestMessages = conversations;
             return;
         }
+
         this.latestMessages = conversations.sort((a: [string, ChatRoom], b: [string, ChatRoom]) => {
             const leftDate: Date = new Date(a[1].threads[a[1].threads.length - 1].createdAt);
             const rightDate: Date = new Date(b[1].threads[b[1].threads.length - 1].createdAt);
