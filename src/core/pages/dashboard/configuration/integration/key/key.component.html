@@ -16,7 +16,9 @@
                     <span class="text text--600" [innerHTML]="step | safeHtml"></span>
                 </div>
             </div>
-            <a *ngIf="form.link" target="_blank" class="text--link text--info margin-top-1" [href]="form.link">Documentação oficial</a>
+            <a *ngIf="form.link" target="_blank" class="text--link text-16 text--info margin-top-1" [href]="form.link"
+                >Documentação oficial</a
+            >
         </div>
 
         <form (keydown.enter)="save()" class="flex flex-column" id="registerForm">
