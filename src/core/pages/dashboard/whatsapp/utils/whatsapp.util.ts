@@ -19,15 +19,17 @@ export class WhatsappUtil {
         return `+${countryCode} ${subdivisionCode} ${phone.slice(2, phone.length - 4)}-${phone.slice(phone.length - 4, phone.length)}`;
     }
 
+    // TODO: Remover apos refatoracao na exibicao inicial das mensagens do chat
     public static findLastIndexOfMessageSent(threads: ThreadMessage[]): number {
-        const elementIndex: number =
-            threads.length -
-            threads.reverse().findIndex((thread: ThreadMessage) => {
-                return !thread.wamId;
-            }) -
-            1;
-        threads.reverse();
-        return elementIndex;
+        // const elementIndex: number =
+        //     threads.length -
+        //     threads.reverse().findIndex((thread: ThreadMessage) => {
+        //         return !thread.wamId;
+        //     }) -
+        //     1;
+        // threads.reverse();
+        // return elementIndex;
+        return 0;
     }
 
     public static getMessageTemplateParams(templateName: string, chatRoom: ChatRoom): Array<string> {

@@ -45,7 +45,7 @@
         "@ZoppyTech/toast": "0.1.7",
         "@ZoppyTech/tooltip": "0.1.4",
         "@ZoppyTech/visual-identity": "0.1.8",
-        "@ZoppyTech/utilities": "^1.0.119",
+        "@ZoppyTech/utilities": "^1.0.121",
         "@ZoppyTech/stepper": "0.1.9",
         "@ZoppyTech/selector": "0.1.5",
         "anychart": "^8.7.1",
