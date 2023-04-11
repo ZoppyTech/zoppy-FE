@@ -763,7 +763,7 @@ export class RegisterComponent implements OnInit {
     private initPlans(): void {
         this.plans = [
             {
-                title: 'Freemium',
+                title: 'Gratuito',
                 price: 0,
                 priceAction: 0,
                 action: 'por venda',

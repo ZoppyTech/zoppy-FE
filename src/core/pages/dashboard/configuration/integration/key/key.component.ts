@@ -280,7 +280,7 @@ export class KeyComponent extends DashboardBasePage implements OnInit {
             title: 'WooCommerce',
             label: 'Cadastre suas chaves',
             description: 'Entre na área administrativa da sua loja e siga o tutorial disponibilizado no link abaixo:',
-            link: 'https://woocommerce.com/document/woocommerce-rest-api/',
+            link: 'https://zoppy.sak.com.br/faq/como-encontrar-as-credenciais-do-woocommerce',
             hasWebhook: true,
             steps: [],
             fields: [
