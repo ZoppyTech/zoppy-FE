@@ -130,17 +130,14 @@
             </div>
         </div>
 
-        <ps-input
-            icon="{{ 'icon-times' }}"
-            (onIconClicked)="clearMessageInput()"
-            [iconClick]="true"
-            type="text"
-            [placeholder]="getInputTextPlaceholder()"
-            [(ngModel)]="messageInput"
-        ></ps-input>
+        <chat-input
+            [(message)]="messageInput"
+            [isTemplate]="!!messageTemplateSelected"
+            (onCleanInputEvent)="clearMessageInput()"
+        ></chat-input>
 
         <div class="send-button clickable" (click)="sendMessage()">
-            <ps-icon [ngClass]="{ 'has-message': this.messageInput }" icon="font-28 icon-send_fill"></ps-icon>
+            <ps-icon [ngClass]="{ 'has-message': messageInput }" icon="font-28 icon-send_fill"></ps-icon>
         </div>
     </div>
 </div>

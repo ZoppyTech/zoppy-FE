@@ -82,7 +82,6 @@ export class WhatsappMapper {
             ? messageEntity.wppAccountManager?.user.name ?? 'Sistema'
             : messageEntity.wppContact?.firstName ?? messageEntity.wppContact?.phone ?? '';
         threadMessage.isFirstMessageOfDay = false;
-        threadMessage.wamId = messageEntity.wamId;
         threadMessage.createdAt = messageEntity.createdAt;
         threadMessage.deletedAt = messageEntity.deletedAt;
         threadMessage.companyId = messageEntity.companyId;
