@@ -37,7 +37,6 @@
     <div class="filters" [ngClass]="{ 'filters--close': isCollapsedFilter }">
         <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
             <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">não lidas</span>
-            <!-- <span class="text-14">0</span> -->
         </div>
         <div
             (click)="selectFilter('in-progress')"
@@ -45,11 +44,9 @@
             [ngClass]="{ 'item--in-progress': filters.get('in-progress') }"
         >
             <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">em andamento</span>
-            <!-- <span class="text-14">9</span> -->
         </div>
         <div (click)="selectFilter('finished')" class="flex-row item clickable" [ngClass]="{ 'item--finished': filters.get('finished') }">
             <span class="label text-500 text-12 margin-right-1">concluídas</span>
-            <!-- <span class="text-14">50</span> -->
         </div>
     </div>
 
@@ -112,7 +109,7 @@
                             'viewed-icon--customer-user': !conversation[1].threads[conversation[1].threads.length - 1].isBusiness
                         }"
                     >
-                        <span class="margin-right-1" *ngIf="conversation[1].threads[conversation[1].threads.length - 1].wamId">
+                        <span class="margin-right-1">
                             <ps-icon
                                 *ngIf="
                                     conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered' ||

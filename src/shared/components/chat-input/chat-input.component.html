@@ -1,0 +1,18 @@
+<div class="chat-input-wrapper">
+    <div
+        (mouseover)="isHovered = true"
+        (mouseleave)="isHovered = false"
+        class="chat-input-wrapper__input"
+        [ngClass]="{ 'chat-input-wrapper__input--highlighted': isHovered, 'chat-input-wrapper__input--no-highlight': !isHovered }"
+    >
+        <div
+            class="chat-input-wrapper__input__content"
+            contentEditable="true"
+            placeholder="Escreva sua mensagem..."
+            #inputElementRef
+            (input)="onInput($event)"
+            (keydown)="onKeyDown($event)"
+        ></div>
+        <ps-icon (click)="cleanInput()" icon="icon-times" class="text--primary font-16 clickable"></ps-icon>
+    </div>
+</div>

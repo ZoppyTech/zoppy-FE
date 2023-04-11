@@ -15,6 +15,7 @@ import { DocumentMessageModule } from './components/document-message/document-me
 import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
 import { CountdownTimerModule } from './components/countdown-timer/countdown-timer.module';
 import { ContactInfoPanelModule } from './components/contact-info-panel/contact-info-panel.module';
+import { ChatInputModule } from 'src/shared/components/chat-input/chat-input.module';
 
 const providers: Provider[] = [ChatUtility];
 
@@ -22,6 +23,7 @@ const providers: Provider[] = [ChatUtility];
     declarations: [ChatRoomComponent],
     imports: [
         CommonModule,
+        ChatInputModule,
         InputModule,
         ButtonModule,
         IconModule,

@@ -104,7 +104,7 @@
     .footer {
         position: relative;
         min-height: 88px;
-        max-height: 88px;
+        max-width: 100%;
         display: flex;
         flex-direction: row;
         align-items: center;
@@ -285,6 +285,11 @@
             &.active-color {
                 color: #54656f;
             }
+        }
+
+        chat-input {
+            height: 100%;
+            width: 100%;
         }
 
         .send-button {

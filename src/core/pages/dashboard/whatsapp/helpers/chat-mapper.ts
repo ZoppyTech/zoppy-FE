@@ -80,10 +80,8 @@ export class ChatMapper {
             isBusiness: isBusiness,
             readByManager: isBusiness || !!messageEntity.wppManagerId,
             isFirstMessageOfDay: false,
-            wamId: messageEntity.wamId,
             companyId: messageEntity.companyId,
             createdAt: messageEntity.createdAt,
-            updatedAt: messageEntity.updatedAt,
             deletedAt: messageEntity.deletedAt,
             media: this.mapMedia(messageEntity.wppMediaMessage)
         };

@@ -18,6 +18,6 @@ export class TextMessageComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 }

@@ -78,7 +78,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.seeLastMessage();
         await this.loadLatestConversation();
         await this.loadMessageTemplates();
-        console.log('Chat Room initialized!');
+        //'Chat Room initialized!');
     }
 
     public selectFooterOptions(optionName: string, value: boolean): void {
@@ -320,7 +320,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             content: this.messageTemplateSelected?.content ?? '',
             senderName: this.chatRoom.manager.name,
             readByManager: true,
-            status: WhatsappConstants.MessageStatus.Sent,
+            status: WhatsappConstants.MESSAGE_STATUS.FORWARDED,
             isBusiness: true,
             isFirstMessageOfDay: false,
             createdAt: new Date(),
@@ -334,7 +334,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             type: WhatsappConstants.MessageType.Text,
             content: this.messageInput,
             senderName: this.chatRoom.manager.name,
-            status: WhatsappConstants.MessageStatus.Sent,
+            status: WhatsappConstants.MESSAGE_STATUS.FORWARDED,
             readByManager: true,
             isBusiness: true,
             isFirstMessageOfDay: false,

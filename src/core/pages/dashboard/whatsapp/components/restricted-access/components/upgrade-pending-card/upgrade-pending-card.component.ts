@@ -25,7 +25,7 @@ export class UpgradePendingCardComponent implements OnInit {
     public constructor(public readonly wppAccountService: WhatsappAccountService, private readonly toast: ToastService) {}
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 
     public async upgrade(): Promise<void> {

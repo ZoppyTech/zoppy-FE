@@ -9,9 +9,10 @@
             [filterLoading]="filterLoading"
             [(currentSubcomponent)]="currentSubcomponent"
             (filterChangeEvent)="onFilterChange($event)"
+            [(selectedFilter)]="selectedFilter"
             (selectedConversationEvent)="onConversationSelected($event)"
             (pullNewConversationEvent)="onPullNewConversationButtonClicked()"
-            [conversations]="getConversations()"
+            [conversations]="latestMessages"
             [queueCount]="queueCount"
         ></chat-list>
         <contact-list
