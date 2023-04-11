@@ -9,6 +9,7 @@
             [filterLoading]="filterLoading"
             [(currentSubcomponent)]="currentSubcomponent"
             (filterChangeEvent)="onFilterChange($event)"
+            [(selectedFilter)]="selectedFilter"
             (selectedConversationEvent)="onConversationSelected($event)"
             (pullNewConversationEvent)="onPullNewConversationButtonClicked()"
             [conversations]="latestMessages"

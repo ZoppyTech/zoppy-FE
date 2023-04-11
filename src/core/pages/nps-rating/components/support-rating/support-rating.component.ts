@@ -25,7 +25,7 @@ export class SupportRatingComponent {
     }
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 
     public saveAnswer(supportGrade: number): void {

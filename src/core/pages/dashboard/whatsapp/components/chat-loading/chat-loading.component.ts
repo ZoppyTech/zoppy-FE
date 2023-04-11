@@ -13,6 +13,6 @@ export class ChatLoadingComponent implements OnInit {
         //no content
     }
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 }

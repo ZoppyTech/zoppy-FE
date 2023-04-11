@@ -78,7 +78,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.seeLastMessage();
         await this.loadLatestConversation();
         await this.loadMessageTemplates();
-        console.log('Chat Room initialized!');
+        //'Chat Room initialized!');
     }
 
     public selectFooterOptions(optionName: string, value: boolean): void {

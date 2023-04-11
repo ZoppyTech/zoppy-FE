@@ -34,7 +34,7 @@ export class RecommendationRatingComponent {
     public constructor() {}
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 
     public saveAnswer(recommendationGrade: number): void {

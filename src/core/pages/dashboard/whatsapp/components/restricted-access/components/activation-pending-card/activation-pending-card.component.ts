@@ -13,6 +13,6 @@ export class ActivationPendingCardComponent implements OnInit {
     public constructor() {}
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 }
