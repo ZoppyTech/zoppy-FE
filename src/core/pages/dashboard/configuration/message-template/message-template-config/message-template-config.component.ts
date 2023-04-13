@@ -98,7 +98,6 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         });
         await Promise.all(promises);
         this.toast.success('Informações salvas com sucesso.', `Sucesso!`);
-        debugger;
         this.tab
             ? this.router.navigate([Navigation.routes.automationForm, this.tab])
             : this.router.navigate([Navigation.routes.messageTemplateList]);

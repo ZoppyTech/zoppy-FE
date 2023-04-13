@@ -58,7 +58,6 @@ export class SignatureComponent implements OnInit {
     public async ngOnInit() {
         this.route.paramMap.subscribe(async (paramMap: any) => {
             this.state = paramMap.get('state') ? +paramMap.get('state') : 1;
-            debugger;
             this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
             this.company = this.storage.getCompany() as UserEntity;
             this.setBreadcrumb();
