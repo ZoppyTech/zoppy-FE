@@ -30,8 +30,10 @@
                 </ul>
             </div>
             <div>
-                <span class="text-14 info clickable margin-bottom-1" (click)="state = 3">Alterar plano</span>
-                <div class="margin-y-2 text text--bold">
+                <span class="text-14 info clickable margin-bottom-1 padding-bottom-2" (click)="changePlan()" *ngIf="isPartner()"
+                    >Alterar plano</span
+                >
+                <div class="margin-bottom-2 text text--bold">
                     {{ plan.value | zoppyCurrency }}
                     <span class="text">/mês</span>
                 </div>
@@ -56,11 +58,6 @@
 
             <div>
                 <span class="text-14 info clickable margin-bottom-1" (click)="state = 2">Alterar pagamento</span>
-                <div class="margin-y-2 text text--bold">
-                    {{ plan.value | zoppyCurrency }}
-                    <span class="text">/mês</span>
-                </div>
-                <span class="text text-12">+{{ plan.unitValue | zoppyCurrency }}/por {{ plan.unit }}</span>
             </div>
         </div>
 
@@ -157,9 +154,9 @@
 
                     <div class="items margin-top-3 flex-grow flex-column">
                         <div class="item padding-y-1" *ngFor="let item of plan.items">
-                            <ps-icon icon="icon-check" class="success"></ps-icon>&nbsp;
-                            <span class="text">
-                                {{ item }}
+                            <ps-icon icon="{{ item.icon }}" class="{{ item.class }}"></ps-icon>&nbsp;
+                            <span class="text" class="{{ item.class }}">
+                                {{ item.label }}
                             </span>
                         </div>
                     </div>
