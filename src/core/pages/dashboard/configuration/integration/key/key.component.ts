@@ -10,6 +10,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { wcKeyRequest } from 'src/shared/models/requests/wc-key/wc-key.request';
 import { WcKeyService } from 'src/shared/services/wc-key/wc-key.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-key',
@@ -26,6 +27,7 @@ export class KeyComponent extends DashboardBasePage implements OnInit {
     public loading: boolean = false;
     public configWebhooks: boolean = true;
     public sync: boolean = true;
+    public support: string = environment.support;
 
     public constructor(
         public override readonly storage: Storage,

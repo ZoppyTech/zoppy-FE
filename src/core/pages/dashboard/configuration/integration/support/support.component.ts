@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { environment } from 'src/environments/environment';
 
 @Component({
     selector: 'app-support',
@@ -46,7 +47,7 @@ export class SupportComponent {
         this.form = {
             title: 'Whatsapp',
             label: 'Configuração com o Whatsapp Business',
-            link: 'https://wa.me/message/7XWZOLXUFLNOM1',
+            link: environment.support,
             description:
                 'A integração com o Whatsapp Business é um pouco mais complexa, por isso, sugerimos que você entre em contato com o nosso suporte para obter ajuda nessa integração, aproveite também para tirar suas dúvidas!'
         };
@@ -56,7 +57,7 @@ export class SupportComponent {
         this.form = {
             title: 'Dooca',
             label: 'Cadastrar chaves na Dooca',
-            link: 'https://wa.me/message/7XWZOLXUFLNOM1',
+            link: environment.support,
             description:
                 'A integração com a Dooca é um pouco mais complexa, por isso, sugerimos que você entre em contato com o nosso suporte para obter ajuda nessa integração, aproveite também para tirar suas dúvidas!'
         };
@@ -66,7 +67,7 @@ export class SupportComponent {
         this.form = {
             title: 'Shopify',
             label: 'Cadastrar chaves na Shopify',
-            link: 'https://wa.me/message/7XWZOLXUFLNOM1',
+            link: environment.support,
             description:
                 'A integração com a Shopify é um pouco mais complexa, por isso, sugerimos que você entre em contato com o nosso suporte para obter ajuda nessa integração, aproveite também para tirar suas dúvidas!'
         };
@@ -76,7 +77,7 @@ export class SupportComponent {
         this.form = {
             title: 'Bagy',
             label: 'Cadastrar chaves na Bagy',
-            link: 'https://wa.me/message/7XWZOLXUFLNOM1',
+            link: environment.support,
             description:
                 'A integração com a Bagy é um pouco mais complexa, por isso, sugerimos que você entre em contato com o nosso suporte para obter ajuda nessa integração, aproveite também para tirar suas dúvidas!'
         };
@@ -86,7 +87,7 @@ export class SupportComponent {
         this.form = {
             title: 'Nuvemshop',
             label: 'Cadastre suas chaves',
-            link: 'https://wa.me/message/7XWZOLXUFLNOM1',
+            link: environment.support,
             description:
                 'A integração com a Nuvemshop é um pouco mais complexa, por isso, sugerimos que você entre em contato com o nosso suporte para obter ajuda nessa integração, aproveite também para tirar suas dúvidas!'
         };
