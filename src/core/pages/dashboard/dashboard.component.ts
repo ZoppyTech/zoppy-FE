@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
+import { BooleanResponse } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { CompanyService } from 'src/shared/services/company/company.service';
 import { UserService } from 'src/shared/services/user/user.service';
@@ -22,35 +23,37 @@ export class DashboardComponent implements OnInit {
     ) {}
 
     public async ngOnInit() {
-        try {
-            if (!this.storage.getCompany() || !this.storage.getUser()) {
-                const [user, company] = await Promise.all([this.userService.myself(), this.companyService.find()]);
-                if (user) this.storage.setUser(user);
-                if (company) this.storage.setCompany(company);
-            }
-            this.visible = true;
-        } catch (ex) {
-            this.storage.clearAll();
-            this.router.navigate([Navigation.routes.login]);
-        }
+        setTimeout(async () => {
+            await this.initialize();
+        });
     }
 
-    public async loadDashboard() {
+    private async initialize() {
         this.visible = false;
         try {
-            const [user, company] = await Promise.all([this.userService.myself(), this.companyService.find()]);
+            const [user, company, isBlocked] = await Promise.all([
+                this.userService.myself(),
+                this.companyService.find(),
+                this.companyService.getBlockedFreeTier()
+            ]);
             if (user) this.storage.setUser(user);
             if (company) this.storage.setCompany(company);
-            this.visible = true;
+
+            if (isBlocked.result && !this.router.url.includes(Navigation.routes.signature)) {
+                this.router.navigate([Navigation.routes.blocked]);
+                return;
+            }
         } catch (ex) {
             this.storage.clearAll();
             this.router.navigate([Navigation.routes.login]);
+        } finally {
+            this.visible = true;
         }
     }
 
     public setEvents(): void {
         BroadcastService.subscribe(this, 'reload-dashboard', async () => {
-            await this.loadDashboard();
+            await this.initialize();
         });
     }
 }

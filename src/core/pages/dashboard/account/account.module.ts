@@ -28,6 +28,10 @@ const routes: Routes = [
                 loadChildren: () => import('./signature/signature.module').then((m: any) => m.SignatureModule)
             },
             {
+                path: 'signature/:state',
+                loadChildren: () => import('./signature/signature.module').then((m: any) => m.SignatureModule)
+            },
+            {
                 path: 'change-password',
                 loadChildren: () => import('./update-password/update-password.module').then((m: any) => m.UpdatePasswordModule)
             }

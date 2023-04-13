@@ -11,11 +11,12 @@ import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service
 import { UserService } from 'src/shared/services/user/user.service';
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
-import { AppConstants } from '@ZoppyTech/utilities';
+import { AppConstants, DateUtil, StringUtil } from '@ZoppyTech/utilities';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { PaymentRequest } from 'src/shared/models/requests/company/payment.request';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
     selector: 'app-signature',
@@ -40,7 +41,6 @@ export class SignatureComponent implements OnInit {
     public state: number = 1;
     public paymentMethod: PaymentMethodView = new PaymentMethodView();
     public nextPaymentDate: Date = new Date();
-    public paymentRequest?: PaymentRequest;
 
     public constructor(
         public sideMenuService: SideMenuService,
@@ -51,22 +51,26 @@ export class SignatureComponent implements OnInit {
         private readonly companyService: CompanyService,
         private readonly publicService: PublicService,
         private readonly toast: ToastService,
-        private readonly storage: Storage
+        private readonly storage: Storage,
+        private readonly route: ActivatedRoute
     ) {}
 
     public async ngOnInit() {
-        this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
-        this.company = this.storage.getCompany() as UserEntity;
-        this.setBreadcrumb();
-        this.sideMenuService.change(`none`);
-        this.sideMenuService.changeSubAccount(`signature`);
-        this.setAttributes();
-        this.initPlans();
-        this.initPaymentFields();
-        this.company.createdAt = new Date(this.company.createdAt?.toString() ?? '');
-        this.nextPaymentDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, this.company.createdAt?.getDate());
-        await this.fetchData();
-        this.loaded = true;
+        this.route.paramMap.subscribe(async (paramMap: any) => {
+            this.state = paramMap.get('state') ? +paramMap.get('state') : 1;
+            this.user = (this.storage.getUser() as UserEntity) || new UserEntity();
+            this.company = this.storage.getCompany() as UserEntity;
+            this.setBreadcrumb();
+            this.sideMenuService.change(`none`);
+            this.sideMenuService.changeSubAccount(`signature`);
+            this.setAttributes();
+            this.initPlans();
+            this.initPaymentFields();
+            this.company.createdAt = new Date(this.company.createdAt?.toString() ?? '');
+            this.nextPaymentDate = new Date(new Date().getFullYear(), new Date().getMonth() + 1, this.company.createdAt?.getDate());
+            await this.fetchData();
+            this.loaded = true;
+        });
     }
 
     public async cancel(): Promise<void> {
@@ -104,11 +108,18 @@ export class SignatureComponent implements OnInit {
 
         try {
             this.paymentMethodLoading = true;
-            const company: CompanyEntity = await this.companyService.updatePaymentMethod(this.paymentRequest as PaymentRequest);
+            const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
+            const company: CompanyEntity = await this.companyService.updatePaymentMethod({
+                name: this.getPaymentById('name').model.toString(),
+                expirationDate: `${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`,
+                cardNumber: this.getPaymentById('number').model.toString(),
+                cvv: this.getPaymentById('cvv').model.toString(),
+                flag: StringUtil.calculateCreditCardFlag(this.getPaymentById('number').model.toString())
+            });
             this.storage.setCompany(company);
             this.toast.success('Plano atualizado com sucesso!', 'Tudo certo!');
-            this.state = 1;
             this.company = company;
+            this.state = company.vindiId && company.vindiPaymentProfileId && company.plan === AppConstants.PLANS.FREE ? 3 : 1;
             this.initPlans();
             this.initPaymentFields();
             await this.fetchData();
@@ -144,28 +155,22 @@ export class SignatureComponent implements OnInit {
         }
     }
 
+    public isPartner(): boolean {
+        return this.company?.provider === AppConstants.PROVIDERS.TRAY;
+    }
+
+    public changePlan(): void {
+        this.state = 3;
+    }
+
     private validatePaymentForm(): boolean {
-        const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
-
-        this.paymentRequest = new PaymentRequest();
-        this.paymentRequest.name = this.getPaymentById('name').model.toString();
-        this.paymentRequest.cardNumber = this.getPaymentById('number').model.toString();
-        this.paymentRequest.expirationDate = `${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`;
-        this.paymentRequest.cvv = this.getPaymentById('cvv').model.toString();
-        this.paymentRequest.flag = this.getPaymentById('flag').model.toString();
-
-        if (
-            !this.paymentRequest.name ||
-            !this.paymentRequest.cardNumber ||
-            !this.paymentRequest.expirationDate ||
-            !this.paymentRequest.cvv ||
-            !this.paymentRequest.flag ||
-            this.paymentRequest.expirationDate?.length !== 5
-        ) {
-            return false;
-        }
-
-        return true;
+        let valid: boolean = true;
+        if (!this.getPaymentById('name').model.toString()) valid = false;
+        if (!StringUtil.validateCreditCard(this.getPaymentById('number').model.toString())) valid = false;
+        if (!StringUtil.calculateCreditCardFlag(this.getPaymentById('number').model.toString())) valid = false;
+        if (!DateUtil.validateCardExpiryDate(this.getPaymentById('expirationDate').model.toString())) valid = false;
+        if (!this.getPaymentById('cvv').model.toString()) valid = false;
+        return valid;
     }
 
     private initPlans(): void {
@@ -176,12 +181,48 @@ export class SignatureComponent implements OnInit {
                 priceAction: 0,
                 action: 'por venda',
                 items: [
-                    'Limite máximo de 50 vendas por mês',
-                    'Giftback disparado por email',
-                    'Dashboard personalizados',
-                    'NPS',
-                    'Painel do vendedor',
-                    '90 dias de garantia'
+                    {
+                        label: 'Giftback',
+                        value: '',
+                        icon: 'icon-confirmation_number',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Relatórios inteligentes',
+                        value: '',
+                        icon: 'icon-register_reports',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Whatsapp Zoppy',
+                        value: '',
+                        icon: 'icon-wpp',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Gestor de conta',
+                        value: '',
+                        icon: 'icon-manage_accounts',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Painel do Vendedor',
+                        value: '',
+                        icon: 'icon-assignment_ind',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Carrinho Abandonado',
+                        value: '',
+                        icon: 'icon-shopping_cart',
+                        class: 'text'
+                    },
+                    {
+                        label: 'NPS',
+                        value: '',
+                        icon: 'icon-star',
+                        class: 'text'
+                    }
                 ],
                 visible: this.isPartner(),
                 satisfaction: true,
@@ -191,49 +232,65 @@ export class SignatureComponent implements OnInit {
                 loading: false
             },
             {
-                title: 'Crescimento',
-                price: 297,
-                priceAction: 0.15,
-                action: 'por venda',
-                items: ['Giftback disparado por email', 'Dashboard personalizados', 'NPS', '90 dias de garantia'],
-                visible: true,
-                satisfaction: true,
-                special: false,
-                value: AppConstants.PLANS.BASIC,
-                selected: this.company.plan === AppConstants.PLANS.BASIC,
-                loading: false
-            },
-            {
                 title: 'Desenvolvimento',
                 price: 297,
                 priceAction: 0.5,
                 action: 'por venda',
-                items: ['Tudo do plano Crescimento', 'Giftback disparado pelo WhastApp Zoppy', 'NPS', '90 dias de garantia'],
+                items: [
+                    {
+                        label: 'Giftback',
+                        value: '',
+                        icon: 'icon-confirmation_number',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Relatórios inteligentes',
+                        value: '',
+                        icon: 'icon-register_reports',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Whatsapp Zoppy',
+                        value: '',
+                        icon: 'icon-wpp',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Gestor de conta',
+                        value: '',
+                        icon: 'icon-manage_accounts',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Painel do Vendedor',
+                        value: '',
+                        icon: 'icon-assignment_ind',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Carrinho Abandonado',
+                        value: '',
+                        icon: 'icon-shopping_cart',
+                        class: 'text'
+                    },
+                    {
+                        label: 'NPS',
+                        value: '',
+                        icon: 'icon-star',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Primeiras 150 vendas/mês gratuitas.',
+                        value: '',
+                        icon: 'icon-thumb_up',
+                        class: 'text'
+                    }
+                ],
                 visible: true,
                 satisfaction: true,
-                special: true,
+                special: false,
                 value: AppConstants.PLANS.STANDARD,
                 selected: this.company.plan === AppConstants.PLANS.STANDARD,
-                loading: false
-            },
-            {
-                title: 'Perpetuação',
-                price: 297,
-                priceAction: 0.5,
-                action: 'por janela aberta',
-                tooltip:
-                    'A janela de conversa engloba todas as mensagens trocadas em um prazo de 24 horas a partir da primeira mensagem da empresa, seja por iniciativa própria ou como uma resposta ao cliente.',
-                items: [
-                    'Dashboard personalizados e inteligentes',
-                    'Giftback disparado pelo seu próprio Whatsapp',
-                    'Gestor de contas exclusivo que vai te auxiliar a ter as melhores estratégias',
-                    'Campanhas de reativação e marketing com seu próprio WhatsApp'
-                ],
-                visible: !this.isPartner(),
-                satisfaction: true,
-                special: false,
-                value: AppConstants.PLANS.PREMIUM,
-                selected: this.company.plan === AppConstants.PLANS.PREMIUM,
                 loading: false
             }
         ];
@@ -271,21 +328,6 @@ export class SignatureComponent implements OnInit {
                     value: 297
                 };
                 break;
-            case AppConstants.PLANS.PREMIUM:
-                this.plan = {
-                    name: 'Desenvolvimento',
-                    attributes: [
-                        'Sem limite de vendas',
-                        'Giftback personalizado disparado com copy criada pelo cliente',
-                        'Dashboard personalizados',
-                        'NPS',
-                        'Painel do vendedor'
-                    ],
-                    unit: 'janela aberta',
-                    unitValue: 0.5,
-                    value: 297
-                };
-                break;
             default:
                 this.plan = {
                     name: 'Gratuito',
@@ -302,10 +344,6 @@ export class SignatureComponent implements OnInit {
                 };
                 break;
         }
-    }
-
-    private isPartner(): boolean {
-        return this.company?.plan === AppConstants.PROVIDERS.TRAY;
     }
 
     private async fetchData(): Promise<void> {
@@ -362,12 +400,30 @@ export class SignatureComponent implements OnInit {
                 errors: [],
                 model: '',
                 id: 'number',
-                title: 'Número do cartão',
+                title: 'Número do cartão*',
                 placeholder: 'Digite o número do cartão',
                 type: 'number',
                 class: 'wide',
+                icon: 'icon-visa',
+                propertyImage: 'img',
                 inputType: 'input',
-                onChange: () => {}
+                onChange: (number: string) => {
+                    const flag: string = StringUtil.calculateCreditCardFlag(number ?? '');
+                    switch (flag) {
+                        case 'visa':
+                            this.getPaymentById('number').img = './assets/svg/visa.svg';
+                            break;
+                        case 'american_express':
+                            this.getPaymentById('number').img = './assets/svg/american_express.svg';
+                            break;
+                        case 'mastercard':
+                            this.getPaymentById('number').img = './assets/svg/mastercard.svg';
+                            break;
+                        default:
+                            this.getPaymentById('number').img = '';
+                            break;
+                    }
+                }
             },
             {
                 errors: [],
@@ -391,22 +447,6 @@ export class SignatureComponent implements OnInit {
                 class: 'half-size',
                 inputType: 'input',
                 onChange: () => {}
-            },
-            {
-                errors: [],
-                model: '',
-                id: 'flag',
-                title: 'Bandeira',
-                placeholder: '',
-                type: '',
-                class: 'wide',
-                inputType: 'dropdown',
-                options: [
-                    { img: './assets/svg/mastercard.svg', value: 'mastercard', label: 'Mastercard' },
-                    { img: './assets/svg/visa.svg', value: 'visa', label: 'Visa' },
-                    { img: './assets/svg/american_express.svg', value: 'american_express', label: 'American Express' }
-                ],
-                onChange: () => {}
             }
         ];
     }
@@ -429,7 +469,7 @@ class PlanCard {
     public price: number = 0;
     public priceAction: number = 0;
     public action: string = '';
-    public items: string[] = [];
+    public items: PlanItem[] = [];
     public satisfaction: boolean = false;
     public visible: any;
     public special: boolean = false;
@@ -437,6 +477,14 @@ class PlanCard {
     public value: string = '';
     public selected: boolean = false;
     public loading: boolean = false;
+}
+
+class PlanItem {
+    public label: string = '';
+    public value: string = '';
+    public img?: string = '';
+    public icon?: string = '';
+    public class?: string = '';
 }
 
 class Field {
@@ -452,4 +500,12 @@ class Field {
     public inputType: string = '';
     public options?: Array<any> = [];
     public onChange: any;
+    public propertyImage?: string = '';
+    public img?: string = '';
+}
+
+interface Validate {
+    isValid: boolean;
+    message: string;
+    title: string;
 }

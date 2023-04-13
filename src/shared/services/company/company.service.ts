@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { environment } from 'src/environments/environment';
-import { ApiService, ZoppyException } from '../api.service';
+import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
 import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
 import { Storage } from 'src/shared/utils/storage';
@@ -56,6 +56,16 @@ export class CompanyService extends ApiService {
         const promise: Promise<CompanyEntity> = new Promise((resolve: any, reject: any) => {
             this.get<CompanyEntity>(`${this.url}/mine`).subscribe(
                 (response: CompanyEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getBlockedFreeTier(): Promise<BooleanResponse> {
+        const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
+            this.get<BooleanResponse>(`${this.url}/blocked`).subscribe(
+                (response: BooleanResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });
