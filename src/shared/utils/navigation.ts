@@ -6,6 +6,7 @@ export class Navigation {
         dashboard: '/dashboard',
         home: '/dashboard/home',
         register: '/register',
+        blocked: '/blocked',
         configuration: '/dashboard/configurations',
         account: '/dashboard/account',
         changePassword: 'change-password',
@@ -51,6 +52,7 @@ export type Pages =
     | 'accessTokens'
     | 'account'
     | 'batchUpload'
+    | 'blocked'
     | 'changePassword'
     | 'coupons'
     | 'customer'

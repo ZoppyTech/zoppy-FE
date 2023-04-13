@@ -114,7 +114,6 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnChanges {
     }
 
     public onPaste(event: ClipboardEvent): void {
-        debugger;
         event.preventDefault();
         const clipboardData: any = event.clipboardData || (window as any).clipboardData;
         const pastedText: string = clipboardData?.getData('text') || '';
