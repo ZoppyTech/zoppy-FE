@@ -24,13 +24,14 @@ export class DashboardGuard implements CanActivate {
             this.publicService.logout();
         }
 
-        if (company.plan !== AppConstants.PLANS.FREE) return true;
+        //TODO: remove this code once move select plan and add payment method outside dashboard
+        // if (company.plan !== AppConstants.PLANS.FREE) return true;
 
-        const isBlocked: BooleanResponse = await this.companyService.getBlockedFreeTier();
-        if (isBlocked.result && !this.router.url.includes(Navigation.routes.signature)) {
-            this.router.navigate([Navigation.routes.blocked]);
-            return true;
-        }
+        // const isBlocked: BooleanResponse = await this.companyService.getBlockedFreeTier();
+        // if (isBlocked.result && !this.router.url.includes(Navigation.routes.signature)) {
+        //     this.router.navigate([Navigation.routes.blocked]);
+        //     return true;
+        // }
 
         return true;
     }
