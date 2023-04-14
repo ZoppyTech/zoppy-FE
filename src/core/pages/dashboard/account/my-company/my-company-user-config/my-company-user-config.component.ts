@@ -70,6 +70,7 @@ export class MyCompanyUserConfigComponent implements OnInit {
                 email: this.user.email,
                 name: this.user.name,
                 phone: this.user.phone,
+                revenueRecord: this.user.revenueRecord,
                 nickName: this.user.nickName,
                 birthDate: this.user.birthDate
             };
