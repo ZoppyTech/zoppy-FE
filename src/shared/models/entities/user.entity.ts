@@ -5,6 +5,7 @@ export class UserEntity {
     public declare nickName: string;
     public declare email: string;
     public declare password: string;
+    public declare revenueRecord: string;
     public declare role: string;
     public declare phone: string;
     public declare loginDate: Date;

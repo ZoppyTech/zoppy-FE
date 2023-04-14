@@ -39,10 +39,12 @@ export class DashboardComponent implements OnInit {
             if (user) this.storage.setUser(user);
             if (company) this.storage.setCompany(company);
 
-            if (isBlocked.result && !this.router.url.includes(Navigation.routes.signature)) {
-                this.router.navigate([Navigation.routes.blocked]);
-                return;
-            }
+            setTimeout(() => {
+                if (isBlocked.result && !this.router.url.includes(Navigation.routes.signature)) {
+                    this.router.navigate([Navigation.routes.blocked]);
+                    return;
+                }
+            });
         } catch (ex) {
             this.storage.clearAll();
             this.router.navigate([Navigation.routes.login]);

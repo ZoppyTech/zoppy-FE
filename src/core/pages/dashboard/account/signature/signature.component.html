@@ -30,9 +30,9 @@
                 </ul>
             </div>
             <div>
-                <span class="text-14 info clickable margin-bottom-1 padding-bottom-2" (click)="changePlan()" *ngIf="isPartner()"
-                    >Alterar plano</span
-                >
+                <div class="text-14 info clickable margin-bottom-1 padding-bottom-2" (click)="changePlan()" *ngIf="isPartner()">
+                    Alterar plano
+                </div>
                 <div class="margin-bottom-2 text text--bold">
                     {{ plan.value | zoppyCurrency }}
                     <span class="text">/mês</span>
