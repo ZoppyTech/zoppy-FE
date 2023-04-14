@@ -4,6 +4,7 @@ export interface UserRequest {
     userName?: string;
     nickName?: string;
     password?: string;
+    revenueRecord?: string;
     name?: string;
     phone?: string;
     birthDate?: Date;
