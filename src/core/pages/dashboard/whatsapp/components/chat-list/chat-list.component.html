@@ -1,7 +1,7 @@
 <div class="container">
     <div class="header">
         <div class="flex-row chat-info">
-            <img src="./assets/imgs/mini-logo.png" class="clickable margin-right-1" alt="" />
+            <!-- <img src="./assets/imgs/mini-logo.png" class="clickable margin-right-1" alt="" /> -->
             <span class="text-20 text--primary text--bold">Chat</span>
             <div (click)="newMessage()" class="new-message">
                 <ps-icon class="text-14 text--primary text--700" icon="icon-add"></ps-icon>
@@ -9,17 +9,17 @@
         </div>
         <div class="pull-customers-wrapper">
             <div class="display" [ngClass]="{ 'display--empty': queueCount <= 0 }">
-                <div class="flex-row flex-center wide">
+                <div class="counter_wrapper">
                     <span
                         class="queue_customers_length text--bold text-18 margin-right-1"
                         [ngClass]="{ 'queue_customers_length--empty': queueCount <= 0 }"
                         >{{ queueCount }}</span
                     >
-                    <span class="text-info text-14">Clientes na fila de espera!</span>
+                    <span class="text-info" [ngClass]="{ 'text-info--empty': queueCount <= 0 }">Clientes na fila de espera!</span>
                 </div>
                 <div *ngIf="!isAdmin" (click)="pullNewConversation()" class="button" [ngClass]="{ 'button--empty': queueCount <= 0 }">
-                    <span *ngIf="!pullLoading" class="text-14">Puxar</span>
-                    <span *ngIf="pullLoading" class="text-14">Puxando...</span>
+                    <span *ngIf="!pullLoading" class="text-16">Puxar</span>
+                    <span *ngIf="pullLoading" class="text-16">Puxando...</span>
                 </div>
             </div>
         </div>
@@ -36,17 +36,17 @@
 
     <div class="filters" [ngClass]="{ 'filters--close': isCollapsedFilter }">
         <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
-            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">não lidas</span>
+            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12">não lidas</span>
         </div>
         <div
             (click)="selectFilter('in-progress')"
             class="flex-row item clickable"
             [ngClass]="{ 'item--in-progress': filters.get('in-progress') }"
         >
-            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">em andamento</span>
+            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12">em andamento</span>
         </div>
         <div (click)="selectFilter('finished')" class="flex-row item clickable" [ngClass]="{ 'item--finished': filters.get('finished') }">
-            <span class="label text-500 text-12 margin-right-1">concluídas</span>
+            <span class="label text-500 text-12">concluídas</span>
         </div>
     </div>
 
@@ -80,17 +80,17 @@
             >
                 <div class="item-header">
                     <div class="flex-row">
-                        <span class="text--bold text--800 text-14 truncate">{{ conversation[1].contact.displayName }}</span>
+                        <span class="display-name text-14 truncate">{{ conversation[1].contact.displayName }}</span>
                         <ps-icon
                             *ngIf="conversation[1].contact.isBlocked"
                             class="font-14 block-icon margin-x-1"
                             icon="icon-block"
                         ></ps-icon>
                     </div>
-                    <div class="flex-row">
+                    <div class="flex-row flex-center">
                         <span
                             *ngIf="conversation[1].threads.length > 0"
-                            class="text-12 text--400 margin-x-1"
+                            class="text-12 text--500 margin-x-1"
                             [ngClass]="{
                                 'text--bold text--700 text--secondary':
                                     !conversation[1].threads[conversation[1].threads.length - 1].readByManager
@@ -109,7 +109,10 @@
                             'viewed-icon--customer-user': !conversation[1].threads[conversation[1].threads.length - 1].isBusiness
                         }"
                     >
-                        <span class="margin-right-1">
+                        <span
+                            *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status !== 'forwarded'"
+                            class="margin-right-1"
+                        >
                             <ps-icon
                                 *ngIf="
                                     conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered' ||
@@ -141,7 +144,18 @@
                         >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
                     </span>
                     <div *ngIf="conversation[1].unreadThreads.length > 0" class="unread-counter">
-                        <span class="text-12 text--bold text--100">{{ conversation[1].unreadThreads.length }}</span>
+                        <span class="text--bold text--100">{{ conversation[1].unreadThreads.length }}</span>
+                    </div>
+                </div>
+                <div *ngIf="!isAdmin" class="item-footer--is-common"></div>
+                <div *ngIf="isAdmin" class="item-footer">
+                    <div *ngIf="!conversation[1].supportName" class="item-footer__status">
+                        <ps-icon class="text-14" icon="icon-waiting_event_fill"></ps-icon>
+                        <span class="text-12">aguardando</span>
+                    </div>
+                    <div *ngIf="conversation[1].supportName" class="item-footer__support-agent">
+                        <ps-icon class="text-14" icon="icon-support"></ps-icon>
+                        <span class="text-12">{{ conversation[1].supportName }}</span>
                     </div>
                 </div>
             </div>

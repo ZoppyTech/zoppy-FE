@@ -33,10 +33,10 @@
             height: fit-content;
             border-top-left-radius: 8px;
 
-            img {
-                width: 32px;
-                height: auto;
-            }
+            // img {
+            //     width: 32px;
+            //     height: auto;
+            // }
 
             .new-message {
                 display: flex;
@@ -47,7 +47,8 @@
                 height: 2rem;
                 border-radius: 50%;
                 cursor: pointer;
-                background-color: var(--neutral-200);
+                background-color: #fafbff;
+                box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
                 padding: 18px;
 
                 ps-icon {
@@ -64,43 +65,63 @@
                 display: flex;
                 flex-direction: row;
                 align-items: center;
-                justify-content: center;
+                justify-content: space-between;
                 width: 100%;
                 height: auto;
                 cursor: pointer;
-                padding: 1.5rem;
-                background-color: rgba(123, 61, 255, 0.1);
-                border-top: 1px solid #9d5aff;
+                padding: 1rem 1.5rem;
+                background-color: rgba(0, 179, 157, 0.1);
+                //border-top: 1px solid #9d5aff;
 
                 &--empty {
                     background-color: #f0f2f5;
-                    border-top: 1px solid #d1d7db;
+                    //border-top: 1px solid #d1d7db;
                 }
 
-                .queue_customers_length {
-                    width: fit-content;
-                    height: fit-content;
-                    padding: 0.5rem 1rem;
-                    border-radius: 12px;
-                    border: 1px solid var(--neutral-300);
-                    background-color: #fff;
-                    margin-right: 0.75rem;
-                    box-shadow: 2px 4px 12px rgba(0, 0, 0, 0.08);
-                    color: var(--secondary);
+                .counter_wrapper {
+                    display: flex;
+                    align-items: center;
+                    justify-self: flex-start;
 
-                    &--empty {
-                        color: var(--neutral-500);
+                    .queue_customers_length {
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        width: 4rem;
+                        height: 4rem;
+                        //padding: 1rem 1.5rem;
+                        border-radius: 50px;
+                        border: 1px solid #00b39d;
+                        background-color: #30e1a1;
+                        margin-right: 0.75rem;
+                        box-shadow: rgba(0, 179, 157, 0.4) 0px 0px 8px 0px;
+                        color: #fff;
+
+                        &--empty {
+                            background-color: #fafbff;
+                            box-shadow: 0px 0px 8px 0px rgba(0, 0, 0, 0.08);
+                            border: 1px solid var(--neutral-300);
+                            color: var(--neutral-500);
+                        }
                     }
-                }
 
-                ps-icon {
-                    color: #fff;
-                    font-size: 1.5rem;
-                }
+                    ps-icon {
+                        color: #fff;
+                        font-size: 1.5rem;
+                    }
 
-                .text-info {
-                    color: #54656f;
-                    font-size: 0.75rem;
+                    .text-info {
+                        max-width: 116px;
+                        color: #008774;
+                        font-size: 0.85rem;
+                        font-weight: 400;
+
+                        &--empty {
+                            font-size: 0.85rem;
+                            font-weight: 400;
+                            color: #667781;
+                        }
+                    }
                 }
 
                 .button {
@@ -109,11 +130,15 @@
                     align-items: center;
                     padding: 0.675rem 1rem;
                     border-radius: 50px;
-                    background-color: var(--secondary);
-                    color: #fff;
+                    //background-color: var(--secondary);
+                    //color: var(--secondary);
+
+                    color: #008774;
+                    font-weight: 700;
 
                     &--empty {
-                        background-color: var(--neutral-500);
+                        color: var(--neutral-500);
+                        //background-color: var(--neutral-500);
                     }
                 }
             }
@@ -264,16 +289,22 @@
         border-bottom-left-radius: 12px;
 
         .item {
-            height: 6rem;
+            padding-top: 1.25rem;
+            padding-bottom: 0.35rem;
+            height: fit-content;
             width: 100%;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
-            border-bottom: 1px solid var(--neutral-300);
+            border-bottom: 1px solid #e9edef;
             color: var(--primary);
             background-color: #fff;
             cursor: pointer;
+
+            &:first-child {
+                border-top: 1px solid #e9edef;
+            }
 
             &:hover {
                 background-color: rgba($color: #cdd6ff, $alpha: 0.1);
@@ -289,8 +320,13 @@
                 flex-direction: row;
                 align-items: baseline;
                 justify-content: space-between;
-                margin-bottom: 0.5rem;
+                margin-bottom: 2px;
                 padding: 0px 2.5rem;
+
+                .display-name {
+                    color: #111b21;
+                    font-weight: 600;
+                }
 
                 span {
                     max-width: 210px;
@@ -298,12 +334,12 @@
 
                 .block-icon {
                     font-size: 1rem;
-                    color: var(--primary-300);
+                    color: var(--primary-400);
                 }
 
                 .reply-icon {
-                    font-size: 0.75rem;
-                    color: var(--neutral-400);
+                    font-size: 0.5rem;
+                    color: var(--neutral-500);
                 }
             }
 
@@ -324,8 +360,9 @@
                     border-radius: 50%;
                     width: 0.75rem;
                     height: 0.75rem;
-                    padding: 0.75rem;
+                    padding: 0.65rem;
                     background-color: var(--secondary);
+                    font-size: 10px;
                 }
 
                 .text-message {
@@ -336,12 +373,12 @@
                     align-items: baseline;
                     justify-content: flex-start;
                     font-weight: 400;
-                    color: #363636;
+                    color: #667781;
 
-                    &--unread {
-                        color: var(--neutral-800);
-                        font-weight: 700;
-                    }
+                    // &--unread {
+                    //     color: var(--neutral-800);
+                    //     font-weight: 400;
+                    // }
                 }
 
                 .viewed-icon {
@@ -375,6 +412,53 @@
                         color: var(--negative);
                         font-size: 0.5rem;
                     }
+                }
+            }
+
+            .item-footer {
+                width: 100%;
+                display: flex;
+                flex-direction: row;
+                align-items: baseline;
+                justify-content: flex-end;
+                padding: 0px 2.5rem;
+                height: fit-content;
+                margin-top: 0.25rem;
+
+                &--is-common {
+                    padding-bottom: 0.9rem;
+                }
+
+                &__status {
+                    display: flex;
+                    justify-content: baseline;
+                    align-items: baseline;
+
+                    ps-icon {
+                        color: #4c7eff;
+                        margin-right: 0.25rem;
+                    }
+
+                    color: #4c7eff;
+                    border-radius: 50px;
+                    padding: 0.025rem 0.5rem;
+                    background-color: #fafbff;
+                }
+
+                &__support-agent {
+                    display: flex;
+                    justify-content: baseline;
+                    align-items: baseline;
+
+                    ps-icon {
+                        color: var(--secondary);
+                        margin-right: 0.25rem;
+                    }
+
+                    color: var(--secondary);
+                    border-radius: 50px;
+                    padding: 0.025rem 0.5rem;
+                    background-color: #fafbff;
                 }
             }
         }

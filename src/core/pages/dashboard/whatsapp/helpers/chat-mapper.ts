@@ -27,6 +27,7 @@ export class ChatMapper {
         const conversation: WppConversation = {
             ticket: conversationEntity.ticket,
             sessionExpiration: conversationEntity.sessionExpiration,
+            createdAt: conversationEntity.createdAt,
             finishedAt: conversationEntity.finishedAt,
             companyId: conversationEntity.companyId,
             manager: this.mapManager(conversationEntity.wppAccountManager),
@@ -87,8 +88,8 @@ export class ChatMapper {
         };
     }
 
-    public mapMedia(mediaEntity: WhatsappMediaMessageEntity | undefined): WppMediaMessage | undefined {
-        if (mediaEntity == undefined) return undefined;
+    public mapMedia(mediaEntity: WhatsappMediaMessageEntity): WppMediaMessage | null {
+        if (mediaEntity === null) return mediaEntity;
         return {
             ...mediaEntity
         };

@@ -36,6 +36,7 @@ export class WhatsappUtil {
         switch (templateName) {
             case WhatsappConstants.MessageTemplates.GDPR_TERMS_NOTIFICATION:
             case 'answer_me_a_question':
+            case 'any_more_questions':
                 return [chatRoom.contact.firstName];
             case WhatsappConstants.MessageTemplates.NEW_CONTACT_PHONE_NUMBER_TO_ASK_QUESTIONS:
                 return [chatRoom.contact.firstName];

@@ -17,6 +17,7 @@ export class WhatsappMapper {
         }
         const contact: WhatsappContactEntity | undefined = messages[0].wppContact ?? new WhatsappContactEntity();
         const chatRoom: ChatRoom = new ChatRoom();
+        chatRoom.supportName = messages[0].WppConversation?.wppAccountManager?.user.name ?? null;
         chatRoom.account = account;
         chatRoom.manager = manager;
         chatRoom.threads = messages.map((message: WhatsappMessageEntity) => this.mapMessage(message));
@@ -34,6 +35,8 @@ export class WhatsappMapper {
         const whatsappConversations: Map<string, ChatRoom> = new Map<string, ChatRoom>();
         for (let conversation of this.groupConversationsByContact(messages).entries()) {
             const chatRoom: ChatRoom = new ChatRoom();
+            debugger;
+            chatRoom.supportName = messages[0].WppConversation?.wppAccountManager?.user.name ?? null;
             chatRoom.account = account;
             chatRoom.manager = manager;
             chatRoom.threads = conversation[1];

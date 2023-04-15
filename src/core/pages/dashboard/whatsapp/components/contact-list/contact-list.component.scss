@@ -37,7 +37,8 @@
                 height: 2rem;
                 border-radius: 50%;
                 cursor: pointer;
-                background-color: var(--neutral-200);
+                background-color: #fafbff;
+                box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
                 padding: 18px;
             }
 
@@ -50,7 +51,8 @@
                 height: 2rem;
                 border-radius: 50%;
                 cursor: pointer;
-                background-color: var(--neutral-200);
+                background-color: #fafbff;
+                box-shadow: rgba(0, 0, 0, 0.05) 0px 0px 0px 1px;
                 padding: 18px;
             }
         }
@@ -154,7 +156,7 @@
 
                 .block-icon {
                     font-size: 1rem;
-                    color: var(--primary-300);
+                    color: var(--primary-400);
                     padding: 0 1rem;
                 }
             }

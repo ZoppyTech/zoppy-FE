@@ -1,6 +1,7 @@
 export class WppConversation {
     public declare ticket: string;
     public declare sessionExpiration: string | null;
+    public declare createdAt: Date;
     public declare finishedAt: Date;
     public declare companyId: string;
     public manager: WppManager | null = null;
@@ -39,7 +40,7 @@ export class WppMessage {
     public declare readByManager: boolean;
     public declare isFirstMessageOfDay: boolean;
     public declare wamId?: string;
-    public declare media?: WppMediaMessage;
+    public media?: WppMediaMessage | null = null;
     public declare companyId: string;
     public declare createdAt: Date;
     public declare updatedAt?: Date;

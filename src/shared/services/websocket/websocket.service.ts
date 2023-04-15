@@ -42,7 +42,7 @@ export class WebSocketService {
         const authorization: string = `Bearer ${this.storage.getToken()}`;
         return {
             path: '/socket.io',
-            //transports: ['websocket', 'polling'],
+            namespace: '/',
             secure: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 15000,

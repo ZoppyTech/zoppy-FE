@@ -36,18 +36,14 @@ import { ChatFilters } from './models/chat-filters';
     styleUrls: ['./whatsapp.component.scss']
 })
 export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
-    public openConversationMobile: boolean = false;
-    public isWhatsappActive: boolean = false;
     public user: UserEntity = new UserEntity();
-    public isAdmin: boolean = false;
+
     public readonly subcomponents = Subcomponents;
     public currentSubcomponent: Subcomponents = Subcomponents.ChatList;
-    public whatsappPercentLoading: number = 0;
-    public whatsappLoading: boolean = true;
+
     public scrollDownEvent: Subject<void> = new Subject<void>();
     public declare contactSelected: ChatContact;
     public declare chatRoomSelected: ChatRoom;
-    public declare chatList: Array<any>;
     public contacts: Array<ChatContact> = [];
     public conversations: Map<string, ChatRoom> = new Map();
     public finishedConversations: Map<string, ChatRoom> = new Map();
@@ -56,6 +52,11 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public queueCount: number = 0;
     public selectedFilter: string = ChatFilters.InProgress;
 
+    public whatsappLoading: boolean = true;
+    public whatsappPercentLoading: number = 0;
+    public isAdmin: boolean = false;
+    public openConversationMobile: boolean = false;
+    public isWhatsappActive: boolean = false;
     public filterLoading: boolean = false;
     public pullLoading: boolean = false;
     public isChatRoomVisible$ = new BehaviorSubject(false);
@@ -356,6 +357,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public async loadConversations(): Promise<void> {
         try {
             const entities: WhatsappMessageEntity[] = await this.wppMessageService.listByManagerId(this.manager.id);
+            debugger;
             this.conversations = WhatsappMapper.mapConversations(this.account, this.manager, entities);
             WhatsappMapper.setUnreadConversations(this.conversations);
             this.updateConversations(this.getConversations());
