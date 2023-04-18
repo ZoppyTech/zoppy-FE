@@ -1,6 +1,9 @@
 import { WhatsappConstants, CountryCodes, StringUtil } from '@ZoppyTech/utilities';
 import { ChatRoom } from '../models/chat-room';
 import { ThreadMessage } from '../models/thread-message';
+import { ChatContact } from '../models/chat-contact';
+import { ChatManager } from '../models/chat-manager';
+import { ChatAccount } from '../models/chat-account';
 
 export class WhatsappUtil {
     public static replaceVariablesFromTemplateMessage(message: string, parameters: Array<string> = []): string {
@@ -32,24 +35,29 @@ export class WhatsappUtil {
         return 0;
     }
 
-    public static getMessageTemplateParams(templateName: string, chatRoom: ChatRoom): Array<string> {
+    public static getMessageTemplateParams(
+        templateName: string,
+        account: ChatAccount,
+        manager: ChatManager,
+        contact: ChatContact = new ChatContact()
+    ): Array<string> {
         switch (templateName) {
             case WhatsappConstants.MessageTemplates.GDPR_TERMS_NOTIFICATION:
             case 'answer_me_a_question':
             case 'any_more_questions':
-                return [chatRoom.contact.firstName];
+                return [contact.firstName];
             case WhatsappConstants.MessageTemplates.NEW_CONTACT_PHONE_NUMBER_TO_ASK_QUESTIONS:
-                return [chatRoom.contact.firstName];
+                return [contact.firstName];
             case WhatsappConstants.MessageTemplates.GREETINGS_TO_USER:
-                return [chatRoom.contact.firstName, chatRoom.manager.name];
+                return [contact.firstName, manager.name];
             case WhatsappConstants.MessageTemplates.WELCOME_TO_THE_COMPANY:
-                return [chatRoom.account.businessName];
+                return [account.businessName];
             case WhatsappConstants.MessageTemplates.ISSUE_RESOLUTION:
-                return [chatRoom.contact.firstName];
+                return [contact.firstName];
             case WhatsappConstants.MessageTemplates.OUT_OF_BUSINESS_HOURS:
-                return [chatRoom.account.businessName, '8h', '18h'];
+                return [account.businessName, '8h', '18h'];
             case 'greetings_to_user_2':
-                return [chatRoom.manager.name];
+                return [manager.name];
             case WhatsappConstants.MessageTemplates.WAITING_A_FEW_MINUTES:
             default:
                 return [];

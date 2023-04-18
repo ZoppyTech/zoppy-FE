@@ -5,7 +5,7 @@ import { WhatsappMediaMessageEntity } from './whatsapp-media-message.entity';
 
 //TODO: Temporary use
 export class WhatsappMessageEntity {
-    public declare id?: string;
+    public declare id: string;
     public declare type: string;
     public declare content: string;
     public declare status: string;

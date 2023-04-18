@@ -12,7 +12,7 @@
             [(selectedFilter)]="selectedFilter"
             (selectedConversationEvent)="onConversationSelected($event)"
             (pullNewConversationEvent)="onPullNewConversationButtonClicked()"
-            [conversations]="latestMessages"
+            [rooms]="rooms"
             [queueCount]="queueCount"
         ></chat-list>
         <contact-list
@@ -26,7 +26,7 @@
             (selectedContactEvent)="onContactSelected($event)"
         ></unregistered-contact-list>
     </div>
-    <div *ngIf="!whatsappLoading" class="right-panel" [ngClass]="{ 'right-panel--show': openConversationMobile }">
+    <!-- <div *ngIf="!whatsappLoading" class="right-panel" [ngClass]="{ 'right-panel--show': openConversationMobile }">
         <welcome-chat *ngIf="!isChatRoomVisible$.getValue()"></welcome-chat>
         <chat-room
             #chatRoom
@@ -37,5 +37,5 @@
             (goBackToChatList)="openConversationMobile = false"
             (finishChatRoom)="onFinishChatRoom($event)"
         ></chat-room>
-    </div>
+    </div> -->
 </div>

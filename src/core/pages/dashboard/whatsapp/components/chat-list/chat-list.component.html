@@ -1,7 +1,6 @@
 <div class="container">
     <div class="header">
         <div class="flex-row chat-info">
-            <!-- <img src="./assets/imgs/mini-logo.png" class="clickable margin-right-1" alt="" /> -->
             <span class="text-20 text--primary text--bold">Chat</span>
             <div (click)="newMessage()" class="new-message">
                 <ps-icon class="text-14 text--primary text--700" icon="icon-add"></ps-icon>
@@ -72,12 +71,15 @@
     </div>
 
     <div *ngIf="!filterLoading && conversations.length > 0" class="conversations">
-        <div *ngFor="let conversation of conversations">
-            <div
-                class="item clickable"
-                (click)="onConversationSelected(conversation[1])"
-                [ngClass]="{ 'item-actived': conversation[1].actived }"
-            >
+        <div *ngFor="let conversation of conversations" class="thread clickable" [ngClass]="{ 'item-actived': conversation[1].actived }">
+            <ps-contact
+                [tooltip]="false"
+                [name]="conversation[1].contact.firstName"
+                class="margin-right-1"
+                [size]="'3rem'"
+                [email]="conversation[1].contact.firstName"
+            ></ps-contact>
+            <div class="item" (click)="onConversationSelected(conversation[1])">
                 <div class="item-header">
                     <div class="flex-row">
                         <span class="display-name text-14 truncate">{{ conversation[1].contact.displayName }}</span>
@@ -140,22 +142,26 @@
                     </span>
                     <span
                         class="text-message text-14 truncate"
-                        [ngClass]="{ 'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager }"
+                        [ngClass]="{
+                            'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager
+                        }"
                         >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
                     </span>
-                    <div *ngIf="conversation[1].unreadThreads.length > 0" class="unread-counter">
-                        <span class="text--bold text--100">{{ conversation[1].unreadThreads.length }}</span>
+                    <div *ngIf="conversation[1].getUnreadThreads().length > 0" class="unread-counter">
+                        <span class="text--bold text--100">{{ conversation[1].getUnreadThreads().length }}</span>
                     </div>
                 </div>
-                <div *ngIf="!isAdmin" class="item-footer--is-common"></div>
-                <div *ngIf="isAdmin" class="item-footer">
-                    <div *ngIf="!conversation[1].supportName" class="item-footer__status">
-                        <ps-icon class="text-14" icon="icon-waiting_event_fill"></ps-icon>
-                        <span class="text-12">aguardando</span>
-                    </div>
-                    <div *ngIf="conversation[1].supportName" class="item-footer__support-agent">
-                        <ps-icon class="text-14" icon="icon-support"></ps-icon>
-                        <span class="text-12">{{ conversation[1].supportName }}</span>
+                <div class="item-footer">
+                    <div *ngIf="!isAdmin" class="item-footer--is-common"></div>
+                    <div *ngIf="isAdmin">
+                        <div *ngIf="!conversation[1].manager?.name" class="item-footer__status">
+                            <ps-icon class="text-12" icon="icon-waiting_event_fill"></ps-icon>
+                            <span class="text-12">aguardando</span>
+                        </div>
+                        <div *ngIf="conversation[1].manager?.name" class="item-footer__support-agent">
+                            <ps-icon class="text-12" icon="icon-support"></ps-icon>
+                            <span class="text-12">{{ conversation[1].manager?.name }}</span>
+                        </div>
                     </div>
                 </div>
             </div>

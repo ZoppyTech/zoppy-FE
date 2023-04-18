@@ -7,7 +7,7 @@ import { ThreadMediaMessage } from '../../../../models/thread-message';
     styleUrls: ['./audio-message.component.scss']
 })
 export class AudioMessageComponent {
-    @Input() public media?: ThreadMediaMessage;
+    @Input() public media?: ThreadMediaMessage | null = new ThreadMediaMessage();
 
     public constructor() {
         //no content

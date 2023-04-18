@@ -9,8 +9,8 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappContactService } from 'src/shared/services/whatsapp-contact/whatsapp-contact.service';
 import { ChatContact } from '../../models/chat-contact';
 import { Subcomponents } from '../../models/subcomponents';
-import { WhatsappMapper } from '../../whatsapp-mapper';
 import { WhatsappContactMapper } from './contact-mapper';
+import { ChatMapper } from '../../helpers/chat-mapper';
 
 @Component({
     selector: 'contact-list',
@@ -29,6 +29,7 @@ export class ContactListComponent implements OnInit {
     public filter: ZoppyFilter<WhatsappContactEntity> = new ZoppyFilter<WhatsappContactEntity>();
 
     public constructor(
+        public readonly chatMapper: ChatMapper,
         public readonly wppContactService: WhatsappContactService,
         public readonly toast: ToastService,
         public readonly confirmActionService: ConfirmActionService,
@@ -88,7 +89,7 @@ export class ContactListComponent implements OnInit {
                 isBlocked: false
             },
             (newContact: any) => {
-                this.contacts.push(WhatsappMapper.mapContact(newContact));
+                this.contacts.push(this.chatMapper.mapContact(newContact));
             }
         );
     }

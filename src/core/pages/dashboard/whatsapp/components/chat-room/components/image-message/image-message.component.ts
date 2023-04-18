@@ -8,7 +8,7 @@ import { ThreadMediaMessage } from '../../../../models/thread-message';
     styleUrls: ['./image-message.component.scss']
 })
 export class ImageMessageComponent {
-    @Input() public media?: ThreadMediaMessage;
+    @Input() public media?: ThreadMediaMessage | null = new ThreadMediaMessage();
 
     public constructor(public modal: ModalService) {
         //no content
