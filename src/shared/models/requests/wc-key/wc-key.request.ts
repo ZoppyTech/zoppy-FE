@@ -9,4 +9,7 @@ export interface wcKeyRequest {
     keyVisible?: boolean;
     adminVisible?: boolean;
     secretVisible?: boolean;
+    provider?: string;
+    syncWebhooks?: boolean;
+    syncData?: boolean;
 }

@@ -1,13 +1,16 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
+import { StepperItem } from '@ZoppyTech/stepper';
 import { ToastService } from '@ZoppyTech/toast';
-import { AppConstants, PasswordValidator, StringUtil } from '@ZoppyTech/utilities';
+import { AppConstants, DateUtil, PasswordValidator, RevenueRecordUtil, StringUtil, WhatsappUtil } from '@ZoppyTech/utilities';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
-import { CompanyProvider, CompanyRequest } from 'src/shared/models/requests/company/company.request';
-import { PaymentRequest } from 'src/shared/models/requests/company/payment.request';
+import { CompanyProvider } from 'src/shared/models/requests/company/company.request';
 import { CompanyPlan, RegisterRequest } from 'src/shared/models/requests/public/register.request';
+import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { Navigation } from 'src/shared/utils/navigation';
+
+type Step = 'initial' | 'about_you' | 'plan' | 'data' | 'payment';
 
 @Component({
     selector: 'app-register',
@@ -16,63 +19,176 @@ import { Navigation } from 'src/shared/utils/navigation';
 })
 export class RegisterComponent implements OnInit {
     public fields: Field[] = [];
+    public aboutYouFields: Field[] = [];
+    public registerDataFields: Field[] = [];
     public ecommerces: Ecommerce[] = [];
     public paymentFields: Field[] = [];
     public plans: Plan[] = [];
     public loading: boolean = false;
-    public acceptTerms: boolean = false;
-    public step: number = 1;
-    public paymentRequest?: PaymentRequest;
+    public createdLead: boolean = false;
+    public step: Step = 'initial';
+    public steps: StepperItem[] = [
+        { label: 'Sobre você', value: 'about_you', index: 0 },
+        { label: 'Planos', value: 'plan', index: 1 },
+        { label: 'Dados cadastrais', value: 'data', index: 2 },
+        { label: 'Pagamento', value: 'payment', index: 3 }
+    ];
+    public provider: string = '';
+    public roles: Item[] = [
+        { value: 'founder', label: 'Fundador(a)' },
+        { value: 'director', label: 'Diretor(a)' },
+        { value: 'manager', label: 'Gerente' },
+        { value: 'founder', label: 'Analista' },
+        { value: 'seller', label: 'Vendedor(a)' }
+    ];
+    public segments: Item[] = [
+        { value: 'food', label: 'Alimentos' },
+        { value: 'automotive', label: 'Automotivos' },
+        { value: 'beverage', label: 'Bebidas' },
+        { value: 'camping', label: 'Camping' },
+        { value: 'house_decoration', label: 'Casa e decoração' },
+        { value: 'cosmetics', label: 'Cosméticos' },
+        { value: 'electronics', label: 'Eletrodomésticos' },
+        { value: 'manage_relationships', label: 'Eletroeletrônicos' },
+        { value: 'sport', label: 'Esportes' },
+        { value: 'geek', label: 'Geek' },
+        { value: 'child', label: 'Infantil' },
+        { value: 'computing', label: 'Informática' },
+        { value: 'jewelry', label: 'Jóias' },
+        { value: 'hardware_store', label: 'Material de Construção' },
+        { value: 'fashion', label: 'Moda' },
+        { value: 'optical', label: 'Óptica' },
+        { value: 'paper', label: 'Papelaria' },
+        { value: 'perfume', label: 'Perfumaria' },
+        { value: 'petshop', label: 'Petshop' },
+        { value: 'natural_products', label: 'Produtos Naturais' },
+        { value: 'shoes', label: 'Sapatos' },
+        { value: 'customer_fidelity', label: 'Saúde e Beleza' },
+        { value: 'sexshop', label: 'Sexshop' },
+        { value: 'others', label: 'Outros' }
+    ];
+    public goals: Item[] = [
+        { icon: 'icon-add_shopping_cart', value: 'consume_patterns', label: 'Entender mais sobre os padrões de consumo dos meus clientes' },
+        { icon: 'icon-follow', value: 'follow_up_sellers', label: 'Acompanhar melhor os meus vendedores' },
+        { icon: 'icon-giftback', value: 'giftback', label: 'Programa de Giftback' },
+        { icon: 'icon-handshake', value: 'manage_brand_relationships', label: 'Gerencia melhor os relacionamento da marca.' },
+        { icon: 'icon-mix_products', value: 'improve_products_mix', label: 'Melhorar meu mix de produtos.' },
+        { icon: 'icon-time_count', value: 'reduce_repurchase_span', label: 'Diminuir tempo de recompra dos meus clientes.' }
+    ];
+    public channels: Item[] = [
+        { value: 'outbound', label: 'Anúncios' },
+        { value: 'inbound', label: 'Comercial entrou em contato' },
+        { value: 'events', label: 'Eventos' },
+        { value: 'indications', label: 'Indicações' },
+        { value: 'social_media', label: 'Mídias sociais' }
+    ];
 
     public constructor(
         private readonly publicService: PublicService,
         private readonly toast: ToastService,
-        private readonly router: Router
+        private readonly router: Router,
+        private readonly route: ActivatedRoute
     ) {}
 
     public ngOnInit() {
-        this.initFields();
-        this.initForm();
-        this.initEcommerce();
-        this.initPlans();
-        this.initPaymentFields();
+        this.route.paramMap.subscribe((paramMap: any) => {
+            this.provider = paramMap.get('provider');
+            this.initFields();
+            this.initForm();
+            this.initEcommerce();
+            this.initPlans();
+            this.initPaymentFields();
+        });
+    }
+
+    public disableRegisterData(): boolean {
+        if (!RevenueRecordUtil.isCpfValid(this.getRegisterDataFieldById('revenueRecord').model.toString())) return true;
+        if (this.getRegisterDataFieldById('postcode').model.toString().length !== 8) return true;
+        if (!this.getRegisterDataFieldById('street').model) return true;
+        if (!this.getRegisterDataFieldById('number').model) return true;
+        if (!this.getRegisterDataFieldById('complement').model) return true;
+        if (!this.getRegisterDataFieldById('neighbor').model) return true;
+        return false;
+    }
+
+    public disablePaymentForm(): boolean {
+        let disabled: boolean = false;
+        if (!this.getPaymentById('name').model.toString()) disabled = true;
+        if (!StringUtil.validateCreditCard(this.getPaymentById('number').model.toString())) disabled = true;
+        if (!StringUtil.calculateCreditCardFlag(this.getPaymentById('number').model.toString())) disabled = true;
+        if (!DateUtil.validateCardExpiryDate(this.getPaymentById('expirationDate').model.toString())) disabled = true;
+        if (!this.getPaymentById('cvv').model.toString()) disabled = true;
+        return disabled;
+    }
+
+    public getThirdStepDisabled(): boolean {
+        return !this.getPlanSelected()?.value;
+    }
+
+    public secondStepDisabled(): boolean {
+        let countErrors: number = 0;
+
+        if (!WhatsappUtil.fullPhoneValidation(this.getById('phone').model.toString())) countErrors++;
+        if (!this.getById('name').model) countErrors++;
+        if (!StringUtil.validateEmail(this.getById('email').model.toString())) countErrors++;
+        if (!PasswordValidator.validate(this.getById('password').model.toString())) countErrors++;
+        if (this.getById('confirmPassword').model !== this.getById('password').model) countErrors++;
+
+        return countErrors > 0;
     }
 
     public async register(): Promise<void> {
         const formValid: Validate = this.validateForm();
-        const paymentFormValid: boolean = this.validatePaymentForm();
-        if (!this.acceptTerms) {
-            this.toast.error('É necessário aceitar os Termos e condições', 'Erro');
-            return;
-        }
-        if (!PasswordValidator.validate(this.getById('password').model.toString())) {
-            this.toast.error(
-                'Sua senha deve ter no mínimo 8 caracteres, 1 caractere especial, 1 número e uma letra maiúscula',
-                'Senha não obedece padrões de segurança',
-                6
-            );
-            return;
-        }
+        const paymentFormValid: Validate = this.validatePaymentForm();
+        const thirdStepValid: Validate = this.validateRegisterDataForm();
+
         if (!formValid.isValid) {
+            this.step = 'initial';
+            this.toast.error('Houveram erros de validação das informações iniciais', 'Erro');
+            return;
+        }
+        if (!thirdStepValid.isValid) {
+            this.step = 'data';
             this.toast.error('Houveram erros de validação', 'Erro');
             return;
         }
-        if (!paymentFormValid) {
+        if (!paymentFormValid.isValid) {
             this.toast.error('Houveram erros de validação dos valores de pagamento', 'Erro');
+            this.step = 'payment';
             return;
         }
 
         try {
             this.loading = true;
+            const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
+
             const request: RegisterRequest = {
                 name: this.getById('name').model.toString(),
                 phone: this.getById('phone').model.toString(),
                 email: this.getById('email').model.toString(),
                 companyName: this.getById('company').model.toString(),
+                revenueRecord: this.getRegisterDataFieldById('revenueRecord').model.toString(),
+                segment: this.getAboutYouFieldById('segment').model.toString(),
+                companyRole: this.getAboutYouFieldById('role').model.toString(),
+                goal: this.getAboutYouFieldById('goal').model.toString(),
+                channel: this.getById('channel').model.toString(),
                 password: this.getById('password').model.toString(),
-                plan: this.getPlanSelected()?.value?.toString() as CompanyPlan,
-                provider: this.getEcommerceSelected()?.value?.toString() as CompanyProvider,
-                payment: this.paymentRequest
+                plan: (this.getPlanSelected()?.value?.toString() as CompanyPlan) ?? AppConstants.PLANS.STANDARD,
+                provider: this.provider as CompanyProvider,
+                payment: {
+                    name: this.getPaymentById('name').model.toString(),
+                    expirationDate: `${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`,
+                    cardNumber: this.getPaymentById('number').model.toString(),
+                    cvv: this.getPaymentById('cvv').model.toString(),
+                    flag: StringUtil.calculateCreditCardFlag(this.getPaymentById('number').model.toString())
+                },
+                address: {
+                    street: this.getRegisterDataFieldById('street').model.toString(),
+                    number: this.getRegisterDataFieldById('number').model.toString(),
+                    neighbor: this.getRegisterDataFieldById('neighbor').model.toString(),
+                    complement: this.getRegisterDataFieldById('complement').model.toString(),
+                    postcode: this.getRegisterDataFieldById('postcode').model.toString()
+                }
             };
             const thisUser: UserEntity = await this.publicService.register(request);
             this.toast.success('Seu usuário foi registrado com sucesso!', 'Tudo certo!');
@@ -81,10 +197,58 @@ export class RegisterComponent implements OnInit {
             this.fields.forEach((field: Field) => {
                 field.errors = ['error'];
             });
-            this.toast.error(ex.message, 'Erro');
+            this.toast.error(ex.message, 'Erro!');
         } finally {
             this.loading = false;
         }
+    }
+
+    public async changeStep(stepValue: Step): Promise<void> {
+        if (!this.createdLead && this.step === 'initial') {
+            this.createdLead = true;
+            await this.publicService.createLead({
+                channel: this.getById('channel').model?.toString() ?? '',
+                name: this.getById('name').model?.toString() ?? '',
+                companyName: this.getById('company').model?.toString() ?? '',
+                email: this.getById('email').model?.toString() ?? '',
+                phone: this.getById('phone').model?.toString() ?? ''
+            });
+        }
+
+        if (!this.provider) {
+            if (stepValue.toString() === 'plan') stepValue = 'data';
+            this.selectPlan(AppConstants.PLANS.STANDARD);
+            this.steps = [
+                { label: 'Sobre você', value: 'about_you', index: 0 },
+                { label: 'Dados cadastrais', value: 'data', index: 1 },
+                { label: 'Pagamento', value: 'payment', index: 2 }
+            ];
+        }
+
+        const planSelected: Plan = this.getPlanSelected();
+        if (this.provider === AppConstants.PROVIDERS.TRAY && planSelected?.value === AppConstants.PLANS.FREE) {
+            if (stepValue === 'payment') {
+                await this.register();
+                return;
+            }
+        }
+
+        const currentIndex: number = this.steps.findIndex((step: StepperItem) => step.value === this.step);
+        const desiredStepIndex: number = this.steps.findIndex((step: StepperItem) => step.value === stepValue);
+        if (desiredStepIndex < currentIndex) {
+            this.step = this.steps[desiredStepIndex].value as any;
+            return;
+        }
+
+        if (this.provider === AppConstants.PROVIDERS.TRAY && planSelected?.value === AppConstants.PLANS.FREE) {
+            this.steps = [
+                { label: 'Sobre você', value: 'about_you', index: 0 },
+                { label: 'Planos', value: 'plans', index: 1 },
+                { label: 'Dados cadastrais', value: 'data', index: 2 }
+            ];
+        }
+
+        this.step = this.steps[desiredStepIndex].value as any;
     }
 
     public goBack(email: string): void {
@@ -120,66 +284,9 @@ export class RegisterComponent implements OnInit {
         });
     }
 
-    public getEcommerceSelected(): Ecommerce {
-        return this.ecommerces.find((ecommerce: Ecommerce) => ecommerce.selected) as Ecommerce;
-    }
-
     public getPlanSelected(): Plan {
-        return this.plans.find((plan: Plan) => plan.selected) as Plan;
-    }
-
-    public goToSecondStep(): void {
-        const formValidator: Validate = this.validateForm();
-        if (!this.acceptTerms) {
-            this.toast.error('É necessário aceitar os Termos e condições', 'Erro');
-            return;
-        }
-        if (!formValidator.isValid) {
-            this.toast.error(formValidator.message, formValidator.title);
-            return;
-        }
-        if (!this.getById('e-commerce').model) {
-            this.step = 3;
-            return;
-        }
-        this.step = 2;
-    }
-
-    public backToSecondStep(): void {
-        if (!this.getById('e-commerce').model) {
-            this.step = 1;
-            return;
-        }
-        this.step = 2;
-    }
-
-    public backToThirdStep(): void {
-        if (!this.getById('e-commerce').model) {
-            this.backToSecondStep();
-            return;
-        }
-        this.step = 3;
-    }
-
-    public getSecondStepDisabled(): boolean {
-        return !this.getEcommerceSelected()?.value;
-    }
-
-    public goToThirdStep(): void {
-        this.initPlans();
-        this.step = 3;
-    }
-
-    public async goToPayment(): Promise<void> {
-        if (this.getPlanSelected()?.value === AppConstants.PLANS.FREE) {
-            await this.register();
-            return;
-        }
-        this.step = 4;
-    }
-
-    public getThirdStepDisabled(): boolean {
-        return !this.getPlanSelected()?.value;
+        const selected: Plan = this.plans.find((plan: Plan) => plan.selected) as Plan;
+        return selected;
     }
 
     private initForm(): void {
@@ -194,14 +301,12 @@ export class RegisterComponent implements OnInit {
         let message: string = 'Houveram erros de validação';
         let title: string = 'Erro';
 
-        this.fields.forEach((field: Field) => {
-            if (field.model === null || field.model === undefined || field.model === '') {
-                field.errors = ['error'];
-                countErrors++;
-            }
-        });
+        if (!this.getById('name').model) {
+            this.getById('name').errors = ['error'];
+            countErrors++;
+        }
 
-        if (this.getById('phone').model.toString().length !== 11) {
+        if (!WhatsappUtil.fullPhoneValidation(this.getById('phone').model.toString())) {
             this.getById('phone').errors = ['error'];
             countErrors++;
         }
@@ -232,33 +337,102 @@ export class RegisterComponent implements OnInit {
         };
     }
 
-    private validatePaymentForm(): boolean {
-        if (!this.getPaymentById('name').model) return true;
-        const expirationDate: string = this.getPaymentById('expirationDate').model.toString() ?? '';
+    private validateRegisterDataForm(): Validate {
+        let countErrors: number = 0;
+        let message: string = 'Houveram erros de validação';
+        let title: string = 'Erro';
 
-        this.paymentRequest = new PaymentRequest();
-        this.paymentRequest.name = this.getPaymentById('name').model.toString();
-        this.paymentRequest.cardNumber = this.getPaymentById('number').model.toString();
-        this.paymentRequest.expirationDate = `${expirationDate.substring(0, 2)}/${expirationDate.substring(2, 4)}`;
-        this.paymentRequest.cvv = this.getPaymentById('cvv').model.toString();
-        this.paymentRequest.flag = this.getPaymentById('flag').model.toString();
-
-        if (
-            !this.paymentRequest.name ||
-            !this.paymentRequest.cardNumber ||
-            !this.paymentRequest.expirationDate ||
-            !this.paymentRequest.cvv ||
-            !this.paymentRequest.flag ||
-            this.paymentRequest.expirationDate?.length !== 5
-        ) {
-            return false;
+        if (this.getRegisterDataFieldById('revenueRecord').model.toString().length !== 11) {
+            this.getRegisterDataFieldById('revenueRecord').errors = ['error'];
+            countErrors++;
         }
 
-        return true;
+        if (this.getRegisterDataFieldById('postcode').model.toString().length !== 8) {
+            this.getRegisterDataFieldById('postcode').errors = ['error'];
+            countErrors++;
+        }
+
+        if (!this.getRegisterDataFieldById('street').model) {
+            this.getRegisterDataFieldById('street').errors = ['error'];
+            countErrors++;
+        }
+
+        if (!this.getRegisterDataFieldById('number').model) {
+            this.getRegisterDataFieldById('number').errors = ['error'];
+            countErrors++;
+        }
+
+        if (!this.getRegisterDataFieldById('neighbor').model) {
+            this.getRegisterDataFieldById('neighbor').errors = ['error'];
+            countErrors++;
+        }
+
+        if (!this.getRegisterDataFieldById('complement').model) {
+            this.getRegisterDataFieldById('complement').errors = ['error'];
+            countErrors++;
+        }
+
+        return {
+            isValid: countErrors === 0,
+            message: message,
+            title: title
+        };
+    }
+
+    private validatePaymentForm(): Validate {
+        if (this.provider === AppConstants.PROVIDERS.TRAY && this.getPlanSelected()?.value === AppConstants.PLANS.FREE)
+            return {
+                isValid: true,
+                message: '',
+                title: ''
+            };
+
+        let countErrors: number = 0;
+        let message: string = 'Houveram erros de validação';
+        let title: string = 'Erro';
+
+        if (!this.getPaymentById('name').model) {
+            this.getById('name').errors = ['error'];
+            countErrors++;
+        }
+
+        if (!this.getPaymentById('name').model.toString()) {
+            this.getPaymentById('name').errors = ['error'];
+            countErrors++;
+        }
+        if (!StringUtil.validateCreditCard(this.getPaymentById('number').model.toString())) {
+            this.getPaymentById('number').errors = ['error'];
+            countErrors++;
+        }
+        if (!DateUtil.validateCardExpiryDate(this.getPaymentById('expirationDate').model.toString())) {
+            this.getPaymentById('expirationDate').errors = ['error'];
+            countErrors++;
+        }
+        if (!this.getPaymentById('cvv').model.toString()) {
+            this.getPaymentById('cvv').errors = ['error'];
+            countErrors++;
+        }
+        if (!StringUtil.calculateCreditCardFlag(this.getPaymentById('number').model.toString())) {
+            countErrors++;
+        }
+
+        return {
+            isValid: countErrors === 0,
+            message: message,
+            title: title
+        };
     }
 
     private getById(id: string): Field {
         return this.fields.find((field: Field) => field.id === id) as Field;
+    }
+
+    private getAboutYouFieldById(id: string): Field {
+        return this.aboutYouFields.find((field: Field) => field.id === id) as Field;
+    }
+
+    private getRegisterDataFieldById(id: string): Field {
+        return this.registerDataFields.find((field: Field) => field.id === id) as Field;
     }
 
     private getPaymentById(id: string): Field {
@@ -271,9 +445,20 @@ export class RegisterComponent implements OnInit {
                 errors: [],
                 model: '',
                 id: 'name',
-                title: 'Nome',
+                title: 'Nome*',
                 placeholder: 'Digite seu nome completo',
                 type: 'text',
+                class: 'wide',
+                inputType: 'input',
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'email',
+                title: 'E-mail*',
+                placeholder: 'Digite seu e-mail',
+                type: 'email',
                 class: 'half-size',
                 inputType: 'input',
                 onChange: () => {}
@@ -282,7 +467,7 @@ export class RegisterComponent implements OnInit {
                 errors: [],
                 model: '',
                 id: 'phone',
-                title: 'Telefone',
+                title: 'Telefone*',
                 placeholder: 'Digite seu telefone',
                 type: 'text',
                 mask: '(00) 00000-0000',
@@ -290,23 +475,11 @@ export class RegisterComponent implements OnInit {
                 inputType: 'input',
                 onChange: () => {}
             },
-
-            {
-                errors: [],
-                model: '',
-                id: 'email',
-                title: 'E-mail',
-                placeholder: 'Digite seu e-mail',
-                type: 'email',
-                class: 'wide',
-                inputType: 'input',
-                onChange: () => {}
-            },
             {
                 errors: [],
                 model: '',
                 id: 'company',
-                title: 'Empresa',
+                title: 'Empresa*',
                 placeholder: 'Digite o nome da sua empresa',
                 type: 'text',
                 class: 'wide',
@@ -315,30 +488,23 @@ export class RegisterComponent implements OnInit {
             },
             {
                 errors: [],
-                model: true,
-                id: 'e-commerce',
-                title: 'Você possui e-commerce?',
+                model: '',
+                id: 'channel',
+                title: 'Por onde conheceu a Zoppy?',
                 placeholder: '',
                 type: '',
+                displayTop: true,
+                hasImage: false,
                 class: 'wide',
-                inputType: 'radio-button',
-                options: [
-                    {
-                        label: 'Sim',
-                        value: true
-                    },
-                    {
-                        label: 'Não',
-                        value: false
-                    }
-                ],
+                inputType: 'dropdown',
+                options: this.channels,
                 onChange: () => {}
             },
             {
                 errors: [],
                 model: '',
                 id: 'password',
-                title: 'Senha',
+                title: 'Senha*',
                 icon: 'icon-visibility_off',
                 placeholder: 'Digite sua senha',
                 type: 'password',
@@ -350,10 +516,131 @@ export class RegisterComponent implements OnInit {
                 errors: [],
                 model: '',
                 id: 'confirmPassword',
-                title: 'Confirmar senha',
+                title: 'Confirmar senha*',
                 placeholder: 'Digite novamente sua senha',
                 icon: 'icon-visibility_off',
                 type: 'password',
+                class: 'half-size',
+                inputType: 'input',
+                onChange: () => {}
+            }
+        ];
+        this.aboutYouFields = [
+            {
+                errors: [],
+                model: '',
+                id: 'segment',
+                title: 'Qual é o segmento da sua empresa?',
+                placeholder: '',
+                type: '',
+                class: 'wide',
+                inputType: 'dropdown',
+                options: this.segments,
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'role',
+                title: 'Qual é o seu cargo na empresa?',
+                placeholder: '',
+                type: '',
+                class: 'wide',
+                inputType: 'dropdown',
+                options: this.roles,
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'goal',
+                title: 'Qual o seu objetivo com a Zoppy?',
+                placeholder: '',
+                type: '',
+                displayTop: true,
+                class: 'wide',
+                inputType: 'selector',
+                options: this.goals,
+                propertyLabel: 'label',
+                propertyValue: 'value',
+                icon: 'icon',
+                onChange: () => {}
+            }
+        ];
+        this.registerDataFields = [
+            {
+                errors: [],
+                model: '',
+                id: 'revenueRecord',
+                title: 'CPF*',
+                placeholder: 'Digite seu CPF',
+                type: 'text',
+                mask: '000.000.000-00',
+                class: 'wide',
+                inputType: 'input',
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'postcode',
+                title: 'CEP*',
+                placeholder: 'Digite seu CEP',
+                type: 'text',
+                mask: '00.000-000',
+                class: 'wide',
+                inputType: 'input',
+                onChange: async (zipCode: string) => {
+                    try {
+                        if (!zipCode || zipCode.length !== 8) return;
+                        const zipcodeResponse: ZipcodeResponse = await this.publicService.fetchZipcode(zipCode);
+                        if (zipcodeResponse && zipcodeResponse.cep) {
+                            this.getRegisterDataFieldById('street').model = zipcodeResponse.logradouro;
+                            this.getRegisterDataFieldById('neighbor').model = zipcodeResponse.bairro;
+                        }
+                    } catch (ex: any) {}
+                }
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'street',
+                title: 'Rua*',
+                placeholder: 'Digite seu logradouro',
+                type: 'text',
+                class: 'half-size',
+                inputType: 'input',
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'number',
+                title: 'Número*',
+                placeholder: 'Digite o número',
+                type: 'text',
+                class: 'half-size',
+                inputType: 'input',
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'neighbor',
+                title: 'Bairro*',
+                placeholder: 'Digite o bairro',
+                type: 'text',
+                class: 'half-size',
+                inputType: 'input',
+                onChange: () => {}
+            },
+            {
+                errors: [],
+                model: '',
+                id: 'complement',
+                title: 'Complemento*',
+                placeholder: 'Digite o complemento',
+                type: 'text',
                 class: 'half-size',
                 inputType: 'input',
                 onChange: () => {}
@@ -367,7 +654,7 @@ export class RegisterComponent implements OnInit {
                 errors: [],
                 model: '',
                 id: 'name',
-                title: 'Titular do cartão',
+                title: 'Titular do cartão*',
                 placeholder: 'Digite seu nome conforme aparece no cartão',
                 type: 'text',
                 class: 'wide',
@@ -382,19 +669,37 @@ export class RegisterComponent implements OnInit {
                 errors: [],
                 model: '',
                 id: 'number',
-                title: 'Número do cartão',
+                title: 'Número do cartão*',
                 placeholder: 'Digite o número do cartão',
                 type: 'number',
                 class: 'wide',
+                icon: 'icon-visa',
+                propertyImage: 'img',
                 inputType: 'input',
-                onChange: () => {}
+                onChange: (number: string) => {
+                    const flag: string = StringUtil.calculateCreditCardFlag(number ?? '');
+                    switch (flag) {
+                        case 'visa':
+                            this.getPaymentById('number').img = './assets/svg/visa.svg';
+                            break;
+                        case 'american_express':
+                            this.getPaymentById('number').img = './assets/svg/american_express.svg';
+                            break;
+                        case 'mastercard':
+                            this.getPaymentById('number').img = './assets/svg/mastercard.svg';
+                            break;
+                        default:
+                            this.getPaymentById('number').img = '';
+                            break;
+                    }
+                }
             },
             {
                 errors: [],
                 model: '',
                 id: 'expirationDate',
-                title: 'Data de validade',
-                placeholder: 'Digite o nome da sua empresa',
+                title: 'Data de validade*',
+                placeholder: 'MM/AA',
                 type: 'text',
                 mask: '00/00',
                 class: 'half-size',
@@ -405,27 +710,11 @@ export class RegisterComponent implements OnInit {
                 errors: [],
                 model: '',
                 id: 'cvv',
-                title: 'CVV (código de segurança)',
-                placeholder: 'Digite seu código de segurança',
+                title: 'CVV (código de segurança)*',
+                placeholder: 'XXX',
                 type: 'number',
                 class: 'half-size',
                 inputType: 'input',
-                onChange: () => {}
-            },
-            {
-                errors: [],
-                model: '',
-                id: 'flag',
-                title: 'Bandeira',
-                placeholder: '',
-                type: '',
-                class: 'wide',
-                inputType: 'dropdown',
-                options: [
-                    { img: './assets/svg/mastercard.svg', value: 'mastercard', label: 'Mastercard' },
-                    { img: './assets/svg/visa.svg', value: 'visa', label: 'Visa' },
-                    { img: './assets/svg/american_express.svg', value: 'american_express', label: 'American Express' }
-                ],
                 onChange: () => {}
             }
         ];
@@ -449,6 +738,11 @@ export class RegisterComponent implements OnInit {
                 value: AppConstants.PROVIDERS.NUVEMSHOP
             },
             {
+                image: '',
+                selected: false,
+                value: AppConstants.PROVIDERS.ONE_CHAT
+            },
+            {
                 image: './assets/svg/tray.svg',
                 selected: false,
                 value: AppConstants.PROVIDERS.TRAY
@@ -466,10 +760,6 @@ export class RegisterComponent implements OnInit {
         ];
     }
 
-    private isPartner(): boolean {
-        return this.getEcommerceSelected()?.value === AppConstants.PROVIDERS.TRAY;
-    }
-
     private initPlans(): void {
         this.plans = [
             {
@@ -477,62 +767,122 @@ export class RegisterComponent implements OnInit {
                 price: 0,
                 priceAction: 0,
                 action: 'por venda',
+                priceUnit: '/mês',
                 items: [
-                    'Limite máximo de 50 vendas por mês',
-                    'Giftback disparado por email',
-                    'Dashboard personalizados',
-                    'NPS',
-                    'Painel do vendedor',
-                    '90 dias de garantia'
+                    {
+                        label: 'Giftback',
+                        value: '',
+                        icon: 'icon-confirmation_number',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Relatórios inteligentes',
+                        value: '',
+                        icon: 'icon-register_reports',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Whatsapp Zoppy',
+                        value: '',
+                        icon: 'icon-wpp',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Gestor de conta',
+                        value: '',
+                        icon: 'icon-manage_accounts',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Painel do Vendedor',
+                        value: '',
+                        icon: 'icon-assignment_ind',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Carrinho Abandonado',
+                        value: '',
+                        icon: 'icon-shopping_cart',
+                        class: 'text'
+                    },
+                    {
+                        label: 'NPS',
+                        value: '',
+                        icon: 'icon-star',
+                        class: 'text'
+                    }
                 ],
-                visible: this.isPartner(),
+                visible: this.provider === AppConstants.PROVIDERS.TRAY,
                 satisfaction: true,
                 special: false,
                 value: AppConstants.PLANS.FREE,
-                selected: false
-            },
-            {
-                title: 'Crescimento',
-                price: 297,
-                priceAction: 0.15,
-                action: 'por venda',
-                items: ['Giftback disparado por email', 'Dashboard personalizados', 'NPS', '90 dias de garantia'],
-                visible: true,
-                satisfaction: true,
-                special: false,
-                value: AppConstants.PLANS.BASIC,
-                selected: false
+                selected: false,
+                description: 'Limite de 50 vendas mensais.'
             },
             {
                 title: 'Desenvolvimento',
                 price: 297,
                 priceAction: 0.5,
+                priceUnit: 'no 1º mês',
                 action: 'por venda',
-                items: ['Tudo do plano Crescimento', 'Giftback disparado pelo WhastApp Zoppy', 'NPS', '90 dias de garantia'],
+                subAction: '150 vendas/mês gratuitas',
+                promotionalPrice: 1,
+                items: [
+                    {
+                        label: 'Giftback',
+                        value: '',
+                        icon: 'icon-confirmation_number',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Relatórios inteligentes',
+                        value: '',
+                        icon: 'icon-register_reports',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Whatsapp Zoppy',
+                        value: '',
+                        icon: 'icon-wpp',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Gestor de conta',
+                        value: '',
+                        icon: 'icon-manage_accounts',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Painel do Vendedor',
+                        value: '',
+                        icon: 'icon-assignment_ind',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Carrinho Abandonado',
+                        value: '',
+                        icon: 'icon-shopping_cart',
+                        class: 'text'
+                    },
+                    {
+                        label: 'NPS',
+                        value: '',
+                        icon: 'icon-star',
+                        class: 'text'
+                    },
+                    {
+                        label: 'Primeiras 150 vendas/mês gratuitas.',
+                        value: '',
+                        icon: 'icon-thumb_up',
+                        class: 'text'
+                    }
+                ],
                 visible: true,
                 satisfaction: true,
-                special: true,
-                value: AppConstants.PLANS.STANDARD,
-                selected: false
-            },
-            {
-                title: 'Perpetuação',
-                price: 297,
-                priceAction: 0.5,
-                action: 'por janela aberta',
-                tooltip:
-                    'A janela de conversa engloba todas as mensagens trocadas em um prazo de 24 horas a partir da primeira mensagem da empresa, seja por iniciativa própria ou como uma resposta ao cliente.',
-                items: [
-                    'Dashboard personalizados e inteligentes',
-                    'Giftback disparado pelo seu próprio Whatsapp',
-                    'Gestor de contas exclusivo que vai te auxiliar a ter as melhores estratégias',
-                    'Campanhas de reativação e marketing com seu próprio WhatsApp'
-                ],
-                visible: !this.isPartner(),
-                satisfaction: true,
                 special: false,
-                value: AppConstants.PLANS.PREMIUM,
-                selected: false
+                value: AppConstants.PLANS.STANDARD,
+                selected: false,
+                description: '90 dias de garantia.'
             }
         ];
     }
@@ -542,6 +892,7 @@ class Field {
     public errors: string[] = [];
     public model: string | number | boolean = '';
     public icon?: string = '';
+    public img?: string = '';
     public placeholder: string = '';
     public title: string = '';
     public type: string = '';
@@ -551,6 +902,12 @@ class Field {
     public inputType: string = '';
     public options?: Array<any> = [];
     public onChange: any;
+    public description?: string = '';
+    public displayTop?: boolean = false;
+    public hasImage?: boolean = false;
+    public propertyImage?: string = '';
+    public propertyLabel?: string = '';
+    public propertyValue?: string = '';
 }
 
 class Ecommerce {
@@ -559,18 +916,30 @@ class Ecommerce {
     public value: string = '';
 }
 
+class Item {
+    public label: string = '';
+    public value: string = '';
+    public img?: string = '';
+    public icon?: string = '';
+    public class?: string = '';
+}
+
 class Plan {
     public title: string = '';
     public price: number = 0;
     public priceAction: number = 0;
     public action: string = '';
-    public items: string[] = [];
+    public subAction?: string = '';
+    public priceUnit: string = '';
+    public promotionalPrice?: number = 0;
+    public items: Item[] = [];
     public satisfaction: boolean = false;
     public visible: any;
     public special: boolean = false;
     public tooltip?: string = '';
     public value: string = '';
     public selected: boolean = false;
+    public description: string = '';
 }
 
 interface Validate {

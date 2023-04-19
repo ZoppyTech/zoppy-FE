@@ -1,0 +1,22 @@
+<main class="flex flex-center">
+    <div class="blocked flex flex-column box-content padding-3 flex-center">
+        <img class="margin-bottom-3" src="./assets/svg/computer_troubleshoot.svg" alt="" />
+        <h5 class="primary text--bold margin-bottom-3">Você atingiu 50 vendas!</h5>
+        <div class="flex flex-column margin-x-3">
+            <span class="text text--center">
+                Ao atingir 50 vendas no plano Gratuito você não conseguirá mais utilizar a plataforma. Para continuar, clique no botão
+                abaixo e faça upgrade para um de nossos planos.
+            </span>
+            <span class="text text--center margin-top-2">
+                Ah, e não se preocupe! Você não perderá as vendas que fizer no período em que a plataforma estiver bloqueada.
+            </span>
+        </div>
+
+        <div class="wide margin-top-3">
+            <ps-button type="secondary" (onClick)="goToConfig()" [wide]="true">
+                <span class="text neutral-100">Alterar plano</span>
+            </ps-button>
+        </div>
+    </div>
+</main>
+<ps-tooltip></ps-tooltip>

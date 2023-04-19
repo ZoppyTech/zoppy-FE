@@ -5,6 +5,7 @@ import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-accou
 import { SignWhatsappAccountRequest } from 'src/shared/models/requests/whatsapp-account/sign-whatsapp-account.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappAccountService } from 'src/shared/services/whatsapp-account/whatsapp-account.service';
+import { ChatAccount } from '../../../../models/chat-account';
 
 @Component({
     selector: 'upgrade-pending-card',
@@ -12,7 +13,7 @@ import { WhatsappAccountService } from 'src/shared/services/whatsapp-account/wha
     styleUrls: ['./upgrade-pending-card.component.scss']
 })
 export class UpgradePendingCardComponent implements OnInit {
-    @Input() public account: WhatsappAccountEntity | null = null;
+    @Input() public account: ChatAccount | null = null;
     @Output() public changeWhatsappStatusEvent: EventEmitter<WhatsappAccountEntity> = new EventEmitter();
     public readonly CHAT_LAYOUT_IMAGE_DIR: string = './../../../../../../assets/imgs/welcome-zoppy-chat.png';
     public declare businessNameField: string;
@@ -24,7 +25,7 @@ export class UpgradePendingCardComponent implements OnInit {
     public constructor(public readonly wppAccountService: WhatsappAccountService, private readonly toast: ToastService) {}
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 
     public async upgrade(): Promise<void> {
@@ -36,7 +37,7 @@ export class UpgradePendingCardComponent implements OnInit {
                 description: this.descriptionField,
                 businessPhone: {
                     phoneNumber: this.phoneNumberField,
-                    permissions: WhatsappConstants.BUSINESS_PHONE_PERMISSIONS.ONLY_SEND,
+                    businessHoursEnabled: false,
                     default: true
                 }
             };

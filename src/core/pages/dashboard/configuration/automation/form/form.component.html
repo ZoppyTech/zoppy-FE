@@ -1,0 +1,172 @@
+<main *ngIf="!loading">
+    <div class="body">
+        <div class="title wide">
+            <a class="flex go-back" href="/dashboard/configurations/automations/base">
+                <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
+                <span class="text-16 text--bold text--primary">Voltar</span>
+            </a>
+
+            <div class="flex space-between wide" *ngIf="tab !== 'birthday'">
+                <div class="margin-left-2">
+                    <div class="flex align-center margin-top-2">
+                        <span class="text text--bold margin-right-1">{{ getRouteName() }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="field width-50" *ngIf="tab === 'giftback'">
+            <span class="text-14 margin-bottom-1">
+                Percentual de giftback <span class="text-14 text--secondary">&nbsp;(Sugestão: 15%)</span></span
+            >
+            <ps-input type="number" placeholder="Digite a porcentagem" [(ngModel)]="config.percentValue"></ps-input>
+            <span class="text--500 text-12 desktop">
+                Percentual de desconto em relação à compra feita que dará de giftback para uma compra futura.
+            </span>
+        </div>
+        <div class="field width-50" *ngIf="tab === 'giftback'">
+            <span class="text-14 margin-bottom-2">
+                Percentual máximo de desconto <span class="text-14 text--secondary">&nbsp;(Sugestão: 30%)</span>
+            </span>
+            <ps-input type="number" placeholder="Digite a porcentagem" [(ngModel)]="config.maxPercentValue"></ps-input>
+            <span class="text--500 text-12 desktop"> O valor máximo que o cupom pode representar de desconto na próxima compra. </span>
+        </div>
+        <div class="field width-50" *ngIf="tab === 'giftback'">
+            <span class="text-14"> Data de validade <span class="text-14 text--secondary">&nbsp;(Sugestão: 45 dias)</span></span>
+            <ps-input type="number" [(ngModel)]="config.expirationDays" placeholder="Digite a quantidade de dias"></ps-input>
+            <span class="text--500 text-12 desktop"> Número de dias que o usuário poderá utilizar após a criação do cupom. </span>
+        </div>
+        <div class="field width-50" *ngIf="tab === 'giftback'">
+            <span class="text-14"> Data de envio <span class="text-14 text--secondary">&nbsp;(Sugestão: 0 dias)</span></span>
+            <ps-input type="number" [(ngModel)]="config.startDays" placeholder="Digite a quantidade de dias"></ps-input>
+            <span class="text--500 text-12 desktop">
+                Número de dias que o sistema esperará para enviar a primeira mensagem ao seu cliente.
+            </span>
+        </div>
+
+        <div class="field width-50" *ngIf="acumulativeVisible()">
+            <span class="text-14 margin-bottom-2">
+                Permitir que cupom seja cumulativo <span class="text-14 text--secondary">&nbsp;(Sugestão: Sim)</span>
+            </span>
+            <div class="padding-y-1">
+                <ps-switch type="number" placeholder="Digite a porcentagem" [(active)]="config.acumulative">
+                    <span class="text--500 text-12 desktop"> Permitir que esse cupom seja utilizado com outros descontos. </span>
+                </ps-switch>
+            </div>
+        </div>
+        <div class="field width-50" *ngIf="excludeSaleItemsVisible()">
+            <span class="text-14 margin-bottom-2">
+                Excluir items em promoção <span class="text-14 text--secondary">&nbsp;(Sugestão: Não)</span>
+            </span>
+            <div class="padding-y-1">
+                <ps-switch type="number" placeholder="Digite a porcentagem" [(active)]="config.excludeSaleItems">
+                    <span class="text--500 text-12 desktop"> Proibir que esse cupom seja utilizado com produtos em liquidação </span>
+                </ps-switch>
+            </div>
+        </div>
+        <div class="field width-50" *ngIf="allowedCategoriesVisible()">
+            <span class="text-14 margin-bottom-2">
+                Filtrar categorias <span class="text-14 text--secondary">&nbsp;(Sugestão: Deixar todas)</span>
+            </span>
+            <div class="padding-y-1">
+                <ps-switch type="number" placeholder="Digite a porcentagem" [(active)]="filterCategories">
+                    <span class="text--500 text-12 desktop">
+                        Definir quais categorias de produtos poderão ser usadas com os cupons gerados</span
+                    >
+                </ps-switch>
+            </div>
+
+            <ps-multi-select
+                *ngIf="filterCategories && categories.length > 0"
+                [enableSearch]="true"
+                [displayTop]="true"
+                [wide]="true"
+                [items]="categories"
+                [(values)]="selectedCategories"
+                propertyLabel="name"
+                propertyValue="id"
+            ></ps-multi-select>
+        </div>
+
+        <div class="field wide" *ngIf="tab === 'after_sale'">
+            <span class="text-14 margin-bottom-1">
+                Dias para iniciar o pós venda <span class="text-14 text--secondary">&nbsp;(Sugestão: 7 dias)</span></span
+            >
+            <ps-input type="number" placeholder="Digite a porcentagem" [(ngModel)]="config.afterSaleDays"></ps-input>
+            <span class="text--500 text-12 desktop">
+                Número de dias que o sistema dará para registrar uma tarefa de pós venda para esse cliente no painel do vendedor.
+            </span>
+        </div>
+        <div class="field wide" *ngIf="tab === 'nps'">
+            <span class="text-14 margin-bottom-1">
+                Dias para iniciar o NPS <span class="text-14 text--secondary">&nbsp;(Sugestão: 1 dias)</span></span
+            >
+            <ps-input type="number" placeholder="Digite a porcentagem" [(ngModel)]="config.npsRatingDays"></ps-input>
+            <div class="flex-start flex-column">
+                <span class="text--500 text-12 desktop">
+                    Número de dias que o sistema dará para registrar uma tarefa de NPS para esse cliente no painel do vendedor.
+                </span>
+                <span class="text--warning text-12 desktop">
+                    *Obs: Valor igual a 0 (zero), o registro da atividade será desconsiderado.
+                </span>
+            </div>
+        </div>
+        <div class="field wide" *ngIf="tab === 'abandoned_cart'">
+            <span class="text-14 margin-bottom-1">
+                Horas para considerar pedido nao concluído como carrinho abandonado<span class="text-14 text--secondary"
+                    >&nbsp;(Sugestão: 4 horas)</span
+                ></span
+            >
+            <ps-input type="number" placeholder="Digite a quantidade de horas" [(ngModel)]="config.abandonedCartDelay"></ps-input>
+            <span class="text--500 text-12 desktop">
+                Número de horas que o sistema considerará para tratar o pedido como carrinho abandonado, criando uma tarefa de carrinho
+                abandonado no painel do vendedor.
+            </span>
+        </div>
+    </div>
+
+    <div class="flex flex-bottom padding-x-3 wide" *ngIf="tab !== 'birthday'">
+        <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary" [disabled]="getSaveDisabled()">
+            <span class="text--100 text--bold text-14 margin-x-3 padding-x-3">Salvar</span>
+        </ps-button>
+    </div>
+
+    <div class="padding-3 flex flex-column" [ngClass]="{ 'padding-top-0': tab === 'birthday' }">
+        <span class="text text--bold margin-right-1">Templates de Mensagem:</span>
+        <span class="text text--500 margin-y-2">Edite as mensagens desse fluxo:</span>
+        <table>
+            <thead>
+                <th><span class="text-14 text--primary desktop">Nome</span></th>
+                <th class="desktop"><span class="text-14 text--primary">Descrição</span></th>
+                <th><span class="text-14 text--primary"></span></th>
+            </thead>
+            <tbody>
+                <tr class="item" *ngFor="let group of filteredGroups">
+                    <td class="desktop">
+                        <div class="flex align-center">
+                            <span [ngClass]="{ 'text--400': !group.name }" class="text-14 text--600 desktop">{{
+                                group.name || 'vazio'
+                            }}</span
+                            >&nbsp;
+                        </div>
+                    </td>
+                    <td>
+                        <span [ngClass]="{ 'text--400': !group.description }" class="text-14 text--600">{{
+                            group.description || 'vazio'
+                        }}</span>
+                    </td>
+                    <td>
+                        <div class="actions">
+                            <ps-icon (click)="updateGroup(group)" class="icon-large primary clickable" icon="icon-edit_square"></ps-icon>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</main>
+
+<main *ngIf="loading">
+    <div class="flex flex-center flex-grow">
+        <static-loading [isLoading]="true" class="loading"></static-loading>
+    </div>
+</main>

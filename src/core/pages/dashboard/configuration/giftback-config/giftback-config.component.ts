@@ -20,7 +20,13 @@ export class GiftbackConfigComponent implements OnInit {
     public giftback: GiftbackRequest = {
         excludeSaleItems: false,
         acumulative: false,
-        allowedCategories: []
+        allowedCategories: [],
+        abandonedCartDelay: 4,
+        enableGiftback: true,
+        enableAfterSale: true,
+        enableNPS: true,
+        enableBirthday: true,
+        enableAbandonedCart: true
     };
     public loading: boolean = false;
     public npsRatingDaysActive: boolean = false;
@@ -57,6 +63,7 @@ export class GiftbackConfigComponent implements OnInit {
             CompanyUtil.isDooca(this.company) ||
             CompanyUtil.isWooCommerce(this.company) ||
             CompanyUtil.isYampi(this.company) ||
+            CompanyUtil.isNuvemshop(this.company) ||
             CompanyUtil.isShopify(this.company)
         );
     }
@@ -106,7 +113,13 @@ export class GiftbackConfigComponent implements OnInit {
                 startDays: parseInt(this.giftback.startDays?.toString() ?? ''),
                 afterSaleDays: parseInt(this.giftback.afterSaleDays?.toString() ?? ''),
                 npsRatingDays: parseInt(this.giftback.npsRatingDays?.toString() ?? ''),
+                abandonedCartDelay: parseInt(this.giftback.abandonedCartDelay?.toString() ?? ''),
                 acumulative: this.giftback.acumulative,
+                enableGiftback: this.giftback.enableGiftback,
+                enableAfterSale: this.giftback.enableAfterSale,
+                enableNPS: this.giftback.enableNPS,
+                enableBirthday: this.giftback.enableBirthday,
+                enableAbandonedCart: this.giftback.enableAbandonedCart,
                 excludeSaleItems: this.giftback.excludeSaleItems,
                 allowedCategories: this.mapAllowedCategories()
             };

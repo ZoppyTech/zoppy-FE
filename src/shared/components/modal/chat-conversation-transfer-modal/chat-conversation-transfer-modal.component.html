@@ -1,0 +1,42 @@
+<div class="modal-content">
+    <div class="modal-header">
+        <span class="title text--primary"> Transferir conversa para ... </span>
+        <div (click)="modal.close()" class="button-go-back clickable">
+            <ps-icon class="text-16 text--primary text--700" icon="icon-times"></ps-icon>
+        </div>
+    </div>
+
+    <div class="loading-wrapper" *ngIf="managersLoading">
+        <static-loading [isLoading]="true"></static-loading>
+    </div>
+    <div *ngIf="!managersLoading" class="modal-body">
+        <div
+            (click)="onManagerSelected(manager)"
+            *ngFor="let manager of managers"
+            class="contact-row clickable"
+            [ngClass]="{ 'contact-row--item-selected': manager.selected }"
+        >
+            <ps-icon class="margin-x-1" icon="icon-user"></ps-icon>
+            <div class="contact-info">
+                <span class="margin-x-1 truncate font-14">{{ manager.user.name }}</span>
+                <span class="margin-x-1 truncate font-14">{{ manager.user.email }}</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-footer">
+        <ps-button class="padding-top-2" [loading]="false" [wide]="true" type="secondary-border" (click)="modal.close()">
+            <span class="text--secondary text-14 text--bold">Cancelar</span>
+        </ps-button>
+        <ps-button
+            class="padding-top-2"
+            [loading]="transferLoading"
+            [disabled]="!this.managerSelected"
+            [wide]="true"
+            type="secondary"
+            (click)="transfer()"
+        >
+            <span class="text--100 text-14 text--bold">transferir</span>
+        </ps-button>
+    </div>
+</div>

@@ -1,0 +1,32 @@
+<div class="container">
+    <div class="title">
+        <div class="flex align-center clickable padding-bottom-2" (click)="openInfoModal()">
+            <h6 class="text-18 text--bold margin-right-1">Sua chave de API</h6>
+            &nbsp;
+            <ps-icon icon="icon-info secondary" class="text-24 secondary"></ps-icon>
+        </div>
+        <span class="text-16"
+            >Essa chave de API serve pra você integrar a Zoppy com qualquer sistema externo, utilizando a documentação presente no Zoppy
+            Partners! Lembrando que esse token também autentica sistemas externos a interagirem com nossa API através dos webhooks!</span
+        >
+        <div class="margin-y-2">
+            <a class="text--link text-16" target="_blank" href="{{ partnersUrl }}">Acesse a documentação da API Zoppy Partners!</a>
+        </div>
+    </div>
+
+    <div class="body">
+        <div class="field">
+            <p class="text-14">Token</p>
+            <ps-input [disabled]="true" [(ngModel)]="token.hash"></ps-input>
+            <ps-icon (click)="copyToClipboard()" icon="icon-copy" class="text--primary font-16 clickable"></ps-icon>
+        </div>
+        <div class="buttons">
+            <ps-button [loading]="loading" *ngIf="token.id" [wide]="true" (onClick)="deleteToken()" type="cancel">
+                <span class="text--800 text--bold text-14">Deletar Token</span>
+            </ps-button>
+            <ps-button [loading]="loading" [wide]="true" (onClick)="generateToken()" type="secondary" *ngIf="!token.id">
+                <span class="text--100 text--bold text-14">Gerar token</span>
+            </ps-button>
+        </div>
+    </div>
+</div>

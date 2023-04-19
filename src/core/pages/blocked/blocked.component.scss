@@ -1,0 +1,34 @@
+@import 'src/styles.scss';
+
+:host {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+main {
+    background-image: url('./../../../assets/imgs/background_register.png');
+    background-repeat: no-repeat;
+    background-size: 100% 100%;
+    width: 100vw;
+    height: 100vh;
+    .blocked {
+        max-width: 90vw;
+        max-height: 100vh;
+        width: 50rem;
+
+        img {
+            width: 25rem;
+        }
+    }
+}
+
+@media screen and (max-width: 576px) {
+    main {
+        .blocked {
+            overflow: auto;
+        }
+    }
+}

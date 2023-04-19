@@ -1,27 +1,51 @@
 <main class="flex flex-center">
     <div class="register flex flex-column box-content padding-3">
-        <div class="progress-bar margin-bottom-3">
-            <div class="fill" [ngStyle]="{ width: (100 * step) / 4 + '%' }"></div>
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 'initial'">
+            <div class="logo-content">
+                <img class="logo" src="./assets/imgs/logo.png" alt="" />
+            </div>
+            <h5 class="text--primary margin-bottom-1 text--bold">Seja bem-vindo à Zoppy!</h5>
+            <span class="text-14 text--600">Preencha os campos abaixo para iniciarmos a criação da sua conta.</span>
         </div>
-        <div class="margin-bottom-3" *ngIf="step === 1">
-            <h5 class="text--primary margin-bottom-1">Dados Pessoais</h5>
-            <span class="text-14 text--600">Os campos abaixo são essenciais para a criação da sua conta.</span>
+        <div class="flex flex-center">
+            <ps-stepper
+                *ngIf="step !== 'initial'"
+                [value]="step"
+                class="margin-bottom-3"
+                (onChangeSelected)="changeStep($event)"
+                [items]="steps"
+            ></ps-stepper>
         </div>
-        <div class="margin-bottom-3" *ngIf="step === 2">
-            <h5 class="text--primary margin-bottom-1">Plataforma de e-commerce</h5>
-            <span class="text-14 text--600">Selecione a plataforma de e-commerce que você utiliza.</span>
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 'about_you'">
+            <h5 class="text--primary margin-bottom-1 text--bold">Conte-nos mais sobre você</h5>
+            <span class="text-14 text--600">Queremos te conhecer melhor para oferecer uma experiência personalizada!</span>
         </div>
-        <div class="margin-bottom-3" *ngIf="step === 3">
-            <h5 class="text--primary margin-bottom-1">Planos</h5>
-            <span class="text-14 text--600">Selecione o plano ideal para a sua empresa.</span>
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 'plan'">
+            <h5 class="text--primary margin-bottom-1 text--bold">Nossos planos</h5>
+            <span class="text-14 text--600">Clique no plano desejado para a sua empresa.</span>
         </div>
-        <div class="margin-bottom-3" *ngIf="step === 4">
-            <h5 class="text--primary margin-bottom-1">Método de pagamento</h5>
-            <span class="text-14 text--600">Preencha abaixo os dados do seu cartão.</span>
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 'data'">
+            <h5 class="text--primary margin-bottom-1 text--bold">Informações pessoais</h5>
+            <span class="text-14 text--600">Os dados abaixo são essenciais para a criação da sua conta.</span>
+        </div>
+        <div class="margin-bottom-3 wide flex flex-column flex-center" *ngIf="step === 'payment'">
+            <h5 class="text--primary margin-bottom-1 text--bold">Método de pagamento</h5>
+            <span class="text-14 text--600">Preencha o formulário abaixo com os dados do seu cartão de crédito.</span>
+        </div>
+
+        <div class="info-box flex align-center margin-bottom-3" *ngIf="['data', 'payment'].includes(step)">
+            <ps-icon icon="icon-info-inverted" class="margin-right-2"></ps-icon>
+            <span class="text text-14" *ngIf="step === 'payment'">
+                <strong>Importante: </strong> a transação não será processada com cartão virtual, verifique-se de utilizar seu cartão
+                físico. <a class="text--info text--link">Clique aqui</a> para saber mais.
+            </span>
+            <span class="text text-14" *ngIf="step === 'data'">
+                <strong>Observação: </strong> o endereço informado deve ser o mesmo referente ao de cobrança.
+            </span>
         </div>
 
         <form (keydown.enter)="register()" class="form flex flex-column" id="registerForm">
-            <div *ngIf="step === 1" class="step-1">
+            <div *ngIf="step === 'initial'" class="step-1">
                 <div class="field {{ field.class }}" *ngFor="let field of fields">
                     <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                         {{ field.title }}
@@ -40,7 +64,34 @@
                         (onIconClicked)="iconClicked(field)"
                     ></ps-input>
 
+                    <ps-dropdown
+                        [enableAdd]="false"
+                        *ngIf="field.inputType === 'dropdown'"
+                        [displayTop]="field.displayTop ?? false"
+                        [enableSearch]="false"
+                        [errors]="field.errors"
+                        [hasImage]="field.hasImage ?? false"
+                        (onFocus)="field.errors = []"
+                        [items]="field.options ?? []"
+                        [(value)]="field.model"
+                        propertyLabel="label"
+                        propertyValue="value"
+                        [wide]="true"
+                        [debounce]="0"
+                    ></ps-dropdown>
+
+                    <ps-selector
+                        *ngIf="field.inputType === 'selector'"
+                        (onFocus)="field.errors = []"
+                        [items]="field.options ?? []"
+                        [(value)]="field.model"
+                        [propertyLabel]="field.propertyLabel ?? ''"
+                        [propertyValue]="field.propertyValue ?? ''"
+                        [propertyIcon]="field.icon ?? ''"
+                    ></ps-selector>
+
                     <ps-radio-button
+                        *ngIf="field.inputType === 'radio-button'"
                         [items]="field.options ?? []"
                         [(value)]="field.model"
                         propertyLabel="label"
@@ -49,52 +100,92 @@
                     ></ps-radio-button>
                 </div>
 
-                <div class="field flex flex-center">
-                    <ps-checkbox [(active)]="acceptTerms">
-                        <span class="text--800">
-                            Eu aceito os
-                            <a class="text--primary text--bold text--link">Termos e Condições </a>
-                            <span class="desktop">da Zoppy.</span>
-                        </span>
-                    </ps-checkbox>
-                </div>
+                <span class="text-12 text--600" style="margin-top: -1.5rem"
+                    >Sua senha deve ter oito caracteres, um caractere especial, um número e uma letra maiúscula.</span
+                >
 
                 <div class="wide">
-                    <ps-button (onClick)="goToSecondStep()" [loading]="loading" [wide]="true" type="secondary"
+                    <ps-button
+                        (onClick)="changeStep('about_you')"
+                        [disabled]="secondStepDisabled()"
+                        [loading]="loading"
+                        [wide]="true"
+                        type="secondary"
                         ><span class="text text--100 text--bold">Prosseguir</span>
                     </ps-button>
-                </div>
-            </div>
-
-            <div *ngIf="step === 2" class="step-2">
-                <div
-                    class="ecommerce clickable"
-                    (click)="selectEcommerce(ecommerce.value)"
-                    [ngClass]="{ selected: ecommerce.selected }"
-                    *ngFor="let ecommerce of ecommerces"
-                >
-                    <img [src]="ecommerce.image" alt="" />
-                    <div class="approval">
-                        <ps-icon icon="icon-approval"></ps-icon>
+                    <div class="wide flex flex-column flex-center">
+                        <p class="text-800 text-14">
+                            Já é um cliente Zoppy?&nbsp;<a [routerLink]="'/login'" class="text--link text--primary text--bold"
+                                >Acesse sua conta</a
+                            >
+                        </p>
                     </div>
                 </div>
 
-                <div class="buttons">
-                    <ps-button (onClick)="step = 1" [wide]="true" type="secondary-border"
-                        ><span class="text text--secondary text--bold">Voltar</span>
-                    </ps-button>
-                    <ps-button
-                        (onClick)="goToThirdStep()"
-                        [wide]="true"
-                        [loading]="loading"
-                        type="secondary"
-                        [disabled]="getSecondStepDisabled()"
-                        ><span class="text text--100 text--bold">Prosseguir</span>
-                    </ps-button>
+                <div class="field flex flex-center wide margin-bottom-2">
+                    <span class="text--800 text-14">
+                        Ao prosseguir, declaro que li e aceito os
+                        <a class="text--primary text--bold text--link">Termos e Condições </a>
+                        <span class="desktop">da Zoppy.</span>
+                    </span>
                 </div>
             </div>
 
-            <div *ngIf="step === 3" class="step-3">
+            <div *ngIf="step === 'about_you'" class="step-2">
+                <div class="field {{ field.class }}" *ngFor="let field of aboutYouFields">
+                    <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
+                        {{ field.title }}
+                    </div>
+
+                    <ps-dropdown
+                        [enableAdd]="false"
+                        *ngIf="field.inputType === 'dropdown'"
+                        [enableSearch]="true"
+                        [errors]="field.errors"
+                        [hasImage]="field.hasImage ?? false"
+                        [displayTop]="field.displayTop ?? false"
+                        (onFocus)="field.errors = []"
+                        [items]="field.options ?? []"
+                        [(value)]="field.model"
+                        propertyLabel="label"
+                        propertyValue="value"
+                        [propertyImage]="field.propertyImage"
+                        [wide]="true"
+                        [debounce]="0"
+                    ></ps-dropdown>
+
+                    <ps-selector
+                        *ngIf="field.inputType === 'selector'"
+                        (onFocus)="field.errors = []"
+                        [items]="field.options ?? []"
+                        [(value)]="field.model"
+                        [propertyLabel]="field.propertyLabel ?? ''"
+                        [propertyValue]="field.propertyValue ?? ''"
+                        [propertyIcon]="field.icon ?? ''"
+                    ></ps-selector>
+                </div>
+
+                <div class="wide">
+                    <ps-button
+                        (onClick)="changeStep('plan')"
+                        [loading]="loading"
+                        [wide]="true"
+                        type="secondary"
+                        [loadingText]="'Registrando informações...'"
+                        [theme]="'light'"
+                        ><span class="text text--100 text--bold">Prosseguir</span>
+                    </ps-button>
+                    <div class="wide flex flex-column flex-center">
+                        <p class="text-800 text-14">
+                            Já é um cliente Zoppy?&nbsp;<a [routerLink]="'/login'" class="text--link text--primary text--bold"
+                                >Acesse sua conta</a
+                            >
+                        </p>
+                    </div>
+                </div>
+            </div>
+
+            <div *ngIf="step === 'plan'" class="step-3">
                 <div class="plans">
                     <div
                         class="border"
@@ -104,12 +195,20 @@
                         <div class="plan clickable flex flex-column" (click)="selectPlan(plan.value)">
                             <h6 class="text--bold margin-right-3">{{ plan.title }}</h6>
                             <div class="flex align-items-end margin-top-3">
-                                <h6 class="text--secondary">{{ plan.price | zoppyCurrency }}</h6>
-                                <span class="text text--primary text--bold">&nbsp;/mês</span>
+                                <h6
+                                    class="text--secondary"
+                                    [ngClass]="{ 'text-decoration-line-through neutral-500 text-thin': plan.promotionalPrice }"
+                                >
+                                    {{ plan.price | zoppyCurrency }}
+                                </h6>
+                                <h6 class="text--secondary margin-left-1" *ngIf="plan.promotionalPrice">
+                                    {{ plan.promotionalPrice | zoppyCurrency }}
+                                </h6>
+                                <span class="text-14 margin-left-1">{{ plan.priceUnit }}</span>
                             </div>
 
                             <div class="flex">
-                                <span class="text text--primary text--bold">+{{ plan.priceAction | zoppyCurrency }} {{ plan.action }}</span>
+                                <span class="text">+{{ plan.priceAction | zoppyCurrency }} {{ plan.action }}</span>
                                 &nbsp;
                                 <ps-icon
                                     *ngIf="plan.tooltip"
@@ -122,14 +221,23 @@
                                 ></ps-icon>
                             </div>
 
-                            <div class="items margin-top-3">
+                            <div class="items flex-grow flex-column margin-top-3">
                                 <div class="item padding-y-1" *ngFor="let item of plan.items">
-                                    <ps-icon icon="icon-check"></ps-icon>&nbsp;
-                                    <span class="text">
-                                        {{ item }}
+                                    <ps-icon icon="{{ item.icon }}" class="{{ item.class }}"></ps-icon>&nbsp;
+                                    <span class="text" class="{{ item.class }}">
+                                        {{ item.label }}
                                     </span>
                                 </div>
                             </div>
+
+                            <div class="wide">
+                                <div class="separator margin-y-3"></div>
+                                <div class="flex flex-start align-center">
+                                    <ps-icon icon="icon-info-inverted" class="secondary text-24 margin-right-1"></ps-icon>
+                                    <span class="text text-16" [innerHTML]="plan.description | safeHtml"></span>
+                                </div>
+                            </div>
+
                             <div class="approval" [ngClass]="{ special: plan.special && !plan.selected }">
                                 <div class="padding-1">
                                     <ps-icon icon="icon-approval"></ps-icon>
@@ -140,23 +248,62 @@
                 </div>
 
                 <div class="wide">
-                    <div class="buttons">
-                        <ps-button (onClick)="backToSecondStep()" [wide]="true" type="secondary-border"
-                            ><span class="text text--secondary text--bold">Voltar</span>
-                        </ps-button>
-                        <ps-button
-                            (onClick)="goToPayment()"
-                            [disabled]="getThirdStepDisabled()"
-                            [loading]="loading"
-                            [wide]="true"
-                            type="secondary"
-                            ><span class="text text--100 text--bold">Prosseguir</span>
-                        </ps-button>
-                    </div>
+                    <ps-button
+                        (onClick)="changeStep('data')"
+                        [disabled]="getThirdStepDisabled()"
+                        [loading]="loading"
+                        [loadingText]="'Criando a sua empresa...'"
+                        [theme]="'light'"
+                        [wide]="true"
+                        type="secondary"
+                        ><span class="text text--100 text--bold">Prosseguir</span>
+                    </ps-button>
                 </div>
             </div>
 
-            <div *ngIf="step === 4" class="step-4">
+            <div *ngIf="step === 'data'" class="step-1">
+                <div class="field {{ field.class }}" *ngFor="let field of registerDataFields">
+                    <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
+                        {{ field.title }}
+                    </div>
+                    <ps-input
+                        *ngIf="field.inputType === 'input'"
+                        [placeholder]="field.placeholder"
+                        [(ngModel)]="field.model"
+                        [errors]="field.errors"
+                        (onFocus)="field.errors = []"
+                        [ngClass]="{ 'text--negative': field.errors.length > 0 }"
+                        [type]="field.type"
+                        (ngModelChange)="field.onChange($event)"
+                        [icon]="field.icon || ''"
+                        [mask]="field.mask || ''"
+                        (onIconClicked)="iconClicked(field)"
+                    ></ps-input>
+                </div>
+
+                <div class="wide">
+                    <ps-button
+                        (onClick)="changeStep('payment')"
+                        [disabled]="disableRegisterData()"
+                        [loading]="loading"
+                        [loadingText]="'Criando a sua empresa...'"
+                        [theme]="'light'"
+                        [wide]="true"
+                        type="secondary"
+                        ><span class="text text--100 text--bold">Prosseguir</span>
+                    </ps-button>
+                </div>
+
+                <div class="field flex flex-center wide">
+                    <span class="text--800 text-14">
+                        Ao prosseguir, declaro que li e aceito os
+                        <a class="text--primary text--bold text--link">Termos e Condições </a>
+                        <span class="desktop">da Zoppy.</span>
+                    </span>
+                </div>
+            </div>
+
+            <div *ngIf="step === 'payment'" class="step-4">
                 <div class="field {{ field.class }}" *ngFor="let field of paymentFields">
                     <div class="text--small text--bold text--800 margin-bottom-2" [ngClass]="{ 'text--negative': field.errors.length > 0 }">
                         {{ field.title }}
@@ -170,8 +317,9 @@
                         [ngClass]="{ 'text--negative': field.errors.length > 0 }"
                         [type]="field.type"
                         [icon]="field.icon || ''"
+                        [img]="field.img || ''"
                         [mask]="field.mask || ''"
-                        (ngModelChange)="field.onChange()"
+                        (ngModelChange)="field.onChange($event)"
                         [debounce]="0"
                         (onIconClicked)="iconClicked(field)"
                     ></ps-input>
@@ -182,10 +330,10 @@
                         [displayTop]="true"
                         [enableSearch]="false"
                         [errors]="field.errors"
-                        [hasImage]="true"
+                        [hasImage]="field.hasImage ?? false"
                         [items]="field.options ?? []"
                         [(value)]="field.model"
-                        propertyImage="img"
+                        [propertyImage]="field.propertyImage"
                         propertyLabel="label"
                         propertyValue="value"
                         [wide]="true"
@@ -194,10 +342,14 @@
                 </div>
 
                 <div class="wide buttons">
-                    <ps-button (onClick)="backToThirdStep()" [wide]="true" type="secondary-border"
-                        ><span class="text text--secondary text--bold">Voltar</span>
-                    </ps-button>
-                    <ps-button (onClick)="register()" [loading]="loading" [wide]="true" type="secondary"
+                    <ps-button
+                        (onClick)="register()"
+                        [disabled]="disablePaymentForm()"
+                        [loadingText]="'Criando a sua empresa...'"
+                        [loading]="loading"
+                        [wide]="true"
+                        [theme]="'light'"
+                        type="secondary"
                         ><span class="text text--100 text--bold">Concluir</span>
                     </ps-button>
                 </div>

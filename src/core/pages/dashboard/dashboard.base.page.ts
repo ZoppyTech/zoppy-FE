@@ -18,12 +18,18 @@ export class DashboardBasePage {
     public isShopify: boolean = false;
     public isWooCommerce: boolean = false;
     public isNuvemshop: boolean = false;
+    public isOneChat: boolean = false;
     public isTray: boolean = false;
     public isYampi: boolean = false;
 
     public isMobile: boolean = false;
 
+    public user?: UserEntity;
+    public company?: CompanyEntity;
+
     public constructor(public storage: Storage) {
+        this.user = storage.getUser() as UserEntity;
+        this.company = storage.getCompany() as CompanyEntity;
         this.isMobile = OsUtil.getMobileOperatingSystem() !== 'unknown' || window.screen.width < 576;
 
         this.isAdmin = UserUtil.isAdmin(storage.getUser() as UserEntity);
@@ -37,6 +43,7 @@ export class DashboardBasePage {
         this.isShopify = CompanyUtil.isShopify(storage.getCompany() as CompanyEntity);
         this.isWooCommerce = CompanyUtil.isWooCommerce(storage.getCompany() as CompanyEntity);
         this.isNuvemshop = CompanyUtil.isNuvemshop(storage.getCompany() as CompanyEntity);
+        this.isOneChat = CompanyUtil.isOneChat(storage.getCompany() as CompanyEntity);
         this.isTray = CompanyUtil.isTray(storage.getCompany() as CompanyEntity);
         this.isYampi = CompanyUtil.isYampi(storage.getCompany() as CompanyEntity);
     }
@@ -71,6 +78,10 @@ export class DashboardBasePage {
 
     public getIsNuvemshop(): boolean {
         return CompanyUtil.isNuvemshop(this.storage?.getCompany() as CompanyEntity);
+    }
+
+    public getIsOneChat(): boolean {
+        return CompanyUtil.isOneChat(this.storage?.getCompany() as CompanyEntity);
     }
 
     public getIsTray(): boolean {

@@ -20,6 +20,8 @@ export class TaskUtil {
                 return 'Contato';
             case TaskConstants.TYPES.NPS_RATING:
                 return 'NPS';
+            case TaskConstants.TYPES.ABANDONED_CART:
+                return 'Carrinho abandonado';
             default:
                 return 'Nenhum';
         }

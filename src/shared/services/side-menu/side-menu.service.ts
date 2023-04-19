@@ -48,12 +48,16 @@ export type SideMenu =
     | `giftback`
     | `letalk`
     | `messageConfig`
+    | `messageTemplate`
+    | `messageTemplateList`
     | `myCompany`
     | `myProfile`
     | `signature`
     | `syncData`
     | `updatePassword`
-    | `whatsapp`;
+    | `whatsapp`
+    | `integrations`
+    | `automations`;
 
 export interface SideMenuItem {
     id: SideMenu;

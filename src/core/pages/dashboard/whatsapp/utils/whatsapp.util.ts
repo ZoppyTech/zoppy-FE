@@ -11,31 +11,31 @@ export class WhatsappUtil {
         return message;
     }
 
-    public static removeCountryCode(phoneNumber: string): string {
-        return phoneNumber.replace('+55 ', '');
+    public static removeCountryCode(phone: string): string {
+        return phone.replace('+55 ', '');
     }
 
-    public static formatDisplayPhone(countryCode: string, subdivisionCode: string, phoneNumber: string): string {
-        return `+${countryCode} ${subdivisionCode} ${phoneNumber.slice(0, phoneNumber.length - 4)}-${phoneNumber.slice(
-            phoneNumber.length - 4,
-            phoneNumber.length
-        )}`;
+    public static formatDisplayPhone(countryCode: string, subdivisionCode: string, phone: string): string {
+        return `+${countryCode} ${subdivisionCode} ${phone.slice(2, phone.length - 4)}-${phone.slice(phone.length - 4, phone.length)}`;
     }
 
+    // TODO: Remover apos refatoracao na exibicao inicial das mensagens do chat
     public static findLastIndexOfMessageSent(threads: ThreadMessage[]): number {
-        const elementIndex: number =
-            threads.length -
-            threads.reverse().findIndex((thread: ThreadMessage) => {
-                return !thread.wamId;
-            }) -
-            1;
-        threads.reverse();
-        return elementIndex;
+        // const elementIndex: number =
+        //     threads.length -
+        //     threads.reverse().findIndex((thread: ThreadMessage) => {
+        //         return !thread.wamId;
+        //     }) -
+        //     1;
+        // threads.reverse();
+        // return elementIndex;
+        return 0;
     }
 
     public static getMessageTemplateParams(templateName: string, chatRoom: ChatRoom): Array<string> {
         switch (templateName) {
             case WhatsappConstants.MessageTemplates.GDPR_TERMS_NOTIFICATION:
+            case 'answer_me_a_question':
                 return [chatRoom.contact.firstName];
             case WhatsappConstants.MessageTemplates.NEW_CONTACT_PHONE_NUMBER_TO_ASK_QUESTIONS:
                 return [chatRoom.contact.firstName];
@@ -46,7 +46,9 @@ export class WhatsappUtil {
             case WhatsappConstants.MessageTemplates.ISSUE_RESOLUTION:
                 return [chatRoom.contact.firstName];
             case WhatsappConstants.MessageTemplates.OUT_OF_BUSINESS_HOURS:
-                return [chatRoom.account.businessName, '9h', '18h'];
+                return [chatRoom.account.businessName, '8h', '18h'];
+            case 'greetings_to_user_2':
+                return [chatRoom.manager.name];
             case WhatsappConstants.MessageTemplates.WAITING_A_FEW_MINUTES:
             default:
                 return [];
@@ -71,13 +73,17 @@ export class WhatsappUtil {
 }
 
 export class PhoneNumberSliced {
-    public constructor(public countryCode: string, public subdivisionCode: string, public phoneNumber: string) {
+    public constructor(public countryCode: string, public subdivisionCode: string, public phone: string) {
         this.countryCode = countryCode;
         this.subdivisionCode = subdivisionCode;
-        this.phoneNumber = phoneNumber;
+        this.phone = phone;
     }
 
     public getFullPhone(): string {
-        return `${this.countryCode}${this.subdivisionCode}${this.phoneNumber}`;
+        return `${this.countryCode}${this.subdivisionCode}${this.phone}`;
+    }
+
+    public getPhoneWithoutCountryCode(): string {
+        return `${this.subdivisionCode}${this.phone}`;
     }
 }

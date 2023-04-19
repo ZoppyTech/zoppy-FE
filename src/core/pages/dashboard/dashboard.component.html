@@ -7,3 +7,9 @@
         <router-outlet></router-outlet>
     </div>
 </main>
+
+<main *ngIf="!visible">
+    <div class="flex flex-center flex-grow">
+        <static-loading [isLoading]="true" class="loading"></static-loading>
+    </div>
+</main>

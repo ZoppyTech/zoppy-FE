@@ -18,20 +18,16 @@ export class TopBarComponent implements OnInit {
     public user: UserEntity | undefined = undefined;
     public barItems: Item[] = [
         {
-            label: 'Configurar Integrações',
-            route: Navigation.routes.configuration,
-            class: 'desktop',
-            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [
-                AppConstants.ROLES.ADMIN,
-                AppConstants.ROLES.MASTER,
-                AppConstants.ROLES.MANAGER
-            ])
-        },
-        {
             label: 'Minha Conta',
             route: Navigation.routes.account,
             class: 'desktop',
             visible: true
+        },
+        {
+            label: 'Chave de API',
+            route: Navigation.routes.accessTokens,
+            class: '',
+            visible: UserUtil.hasRoles(this.storage.getUser() as UserEntity, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER])
         }
     ];
 

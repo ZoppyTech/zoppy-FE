@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { environment } from 'src/environments/environment';
 import { PublicService } from 'src/shared/services/public/public.service';
 
 @Component({
@@ -22,7 +23,7 @@ export class BlacklistComponent implements OnInit {
     public goTo(state: string): void {
         switch (state) {
             case 'whatsapp':
-                window.open('https://wa.me/message/CJXGJ7WXEAGQM1');
+                window.open(environment.support);
                 break;
             case 'linkedin':
                 window.open('https://www.linkedin.com/company/zoppytech');

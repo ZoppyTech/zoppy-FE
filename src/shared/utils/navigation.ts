@@ -6,6 +6,7 @@ export class Navigation {
         dashboard: '/dashboard',
         home: '/dashboard/home',
         register: '/register',
+        blocked: '/blocked',
         configuration: '/dashboard/configurations',
         account: '/dashboard/account',
         changePassword: 'change-password',
@@ -18,15 +19,23 @@ export class Navigation {
         userConfig: '/dashboard/account/my-company/users/config',
         reports: '/dashboard/reports',
         accessKeys: '/dashboard/configurations/access-keys',
-        accessTokens: '/dashboard/configurations/access-tokens',
+        accessTokens: '/dashboard/access-tokens',
         letalk: '/dashboard/configurations/letalk',
         messageConfig: '/dashboard/configurations/message-config',
-        giftback: '/dashboard/configurations/giftback',
         coupons: '/dashboard/configurations/coupons',
         batchUpload: '/dashboard/configurations/batch-upload',
+        syncData: '/dashboard/configurations/sync-data',
+
+        integrations: '/dashboard/configurations/integrations ',
+        automations: '/dashboard/configurations/automations ',
+        automationForm: '/dashboard/configurations/automations/form',
+        messageTemplate: '/dashboard/configurations/templates',
+        messageTemplateList: '/dashboard/configurations/templates/list',
+        messageTemplateConfig: '/dashboard/configurations/templates/config',
         whatsappConfig: '/dashboard/configurations/whatsapp-setup',
         whatsappTemplateList: '/dashboard/configurations/whatsapp-template-list',
-        syncData: '/dashboard/configurations/sync-data',
+        giftback: '/dashboard/configurations/giftbacks',
+
         whatsapp: '/dashboard/whatsapp',
         products: '/dashboard/products',
         product: '/dashboard/products/add',
@@ -43,6 +52,7 @@ export type Pages =
     | 'accessTokens'
     | 'account'
     | 'batchUpload'
+    | 'blocked'
     | 'changePassword'
     | 'coupons'
     | 'customer'
@@ -55,6 +65,9 @@ export type Pages =
     | 'letalk'
     | 'login'
     | 'messageConfig'
+    | 'messageTemplate'
+    | 'messageTemplateList'
+    | 'messageTemplateConfig'
     | 'myCompany'
     | 'myCompanyConfig'
     | 'myCompanyUsers'
@@ -73,4 +86,7 @@ export type Pages =
     | 'whatsapp'
     | 'whatsappConfig'
     | 'whatsappTemplateList'
-    | `configuration`;
+    | `configuration`
+    | 'integrations'
+    | 'automations'
+    | 'automationForm';

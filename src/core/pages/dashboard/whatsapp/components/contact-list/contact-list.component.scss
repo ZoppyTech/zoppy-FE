@@ -19,15 +19,14 @@
         border-top-left-radius: 12px;
 
         .title-section {
-            min-height: fit-content;
-            height: fit-content;
-            max-height: 112px;
             display: flex;
-            flex-direction: row;
-            align-items: center;
             justify-content: space-between;
-            padding: 2rem 1rem;
-            padding-bottom: 1.5rem;
+            align-items: center;
+            padding: 1rem;
+            width: 100%;
+            height: -moz-fit-content;
+            height: fit-content;
+            border-top-left-radius: 8px;
 
             .button-new-contact-modal {
                 display: flex;
@@ -37,9 +36,8 @@
                 width: 2rem;
                 height: 2rem;
                 border-radius: 50%;
-                border: 1px solid var(--neutral-300);
                 cursor: pointer;
-                background-color: #fafbff;
+                background-color: var(--neutral-200);
                 padding: 18px;
             }
 
@@ -51,16 +49,15 @@
                 width: 2rem;
                 height: 2rem;
                 border-radius: 50%;
-                border: 1px solid var(--neutral-300);
                 cursor: pointer;
-                background-color: #fafbff;
+                background-color: var(--neutral-200);
                 padding: 18px;
             }
         }
 
         ps-search-bar {
             padding: 0rem 1rem;
-            margin-bottom: 2rem;
+            margin-bottom: 1rem;
         }
     }
 

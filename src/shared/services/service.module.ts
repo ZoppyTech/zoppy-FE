@@ -18,6 +18,7 @@ import { WhatsappAccountService } from './whatsapp-account/whatsapp-account.serv
 import { WhatsappBusinessManagementService } from './whatsapp-business-management/whatsapp-business-management.service';
 import { WhatsappContactService } from './whatsapp-contact/whatsapp-contact.service';
 import { WhatsappMessageService } from './whatsapp-message/whatsapp-message.service';
+import { WhatsappConversationService } from './whatsapp-conversation/whatsapp-conversation.service';
 
 @NgModule({
     providers: [
@@ -39,7 +40,8 @@ import { WhatsappMessageService } from './whatsapp-message/whatsapp-message.serv
         WhatsappAccountPhoneNumberService,
         WhatsappBusinessManagementService,
         WhatsappContactService,
-        WhatsappMessageService
+        WhatsappMessageService,
+        WhatsappConversationService
     ]
 })
 export class ServiceModule {}

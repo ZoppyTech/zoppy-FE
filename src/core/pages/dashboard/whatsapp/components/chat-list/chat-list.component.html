@@ -8,14 +8,18 @@
             </div>
         </div>
         <div class="pull-customers-wrapper">
-            <div class="display">
-                <div class="flex-column flex-center wide">
-                    <span class="queue_customers_length text--bold text-20">0</span>
-                    <span class="text--primary text--bold text-14">Clientes na fila de espera!</span>
+            <div class="display" [ngClass]="{ 'display--empty': queueCount <= 0 }">
+                <div class="flex-row flex-center wide">
+                    <span
+                        class="queue_customers_length text--bold text-18 margin-right-1"
+                        [ngClass]="{ 'queue_customers_length--empty': queueCount <= 0 }"
+                        >{{ queueCount }}</span
+                    >
+                    <span class="text-info text-14">Clientes na fila de espera!</span>
                 </div>
-                <div (click)="pullNewCustomer()" class="button">
-                    <!-- <ps-icon icon="icon-upcoming_fill"></ps-icon> -->
-                    <span class="text-14">Puxar</span>
+                <div *ngIf="!isAdmin" (click)="pullNewConversation()" class="button" [ngClass]="{ 'button--empty': queueCount <= 0 }">
+                    <span *ngIf="!pullLoading" class="text-14">Puxar</span>
+                    <span *ngIf="pullLoading" class="text-14">Puxando...</span>
                 </div>
             </div>
         </div>
@@ -31,13 +35,8 @@
     </div>
 
     <div class="filters" [ngClass]="{ 'filters--close': isCollapsedFilter }">
-        <!-- <div (click)="selectFilter('recent')" class="flex-row item clickable" [ngClass]="{ 'item--recent': filters.get('recent') }">
-            <span class="label text-500 text-12 margin-right-1">recentes</span>
-            <span class="text-14">5</span>
-        </div> -->
         <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
             <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">não lidas</span>
-            <span class="text-14">0</span>
         </div>
         <div
             (click)="selectFilter('in-progress')"
@@ -45,11 +44,9 @@
             [ngClass]="{ 'item--in-progress': filters.get('in-progress') }"
         >
             <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">em andamento</span>
-            <span class="text-14">9</span>
         </div>
         <div (click)="selectFilter('finished')" class="flex-row item clickable" [ngClass]="{ 'item--finished': filters.get('finished') }">
             <span class="label text-500 text-12 margin-right-1">concluídas</span>
-            <span class="text-14">50</span>
         </div>
     </div>
 
@@ -57,12 +54,12 @@
         <div class="item text-16 text--primary text--bold clickable">
             <span class="margin-right-1">Conversas </span>
             <div class="bag-counter">
-                <span class="text">9</span>
+                <span class="text">{{ conversations.length }}</span>
             </div>
         </div>
     </div>
 
-    <div *ngIf="conversations.length <= 0" class="empty-list">
+    <div *ngIf="!filterLoading && conversations.length <= 0" class="empty-list">
         <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
         <span class="text--primary text-14"
             >Você não tem um histórico de mensagens. <br />
@@ -70,7 +67,11 @@
         >
     </div>
 
-    <div *ngIf="conversations.length > 0" class="conversations">
+    <div *ngIf="filterLoading" class="empty-list">
+        <static-loading [isLoading]="true" [label]="'Filtrando conversas...'"></static-loading>
+    </div>
+
+    <div *ngIf="!filterLoading && conversations.length > 0" class="conversations">
         <div *ngFor="let conversation of conversations">
             <div
                 class="item clickable"
@@ -108,7 +109,7 @@
                             'viewed-icon--customer-user': !conversation[1].threads[conversation[1].threads.length - 1].isBusiness
                         }"
                     >
-                        <span class="margin-right-1" *ngIf="conversation[1].threads[conversation[1].threads.length - 1].wamId">
+                        <span class="margin-right-1">
                             <ps-icon
                                 *ngIf="
                                     conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered' ||
@@ -146,8 +147,4 @@
             </div>
         </div>
     </div>
-
-    <!-- <div (click)="newMessage()" class="new-message-float">
-        <ps-icon icon="icon-chat_fill"></ps-icon>
-    </div> -->
 </div>

@@ -13,6 +13,6 @@ export class WelcomeChatComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 }

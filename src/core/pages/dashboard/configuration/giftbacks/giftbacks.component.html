@@ -1,8 +1,4 @@
 <div class="container">
-    <div class="header">
-        <h6 class="text--primary text--bold text-20 margin-y-3">Visualização de coupons</h6>
-    </div>
-    <div class="separator"></div>
     <div class="title flex space-between">
         <div class="flex flex-column desktop">
             <div class="flex-column align-start">
@@ -43,16 +39,16 @@
                         <span [ngClass]="{ 'text--400': !coupon.code }" class="text-16 text--600">{{ coupon.code || 'vazio' }}</span>
                     </td>
                     <td class="desktop">
-                        <span [ngClass]="{ 'text--400': !coupon.amountCurrency }" class="text-16 text--600">{{
-                            coupon.amountCurrency || 'vazio'
+                        <span [ngClass]="{ 'text--400': !coupon.amount }" class="text-16 text--600">{{
+                            coupon.amount ?? 0 | zoppyCurrency
                         }}</span>
                     </td>
                     <td class="desktop">
                         <span [ngClass]="{ 'text--400': !coupon.phone }" class="text-16 text--600">{{ coupon.phone || 'vazio' }}</span>
                     </td>
                     <td class="desktop">
-                        <span [ngClass]="{ 'text--400': !coupon.minPurchaseValueCurrency }" class="text-16 text--600">{{
-                            coupon.minPurchaseValueCurrency || 'vazio'
+                        <span [ngClass]="{ 'text--400': !coupon.minPurchaseValue }" class="text-16 text--600">{{
+                            coupon.minPurchaseValue ?? 0 | zoppyCurrency
                         }}</span>
                     </td>
                     <td class="desktop">

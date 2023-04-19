@@ -36,6 +36,14 @@ const routes: Routes = [
         loadChildren: () => import('./pages/register/register.module').then((m: any) => m.RegisterModule)
     },
     {
+        path: 'register/:provider',
+        loadChildren: () => import('./pages/register/register.module').then((m: any) => m.RegisterModule)
+    },
+    {
+        path: 'blocked',
+        loadChildren: () => import('./pages/blocked/blocked.module').then((m: any) => m.BlockedModule)
+    },
+    {
         path: 'blacklist/:email',
         loadChildren: () => import('./pages/blacklist/blacklist.module').then((m: any) => m.BlacklistModule)
     },

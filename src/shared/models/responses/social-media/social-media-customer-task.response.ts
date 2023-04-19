@@ -10,6 +10,7 @@ export interface SocialMediaCustomerTaskResponse {
     description?: string;
     status?: TaskStatus;
     createdAt: Date;
+    updatedAt: Date;
     order?: SocialMediaCustomerOrderResponse;
     npsRating?: WcNpsResponse;
 }

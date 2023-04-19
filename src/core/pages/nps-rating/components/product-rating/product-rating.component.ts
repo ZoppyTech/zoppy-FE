@@ -24,7 +24,7 @@ export class ProductRatingComponent {
     }
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 
     public saveAnswer(productGrade: number): void {

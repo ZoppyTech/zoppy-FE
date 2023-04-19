@@ -14,6 +14,6 @@ export class AudioMessageComponent {
     }
 
     public ngOnInit(): void {
-        console.log('init');
+        //console.log('init');
     }
 }

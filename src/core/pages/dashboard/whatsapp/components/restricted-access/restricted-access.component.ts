@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
 import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-account.entity';
 import { WhatsappAccountService } from 'src/shared/services/whatsapp-account/whatsapp-account.service';
+import { ChatAccount } from '../../models/chat-account';
 
 @Component({
     selector: 'restricted-access',
@@ -9,13 +10,8 @@ import { WhatsappAccountService } from 'src/shared/services/whatsapp-account/wha
     styleUrls: ['./restricted-access.component.scss']
 })
 export class RestrictedAccessComponent implements OnInit {
-    @Input() public isWhatsappActive: boolean = false;
-    @Output() public isWhatsappActiveChange: EventEmitter<boolean> = new EventEmitter<boolean>();
-    @Output() public startWhatsappAppEvent: EventEmitter<void> = new EventEmitter<void>();
+    @Input() public account: ChatAccount | null = null;
 
-    public accountEntity: WhatsappAccountEntity | null = null;
-
-    public whatsappAccountLoading: boolean = true;
     public upgradePending: boolean = false;
     public activationPending: boolean = false;
 
@@ -23,32 +19,17 @@ export class RestrictedAccessComponent implements OnInit {
         //no content
     }
     public async ngOnInit(): Promise<void> {
-        console.log('Check if whatsapp app is registered...');
-        await this.loadRegisteredWhatsappAccount();
-    }
-
-    public async loadRegisteredWhatsappAccount(): Promise<void> {
-        this.whatsappAccountLoading = true;
-        try {
-            this.accountEntity = await this.wppAccountService.getRegisteredByCompany();
-            this.startWhatsappAppEvent.emit();
-            this.setWhatsappActive();
-        } catch (ex: any) {
-            this.setWhatsappActive();
-        } finally {
-            this.whatsappAccountLoading = false;
-        }
+        //console.log('Check if whatsapp app is registered...');
+        this.setWhatsappActive();
     }
 
     public async onUpgradeWhatsappAccount(upgradedAccount: WhatsappAccountEntity): Promise<void> {
-        this.accountEntity = upgradedAccount;
+        this.account = upgradedAccount;
         this.setWhatsappActive();
     }
 
     private setWhatsappActive(): void {
-        this.upgradePending = !this.accountEntity;
-        this.activationPending = !this.upgradePending && this.accountEntity?.active === false;
-        this.isWhatsappActive = !this.upgradePending && !this.activationPending;
-        this.isWhatsappActiveChange.emit(this.isWhatsappActive);
+        this.upgradePending = !this.account || !this.account.id;
+        this.activationPending = !this.upgradePending && !this.account?.active;
     }
 }

@@ -51,6 +51,16 @@ export class WhatsappContactService extends ApiService {
         return promise;
     }
 
+    public async about(id: string): Promise<WhatsappContactEntity> {
+        const promise: Promise<WhatsappContactEntity> = new Promise((resolve: any, reject: any) => {
+            this.get<WhatsappContactEntity>(`${this.url}/${id}/about`).subscribe(
+                (response: WhatsappContactEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async create(request: WhatsappContactRequest): Promise<WhatsappContactEntity> {
         const promise: Promise<WhatsappContactEntity> = new Promise((resolve: any, reject: any) => {
             this.post<WhatsappContactEntity, WhatsappContactRequest>(`${this.url}`, request).subscribe(

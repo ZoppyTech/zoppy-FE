@@ -11,7 +11,7 @@ export class ModalService {
     public callback: any = null;
 
     public constructor() {
-        console.log('instantiate');
+        //console.log('instantiate');
     }
 
     public open(name: string, data: any, callback: any = null): void {
@@ -40,7 +40,8 @@ export class Modal {
         MESSAGE_CONFIG_PARAMS: 'message_config_params',
         MEDIA_VIEWER_MODAL: 'media_viewer_modal',
         UPLOAD_IMAGE_MEDIA_PREVIEW_MODAL: 'upload_image_media_preview_modal',
-        UPLOAD_DOCUMENT_MEDIA_PREVIEW_MODAL: 'upload_document_media_preview_modal'
+        UPLOAD_DOCUMENT_MEDIA_PREVIEW_MODAL: 'upload_document_media_preview_modal',
+        CHAT_CONVERSATION_TRANSFER_MODAL: 'chat_conversation_transfer_modal'
     };
 }
 
@@ -53,4 +54,5 @@ export type ModalId =
     | 'MESSAGE_CONFIG_PARAMS'
     | 'MEDIA_VIEWER_MODAL'
     | 'UPLOAD_IMAGE_MEDIA_PREVIEW_MODAL'
-    | 'UPLOAD_DOCUMENT_MEDIA_PREVIEW_MODAL';
+    | 'UPLOAD_DOCUMENT_MEDIA_PREVIEW_MODAL'
+    | 'CHAT_CONVERSATION_TRANSFER_MODAL';

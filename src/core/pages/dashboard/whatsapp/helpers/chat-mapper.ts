@@ -1,89 +1,102 @@
-import { Injectable } from '@angular/core';
 import { DateUtil, StringUtil, WhatsappConstants } from '@ZoppyTech/utilities';
+import { Injectable } from '@angular/core';
+import { WhatsappAccountManagerEntity } from 'src/shared/models/entities/whatsapp-account-manager.entity';
 import { WhatsappContactEntity } from 'src/shared/models/entities/whatsapp-contact.entity';
+import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
+import { WhatsappMediaMessageEntity } from 'src/shared/models/entities/whatsapp-media-message.entity';
 import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
-import { ChatContact } from '../models/chat-contact';
-import { ChatManager } from '../models/chat-manager';
-import { ChatRoom } from '../models/chat-room';
-import { ThreadMessage } from '../models/thread-message';
+import { WppContact, WppConversation, WppManager, WppMediaMessage, WppMessage } from '../models/wpp-conversation';
 import { WhatsappUtil } from '../utils/whatsapp.util';
 
 //TODO: Use this class as Service, after remove WhatsappMapper class
+//Essa classe sera uma melhoria futura do chat - NAO DELETAR!
 @Injectable({
     providedIn: 'root'
 })
 export class ChatMapper {
-    public mapConversations(manager: ChatManager, messages: WhatsappMessageEntity[] = []): Map<string, ChatRoom> {
-        if (!manager || messages.length <= 0) new Map();
-        const whatsappConversations: Map<string, ChatRoom> = new Map<string, ChatRoom>();
-        for (let conversation of this.groupConversationsByContact(messages).entries()) {
-            const chatRoom: ChatRoom = new ChatRoom();
-            chatRoom.manager = manager;
-            chatRoom.threads = conversation[1];
-            chatRoom.contact = this.mapContactFromMessages(conversation[0], messages);
-            whatsappConversations.set(conversation[0], chatRoom);
-            this.setFirstMessagesOfDay(chatRoom.threads);
+    public mapConversations(conversations: WhatsappConversationEntity[] = []): Map<string, WppConversation> {
+        if (!conversations || conversations.length <= 0) return new Map<string, WppConversation>();
+        const conversationsMapped: Map<string, WppConversation> = new Map();
+        for (const conversation of conversations) {
+            conversationsMapped.set(conversation.wppContactId, this.mapConversation(conversation));
         }
-        return whatsappConversations;
+        return conversationsMapped;
     }
 
-    public groupConversationsByContact(messages: WhatsappMessageEntity[]): Map<string, Array<ThreadMessage>> {
-        const conversationsFromContact: Map<string, Array<ThreadMessage>> = new Map();
-        for (const message of messages) {
-            if (conversationsFromContact.has(message.wppContactId)) {
-                const messages: ThreadMessage[] | undefined = conversationsFromContact.get(message.wppContactId);
-                messages?.splice(0, 0, this.mapMessage(message));
-                conversationsFromContact.set(message.wppContactId, messages ?? []);
-                continue;
-            }
-            conversationsFromContact.set(message.wppContactId, [this.mapMessage(message)]);
-        }
-        return conversationsFromContact;
+    public mapConversation(conversationEntity: WhatsappConversationEntity): WppConversation {
+        const conversation: WppConversation = {
+            ticket: conversationEntity.ticket,
+            sessionExpiration: conversationEntity.sessionExpiration,
+            finishedAt: conversationEntity.finishedAt,
+            companyId: conversationEntity.companyId,
+            manager: this.mapManager(conversationEntity.wppAccountManager),
+            contact: this.mapContact(conversationEntity.wppContact),
+            threads: this.mapMessages(conversationEntity.messages),
+            unreadThreads: [],
+            actived: false
+        };
+        this.setFirstMessagesOfDay(conversation.threads);
+        return conversation;
     }
 
-    public mapContactFromMessages(contactId: string, messages: WhatsappMessageEntity[]): ChatContact {
-        const firstMessageFromContact: WhatsappMessageEntity | undefined = messages.find((message: WhatsappMessageEntity) => {
-            return message.wppContactId === contactId;
+    public mapManager(managerEntity: WhatsappAccountManagerEntity): WppManager | null {
+        if (managerEntity === null) return managerEntity;
+        return {
+            id: managerEntity.id,
+            name: managerEntity.user.name,
+            wppPhoneNumberId: managerEntity.wppPhoneNumberId,
+            wppAccountId: managerEntity.wppAccountId
+        };
+    }
+
+    public mapContact(contactEntity: WhatsappContactEntity): WppContact {
+        return {
+            id: contactEntity.id,
+            firstName: contactEntity.firstName,
+            lastName: contactEntity.lastName,
+            displayName: StringUtil.buildFullName(contactEntity.firstName, contactEntity.lastName),
+            displayPhone: WhatsappUtil.formatDisplayPhone(contactEntity.countryCode, contactEntity.subdivisionCode, contactEntity.phone),
+            hasIndex: false,
+            isBlocked: contactEntity.isBlocked,
+            createdAt: contactEntity.createdAt,
+            companyId: contactEntity.companyId
+        };
+    }
+
+    public mapMessages(messageEntities: WhatsappMessageEntity[]): WppMessage[] {
+        return messageEntities.map((messageEntity: WhatsappMessageEntity) => {
+            return this.mapMessage(messageEntity);
         });
-        if (!firstMessageFromContact || !firstMessageFromContact.wppContact) return new ChatContact();
-        return this.mapContact(firstMessageFromContact.wppContact);
     }
 
-    public mapMessage(messageEntity: WhatsappMessageEntity): ThreadMessage {
-        const threadMessage: ThreadMessage = new ThreadMessage();
-        threadMessage.id = messageEntity.id;
-        threadMessage.type = messageEntity.type;
-        threadMessage.content = messageEntity.content;
-        threadMessage.status = messageEntity.status;
-        threadMessage.isBusiness = messageEntity.origin === WhatsappConstants.MessageOrigin.BusinessInitiated;
-        threadMessage.isFirstMessageOfDay = false;
-        threadMessage.createdAt = messageEntity.createdAt;
-        threadMessage.deletedAt = messageEntity.deletedAt;
-        threadMessage.companyId = messageEntity.companyId;
-        return threadMessage;
+    public mapMessage(messageEntity: WhatsappMessageEntity): WppMessage {
+        const isBusiness: boolean = messageEntity.origin === WhatsappConstants.MessageOrigin.BusinessInitiated;
+        return {
+            id: messageEntity.id,
+            type: messageEntity.type,
+            templateName: undefined,
+            content: messageEntity.content,
+            status: messageEntity.status,
+            isBusiness: isBusiness,
+            readByManager: isBusiness || !!messageEntity.wppManagerId,
+            isFirstMessageOfDay: false,
+            companyId: messageEntity.companyId,
+            createdAt: messageEntity.createdAt,
+            deletedAt: messageEntity.deletedAt,
+            media: this.mapMedia(messageEntity.wppMediaMessage)
+        };
     }
 
-    public mapContact(contactEntity: WhatsappContactEntity): ChatContact {
-        const contact: ChatContact = new ChatContact();
-        contact.id = contactEntity.id;
-        contact.firstName = contactEntity.firstName;
-        contact.lastName = contactEntity.lastName;
-        contact.displayName = StringUtil.buildFullName(contactEntity.firstName, contactEntity.lastName);
-        contact.displayPhone = WhatsappUtil.formatDisplayPhone(
-            contactEntity.countryCode,
-            contactEntity.subdivisionCode,
-            contactEntity.phoneNumber
-        );
-        contact.isBlocked = contactEntity.isBlocked;
-        contact.hasIndex = false;
-        contact.createdAt = contactEntity.createdAt;
-        contact.companyId = contactEntity.companyId;
-        return contact;
+    public mapMedia(mediaEntity: WhatsappMediaMessageEntity | undefined): WppMediaMessage | undefined {
+        if (mediaEntity == undefined) return undefined;
+        return {
+            ...mediaEntity
+        };
     }
 
-    public setFirstMessagesOfDay(threads: Array<ThreadMessage>): void {
+    public setFirstMessagesOfDay(threads: Array<WppMessage>): void {
         if (threads.length <= 0) return;
-        const firstMessage: ThreadMessage = threads[0];
+        const firstMessage: WppMessage = threads[0];
         firstMessage.isFirstMessageOfDay = true;
         let firstMessageDate: Date = new Date(firstMessage.createdAt);
         for (const thread of threads) {
