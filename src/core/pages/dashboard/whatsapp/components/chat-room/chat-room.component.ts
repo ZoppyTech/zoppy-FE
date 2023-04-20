@@ -276,7 +276,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 ticket: this.latestConversation.ticket,
                 wppContactId: this.latestConversation.wppContactId,
                 wppManagerId: this.latestConversation.wppManagerId,
-                wppAccountId: this.room.companyId // TODO: ARRUMAR ISSO AQUI!!!
+                wppAccountId: this.chathandler.account.id
             },
             (conversation: any) => {
                 debugger;
