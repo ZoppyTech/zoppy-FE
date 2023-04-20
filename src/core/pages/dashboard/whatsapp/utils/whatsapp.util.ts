@@ -14,6 +14,10 @@ export class WhatsappUtil {
         return message;
     }
 
+    public static replaceWhiteSpaces(name: string): string {
+        return name.replace(/\s/g, '_');
+    }
+
     public static removeCountryCode(phone: string): string {
         return phone.replace('+55 ', '');
     }

@@ -30,13 +30,14 @@ import { ChatSocketData } from './models/chat-socket-data';
 import { Subcomponents } from './models/subcomponents';
 import { ThreadMessage } from './models/thread-message';
 import { WhatsappUtil } from './utils/whatsapp.util';
+import { ChatSocket } from './helpers/chat-socket';
 
 @Component({
     selector: 'app-whatsapp',
     templateUrl: './whatsapp.component.html',
     styleUrls: ['./whatsapp.component.scss']
 })
-export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
+export class WhatsappComponent implements OnInit, OnDestroy {
     public account: ChatAccount = new ChatAccount();
     public manager: ChatManager = new ChatManager();
     public user: UserEntity = new UserEntity();
@@ -49,26 +50,32 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public scrollDownEvent: Subject<void> = new Subject<void>();
 
+    public isAdmin: boolean = false;
     public whatsappLoading: boolean = true;
     public whatsappPercentLoading: number = 0;
-    public isAdmin: boolean = false;
-    public openConversationMobile: boolean = false;
     public isWhatsappActive: boolean = false;
     public filterLoading: boolean = false;
     public pullLoading: boolean = false;
-    public isChatRoomVisible$ = new BehaviorSubject(false);
+    public isChatRoomVisible: boolean = false;
+    public openConversationMobile: boolean = false;
 
     //** FOR TESTS */
     public declare chathandler: ChatHandler;
+
     public rooms: Map<string, ChatRoom> = new Map();
     public declare roomSelected: ChatRoom;
     public contacts: Array<ChatContact> = [];
     public declare contactSelected: ChatContact;
 
+    public unreadRooms: Map<string, ChatRoom> = new Map();
+    public inprogressRooms: Map<string, ChatRoom> = new Map();
+    public finishedRooms: Map<string, ChatRoom> = new Map();
+
     public finishedConversations: Map<string, ChatRoom> = new Map();
     public latestMessages: Array<[string, ChatRoom]> = [];
 
     public constructor(
+        public readonly chatSocket: ChatSocket,
         public readonly chatMapper: ChatMapper,
         public readonly wppAccountService: WhatsappAccountService,
         public readonly wppAccountManagerService: WhatsappAccountManagerService,
@@ -87,14 +94,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
     public async ngOnInit(): Promise<void> {
         this.setLoggedUser();
         this.setBreadcrumb();
-        this.onStartWhatsapp();
-    }
-
-    public ngAfterViewInit(): void {
-        if (!this.isWhatsappActive) {
-            return;
-        }
-        this.setWebSocket();
+        await this.onStartWhatsapp();
     }
 
     public async onStartWhatsapp(): Promise<void> {
@@ -106,93 +106,77 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         await this.loadBusinessAccounManager();
         await this.loadConversations();
         await this.countUnstarted();
+        this.setWebSocket();
         this.whatsappLoading = false;
     }
 
     public ngOnDestroy(): void {
-        this.webSocketService.disconnect();
+        this.chatSocket.disconnect();
     }
 
     public destroyAndReload(): void {
-        this.isChatRoomVisible$.next(false);
+        this.isChatRoomVisible = false;
         setTimeout(() => {
-            this.isChatRoomVisible$.next(true);
+            this.isChatRoomVisible = true;
         }, 1);
     }
 
     public setWebSocket(): void {
-        try {
-            this.webSocketService
-                .fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE)
-                .subscribe((socketData: ChatSocketData) => {
-                    //this.updateConversations(this.getConversations());
-                    let targetChatRoom: ChatRoom | undefined = undefined;
-                    switch (socketData.action) {
-                        case WebSocketConstants.CHAT_ACTIONS.NEW_CONVERSATION_COUNT:
-                            if (socketData.message.companyId !== this.account.companyId) return;
-                            this.queueCount = socketData.queueCount ?? 0;
-                            break;
-                        case WebSocketConstants.CHAT_ACTIONS.CREATE:
-                            if (socketData.message.companyId !== this.account.companyId) return;
-                            // targetChatRoom = this.conversations.get(socketData.message.wppContactId);
-                            // if (!targetChatRoom) return;
-                            // const messageIndex: number = WhatsappUtil.findLastIndexOfMessageSent(targetChatRoom.threads);
-                            // if (messageIndex < 0 || messageIndex >= targetChatRoom.threads.length) return;
-                            // targetChatRoom.threads.splice(messageIndex, 1);
-                            // targetChatRoom.threads.splice(messageIndex, 0, WhatsappMapper.mapMessage(socketData.message));
-                            // WhatsappMapper.setFirstMessagesOfDay(targetChatRoom.threads);
-                            break;
-                        case WebSocketConstants.CHAT_ACTIONS.UPDATE:
-                            if (socketData.message.companyId !== this.account.companyId) return;
-                            // targetChatRoom = this.conversations.get(socketData.message.wppContactId);
-                            // if (!targetChatRoom) return;
-                            // const messageFound: ThreadMessage | undefined = targetChatRoom?.threads.find(
-                            //     (thread: ThreadMessage) => thread.id === socketData.message.id
-                            // );
-                            // if (!messageFound) return;
-                            // messageFound.status = socketData.message.status;
-                            // this.swapFinishedConversation();
-                            break;
-                        case WebSocketConstants.CHAT_ACTIONS.RECEIVE:
-                            if (socketData.message.companyId !== this.account.companyId) return;
-                            this.updateNewConversationCount();
-                            // targetChatRoom = this.conversations.get(socketData.message.wppContactId);
-                            // if (!targetChatRoom && !this.isAdmin) return;
-                            // if (!targetChatRoom) {
-                            //     this.loadConversationByContact(socketData.message.wppContactId);
-                            //     return;
-                            // }
-                            // const receivedMessage: ThreadMessage = WhatsappMapper.mapMessage(socketData.message);
-                            // if (targetChatRoom.contact.id === this.chatRoomSelected?.contact.id) {
-                            //     this.chatRoomSelected.unreadThreads.push(receivedMessage);
-                            //     this.updateUnreadMessages();
-                            // } else {
-                            //     targetChatRoom.unreadThreads.push(receivedMessage);
-                            // }
-                            // this.setRoomAsMostRecent(targetChatRoom);
-                            // targetChatRoom.threads.push(receivedMessage);
-                            // WhatsappMapper.setFirstMessagesOfDay(targetChatRoom.threads);
-                            // this.scrollDownEvent.next();
-                            break;
-                        case WebSocketConstants.CHAT_ACTIONS.CHAT_TRANSFER:
-                            if (socketData.message.companyId !== this.account.companyId) return;
-                            if (socketData.message.wppManagerId !== this.manager.id) return;
-                            this.loadConversationByContact(socketData.message.wppContactId);
-                            break;
-                        case WebSocketConstants.CHAT_ACTIONS.UPDATE_CURRENT_CHAT_ROOM:
-                            if (socketData.message.companyId !== this.account.companyId) return;
-                            //if (socketData.message.wppContactId !== this.chatRoomSelected.contact.id) return;
-                            this.destroyAndReload();
-                            break;
-                    }
-                });
-        } catch (ex: any) {
-            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
-        }
+        debugger;
+        this.chatSocket.connect(this.webSocketService);
+        this.chatSocket.onNewConversationCount = (response: any) => {
+            debugger;
+            if (response.message.companyId !== this.account.companyId) return;
+            this.queueCount = response.queueCount ?? 0;
+        };
+        this.chatSocket.onUpdate = (response: any) => {
+            debugger;
+            if (response.message.companyId !== this.account.companyId) return;
+            const targetRoom: ChatRoom | undefined = this.rooms.get(response.message.wppContactId);
+            if (!targetRoom) return;
+            const messageFound: ThreadMessage | undefined = targetRoom.findThreadById(response.message.id);
+            if (!messageFound) return;
+            messageFound.status = response.message.status;
+            //TODO: ANALISAR NECESSIDADE DA CHAMADA DESSA FUNCAO!
+            //this.swapFinishedConversation();
+        };
+        this.chatSocket.onReceive = (response: any) => {
+            debugger;
+            if (response.message.companyId !== this.account.companyId) return;
+            const targetRoom: ChatRoom | undefined = this.rooms.get(response.message.wppContactId);
+            if (!targetRoom && !this.isAdmin) return;
+            if (!targetRoom) {
+                //TODO: ANALISAR NECESSIDADE DE TORNAR ESSA FUNCAO ASYNC!
+                this.loadConversationByContact(response.message.wppContactId);
+                return;
+            }
+            const receivedThread: ThreadMessage = this.chatMapper.mapMessage(response.message);
+            targetRoom.addThread(receivedThread);
+            targetRoom.setFirstMessagesOfDay();
+            this.chathandler.setRoomAsMostRecent(targetRoom);
+            this.scrollDownEvent.next();
+            if (targetRoom.contact.id !== this.roomSelected.contact.id) return;
+            this.chathandler.updateUnreadMessages(this.roomSelected);
+        };
+        this.chatSocket.onTransferRoom = (response: any) => {
+            debugger;
+            if (response.message.companyId !== this.account.companyId) return;
+            if (response.message.wppManagerId !== this.manager.id) return;
+            //TODO: ANALISAR NECESSIDADE DE TORNAR ESSA FUNCAO ASYNC!
+            this.loadConversationByContact(response.message.wppContactId);
+        };
+        this.chatSocket.onUpdateCurrentRoom = (response: any) => {
+            debugger;
+            if (response.message.companyId !== this.account.companyId) return;
+            if (response.message.wppContactId !== this.roomSelected.contact.id) return;
+            this.destroyAndReload();
+        };
+        this.chatSocket.listen();
     }
 
     public async onSendingMessage(thread: ThreadMessage): Promise<void> {
         try {
+            debugger;
             this.roomSelected.addThread(thread);
             this.roomSelected.setFirstMessagesOfDay();
             this.chathandler.sortRoomsByMostRecentMessages();
@@ -240,30 +224,15 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         this.roomSelected = room;
         this.roomSelected.actived = true;
         this.scrollDownEvent.next();
-        //this.updateUnreadMessages();
+        this.chathandler.updateUnreadMessages(this.roomSelected);
+
         this.openConversationMobile = true;
         this.destroyAndReload();
     }
 
-    public onFinishChatRoom(room: ChatRoom): void {
-        this.chathandler.removeRoom(room.contact.id);
-        // this.rooms.delete(chatRoom.contact.id);
-        // this.chatRoomSelected = new ChatRoom();
-        // this.isChatRoomVisible$ = new BehaviorSubject(false);
-        //this.updateConversations(this.getConversations());
-        this.toast.success('Conversa finalizada!', WhatsappConstants.ToastTitles.Success);
-    }
-
-    public updateUnreadMessages(): void {
-        const unreadMessages: ThreadMessage[] = this.roomSelected.unreadThreads;
-        for (const unreadMessage of unreadMessages) {
-            unreadMessage.readByManager = true;
-            const socketData: ChatSocketData = { action: 'update', message: new WhatsappMessageEntity() };
-            socketData.message.id = unreadMessage.id;
-            socketData.message.userId = this.user.id;
-            this.webSocketService.emit(WebSocketConstants.CHAT_EVENTS.UPDATE, socketData);
-        }
-        this.roomSelected.unreadThreads.splice(0, unreadMessages.length);
+    public onFinishRoom(contactId: string): void {
+        debugger;
+        this.chathandler.removeRoom(contactId);
     }
 
     public updateNewConversationCount(): void {
@@ -302,8 +271,10 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
                 await this.loadFinishedConversations();
                 break;
             case ChatFilters.InProgress:
-            default:
                 await this.loadConversations();
+                break;
+            case ChatFilters.Waiting:
+                await this.loadUnstartedConversations();
                 break;
         }
         this.filterLoading = false;
@@ -349,14 +320,11 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         try {
             const entities: WhatsappConversationEntity[] = await this.wppConversationService.findInProgressByManagerId(this.manager.id);
             this.chathandler.fillRooms(entities);
-
-            // this.conversations = WhatsappMapper.mapConversations(this.account, this.manager, entities);
-            //WhatsappMapper.setUnreadConversations(this.conversations);
-            //this.updateConversations(this.getConversations());
+            this.chathandler.sortRoomsByMostRecentMessages();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
-            this.chathandler.rooms = new Map();
+            this.chathandler.fillRooms([]);
         } finally {
             this.whatsappPercentLoading = 75;
         }
@@ -375,14 +343,13 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public async loadFinishedConversations(): Promise<void> {
         try {
-            const entities: WhatsappMessageEntity[] = await this.wppMessageService.listFinishedByManagerId(this.manager.id);
-            // this.finishedConversations = WhatsappMapper.mapConversations(this.account, this.manager, entities);
-            // WhatsappMapper.setUnreadConversations(this.finishedConversations);
-            //this.updateConversations(Array.from(this.finishedConversations));
+            const entities: WhatsappConversationEntity[] = await this.wppConversationService.findFinishedByManagerId(this.manager.id);
+            this.chathandler.fillRooms(entities);
+            this.chathandler.sortRoomsByMostRecentMessages();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
-            //this.conversations = new Map();
+            this.chathandler.fillRooms([]);
         }
     }
 
@@ -400,13 +367,24 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
         }
     }
 
+    public async loadUnstartedConversations(): Promise<void> {
+        try {
+            const entities: WhatsappConversationEntity[] = await this.wppConversationService.findUnstartedConversations();
+            this.chathandler.fillRooms(entities);
+            this.chathandler.sortRoomsByMostRecentMessages();
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+            this.chathandler.fillRooms([]);
+        }
+    }
+
     private filterUnreadConversations(): void {
-        // this.conversations = new Map(
-        //     Array.from(this.conversations).filter((conversation: [string, ChatRoom]) => {
-        //         return conversation[1].unreadThreads.length > 0;
-        //     })
-        // );
-        // this.updateConversations(this.getConversations());
+        this.rooms = new Map(
+            Array.from(this.inprogressRooms).filter((room: [string, ChatRoom]) => {
+                return room[1].getUnreadThreads().length > 0;
+            })
+        );
     }
 
     private setRoomAsMostRecent(chatRoom: ChatRoom): void {

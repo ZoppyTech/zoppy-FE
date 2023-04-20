@@ -26,16 +26,17 @@
             (selectedContactEvent)="onContactSelected($event)"
         ></unregistered-contact-list>
     </div>
-    <!-- <div *ngIf="!whatsappLoading" class="right-panel" [ngClass]="{ 'right-panel--show': openConversationMobile }">
-        <welcome-chat *ngIf="!isChatRoomVisible$.getValue()"></welcome-chat>
+    <div *ngIf="!whatsappLoading" class="right-panel" [ngClass]="{ 'right-panel--show': openConversationMobile }">
+        <welcome-chat *ngIf="!isChatRoomVisible"></welcome-chat>
         <chat-room
             #chatRoom
-            *ngIf="isChatRoomVisible$.getValue()"
+            *ngIf="isChatRoomVisible"
             [events]="scrollDownEvent.asObservable()"
-            [(chatRoom)]="chatRoomSelected"
+            [chathandler]="chathandler"
+            [(room)]="roomSelected"
             (sendMessageEvent)="onSendingMessage($event)"
             (goBackToChatList)="openConversationMobile = false"
-            (finishChatRoom)="onFinishChatRoom($event)"
+            (finishRoom)="onFinishRoom($event)"
         ></chat-room>
-    </div> -->
+    </div>
 </div>

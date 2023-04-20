@@ -30,6 +30,10 @@ export class ChatRoom {
         });
     }
 
+    public findThreadById(messageId: string): ThreadMessage | undefined {
+        return this.threads.find((thread: ThreadMessage) => thread.id === messageId);
+    }
+
     public removeThreadById(id: string): boolean {
         const threadIndex: number = this.threads.findIndex((thread: ThreadMessage) => thread.id === id);
         if (threadIndex === -1) return false;
@@ -51,4 +55,13 @@ export class ChatRoom {
             firstMessageDate = new Date(thread.createdAt);
         }
     }
+
+    // public updateUnreadMessages(): void {
+    //     const unreadThreads: ThreadMessage[] = this.getUnreadThreads();
+    //     for (const unreadThread of unreadThreads) {
+    //         const threadIndex: number = this.threads.findIndex((thread: ThreadMessage) => thread.id === unreadThread.id);
+    //         if (threadIndex === -1) continue;
+    //         this.threads[threadIndex].readByManager = true;
+    //     }
+    // }
 }

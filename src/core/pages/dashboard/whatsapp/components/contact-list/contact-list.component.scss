@@ -121,7 +121,7 @@
             flex-direction: column;
             align-items: baseline;
             justify-content: flex-start;
-            padding: 1.5rem;
+            padding: 1rem 1.5rem;
             border-bottom: 1px solid var(--neutral-300);
 
             &:hover {
@@ -134,7 +134,7 @@
                 flex-direction: row;
                 align-items: baseline;
                 justify-content: flex-start;
-                margin-bottom: 1rem;
+                margin-bottom: 0.5rem;
             }
 
             .item-body {

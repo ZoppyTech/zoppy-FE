@@ -34,18 +34,32 @@
     </div>
 
     <div class="filters" [ngClass]="{ 'filters--close': isCollapsedFilter }">
-        <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
-            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12">não lidas</span>
-        </div>
-        <div
-            (click)="selectFilter('in-progress')"
-            class="flex-row item clickable"
-            [ngClass]="{ 'item--in-progress': filters.get('in-progress') }"
-        >
-            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12">em andamento</span>
-        </div>
-        <div (click)="selectFilter('finished')" class="flex-row item clickable" [ngClass]="{ 'item--finished': filters.get('finished') }">
-            <span class="label text-500 text-12">concluídas</span>
+        <div class="filter-item">
+            <div
+                *ngIf="isAdmin"
+                (click)="selectFilter('waiting')"
+                class="flex-row item clickable"
+                [ngClass]="{ 'item--waiting': filters.get('waiting') }"
+            >
+                <span class="label text-500 text-12">esperando</span>
+            </div>
+            <div
+                (click)="selectFilter('in-progress')"
+                class="flex-row item clickable"
+                [ngClass]="{ 'item--in-progress': filters.get('in-progress') }"
+            >
+                <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12">em andamento</span>
+            </div>
+            <div
+                (click)="selectFilter('finished')"
+                class="flex-row item clickable"
+                [ngClass]="{ 'item--finished': filters.get('finished') }"
+            >
+                <span class="label text-500 text-12">concluídas</span>
+            </div>
+            <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
+                <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12">não lidas</span>
+            </div>
         </div>
     </div>
 
@@ -103,7 +117,15 @@
                         <ps-icon class="font-12 reply-icon" icon="icon-reply"></ps-icon>
                     </div>
                 </div>
-                <div class="item-content" *ngIf="conversation[1].threads.length > 0">
+                <div
+                    class="item-content"
+                    [ngStyle]="{
+                        'justify-content': conversation[1].threads[conversation[1].threads.length - 1].isBusiness
+                            ? 'flex-start'
+                            : 'space-between'
+                    }"
+                    *ngIf="conversation[1].threads.length > 0"
+                >
                     <span
                         class="viewed-icon"
                         [ngClass]="{
@@ -111,10 +133,7 @@
                             'viewed-icon--customer-user': !conversation[1].threads[conversation[1].threads.length - 1].isBusiness
                         }"
                     >
-                        <span
-                            *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status !== 'forwarded'"
-                            class="margin-right-1"
-                        >
+                        <span *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status !== 'forwarded'">
                             <ps-icon
                                 *ngIf="
                                     conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered' ||

@@ -1,9 +1,14 @@
-import { DateUtil, WhatsappConstants } from '@ZoppyTech/utilities';
-import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
-import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
-import { WhatsappComponent } from '../whatsapp.component';
-import { ChatRoom } from '../models/chat-room';
 import { BehaviorSubject } from 'rxjs';
+import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
+import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
+import { ChatRoom } from '../models/chat-room';
+import { ThreadMessage } from '../models/thread-message';
+import { WhatsappComponent } from '../whatsapp.component';
+import { ChatSocketData } from '../models/chat-socket-data';
+import { WebSocketConstants } from '@ZoppyTech/utilities';
+import { ChatFilters } from '../models/chat-filters';
+import { ChatAccount } from '../models/chat-account';
+import { ChatManager } from '../models/chat-manager';
 
 export class ChatHandler {
     protected component: WhatsappComponent;
@@ -13,16 +18,48 @@ export class ChatHandler {
         return new ChatHandler(component);
     }
 
-    public get rooms(): Map<string, ChatRoom> {
-        return this.component.rooms;
+    // public get rooms(): Map<string, ChatRoom> {
+    //     return this.component.rooms;
+    //     switch (this.component.selectedFilter) {
+    //         case ChatFilters.Unread:
+    //             return this.component.unreadRooms;
+    //         case ChatFilters.InProgress:
+    //             return this.component.inprogressRooms;
+    //         case ChatFilters.Finished:
+    //             return this.component.finishedRooms;
+    //         default:
+    //             return this.component.rooms;
+    //     }
+    // }
+
+    // public set rooms(rooms: Map<string, ChatRoom>) {
+    //     debugger;
+    //     switch (this.component.selectedFilter) {
+    //         case ChatFilters.Unread:
+    //             this.component.rooms = this.component.unreadRooms = rooms;
+    //             break;
+    //         case ChatFilters.InProgress:
+    //             this.component.rooms = this.component.inprogressRooms = rooms;
+    //             break;
+    //         case ChatFilters.Finished:
+    //             this.component.rooms = this.component.finishedRooms = rooms;
+    //             break;
+    //         default:
+    //             this.component.rooms = rooms;
+    //     }
+    // }
+
+    public get account(): ChatAccount {
+        return this.component.account;
     }
 
-    public set rooms(rooms: Map<string, ChatRoom>) {
-        this.component.rooms = rooms;
+    public get rootManager(): ChatManager {
+        return this.component.manager;
     }
 
     public fillRooms(conversations: WhatsappConversationEntity[]): void {
         debugger;
+
         this.component.rooms = this.component.chatMapper.mapRooms(conversations);
     }
 
@@ -42,7 +79,8 @@ export class ChatHandler {
     public removeRoom(contactId: string): void {
         this.component.rooms.delete(contactId);
         this.component.roomSelected = new ChatRoom();
-        this.component.isChatRoomVisible$ = new BehaviorSubject(false);
+        this.component.isChatRoomVisible = false;
+        this.updateChatList();
     }
 
     public sortRoomsByMostRecentMessages(): void {
@@ -66,5 +104,21 @@ export class ChatHandler {
         const sortByMostRecent: Array<[string, ChatRoom]> = this.toArray();
         sortByMostRecent.unshift([room.contact.id, room]);
         this.component.rooms = new Map(sortByMostRecent);
+    }
+
+    public updateChatList(): void {
+        console.log(this.component.rooms);
+        this.component.rooms = new Map(this.component.rooms.entries());
+    }
+
+    public updateUnreadMessages(room: ChatRoom): void {
+        const unreadMessages: ThreadMessage[] = room.getUnreadThreads();
+        for (const unreadMessage of unreadMessages) {
+            unreadMessage.readByManager = true;
+            const socketData: ChatSocketData = { action: 'update', message: new WhatsappMessageEntity() };
+            socketData.message.id = unreadMessage.id;
+            socketData.message.userId = this.component.user.id;
+            this.component.webSocketService.emit(WebSocketConstants.CHAT_EVENTS.UPDATE, socketData);
+        }
     }
 }

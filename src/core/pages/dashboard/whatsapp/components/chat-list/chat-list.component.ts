@@ -29,7 +29,8 @@ export class ChatListComponent implements OnInit, OnChanges {
     public filters: Map<string, boolean> = new Map([
         [ChatFilters.InProgress, true],
         [ChatFilters.Finished, false],
-        [ChatFilters.Unread, false]
+        [ChatFilters.Unread, false],
+        [ChatFilters.Waiting, false]
     ]);
 
     public ngOnInit(): void {

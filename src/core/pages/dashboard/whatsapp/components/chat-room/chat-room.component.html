@@ -92,7 +92,7 @@
             </div>
             <div
                 class="templates-button clickable"
-                [ngStyle]="{ 'background-color': footerOptions.get('messageTemplateOption') ? '#f3f3f3' : 'transparent' }"
+                [ngStyle]="{ 'background-color': footerOptions.get('messageTemplateOption') ? '#d1d7db' : 'transparent' }"
                 [ngClass]="{
                     'templates-button--active': footerOptions.get('messageTemplateOption'),
                     'templates-button--highlight': !latestConversation.sessionExpiration
@@ -124,7 +124,7 @@
                 (click)="selectFooterOptions('attachFileOption', !this.footerOptions.get('attachFileOption'))"
                 class="attach-file-button clickable"
                 [ngClass]="{ 'active-color': footerOptions.get('attachFileOption') }"
-                [ngStyle]="{ 'background-color': footerOptions.get('attachFileOption') ? '#f3f3f3' : 'transparent' }"
+                [ngStyle]="{ 'background-color': footerOptions.get('attachFileOption') ? '#d1d7db' : 'transparent' }"
             >
                 <ps-icon class="font-16" icon="icon-attach_file"></ps-icon>
             </div>

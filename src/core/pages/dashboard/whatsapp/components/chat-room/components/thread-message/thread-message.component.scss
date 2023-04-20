@@ -44,14 +44,14 @@
                     font-weight: 400;
                     justify-content: flex-end;
                     align-items: flex-end;
-                    color: var(--secondary);
+                    color: #5d6dbb;
                 }
 
                 &--customer-user {
                     font-weight: 400;
                     justify-content: flex-start;
                     align-items: flex-start;
-                    color: var(--secondary);
+                    color: #b670ff;
                 }
             }
 
@@ -150,7 +150,7 @@
             }
 
             .card-footer {
-                height: 0.75rem;
+                height: 4px;
                 width: 100%;
                 display: flex;
                 flex-direction: row;
@@ -160,6 +160,7 @@
 
                 .datetime {
                     position: absolute;
+                    font-size: 0.688rem;
                     right: 12px;
                     bottom: 3px;
                     font-weight: 400;
@@ -216,7 +217,7 @@
             width: 100%;
             max-width: -webkit-fill-available;
             height: fit-content;
-            padding: 1rem 2.5rem;
+            padding: 0.35rem 0.5rem;
             margin-left: 18rem;
             margin-right: 2.5rem;
 

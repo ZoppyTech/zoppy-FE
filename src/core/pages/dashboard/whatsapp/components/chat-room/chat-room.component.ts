@@ -17,6 +17,7 @@ import { WhatsappUtil } from '../../utils/whatsapp.util';
 import { ChatUtility } from './helpers/chat-utility';
 import { ChatMessageTemplate } from './models/chat-message-template';
 import { ChatMapper } from '../../helpers/chat-mapper';
+import { ChatHandler } from '../../helpers/chat-handler';
 
 @Component({
     selector: 'chat-room',
@@ -24,21 +25,24 @@ import { ChatMapper } from '../../helpers/chat-mapper';
     styleUrls: ['./chat-room.component.scss']
 })
 export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
-    private eventsSubscription: Subscription = new Subscription();
+    @Input() public declare chathandler: ChatHandler;
     @Input() public room: ChatRoom = new ChatRoom();
     @Output() public roomChange: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
     @Output() public sendMessageEvent: EventEmitter<ThreadMessage> = new EventEmitter<ThreadMessage>();
     @Output() public goBackToChatList: EventEmitter<void> = new EventEmitter<void>();
-    @Output() public finishChatRoom: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
+    @Output() public finishRoom: EventEmitter<string> = new EventEmitter<string>();
     @Input() public events: Observable<void> = new Observable();
 
     @ViewChild('inputFileImage') public inputFileImage: any;
     @ViewChild('inputFileDocument') public inputFileDocument: any;
 
+    private eventsSubscription: Subscription = new Subscription();
     public latestConversation: WhatsappConversationEntity = new WhatsappConversationEntity();
     public messageTemplates: Array<ChatMessageTemplate> = [];
     public messageTemplatesReplaced: Array<ChatMessageTemplate> = [];
     public messageTemplateSelected: ChatMessageTemplate | null = null;
+
+    public declare uploadFileInput: UploadFileInput;
 
     public scrollerElement: HTMLElement | null = null;
     public scrollerHandler: any = null;
@@ -52,16 +56,14 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public isLastMessage: boolean = false;
     public messagesLoading: boolean = false;
     public messageTemplatesLoading: boolean = false;
-    public countdownTimerVisible: boolean = false;
     public finishConversationLoading: boolean = false;
+    public countdownTimerVisible: boolean = false;
     public rightPanelVisible: boolean = false;
 
     public footerOptions: Map<string, boolean> = new Map([
         ['attachFileOption', false],
         ['messageTemplateOption', false]
     ]);
-
-    public declare uploadFileInput: UploadFileInput;
 
     public constructor(
         public readonly chatMapper: ChatMapper,
@@ -79,7 +81,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.seeLastMessage();
         await this.loadLatestConversation();
         await this.loadMessageTemplates();
-        //'Chat Room initialized!');
+        //this.room.updateUnreadMessages();
     }
 
     public selectFooterOptions(optionName: string, value: boolean): void {
@@ -177,6 +179,22 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         );
     }
 
+    public editContactModal(): void {
+        this.modal.open(
+            Modal.IDENTIFIER.CHAT_CONTACT,
+            {
+                id: this.room.contact.id,
+                firstName: this.room.contact.firstName,
+                lastName: this.room.contact.lastName,
+                phone: WhatsappUtil.removeCountryCode(this.room.contact.displayPhone),
+                isBlocked: this.room.contact.isBlocked
+            },
+            (updatedContact: any) => {
+                this.room.contact = this.chatMapper.mapContact(updatedContact);
+            }
+        );
+    }
+
     public async loadMessageTemplates(): Promise<void> {
         try {
             this.messageTemplatesLoading = true;
@@ -250,22 +268,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.messageInput = '';
     }
 
-    public editContactModal(): void {
-        this.modal.open(
-            Modal.IDENTIFIER.CHAT_CONTACT,
-            {
-                id: this.room.contact.id,
-                firstName: this.room.contact.firstName,
-                lastName: this.room.contact.lastName,
-                phone: WhatsappUtil.removeCountryCode(this.room.contact.displayPhone),
-                isBlocked: this.room.contact.isBlocked
-            },
-            (updatedContact: any) => {
-                this.room.contact = this.chatMapper.mapContact(updatedContact);
-            }
-        );
-    }
-
     public async transferConversation(): Promise<void> {
         this.modal.open(
             Modal.IDENTIFIER.CHAT_CONVERSATION_TRANSFER_MODAL,
@@ -277,7 +279,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 wppAccountId: this.room.companyId // TODO: ARRUMAR ISSO AQUI!!!
             },
             (conversation: any) => {
-                this.finishChatRoom.emit(this.room);
+                debugger;
+                this.finishRoom.emit(this.room.contact.id);
                 this.toast.success('Conversa transferida com sucesso!', WhatsappConstants.ToastTitles.Success);
             }
         );
@@ -293,7 +296,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 wppManagerId: this.room?.manager?.id ?? ''
             };
             await this.wppConversationService.finish(this.latestConversation.id, request);
-            this.finishChatRoom.emit(this.room);
+            debugger;
+            this.finishRoom.emit(this.room.contact.id);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -343,15 +347,20 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private replaceMessageTemplatesVariables(): void {
-        // this.messageTemplatesReplaced = this.messageTemplates.map((messageTemplate: ChatMessageTemplate) => {
-        //     return {
-        //         ...messageTemplate,
-        //         content: WhatsappUtil.replaceVariablesFromTemplateMessage(
-        //             messageTemplate.content,
-        //             WhatsappUtil.getMessageTemplateParams(messageTemplate.name, this.room)
-        //         )
-        //     };
-        // });
+        this.messageTemplatesReplaced = this.messageTemplates.map((messageTemplate: ChatMessageTemplate) => {
+            return {
+                ...messageTemplate,
+                content: WhatsappUtil.replaceVariablesFromTemplateMessage(
+                    messageTemplate.content,
+                    WhatsappUtil.getMessageTemplateParams(
+                        messageTemplate.name,
+                        this.chathandler.account,
+                        this.chathandler.rootManager,
+                        this.room.contact
+                    )
+                )
+            };
+        });
     }
 
     @HostListener('document:keydown.enter', ['$event']) public onKeydownHandler(event: KeyboardEvent) {
