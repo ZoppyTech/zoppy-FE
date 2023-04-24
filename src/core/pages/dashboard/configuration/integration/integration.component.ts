@@ -60,6 +60,8 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
             AppConstants.PROVIDERS.NUVEMSHOP,
             AppConstants.PROVIDERS.DOOCA,
             AppConstants.PROVIDERS.SHOPIFY,
+            AppConstants.PROVIDERS.MOVERE,
+            AppConstants.PROVIDERS.ONE_CHAT,
             'bagy',
             'whatsapp'
         ].includes(this.provider);
@@ -132,6 +134,20 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
                 description: 'Possui loja na Bagy? Faça a integração com a Zoppy agora mesmo!',
                 active: !!(this.company?.provider === 'bagy' && this.key?.id),
                 provider: 'bagy'
+            },
+            {
+                name: 'OneChat',
+                image: '',
+                description: 'Possui loja na OneChat? Faça a integração com a Zoppy agora mesmo!',
+                active: !!(this.company?.provider === AppConstants.PROVIDERS.ONE_CHAT && this.key?.id),
+                provider: AppConstants.PROVIDERS.ONE_CHAT
+            },
+            {
+                name: 'Movere',
+                image: '',
+                description: 'Possui loja na Movere? Faça a integração com a Zoppy agora mesmo!',
+                active: !!(this.company?.provider === AppConstants.PROVIDERS.MOVERE && this.key?.id),
+                provider: AppConstants.PROVIDERS.MOVERE
             },
             {
                 name: 'Whatsapp Business',

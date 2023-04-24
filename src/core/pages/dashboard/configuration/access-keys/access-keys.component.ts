@@ -163,6 +163,12 @@ export class AccessKeysComponent extends DashboardBasePage implements OnInit {
                     placeholder: 'Insira aqui seu alias'
                 };
                 break;
+            case AppConstants.PROVIDERS.MOVERE:
+                this.adminVariables = {
+                    label: 'Alias',
+                    placeholder: 'Insira aqui seu alias'
+                };
+                break;
         }
     }
 }

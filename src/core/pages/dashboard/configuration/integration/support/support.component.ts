@@ -38,6 +38,10 @@ export class SupportComponent {
                 return this.setBagyForm();
             case 'nuvemshop':
                 return this.setNuvemshopForm();
+            case 'movere':
+                return this.setMovereForm();
+            case 'one-chat':
+                return this.setOneChatForm();
             case 'shopify':
                 return this.setShopifyForm();
         }
@@ -90,6 +94,26 @@ export class SupportComponent {
             link: environment.support,
             description:
                 'A integração com a Nuvemshop é um pouco mais complexa, por isso, sugerimos que você entre em contato com o nosso suporte para obter ajuda nessa integração, aproveite também para tirar suas dúvidas!'
+        };
+    }
+
+    private setMovereForm(): void {
+        this.form = {
+            title: 'Movere',
+            label: 'Cadastrar chaves na Movere',
+            link: environment.support,
+            description:
+                'A integração com a Movere é um pouco mais complexa, por isso, sugerimos que você entre em contato com o nosso suporte para obter ajuda nessa integração, aproveite também para tirar suas dúvidas!'
+        };
+    }
+
+    private setOneChatForm(): void {
+        this.form = {
+            title: 'OneChat',
+            label: 'Cadastrar chaves na OneChat',
+            link: environment.support,
+            description:
+                'A integração com a OneChat é um pouco mais complexa, por isso, sugerimos que você entre em contato com o nosso suporte para obter ajuda nessa integração, aproveite também para tirar suas dúvidas!'
         };
     }
 }
