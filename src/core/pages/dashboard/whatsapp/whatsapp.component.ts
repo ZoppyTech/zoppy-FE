@@ -171,6 +171,15 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             if (response.message.wppContactId !== this.roomSelected.contact.id) return;
             this.destroyAndReload();
         };
+        this.chatSocket.onUpdateRoomManager = (response: any) => {
+            debugger;
+            if (response.message.companyId !== this.account.companyId) return;
+            if (!this.isAdmin) return;
+            const targetRoom: ChatRoom | undefined = this.rooms.get(response.message.wppContactId);
+            if (!targetRoom) return;
+            targetRoom.threads[targetRoom.threads.length - 1].senderName = response.message.senderName;
+            this.chathandler.updateChatList();
+        };
         this.chatSocket.listen();
     }
 
@@ -189,6 +198,11 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             }
             const request: WhatsappTextMessageRequest = this.buildTextMessageRequestFrom(thread);
             await this.wppMessageService.createTextMessage(request);
+
+            //TODO: Atualizar o gerente da sala
+            // if (!this.roomSelected.manager) {
+            //     this.updateRoomManager();
+            // }
         } catch (ex: any) {
             this.roomSelected.removeThreadById(thread.id);
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -216,10 +230,10 @@ export class WhatsappComponent implements OnInit, OnDestroy {
 
     public onConversationSelected(room: ChatRoom): void {
         debugger;
-        if (this.roomSelected && this.roomSelected.contact.id === room.contact.id) {
-            this.roomSelected.actived = true;
-            return;
-        }
+        // if (this.roomSelected && this.roomSelected.contact.id === room.contact.id) {
+        //     this.roomSelected.actived = true;
+        //     return;
+        // }
         if (this.roomSelected) this.roomSelected.actived = false;
         this.roomSelected = room;
         this.roomSelected.actived = true;
@@ -243,16 +257,27 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.webSocketService.emit('update_new_conversation_count', socketData);
     }
 
+    public updateRoomManager(): void {
+        const socketData: ChatSocketData = {
+            action: 'get_room_manager',
+            message: { wppManagerId: this.manager.id, companyId: this.account.companyId } as WhatsappMessageEntity
+        };
+        this.webSocketService.emit('update_room_manager', socketData);
+    }
+
     public async onPullNewConversationButtonClicked(): Promise<void> {
         try {
             if (this.pullLoading) return;
             this.pullLoading = true;
             const entity: WhatsappConversationEntity = await this.wppConversationService.pull();
+            const newRoom: ChatRoom = this.chathandler.addRoom(entity);
+            this.chathandler.setRoomAsMostRecent(newRoom);
+            this.onConversationSelected(newRoom);
             this.updateNewConversationCount();
-            //const newConversation: [string, ChatRoom] = WhatsappMapper.mapConversation(this.account, this.manager, entity.messages);
-            // this.setRoomAsMostRecent(newConversation[1]);
-            // this.onConversationSelected(newConversation[1]);
-            //this.updateConversations(this.getConversations());
+            //TODO: Atualizar o gerente da sala
+            // if (!this.roomSelected.manager) {
+            //     this.updateRoomManager();
+            // }
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -265,6 +290,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.filterLoading = true;
         switch (filter) {
             case ChatFilters.Unread:
+                await this.loadConversations();
                 this.filterUnreadConversations();
                 break;
             case ChatFilters.Finished:

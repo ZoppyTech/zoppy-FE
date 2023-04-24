@@ -14,6 +14,7 @@ export class ChatSocket {
     public declare onReceive: (message: any) => void;
     public declare onTransferRoom: (message: any) => void;
     public declare onUpdateCurrentRoom: (message: any) => void;
+    public declare onUpdateRoomManager: (message: any) => void;
 
     public setWebsocketService(wsService: WebSocketService) {
         this.webSocketService = wsService;
@@ -50,6 +51,9 @@ export class ChatSocket {
                     break;
                 case WebSocketConstants.CHAT_ACTIONS.UPDATE_CURRENT_CHAT_ROOM:
                     this.onUpdateCurrentRoom(response);
+                    break;
+                case 'get_room_manager':
+                    this.onUpdateRoomManager(response);
                     break;
             }
         });

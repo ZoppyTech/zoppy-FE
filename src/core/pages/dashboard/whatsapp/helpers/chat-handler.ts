@@ -14,40 +14,8 @@ export class ChatHandler {
     protected component: WhatsappComponent;
 
     public static create(component: WhatsappComponent): ChatHandler {
-        debugger;
         return new ChatHandler(component);
     }
-
-    // public get rooms(): Map<string, ChatRoom> {
-    //     return this.component.rooms;
-    //     switch (this.component.selectedFilter) {
-    //         case ChatFilters.Unread:
-    //             return this.component.unreadRooms;
-    //         case ChatFilters.InProgress:
-    //             return this.component.inprogressRooms;
-    //         case ChatFilters.Finished:
-    //             return this.component.finishedRooms;
-    //         default:
-    //             return this.component.rooms;
-    //     }
-    // }
-
-    // public set rooms(rooms: Map<string, ChatRoom>) {
-    //     debugger;
-    //     switch (this.component.selectedFilter) {
-    //         case ChatFilters.Unread:
-    //             this.component.rooms = this.component.unreadRooms = rooms;
-    //             break;
-    //         case ChatFilters.InProgress:
-    //             this.component.rooms = this.component.inprogressRooms = rooms;
-    //             break;
-    //         case ChatFilters.Finished:
-    //             this.component.rooms = this.component.finishedRooms = rooms;
-    //             break;
-    //         default:
-    //             this.component.rooms = rooms;
-    //     }
-    // }
 
     public get account(): ChatAccount {
         return this.component.account;
@@ -58,8 +26,6 @@ export class ChatHandler {
     }
 
     public fillRooms(conversations: WhatsappConversationEntity[]): void {
-        debugger;
-
         this.component.rooms = this.component.chatMapper.mapRooms(conversations);
     }
 
@@ -68,12 +34,14 @@ export class ChatHandler {
     }
 
     public toArray(): Array<[string, ChatRoom]> {
-        debugger;
         return Array.from(this.component.rooms.entries());
     }
 
     public addRoom(conversation: WhatsappConversationEntity): ChatRoom {
-        return new ChatRoom();
+        const newRoom: ChatRoom = this.component.chatMapper.mapRoom(conversation);
+        this.component.rooms.set(conversation.wppContactId, newRoom);
+        this.updateChatList();
+        return newRoom;
     }
 
     public removeRoom(contactId: string): void {
@@ -107,7 +75,6 @@ export class ChatHandler {
     }
 
     public updateChatList(): void {
-        console.log(this.component.rooms);
         this.component.rooms = new Map(this.component.rooms.entries());
     }
 
