@@ -16,4 +16,5 @@ export type ChatAction =
     | 'chat_transfer'
     | 'update_current_chat_room'
     | 'update_new_conversation_count'
-    | 'get_room_manager';
+    | 'get_room_manager'
+    | 'finished_conversation';

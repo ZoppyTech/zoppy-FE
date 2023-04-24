@@ -4,6 +4,7 @@ import { ChatManager } from './chat-manager';
 import { ThreadMessage } from './thread-message';
 
 export class ChatRoom {
+    public declare id: string;
     public declare ticket: string;
     public declare sessionExpiration: string | null;
     public declare createdAt: Date;

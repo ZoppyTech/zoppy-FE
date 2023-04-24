@@ -24,7 +24,6 @@ export class ChatMapper {
         const mappedRooms: Map<string, ChatRoom> = new Map();
         for (const room of rooms) {
             const newRoom: ChatRoom = this.mapRoom(room);
-            newRoom.setFirstMessagesOfDay();
             mappedRooms.set(room.wppContactId, newRoom);
         }
         return mappedRooms;
@@ -32,6 +31,7 @@ export class ChatMapper {
 
     public mapRoom(conversationEntity: WhatsappConversationEntity): ChatRoom {
         const room: ChatRoom = new ChatRoom();
+        room.id = conversationEntity.id;
         room.ticket = conversationEntity.ticket;
         room.sessionExpiration = conversationEntity.sessionExpiration;
         room.createdAt = conversationEntity.createdAt;
@@ -42,6 +42,7 @@ export class ChatMapper {
         room.threads = this.mapMessages(conversationEntity.messages);
         room.unreadThreads = [];
         room.actived = false;
+        room.setFirstMessagesOfDay();
         return room;
     }
 

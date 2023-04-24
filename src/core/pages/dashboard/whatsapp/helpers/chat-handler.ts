@@ -17,6 +17,10 @@ export class ChatHandler {
         return new ChatHandler(component);
     }
 
+    public get isAdmin(): boolean {
+        return this.component.isAdmin;
+    }
+
     public get account(): ChatAccount {
         return this.component.account;
     }
@@ -87,5 +91,29 @@ export class ChatHandler {
             socketData.message.userId = this.component.user.id;
             this.component.webSocketService.emit(WebSocketConstants.CHAT_EVENTS.UPDATE, socketData);
         }
+    }
+
+    public updateRoomManager(): void {
+        const socketData: ChatSocketData = {
+            action: 'get_room_manager',
+            message: { wppManagerId: this.rootManager.id, companyId: this.account.companyId } as WhatsappMessageEntity
+        };
+        this.component.webSocketService.emit('update_room_manager', socketData);
+    }
+
+    public updateNewConversationCount(): void {
+        const socketData: ChatSocketData = {
+            action: 'new_conversation_count',
+            message: { companyId: this.account.companyId } as WhatsappMessageEntity
+        };
+        this.component.webSocketService.emit('update_new_conversation_count', socketData);
+    }
+
+    public updateFinishedConversation(contactId: string): void {
+        const socketData: ChatSocketData = {
+            action: 'finished_conversation',
+            message: { wppContactId: contactId, companyId: this.account.companyId } as WhatsappMessageEntity
+        };
+        this.component.webSocketService.emit('update_finished_conversation', socketData);
     }
 }

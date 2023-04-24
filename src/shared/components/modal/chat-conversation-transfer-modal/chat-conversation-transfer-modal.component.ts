@@ -36,7 +36,10 @@ export class ChatConversationTransferModalComponent implements OnInit {
             if (this.managersLoading) return;
             this.managersLoading = true;
             const entities: WhatsappAccountManagerEntity[] = await this.wppAccountManagerService.list(this.modal.data.wppAccountId);
-            this.mapToView(entities);
+            const filteredEntities: WhatsappAccountManagerEntity[] = entities.filter((manager: WhatsappAccountManagerEntity) => {
+                return manager.id !== this.modal.data.wppManagerId;
+            });
+            this.mapToView(filteredEntities);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);

@@ -109,6 +109,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             WhatsappConversationEntity.validateSessionExpiration(this.latestConversation);
         } catch (error: any) {
             this.latestConversation = new WhatsappConversationEntity();
+            error = error as ZoppyException;
+            this.toast.error(error.message, WhatsappConstants.ToastTitles.Error);
         } finally {
             this.countdownTimerVisible = true;
         }
@@ -272,15 +274,15 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.modal.open(
             Modal.IDENTIFIER.CHAT_CONVERSATION_TRANSFER_MODAL,
             {
-                id: this.latestConversation.id,
-                ticket: this.latestConversation.ticket,
-                wppContactId: this.latestConversation.wppContactId,
-                wppManagerId: this.latestConversation.wppManagerId,
+                id: this.room.id,
+                ticket: this.room.ticket,
+                wppContactId: this.room.contact.id,
+                wppManagerId: this.chathandler.rootManager.id,
                 wppAccountId: this.chathandler.account.id
             },
-            (conversation: any) => {
-                debugger;
-                this.finishRoom.emit(this.room.contact.id);
+            (conversation: WhatsappConversationEntity) => {
+                if (!this.chathandler.isAdmin) this.finishRoom.emit(this.room.contact.id);
+                this.room.manager = this.chatMapper.mapManager(conversation.manager);
                 this.toast.success('Conversa transferida com sucesso!', WhatsappConstants.ToastTitles.Success);
             }
         );
@@ -291,12 +293,13 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             if (this.finishConversationLoading) return;
             this.finishConversationLoading = true;
             const request: WhatsappConversationRequest = {
-                ticket: this.latestConversation.ticket,
+                ticket: this.room.ticket,
                 wppContactId: this.room.contact.id,
-                wppManagerId: this.room?.manager?.id ?? ''
+                wppManagerId: this.chathandler.rootManager.id
             };
-            await this.wppConversationService.finish(this.latestConversation.id, request);
-            debugger;
+            await this.wppConversationService.finish(this.room.id, request);
+            this.chathandler.updateNewConversationCount();
+            this.chathandler.updateFinishedConversation(this.room.contact.id);
             this.finishRoom.emit(this.room.contact.id);
         } catch (ex: any) {
             ex = ex as ZoppyException;
