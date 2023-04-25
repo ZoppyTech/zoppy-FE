@@ -75,7 +75,7 @@ export class MessageTemplateService extends ApiService {
     }
 
     public async listGroups(visibility: string): Promise<MessageTemplateGroupEntity[]> {
-        const params: HttpParams = new HttpParams().append(visibility, visibility);
+        const params: HttpParams = new HttpParams().append('visibility', visibility);
         const promise: Promise<MessageTemplateGroupEntity[]> = new Promise((resolve: any, reject: any) => {
             this.get<MessageTemplateGroupEntity[]>(`${this.url}/groups`, params).subscribe(
                 (response: MessageTemplateGroupEntity[]) => resolve(response),
