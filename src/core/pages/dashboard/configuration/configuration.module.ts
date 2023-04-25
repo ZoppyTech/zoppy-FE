@@ -33,11 +33,6 @@ const routes: Routes = [
                 loadChildren: () => import('./whatsapp-config/whatsapp-config.module').then((m: any) => m.WhatsappConfigModule)
             },
             {
-                path: 'whatsapp-template-list',
-                loadChildren: () =>
-                    import('./whatsapp-template-list/whatsapp-template-list.module').then((m: any) => m.WhatsappTemplateListModule)
-            },
-            {
                 path: 'giftbacks',
                 loadChildren: () => import('./giftbacks/giftbacks.module').then((m: any) => m.GiftbacksModule)
             }
