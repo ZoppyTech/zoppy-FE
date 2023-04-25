@@ -49,6 +49,7 @@ export class FormComponent extends DashboardBasePage implements OnInit {
     }
 
     public async ngOnInit() {
+        console.log('test');
         this.route.paramMap.subscribe(async (paramMap: any) => {
             this.company = this.storage.getCompany() as CompanyEntity;
             this.tab = paramMap.get('tab');
