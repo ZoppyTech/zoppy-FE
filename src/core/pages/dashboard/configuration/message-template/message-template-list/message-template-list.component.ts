@@ -10,6 +10,7 @@ import { Navigation } from 'src/shared/utils/navigation';
 import { DashboardBasePage } from 'src/core/pages/dashboard/dashboard.base.page';
 import { MessageTemplateGroupEntity } from 'src/shared/models/entities/message-template-group.entity';
 import { MessageTemplateService } from 'src/shared/services/message-template/message-template.service';
+import { WhatsappConstants } from '@ZoppyTech/utilities';
 
 @Component({
     selector: 'app-message-template-list',
@@ -57,7 +58,7 @@ export class MessageTemplateListComponent extends DashboardBasePage implements O
 
     public async fetchData(): Promise<void> {
         try {
-            this.groups = await this.messageTemplateService.listGroups();
+            this.groups = await this.messageTemplateService.listGroups(WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.ALL);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os grupos de templates de mensagem');

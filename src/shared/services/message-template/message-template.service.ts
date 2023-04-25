@@ -1,7 +1,7 @@
 import { MessageTemplateGroupRequest } from './../../models/requests/message-template/message-template-group.request';
 import { MessageTemplateGroupEntity } from './../../models/entities/message-template-group.entity';
 import { BooleanResponse } from './../api.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -74,9 +74,10 @@ export class MessageTemplateService extends ApiService {
         return promise;
     }
 
-    public async listGroups(): Promise<MessageTemplateGroupEntity[]> {
+    public async listGroups(visibility: string): Promise<MessageTemplateGroupEntity[]> {
+        const params: HttpParams = new HttpParams().append(visibility, visibility);
         const promise: Promise<MessageTemplateGroupEntity[]> = new Promise((resolve: any, reject: any) => {
-            this.get<MessageTemplateGroupEntity[]>(`${this.url}/groups`).subscribe(
+            this.get<MessageTemplateGroupEntity[]>(`${this.url}/groups`, params).subscribe(
                 (response: MessageTemplateGroupEntity[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

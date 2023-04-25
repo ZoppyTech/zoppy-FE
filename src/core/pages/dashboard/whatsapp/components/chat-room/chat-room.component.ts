@@ -8,7 +8,6 @@ import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-
 import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
 import { WhatsappConversationRequest } from 'src/shared/models/requests/whatsapp-conversation/whatsapp-conversation.request';
 import { ZoppyException } from 'src/shared/services/api.service';
-import { WhatsappBusinessManagementService } from 'src/shared/services/whatsapp-business-management/whatsapp-business-management.service';
 import { WhatsappConversationService } from 'src/shared/services/whatsapp-conversation/whatsapp-conversation.service';
 import { WhatsappMediaService } from 'src/shared/services/whatsapp-media/whatsapp-media.service';
 import { ChatRoom } from '../../models/chat-room';
@@ -17,6 +16,7 @@ import { WhatsappUtil } from '../../utils/whatsapp.util';
 import { WhatsappMapper } from '../../whatsapp-mapper';
 import { ChatUtility } from './helpers/chat-utility';
 import { ChatMessageTemplate } from './models/chat-message-template';
+import { MessageTemplateService } from 'src/shared/services/message-template/message-template.service';
 
 @Component({
     selector: 'chat-room',
@@ -65,7 +65,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public constructor(
         public readonly wppConversationService: WhatsappConversationService,
-        public readonly wppBusinessManagementService: WhatsappBusinessManagementService,
+        public readonly messageTemplateService: MessageTemplateService,
         public readonly wppMediaService: WhatsappMediaService,
         public readonly toast: ToastService,
         public readonly confirmActionService: ConfirmActionService,
@@ -181,15 +181,15 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public async loadMessageTemplates(): Promise<void> {
         try {
             this.messageTemplatesLoading = true;
-            const entities: WhatsappMessageTemplateEntity[] = await this.wppBusinessManagementService.list(
-                WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.USER
-            );
-            this.messageTemplates = entities.map((entity: WhatsappMessageTemplateEntity) => {
-                return {
-                    ...entity,
-                    isSuggested: false
-                };
-            });
+            // const entities: WhatsappMessageTemplateEntity[] = await this.messageTemplateService.listGroups(
+            //     WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.USER
+            // );
+            // this.messageTemplates = entities.map((entity: WhatsappMessageTemplateEntity) => {
+            //     return {
+            //         ...entity,
+            //         isSuggested: false
+            //     };
+            // });
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
