@@ -35,6 +35,10 @@ const routes: Routes = [
             {
                 path: 'giftbacks',
                 loadChildren: () => import('./giftbacks/giftbacks.module').then((m: any) => m.GiftbacksModule)
+            },
+            {
+                path: 'batch-upload',
+                loadChildren: () => import('./batch-upload-orders/batch-upload-orders.module').then((m: any) => m.BatchUploadOrdersModule)
             }
         ]
     }

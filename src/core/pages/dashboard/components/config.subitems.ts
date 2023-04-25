@@ -97,6 +97,13 @@ export class ConfigSubItems {
                 label: 'Configuração do Whatsapp',
                 route: Navigation.routes.whatsappConfig,
                 visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER]) && !CompanyUtil.isTray(company)
+            },
+            {
+                id: 'batchUpload',
+                icon: 'icon-arrow',
+                label: 'Upload de Planilhas',
+                route: Navigation.routes.batchUpload,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER]) && !CompanyUtil.isTray(company)
             }
         ];
     }

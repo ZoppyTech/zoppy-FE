@@ -21,8 +21,6 @@ export class Navigation {
         accessKeys: '/dashboard/configurations/access-keys',
         accessTokens: '/dashboard/access-tokens',
         coupons: '/dashboard/configurations/coupons',
-        batchUpload: '/dashboard/configurations/batch-upload',
-        syncData: '/dashboard/configurations/sync-data',
 
         integrations: '/dashboard/configurations/integrations ',
         automations: '/dashboard/configurations/automations ',
@@ -31,7 +29,9 @@ export class Navigation {
         messageTemplateList: '/dashboard/configurations/templates/list',
         messageTemplateConfig: '/dashboard/configurations/templates/config',
         whatsappConfig: '/dashboard/configurations/whatsapp-setup',
+        syncData: '/dashboard/configurations/sync-data',
         giftback: '/dashboard/configurations/giftbacks',
+        batchUpload: '/dashboard/configurations/batch-upload',
 
         whatsapp: '/dashboard/whatsapp',
         products: '/dashboard/products',
