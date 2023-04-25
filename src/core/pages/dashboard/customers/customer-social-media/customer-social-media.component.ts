@@ -256,7 +256,10 @@ export class CustomerSocialMediaComponent implements OnInit {
     public async sendMessage(taskType: string): Promise<void> {
         taskType === 'birthday' ? (this.loadingOpenLinkBirthDay = true) : (this.loadingOpenLink = true);
         try {
-            const data: CrmCustomerLinkResponse = await this.crmCustomerService.findWhatsappLink(this.id, taskType);
+            const data: CrmCustomerLinkResponse = await this.crmCustomerService.findWhatsappLink({
+                customerId: this.id,
+                linkTemplateId: taskType
+            });
             window
                 ?.open(`https://api.whatsapp.com/send/?phone=${encodeURIComponent(data.phoneNumber)}&text=${data.text}`, '_blank')
                 ?.focus();
