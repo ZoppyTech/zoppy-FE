@@ -195,10 +195,15 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                     description: entity.description,
                     content: entity.messageTemplates[0]?.text,
                     status: entity.whatsappMessageTemplate?.status,
+                    headerText: entity.whatsappMessageTemplate?.headerMessage,
+                    footerText: entity.whatsappMessageTemplate?.footerMessage,
+                    ctaLabel: entity.whatsappMessageTemplate?.ctaLabel,
+                    ctaLink: entity.whatsappMessageTemplate?.ctaLink,
                     isSuggested: false,
                     createdAt: entity.createdAt
                 };
             });
+            debugger;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -327,6 +332,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             type: WhatsappConstants.MessageType.Template,
             templateName: this.messageTemplateSelected?.name,
             content: this.messageTemplateSelected?.content ?? '',
+            headerText: this.messageTemplateSelected?.headerText ?? '',
+            footerText: this.messageTemplateSelected?.footerText ?? '',
+            ctaLabel: this.messageTemplateSelected?.ctaLabel ?? '',
+            ctaLink: this.messageTemplateSelected?.ctaLink ?? '',
             senderName: this.chatRoom.manager.name,
             readByManager: true,
             status: WhatsappConstants.MESSAGE_STATUS.FORWARDED,
@@ -342,6 +351,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             id: StringUtil.generateUuid(),
             type: WhatsappConstants.MessageType.Text,
             content: this.messageInput,
+            headerText: '',
+            footerText: '',
+            ctaLabel: '',
+            ctaLink: '',
             senderName: this.chatRoom.manager.name,
             status: WhatsappConstants.MESSAGE_STATUS.FORWARDED,
             readByManager: true,

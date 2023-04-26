@@ -75,6 +75,10 @@ export class WhatsappMapper {
         threadMessage.id = messageEntity.id;
         threadMessage.type = messageEntity.type;
         threadMessage.content = messageEntity.content;
+        threadMessage.headerText = messageEntity.headerContent;
+        threadMessage.footerText = messageEntity.footerContent;
+        threadMessage.ctaLabel = messageEntity.ctaLabel;
+        threadMessage.ctaLink = messageEntity.ctaLink;
         threadMessage.status = messageEntity.status;
         threadMessage.isBusiness = messageEntity.origin === WhatsappConstants.MessageOrigin.BusinessInitiated;
         threadMessage.readByManager = threadMessage.isBusiness || !!messageEntity.wppManagerId;

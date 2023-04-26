@@ -50,7 +50,15 @@
                 <audio-message *ngSwitchCase="'audio'" thread-message-content [media]="thread.media"></audio-message>
                 <image-message *ngSwitchCase="'image'" thread-message-content [media]="thread.media"></image-message>
                 <text-message *ngSwitchCase="'text'" thread-message-content [text]="thread.content"></text-message>
-                <text-message *ngSwitchCase="'template'" thread-message-content [text]="thread.content"></text-message>
+                <text-message
+                    *ngSwitchCase="'template'"
+                    [headerText]="thread.headerText"
+                    [footerText]="thread.footerText"
+                    [ctaLabel]="thread.ctaLabel"
+                    [ctaLink]="thread.ctaLink"
+                    thread-message-content
+                    [text]="thread.content"
+                ></text-message>
                 <document-message
                     *ngSwitchCase="'document'"
                     thread-message-content

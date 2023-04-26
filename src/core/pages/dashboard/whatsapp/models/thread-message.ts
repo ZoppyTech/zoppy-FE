@@ -3,6 +3,10 @@ export class ThreadMessage {
     public declare type: string;
     public declare templateName?: string;
     public declare content: string;
+    public declare headerText: string;
+    public declare footerText: string;
+    public declare ctaLink: string;
+    public declare ctaLabel: string;
     public declare status: string;
     public declare senderName: string;
     public declare isBusiness: boolean;

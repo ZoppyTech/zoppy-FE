@@ -16,6 +16,10 @@ export class WhatsappMessageEntity {
     //public declare wppMessageTemplateId?: string;
     //public declare wppMediaMessageId?: string;
     //public declare parentMessageId?: string;
+    public declare headerContent: string;
+    public declare footerContent: string;
+    public declare ctaLabel: string;
+    public declare ctaLink: string;
     public declare createdAt: Date;
     //public declare updatedAt: Date;
     public declare deletedAt?: Date;
