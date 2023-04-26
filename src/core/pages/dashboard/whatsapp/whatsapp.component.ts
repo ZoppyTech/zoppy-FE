@@ -141,10 +141,8 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             this.chathandler.updateUnreadMessages(this.roomSelected);
         };
         this.chatSocket.onTransferRoom = (response: any) => {
-            debugger;
             if (response.message.companyId !== this.account.companyId) return;
             if (!this.isAdmin && response.message.wppManagerId !== this.manager.id) return;
-            //TODO: ANALISAR NECESSIDADE DE TORNAR ESSA FUNCAO ASYNC!
             this.loadConversationByContact(response.message.wppContactId);
         };
         this.chatSocket.onUpdateCurrentRoom = (response: any) => {
@@ -182,7 +180,6 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             const request: WhatsappTextMessageRequest = this.buildTextMessageRequestFrom(thread);
             await this.wppMessageService.createTextMessage(request);
 
-            debugger;
             if (!this.roomSelected.manager) {
                 this.chathandler.updateRoomManager(this.roomSelected);
             }
@@ -339,7 +336,6 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     public async loadConversationByContact(contactId: string): Promise<void> {
         try {
             const entity: WhatsappConversationEntity = await this.wppConversationService.findByContactId(contactId);
-            debugger;
             const newRoom: ChatRoom = this.chathandler.addRoom(entity, true);
             this.chathandler.setRoomAsMostRecent(newRoom);
             this.chathandler.updateNewConversationCount();
