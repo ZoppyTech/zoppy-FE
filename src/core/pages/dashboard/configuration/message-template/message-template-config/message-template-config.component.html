@@ -5,7 +5,10 @@
     </a>
 
     <div class="header space-between align-center">
-        <h6 class="text margin-y-3">{{ group ? 'Editar Mensagem: ' + group.name : 'Nova Mensagem' }}</h6>
+        <div class="flex flex-column margin-y-3">
+            <h6 class="text">{{ group ? 'Editar Mensagem: ' + group.name : 'Nova Mensagem' }}</h6>
+            <span class="text">Altere a mensagem que será enviada para seus clientes</span>
+        </div>
         <ps-button type="secondary" *ngIf="!wppAccount" (onClick)="addNewMessage()">
             <span class="text neutral-100 margin-x-2">Nova Mensagem</span>
         </ps-button>

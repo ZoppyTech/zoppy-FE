@@ -11,7 +11,7 @@ export class ModalService {
     public callback: any = null;
 
     public constructor() {
-        //console.log('instantiate');
+        //no content
     }
 
     public open(name: string, data: any, callback: any = null): void {

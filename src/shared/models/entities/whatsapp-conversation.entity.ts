@@ -13,11 +13,9 @@ export class WhatsappConversationEntity {
     public declare finishedAt: Date;
     public declare deletedAt: Date;
     public declare companyId: string;
-
-    /** INCLUDES */
-    public declare wppAccountManager: WhatsappAccountManagerEntity;
-    public declare wppContact: WhatsappContactEntity;
-    public declare messages: WhatsappMessageEntity[];
+    public manager: WhatsappAccountManagerEntity | null = null;
+    public declare contact: WhatsappContactEntity;
+    public messages: WhatsappMessageEntity[] = [];
 
     public static validateSessionExpiration(entity: WhatsappConversationEntity): WhatsappConversationEntity {
         if (!entity.sessionExpiration) {

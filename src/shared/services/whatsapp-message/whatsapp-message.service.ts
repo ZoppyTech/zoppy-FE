@@ -80,26 +80,4 @@ export class WhatsappMessageService extends ApiService {
         });
         return promise;
     }
-
-    //TODO: Create function to reply message in backend
-    // public async reply(request: WhatsappTextMessageRequest): Promise<WhatsappMessageEntity> {
-    //     const promise: Promise<WhatsappMessageEntity> = new Promise((resolve: any, reject: any) => {
-    //         this.put<WhatsappMessageEntity, WhatsappTextMessageRequest>(`${this.url}/reply`, request).subscribe(
-    //             (response: WhatsappMessageEntity) => resolve(response),
-    //             (error: ZoppyException) => reject(error)
-    //         );
-    //     });
-    //     return promise;
-    // }
-
-    //TODO: Create function to delete message in backend
-    // public async destroy(id: string): Promise<BooleanResponse> {
-    //     const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
-    //         this.delete<BooleanResponse>(`${this.url}/${id}`).subscribe(
-    //             (response: BooleanResponse) => resolve(response),
-    //             (error: ZoppyException) => reject(error)
-    //         );
-    //     });
-    //     return promise;
-    // }
 }

@@ -1,5 +1,5 @@
 export class ThreadMessage {
-    public declare id?: string;
+    public declare id: string;
     public declare type: string;
     public declare templateName?: string;
     public declare content: string;
@@ -12,7 +12,7 @@ export class ThreadMessage {
     public declare isBusiness: boolean;
     public declare readByManager: boolean;
     public declare isFirstMessageOfDay: boolean;
-    public declare media?: ThreadMediaMessage;
+    public media?: ThreadMediaMessage | null = null;
     public declare companyId: string;
     public declare createdAt: Date;
     public deletedAt?: Date | null = null;
@@ -23,6 +23,5 @@ export class ThreadMediaMessage {
     public declare url: string;
     public declare caption: string;
     public declare mimeType: string;
-    public declare sha256: string;
-    public declare fileSize: number;
+    public fileSize: number = 0;
 }

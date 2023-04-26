@@ -19,7 +19,6 @@ export class RestrictedAccessComponent implements OnInit {
         //no content
     }
     public async ngOnInit(): Promise<void> {
-        //console.log('Check if whatsapp app is registered...');
         this.setWhatsappActive();
     }
 

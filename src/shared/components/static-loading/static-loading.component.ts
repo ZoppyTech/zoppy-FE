@@ -10,6 +10,8 @@ export class StaticLoadingComponent implements OnInit {
     @Input() public isLoading: boolean = false;
     @Input() public style: StaticLoading = StaticLoading.Dark;
     @Input() public onlyLoading: boolean = false;
+    @Input() public loadingSize: string = '2rem';
+    @Input() public labelSize: string = '1rem';
     public selectedLoading: string = '';
     private darkLoading: string = `https://zoppy-public-dev.s3.amazonaws.com/imgs/loading.svg`;
     private lightLoading: string = `https://zoppy-public-dev.s3.amazonaws.com/imgs/loading-white.svg`;
