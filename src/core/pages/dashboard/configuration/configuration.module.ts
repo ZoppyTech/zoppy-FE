@@ -39,6 +39,10 @@ const routes: Routes = [
             {
                 path: 'batch-upload',
                 loadChildren: () => import('./batch-upload-orders/batch-upload-orders.module').then((m: any) => m.BatchUploadOrdersModule)
+            },
+            {
+                path: 'sync-data',
+                loadChildren: () => import('./sync-data/sync-data.module').then((m: any) => m.SyncDataModule)
             }
         ]
     }
