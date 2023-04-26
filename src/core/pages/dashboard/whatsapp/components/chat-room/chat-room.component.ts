@@ -14,9 +14,10 @@ import { WhatsappMediaService } from 'src/shared/services/whatsapp-media/whatsap
 import { ChatRoom } from '../../models/chat-room';
 import { ThreadMessage } from '../../models/thread-message';
 import { WhatsappUtil } from '../../utils/whatsapp.util';
-import { WhatsappMapper } from '../../whatsapp-mapper';
 import { ChatUtility } from './helpers/chat-utility';
 import { ChatMessageTemplate } from './models/chat-message-template';
+import { ChatMapper } from '../../helpers/chat-mapper';
+import { ChatHandler } from '../../helpers/chat-handler';
 
 @Component({
     selector: 'chat-room',
@@ -24,21 +25,23 @@ import { ChatMessageTemplate } from './models/chat-message-template';
     styleUrls: ['./chat-room.component.scss']
 })
 export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
-    private eventsSubscription: Subscription = new Subscription();
-    @Input() public chatRoom: ChatRoom = new ChatRoom();
-    @Output() public chatRoomChange: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
+    @Input() public declare chathandler: ChatHandler;
+    @Input() public room: ChatRoom = new ChatRoom();
+    @Output() public roomChange: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
     @Output() public sendMessageEvent: EventEmitter<ThreadMessage> = new EventEmitter<ThreadMessage>();
     @Output() public goBackToChatList: EventEmitter<void> = new EventEmitter<void>();
-    @Output() public finishChatRoom: EventEmitter<ChatRoom> = new EventEmitter<ChatRoom>();
+    @Output() public finishRoom: EventEmitter<string> = new EventEmitter<string>();
     @Input() public events: Observable<void> = new Observable();
 
     @ViewChild('inputFileImage') public inputFileImage: any;
     @ViewChild('inputFileDocument') public inputFileDocument: any;
 
+    private eventsSubscription: Subscription = new Subscription();
     public latestConversation: WhatsappConversationEntity = new WhatsappConversationEntity();
     public messageTemplates: Array<ChatMessageTemplate> = [];
-    public messageTemplatesReplaced: Array<ChatMessageTemplate> = [];
     public messageTemplateSelected: ChatMessageTemplate | null = null;
+
+    public declare uploadFileInput: UploadFileInput;
 
     public scrollerElement: HTMLElement | null = null;
     public scrollerHandler: any = null;
@@ -52,8 +55,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public isLastMessage: boolean = false;
     public messagesLoading: boolean = false;
     public messageTemplatesLoading: boolean = false;
-    public countdownTimerVisible: boolean = false;
     public finishConversationLoading: boolean = false;
+    public countdownTimerVisible: boolean = false;
     public rightPanelVisible: boolean = false;
 
     public footerOptions: Map<string, boolean> = new Map([
@@ -61,9 +64,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         ['messageTemplateOption', false]
     ]);
 
-    public declare uploadFileInput: UploadFileInput;
-
     public constructor(
+        public readonly chatMapper: ChatMapper,
         public readonly wppConversationService: WhatsappConversationService,
         public readonly wppBusinessManagementService: WhatsappBusinessManagementService,
         public readonly wppMediaService: WhatsappMediaService,
@@ -75,10 +77,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         this.eventsSubscription = this.events.subscribe(() => this.seeLastMessage());
-        this.seeLastMessage();
         await this.loadLatestConversation();
         await this.loadMessageTemplates();
-        //'Chat Room initialized!');
     }
 
     public selectFooterOptions(optionName: string, value: boolean): void {
@@ -102,11 +102,22 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public async loadLatestConversation(): Promise<void> {
         try {
             this.countdownTimerVisible = false;
-            this.latestConversation = await this.wppConversationService.findByContactId(this.chatRoom.contact.id);
-            WhatsappConversationEntity.validateSessionExpiration(this.latestConversation);
+            this.messagesLoading = this.room.selectedByContactListView;
+            this.seeLastMessage();
+            this.latestConversation = await this.wppConversationService.findByContactId(this.room.contact.id);
+            if (this.room.selectedByContactListView) {
+                const newRoom: ChatRoom = this.chathandler.addRoom(this.latestConversation, false);
+                this.chathandler.setRoomAsMostRecent(newRoom);
+                newRoom.actived = true;
+                this.room = newRoom;
+                this.seeLastMessage();
+            }
         } catch (error: any) {
             this.latestConversation = new WhatsappConversationEntity();
+            error = error as ZoppyException;
+            this.toast.error(error.message, WhatsappConstants.ToastTitles.Error);
         } finally {
+            this.messagesLoading = false;
             this.countdownTimerVisible = true;
         }
     }
@@ -146,14 +157,13 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             {
                 fileName: input.fileName,
                 fileData: input.data,
-                contactId: this.chatRoom.contact.id,
-                contactName: this.chatRoom.contact.firstName
+                contactId: this.room.contact.id,
+                contactName: this.room.contact.firstName
             },
             (newMessage: any) => {
-                const thread: ThreadMessage = WhatsappMapper.mapMessage(newMessage);
-                thread.senderName = this.chatRoom.manager.name;
-                this.chatRoom.threads.push(thread);
-                WhatsappMapper.setFirstMessagesOfDay(this.chatRoom.threads);
+                const thread: ThreadMessage = this.chatMapper.mapMessage(newMessage);
+                this.room.addThread(thread);
+                this.room.setFirstMessagesOfDay();
                 this.seeLastMessage();
             }
         );
@@ -165,15 +175,30 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             {
                 fileName: input.fileName,
                 fileData: input.data,
-                contactId: this.chatRoom.contact.id,
-                contactName: this.chatRoom.contact.firstName
+                contactId: this.room.contact.id,
+                contactName: this.room.contact.firstName
             },
             (newMessage: any) => {
-                const thread: ThreadMessage = WhatsappMapper.mapMessage(newMessage);
-                thread.senderName = this.chatRoom.manager.name;
-                this.chatRoom.threads.push(thread);
-                WhatsappMapper.setFirstMessagesOfDay(this.chatRoom.threads);
+                const thread: ThreadMessage = this.chatMapper.mapMessage(newMessage);
+                this.room.addThread(thread);
+                this.room.setFirstMessagesOfDay();
                 this.seeLastMessage();
+            }
+        );
+    }
+
+    public editContactModal(): void {
+        this.modal.open(
+            Modal.IDENTIFIER.CHAT_CONTACT,
+            {
+                id: this.room.contact.id,
+                firstName: this.room.contact.firstName,
+                lastName: this.room.contact.lastName,
+                phone: WhatsappUtil.removeCountryCode(this.room.contact.displayPhone),
+                isBlocked: this.room.contact.isBlocked
+            },
+            (updatedContact: any) => {
+                this.room.contact = this.chatMapper.mapContact(updatedContact);
             }
         );
     }
@@ -190,6 +215,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                     isSuggested: false
                 };
             });
+            this.replaceMessageTemplatesVariables();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -235,7 +261,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public toggleMessageTemplatesVisibility(): void {
-        this.replaceMessageTemplatesVariables();
         this.selectFooterOptions('messageTemplateOption', !this.footerOptions.get('messageTemplateOption'));
     }
 
@@ -251,34 +276,19 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
         this.messageInput = '';
     }
 
-    public editContactModal(): void {
-        this.modal.open(
-            Modal.IDENTIFIER.CHAT_CONTACT,
-            {
-                id: this.chatRoom.contact.id,
-                firstName: this.chatRoom.contact.firstName,
-                lastName: this.chatRoom.contact.lastName,
-                phone: WhatsappUtil.removeCountryCode(this.chatRoom.contact.displayPhone),
-                isBlocked: this.chatRoom.contact.isBlocked
-            },
-            (updatedContact: any) => {
-                this.chatRoom.contact = WhatsappMapper.mapContact(updatedContact);
-            }
-        );
-    }
-
     public async transferConversation(): Promise<void> {
         this.modal.open(
             Modal.IDENTIFIER.CHAT_CONVERSATION_TRANSFER_MODAL,
             {
-                id: this.latestConversation.id,
-                ticket: this.latestConversation.ticket,
-                wppContactId: this.latestConversation.wppContactId,
-                wppManagerId: this.latestConversation.wppManagerId,
-                wppAccountId: this.chatRoom.account.id
+                id: this.room.id,
+                ticket: this.room.ticket,
+                wppContactId: this.room.contact.id,
+                wppManagerId: this.chathandler.rootManager.id,
+                wppAccountId: this.chathandler.account.id
             },
-            (conversation: any) => {
-                this.finishChatRoom.emit(this.chatRoom);
+            (conversation: WhatsappConversationEntity) => {
+                if (!this.chathandler.isAdmin) this.finishRoom.emit(this.room.contact.id);
+                this.room.manager = this.chatMapper.mapManager(conversation.manager);
                 this.toast.success('Conversa transferida com sucesso!', WhatsappConstants.ToastTitles.Success);
             }
         );
@@ -289,12 +299,14 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             if (this.finishConversationLoading) return;
             this.finishConversationLoading = true;
             const request: WhatsappConversationRequest = {
-                ticket: this.latestConversation.ticket,
-                wppContactId: this.chatRoom.contact.id,
-                wppManagerId: this.chatRoom.manager.id
+                ticket: this.room.ticket,
+                wppContactId: this.room.contact.id,
+                wppManagerId: this.chathandler.rootManager.id
             };
-            await this.wppConversationService.finish(this.latestConversation.id, request);
-            this.finishChatRoom.emit(this.chatRoom);
+            await this.wppConversationService.finish(this.room.id, request);
+            this.chathandler.updateNewConversationCount();
+            this.chathandler.updateFinishedConversation(this.room.contact.id);
+            this.finishRoom.emit(this.room.contact.id);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -304,7 +316,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public getInputTextPlaceholder(): string {
-        if (this.chatRoom.contact.isBlocked) {
+        if (this.room.contact.isBlocked) {
             return 'Este contato está bloqueado.';
         } else if (!this.latestConversation.sessionExpiration) {
             return "Por favor, clique no ícone '#' e selecione uma nova mensagem.";
@@ -318,13 +330,13 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             type: WhatsappConstants.MessageType.Template,
             templateName: this.messageTemplateSelected?.name,
             content: this.messageTemplateSelected?.content ?? '',
-            senderName: this.chatRoom.manager.name,
+            senderName: this.room?.manager?.name ?? '',
             readByManager: true,
             status: WhatsappConstants.MESSAGE_STATUS.FORWARDED,
             isBusiness: true,
             isFirstMessageOfDay: false,
             createdAt: new Date(),
-            companyId: this.chatRoom.account.companyId
+            companyId: this.room.companyId
         };
     }
 
@@ -333,23 +345,28 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             id: StringUtil.generateUuid(),
             type: WhatsappConstants.MessageType.Text,
             content: this.messageInput,
-            senderName: this.chatRoom.manager.name,
+            senderName: this.room?.manager?.name ?? '',
             status: WhatsappConstants.MESSAGE_STATUS.FORWARDED,
             readByManager: true,
             isBusiness: true,
             isFirstMessageOfDay: false,
             createdAt: new Date(),
-            companyId: this.chatRoom.account.companyId
+            companyId: this.room.companyId
         };
     }
 
     private replaceMessageTemplatesVariables(): void {
-        this.messageTemplatesReplaced = this.messageTemplates.map((messageTemplate: ChatMessageTemplate) => {
+        this.messageTemplates = this.messageTemplates.map((messageTemplate: ChatMessageTemplate) => {
             return {
                 ...messageTemplate,
                 content: WhatsappUtil.replaceVariablesFromTemplateMessage(
                     messageTemplate.content,
-                    WhatsappUtil.getMessageTemplateParams(messageTemplate.name, this.chatRoom)
+                    WhatsappUtil.getMessageTemplateParams(
+                        messageTemplate.name,
+                        this.chathandler.account,
+                        this.chathandler.rootManager,
+                        this.room.contact
+                    )
                 )
             };
         });

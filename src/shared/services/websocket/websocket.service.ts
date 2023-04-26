@@ -8,15 +8,17 @@ import { Storage } from 'src/shared/utils/storage';
     providedIn: 'root'
 })
 export class WebSocketService {
-    private socket: Socket;
+    private declare socket: Socket;
     public url: string = `${environment.apiUrl}`;
 
-    public constructor(public readonly storage: Storage) {
-        this.socket = io(this.url, this.getSocketOptions());
-    }
+    public constructor(public readonly storage: Storage) {}
 
-    public connect(channelName: string = ''): void {
-        this.socket = io(`${this.url}/${channelName}`, this.getSocketOptions());
+    public connect(channel: string | null = null): void {
+        if (!channel) {
+            this.socket = io(this.url, this.getSocketOptions());
+            return;
+        }
+        this.socket = io(`${this.url}/${channel}`, this.getSocketOptions());
     }
 
     public disconnect(): any {
@@ -41,8 +43,7 @@ export class WebSocketService {
     private getSocketOptions(): any {
         const authorization: string = `Bearer ${this.storage.getToken()}`;
         return {
-            path: '/socket.io',
-            //transports: ['websocket', 'polling'],
+            namespace: '/',
             secure: true,
             reconnectionAttempts: 5,
             reconnectionDelay: 15000,

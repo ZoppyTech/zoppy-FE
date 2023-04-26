@@ -35,7 +35,7 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnChanges {
     public readonly KEY_ESCAPE: string = 'Escape';
 
     public constructor() {
-        //No Content
+        //no Content
     }
     public ngOnChanges(changes: SimpleChanges): void {
         if (!changes['message'] || (!this.isTemplate && changes['message'].currentValue !== '')) return;
@@ -118,10 +118,6 @@ export class ChatInputComponent implements OnInit, AfterViewInit, OnChanges {
         const clipboardData: any = event.clipboardData || (window as any).clipboardData;
         const pastedText: string = clipboardData?.getData('text') || '';
         const cleanText: string = pastedText.replace(/<[^>]*>/g, '');
-
-        // if (cleanText) {
-        //     this.cursor.appendText(this.inputElement, cleanText);
-        // }
     }
 
     public onInput(inputEvent: any): void {

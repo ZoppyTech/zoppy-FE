@@ -9,7 +9,7 @@ import { StaticLoadingModule } from 'src/shared/components/static-loading/static
 
 @NgModule({
     declarations: [ChatListComponent],
-    imports: [CommonModule, InputModule, ButtonModule, IconModule, ContactModule, StaticLoadingModule],
+    imports: [CommonModule, InputModule, ButtonModule, IconModule, ContactModule, StaticLoadingModule, ContactModule],
     exports: [ChatListComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

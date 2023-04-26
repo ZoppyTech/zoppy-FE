@@ -1,5 +1,6 @@
 export enum ChatFilters {
     InProgress = 'in-progress',
     Finished = 'finished',
-    Unread = 'unread'
+    Unread = 'unread',
+    Waiting = 'waiting'
 }
