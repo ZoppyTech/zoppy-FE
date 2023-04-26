@@ -1,24 +1,17 @@
-<div class="container">
+<div class="container" *ngIf="loaded">
     <a class="flex go-back margin-left-2 padding-left-1 padding-top-2" [href]="getHref()">
         <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
         <span class="text-16 text--bold text--primary">Voltar</span>
     </a>
 
     <div class="header space-between align-center">
-        <h6 class="text margin-y-3">{{ group ? group.name : 'Mensagens' }}</h6>
-        <ps-button type="secondary" (onClick)="addNewMessage()">
+        <h6 class="text margin-y-3">{{ group ? 'Editar Mensagem: ' + group.name : 'Nova Mensagem' }}</h6>
+        <ps-button type="secondary" *ngIf="!wppAccount" (onClick)="addNewMessage()">
             <span class="text neutral-100 margin-x-2">Nova Mensagem</span>
         </ps-button>
     </div>
 
     <div class="body">
-        <div class="info-params">
-            <ps-icon class="font-16" icon="icon-info"></ps-icon>
-            <span (click)="showModal()" class="text-16 text--700"
-                ><b class="text-16 text--800">Clique aqui</b> para ver os parâmetros disponíveis!
-            </span>
-        </div>
-
         <div style="border-radius: 8px" class="fields flex-grow-1">
             <div class="flex space-between" *ngIf="!group?.id">
                 <div class="field flex-grow flex flex-column">
@@ -52,4 +45,8 @@
             <span class="text--100 text-14 text--bold">Salvar</span>
         </ps-button>
     </div>
+</div>
+
+<div *ngIf="!loaded" class="container flex flex-center">
+    <static-loading [isLoading]="true" class="loading"></static-loading>
 </div>

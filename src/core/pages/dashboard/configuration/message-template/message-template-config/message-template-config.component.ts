@@ -12,6 +12,8 @@ import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { DashboardBasePage } from 'src/core/pages/dashboard/dashboard.base.page';
 import { MessageTemplateGroupEntity } from 'src/shared/models/entities/message-template-group.entity';
+import { WhatsappAccountService } from 'src/shared/services/whatsapp-account/whatsapp-account.service';
+import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-account.entity';
 
 @Component({
     selector: 'app-message-template-config',
@@ -27,6 +29,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
     public tab: string = '';
     public name: string = '';
     public description: string = '';
+    public wppAccount?: WhatsappAccountEntity = undefined;
 
     public showModal(): void {
         this.modal.open(Modal.IDENTIFIER.MESSAGE_CONFIG_PARAMS, {});
@@ -40,6 +43,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         public override storage: Storage,
         public modal: ModalService,
         private readonly confirmActionService: ConfirmActionService,
+        public whatsappAccountService: WhatsappAccountService,
         private readonly router: Router,
         private route: ActivatedRoute
     ) {
@@ -60,8 +64,10 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
 
     public async fetchData(): Promise<void> {
         if (!this.groupId) return;
-        this.templates = await this.messageTemplateService.list(this.groupId);
         this.group = await this.messageTemplateService.findGroup(this.groupId);
+        this.templates = this.group.messageTemplates;
+        this.wppAccount = await this.whatsappAccountService.getRegisteredByCompany();
+        this.loaded = true;
     }
 
     public async save(): Promise<void> {
