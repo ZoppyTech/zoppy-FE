@@ -85,7 +85,8 @@
                         (click)="selectMessageTemplate(messageTemplate)"
                         class="item clickable"
                     >
-                        <span class="text-16">{{ messageTemplate.content }}</span>
+                        <span class="text-16 text--bold">{{ messageTemplate.title }}: &nbsp;</span>
+                        <span class="text-16">{{ messageTemplate.description }}</span>
                     </div>
                     <div *ngIf="messageTemplates.length <= 0" class="item">Nenhum modelo de mensagem disponível!</div>
                 </div>

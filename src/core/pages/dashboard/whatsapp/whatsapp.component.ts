@@ -210,6 +210,7 @@ export class WhatsappComponent implements OnInit, AfterViewInit, OnDestroy {
 
             if (thread.type === WhatsappConstants.MessageType.Template) {
                 const request: WhatsappTemplateMessageRequest = this.buildTemplateMessageRequestFrom(thread);
+                console.log(request);
                 await this.wppMessageService.createTemplateMessage(request);
                 return;
             }

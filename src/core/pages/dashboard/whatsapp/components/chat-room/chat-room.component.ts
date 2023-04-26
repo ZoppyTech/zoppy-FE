@@ -191,7 +191,9 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                     whatsappMessageTemplateId: entity.whatsappMessageTemplate?.id,
                     wppId: entity.whatsappMessageTemplate?.wppId,
                     name: entity.whatsappMessageTemplate?.wppName,
-                    content: entity.messageTemplates[0].text,
+                    title: entity.name,
+                    description: entity.description,
+                    content: entity.messageTemplates[0]?.text,
                     status: entity.whatsappMessageTemplate?.status,
                     isSuggested: false,
                     createdAt: entity.createdAt
