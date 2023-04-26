@@ -38,8 +38,6 @@ export class ChatListComponent implements OnInit, OnChanges {
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        debugger;
-
         if (!!changes['rooms']) {
             this.conversations = Array.from(changes['rooms'].currentValue);
         }

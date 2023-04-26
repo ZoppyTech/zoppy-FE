@@ -10,6 +10,7 @@ export class ChatRoom {
     public declare createdAt: Date;
     public declare finishedAt: Date;
     public declare companyId: string;
+    public selectedByContactListView: boolean = false;
     public manager: ChatManager | null = null;
     public contact: ChatContact = new ChatContact();
     public threads: Array<ThreadMessage> = [];
@@ -56,13 +57,4 @@ export class ChatRoom {
             firstMessageDate = new Date(thread.createdAt);
         }
     }
-
-    // public updateUnreadMessages(): void {
-    //     const unreadThreads: ThreadMessage[] = this.getUnreadThreads();
-    //     for (const unreadThread of unreadThreads) {
-    //         const threadIndex: number = this.threads.findIndex((thread: ThreadMessage) => thread.id === unreadThread.id);
-    //         if (threadIndex === -1) continue;
-    //         this.threads[threadIndex].readByManager = true;
-    //     }
-    // }
 }

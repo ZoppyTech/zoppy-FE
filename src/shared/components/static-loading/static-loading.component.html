@@ -1,4 +1,4 @@
 <div *ngIf="isLoading" class="static-loading">
-    <span *ngIf="!onlyLoading">{{ label }}</span>
-    <img [src]="selectedLoading" alt="loading" />
+    <span [ngStyle]="{ 'font-size': labelSize }" *ngIf="!onlyLoading">{{ label }}</span>
+    <img [ngStyle]="{ width: loadingSize, height: loadingSize }" [src]="selectedLoading" alt="loading" />
 </div>

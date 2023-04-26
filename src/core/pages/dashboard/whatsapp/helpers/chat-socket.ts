@@ -33,7 +33,6 @@ export class ChatSocket {
     public listen(): void {
         if (!this.webSocketService) return;
         this.webSocketService.fromEvent<ChatSocketData>(WebSocketConstants.CHAT_EVENTS.RECEIVE).subscribe((socketData: ChatSocketData) => {
-            debugger;
             const action: string = socketData.action;
             const response: any = socketData;
 

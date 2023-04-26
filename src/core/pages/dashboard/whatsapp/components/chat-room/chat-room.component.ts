@@ -39,7 +39,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     private eventsSubscription: Subscription = new Subscription();
     public latestConversation: WhatsappConversationEntity = new WhatsappConversationEntity();
     public messageTemplates: Array<ChatMessageTemplate> = [];
-    public messageTemplatesReplaced: Array<ChatMessageTemplate> = [];
     public messageTemplateSelected: ChatMessageTemplate | null = null;
 
     public declare uploadFileInput: UploadFileInput;
@@ -78,10 +77,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
 
     public async ngOnInit(): Promise<void> {
         this.eventsSubscription = this.events.subscribe(() => this.seeLastMessage());
-        this.seeLastMessage();
         await this.loadLatestConversation();
         await this.loadMessageTemplates();
-        //this.room.updateUnreadMessages();
     }
 
     public selectFooterOptions(optionName: string, value: boolean): void {
@@ -105,13 +102,22 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public async loadLatestConversation(): Promise<void> {
         try {
             this.countdownTimerVisible = false;
+            this.messagesLoading = this.room.selectedByContactListView;
+            this.seeLastMessage();
             this.latestConversation = await this.wppConversationService.findByContactId(this.room.contact.id);
-            WhatsappConversationEntity.validateSessionExpiration(this.latestConversation);
+            if (this.room.selectedByContactListView) {
+                const newRoom: ChatRoom = this.chathandler.addRoom(this.latestConversation, false);
+                this.chathandler.setRoomAsMostRecent(newRoom);
+                newRoom.actived = true;
+                this.room = newRoom;
+                this.seeLastMessage();
+            }
         } catch (error: any) {
             this.latestConversation = new WhatsappConversationEntity();
             error = error as ZoppyException;
             this.toast.error(error.message, WhatsappConstants.ToastTitles.Error);
         } finally {
+            this.messagesLoading = false;
             this.countdownTimerVisible = true;
         }
     }
@@ -209,6 +215,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                     isSuggested: false
                 };
             });
+            this.replaceMessageTemplatesVariables();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
@@ -254,7 +261,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     public toggleMessageTemplatesVisibility(): void {
-        this.replaceMessageTemplatesVariables();
         this.selectFooterOptions('messageTemplateOption', !this.footerOptions.get('messageTemplateOption'));
     }
 
@@ -350,7 +356,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private replaceMessageTemplatesVariables(): void {
-        this.messageTemplatesReplaced = this.messageTemplates.map((messageTemplate: ChatMessageTemplate) => {
+        this.messageTemplates = this.messageTemplates.map((messageTemplate: ChatMessageTemplate) => {
             return {
                 ...messageTemplate,
                 content: WhatsappUtil.replaceVariablesFromTemplateMessage(

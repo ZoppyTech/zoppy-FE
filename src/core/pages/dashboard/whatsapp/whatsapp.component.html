@@ -20,11 +20,6 @@
             [(currentSubcomponent)]="currentSubcomponent"
             (selectedContactEvent)="onContactSelected($event)"
         ></contact-list>
-        <unregistered-contact-list
-            *ngIf="currentSubcomponent === subcomponents.UnregisteredContactList"
-            [(currentSubcomponent)]="currentSubcomponent"
-            (selectedContactEvent)="onContactSelected($event)"
-        ></unregistered-contact-list>
     </div>
     <div *ngIf="!whatsappLoading" class="right-panel" [ngClass]="{ 'right-panel--show': openConversationMobile }">
         <welcome-chat *ngIf="!isChatRoomVisible"></welcome-chat>

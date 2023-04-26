@@ -1,14 +1,12 @@
-import { BehaviorSubject } from 'rxjs';
+import { WebSocketConstants } from '@ZoppyTech/utilities';
 import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
 import { WhatsappMessageEntity } from 'src/shared/models/entities/whatsapp-message.entity';
-import { ChatRoom } from '../models/chat-room';
-import { ThreadMessage } from '../models/thread-message';
-import { WhatsappComponent } from '../whatsapp.component';
-import { ChatSocketData } from '../models/chat-socket-data';
-import { WebSocketConstants } from '@ZoppyTech/utilities';
-import { ChatFilters } from '../models/chat-filters';
 import { ChatAccount } from '../models/chat-account';
 import { ChatManager } from '../models/chat-manager';
+import { ChatRoom } from '../models/chat-room';
+import { ChatSocketData } from '../models/chat-socket-data';
+import { ThreadMessage } from '../models/thread-message';
+import { WhatsappComponent } from '../whatsapp.component';
 
 export class ChatHandler {
     protected component: WhatsappComponent;
@@ -41,7 +39,12 @@ export class ChatHandler {
         return Array.from(this.component.rooms.entries());
     }
 
-    public addRoom(conversation: WhatsappConversationEntity): ChatRoom {
+    public addRoom(conversation: WhatsappConversationEntity, overwrite: boolean = false): ChatRoom {
+        const roomExists: boolean = this.component.rooms.has(conversation.wppContactId);
+        if (roomExists && !overwrite) {
+            const targetRoom: ChatRoom = this.component.rooms.get(conversation.wppContactId) ?? new ChatRoom();
+            if (targetRoom.threads.length > 0) return targetRoom;
+        }
         const newRoom: ChatRoom = this.component.chatMapper.mapRoom(conversation);
         this.component.rooms.set(conversation.wppContactId, newRoom);
         this.updateChatList();
@@ -93,10 +96,15 @@ export class ChatHandler {
         }
     }
 
-    public updateRoomManager(): void {
+    public updateRoomManager(room: ChatRoom): void {
         const socketData: ChatSocketData = {
             action: 'get_room_manager',
-            message: { wppManagerId: this.rootManager.id, companyId: this.account.companyId } as WhatsappMessageEntity
+            message: {
+                wppContactId: room.contact.id,
+                wppManagerId: room.manager?.id,
+                userId: this.component.user.id,
+                companyId: room.companyId
+            } as any
         };
         this.component.webSocketService.emit('update_room_manager', socketData);
     }

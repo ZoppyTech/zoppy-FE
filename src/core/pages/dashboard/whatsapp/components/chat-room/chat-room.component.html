@@ -34,9 +34,10 @@
             </div>
         </div>
     </div>
-
-    <!-- <div *ngIf="messagesLoading"></div> -->
     <contact-info-panel *ngIf="rightPanelVisible" [contact]="room.contact" [(close)]="rightPanelVisible"> </contact-info-panel>
+    <div *ngIf="messagesLoading" class="chat-content--on-loading">
+        <static-loading [loadingSize]="'4rem'" [isLoading]="true" [onlyLoading]="true"></static-loading>
+    </div>
     <div *ngIf="!messagesLoading" id="panel-scrollable" class="chat-content">
         <bubble-info class="bubble-info" *ngIf="!this.latestConversation.sessionExpiration"></bubble-info>
         <div *ngFor="let thread of this.room.threads">
@@ -81,7 +82,7 @@
                 </div>
                 <div *ngIf="!messageTemplatesLoading">
                     <div
-                        *ngFor="let messageTemplate of messageTemplatesReplaced"
+                        *ngFor="let messageTemplate of messageTemplates"
                         (click)="selectMessageTemplate(messageTemplate)"
                         class="item clickable"
                     >

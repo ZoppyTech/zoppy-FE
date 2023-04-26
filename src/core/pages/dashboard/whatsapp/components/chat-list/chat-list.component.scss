@@ -82,6 +82,7 @@
                         justify-content: center;
                         width: 4rem;
                         height: 4rem;
+                        min-width: 4rem;
                         border-radius: 50px;
                         border: 1px solid #00b39d;
                         background-color: #30e1a1;
@@ -103,13 +104,13 @@
                     }
 
                     .text-info {
-                        max-width: 116px;
+                        width: 100%;
                         color: #008774;
-                        font-size: 0.85rem;
+                        font-size: 1rem;
                         font-weight: 400;
 
                         &--empty {
-                            font-size: 0.85rem;
+                            font-size: 1rem;
                             font-weight: 400;
                             color: #667781;
                         }
@@ -117,6 +118,7 @@
                 }
 
                 .button {
+                    min-width: 112px;
                     display: flex;
                     justify-content: center;
                     align-items: center;
@@ -145,8 +147,8 @@
         justify-content: center;
 
         img {
-            width: 123.64px;
-            height: 114.62px;
+            width: 204.64px;
+            height: 197.62px;
         }
 
         span {
@@ -230,7 +232,7 @@
             width: 100%;
             height: fit-content;
             border-radius: 8px;
-            padding: 0.25rem 0.125rem;
+            padding: 0.35rem;
             background-color: #f0f2f5;
 
             .item {
@@ -448,9 +450,14 @@
                         background-color: #fcf4c4;
 
                         ps-icon {
+                            font-size: 0.688rem;
                             color: #54656f;
                             margin-right: 2px;
                             border-radius: 100%;
+                        }
+
+                        span {
+                            font-size: 0.688rem;
                         }
                     }
 
@@ -458,15 +465,20 @@
                         display: flex;
                         justify-content: baseline;
                         align-items: center;
-                        padding: 0rem 0.35rem;
+                        padding: 0.1rem 0.35rem;
                         color: #54656f;
                         border-radius: 50px;
                         background-color: #cbf2ee;
 
                         ps-icon {
+                            font-size: 0.688rem;
                             color: #54656f;
                             margin-right: 2px;
                             border-radius: 100%;
+                        }
+
+                        span {
+                            font-size: 0.688rem;
                         }
                     }
                 }

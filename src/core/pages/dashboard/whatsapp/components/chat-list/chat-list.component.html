@@ -10,7 +10,7 @@
             <div class="display" [ngClass]="{ 'display--empty': queueCount <= 0 }">
                 <div class="counter_wrapper">
                     <span
-                        class="queue_customers_length text--bold text-18 margin-right-1"
+                        class="queue_customers_length text--bold text-20 margin-right-1"
                         [ngClass]="{ 'queue_customers_length--empty': queueCount <= 0 }"
                         >{{ queueCount }}</span
                     >
@@ -73,7 +73,8 @@
     </div>
 
     <div *ngIf="!filterLoading && conversations.length <= 0" class="empty-list">
-        <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
+        <img class="margin-y-3" src="./assets/svg/search_customer.svg" alt="" />
+        <span class="text--primary margin-y-1 text--bold text-16">Nenhuma mensagem!</span>
         <span class="text--primary text-14"
             >Você não tem um histórico de mensagens. <br />
             Clique em <img [src]="NEW_MESSAGE_IMAGE_DIR" alt="" /> para iniciar uma conversa.</span
@@ -174,12 +175,12 @@
                     <div *ngIf="!isAdmin" class="item-footer--is-common"></div>
                     <div *ngIf="isAdmin">
                         <div *ngIf="!conversation[1].manager?.name" class="item-footer__status">
-                            <ps-icon class="text-12" icon="icon-waiting_event_fill"></ps-icon>
-                            <span class="text-12">aguardando</span>
+                            <ps-icon icon="icon-waiting_event_fill"></ps-icon>
+                            <span>aguardando</span>
                         </div>
                         <div *ngIf="conversation[1].manager?.name" class="item-footer__support-agent">
-                            <ps-icon class="text-12" icon="icon-support"></ps-icon>
-                            <span class="text-10">{{ conversation[1].manager?.name }}</span>
+                            <ps-icon icon="icon-support"></ps-icon>
+                            <span>{{ conversation[1].manager?.name }}</span>
                         </div>
                     </div>
                 </div>

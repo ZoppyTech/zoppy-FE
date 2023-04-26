@@ -19,7 +19,6 @@ export class ChatMapper {
     public NO_NAME_USER: string = 'Cliente';
 
     public mapRooms(rooms: WhatsappConversationEntity[] = []): Map<string, ChatRoom> {
-        debugger;
         if (!rooms || rooms.length <= 0) return new Map<string, ChatRoom>();
         const mappedRooms: Map<string, ChatRoom> = new Map();
         for (const room of rooms) {

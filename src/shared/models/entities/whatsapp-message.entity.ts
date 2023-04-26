@@ -3,7 +3,6 @@ import { WhatsappContactEntity } from './whatsapp-contact.entity';
 import { WhatsappConversationEntity } from './whatsapp-conversation.entity';
 import { WhatsappMediaMessageEntity } from './whatsapp-media-message.entity';
 
-//TODO: Temporary use
 export class WhatsappMessageEntity {
     public declare id: string;
     public declare type: string;
@@ -27,7 +26,7 @@ export class WhatsappMessageEntity {
     public declare parameters?: Array<string>;
 
     /** Includes */
-    public declare WppConversation?: WhatsappConversationEntity; //TODO REMOVER DEPOIS DA REFATORACAO!!!
+    public declare WppConversation?: WhatsappConversationEntity;
     public declare manager?: WhatsappAccountManagerEntity;
     public declare contact?: WhatsappContactEntity;
     public declare media: WhatsappMediaMessageEntity;
