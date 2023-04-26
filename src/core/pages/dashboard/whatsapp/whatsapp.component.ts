@@ -155,7 +155,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             if (!this.isAdmin) return;
             const targetRoom: ChatRoom | undefined = this.rooms.get(response.message.wppContactId);
             if (!targetRoom) return;
-            targetRoom.manager = this.chatMapper.mapManager(response.message.wppManager);
+            targetRoom.manager = this.chatMapper.mapManager(response.message.manager);
             this.chathandler.updateChatList();
         };
         this.chatSocket.onFinishedRoom = (response: any) => {
