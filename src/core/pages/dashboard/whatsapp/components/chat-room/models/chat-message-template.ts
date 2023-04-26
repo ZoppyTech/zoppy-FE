@@ -1,5 +1,7 @@
 export class ChatMessageTemplate {
-    public declare id: string;
+    public declare groupId: string;
+    public declare whatsappMessageTemplateId: string;
+    public declare wppId: string;
     public declare name: string;
     public declare content: string;
     public declare status: string;

@@ -17,6 +17,7 @@ import { WhatsappMapper } from '../../whatsapp-mapper';
 import { ChatUtility } from './helpers/chat-utility';
 import { ChatMessageTemplate } from './models/chat-message-template';
 import { MessageTemplateService } from 'src/shared/services/message-template/message-template.service';
+import { MessageTemplateGroupEntity } from 'src/shared/models/entities/message-template-group.entity';
 
 @Component({
     selector: 'chat-room',
@@ -181,15 +182,21 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public async loadMessageTemplates(): Promise<void> {
         try {
             this.messageTemplatesLoading = true;
-            // const entities: WhatsappMessageTemplateEntity[] = await this.messageTemplateService.listGroups(
-            //     WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.USER
-            // );
-            // this.messageTemplates = entities.map((entity: WhatsappMessageTemplateEntity) => {
-            //     return {
-            //         ...entity,
-            //         isSuggested: false
-            //     };
-            // });
+            const entities: MessageTemplateGroupEntity[] = await this.messageTemplateService.listGroups(
+                WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.USER
+            );
+            this.messageTemplates = entities.map((entity: MessageTemplateGroupEntity) => {
+                return {
+                    groupId: entity.id,
+                    whatsappMessageTemplateId: entity.whatsappMessageTemplate?.id,
+                    wppId: entity.whatsappMessageTemplate?.wppId,
+                    name: entity.whatsappMessageTemplate?.wppName,
+                    content: entity.messageTemplates[0].text,
+                    status: entity.whatsappMessageTemplate?.status,
+                    isSuggested: false,
+                    createdAt: entity.createdAt
+                };
+            });
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
