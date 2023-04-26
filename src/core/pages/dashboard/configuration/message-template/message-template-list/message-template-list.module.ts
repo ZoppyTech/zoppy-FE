@@ -7,6 +7,8 @@ import { IconModule } from '@ZoppyTech/icon';
 import { InputModule } from '@ZoppyTech/input';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
 import { MessageTemplateListComponent } from './message-template-list.component';
+import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
+import { SwitchModule } from '@ZoppyTech/switch';
 
 const routes: Routes = [
     {
@@ -18,6 +20,16 @@ const routes: Routes = [
 @NgModule({
     declarations: [MessageTemplateListComponent],
     exports: [MessageTemplateListComponent],
-    imports: [CommonModule, InputModule, RouterModule.forChild(routes), ButtonModule, IconModule, PipesModule, DropdownModule]
+    imports: [
+        CommonModule,
+        InputModule,
+        RouterModule.forChild(routes),
+        ButtonModule,
+        IconModule,
+        PipesModule,
+        DropdownModule,
+        StaticLoadingModule,
+        SwitchModule
+    ]
 })
 export class MessageTemplateListModule {}

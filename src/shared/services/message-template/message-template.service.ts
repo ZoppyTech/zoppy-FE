@@ -105,6 +105,16 @@ export class MessageTemplateService extends ApiService {
         return promise;
     }
 
+    public async updateGroupVisibility(id: string): Promise<MessageTemplateGroupEntity> {
+        const promise: Promise<MessageTemplateGroupEntity> = new Promise((resolve: any, reject: any) => {
+            this.put<MessageTemplateGroupEntity, {}>(`${this.url}/groups/${id}/visibility`).subscribe(
+                (response: MessageTemplateGroupEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async destroyGroup(id: string): Promise<BooleanResponse> {
         const promise: Promise<BooleanResponse> = new Promise((resolve: any, reject: any) => {
             this.delete<BooleanResponse>(`${this.url}/groups/${id}`).subscribe(

@@ -11,6 +11,8 @@ import { DashboardBasePage } from 'src/core/pages/dashboard/dashboard.base.page'
 import { MessageTemplateGroupEntity } from 'src/shared/models/entities/message-template-group.entity';
 import { MessageTemplateService } from 'src/shared/services/message-template/message-template.service';
 import { WhatsappConstants } from '@ZoppyTech/utilities';
+import { WhatsappAccountService } from 'src/shared/services/whatsapp-account/whatsapp-account.service';
+import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-account.entity';
 
 @Component({
     selector: 'app-message-template-list',
@@ -19,11 +21,14 @@ import { WhatsappConstants } from '@ZoppyTech/utilities';
 })
 export class MessageTemplateListComponent extends DashboardBasePage implements OnInit {
     public groups: Array<MessageTemplateGroupEntity> = [];
+    public wppAccount?: WhatsappAccountEntity = undefined;
+    public loading: boolean = true;
 
     public constructor(
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
         public messageTemplateService: MessageTemplateService,
+        public whatsappAccountService: WhatsappAccountService,
         public toast: ToastService,
         public override storage: Storage,
         private readonly confirmActionService: ConfirmActionService,
@@ -59,9 +64,12 @@ export class MessageTemplateListComponent extends DashboardBasePage implements O
     public async fetchData(): Promise<void> {
         try {
             this.groups = await this.messageTemplateService.listGroups(WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.ALL);
+            this.wppAccount = await this.whatsappAccountService.getRegisteredByCompany();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os grupos de templates de mensagem');
+        } finally {
+            this.loading = false;
         }
     }
 
@@ -71,6 +79,16 @@ export class MessageTemplateListComponent extends DashboardBasePage implements O
 
     public createGroup(): void {
         this.router.navigate([Navigation.routes.messageTemplateConfig]);
+    }
+
+    public async updateVisibility(group: MessageTemplateGroupEntity): Promise<void> {
+        try {
+            await this.messageTemplateService.updateGroupVisibility(group.id);
+            this.toast.success('Visibilidade atualizada com sucesso!', 'Tudo certo!');
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Não foi possível atualizar a visibilidade do template');
+        }
     }
 
     public async destroy(group: MessageTemplateGroupEntity): Promise<void> {
