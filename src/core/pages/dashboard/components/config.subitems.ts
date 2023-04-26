@@ -111,6 +111,20 @@ export class ConfigSubItems {
                 label: 'Templates do Whatsapp',
                 route: Navigation.routes.whatsappTemplateList,
                 visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER]) && !CompanyUtil.isTray(company)
+            },
+            {
+                id: 'batchUpload',
+                icon: 'icon-arrow',
+                label: 'Upload de Planilhas',
+                route: Navigation.routes.batchUpload,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER])
+            },
+            {
+                id: 'syncData',
+                icon: 'icon-arrow',
+                label: 'Sincronização de dados',
+                route: Navigation.routes.syncData,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER])
             }
         ];
     }
