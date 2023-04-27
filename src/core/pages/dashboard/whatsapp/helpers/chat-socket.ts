@@ -52,10 +52,10 @@ export class ChatSocket {
                 case WebSocketConstants.CHAT_ACTIONS.UPDATE_CURRENT_CHAT_ROOM:
                     this.onUpdateCurrentRoom(response);
                     break;
-                case 'get_room_manager':
+                case WebSocketConstants.CHAT_ACTIONS.GET_ROOM_MANAGER:
                     this.onUpdateRoomManager(response);
                     break;
-                case 'finished_conversation':
+                case WebSocketConstants.CHAT_ACTIONS.FINISHED_CONVERSATION:
                     this.onFinishedRoom(response);
                     break;
             }

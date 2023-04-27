@@ -106,7 +106,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             this.messagesLoading = this.room.selectedByContactListView;
             this.seeLastMessage();
             this.latestConversation = await this.wppConversationService.findByContactId(this.room.contact.id);
-            debugger;
+            this.latestConversation = this.validateSessionExpiration(this.latestConversation);
             if (this.room.selectedByContactListView) {
                 const newRoom: ChatRoom = this.chathandler.addRoom(this.latestConversation, false);
                 this.chathandler.setRoomAsMostRecent(newRoom);
@@ -336,6 +336,13 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             return "Por favor, clique no ícone '#' e selecione uma nova mensagem.";
         }
         return 'Escreva sua mensagem';
+    }
+
+    private validateSessionExpiration(entity: WhatsappConversationEntity): WhatsappConversationEntity {
+        if (!entity.sessionExpiration) return entity;
+        if (new Date(Number.parseInt(entity.sessionExpiration)).getTime() > new Date().getTime()) return entity;
+        entity.sessionExpiration = null;
+        return entity;
     }
 
     private buildTemplateMessage(): ThreadMessage {
