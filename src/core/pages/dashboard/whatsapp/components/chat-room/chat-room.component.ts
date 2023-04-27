@@ -326,13 +326,8 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     }
 
     private validateSessionExpiration(entity: WhatsappConversationEntity): WhatsappConversationEntity {
-        debugger;
-        if (!entity.sessionExpiration) {
-            return entity;
-        }
-        if (new Date(Number.parseInt(entity.sessionExpiration)).getTime() > new Date().getTime()) {
-            return entity;
-        }
+        if (!entity.sessionExpiration) return entity;
+        if (new Date(Number.parseInt(entity.sessionExpiration)).getTime() > new Date().getTime()) return entity;
         entity.sessionExpiration = null;
         return entity;
     }

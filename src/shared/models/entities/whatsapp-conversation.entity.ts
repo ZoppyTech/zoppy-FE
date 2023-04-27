@@ -16,15 +16,4 @@ export class WhatsappConversationEntity {
     public manager: WhatsappAccountManagerEntity | null = null;
     public declare contact: WhatsappContactEntity;
     public messages: WhatsappMessageEntity[] = [];
-
-    public static validateSessionExpiration(entity: WhatsappConversationEntity): WhatsappConversationEntity {
-        if (!entity.sessionExpiration) {
-            return entity;
-        }
-        if (new Date(Number.parseInt(entity.sessionExpiration)).getTime() > new Date().getTime()) {
-            return entity;
-        }
-        entity.sessionExpiration = null;
-        return entity;
-    }
 }
