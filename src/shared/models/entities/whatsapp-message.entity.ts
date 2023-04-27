@@ -7,6 +7,10 @@ export class WhatsappMessageEntity {
     public declare id: string;
     public declare type: string;
     public declare content: string;
+    public declare headerContent: string;
+    public declare footerContent: string;
+    public declare ctaLabel: string;
+    public declare ctaLink: string;
     public declare status: string;
     public declare origin: string;
     public declare wamId?: string;

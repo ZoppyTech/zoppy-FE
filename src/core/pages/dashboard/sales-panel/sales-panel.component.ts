@@ -84,7 +84,11 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
     public async sendWppMessage(task: TaskView): Promise<void> {
         task.loadingWpp = true;
         try {
-            const data: CrmCustomerLinkResponse = await this.crmCustomerService.findWhatsappLink(task.customer.id, task.type);
+            const data: CrmCustomerLinkResponse = await this.crmCustomerService.findWhatsappLink({
+                customerId: task.customer.id,
+                linkTemplateId: task.type,
+                taskId: task.id
+            });
             window
                 ?.open(`https://api.whatsapp.com/send/?phone=${data.phoneNumber}&text=${encodeURIComponent(data.text)}`, '_blank')
                 ?.focus();

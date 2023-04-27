@@ -85,6 +85,10 @@ export class ChatMapper {
         thread.type = messageEntity.type;
         thread.templateName = undefined;
         thread.content = messageEntity.content;
+        thread.ctaLabel = messageEntity.ctaLabel;
+        thread.ctaLink = messageEntity.ctaLink;
+        thread.footerText = messageEntity.footerContent;
+        thread.headerText = messageEntity.headerContent;
         thread.status = messageEntity.status;
         thread.isBusiness = messageEntity.origin === WhatsappConstants.MessageOrigin.BusinessInitiated;
         thread.readByManager = thread.isBusiness || !!messageEntity.wppManagerId;

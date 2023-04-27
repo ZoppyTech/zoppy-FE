@@ -45,13 +45,6 @@ export class ConfigSubItems {
                 visible: UserUtil.isMaster(user) && !CompanyUtil.isTray(company) && CompanyUtil.isPremium(company)
             },
             {
-                id: `whatsappTemplateList`,
-                icon: 'icon-arrow',
-                label: 'Modelos de Mensagem Whatsapp',
-                route: Navigation.routes.whatsappTemplateList,
-                visible: UserUtil.isMaster(user) && !CompanyUtil.isTray(company) && CompanyUtil.isPremium(company)
-            },
-            {
                 id: `coupons`,
                 icon: 'icon-arrow',
                 label: 'Visualização de giftbacks',
@@ -106,11 +99,18 @@ export class ConfigSubItems {
                 visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER]) && !CompanyUtil.isTray(company)
             },
             {
-                id: `whatsappTemplateList`,
+                id: 'batchUpload',
                 icon: 'icon-arrow',
-                label: 'Templates do Whatsapp',
-                route: Navigation.routes.whatsappTemplateList,
-                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER]) && !CompanyUtil.isTray(company)
+                label: 'Upload de Planilhas',
+                route: Navigation.routes.batchUpload,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER])
+            },
+            {
+                id: 'syncData',
+                icon: 'icon-arrow',
+                label: 'Sincronização de dados',
+                route: Navigation.routes.syncData,
+                visible: UserUtil.hasRoles(user, [AppConstants.ROLES.MASTER])
             }
         ];
     }

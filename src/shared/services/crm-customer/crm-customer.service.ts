@@ -7,6 +7,7 @@ import { CrmCustomerLinkResponse } from 'src/shared/models/responses/crm/crm-cus
 import { CrmCustomerDetailResponse, CrmCustomerResponse } from 'src/shared/models/responses/crm/crm-customer.response';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
+import { CrmWppLink } from 'src/shared/models/requests/crm/crm-wpp-link.request';
 
 @Injectable({
     providedIn: 'root'
@@ -45,9 +46,9 @@ export class CrmCustomerService extends ApiService {
         return promise;
     }
 
-    public async findWhatsappLink(id: string, linkTemplateId: string): Promise<CrmCustomerLinkResponse> {
+    public async findWhatsappLink(request: CrmWppLink): Promise<CrmCustomerLinkResponse> {
         const promise: Promise<CrmCustomerLinkResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<CrmCustomerLinkResponse>(`${this.url}/${id}/links/${linkTemplateId}`).subscribe(
+            this.post<CrmCustomerLinkResponse, CrmWppLink>(`${this.url}/whatsapp-link`, request).subscribe(
                 (response: CrmCustomerLinkResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

@@ -22,7 +22,7 @@ export class ThreadMessageComponent implements OnInit {
     }
 
     public ngOnInit(): void {
-        //console.log('init');
+        //no content
     }
 
     public async download(): Promise<void> {

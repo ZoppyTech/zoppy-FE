@@ -1,4 +1,13 @@
 <div class="text-message-container">
+    <div *ngIf="!hasDeleted && headerText" class="text--800 text-16 text--bold margin-y-2" [innerText]="headerText"></div>
     <div *ngIf="!hasDeleted" class="text-message text-14" [innerText]="text"></div>
     <div *ngIf="hasDeleted" class="text--500 deleted-message text-14">Esta mensagem foi deletada.</div>
+    <div *ngIf="!hasDeleted && footerText" class="text--400 text-message text-12 text--bold margin-y-2" [innerText]="headerText"></div>
+    <a *ngIf="!hasDeleted && ctaLabel" target="_blank" [href]="ctaLink">
+        <div class="separator"></div>
+        <div class="flex flex-center wide">
+            <ps-icon class="info" icon="icon-open_new"></ps-icon> &nbsp;
+            <span class="text text--info">{{ ctaLabel }}</span>
+        </div>
+    </a>
 </div>

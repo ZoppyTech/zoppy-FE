@@ -26,4 +26,12 @@
         font-style: italic;
         color: #363636;
     }
+
+    a {
+        text-decoration: none;
+
+        .separator {
+            margin-bottom: 1.2rem;
+        }
+    }
 }

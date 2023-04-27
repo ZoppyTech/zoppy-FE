@@ -8,7 +8,6 @@ import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-
 import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
 import { WhatsappConversationRequest } from 'src/shared/models/requests/whatsapp-conversation/whatsapp-conversation.request';
 import { ZoppyException } from 'src/shared/services/api.service';
-import { WhatsappBusinessManagementService } from 'src/shared/services/whatsapp-business-management/whatsapp-business-management.service';
 import { WhatsappConversationService } from 'src/shared/services/whatsapp-conversation/whatsapp-conversation.service';
 import { WhatsappMediaService } from 'src/shared/services/whatsapp-media/whatsapp-media.service';
 import { ChatRoom } from '../../models/chat-room';
@@ -16,6 +15,8 @@ import { ThreadMessage } from '../../models/thread-message';
 import { WhatsappUtil } from '../../utils/whatsapp.util';
 import { ChatUtility } from './helpers/chat-utility';
 import { ChatMessageTemplate } from './models/chat-message-template';
+import { MessageTemplateService } from 'src/shared/services/message-template/message-template.service';
+import { MessageTemplateGroupEntity } from 'src/shared/models/entities/message-template-group.entity';
 import { ChatMapper } from '../../helpers/chat-mapper';
 import { ChatHandler } from '../../helpers/chat-handler';
 
@@ -67,7 +68,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public constructor(
         public readonly chatMapper: ChatMapper,
         public readonly wppConversationService: WhatsappConversationService,
-        public readonly wppBusinessManagementService: WhatsappBusinessManagementService,
+        public readonly messageTemplateService: MessageTemplateService,
         public readonly wppMediaService: WhatsappMediaService,
         public readonly toast: ToastService,
         public readonly confirmActionService: ConfirmActionService,
@@ -207,13 +208,25 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public async loadMessageTemplates(): Promise<void> {
         try {
             this.messageTemplatesLoading = true;
-            const entities: WhatsappMessageTemplateEntity[] = await this.wppBusinessManagementService.list(
+            const entities: MessageTemplateGroupEntity[] = await this.messageTemplateService.listGroups(
                 WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.USER
             );
-            this.messageTemplates = entities.map((entity: WhatsappMessageTemplateEntity) => {
+            this.messageTemplates = entities.map((entity: MessageTemplateGroupEntity) => {
                 return {
-                    ...entity,
-                    isSuggested: false
+                    groupId: entity.id,
+                    whatsappMessageTemplateId: entity.whatsappMessageTemplate?.id,
+                    wppId: entity.whatsappMessageTemplate?.wppId,
+                    name: entity.whatsappMessageTemplate?.wppName,
+                    title: entity.name,
+                    description: entity.description,
+                    content: entity.messageTemplates[0]?.text,
+                    status: entity.whatsappMessageTemplate?.status,
+                    headerText: entity.whatsappMessageTemplate?.headerMessage,
+                    footerText: entity.whatsappMessageTemplate?.footerMessage,
+                    ctaLabel: entity.whatsappMessageTemplate?.ctaLabel,
+                    ctaLink: entity.whatsappMessageTemplate?.ctaLink,
+                    isSuggested: false,
+                    createdAt: entity.createdAt
                 };
             });
             this.replaceMessageTemplatesVariables();
@@ -338,6 +351,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             type: WhatsappConstants.MessageType.Template,
             templateName: this.messageTemplateSelected?.name,
             content: this.messageTemplateSelected?.content ?? '',
+            headerText: this.messageTemplateSelected?.headerText ?? '',
+            footerText: this.messageTemplateSelected?.footerText ?? '',
+            ctaLabel: this.messageTemplateSelected?.ctaLabel ?? '',
+            ctaLink: this.messageTemplateSelected?.ctaLink ?? '',
             senderName: this.room?.manager?.name ?? '',
             readByManager: true,
             status: WhatsappConstants.MESSAGE_STATUS.FORWARDED,
@@ -354,6 +371,10 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             type: WhatsappConstants.MessageType.Text,
             content: this.messageInput,
             senderName: this.room?.manager?.name ?? '',
+            headerText: '',
+            footerText: '',
+            ctaLabel: '',
+            ctaLink: '',
             status: WhatsappConstants.MESSAGE_STATUS.FORWARDED,
             readByManager: true,
             isBusiness: true,

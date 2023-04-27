@@ -20,11 +20,7 @@ export class Navigation {
         reports: '/dashboard/reports',
         accessKeys: '/dashboard/configurations/access-keys',
         accessTokens: '/dashboard/access-tokens',
-        letalk: '/dashboard/configurations/letalk',
-        messageConfig: '/dashboard/configurations/message-config',
         coupons: '/dashboard/configurations/coupons',
-        batchUpload: '/dashboard/configurations/batch-upload',
-        syncData: '/dashboard/configurations/sync-data',
 
         integrations: '/dashboard/configurations/integrations ',
         automations: '/dashboard/configurations/automations ',
@@ -33,8 +29,9 @@ export class Navigation {
         messageTemplateList: '/dashboard/configurations/templates/list',
         messageTemplateConfig: '/dashboard/configurations/templates/config',
         whatsappConfig: '/dashboard/configurations/whatsapp-setup',
-        whatsappTemplateList: '/dashboard/configurations/whatsapp-template-list',
+        syncData: '/dashboard/configurations/sync-data',
         giftback: '/dashboard/configurations/giftbacks',
+        batchUpload: '/dashboard/configurations/batch-upload',
 
         whatsapp: '/dashboard/whatsapp',
         products: '/dashboard/products',
@@ -62,9 +59,7 @@ export type Pages =
     | 'giftback'
     | 'home'
     | 'landing'
-    | 'letalk'
     | 'login'
-    | 'messageConfig'
     | 'messageTemplate'
     | 'messageTemplateList'
     | 'messageTemplateConfig'
@@ -85,7 +80,6 @@ export type Pages =
     | 'userConfig'
     | 'whatsapp'
     | 'whatsappConfig'
-    | 'whatsappTemplateList'
     | `configuration`
     | 'integrations'
     | 'automations'

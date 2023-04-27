@@ -51,7 +51,15 @@
                 <audio-message *ngSwitchCase="'audio'" thread-message-content [media]="thread.media"></audio-message>
                 <image-message *ngSwitchCase="'image'" thread-message-content [media]="thread.media"></image-message>
                 <text-message *ngSwitchCase="'text'" thread-message-content [text]="thread.content"></text-message>
-                <text-message *ngSwitchCase="'template'" thread-message-content [text]="thread.content"></text-message>
+                <text-message
+                    *ngSwitchCase="'template'"
+                    [headerText]="thread.headerText"
+                    [footerText]="thread.footerText"
+                    [ctaLabel]="thread.ctaLabel"
+                    [ctaLink]="thread.ctaLink"
+                    thread-message-content
+                    [text]="thread.content"
+                ></text-message>
                 <document-message
                     *ngSwitchCase="'document'"
                     thread-message-content
@@ -86,7 +94,8 @@
                         (click)="selectMessageTemplate(messageTemplate)"
                         class="item clickable"
                     >
-                        <span class="text-16">{{ messageTemplate.content }}</span>
+                        <span class="text-16 text--bold">{{ messageTemplate.title }}: &nbsp;</span>
+                        <span class="text-16">{{ messageTemplate.description }}</span>
                     </div>
                     <div *ngIf="messageTemplates.length <= 0" class="item">Nenhum modelo de mensagem disponível!</div>
                 </div>
