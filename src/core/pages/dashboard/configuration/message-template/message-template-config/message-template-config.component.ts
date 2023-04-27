@@ -16,6 +16,7 @@ import { WhatsappAccountService } from 'src/shared/services/whatsapp-account/wha
 import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-account.entity';
 import { SyncGroupWhatsappRequest } from 'src/shared/models/requests/message-template/sync-group-whatsapp.request';
 import { MessageTemplateUtil } from '@ZoppyTech/utilities';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 
 @Component({
     selector: 'app-message-template-config',
@@ -26,7 +27,6 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
     public templates: Array<MessageTemplateEntity> = [];
     public group?: MessageTemplateGroupEntity = undefined;
     public wppTemplateRequest: SyncGroupWhatsappRequest = new SyncGroupWhatsappRequest();
-    public batata: string = 'batata';
     public loaded: boolean = false;
     public loading: boolean = false;
     public groupId: string = '';
@@ -43,7 +43,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
         public messageTemplateService: MessageTemplateService,
-        public toast: ToastService,
+        public toastService: ToastService,
         public override storage: Storage,
         public modal: ModalService,
         private readonly confirmActionService: ConfirmActionService,
@@ -99,8 +99,13 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
     }
 
     private validate(): Validate {
-        if (!this.name || !this.description || !this.templates.length) {
-            return {
+        let validate: Validate = {
+            valid: true,
+            message: ''
+        };
+
+        if (!this.groupId && (!this.name || !this.description || !this.templates.length)) {
+            validate = {
                 valid: false,
                 message: 'Insira nome e descrição do grupo'
             };
@@ -108,7 +113,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
 
         for (const template of this.templates) {
             if (!template.text) {
-                return {
+                validate = {
                     valid: false,
                     message: 'Conteúdo da mensagem é obrigatorio'
                 };
@@ -118,7 +123,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
 
             for (const param of templateParams) {
                 if (!MessageTemplateUtil.validateTemplateParameter(param)) {
-                    return {
+                    validate = {
                         valid: false,
                         message: 'Parâmetro inválido no seu template'
                     };
@@ -130,7 +135,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
             const headerParams: string[] = MessageTemplateUtil.extractTemplateParameters(this.wppTemplateRequest.headerMessage);
             for (const param of headerParams) {
                 if (!MessageTemplateUtil.validateTemplateParameter(param)) {
-                    return {
+                    validate = {
                         valid: false,
                         message: 'Parâmetro inválido no seu cabeçalho'
                     };
@@ -138,35 +143,35 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
             }
 
             if (this.wppTemplateRequest.ctaLabel && !this.wppTemplateRequest.ctaLink)
-                return {
+                validate = {
                     valid: false,
                     message: 'Link obrigatório para haver botão de ação'
                 };
 
             if (!this.wppTemplateRequest.ctaLabel && this.wppTemplateRequest.ctaLink)
-                return {
+                validate = {
                     valid: false,
                     message: 'Texto obrigatório para haver botão de ação'
                 };
 
             if (this.templates.length > 1)
-                return {
+                validate = {
                     valid: false,
                     message: 'Com a configuração do whatsapp, não é permitido criar mais de um template'
                 };
         }
 
-        return {
-            valid: true,
-            message: ''
-        };
+        return validate;
     }
 
     public async save(): Promise<void> {
         const valid: Validate = this.validate();
 
         if (!valid.valid) {
-            this.toast.error(valid.message, 'Houveram erros de validação');
+            BroadcastService.emit('send-error', {
+                message: valid.message,
+                title: 'Houveram erros de validação'
+            });
             return;
         }
 
@@ -201,13 +206,17 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         try {
             await Promise.all(promises);
             if (this.wppAccount) await this.messageTemplateService.syncGroupWithWhatsapp(this.groupId, this.wppTemplateRequest);
-            this.toast.success('Informações salvas com sucesso.', `Sucesso!`);
+            this.toastService.success('Informações salvas com sucesso.', `Sucesso!`);
             this.tab
                 ? this.router.navigate([Navigation.routes.automationForm, this.tab])
                 : this.router.navigate([Navigation.routes.messageTemplateList]);
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Houve um erro!');
+            BroadcastService.emit('send-error', {
+                message: ex.message,
+                title: 'Houve um erro!'
+            });
+            this.toastService.alert(ex.message, 'Houve um erro!');
         } finally {
             this.loading = false;
         }
@@ -227,10 +236,10 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
                 try {
                     await this.messageTemplateService.destroy(template.id, this.groupId);
                     await this.fetchData();
-                    this.toast.success('Esse template foi removido e não pode ser mais usado', 'Sucesso!');
+                    this.toastService.success('Esse template foi removido e não pode ser mais usado', 'Sucesso!');
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
-                    this.toast.error(ex.message, 'Não foi possível deletar esse template');
+                    this.toastService.error(ex.message, 'Não foi possível deletar esse template');
                 }
             }
         );

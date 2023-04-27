@@ -337,7 +337,6 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     public async loadConversationByContact(contactId: string): Promise<void> {
         try {
             const entity: WhatsappConversationEntity = await this.wppConversationService.findByContactId(contactId);
-            debugger;
             const newRoom: ChatRoom = this.chathandler.addRoom(entity, true);
             this.chathandler.setRoomAsMostRecent(newRoom);
             this.chathandler.updateNewConversationCount();

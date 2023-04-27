@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ConfirmActionService } from '@ZoppyTech/confirm-action';
 import { ToastService } from '@ZoppyTech/toast';
 import { Pallete, VisualIdentityService } from '@ZoppyTech/visual-identity';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { StyleUtil } from 'src/shared/utils/style.util';
 
 @Component({
@@ -18,5 +19,13 @@ export class AppComponent implements OnInit {
 
     public ngOnInit() {
         StyleUtil.setBaseColorPallete(this.visualIdentityService);
+        BroadcastService.subscribe(this, 'send-error', (err: Error) => {
+            this.toast.error(err.message, err.title);
+        });
     }
+}
+
+interface Error {
+    message: string;
+    title: string;
 }

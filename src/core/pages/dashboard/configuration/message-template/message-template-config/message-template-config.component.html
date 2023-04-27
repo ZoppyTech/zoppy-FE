@@ -1,6 +1,6 @@
 <div class="container" *ngIf="loaded">
     <div class="wide tall flex">
-        <div class="tall flex flex-column flex-grow">
+        <div class="tall flex flex-column flex-grow scroll">
             <a class="flex go-back margin-left-2 padding-left-1 padding-top-2" [href]="getHref()">
                 <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
                 <span class="text-16 text--bold text--primary">Voltar</span>
@@ -84,6 +84,7 @@
         <ps-preview
             [bodyText]="templates && templates[0].text ? templates[0].text : ''"
             [headerText]="wppTemplateRequest.headerMessage"
+            [footerText]="wppTemplateRequest.footerMessage"
             [ctaLabel]="wppTemplateRequest.ctaLabel"
         ></ps-preview>
     </div>
