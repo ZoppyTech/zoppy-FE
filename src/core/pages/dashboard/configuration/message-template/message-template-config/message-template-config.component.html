@@ -1,55 +1,96 @@
 <div class="container" *ngIf="loaded">
-    <a class="flex go-back margin-left-2 padding-left-1 padding-top-2" [href]="getHref()">
-        <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
-        <span class="text-16 text--bold text--primary">Voltar</span>
-    </a>
+    <div class="wide tall flex">
+        <div class="tall flex flex-column flex-grow">
+            <a class="flex go-back margin-left-2 padding-left-1 padding-top-2" [href]="getHref()">
+                <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
+                <span class="text-16 text--bold text--primary">Voltar</span>
+            </a>
 
-    <div class="header space-between align-center">
-        <div class="flex flex-column margin-y-3">
-            <h6 class="text">{{ group ? 'Editar Mensagem: ' + group.name : 'Nova Mensagem' }}</h6>
-            <span class="text">Altere a mensagem que será enviada para seus clientes</span>
-        </div>
-        <ps-button type="secondary" *ngIf="!wppAccount" (onClick)="addNewMessage()">
-            <span class="text neutral-100 margin-x-2">Nova Mensagem</span>
-        </ps-button>
-    </div>
-
-    <div class="body">
-        <div style="border-radius: 8px" class="fields flex-grow-1">
-            <div class="flex space-between" *ngIf="!group?.id">
-                <div class="field flex-grow flex flex-column">
-                    <p class="text-16 text--bold">Nome*</p>
-                    <ps-input [(ngModel)]="name"></ps-input>
+            <div class="header space-between align-center">
+                <div class="flex flex-column margin-y-2">
+                    <div class="flex align-center">
+                        <h6 class="text">{{ group ? 'Editar Mensagem: ' + group.name : 'Nova Mensagem' }}</h6>
+                        <ps-switch
+                            *ngIf="wppAccount"
+                            class="margin-left-1"
+                            tooltipWidth="250"
+                            appTooltip
+                            tooltipText="Defina a visibilidade desse template na lista de templates no chat, deixe visível apenas os templates usados pra iniciar uma conversa"
+                            tooltipDirection="right"
+                            [(active)]="wppTemplateRequest.visible"
+                        ></ps-switch>
+                    </div>
+                    <span class="text neutral-600 margin-top-1">Altere a mensagem que será enviada para seus clientes</span>
                 </div>
-
-                <div class="field flex-grow flex flex-column padding-left-3">
-                    <p class="text-16 text--bold">Description*</p>
-                    <ps-input [(ngModel)]="description"></ps-input>
-                </div>
+                <ps-button type="secondary" *ngIf="!wppAccount" (onClick)="addNewMessage()">
+                    <span class="text neutral-100 margin-x-2">Nova Mensagem</span>
+                </ps-button>
             </div>
-            <div class="field" *ngFor="let template of templates; let index = index">
-                <div class="wide flex space-between margin-bottom-1">
-                    <p class="text-16 text--bold">{{ index + 1 }}ª Mensagem</p>
-                    <ps-button type="clean" (onClick)="deleteTemplate(template, index)">
-                        <div class="flex flex-center">
-                            <ps-icon icon="icon-delete" class="text-18 padding-x-1"></ps-icon>
+
+            <div class="body">
+                <div class="fields flex-grow-1">
+                    <div class="flex space-between" *ngIf="!group?.id">
+                        <div class="field flex-grow flex flex-column">
+                            <p class="text-16 text--bold">Nome*</p>
+                            <ps-input [(ngModel)]="name"></ps-input>
                         </div>
-                    </ps-button>
-                </div>
-                <div class="flex flex-column">
-                    <ps-input placeholder="Insira aqui o conteúdo." type="text" [(ngModel)]="template.text" [rows]="6"></ps-input>
+
+                        <div class="field flex-grow flex flex-column padding-left-3">
+                            <p class="text-16 text--bold">Descrição*</p>
+                            <ps-input [(ngModel)]="description"></ps-input>
+                        </div>
+                    </div>
+                    <div class="field" *ngIf="wppAccount">
+                        <p class="text-16 text--bold margin-bottom-1">Cabeçalho</p>
+                        <div class="flex flex-column">
+                            <ps-template-input [(ngModel)]="wppTemplateRequest.headerMessage" type="header"></ps-template-input>
+                        </div>
+                    </div>
+                    <div class="field" *ngFor="let template of templates ?? []; let index = index">
+                        <p class="text-16 text--bold margin-bottom-1">{{ wppAccount ? 'Corpo' : 'Mensagem ' + (index + 1) }}</p>
+                        <div class="flex flex-column">
+                            <ps-template-input [(ngModel)]="template.text" type="text"></ps-template-input>
+                        </div>
+                    </div>
+
+                    <div class="field" *ngIf="wppAccount">
+                        <p class="text-16 text--bold margin-bottom-1">Rodapé</p>
+                        <ps-input [(ngModel)]="wppTemplateRequest.footerMessage"></ps-input>
+                    </div>
+
+                    <div class="field flex grid-gap-3">
+                        <div class="flex flex-column flex-grow">
+                            <p class="text-16 text--bold margin-bottom-1">Texto do botão de ação</p>
+                            <ps-input [(ngModel)]="wppTemplateRequest.ctaLabel"></ps-input>
+                        </div>
+                        <div class="flex flex-column flex-grow">
+                            <p class="text-16 text--bold margin-bottom-1">URL de redirecionamento</p>
+                            <ps-input [(ngModel)]="wppTemplateRequest.ctaLink"></ps-input>
+                        </div>
+                    </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <div class="footer">
-        <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary">
-            <span class="text--100 text-14 text--bold">Salvar</span>
-        </ps-button>
+            <div class="footer">
+                <ps-button [wide]="true" (onClick)="goBack()" type="cancel-border" class="margin-right-2">
+                    <span class="text--primary text-14 text--bold">Cancelar</span>
+                </ps-button>
+                <ps-button [loading]="loading" [wide]="true" (onClick)="save()" type="secondary">
+                    <span class="text--100 text-14 text--bold">Salvar</span>
+                </ps-button>
+            </div>
+        </div>
+
+        <ps-preview
+            [bodyText]="templates && templates[0].text ? templates[0].text : ''"
+            [headerText]="wppTemplateRequest.headerMessage"
+            [ctaLabel]="wppTemplateRequest.ctaLabel"
+        ></ps-preview>
     </div>
 </div>
 
 <div *ngIf="!loaded" class="container flex flex-center">
     <static-loading [isLoading]="true" class="loading"></static-loading>
 </div>
+
+<ps-tooltip></ps-tooltip>

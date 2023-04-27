@@ -26,7 +26,6 @@
     }
 
     .body {
-        margin: 0 2rem;
         border-radius: 0.75rem;
         display: flex;
         grid-gap: 2rem;
@@ -35,33 +34,14 @@
         flex-grow: 1;
         min-height: 0;
 
-        .info-params {
-            display: flex;
-            padding: 0.75rem 1rem;
-            justify-content: flex-start;
-            align-items: center;
-            border: 1px solid var(--info);
-            border-radius: 0.5rem;
-            background-color: rgba($color: #4d7eff, $alpha: 0.1);
-
-            ps-icon {
-                margin-right: 0.5rem;
-                font-size: 18px;
-                color: var(--info);
-            }
-        }
-
         .fields {
             flex-grow: 1;
             min-height: 0;
-            background-color: #fafbff;
-            border: 1px solid var(--neutral-300);
-            padding: 1.5rem 2rem 2rem 2rem;
             overflow: auto;
-            height: 100%;
+            padding: 0 2rem;
 
             .field {
-                padding-bottom: 1.5rem;
+                padding-bottom: 1rem;
             }
         }
     }
@@ -75,6 +55,10 @@
         ps-button {
             width: 11.25rem;
         }
+    }
+
+    ps-preview {
+        margin-top: 3rem;
     }
 }
 

@@ -48,7 +48,7 @@
         "@ZoppyTech/utilities": "^1.0.138",
         "@ZoppyTech/stepper": "0.1.9",
         "@ZoppyTech/selector": "0.1.5",
-        "@ZoppyTech/template-input": "0.0.12",
+        "@ZoppyTech/template-input": "0.0.13",
         "anychart": "^8.7.1",
         "chart.js": "^4.0.1",
         "file-saver": "^2.0.5",

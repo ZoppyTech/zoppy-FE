@@ -106,6 +106,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             this.messagesLoading = this.room.selectedByContactListView;
             this.seeLastMessage();
             this.latestConversation = await this.wppConversationService.findByContactId(this.room.contact.id);
+            debugger;
             if (this.room.selectedByContactListView) {
                 const newRoom: ChatRoom = this.chathandler.addRoom(this.latestConversation, false);
                 this.chathandler.setRoomAsMostRecent(newRoom);

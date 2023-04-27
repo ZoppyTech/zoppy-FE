@@ -9,6 +9,7 @@ import { MessageTemplateEntity } from 'src/shared/models/entities/message-templa
 import { MessageTemplateRequest } from 'src/shared/models/requests/message-template/message-template.request';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, ZoppyException } from '../api.service';
+import { SyncGroupWhatsappRequest } from 'src/shared/models/requests/message-template/sync-group-whatsapp.request';
 
 @Injectable({
     providedIn: 'root'
@@ -108,6 +109,16 @@ export class MessageTemplateService extends ApiService {
     public async updateGroupVisibility(id: string): Promise<MessageTemplateGroupEntity> {
         const promise: Promise<MessageTemplateGroupEntity> = new Promise((resolve: any, reject: any) => {
             this.put<MessageTemplateGroupEntity, {}>(`${this.url}/groups/${id}/visibility`).subscribe(
+                (response: MessageTemplateGroupEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async syncGroupWithWhatsapp(id: string, request: SyncGroupWhatsappRequest): Promise<MessageTemplateGroupEntity> {
+        const promise: Promise<MessageTemplateGroupEntity> = new Promise((resolve: any, reject: any) => {
+            this.put<MessageTemplateGroupEntity, SyncGroupWhatsappRequest>(`${this.url}/groups/${id}/sync-whatsapp`, request).subscribe(
                 (response: MessageTemplateGroupEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

@@ -14,6 +14,8 @@ import { DashboardBasePage } from 'src/core/pages/dashboard/dashboard.base.page'
 import { MessageTemplateGroupEntity } from 'src/shared/models/entities/message-template-group.entity';
 import { WhatsappAccountService } from 'src/shared/services/whatsapp-account/whatsapp-account.service';
 import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-account.entity';
+import { SyncGroupWhatsappRequest } from 'src/shared/models/requests/message-template/sync-group-whatsapp.request';
+import { MessageTemplateUtil } from '@ZoppyTech/utilities';
 
 @Component({
     selector: 'app-message-template-config',
@@ -22,7 +24,9 @@ import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-accou
 })
 export class MessageTemplateConfigComponent extends DashboardBasePage implements OnInit {
     public templates: Array<MessageTemplateEntity> = [];
-    public group: MessageTemplateGroupEntity | undefined;
+    public group?: MessageTemplateGroupEntity = undefined;
+    public wppTemplateRequest: SyncGroupWhatsappRequest = new SyncGroupWhatsappRequest();
+    public batata: string = 'batata';
     public loaded: boolean = false;
     public loading: boolean = false;
     public groupId: string = '';
@@ -51,32 +55,124 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
     }
 
     public async ngOnInit() {
+        this.loaded = false;
         this.route.paramMap.subscribe(async (paramMap: any) => {
             this.groupId = paramMap.get('id');
             this.tab = paramMap.get('tab');
-            if (!this.groupId) this.loaded = true;
-            await this.fetchData();
             this.setBreadcrumb();
             this.sideMenuService.change('configurations');
             this.sideMenuService.changeSub('messageTemplate');
+            await this.fetchData();
         });
     }
 
     public async fetchData(): Promise<void> {
-        if (!this.groupId) return;
+        if (!this.groupId) {
+            this.wppAccount = await this.whatsappAccountService.getRegisteredByCompany();
+            this.templates = [];
+            this.addNewMessage();
+            this.loaded = true;
+            this.wppTemplateRequest = {
+                headerMessage: '',
+                footerMessage: '',
+                ctaLabel: '',
+                ctaLink: '',
+                visible: true
+            };
+            return;
+        }
         this.group = await this.messageTemplateService.findGroup(this.groupId);
         this.templates = this.group.messageTemplates;
         this.wppAccount = await this.whatsappAccountService.getRegisteredByCompany();
-        this.loaded = true;
+        if (this.group.whatsappMessageTemplate) {
+            this.wppTemplateRequest = {
+                headerMessage: this.group.whatsappMessageTemplate.headerMessage,
+                footerMessage: this.group.whatsappMessageTemplate.footerMessage,
+                ctaLabel: this.group.whatsappMessageTemplate.ctaLabel,
+                ctaLink: this.group.whatsappMessageTemplate.ctaLink,
+                visible: this.group.whatsappMessageTemplate.visible
+            };
+        }
+        setTimeout(() => {
+            this.loaded = true;
+        });
+    }
+
+    private validate(): Validate {
+        if (!this.name || !this.description || !this.templates.length) {
+            return {
+                valid: false,
+                message: 'Insira nome e descrição do grupo'
+            };
+        }
+
+        for (const template of this.templates) {
+            if (!template.text) {
+                return {
+                    valid: false,
+                    message: 'Conteúdo da mensagem é obrigatorio'
+                };
+            }
+
+            const templateParams: string[] = MessageTemplateUtil.extractTemplateParameters(template.text);
+
+            for (const param of templateParams) {
+                if (!MessageTemplateUtil.validateTemplateParameter(param)) {
+                    return {
+                        valid: false,
+                        message: 'Parâmetro inválido no seu template'
+                    };
+                }
+            }
+        }
+
+        if (this.wppAccount && this.wppTemplateRequest) {
+            const headerParams: string[] = MessageTemplateUtil.extractTemplateParameters(this.wppTemplateRequest.headerMessage);
+            for (const param of headerParams) {
+                if (!MessageTemplateUtil.validateTemplateParameter(param)) {
+                    return {
+                        valid: false,
+                        message: 'Parâmetro inválido no seu cabeçalho'
+                    };
+                }
+            }
+
+            if (this.wppTemplateRequest.ctaLabel && !this.wppTemplateRequest.ctaLink)
+                return {
+                    valid: false,
+                    message: 'Link obrigatório para haver botão de ação'
+                };
+
+            if (!this.wppTemplateRequest.ctaLabel && this.wppTemplateRequest.ctaLink)
+                return {
+                    valid: false,
+                    message: 'Texto obrigatório para haver botão de ação'
+                };
+
+            if (this.templates.length > 1)
+                return {
+                    valid: false,
+                    message: 'Com a configuração do whatsapp, não é permitido criar mais de um template'
+                };
+        }
+
+        return {
+            valid: true,
+            message: ''
+        };
     }
 
     public async save(): Promise<void> {
-        if (!this.groupId) {
-            if (!this.name || !this.description) {
-                this.toast.error('Informações incompletas', 'Insira nome e descrição do grupo');
-                return;
-            }
+        const valid: Validate = this.validate();
 
+        if (!valid.valid) {
+            this.toast.error(valid.message, 'Houveram erros de validação');
+            return;
+        }
+
+        this.loading = true;
+
+        if (!this.groupId) {
             const group: MessageTemplateGroupEntity = await this.messageTemplateService.createGroup({
                 name: this.name,
                 description: this.description,
@@ -102,11 +198,19 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
                       })
                   );
         });
-        await Promise.all(promises);
-        this.toast.success('Informações salvas com sucesso.', `Sucesso!`);
-        this.tab
-            ? this.router.navigate([Navigation.routes.automationForm, this.tab])
-            : this.router.navigate([Navigation.routes.messageTemplateList]);
+        try {
+            await Promise.all(promises);
+            if (this.wppAccount) await this.messageTemplateService.syncGroupWithWhatsapp(this.groupId, this.wppTemplateRequest);
+            this.toast.success('Informações salvas com sucesso.', `Sucesso!`);
+            this.tab
+                ? this.router.navigate([Navigation.routes.automationForm, this.tab])
+                : this.router.navigate([Navigation.routes.messageTemplateList]);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Houve um erro!');
+        } finally {
+            this.loading = false;
+        }
     }
 
     public async deleteTemplate(template: MessageTemplateEntity, index: number): Promise<void> {
@@ -133,12 +237,22 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
     }
 
     public addNewMessage(): void {
-        this.templates.push(new MessageTemplateEntity());
+        this.templates.push({
+            text: ''
+        } as MessageTemplateEntity);
     }
 
     public getHref(): string {
         if (!this.tab) return '/dashboard/configurations/templates';
         return `/dashboard/configurations/automations/form/${this.tab}`;
+    }
+
+    public goBack(): void {
+        if (!this.tab) {
+            this.router.navigate([Navigation.routes.messageTemplateList]);
+            return;
+        }
+        this.router.navigate([Navigation.routes.automationForm, this.tab]);
     }
 
     private setBreadcrumb(): void {
@@ -161,4 +275,9 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
             }
         ];
     }
+}
+
+interface Validate {
+    valid: boolean;
+    message: string;
 }

@@ -63,6 +63,10 @@
                                 class="margin-left-2"
                                 *ngIf="wppAccount && group?.whatsappMessageTemplate"
                                 [(active)]="group.whatsappMessageTemplate.visible"
+                                tooltipWidth="250"
+                                appTooltip
+                                tooltipText="Defina a visibilidade desse template na lista de templates no chat, deixe visível apenas os templates usados pra iniciar uma conversa"
+                                tooltipDirection="left"
                                 (onToggleSwitch)="updateVisibility(group)"
                             ></ps-switch>
                         </div>
@@ -76,3 +80,4 @@
 <div *ngIf="loading" class="container flex flex-center">
     <static-loading [isLoading]="true" class="loading"></static-loading>
 </div>
+<ps-tooltip></ps-tooltip>

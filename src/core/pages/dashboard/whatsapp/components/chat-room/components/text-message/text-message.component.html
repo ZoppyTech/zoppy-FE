@@ -5,7 +5,7 @@
     <div *ngIf="!hasDeleted && footerText" class="text--400 text-message text-12 text--bold margin-y-2" [innerText]="headerText"></div>
     <a *ngIf="!hasDeleted && ctaLabel" target="_blank" [href]="ctaLink">
         <div class="separator"></div>
-        <div class="flex flex-center padding-1 wide">
+        <div class="flex flex-center wide">
             <ps-icon class="info" icon="icon-open_new"></ps-icon> &nbsp;
             <span class="text text--info">{{ ctaLabel }}</span>
         </div>

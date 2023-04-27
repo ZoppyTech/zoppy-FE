@@ -1,3 +1,4 @@
+import { TooltipModule } from '@ZoppyTech/tooltip';
 import { MessageTemplateConfigComponent } from './message-template-config.component';
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -8,6 +9,8 @@ import { IconModule } from '@ZoppyTech/icon';
 import { InputModule } from '@ZoppyTech/input';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
 import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
+import { PreviewModule, TemplateInputModule } from '@ZoppyTech/template-input';
+import { SwitchModule } from '@ZoppyTech/switch';
 
 const routes: Routes = [
     {
@@ -27,7 +30,11 @@ const routes: Routes = [
         IconModule,
         PipesModule,
         DropdownModule,
-        StaticLoadingModule
+        StaticLoadingModule,
+        TemplateInputModule,
+        PreviewModule,
+        SwitchModule,
+        TooltipModule
     ]
 })
 export class MessageTemplateConfigModule {}
