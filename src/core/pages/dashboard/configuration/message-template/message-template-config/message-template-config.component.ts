@@ -84,15 +84,13 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         this.group = await this.messageTemplateService.findGroup(this.groupId);
         this.templates = this.group.messageTemplates;
         this.wppAccount = await this.whatsappAccountService.getRegisteredByCompany();
-        if (this.group.whatsappMessageTemplate) {
-            this.wppTemplateRequest = {
-                headerMessage: this.group.whatsappMessageTemplate.headerMessage,
-                footerMessage: this.group.whatsappMessageTemplate.footerMessage,
-                ctaLabel: this.group.whatsappMessageTemplate.ctaLabel,
-                ctaLink: this.group.whatsappMessageTemplate.ctaLink,
-                visible: this.group.whatsappMessageTemplate.visible
-            };
-        }
+        this.wppTemplateRequest = {
+            headerMessage: this.group.whatsappMessageTemplate?.headerMessage ?? '',
+            footerMessage: this.group.whatsappMessageTemplate?.footerMessage ?? '',
+            ctaLabel: this.group.whatsappMessageTemplate?.ctaLabel ?? '',
+            ctaLink: this.group.whatsappMessageTemplate?.ctaLink ?? '',
+            visible: this.group.whatsappMessageTemplate?.visible ?? ''
+        };
         setTimeout(() => {
             this.loaded = true;
         });
@@ -205,6 +203,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         });
         try {
             await Promise.all(promises);
+            debugger;
             if (this.wppAccount) await this.messageTemplateService.syncGroupWithWhatsapp(this.groupId, this.wppTemplateRequest);
             this.toastService.success('Informações salvas com sucesso.', `Sucesso!`);
             this.tab
