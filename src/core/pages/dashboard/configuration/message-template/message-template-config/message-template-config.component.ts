@@ -83,7 +83,11 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         }
         this.group = await this.messageTemplateService.findGroup(this.groupId);
         this.templates = this.group.messageTemplates;
-        this.wppAccount = await this.whatsappAccountService.getRegisteredByCompany();
+        try {
+            this.wppAccount = await this.whatsappAccountService.getRegisteredByCompany();
+        } catch (ex) {
+            console.log(ex);
+        }
         this.wppTemplateRequest = {
             headerMessage: this.group.whatsappMessageTemplate?.headerMessage ?? '',
             footerMessage: this.group.whatsappMessageTemplate?.footerMessage ?? '',
