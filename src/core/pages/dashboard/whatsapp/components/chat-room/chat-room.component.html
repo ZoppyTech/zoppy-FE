@@ -7,12 +7,12 @@
             </div>
             <div class="flex-row align-center display-name">
                 <span (click)="rightPanelVisible = !rightPanelVisible" class="text--800 text--bold text-20 truncate">{{
-                    chatRoom.contact.displayName
+                    room.contact.displayName
                 }}</span>
-                <ps-icon *ngIf="chatRoom.contact.isBlocked" class="font-14 block-icon margin-x-1" icon="icon-block"></ps-icon>
+                <ps-icon *ngIf="room.contact.isBlocked" class="font-14 block-icon margin-x-1" icon="icon-block"></ps-icon>
                 <ps-icon (click)="editContactModal()" class="font-14 edit-icon margin-x-2 clickable" icon="icon-edit_square"></ps-icon>
             </div>
-            <h6 class="text--800">{{ chatRoom.contact.displayPhone }}</h6>
+            <h6 class="text--800">{{ room.contact.displayPhone }}</h6>
         </div>
         <countdown-timer *ngIf="countdownTimerVisible" [timestamp]="latestConversation.sessionExpiration"></countdown-timer>
         <div class="more-options">
@@ -34,12 +34,13 @@
             </div>
         </div>
     </div>
-
-    <!-- <div *ngIf="messagesLoading"></div> -->
-    <contact-info-panel *ngIf="rightPanelVisible" [contact]="chatRoom.contact" [(close)]="rightPanelVisible"> </contact-info-panel>
+    <contact-info-panel *ngIf="rightPanelVisible" [contact]="room.contact" [(close)]="rightPanelVisible"> </contact-info-panel>
+    <div *ngIf="messagesLoading" class="chat-content--on-loading">
+        <static-loading [loadingSize]="'4rem'" [isLoading]="true" [onlyLoading]="true"></static-loading>
+    </div>
     <div *ngIf="!messagesLoading" id="panel-scrollable" class="chat-content">
         <bubble-info class="bubble-info" *ngIf="!this.latestConversation.sessionExpiration"></bubble-info>
-        <div *ngFor="let thread of this.chatRoom.threads">
+        <div *ngFor="let thread of this.room.threads">
             <splitter-date [date]="thread.createdAt" [visible]="thread.isFirstMessageOfDay"></splitter-date>
             <thread-message
                 [ngSwitch]="thread.type"
@@ -50,7 +51,15 @@
                 <audio-message *ngSwitchCase="'audio'" thread-message-content [media]="thread.media"></audio-message>
                 <image-message *ngSwitchCase="'image'" thread-message-content [media]="thread.media"></image-message>
                 <text-message *ngSwitchCase="'text'" thread-message-content [text]="thread.content"></text-message>
-                <text-message *ngSwitchCase="'template'" thread-message-content [text]="thread.content"></text-message>
+                <text-message
+                    *ngSwitchCase="'template'"
+                    [headerText]="thread.headerText"
+                    [footerText]="thread.footerText"
+                    [ctaLabel]="thread.ctaLabel"
+                    [ctaLink]="thread.ctaLink"
+                    thread-message-content
+                    [text]="thread.content"
+                ></text-message>
                 <document-message
                     *ngSwitchCase="'document'"
                     thread-message-content
@@ -81,18 +90,19 @@
                 </div>
                 <div *ngIf="!messageTemplatesLoading">
                     <div
-                        *ngFor="let messageTemplate of messageTemplatesReplaced"
+                        *ngFor="let messageTemplate of messageTemplates"
                         (click)="selectMessageTemplate(messageTemplate)"
                         class="item clickable"
                     >
-                        <span class="text-16">{{ messageTemplate.content }}</span>
+                        <span class="text-16 text--bold">{{ messageTemplate.title }}: &nbsp;</span>
+                        <span class="text-16">{{ messageTemplate.description }}</span>
                     </div>
                     <div *ngIf="messageTemplates.length <= 0" class="item">Nenhum modelo de mensagem disponível!</div>
                 </div>
             </div>
             <div
                 class="templates-button clickable"
-                [ngStyle]="{ 'background-color': footerOptions.get('messageTemplateOption') ? '#f3f3f3' : 'transparent' }"
+                [ngStyle]="{ 'background-color': footerOptions.get('messageTemplateOption') ? '#d1d7db' : 'transparent' }"
                 [ngClass]="{
                     'templates-button--active': footerOptions.get('messageTemplateOption'),
                     'templates-button--highlight': !latestConversation.sessionExpiration
@@ -124,7 +134,7 @@
                 (click)="selectFooterOptions('attachFileOption', !this.footerOptions.get('attachFileOption'))"
                 class="attach-file-button clickable"
                 [ngClass]="{ 'active-color': footerOptions.get('attachFileOption') }"
-                [ngStyle]="{ 'background-color': footerOptions.get('attachFileOption') ? '#f3f3f3' : 'transparent' }"
+                [ngStyle]="{ 'background-color': footerOptions.get('attachFileOption') ? '#d1d7db' : 'transparent' }"
             >
                 <ps-icon class="font-16" icon="icon-attach_file"></ps-icon>
             </div>

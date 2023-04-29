@@ -1,7 +1,7 @@
 import { MessageTemplateGroupRequest } from './../../models/requests/message-template/message-template-group.request';
 import { MessageTemplateGroupEntity } from './../../models/entities/message-template-group.entity';
 import { BooleanResponse } from './../api.service';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
@@ -9,6 +9,7 @@ import { MessageTemplateEntity } from 'src/shared/models/entities/message-templa
 import { MessageTemplateRequest } from 'src/shared/models/requests/message-template/message-template.request';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, ZoppyException } from '../api.service';
+import { SyncGroupWhatsappRequest } from 'src/shared/models/requests/message-template/sync-group-whatsapp.request';
 
 @Injectable({
     providedIn: 'root'
@@ -74,9 +75,10 @@ export class MessageTemplateService extends ApiService {
         return promise;
     }
 
-    public async listGroups(): Promise<MessageTemplateGroupEntity[]> {
+    public async listGroups(visibility: string): Promise<MessageTemplateGroupEntity[]> {
+        const params: HttpParams = new HttpParams().append('visibility', visibility);
         const promise: Promise<MessageTemplateGroupEntity[]> = new Promise((resolve: any, reject: any) => {
-            this.get<MessageTemplateGroupEntity[]>(`${this.url}/groups`).subscribe(
+            this.get<MessageTemplateGroupEntity[]>(`${this.url}/groups`, params).subscribe(
                 (response: MessageTemplateGroupEntity[]) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
@@ -97,6 +99,26 @@ export class MessageTemplateService extends ApiService {
     public async updateGroup(id: string, request: MessageTemplateGroupRequest): Promise<MessageTemplateGroupEntity> {
         const promise: Promise<MessageTemplateGroupEntity> = new Promise((resolve: any, reject: any) => {
             this.put<MessageTemplateGroupEntity, MessageTemplateGroupRequest>(`${this.url}/groups/${id}`, request).subscribe(
+                (response: MessageTemplateGroupEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async updateGroupVisibility(id: string): Promise<MessageTemplateGroupEntity> {
+        const promise: Promise<MessageTemplateGroupEntity> = new Promise((resolve: any, reject: any) => {
+            this.put<MessageTemplateGroupEntity, {}>(`${this.url}/groups/${id}/visibility`).subscribe(
+                (response: MessageTemplateGroupEntity) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async syncGroupWithWhatsapp(id: string, request: SyncGroupWhatsappRequest): Promise<MessageTemplateGroupEntity> {
+        const promise: Promise<MessageTemplateGroupEntity> = new Promise((resolve: any, reject: any) => {
+            this.put<MessageTemplateGroupEntity, SyncGroupWhatsappRequest>(`${this.url}/groups/${id}/sync-whatsapp`, request).subscribe(
                 (response: MessageTemplateGroupEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );

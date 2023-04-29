@@ -15,7 +15,7 @@ import { CompanyEntity } from 'src/shared/models/entities/company.entity';
 import { GiftbackCategoryRequest, GiftbackRequest } from 'src/shared/models/requests/giftback/giftback.request';
 import { CompanyUtil } from 'src/shared/utils/company.util';
 import { ZoppyException } from 'src/shared/services/api.service';
-import { MessageTemplateConstants } from '@ZoppyTech/utilities';
+import { MessageTemplateConstants, WhatsappConstants } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 
 @Component({
@@ -56,7 +56,7 @@ export class FormComponent extends DashboardBasePage implements OnInit {
             this.sideMenuService.change('configurations');
             this.sideMenuService.changeSub(`automations`);
             this.config = await this.giftbackService.find();
-            this.groups = await this.messageTemplateService.listGroups();
+            this.groups = await this.messageTemplateService.listGroups(WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.ALL);
             await this.fetchCategories();
             await this.filterGroups();
             this.loading = false;

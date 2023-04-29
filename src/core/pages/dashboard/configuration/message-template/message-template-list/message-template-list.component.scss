@@ -16,13 +16,9 @@
     margin-bottom: 2rem;
     height: 100%;
 
-    .title {
-        padding: 0 2rem;
-        margin-bottom: 1rem;
-        h6 {
-            margin-bottom: 1rem;
-        }
-        padding-bottom: 1rem;
+    .labels {
+        padding: 1rem 2rem;
+        padding-bottom: 2rem;
     }
 
     .body {
@@ -38,6 +34,7 @@
             .actions {
                 display: flex;
                 justify-content: flex-end;
+                align-items: center;
 
                 ps-icon {
                     margin-left: 1.5rem;
@@ -50,6 +47,17 @@
                 overflow: hidden;
                 text-overflow: ellipsis;
                 max-width: 10rem;
+            }
+
+            .status {
+                background-color: var(--neutral-200);
+                border-radius: 0.75rem;
+
+                .circle {
+                    border-radius: 100%;
+                    height: 0.5rem;
+                    width: 0.5rem;
+                }
             }
         }
     }

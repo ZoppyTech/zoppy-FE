@@ -55,7 +55,7 @@
                         <static-loading [isLoading]="true" [onlyLoading]="true"></static-loading>
                     </div>
                 </span>
-                <span *ngIf="thread?.createdAt !== null && !thread.deletedAt" class="text--600 text-12 datetime">{{
+                <span *ngIf="thread?.createdAt !== null && !thread.deletedAt" class="text--600 datetime">{{
                     thread.createdAt | date : 'h:mm a'
                 }}</span>
             </div>

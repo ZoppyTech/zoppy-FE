@@ -9,13 +9,11 @@ import { SideMenuService } from './side-menu/side-menu.service';
 import { UserService } from './user/user.service';
 import { WcGiftbackService } from './wc-giftback/wc-giftback.service';
 import { WcKeyService } from './wc-key/wc-key.service';
-import { WcSyncService } from './wc-sync/wc-sync.service';
 import { WcWebhookService } from './wc-webhook/wc-webhook.service';
 import { WebSocketService } from './websocket/websocket.service';
 import { WhatsappAccountManagerService } from './whatsapp-account-manager/whatsapp-account-manager.service';
 import { WhatsappAccountPhoneNumberService } from './whatsapp-account-phone-number/whatsapp-account-phone-number.service';
 import { WhatsappAccountService } from './whatsapp-account/whatsapp-account.service';
-import { WhatsappBusinessManagementService } from './whatsapp-business-management/whatsapp-business-management.service';
 import { WhatsappContactService } from './whatsapp-contact/whatsapp-contact.service';
 import { WhatsappMessageService } from './whatsapp-message/whatsapp-message.service';
 import { WhatsappConversationService } from './whatsapp-conversation/whatsapp-conversation.service';
@@ -30,7 +28,6 @@ import { WhatsappConversationService } from './whatsapp-conversation/whatsapp-co
         BreadcrumbService,
         WcGiftbackService,
         WcKeyService,
-        WcSyncService,
         WcWebhookService,
         ExternalTokenService,
         UserService,
@@ -38,7 +35,6 @@ import { WhatsappConversationService } from './whatsapp-conversation/whatsapp-co
         WhatsappAccountService,
         WhatsappAccountManagerService,
         WhatsappAccountPhoneNumberService,
-        WhatsappBusinessManagementService,
         WhatsappContactService,
         WhatsappMessageService,
         WhatsappConversationService
