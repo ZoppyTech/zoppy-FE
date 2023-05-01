@@ -62,12 +62,11 @@ export class MessageTemplateListComponent extends DashboardBasePage implements O
     }
 
     public async fetchData(): Promise<void> {
+        this.groups = await this.messageTemplateService.listGroups(WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.ALL);
         try {
-            this.groups = await this.messageTemplateService.listGroups(WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.ALL);
             this.wppAccount = await this.whatsappAccountService.getRegisteredByCompany();
         } catch (ex: any) {
             ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Não foi possível obter os grupos de templates de mensagem');
         } finally {
             this.loading = false;
         }

@@ -58,7 +58,7 @@
                         <ps-input [(ngModel)]="wppTemplateRequest.footerMessage"></ps-input>
                     </div>
 
-                    <div class="field flex grid-gap-3">
+                    <div class="field flex grid-gap-3" *ngIf="wppAccount">
                         <div class="flex flex-column flex-grow">
                             <p class="text-16 text--bold margin-bottom-1">Texto do botão de ação</p>
                             <ps-input [(ngModel)]="wppTemplateRequest.ctaLabel"></ps-input>
