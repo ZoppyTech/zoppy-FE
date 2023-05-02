@@ -303,6 +303,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             (conversation: WhatsappConversationEntity) => {
                 if (!this.chathandler.isAdmin) this.finishRoom.emit(this.room.contact.id);
                 this.room.manager = this.chatMapper.mapManager(conversation.manager);
+                this.chathandler.updateChatTransfer(this.room);
                 this.toast.success('Conversa transferida com sucesso!', WhatsappConstants.ToastTitles.Success);
             }
         );

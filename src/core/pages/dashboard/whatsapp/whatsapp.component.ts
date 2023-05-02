@@ -122,6 +122,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             if (!targetRoom) return;
             const messageFound: ThreadMessage | undefined = targetRoom.findThreadById(response.message.id);
             if (!messageFound) return;
+            messageFound.content = response.message.content;
             messageFound.status = response.message.status;
         };
         this.chatSocket.onReceive = (response: any) => {
