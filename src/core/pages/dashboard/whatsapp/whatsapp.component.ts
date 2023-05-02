@@ -143,7 +143,13 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         };
         this.chatSocket.onTransferRoom = (response: any) => {
             if (response.message.companyId !== this.account.companyId) return;
-            if (!this.isAdmin && response.message.wppManagerId !== this.manager.id) return;
+            if (!this.isAdmin && response.message.wppManagerId !== this.manager.id) {
+                const targetRoom: ChatRoom | undefined = this.rooms.get(response.message.wppContactId);
+                if (!targetRoom) return;
+                this.rooms.delete(response.message.wppContactId);
+                this.chathandler.updateChatList();
+                return;
+            }
             this.loadConversationByContact(response.message.wppContactId);
         };
         this.chatSocket.onUpdateCurrentRoom = (response: any) => {
