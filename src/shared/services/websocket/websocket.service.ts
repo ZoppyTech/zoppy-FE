@@ -9,7 +9,7 @@ import { Storage } from 'src/shared/utils/storage';
 })
 export class WebSocketService {
     private declare socket: Socket;
-    public url: string = `${environment.apiUrl}`;
+    public url: string = `${environment.apiPartnersUrl}`;
 
     public constructor(public readonly storage: Storage) {}
 
