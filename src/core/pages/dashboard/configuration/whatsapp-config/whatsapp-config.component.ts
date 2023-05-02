@@ -111,8 +111,7 @@ export class WhatsappConfigComponent implements OnInit {
         try {
             this.whatsappAccountPhone = await this.wppAccountPhoneNumberService.findDefault(this.whatsappAccount.id);
         } catch (ex: any) {
-            ex = ex as ZoppyException;
-            this.toast.error(ex.message, 'Erro!');
+            console.log(ex);
         }
     }
 
