@@ -118,55 +118,49 @@
                         <ps-icon class="font-12 reply-icon" icon="icon-reply"></ps-icon>
                     </div>
                 </div>
-                <div
-                    class="item-content"
-                    [ngStyle]="{
-                        'justify-content': conversation[1].threads[conversation[1].threads.length - 1].isBusiness
-                            ? 'flex-start'
-                            : 'space-between'
-                    }"
-                    *ngIf="conversation[1].threads.length > 0"
-                >
-                    <span
-                        class="viewed-icon"
-                        [ngClass]="{
-                            'viewed-icon--business-user': conversation[1].threads[conversation[1].threads.length - 1].isBusiness,
-                            'viewed-icon--customer-user': !conversation[1].threads[conversation[1].threads.length - 1].isBusiness
-                        }"
-                    >
-                        <span *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status !== 'forwarded'">
-                            <ps-icon
-                                *ngIf="
-                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered' ||
-                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
-                                "
-                                [ngClass]="{
-                                    'viewed-icon--status-delivered text--500':
-                                        conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered',
-                                    'viewed-icon--status-read':
+                <div class="item-content" *ngIf="conversation[1].threads.length > 0">
+                    <div class="flex-row">
+                        <span
+                            class="viewed-icon"
+                            [ngClass]="{
+                                'viewed-icon--business-user': conversation[1].threads[conversation[1].threads.length - 1].isBusiness,
+                                'viewed-icon--customer-user': !conversation[1].threads[conversation[1].threads.length - 1].isBusiness
+                            }"
+                        >
+                            <span *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status !== 'forwarded'">
+                                <ps-icon
+                                    *ngIf="
+                                        conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered' ||
                                         conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
-                                }"
-                                icon="icon-done_all"
-                            ></ps-icon>
-                            <ps-icon
-                                *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status === 'sent'"
-                                class="viewed-icon--status-sent text--500"
-                                icon="icon-approval"
-                            ></ps-icon>
-                            <ps-icon
-                                *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status === 'failed'"
-                                class="viewed-icon--status-failed"
-                                icon="icon-error"
-                            ></ps-icon>
+                                    "
+                                    [ngClass]="{
+                                        'viewed-icon--status-delivered text--500':
+                                            conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered',
+                                        'viewed-icon--status-read':
+                                            conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
+                                    }"
+                                    icon="icon-done_all"
+                                ></ps-icon>
+                                <ps-icon
+                                    *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status === 'sent'"
+                                    class="viewed-icon--status-sent text--500"
+                                    icon="icon-approval"
+                                ></ps-icon>
+                                <ps-icon
+                                    *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status === 'failed'"
+                                    class="viewed-icon--status-failed"
+                                    icon="icon-error"
+                                ></ps-icon>
+                            </span>
                         </span>
-                    </span>
-                    <span
-                        class="text-message text-14 truncate"
-                        [ngClass]="{
-                            'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager
-                        }"
-                        >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
-                    </span>
+                        <span
+                            class="text-message text-14 truncate"
+                            [ngClass]="{
+                                'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager
+                            }"
+                            >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
+                        </span>
+                    </div>
                     <div *ngIf="conversation[1].getUnreadThreads().length > 0" class="unread-counter">
                         <span class="text--bold text--100">{{ conversation[1].getUnreadThreads().length }}</span>
                     </div>
