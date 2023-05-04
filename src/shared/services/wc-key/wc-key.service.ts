@@ -11,7 +11,7 @@ import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
     providedIn: 'root'
 })
 export class WcKeyService extends ApiService {
-    public override url: string = `${environment.apiUrl}/api/woo-commerce/keys`;
+    public override url: string = `${environment.apiUrl}/api/e-commerce/keys`;
 
     public constructor(
         public override readonly http: HttpClient,
