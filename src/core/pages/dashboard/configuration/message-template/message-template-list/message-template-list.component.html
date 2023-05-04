@@ -40,14 +40,14 @@
                             <span
                                 class="circle margin-right-1"
                                 [ngClass]="{
-                                    'bg-success': group?.whatsappMessageTemplate?.status === 'APPROVED',
-                                    'bg-warning': group?.whatsappMessageTemplate?.status === 'PENDING',
-                                    'bg-negative': group?.whatsappMessageTemplate?.status === 'REJECTED'
+                                    'bg-success': group?.wppMessageTemplate?.status === 'APPROVED',
+                                    'bg-warning': group?.wppMessageTemplate?.status === 'PENDING',
+                                    'bg-negative': group?.wppMessageTemplate?.status === 'REJECTED'
                                 }"
                             ></span>
-                            <span *ngIf="group?.whatsappMessageTemplate?.status === 'APPROVED'" class="text-10 neutral-600">Aprovado</span>
-                            <span *ngIf="group?.whatsappMessageTemplate?.status === 'PENDING'" class="text-10 neutral-600">Em análise</span>
-                            <span *ngIf="group?.whatsappMessageTemplate?.status === 'REJECTED'" class="text-10 neutral-600">Reprovado</span>
+                            <span *ngIf="group?.wppMessageTemplate?.status === 'APPROVED'" class="text-10 neutral-600">Aprovado</span>
+                            <span *ngIf="group?.wppMessageTemplate?.status === 'PENDING'" class="text-10 neutral-600">Em análise</span>
+                            <span *ngIf="group?.wppMessageTemplate?.status === 'REJECTED'" class="text-10 neutral-600">Reprovado</span>
                         </div>
                     </td>
                     <td>
@@ -61,8 +61,8 @@
                             <ps-icon (click)="destroy(group)" class="primary font-18 clickable" icon="icon-delete"></ps-icon>
                             <ps-switch
                                 class="margin-left-2"
-                                *ngIf="wppAccount && group?.whatsappMessageTemplate"
-                                [(active)]="group.whatsappMessageTemplate.visible"
+                                *ngIf="wppAccount && group?.wppMessageTemplate"
+                                [(active)]="group.wppMessageTemplate.visible"
                                 tooltipWidth="250"
                                 appTooltip
                                 tooltipText="Defina a visibilidade desse template na lista de templates no chat, deixe visível apenas os templates usados pra iniciar uma conversa"
