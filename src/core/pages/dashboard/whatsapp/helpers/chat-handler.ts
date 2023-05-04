@@ -124,4 +124,17 @@ export class ChatHandler {
         };
         this.component.webSocketService.emit('update_finished_conversation', socketData);
     }
+
+    public updateChatTransfer(room: ChatRoom): void {
+        const socketData: ChatSocketData = {
+            action: 'chat_transfer',
+            message: {
+                wppContactId: room.contact.id,
+                wppManagerId: room.manager?.id,
+                userId: this.component.user.id,
+                companyId: room.companyId
+            } as any
+        };
+        this.component.webSocketService.emit('update_chat_transfer', socketData);
+    }
 }
