@@ -53,6 +53,10 @@ export class ChatHandler {
 
     public removeRoom(contactId: string): void {
         this.component.rooms.delete(contactId);
+        if (this.component.roomSelected.contact.id !== contactId) {
+            this.updateChatList();
+            return;
+        }
         this.component.roomSelected = new ChatRoom();
         this.component.isChatRoomVisible = false;
         this.updateChatList();

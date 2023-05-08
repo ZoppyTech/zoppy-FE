@@ -112,6 +112,7 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
                 this.chathandler.setRoomAsMostRecent(newRoom);
                 newRoom.actived = true;
                 this.room = newRoom;
+                this.roomChange.emit(this.room);
                 this.seeLastMessage();
             }
         } catch (error: any) {
