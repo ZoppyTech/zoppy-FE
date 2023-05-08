@@ -117,8 +117,16 @@ export class MessageTemplateService extends ApiService {
     }
 
     public async syncGroupWithWhatsapp(id: string, request: SyncGroupWhatsappRequest): Promise<MessageTemplateGroupEntity> {
+        const requestParams: FormData = new FormData();
+        requestParams.append('headerMessage', request.headerMessage);
+        requestParams.append('footerMessage', request.footerMessage);
+        requestParams.append('ctaLabel', request.ctaLabel);
+        requestParams.append('ctaLink', request.ctaLink);
+        requestParams.append('type', request.type ?? '');
+        requestParams.append('visible', request.visible ? '1' : '0');
+        requestParams.append('file', request.file);
         const promise: Promise<MessageTemplateGroupEntity> = new Promise((resolve: any, reject: any) => {
-            this.put<MessageTemplateGroupEntity, SyncGroupWhatsappRequest>(`${this.url}/groups/${id}/sync-whatsapp`, request).subscribe(
+            this.put<MessageTemplateGroupEntity, FormData>(`${this.url}/groups/${id}/sync-whatsapp`, requestParams).subscribe(
                 (response: MessageTemplateGroupEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
