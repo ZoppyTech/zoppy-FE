@@ -28,7 +28,10 @@ export class ChatHandler {
     }
 
     public fillRooms(conversations: WhatsappConversationEntity[]): void {
-        this.component.rooms = this.component.chatMapper.mapRooms(conversations);
+        const rooms: Map<string, ChatRoom> = this.component.chatMapper.mapRooms(conversations);
+        for (const room of rooms) {
+            this.component.rooms.set(room[0], room[1]);
+        }
     }
 
     private constructor(component: WhatsappComponent) {
@@ -53,9 +56,17 @@ export class ChatHandler {
 
     public removeRoom(contactId: string): void {
         this.component.rooms.delete(contactId);
+        if (this.component.roomSelected.contact.id !== contactId) {
+            this.updateChatList();
+            return;
+        }
         this.component.roomSelected = new ChatRoom();
         this.component.isChatRoomVisible = false;
         this.updateChatList();
+    }
+
+    public clearRooms(): void {
+        this.component.rooms = new Map();
     }
 
     public sortRoomsByMostRecentMessages(): void {

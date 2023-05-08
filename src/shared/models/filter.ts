@@ -20,6 +20,37 @@ export class Pagination {
             maxLimit: pagination.page * pagination.pageSize
         };
     }
+
+    public updatePagination(pagination: Pagination): void {
+        this.page = pagination.page;
+        this.pageSize = pagination.pageSize;
+        this.totalPages = pagination.totalPages;
+        this.totalRecords = pagination.totalRecords;
+    }
+
+    public endOfPage(): boolean {
+        return this.page > this.totalPages;
+    }
+
+    public increasePage(): void {
+        if (this.page > this.totalPages) {
+            return;
+        }
+        this.page = this.page + 1;
+    }
+
+    public decreasePage(): void {
+        if (this.page > this.totalPages) {
+            return;
+        }
+        this.page = this.page - 1;
+    }
+
+    public reset(): void {
+        this.page = 1;
+        this.totalPages = 1;
+        this.totalRecords = 1;
+    }
 }
 
 export type OrderByDirection = 'ASC' | 'DESC';

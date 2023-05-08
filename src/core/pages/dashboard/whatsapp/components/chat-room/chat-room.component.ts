@@ -102,21 +102,20 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public async loadLatestConversation(): Promise<void> {
         try {
             this.countdownTimerVisible = false;
-            this.messagesLoading = this.room.selectedByContactListView;
+            this.messagesLoading = this.room.reloadEnabled;
             this.seeLastMessage();
             this.latestConversation = await this.wppConversationService.findByContactId(this.room.contact.id);
             this.latestConversation = this.validateSessionExpiration(this.latestConversation);
-            if (this.room.selectedByContactListView) {
+            if (this.room.reloadEnabled) {
                 const newRoom: ChatRoom = this.chathandler.addRoom(this.latestConversation, false);
                 this.chathandler.setRoomAsMostRecent(newRoom);
                 newRoom.actived = true;
                 this.room = newRoom;
+                this.roomChange.emit(this.room);
                 this.seeLastMessage();
             }
         } catch (error: any) {
             this.latestConversation = new WhatsappConversationEntity();
-            error = error as ZoppyException;
-            this.toast.error(error.message, WhatsappConstants.ToastTitles.Error);
         } finally {
             this.messagesLoading = false;
             this.countdownTimerVisible = true;

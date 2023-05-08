@@ -8,9 +8,19 @@ import { SharedModule } from 'src/shared/shared.module';
 import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
 import { SearchBarModule } from '@ZoppyTech/search-bar';
 import { PaginationModule } from '@ZoppyTech/pagination';
+import { InfiniteScrollModule } from '@ZoppyTech/infinite-scroll';
 @NgModule({
     declarations: [ContactListComponent],
-    imports: [CommonModule, StaticLoadingModule, InputModule, ButtonModule, IconModule, SearchBarModule, PaginationModule],
+    imports: [
+        CommonModule,
+        StaticLoadingModule,
+        InputModule,
+        ButtonModule,
+        IconModule,
+        SearchBarModule,
+        PaginationModule,
+        InfiniteScrollModule
+    ],
     exports: [ContactListComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
