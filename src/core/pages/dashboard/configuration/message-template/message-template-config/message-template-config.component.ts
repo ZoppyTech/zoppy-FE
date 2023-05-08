@@ -89,11 +89,11 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
             console.log(ex);
         }
         this.wppTemplateRequest = {
-            headerMessage: this.group.whatsappMessageTemplate?.headerMessage ?? '',
-            footerMessage: this.group.whatsappMessageTemplate?.footerMessage ?? '',
-            ctaLabel: this.group.whatsappMessageTemplate?.ctaLabel ?? '',
-            ctaLink: this.group.whatsappMessageTemplate?.ctaLink ?? '',
-            visible: this.group.whatsappMessageTemplate?.visible ?? ''
+            headerMessage: this.group.wppMessageTemplate?.headerMessage ?? '',
+            footerMessage: this.group.wppMessageTemplate?.footerMessage ?? '',
+            ctaLabel: this.group.wppMessageTemplate?.ctaLabel ?? '',
+            ctaLink: this.group.wppMessageTemplate?.ctaLink ?? '',
+            visible: this.group.wppMessageTemplate?.visible ?? ''
         };
         setTimeout(() => {
             this.loaded = true;

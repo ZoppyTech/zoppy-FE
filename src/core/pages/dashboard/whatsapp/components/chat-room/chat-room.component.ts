@@ -5,7 +5,6 @@ import { StringUtil, WhatsappConstants } from '@ZoppyTech/utilities';
 import { Observable, Subscription } from 'rxjs';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
-import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
 import { WhatsappConversationRequest } from 'src/shared/models/requests/whatsapp-conversation/whatsapp-conversation.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappConversationService } from 'src/shared/services/whatsapp-conversation/whatsapp-conversation.service';
@@ -213,17 +212,17 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             this.messageTemplates = entities.map((entity: MessageTemplateGroupEntity) => {
                 return {
                     groupId: entity.id,
-                    whatsappMessageTemplateId: entity.whatsappMessageTemplate?.id,
-                    wppId: entity.whatsappMessageTemplate?.wppId,
-                    name: entity.whatsappMessageTemplate?.wppName,
+                    whatsappMessageTemplateId: entity.wppMessageTemplate?.id,
+                    wppId: entity.wppMessageTemplate?.wppId,
+                    name: entity.wppMessageTemplate?.wppName,
                     title: entity.name,
                     description: entity.description,
                     content: entity.messageTemplates[0]?.text,
-                    status: entity.whatsappMessageTemplate?.status,
-                    headerText: entity.whatsappMessageTemplate?.headerMessage,
-                    footerText: entity.whatsappMessageTemplate?.footerMessage,
-                    ctaLabel: entity.whatsappMessageTemplate?.ctaLabel,
-                    ctaLink: entity.whatsappMessageTemplate?.ctaLink,
+                    status: entity.wppMessageTemplate?.status,
+                    headerText: entity.wppMessageTemplate?.headerMessage,
+                    footerText: entity.wppMessageTemplate?.footerMessage,
+                    ctaLabel: entity.wppMessageTemplate?.ctaLabel,
+                    ctaLink: entity.wppMessageTemplate?.ctaLink,
                     isSuggested: false,
                     createdAt: entity.createdAt
                 };
