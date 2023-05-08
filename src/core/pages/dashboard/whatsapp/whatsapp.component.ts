@@ -203,6 +203,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
             newRoom.contact = this.contactSelected;
             newRoom.manager = this.manager;
             newRoom.threads = [];
+            this.rooms.set(this.contactSelected.id, newRoom);
             this.chathandler.setRoomAsMostRecent(newRoom);
         }
         if (this.roomSelected) this.roomSelected.actived = false;
