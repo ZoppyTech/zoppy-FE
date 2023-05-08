@@ -19,6 +19,7 @@ export class ChatListComponent implements OnInit, OnChanges {
     @Output() public filterChangeEvent: EventEmitter<string> = new EventEmitter<string>();
     @Output() public selectedConversationEvent: EventEmitter<any> = new EventEmitter<any>();
     @Output() public pullNewConversationEvent: EventEmitter<any> = new EventEmitter<any>();
+    @Output() public onScrollEvent: EventEmitter<void> = new EventEmitter<void>();
     @Input() public rooms: Map<string, ChatRoom> = new Map<string, ChatRoom>();
     @Input() public queueCount: number = 0;
     public readonly EMPTY_lIST_IMAGE_DIR: string = './../../../../../../assets/imgs/empty-chat-list.png';
@@ -72,6 +73,11 @@ export class ChatListComponent implements OnInit, OnChanges {
         this.selectedFilter = filterName;
         this.selectedFilterChange.emit(this.selectedFilter);
         this.filterChangeEvent.emit(filterName);
+    }
+
+    public onScroll(): boolean {
+        this.onScrollEvent.emit();
+        return true;
     }
 
     public pullNewConversation(): void {

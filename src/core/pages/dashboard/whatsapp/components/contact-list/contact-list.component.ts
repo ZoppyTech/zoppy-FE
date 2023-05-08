@@ -39,7 +39,7 @@ export class ContactListComponent implements OnInit {
     public async ngOnInit(): Promise<void> {
         this.filter.searchFields = ['firstName'];
         this.filter.pagination.page = 1;
-        this.filter.pagination.pageSize = Number.MAX_SAFE_INTEGER;
+        this.filter.pagination.pageSize = 400;
         this.filter.orderBy = [
             {
                 property: 'firstName',
@@ -50,13 +50,36 @@ export class ContactListComponent implements OnInit {
                 direction: 'ASC'
             }
         ];
-        await this.loadContacts();
+        const contacts: WhatsappContactEntity[] = await this.loadContacts();
+        this.pushContacts(this.mapToContactView(contacts));
+        this.sortAndGroup();
         this.syncHasDone = this.contacts.length > 0;
+        this.hasContactsLoading = false;
     }
 
     public async onSearchTextChanged(searchText: string = ''): Promise<void> {
+        this.hasContactsLoading = true;
         this.filter.searchText = searchText;
-        await this.loadContacts();
+        this.filter.pagination.reset();
+        this.contacts = [];
+        const contacts: WhatsappContactEntity[] = await this.loadContacts();
+        this.pushContacts(this.mapToContactView(contacts));
+        this.sortAndGroup();
+        this.hasContactsLoading = false;
+    }
+
+    public async onScroll(): Promise<boolean> {
+        this.hasContactsLoading = true;
+        if (this.filter.pagination.endOfPage()) {
+            this.hasContactsLoading = false;
+            return true;
+        }
+        const contacts: WhatsappContactEntity[] = await this.loadContacts();
+        this.filter.pagination.increasePage();
+        this.pushContacts(this.mapToContactView(contacts));
+        this.sortAndGroup();
+        this.hasContactsLoading = false;
+        return true;
     }
 
     private sortAndGroup(): void {
@@ -69,6 +92,18 @@ export class ContactListComponent implements OnInit {
                     ? true
                     : false;
         }
+    }
+
+    private pushContacts(contacts: ChatContact[]): void {
+        if (this.contacts.length <= 0) {
+            this.contacts.push(...contacts);
+            return;
+        }
+        const newContacts: ChatContact[] = contacts.filter((newContact: ChatContact) => {
+            return this.contacts.findIndex((contact: ChatContact) => contact.id === newContact.id) === -1;
+        });
+        if (newContacts.length <= 0) return;
+        this.contacts.push(...newContacts);
     }
 
     public selectContact(contact: ChatContact): void {
@@ -92,22 +127,20 @@ export class ContactListComponent implements OnInit {
         );
     }
 
-    public async loadContacts(): Promise<void> {
+    public async loadContacts(): Promise<WhatsappContactEntity[]> {
         try {
             const response: ZoppyFilter<WhatsappContactEntity> = await this.wppContactService.findAllPaginated(this.filter);
-            const entities: any = response.data;
-            this.mapToContactView(entities);
-            this.sortAndGroup();
+            this.filter.pagination.updatePagination(response.pagination);
+            return response.data;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
-        } finally {
-            this.hasContactsLoading = false;
+            return [];
         }
     }
 
-    public mapToContactView(entities: WhatsappContactEntity[]): void {
-        this.contacts = WhatsappContactMapper.mapToView(entities);
+    public mapToContactView(entities: WhatsappContactEntity[]): ChatContact[] {
+        return WhatsappContactMapper.mapToView(entities);
     }
 
     public goBack(): void {
@@ -118,8 +151,8 @@ export class ContactListComponent implements OnInit {
         if (this.hasSyncContactsLoading) return;
         try {
             this.hasSyncContactsLoading = true;
-            const entities: WhatsappContactEntity[] = await this.wppContactService.sync();
-            this.mapToContactView(entities);
+            const contacts: WhatsappContactEntity[] = await this.wppContactService.sync();
+            this.pushContacts(this.mapToContactView(contacts));
             this.sortAndGroup();
             this.syncHasDone = true;
             this.toast.success(WhatsappConstants.ToastMessages.ContactsSyncSuccessfully, WhatsappConstants.ToastTitles.Success);
