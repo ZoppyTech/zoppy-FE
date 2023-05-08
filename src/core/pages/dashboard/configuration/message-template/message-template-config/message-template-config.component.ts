@@ -17,6 +17,7 @@ import { WhatsappAccountEntity } from 'src/shared/models/entities/whatsapp-accou
 import { SyncGroupWhatsappRequest } from 'src/shared/models/requests/message-template/sync-group-whatsapp.request';
 import { MessageTemplateUtil } from '@ZoppyTech/utilities';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
+import { WhatsappMessageTemplateType } from 'src/shared/models/entities/whatsapp-message-template.entity';
 
 @Component({
     selector: 'app-message-template-config',
@@ -35,10 +36,20 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
     public description: string = '';
     public wppAccount?: WhatsappAccountEntity = undefined;
 
-    public showModal(): void {
-        this.modal.open(Modal.IDENTIFIER.MESSAGE_CONFIG_PARAMS, {});
-    }
-
+    public types: DropdownOption[] = [
+        {
+            label: 'Texto',
+            value: 'text'
+        },
+        {
+            label: 'Imagem',
+            value: 'image'
+        },
+        {
+            label: 'Vídeo',
+            value: 'video'
+        }
+    ];
     public constructor(
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
@@ -52,6 +63,16 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         private route: ActivatedRoute
     ) {
         super(storage);
+    }
+
+    public showModal(): void {
+        this.modal.open(Modal.IDENTIFIER.MESSAGE_CONFIG_PARAMS, {});
+    }
+
+    public onTypeChange(type: string): void {
+        this.wppTemplateRequest.type = type as WhatsappMessageTemplateType;
+        this.wppTemplateRequest.headerMessage = '';
+        this.wppTemplateRequest.file = null;
     }
 
     public async ngOnInit() {
@@ -77,7 +98,8 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
                 footerMessage: '',
                 ctaLabel: '',
                 ctaLink: '',
-                visible: true
+                visible: true,
+                type: 'text'
             };
             return;
         }
@@ -88,16 +110,33 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         } catch (ex) {
             console.log(ex);
         }
-        this.wppTemplateRequest = {
-            headerMessage: this.group.wppMessageTemplate?.headerMessage ?? '',
-            footerMessage: this.group.wppMessageTemplate?.footerMessage ?? '',
-            ctaLabel: this.group.wppMessageTemplate?.ctaLabel ?? '',
-            ctaLink: this.group.wppMessageTemplate?.ctaLink ?? '',
-            visible: this.group.wppMessageTemplate?.visible ?? ''
-        };
-        setTimeout(() => {
+
+        setTimeout(async () => {
+            this.wppTemplateRequest = {
+                headerMessage: this.group?.wppMessageTemplate?.headerMessage ?? '',
+                footerMessage: this.group?.wppMessageTemplate?.footerMessage ?? '',
+                ctaLabel: this.group?.wppMessageTemplate?.ctaLabel ?? '',
+                ctaLink: this.group?.wppMessageTemplate?.ctaLink ?? '',
+                visible: this.group?.wppMessageTemplate?.visible ?? false,
+                type: this.group?.wppMessageTemplate?.type ?? 'text',
+                file: ['video', 'image'].includes(this.group?.wppMessageTemplate?.type as string)
+                    ? await this.convertUrlToFile(
+                          this.group?.wppMessageTemplate?.headerMessage as string,
+                          this.group?.wppMessageTemplate?.type as string
+                      )
+                    : null
+            };
             this.loaded = true;
-        });
+        }, 100);
+    }
+
+    private async convertUrlToFile(url: string, type: string): Promise<File> {
+        const metadata: FilePropertyBag = {
+            type: type === 'image' ? 'image/png' : 'video/mp4'
+        };
+        const fileName: string = type === 'image' ? 'image.png' : 'video.mp4';
+        const file: File = new File([], fileName, metadata);
+        return file;
     }
 
     private validate(): Validate {
@@ -164,6 +203,18 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         }
 
         return validate;
+    }
+
+    public invalidFileUploaded(): void {
+        BroadcastService.emit('send-error', {
+            message: 'Extensão de arquivo não permitida',
+            title: 'Erro'
+        });
+    }
+
+    public onFileChange(file: File): void {
+        this.wppTemplateRequest.file = file;
+        this.wppTemplateRequest.headerMessage = file ? URL.createObjectURL(file) : '';
     }
 
     public async save(): Promise<void> {
@@ -291,4 +342,9 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
 interface Validate {
     valid: boolean;
     message: string;
+}
+
+interface DropdownOption {
+    value: WhatsappMessageTemplateType;
+    label: string;
 }
