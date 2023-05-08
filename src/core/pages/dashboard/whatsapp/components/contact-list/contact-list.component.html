@@ -19,31 +19,31 @@
             ></ps-search-bar>
         </div>
     </div>
-
-    <static-loading *ngIf="hasContactsLoading" [isLoading]="true" class="loading"></static-loading>
-    <div *ngIf="!hasContactsLoading && contacts.length <= 0 && !syncHasDone" class="empty-list">
-        <img class="margin-y-3" src="./assets/svg/search_customer.svg" alt="" />
-        <span class="text--primary margin-y-1 text--bold text-16">Nenhuma contato!</span>
-        <span class="text--primary text-14"
-            >Você não tem nenhum contato sincronizado, clique no botão abaixo para sincronizar seus contatos.
-        </span>
-        <ps-button class="margin-y-3" [loading]="hasSyncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
-            <span class="text--100 text--bold text-14">Sincronizar contatos</span>
-        </ps-button>
-    </div>
-    <div *ngIf="!hasContactsLoading && contacts.length <= 0 && syncHasDone" class="empty-list">
-        <img class="margin-y-3" src="./assets/svg/search_customer.svg" alt="" />
-        <span class="text--primary text--bold text-16">Nenhum contato encontrado! </span>
-    </div>
-    <div *ngIf="!hasContactsLoading && contacts.length > 0" class="contacts">
-        <div *ngFor="let contact of contacts; let i = index" class="item clickable" (click)="selectContact(contact)">
-            <div *ngIf="contact.hasIndex" class="item-header">
-                <span class="text--primary text--bold text-16">{{ contact.displayName.substring(0, 1).toUpperCase() }}</span>
+    <div class="contacts">
+        <ps-infinite-scroll [loading]="hasContactsLoading" (scrolled)="onScroll()">
+            <div *ngFor="let contact of contacts; let i = index" class="item clickable" (click)="selectContact(contact)">
+                <div *ngIf="contact.hasIndex" class="item-header">
+                    <span class="text--primary text--bold text-16">{{ contact.displayName.substring(0, 1).toUpperCase() }}</span>
+                </div>
+                <div class="item-body">
+                    <span class="item-content text-14 truncate">{{ contact.displayName }} </span>
+                    <ps-icon *ngIf="contact.isBlocked" class="font-16 block-icon margin-x-1" icon="icon-block"></ps-icon>
+                </div>
             </div>
-            <div class="item-body">
-                <span class="item-content text-14 truncate">{{ contact.displayName }} </span>
-                <ps-icon *ngIf="contact.isBlocked" class="font-16 block-icon margin-x-1" icon="icon-block"></ps-icon>
+            <div *ngIf="!hasContactsLoading && contacts.length <= 0 && !syncHasDone" class="empty-list">
+                <img class="margin-y-3" src="./assets/svg/search_customer.svg" alt="" />
+                <span class="text--primary margin-y-1 text--bold text-16">Nenhuma contato!</span>
+                <span class="text--primary text-14"
+                    >Você não tem nenhum contato sincronizado, clique no botão abaixo para sincronizar seus contatos.
+                </span>
+                <ps-button class="margin-y-3" [loading]="hasSyncContactsLoading" [wide]="true" (onClick)="syncContacts()" type="secondary">
+                    <span class="text--100 text--bold text-14">Sincronizar contatos</span>
+                </ps-button>
             </div>
-        </div>
+            <div *ngIf="!hasContactsLoading && contacts.length <= 0 && syncHasDone" class="empty-list">
+                <img class="margin-y-3" src="./assets/svg/search_customer.svg" alt="" />
+                <span class="text--primary text--bold text-16">Nenhum contato encontrado! </span>
+            </div>
+        </ps-infinite-scroll>
     </div>
 </div>

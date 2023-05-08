@@ -12,6 +12,7 @@
             [(selectedFilter)]="selectedFilter"
             (selectedConversationEvent)="onConversationSelected($event)"
             (pullNewConversationEvent)="onPullNewConversationButtonClicked()"
+            (onScrollEvent)="onScroll()"
             [rooms]="rooms"
             [queueCount]="queueCount"
         ></chat-list>

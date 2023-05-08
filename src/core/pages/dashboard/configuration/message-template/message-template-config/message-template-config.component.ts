@@ -207,7 +207,6 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         });
         try {
             await Promise.all(promises);
-            debugger;
             if (this.wppAccount) await this.messageTemplateService.syncGroupWithWhatsapp(this.groupId, this.wppTemplateRequest);
             this.toastService.success('Informações salvas com sucesso.', `Sucesso!`);
             this.tab

@@ -10,7 +10,7 @@ export class ChatRoom {
     public declare createdAt: Date;
     public declare finishedAt: Date;
     public declare companyId: string;
-    public selectedByContactListView: boolean = false;
+    public reloadEnabled: boolean = false;
     public manager: ChatManager | null = null;
     public contact: ChatContact = new ChatContact();
     public threads: Array<ThreadMessage> = [];
