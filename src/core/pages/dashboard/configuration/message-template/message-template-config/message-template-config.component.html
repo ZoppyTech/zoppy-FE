@@ -87,7 +87,7 @@
 
                     <div class="field" *ngIf="wppAccount">
                         <p class="text-16 text--bold margin-bottom-1">Rodapé</p>
-                        <ps-input [(ngModel)]="wppTemplateRequest.footerMessage"></ps-input>
+                        <ps-input [maxCharactersAllowed]="60" [(ngModel)]="wppTemplateRequest.footerMessage"></ps-input>
                     </div>
 
                     <div class="field flex grid-gap-3" *ngIf="wppAccount">
