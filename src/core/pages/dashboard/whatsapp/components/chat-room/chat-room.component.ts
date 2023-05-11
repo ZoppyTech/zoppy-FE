@@ -5,7 +5,6 @@ import { StringUtil, WhatsappConstants } from '@ZoppyTech/utilities';
 import { Observable, Subscription } from 'rxjs';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-conversation.entity';
-import { WhatsappMessageTemplateEntity } from 'src/shared/models/entities/whatsapp-message-template.entity';
 import { WhatsappConversationRequest } from 'src/shared/models/requests/whatsapp-conversation/whatsapp-conversation.request';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { WhatsappConversationService } from 'src/shared/services/whatsapp-conversation/whatsapp-conversation.service';
@@ -103,11 +102,11 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
     public async loadLatestConversation(): Promise<void> {
         try {
             this.countdownTimerVisible = false;
-            this.messagesLoading = this.room.selectedByContactListView;
+            this.messagesLoading = this.room.reloadEnabled;
             this.seeLastMessage();
             this.latestConversation = await this.wppConversationService.findByContactId(this.room.contact.id);
             this.latestConversation = this.validateSessionExpiration(this.latestConversation);
-            if (this.room.selectedByContactListView) {
+            if (this.room.reloadEnabled) {
                 const newRoom: ChatRoom = this.chathandler.addRoom(this.latestConversation, false);
                 this.chathandler.setRoomAsMostRecent(newRoom);
                 newRoom.actived = true;
@@ -117,8 +116,6 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             }
         } catch (error: any) {
             this.latestConversation = new WhatsappConversationEntity();
-            error = error as ZoppyException;
-            this.toast.error(error.message, WhatsappConstants.ToastTitles.Error);
         } finally {
             this.messagesLoading = false;
             this.countdownTimerVisible = true;
@@ -215,17 +212,17 @@ export class ChatRoomComponent implements OnInit, AfterViewInit, OnDestroy {
             this.messageTemplates = entities.map((entity: MessageTemplateGroupEntity) => {
                 return {
                     groupId: entity.id,
-                    whatsappMessageTemplateId: entity.whatsappMessageTemplate?.id,
-                    wppId: entity.whatsappMessageTemplate?.wppId,
-                    name: entity.whatsappMessageTemplate?.wppName,
+                    whatsappMessageTemplateId: entity.wppMessageTemplate?.id,
+                    wppId: entity.wppMessageTemplate?.wppId,
+                    name: entity.wppMessageTemplate?.wppName,
                     title: entity.name,
                     description: entity.description,
                     content: entity.messageTemplates[0]?.text,
-                    status: entity.whatsappMessageTemplate?.status,
-                    headerText: entity.whatsappMessageTemplate?.headerMessage,
-                    footerText: entity.whatsappMessageTemplate?.footerMessage,
-                    ctaLabel: entity.whatsappMessageTemplate?.ctaLabel,
-                    ctaLink: entity.whatsappMessageTemplate?.ctaLink,
+                    status: entity.wppMessageTemplate?.status,
+                    headerText: entity.wppMessageTemplate?.headerMessage,
+                    footerText: entity.wppMessageTemplate?.footerMessage,
+                    ctaLabel: entity.wppMessageTemplate?.ctaLabel,
+                    ctaLink: entity.wppMessageTemplate?.ctaLink,
                     isSuggested: false,
                     createdAt: entity.createdAt
                 };

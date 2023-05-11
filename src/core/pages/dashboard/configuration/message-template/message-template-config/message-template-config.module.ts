@@ -11,6 +11,8 @@ import { PipesModule } from 'src/shared/pipes/pipes.module';
 import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
 import { PreviewModule, TemplateInputModule } from '@ZoppyTech/template-input';
 import { SwitchModule } from '@ZoppyTech/switch';
+import { RadioButtonModule } from '@ZoppyTech/radio-button';
+import { InputFileModule } from '@ZoppyTech/input-file';
 
 const routes: Routes = [
     {
@@ -34,7 +36,9 @@ const routes: Routes = [
         TemplateInputModule,
         PreviewModule,
         SwitchModule,
-        TooltipModule
+        TooltipModule,
+        RadioButtonModule,
+        InputFileModule
     ]
 })
 export class MessageTemplateConfigModule {}

@@ -29,6 +29,7 @@ import { ChatRoom } from './models/chat-room';
 import { Subcomponents } from './models/subcomponents';
 import { ThreadMessage } from './models/thread-message';
 import { WhatsappUtil } from './utils/whatsapp.util';
+import { ZoppyFilter } from 'src/shared/models/filter';
 
 @Component({
     selector: 'app-whatsapp',
@@ -45,6 +46,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
 
     public queueCount: number = 0;
     public selectedFilter: string = ChatFilters.InProgress;
+    public filter: ZoppyFilter<WhatsappConversationEntity> = new ZoppyFilter<WhatsappConversationEntity>();
 
     public scrollDownEvent: Subject<void> = new Subject<void>();
 
@@ -81,6 +83,8 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     }
 
     public async ngOnInit(): Promise<void> {
+        this.filter.pagination.page = 1;
+        this.filter.pagination.pageSize = 400;
         this.setLoggedUser();
         this.setBreadcrumb();
         await this.onStartWhatsapp();
@@ -96,6 +100,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         await this.loadConversations();
         await this.countUnstarted();
         this.setWebSocket();
+        this.filter.pagination.increasePage();
         this.whatsappLoading = false;
     }
 
@@ -108,6 +113,32 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         setTimeout(() => {
             this.isChatRoomVisible = true;
         }, 1);
+    }
+
+    public async onScroll(): Promise<void> {
+        if (this.filterLoading) return;
+        this.filterLoading = true;
+        if (this.filter.pagination.endOfPage()) {
+            this.filterLoading = false;
+            return;
+        }
+        switch (this.selectedFilter) {
+            case ChatFilters.Unread:
+                await this.loadConversations();
+                this.filterUnreadConversations();
+                break;
+            case ChatFilters.Finished:
+                await this.loadFinishedConversations();
+                break;
+            case ChatFilters.InProgress:
+                await this.loadConversations();
+                break;
+            case ChatFilters.Waiting:
+                await this.loadUnstartedConversations();
+                break;
+        }
+        this.filter.pagination.increasePage();
+        this.filterLoading = false;
     }
 
     public setWebSocket(): void {
@@ -209,9 +240,9 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         if (this.roomSelected) this.roomSelected.actived = false;
         this.roomSelected = this.rooms.get(this.contactSelected.id) ?? new ChatRoom();
         this.roomSelected.actived = true;
-        this.scrollDownEvent.next();
         this.openConversationMobile = true;
-        this.roomSelected.selectedByContactListView = true;
+        this.roomSelected.reloadEnabled = true;
+        this.scrollDownEvent.next();
         this.destroyAndReload();
     }
 
@@ -222,7 +253,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         this.scrollDownEvent.next();
         this.chathandler.updateUnreadMessages(this.roomSelected);
         this.openConversationMobile = true;
-        this.roomSelected.selectedByContactListView = false;
+        this.roomSelected.reloadEnabled = false;
         this.destroyAndReload();
     }
 
@@ -249,8 +280,11 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     }
 
     public async onFilterChange(filter: string): Promise<void> {
+        if (this.filterLoading) return;
         this.filterLoading = true;
-        switch (filter) {
+        this.filter.pagination.reset();
+        this.chathandler.clearRooms();
+        switch (this.selectedFilter) {
             case ChatFilters.Unread:
                 await this.loadConversations();
                 this.filterUnreadConversations();
@@ -265,6 +299,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
                 await this.loadUnstartedConversations();
                 break;
         }
+        this.filter.pagination.increasePage();
         this.filterLoading = false;
     }
 
@@ -315,10 +350,29 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         }
     }
 
+    public async loadUnstartedConversations(): Promise<void> {
+        try {
+            const response: ZoppyFilter<WhatsappConversationEntity> = await this.wppConversationService.findUnstartedConversations(
+                this.filter
+            );
+            this.filter.pagination.updatePagination(response.pagination);
+            this.chathandler.fillRooms(response.data);
+            this.chathandler.sortRoomsByMostRecentMessages();
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
+            this.chathandler.fillRooms([]);
+        }
+    }
+
     public async loadConversations(): Promise<void> {
         try {
-            const entities: WhatsappConversationEntity[] = await this.wppConversationService.findInProgressByManagerId(this.manager.id);
-            this.chathandler.fillRooms(entities);
+            const response: ZoppyFilter<WhatsappConversationEntity> = await this.wppConversationService.findInProgressByManagerId(
+                this.manager.id,
+                this.filter
+            );
+            this.filter.pagination.updatePagination(response.pagination);
+            this.chathandler.fillRooms(response.data);
             this.chathandler.sortRoomsByMostRecentMessages();
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -331,8 +385,12 @@ export class WhatsappComponent implements OnInit, OnDestroy {
 
     public async loadFinishedConversations(): Promise<void> {
         try {
-            const entities: WhatsappConversationEntity[] = await this.wppConversationService.findFinishedByManagerId(this.manager.id);
-            this.chathandler.fillRooms(entities);
+            const response: ZoppyFilter<WhatsappConversationEntity> = await this.wppConversationService.findFinishedByManagerId(
+                this.manager.id,
+                this.filter
+            );
+            this.filter.pagination.updatePagination(response.pagination);
+            this.chathandler.fillRooms(response.data);
             this.chathandler.sortRoomsByMostRecentMessages();
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -350,18 +408,6 @@ export class WhatsappComponent implements OnInit, OnDestroy {
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
-        }
-    }
-
-    public async loadUnstartedConversations(): Promise<void> {
-        try {
-            const entities: WhatsappConversationEntity[] = await this.wppConversationService.findUnstartedConversations();
-            this.chathandler.fillRooms(entities);
-            this.chathandler.sortRoomsByMostRecentMessages();
-        } catch (ex: any) {
-            ex = ex as ZoppyException;
-            this.toast.error(ex.message, WhatsappConstants.ToastTitles.Error);
-            this.chathandler.fillRooms([]);
         }
     }
 

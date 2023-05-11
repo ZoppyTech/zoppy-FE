@@ -42,8 +42,40 @@
                     </div>
                     <div class="field" *ngIf="wppAccount">
                         <p class="text-16 text--bold margin-bottom-1">Cabeçalho</p>
-                        <div class="flex flex-column">
-                            <ps-template-input [(ngModel)]="wppTemplateRequest.headerMessage" type="header"></ps-template-input>
+                        <div>
+                            <ps-radio-button
+                                [vertical]="false"
+                                [items]="types"
+                                [(value)]="wppTemplateRequest.type"
+                                (valueChange)="onTypeChange($event)"
+                                [propertyLabel]="'label'"
+                                [propertyValue]="'value'"
+                            ></ps-radio-button>
+                        </div>
+                        <div class="flex flex-column margin-top-2">
+                            <ps-template-input
+                                *ngIf="wppTemplateRequest.type === 'text'"
+                                [(ngModel)]="wppTemplateRequest.headerMessage"
+                                type="header"
+                            ></ps-template-input>
+                            <ps-input-file
+                                [extensions]="['.avi', '.mp4', '.mpeg', '.ogv']"
+                                *ngIf="wppTemplateRequest.type === 'video'"
+                                title="Vídeo"
+                                icon="icon-video_library"
+                                [(file)]="wppTemplateRequest.file"
+                                (invalidFileUploaded)="invalidFileUploaded()"
+                                (fileChange)="onFileChange($event)"
+                            ></ps-input-file>
+                            <ps-input-file
+                                [extensions]="['.jpg', '.jpeg', '.png']"
+                                *ngIf="wppTemplateRequest.type === 'image'"
+                                title="Imagem"
+                                icon="icon-image_library"
+                                [(file)]="wppTemplateRequest.file"
+                                (invalidFileUploaded)="invalidFileUploaded()"
+                                (fileChange)="onFileChange($event)"
+                            ></ps-input-file>
                         </div>
                     </div>
                     <div class="field" *ngFor="let template of templates ?? []; let index = index">
@@ -55,7 +87,7 @@
 
                     <div class="field" *ngIf="wppAccount">
                         <p class="text-16 text--bold margin-bottom-1">Rodapé</p>
-                        <ps-input [(ngModel)]="wppTemplateRequest.footerMessage"></ps-input>
+                        <ps-input [maxCharactersAllowed]="60" [(ngModel)]="wppTemplateRequest.footerMessage"></ps-input>
                     </div>
 
                     <div class="field flex grid-gap-3" *ngIf="wppAccount">
@@ -86,6 +118,8 @@
             [headerText]="wppTemplateRequest.headerMessage"
             [footerText]="wppTemplateRequest.footerMessage"
             [ctaLabel]="wppTemplateRequest.ctaLabel"
+            [headerType]="wppTemplateRequest.type"
+            [headerUrl]="wppTemplateRequest.headerMessage"
         ></ps-preview>
     </div>
 </div>
