@@ -79,7 +79,17 @@
                         </div>
                     </div>
                     <div class="field" *ngFor="let template of templates ?? []; let index = index">
-                        <p class="text-16 text--bold margin-bottom-1">{{ wppAccount ? 'Corpo' : 'Mensagem ' + (index + 1) }}</p>
+                        <div class="flex-center space-between margin-bottom-1" *ngIf="!wppAccount">
+                            <p class="text-16 text--bold margin-bottom-1">{{ 'Mensagem ' + (index + 1) }}</p>
+                            <ps-button type="clean" [round]="true" (onClick)="deleteTemplate(template, index)">
+                                <div class="padding-x-2 flex flex-center">
+                                    <ps-icon icon="icon-delete"></ps-icon>
+                                </div>
+                            </ps-button>
+                        </div>
+                        <div class="flex-center space-between" *ngIf="wppAccount">
+                            <p class="text-16 text--bold margin-bottom-1">Corpo</p>
+                        </div>
                         <div class="flex flex-column">
                             <ps-template-input [(ngModel)]="template.text" type="text"></ps-template-input>
                         </div>

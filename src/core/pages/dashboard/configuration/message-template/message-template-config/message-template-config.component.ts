@@ -89,7 +89,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
 
     public getBodyText(): string {
         if (!this.templates) return '';
-        return this.templates.map((template: MessageTemplateEntity) => template.text).join(`\n`);
+        return this.templates.map((template: MessageTemplateEntity) => template.text).join(`\n\n`);
     }
 
     public async fetchData(): Promise<void> {
@@ -294,10 +294,17 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
                 try {
                     await this.messageTemplateService.destroy(template.id, this.groupId);
                     await this.fetchData();
+                    BroadcastService.emit('send-success', {
+                        message: 'Esse template foi removido e não pode ser mais usado',
+                        title: 'Sucesso!'
+                    });
                     this.toastService.success('Esse template foi removido e não pode ser mais usado', 'Sucesso!');
                 } catch (ex: any) {
                     ex = ex as ZoppyException;
-                    this.toastService.error(ex.message, 'Não foi possível deletar esse template');
+                    BroadcastService.emit('send-error', {
+                        message: ex.message,
+                        title: 'Não foi possível deletar esse template'
+                    });
                 }
             }
         );

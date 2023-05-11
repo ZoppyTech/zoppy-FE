@@ -22,6 +22,9 @@ export class AppComponent implements OnInit {
         BroadcastService.subscribe(this, 'send-error', (err: Error) => {
             this.toast.error(err.message, err.title);
         });
+        BroadcastService.subscribe(this, 'send-success', (err: Error) => {
+            this.toast.success(err.message, err.title);
+        });
     }
 }
 
