@@ -56,13 +56,7 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
     }
 
     public isSupportProvider(): boolean {
-        return [
-            AppConstants.PROVIDERS.NUVEMSHOP,
-            AppConstants.PROVIDERS.DOOCA,
-            AppConstants.PROVIDERS.SHOPIFY,
-            'bagy',
-            'whatsapp'
-        ].includes(this.provider);
+        return [AppConstants.PROVIDERS.NUVEMSHOP, AppConstants.PROVIDERS.SHOPIFY, 'bagy', 'whatsapp'].includes(this.provider);
     }
 
     private setBreadcrumbItems(): void {
