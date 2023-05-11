@@ -116,6 +116,7 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     }
 
     public async onScroll(): Promise<void> {
+        if (this.filterLoading) return;
         this.filterLoading = true;
         if (this.filter.pagination.endOfPage()) {
             this.filterLoading = false;
@@ -279,8 +280,27 @@ export class WhatsappComponent implements OnInit, OnDestroy {
     }
 
     public async onFilterChange(filter: string): Promise<void> {
+        if (this.filterLoading) return;
+        this.filterLoading = true;
         this.filter.pagination.reset();
         this.chathandler.clearRooms();
+        switch (this.selectedFilter) {
+            case ChatFilters.Unread:
+                await this.loadConversations();
+                this.filterUnreadConversations();
+                break;
+            case ChatFilters.Finished:
+                await this.loadFinishedConversations();
+                break;
+            case ChatFilters.InProgress:
+                await this.loadConversations();
+                break;
+            case ChatFilters.Waiting:
+                await this.loadUnstartedConversations();
+                break;
+        }
+        this.filter.pagination.increasePage();
+        this.filterLoading = false;
     }
 
     public async countUnstarted(): Promise<void> {
