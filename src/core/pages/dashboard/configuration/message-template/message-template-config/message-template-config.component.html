@@ -114,7 +114,7 @@
         </div>
 
         <ps-preview
-            [bodyText]="templates && templates[0].text ? templates[0].text : ''"
+            [bodyText]="getBodyText()"
             [headerText]="wppTemplateRequest.headerMessage"
             [footerText]="wppTemplateRequest.footerMessage"
             [ctaLabel]="wppTemplateRequest.ctaLabel"

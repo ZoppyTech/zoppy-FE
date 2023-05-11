@@ -87,6 +87,11 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
         });
     }
 
+    public getBodyText(): string {
+        if (!this.templates) return '';
+        return this.templates.map((template: MessageTemplateEntity) => template.text).join(`\n`);
+    }
+
     public async fetchData(): Promise<void> {
         if (!this.groupId) {
             this.wppAccount = await this.whatsappAccountService.getRegisteredByCompany();
