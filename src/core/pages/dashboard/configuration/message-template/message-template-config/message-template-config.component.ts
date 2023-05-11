@@ -269,7 +269,7 @@ export class MessageTemplateConfigComponent extends DashboardBasePage implements
                 message: ex.message,
                 title: 'Houve um erro!'
             });
-            this.toastService.alert(ex.message, 'Houve um erro!');
+            this.router.navigate([Navigation.routes.messageTemplateList]);
         } finally {
             this.loading = false;
         }
