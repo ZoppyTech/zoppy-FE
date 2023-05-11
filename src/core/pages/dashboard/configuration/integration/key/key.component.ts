@@ -106,8 +106,8 @@ export class KeyComponent extends DashboardBasePage implements OnInit {
                 return this.setShopifyForm();
             case AppConstants.PROVIDERS.YAMPI:
                 return this.setYampiForm();
-            case AppConstants.PROVIDERS.SHOPIFY:
-                return this.setShopifyForm();
+            case AppConstants.PROVIDERS.DOOCA:
+                return this.setDoocaForm();
             case AppConstants.PROVIDERS.SHOPIFY:
                 return this.setShopifyForm();
         }
@@ -169,6 +169,42 @@ export class KeyComponent extends DashboardBasePage implements OnInit {
                     class: 'wide',
                     hasCopy: true,
                     id: 'key',
+                    onIconClick: (field: Field) => {
+                        field.type = field.type === 'password' ? 'text' : 'password';
+                        field.icon = field.type === 'password' ? 'icon-visibility_off' : 'icon-visibility';
+                    },
+                    onChange: () => {}
+                }
+            ]
+        };
+    }
+
+    private setDoocaForm(): void {
+        this.form = {
+            title: 'Dooca',
+            label: 'Cadastre suas chaves',
+            description: 'Entre na área administrativa da sua loja para concluir a configuração',
+            hasWebhook: false,
+            steps: [
+                'Faça login em <a href="https://www.dooca.com.br/" target="_blank">Dooca</a>',
+                'Clique no botão entrar, faça seu login',
+                'Entre em Aplicativos',
+                'Digite na barra de pesquisa: Zoppy',
+                'Instale o aplicativo',
+                'Copie o token e insira no campo token abaixo'
+            ],
+            fields: [
+                {
+                    title: 'Token',
+                    inputType: 'input',
+                    placeholder: 'Digite seu token',
+                    errors: [],
+                    model: this.key.admin,
+                    type: 'password',
+                    icon: 'icon-visibility_off',
+                    class: 'wide',
+                    hasCopy: true,
+                    id: 'admin',
                     onIconClick: (field: Field) => {
                         field.type = field.type === 'password' ? 'text' : 'password';
                         field.icon = field.type === 'password' ? 'icon-visibility_off' : 'icon-visibility';
