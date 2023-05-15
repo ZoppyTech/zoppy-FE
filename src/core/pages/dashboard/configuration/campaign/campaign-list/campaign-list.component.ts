@@ -12,6 +12,7 @@ import { CampaignEntity } from 'src/shared/models/entities/campaign.entity';
 import { ZoppyFilter } from 'src/shared/models/filter';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { MessageTemplateService } from 'src/shared/services/message-template/message-template.service';
+import { FileUtils } from '@ZoppyTech/utilities';
 
 @Component({
     selector: 'app-campaign-list',
@@ -48,6 +49,16 @@ export class CampaignListComponent extends DashboardBasePage implements OnInit {
         this.setBreadcrumb();
         await this.fetchData();
         this.loading = false;
+    }
+
+    public async downloadResult(campaign: CampaignEntity, result: string): Promise<void> {
+        try {
+            const file: any = await this.campaignService.downloadResult(campaign.id, result);
+            FileUtils.downloadBlob(`${result}.csv`, file);
+        } catch (ex: any) {
+            ex = ex as ZoppyException;
+            this.toast.error(ex.message, 'Erro!');
+        }
     }
 
     public async fetchData(): Promise<void> {

@@ -43,6 +43,16 @@ export class CampaignService extends ApiService {
         return promise;
     }
 
+    public async downloadResult(campaignId: string, result: string): Promise<any> {
+        const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
+            this.download<any>(`${this.url}/${campaignId}/download/${result}`).subscribe(
+                (response: any) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async create(request: CampaignRequest): Promise<CampaignEntity> {
         const params: FormData = new FormData();
         params.append('name', request.name);

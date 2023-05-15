@@ -35,12 +35,14 @@
                             <span
                                 class="circle margin-right-1"
                                 [ngClass]="{
-                                    'bg-success': campaign.sentAt,
-                                    'bg-warning': !campaign.sentAt
+                                    'bg-negative': campaign.attempts >= 4,
+                                    'bg-success': campaign.sentAt && campaign.attempts < 4,
+                                    'bg-warning': !campaign.sentAt && campaign.attempts < 4
                                 }"
                             ></span>
-                            <span *ngIf="campaign.sentAt" class="text-10 neutral-600">Enviado</span>
-                            <span *ngIf="!campaign.sentAt" class="text-10 neutral-600">Aguardando</span>
+                            <span *ngIf="campaign.sentAt && campaign.attempts < 4" class="text-10 neutral-600">Enviado</span>
+                            <span *ngIf="!campaign.sentAt && campaign.attempts < 4" class="text-10 neutral-600">Aguardando</span>
+                            <span *ngIf="campaign.attempts >= 4" class="text-10 neutral-600">Falhou</span>
                         </div>
                     </td>
                     <td class="desktop">
@@ -48,7 +50,7 @@
                             <span [ngClass]="{ 'text--400': !campaign.sentAt }" class="text-16 text--600">{{
                                 campaign.success ? campaign.success.length + ' sucessos' : '0' + ' envios.' || 'vazio'
                             }}</span>
-                            <div class="clickable flex flex-center margin-left-1">
+                            <div class="clickable flex flex-center margin-left-1" (click)="downloadResult(campaign, 'success')">
                                 <span class="text text--bold text--secondary">Ver</span>
                                 <ps-icon class="text--secondary" icon="icon-download"></ps-icon>
                             </div>
@@ -59,7 +61,7 @@
                             <span [ngClass]="{ 'text--400': !campaign.sentAt }" class="text-16 text--600">{{
                                 campaign.failed ? campaign.failed.length + ' falhas' : '0' + ' falhas.' || 'vazio'
                             }}</span>
-                            <div class="clickable flex flex-center margin-left-1">
+                            <div class="clickable flex flex-center margin-left-1" (click)="downloadResult(campaign, 'error')">
                                 <span class="text text--bold text--secondary">Ver</span>
                                 <ps-icon class="text--secondary" icon="icon-download"></ps-icon>
                             </div>
