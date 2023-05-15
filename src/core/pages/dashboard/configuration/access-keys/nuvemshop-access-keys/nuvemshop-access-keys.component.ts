@@ -9,6 +9,7 @@ import { NuvemshopKeyService } from 'src/shared/services/nuvemshop-key/nuvemshop
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { Storage } from 'src/shared/utils/storage';
 import { DashboardBasePage } from '../../../dashboard.base.page';
+import { AppConstants } from '@ZoppyTech/utilities';
 
 @Component({
     selector: 'app-access-keys',
@@ -40,6 +41,7 @@ export class NuvemshopAccessKeysComponent extends DashboardBasePage implements O
 
     public async createKey(): Promise<void> {
         try {
+            this.wcKey.provider = AppConstants.PROVIDERS.NUVEMSHOP;
             this.wcKey = ((await this.nuvemshopKeyService.create(this.wcKey)) as wcKeyRequest) || {};
         } catch (ex: any) {
             ex = ex as ZoppyException;
