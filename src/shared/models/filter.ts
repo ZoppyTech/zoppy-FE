@@ -59,6 +59,15 @@ export class ZoppyFilter<T> {
     public searchText: string = '';
     public searchFields: Array<string> = [];
     public orderBy: OrderBy[] = new Array<OrderBy>();
+    public filterable: Filterable[] = new Array<Filterable>();
     public pagination: Pagination = new Pagination();
     public data: Array<T> = [];
 }
+
+export class Filterable {
+    public declare field: string;
+    public declare value: any;
+    public declare operation: FilterableTypes;
+}
+
+export type FilterableTypes = 'between' | 'eq' | 'gt' | 'gte' | 'lt' | 'lte' | 'ne' | 'not';

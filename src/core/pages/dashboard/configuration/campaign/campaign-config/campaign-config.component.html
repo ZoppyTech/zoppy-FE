@@ -1,0 +1,102 @@
+<div class="container" *ngIf="!loading">
+    <a class="flex go-back margin-bottom-2" href="/dashboard/configurations/campaigns/list">
+        <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
+        <span class="text-16 text--bold text--primary">Voltar</span>
+    </a>
+    <div class="flex wide tall grid-gap-2">
+        <div class="flex-grow flex flex-column">
+            <h4 class="text text--bold margin-bottom-1">Criar campanha</h4>
+            <span class="text">Defina uma campanha para ser enviadas a um grupo de clientes. </span>
+
+            <div class="fields margin-top-3">
+                <div class="flex flex-column">
+                    <div class="flex flex-grow grid-gap-2">
+                        <div class="field flex-grow flex-column">
+                            <span class="text text--bold margin-bottom-1">Nome da campanha</span>
+                            <ps-input [(ngModel)]="name"></ps-input>
+                        </div>
+                        <div class="field flex-grow flex-column">
+                            <span class="text text--bold margin-bottom-1">Template de mensagem</span>
+                            <ps-dropdown
+                                [wide]="true"
+                                propertyLabel="name"
+                                propertyValue="id"
+                                (valueChange)="selectGroup($event)"
+                                [(value)]="messageTemplateGroupId"
+                                [items]="templateGroups"
+                            ></ps-dropdown>
+                        </div>
+                    </div>
+
+                    <div class="field margin-top-3 flex flex-column">
+                        <span class="text text--bold margin-bottom-1">Clientes</span>
+                        <div class="border padding-2">
+                            <div class="text margin-bottom-2">
+                                <span class="text text--bold text--secondary clickable" (click)="download()">Clique aqui</span> para baixar
+                                a planilha de modelo. Preencha as colunas com dados dos clientes que deverão receber a campanha, após isso
+                                faça o upload da planilha csv preenchida abaixo.
+                            </div>
+
+                            <ps-input-file
+                                [extensions]="['.csv']"
+                                title="Planilha no formato CSV"
+                                icon="icon-draft"
+                                [(file)]="file"
+                                (invalidFileUploaded)="invalidFileUploaded()"
+                            ></ps-input-file>
+                        </div>
+                    </div>
+
+                    <div class="field margin-top-3 flex flex-column">
+                        <span class="text text--bold margin-bottom-1">Envio da campanha</span>
+
+                        <div class="border padding-2">
+                            <div class="text">Você pode escolher a data e hora para o envio da campanha ou manter o envio imediato.</div>
+                            <ps-radio-button
+                                [vertical]="false"
+                                [items]="options"
+                                [(value)]="option"
+                                propertyLabel="label"
+                                propertyValue="value"
+                            ></ps-radio-button>
+
+                            <div class="flex flex-grow grid-gap-2 margin-top-2" *ngIf="option === 'scheduled'">
+                                <div class="field flex-grow flex-column">
+                                    <span class="text text--bold margin-bottom-1">Início</span>
+                                    <ps-datepicker [displayTop]="true" type="input" [(model)]="activationDate"></ps-datepicker>
+                                </div>
+                                <div class="field flex-grow flex-column">
+                                    <span class="text text--bold margin-bottom-1">Template de mensagem</span>
+                                    <ps-timepicker [(model)]="activationDate"></ps-timepicker>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="padding-top-2 flex grid-gap-2 padding-bottom-2">
+                        <ps-button type="cancel" (onClick)="goBack()">
+                            <span class="text text--bold margin-x-3">Cancelar</span>
+                        </ps-button>
+                        <ps-button type="secondary" [loading]="loadingSave" (onClick)="create()">
+                            <span class="neutral-100 margin-x-3">Salvar</span>
+                        </ps-button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <ps-preview
+            *ngIf="messageTemplateGroup"
+            [bodyText]="messageTemplateGroup.messageTemplates[0].text"
+            [headerText]="messageTemplateGroup.wppMessageTemplate.headerMessage"
+            [footerText]="messageTemplateGroup.wppMessageTemplate.footerMessage"
+            [ctaLabel]="messageTemplateGroup.wppMessageTemplate.ctaLabel"
+            [headerType]="messageTemplateGroup.wppMessageTemplate.type"
+            [headerUrl]="messageTemplateGroup.wppMessageTemplate.headerMessage"
+        ></ps-preview>
+    </div>
+</div>
+
+<div class="container flex flex-center" *ngIf="loading">
+    <static-loading [isLoading]="true" class="loading"></static-loading>
+</div>

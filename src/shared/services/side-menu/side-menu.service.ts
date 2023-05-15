@@ -47,6 +47,7 @@ export type SideMenu =
     | `giftback`
     | `messageTemplate`
     | `messageTemplateList`
+    | `campaigns`
     | `myCompany`
     | `myProfile`
     | `signature`

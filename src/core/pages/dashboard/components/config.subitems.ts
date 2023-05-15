@@ -92,6 +92,15 @@ export class ConfigSubItems {
                 visible: UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
             },
             {
+                id: `campaigns`,
+                icon: 'icon-arrow',
+                label: 'Campanhas',
+                route: Navigation.routes.campaign,
+                visible:
+                    CompanyUtil.isPremium(company) &&
+                    UserUtil.hasRoles(user, [AppConstants.ROLES.ADMIN, AppConstants.ROLES.MASTER, AppConstants.ROLES.MANAGER])
+            },
+            {
                 id: `whatsappConfig`,
                 icon: 'icon-arrow',
                 label: 'Configuração do Whatsapp',

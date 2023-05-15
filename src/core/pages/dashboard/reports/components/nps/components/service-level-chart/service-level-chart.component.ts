@@ -27,8 +27,6 @@ export class ServiceLevelChartComponent {
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
     public ngOnInit(): void {
-        console.log('Aqui report');
-        console.log(this.reportRequest);
         this.setEvents();
         this.initializeChart();
     }
