@@ -32,6 +32,9 @@ export class Navigation {
         syncData: '/dashboard/configurations/sync-data',
         giftback: '/dashboard/configurations/giftbacks',
         batchUpload: '/dashboard/configurations/batch-upload',
+        campaign: '/dashboard/configurations/campaigns',
+        campaignList: '/dashboard/configurations/campaigns/list',
+        campaignConfig: '/dashboard/configurations/campaigns/config',
 
         whatsapp: '/dashboard/whatsapp',
         products: '/dashboard/products',
@@ -49,6 +52,9 @@ export type Pages =
     | 'accessTokens'
     | 'account'
     | 'batchUpload'
+    | 'campaign'
+    | 'campaignList'
+    | 'campaignConfig'
     | 'blocked'
     | 'changePassword'
     | 'coupons'

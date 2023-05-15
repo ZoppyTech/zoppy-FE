@@ -21,8 +21,5 @@ export class TextMessageComponent implements OnInit {
         //no content
     }
 
-    public ngOnInit(): void {
-        //console.log('init');
-        console.log(this.ctaLabel);
-    }
+    public ngOnInit(): void {}
 }

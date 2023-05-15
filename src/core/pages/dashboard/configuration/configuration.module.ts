@@ -29,6 +29,10 @@ const routes: Routes = [
                 loadChildren: () => import('./message-template/message-template.module').then((m: any) => m.MessageTemplateModule)
             },
             {
+                path: 'campaigns',
+                loadChildren: () => import('./campaign/campaign.module').then((m: any) => m.CampaignModule)
+            },
+            {
                 path: 'whatsapp-setup',
                 loadChildren: () => import('./whatsapp-config/whatsapp-config.module').then((m: any) => m.WhatsappConfigModule)
             },

@@ -86,6 +86,16 @@ export class MessageTemplateService extends ApiService {
         return promise;
     }
 
+    public async listApprovedGroups(): Promise<MessageTemplateGroupEntity[]> {
+        const promise: Promise<MessageTemplateGroupEntity[]> = new Promise((resolve: any, reject: any) => {
+            this.get<MessageTemplateGroupEntity[]>(`${this.url}/groups/approved`).subscribe(
+                (response: MessageTemplateGroupEntity[]) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
     public async createGroup(request: MessageTemplateGroupRequest): Promise<MessageTemplateGroupEntity> {
         const promise: Promise<MessageTemplateGroupEntity> = new Promise((resolve: any, reject: any) => {
             this.post<MessageTemplateGroupEntity, MessageTemplateGroupRequest>(`${this.url}/groups`, request).subscribe(
