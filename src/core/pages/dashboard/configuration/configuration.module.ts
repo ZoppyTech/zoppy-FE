@@ -47,6 +47,10 @@ const routes: Routes = [
             {
                 path: 'sync-data',
                 loadChildren: () => import('./sync-data/sync-data.module').then((m: any) => m.SyncDataModule)
+            },
+            {
+                path: 'access-keys',
+                loadChildren: () => import('./access-keys/access-keys.module').then((m: any) => m.AccessKeysModule)
             }
         ]
     }
