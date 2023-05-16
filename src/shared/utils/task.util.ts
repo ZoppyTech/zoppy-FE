@@ -54,6 +54,18 @@ export class TaskUtil {
         return '';
     }
 
+    public static getStatusLabelExplanation(status: TaskStatus): string {
+        switch (status) {
+            case TaskConstants.STATUS.NEGATIVE:
+                return 'O cliente pediu para não receber mais mensagens';
+            case TaskConstants.STATUS.WARN:
+                return 'Houve tentativa de contato, porém sem sucesso';
+            case TaskConstants.STATUS.SUCCESS:
+                return 'O contato foi feito com sucesso';
+        }
+        return '';
+    }
+
     public static getTaskIsConcluded(task: TaskEntity): boolean {
         return task.status === TaskConstants.STATUS.SUCCESS || !!task.contactType;
     }

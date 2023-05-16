@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
-import { TaskContactTypes, TaskConstants, MatrixRfmUtil, DateUtil, FirstAndLastDayOfWeek } from '@ZoppyTech/utilities';
+import { TaskContactTypes, TaskConstants, MatrixRfmUtil, DateUtil, FirstAndLastDayOfWeek, TaskStatus } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-panel-contact/sales-panel-contact.request';
@@ -231,6 +231,14 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
         this.filter.maxDate = DateUtil.addDays(this.filter.maxDate, direction === 'forward' ? days : -days);
         this.filter.maxDate.setHours(23, 59, 59);
         await this.fetchData();
+    }
+
+    public getStatusLabel(task: TaskEntity): string {
+        return TaskUtil.getStatusLabel(task.status as TaskStatus);
+    }
+
+    public getStatusLabelExplanation(task: TaskEntity): string {
+        return TaskUtil.getStatusLabelExplanation(task.status as TaskStatus);
     }
 
     private setBreadcrumb(): void {
