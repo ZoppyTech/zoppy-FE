@@ -243,6 +243,10 @@
                                 warning: task.status === 'warn',
                                 negative: task.status === 'negative'
                             }"
+                            tooltipWidth="180"
+                            appTooltip
+                            [tooltipText]="getStatusLabelExplanation(task)"
+                            tooltipDirection="down"
                         ></ps-icon>
                     </div>
                     <table class="margin-y-2 wide" *ngIf="visibleProducts(task)">
@@ -373,3 +377,4 @@
 <main *ngIf="!loaded" class="loading flex flex-center">
     <img [src]="logo" alt="" />
 </main>
+<ps-tooltip></ps-tooltip>

@@ -334,6 +334,10 @@ export class CustomerSocialMediaComponent implements OnInit {
         return TaskUtil.getStatusLabel(task.status as TaskStatus);
     }
 
+    public getStatusLabelExplanation(task: SocialMediaCustomerTaskResponse): string {
+        return TaskUtil.getStatusLabelExplanation(task.status as TaskStatus);
+    }
+
     public getGender(): string {
         return GenderUtil.getLabel(this.details?.gender);
     }

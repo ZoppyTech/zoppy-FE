@@ -13,6 +13,7 @@ import { PipesModule } from 'src/shared/pipes/pipes.module';
 import { GiftbackAlertBoxModule } from 'src/shared/components/giftback-alert-box/giftback-alert-box.module';
 import { NgxStarRatingModule } from 'ngx-star-rating';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { TooltipModule } from '@ZoppyTech/tooltip';
 
 const routes: Routes = [
     {
@@ -36,7 +37,8 @@ const routes: Routes = [
         RadioButtonModule,
         DatepickerModule,
         PipesModule,
-        GiftbackAlertBoxModule
+        GiftbackAlertBoxModule,
+        TooltipModule
     ],
     declarations: [CustomerSocialMediaComponent],
     exports: [CustomerSocialMediaComponent],
