@@ -194,6 +194,18 @@ th {
     border: 1px solid var(--negative);
 }
 
+.border--success {
+    border: 2px solid var(--success) !important;
+}
+
+.border--alert {
+    border: 2px solid var(--warning) !important;
+}
+
+.border--negative {
+    border: 2px solid var(--negative) !important;
+}
+
 h1,
 h2,
 h3,

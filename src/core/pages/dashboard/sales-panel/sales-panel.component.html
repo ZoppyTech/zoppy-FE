@@ -40,11 +40,16 @@
 
                     <div
                         class="card flex flex-column padding-2"
-                        [ngClass]="{ 'margin-top-3': index !== 0 }"
+                        [ngClass]="{
+                            'margin-top-3': index !== 0,
+                            'border--success': task.status === 'success',
+                            'border--negative': task.status === 'negative',
+                            'border--alert': task.status === 'warn'
+                        }"
                         *ngFor="let task of day.tasks; let index = index"
                     >
                         <div class="flex align-center">
-                            <ps-checkbox [(active)]="task.concluded" [disabled]="true"></ps-checkbox>
+                            <ps-checkbox [(active)]="task.success" [disabled]="true"></ps-checkbox>
                             <span class="text text--500">{{ getTaskTypeLabel(task) }}</span>
                         </div>
                         <ps-button
@@ -71,9 +76,25 @@
                             </div>
                         </ps-button>
 
-                        <span class="text text--bold margin-y-1" [ngClass]="{ 'text-decoration-line-through': task.concluded }">
-                            {{ task.customer.address.firstName | zoppyName }} {{ task.customer.address.lastName | zoppyName }}
-                        </span>
+                        <div class="align-center margin-y-1">
+                            <span class="text text--bold" [ngClass]="{ 'text-decoration-line-through': task.status === 'success' }">
+                                {{ task.customer.address.firstName | zoppyName }} {{ task.customer.address.lastName | zoppyName }}
+                            </span>
+                            <ps-icon
+                                class="margin-left-1 text--500"
+                                [icon]="getStatusLabel(task)"
+                                [ngClass]="{
+                                    success: task.status === 'success',
+                                    warning: task.status === 'warn',
+                                    negative: task.status === 'negative'
+                                }"
+                                tooltipWidth="180"
+                                appTooltip
+                                [tooltipText]="getStatusLabelExplanation(task)"
+                                tooltipDirection="down"
+                            ></ps-icon>
+                        </div>
+
                         <span class="text-12 text--600">Posição: {{ getPosition(task) }}</span>
                         <span class="text-12 text--600 margin-bottom-1" *ngIf="task.customer.user"
                             >Vendedor: {{ task.customer.user.name }}</span
@@ -105,3 +126,4 @@
         </div>
     </div>
 </main>
+<ps-tooltip></ps-tooltip>
