@@ -1,6 +1,6 @@
 <div class="container" *ngIf="loaded">
     <div class="title margin-top-3 wide">
-        <a class="flex go-back margin-bottom-3" href="/dashboard/my-company/users">
+        <a class="flex go-back margin-bottom-3" href="/dashboard/account/my-company/users">
             <ps-icon class="font-16" icon="icon-chevron text--primary"></ps-icon> &nbsp;
             <span class="text-16 text--bold text--primary">Voltar</span>
         </a>
@@ -12,37 +12,31 @@
     </div>
 
     <div class="body">
-        <div class="field">
-            <span class="text-14 text--bold"> Nome*</span>
-            <ps-input type="text" placeholder="Digite o nome" [(ngModel)]="user.name"></ps-input>
-        </div>
-        <div class="field">
-            <span class="text-14 text--bold"> Telefone* </span>
-            <ps-input mask="(00) 00000-0000" type="text" placeholder="Digite o telefone" [(ngModel)]="user.phone"></ps-input>
-        </div>
-        <div class="field">
-            <span class="text-14 text--bold"> Email* </span>
-            <ps-input type="email" placeholder="Digite o email" [(ngModel)]="user.email"></ps-input>
-        </div>
-        <div class="field">
-            <span class="text-14 text--bold"> CPF* </span>
-            <ps-input type="text" mask="000.000.000-00" placeholder="Digite o seu CPF" [(ngModel)]="user.revenueRecord"></ps-input>
-        </div>
-        <div class="field">
-            <span class="text-14 text--bold"> Apelido </span>
-            <ps-input type="text" placeholder="Digite o apelido" [(ngModel)]="user.nickName"></ps-input>
-        </div>
-        <div class="field">
-            <span class="text-14 text--bold"> Data de nascimento </span>
-            <ps-datepicker placeholder="DD/MM/YYYY" [(model)]="user.birthDate" [hasFooter]="false" type="input"></ps-datepicker>
-        </div>
-        <div class="field" *ngIf="!id">
-            <span class="text-14 text--bold"> Senha* </span>
-            <ps-input type="password" placeholder="Digite a senha do usuário" [(ngModel)]="user.password"></ps-input>
-        </div>
-        <div class="field" *ngIf="!id">
-            <span class="text-14 text--bold"> Confirmar Senha* </span>
-            <ps-input type="password" placeholder="Confirme a senha do usuário" [(ngModel)]="confirmPassword"></ps-input>
+        <div class="field" *ngFor="let field of fields" [ngClass]="{ hidden: !field.visible }">
+            <span class="text-14 text--bold"> {{ field.title }}</span>
+            <ps-input
+                *ngIf="field.inputType === 'input'"
+                [errors]="field.errors"
+                (onFocus)="field.errors = []"
+                [mask]="field.mask ?? ''"
+                [ngClass]="{ 'text--negative': field.errors.length > 0 }"
+                [type]="field.type"
+                (ngModelChange)="field.onChange()"
+                [type]="field.type"
+                [placeholder]="field.placeholder"
+                [(ngModel)]="field.model"
+                [icon]="field.icon || ''"
+                [mask]="field.mask || ''"
+                (onIconClicked)="iconClicked(field)"
+            ></ps-input>
+
+            <ps-datepicker
+                [(model)]="field.model"
+                type="input"
+                [placeholder]="field.placeholder"
+                [hasFooter]="false"
+                *ngIf="field.inputType === 'datepicker'"
+            ></ps-datepicker>
         </div>
     </div>
     <div class="footer">
