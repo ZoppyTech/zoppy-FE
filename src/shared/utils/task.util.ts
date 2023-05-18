@@ -67,6 +67,14 @@ export class TaskUtil {
     }
 
     public static getTaskIsConcluded(task: TaskEntity): boolean {
-        return task.status === TaskConstants.STATUS.SUCCESS || !!task.contactType;
+        return task.status === TaskConstants.STATUS.SUCCESS;
+    }
+
+    public static getTaskIsWarn(task: TaskEntity): boolean {
+        return task.status === TaskConstants.STATUS.WARN;
+    }
+
+    public static getTaskIsNegative(task: TaskEntity): boolean {
+        return task.status === TaskConstants.STATUS.NEGATIVE;
     }
 }

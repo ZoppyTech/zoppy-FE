@@ -2,7 +2,8 @@ import { Component, Input, OnInit, SimpleChanges, ViewChild } from '@angular/cor
 import { ToastService } from '@ZoppyTech/toast';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
+import { RfmResponse } from 'src/shared/models/responses/reports/rfm.response';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
 
@@ -12,7 +13,7 @@ import { ReportService } from 'src/shared/services/reports/report.service';
     styleUrls: ['./gender-chart.component.scss']
 })
 export class GenderChartComponent implements OnInit {
-    @Input() public data: ReportCustomerResponse[] = [];
+    @Input() public data: RfmResponse = new RfmResponse();
     @Input() public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public legends: Legend[] = [];
@@ -42,27 +43,17 @@ export class GenderChartComponent implements OnInit {
     public setChartDatasets(): void {
         this.chartLabels = [];
         this.chartData = [];
-        if (!this.data?.length) return;
-        this.chartData = [this.filterGenderByType('M'), this.filterGenderByType('F'), this.filterGenderByUndefinedType()];
+        if (!this.data?.gender) return;
+        const total: number = this.data.gender.male + this.data.gender.female + this.data.gender.other;
+        const male: number = this.data.gender.male;
+        const female: number = this.data.gender.female;
+        const other: number = this.data.gender.other;
+        this.chartData = [this.ruleOfThree(male, total), this.ruleOfThree(female, total), this.ruleOfThree(other, total)];
         this.chartLabels = ['Masculino', 'Feminino', 'Não registrado'];
     }
 
-    public filterGenderByType(type: string): string {
-        const genders: ReportCustomerResponse[] = this.data.filter((value: ReportCustomerResponse) => {
-            return value.gender === type;
-        });
-        return this.ruleOfThree(genders.length);
-    }
-
-    public filterGenderByUndefinedType(): string {
-        const genders: ReportCustomerResponse[] = this.data.filter((value: ReportCustomerResponse) => {
-            return !value.gender || value.gender.trimEnd() === '' || (value.gender.trimEnd() !== 'M' && value.gender.trimEnd() !== 'F');
-        });
-        return this.ruleOfThree(genders.length);
-    }
-
-    public ruleOfThree(value: any): string {
-        return ((value * 100) / this.data.length).toFixed(2);
+    public ruleOfThree(value: number, total: number): string {
+        return ((value * 100) / total).toFixed(2);
     }
 
     public async initializeChart(): Promise<void> {
