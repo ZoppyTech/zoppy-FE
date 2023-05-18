@@ -1,11 +1,13 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
-import { FileUtils, FormatUtils } from '@ZoppyTech/utilities';
+import { FileUtils, FormatUtils, MatrixRfmConstants } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
+import { Pagination, ZoppyFilter } from 'src/shared/models/filter';
 import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { Position } from 'src/shared/models/responses/reports/matrix-rfm.response';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
+import { Gender, RfmGrade, RfmResponse } from 'src/shared/models/responses/reports/rfm.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 import { ReportService } from 'src/shared/services/reports/report.service';
@@ -17,32 +19,53 @@ import { Navigation } from 'src/shared/utils/navigation';
     styleUrls: ['./matrix-rfm.component.scss']
 })
 export class MatrixRfmComponent implements OnInit, OnDestroy {
-    public customers: Array<ReportCustomerResponseDto> = [];
-    public customersFiltered: Array<ReportCustomerResponseDto> = [];
+    public rfm: RfmResponse = {
+        grade: new RfmGrade(),
+        customers: new ZoppyFilter<ViewCustomerEntity>(),
+        gender: new Gender(),
+        salesByState: {}
+    };
     public isLoading: boolean = true;
-    public loadingDownload: boolean = false;
+    public filter: ZoppyFilter<ViewCustomerEntity> = this.initFilter();
+
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
-    public positions: CustomerPositions = new CustomerPositions();
-    public position: CustomerPosition = new CustomerPosition('all');
-    @Input() public reportRequest?: GetReportRequest;
+
+    @Input() public reportRequest: GetReportRequest = new GetReportRequest();
 
     public constructor(public router: Router, private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
+    public initFilter(): ZoppyFilter<ViewCustomerEntity> {
+        return {
+            pagination: {
+                page: 1,
+                pageSize: 20,
+                totalPages: 0,
+                totalRecords: 0
+            } as Pagination,
+            searchFields: ['firstName', 'lastName', 'fullName'],
+            searchText: '',
+            orderBy: [
+                {
+                    property: 'fullName',
+                    direction: 'ASC'
+                }
+            ],
+            data: []
+        };
+    }
+
     public async downloadCustomers(): Promise<void> {
-        const fileName: string = `${new Date().toLocaleDateString()}_coupons.csv`;
-        this.loadingDownload = true;
+        const fileName: string = `${new Date().toLocaleDateString()}_customers.csv`;
         try {
-            const file: any = await this.reportsService.downloadCustomers(
-                (this.reportRequest as GetReportRequest).startPeriod,
-                (this.reportRequest as GetReportRequest).finishPeriod,
-                this.position.position
-            );
+            const file: any = await this.reportsService.downloadCustomers({
+                startPeriod: (this.reportRequest as GetReportRequest).startPeriod,
+                finishPeriod: (this.reportRequest as GetReportRequest).finishPeriod,
+                position: this.reportRequest?.position as string
+            });
             FileUtils.downloadBlob(fileName, file);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Erro!');
-        } finally {
-            this.loadingDownload = false;
         }
     }
 
@@ -55,6 +78,17 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         this.setEvents();
     }
 
+    public async onSearchTextChanged(searchText: string = ''): Promise<void> {
+        this.filter.pagination.page = 1;
+        this.filter.searchText = searchText;
+        await this.fetchData();
+    }
+
+    public async onPaginationChanged(page: number): Promise<void> {
+        this.filter.pagination.page = page;
+        await this.fetchData();
+    }
+
     public async initializeData(): Promise<void> {
         this.isLoading = true;
         await this.fetchData();
@@ -63,14 +97,17 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         });
     }
 
-    public async fetchData(): Promise<void> {
+    public async fetchData(position?: Position): Promise<void> {
         try {
-            this.customers = (await this.reportsService.getCustomers(
-                this.reportRequest as GetReportRequest
-            )) as ReportCustomerResponseDto[];
-            this.customersFiltered = Array.from(this.customers.values());
-            this.setPositions();
-            this.setFilter(this.position);
+            if (position && this.reportRequest.position === position) this.reportRequest.position = MatrixRfmConstants.STATE.ALL;
+            else if (position) this.reportRequest.position = position;
+            this.rfm = await this.reportsService.getRfm({
+                ...this.filter,
+                startPeriod: (this.reportRequest as GetReportRequest).startPeriod,
+                finishPeriod: (this.reportRequest as GetReportRequest).finishPeriod,
+                position: this.reportRequest?.position as string
+            });
+            this.filter.pagination = this.rfm.customers.pagination;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');
@@ -79,70 +116,18 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         }
     }
 
-    public setPositions(): void {
-        this.resetPositions();
-        this.customers.forEach((customer: ReportCustomerResponse) => {
-            switch (customer.matrixRFM?.position) {
-                case 'cant-lose':
-                    this.positions.cantLose.phones.push(customer.phone);
-                    break;
-                case 'at-risk':
-                    this.positions.atRisk.phones.push(customer.phone);
-                    break;
-                case 'loyal':
-                    this.positions.loyal.phones.push(customer.phone);
-                    break;
-                case 'champion':
-                    this.positions.champion.phones.push(customer.phone);
-                    break;
-                case 'need-attention':
-                    this.positions.needAttention.phones.push(customer.phone);
-                    break;
-                case 'possible-loyal':
-                    this.positions.possibleLoyal.phones.push(customer.phone);
-                    break;
-                case 'sleeping':
-                    this.positions.sleeping.phones.push(customer.phone);
-                    break;
-                case 'almost-sleeping':
-                    this.positions.almostSleeping.phones.push(customer.phone);
-                    break;
-                case 'promising':
-                    this.positions.promising.phones.push(customer.phone);
-                    break;
-                case 'new':
-                    this.positions.new.phones.push(customer.phone);
-                    break;
-            }
-        });
-    }
-
-    public calculate(position: CustomerPosition): string {
-        if (!this.customers?.length) return '';
-        const roundValue: number = Math.round((position.phones.length * 10000) / this.customers.length);
-        const percent: string = FormatUtils.toPercent(roundValue / 100);
-        return `${position.phones.length} - ${percent}`;
-    }
-
-    public setFilter(position: CustomerPosition) {
-        this.isLoading = true;
-        if (position.position === this.position.position) {
-            this.setFilterByAll();
-            return;
-        }
-        this.position.position = position.position;
-        setTimeout(() => {
-            this.customersFiltered = this.customers.filter((customer: ReportCustomerResponseDto) => {
-                return !(position.position !== 'all' && customer.matrixRFM?.position !== position.position);
-            });
-            this.isLoading = false;
-        });
+    public calculate(position: string): string {
+        const value: number = parseInt((this.rfm as any).grade[position]);
+        const roundValue: number = value / this.rfm.grade.total;
+        const percent: string = FormatUtils.toPercent(roundValue * 100);
+        return `${value} - ${percent}`;
     }
 
     public setEvents(): void {
         BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
             (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
             (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
+            this.filter = this.initFilter();
             await this.initializeData();
         });
     }
@@ -150,52 +135,4 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
     public redirectToCustomerDetails(id: string): void {
         this.router.navigate([Navigation.routes.customerSocialMedia, id]);
     }
-
-    private setFilterByAll(): void {
-        this.position.position = 'all';
-        setTimeout(() => {
-            this.customersFiltered = this.customers.map((customer: ReportCustomerResponseDto) => {
-                return customer;
-            });
-            this.isLoading = false;
-        });
-    }
-
-    private resetPositions(): void {
-        this.positions.cantLose.phones = [];
-        this.positions.atRisk.phones = [];
-        this.positions.loyal.phones = [];
-        this.positions.champion.phones = [];
-        this.positions.needAttention.phones = [];
-        this.positions.possibleLoyal.phones = [];
-        this.positions.sleeping.phones = [];
-        this.positions.almostSleeping.phones = [];
-        this.positions.promising.phones = [];
-        this.positions.new.phones = [];
-    }
-}
-
-class CustomerPositions {
-    public cantLose: CustomerPosition = new CustomerPosition('cant-lose');
-    public atRisk: CustomerPosition = new CustomerPosition('at-risk');
-    public loyal: CustomerPosition = new CustomerPosition('loyal');
-    public champion: CustomerPosition = new CustomerPosition('champion');
-    public needAttention: CustomerPosition = new CustomerPosition('need-attention');
-    public possibleLoyal: CustomerPosition = new CustomerPosition('possible-loyal');
-    public sleeping: CustomerPosition = new CustomerPosition('sleeping');
-    public almostSleeping: CustomerPosition = new CustomerPosition('almost-sleeping');
-    public promising: CustomerPosition = new CustomerPosition('promising');
-    public new: CustomerPosition = new CustomerPosition('new');
-}
-
-class CustomerPosition {
-    public constructor(position: Position) {
-        this.position = position;
-    }
-    public phones: Array<string> = [];
-    public position: Position = 'all';
-}
-
-export class ReportCustomerResponseDto extends ReportCustomerResponse {
-    public hidden: boolean = false;
 }

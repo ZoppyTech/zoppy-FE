@@ -59,7 +59,7 @@ export class ZoppyFilter<T> {
     public searchText: string = '';
     public searchFields: Array<string> = [];
     public orderBy: OrderBy[] = new Array<OrderBy>();
-    public filterable: Filterable[] = new Array<Filterable>();
+    public filterable?: Filterable[] = new Array<Filterable>();
     public pagination: Pagination = new Pagination();
     public data: Array<T> = [];
 }

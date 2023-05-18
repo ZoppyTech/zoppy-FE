@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
 import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
+import { RfmResponse } from 'src/shared/models/responses/reports/rfm.response';
 
 @Component({
     selector: 'rfm-overview',
@@ -9,7 +10,6 @@ import { ReportCustomerResponse } from 'src/shared/models/responses/reports/repo
 })
 export class RfmOverviewComponent {
     @Input() public isLoading: boolean = true;
-    @Input() public customers: Array<ReportCustomerResponse> = [];
+    @Input() public rfm: RfmResponse = new RfmResponse();
     @Input() public reportRequest?: GetReportRequest;
-    @Output() public customersChange: EventEmitter<Array<ReportCustomerResponse>> = new EventEmitter<Array<ReportCustomerResponse>>();
 }

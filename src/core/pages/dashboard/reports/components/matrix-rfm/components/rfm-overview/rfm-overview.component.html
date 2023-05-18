@@ -1,7 +1,7 @@
 <div class="container">
     <section class="header">
         <div class="left-info">
-            <span class="text-20 text--bold text--primary margin-right-1"> {{ customers.length }} </span>
+            <span class="text-20 text--bold text--primary margin-right-1"> {{ rfm.customers.pagination.totalRecords }} </span>
             <span class="text-16 text--700"> Clientes ativos / 100% </span>
         </div>
         <div class="right-info desktop">
@@ -12,10 +12,10 @@
     </section>
     <section class="main-content">
         <div class="gender-chart">
-            <gender-chart [isLoading]="isLoading" [data]="customers"></gender-chart>
+            <gender-chart [isLoading]="isLoading" [data]="rfm"></gender-chart>
         </div>
         <div class="state-chart">
-            <state-chart [isLoading]="isLoading" [data]="customers"></state-chart>
+            <state-chart [isLoading]="isLoading" [data]="rfm"></state-chart>
         </div>
     </section>
 </div>
