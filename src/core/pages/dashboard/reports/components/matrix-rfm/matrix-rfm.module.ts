@@ -6,9 +6,20 @@ import { RfmOverviewModule } from './components/rfm-overview/rfm-overview.module
 import { IconModule } from '@ZoppyTech/icon';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
 import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
+import { SearchBarModule } from '@ZoppyTech/search-bar';
+import { PaginationModule } from '@ZoppyTech/pagination';
 
 @NgModule({
-    imports: [CommonModule, ButtonModule, RfmOverviewModule, IconModule, PipesModule, StaticLoadingModule],
+    imports: [
+        CommonModule,
+        ButtonModule,
+        RfmOverviewModule,
+        IconModule,
+        PipesModule,
+        StaticLoadingModule,
+        SearchBarModule,
+        PaginationModule
+    ],
     declarations: [MatrixRfmComponent],
     exports: [MatrixRfmComponent]
 })

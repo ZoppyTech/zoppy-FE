@@ -1,8 +1,10 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
+import { ArrayUtil } from '@ZoppyTech/utilities';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
+import { RfmResponse } from 'src/shared/models/responses/reports/rfm.response';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 
 @Component({
@@ -11,8 +13,8 @@ import { BroadcastService } from 'src/shared/services/broadcast/broadcast.servic
     styleUrls: ['./state-chart.component.scss']
 })
 export class StateChartComponent implements OnInit, OnChanges {
-    @Input() public data: ReportCustomerResponse[] = [];
-    @Output() public dataChange: EventEmitter<ReportCustomerResponse[]> = new EventEmitter<ReportCustomerResponse[]>();
+    @Input() public data: RfmResponse = new RfmResponse();
+    @Output() public dataChange: EventEmitter<ViewCustomerEntity[]> = new EventEmitter<ViewCustomerEntity[]>();
     @Input() public isLoading: boolean = false;
     public currentRegionTitle: string = '';
     public currentRegionIndex: number = Regions.Southeast;
@@ -28,9 +30,7 @@ export class StateChartComponent implements OnInit, OnChanges {
 
     public constructor(private readonly toast: ToastService) {}
 
-    public ngOnInit(): void {
-        // no content
-    }
+    public ngOnInit(): void {}
 
     public async ngOnChanges(changes: SimpleChanges): Promise<void> {
         if (changes['isLoading'] && changes['isLoading'].currentValue === false) {
@@ -48,22 +48,20 @@ export class StateChartComponent implements OnInit, OnChanges {
         this.filterAndMapStates();
         this.groupStatesByRegion();
         this.setChartDatasets();
-        this.isLoading = false;
         this.drawChart(true);
+        this.isLoading = false;
     }
 
     public filterAndMapStates(): void {
         this.resetStates();
-        for (const customer of this.data) {
-            const stateIndex: number = this.states.findIndex((state: StateChartValues) => {
-                return state.name === customer.state;
-            });
-            if (stateIndex === -1) {
-                this.states.push({ name: customer.state, amount: 1 });
-                continue;
-            }
-            this.states[stateIndex].amount += 1;
-        }
+        const states: StateMapped[] = ArrayUtil.mapKeyValuePairToArray(this.data.salesByState);
+
+        this.states = states.map((state: StateMapped) => {
+            return {
+                amount: state.value,
+                name: state.key
+            };
+        });
     }
 
     public groupStatesByRegion(): void {
@@ -80,9 +78,11 @@ export class StateChartComponent implements OnInit, OnChanges {
 
     public getStatesByAcronyms(acronyms: Array<string>): Array<StateChartValues> {
         if (acronyms.length <= 0) return [];
-        return this.states.filter((state: StateChartValues) => {
+        const regionStates: StateChartValues[] = this.states.filter((state: StateChartValues) => {
             return acronyms.includes(state.name);
         });
+
+        return regionStates;
     }
 
     public navigateBackwards(): void {
@@ -156,20 +156,12 @@ export class StateChartComponent implements OnInit, OnChanges {
         return this.rfmStateChart?.nativeElement ?? document.getElementById('rfmStateChart');
     }
 
-    public setEvents(): void {
-        // BroadcastService.subscribe(this, 'refresh-report', async (startPeriod: Date, finishPeriod: Date) => {
-        //     this.reportRequest.startPeriod = startPeriod;
-        //     this.reportRequest.finishPeriod = finishPeriod;
-        //     await this.initializeChart();
-        // });
-    }
-
     public resetStates(): void {
         this.states = [];
     }
 
     public ruleOfThree(value: any): string {
-        return ((value * 100) / this.data.length).toFixed(2);
+        return ((value * 100) / this.data.customers.data.length).toFixed(2);
     }
 }
 
@@ -181,6 +173,11 @@ class StateChartKeys {
 class StateChartValues {
     public declare name: string;
     public declare amount: number;
+}
+
+class StateMapped {
+    public declare key: string;
+    public declare value: number;
 }
 
 export enum Regions {

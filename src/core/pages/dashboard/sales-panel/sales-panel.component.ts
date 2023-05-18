@@ -9,14 +9,12 @@ import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
 import { CrmCustomerLinkResponse } from 'src/shared/models/responses/crm/crm-customer-link.response';
-import { SocialMediaMatrixRfmResponse } from 'src/shared/models/responses/social-media/social-media-matrix-rfm.response';
 import { SocialMediaSalesPanelResponse, TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
-import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { TaskUtil } from 'src/shared/utils/task.util';
 import { DashboardBasePage } from '../dashboard.base.page';
@@ -98,10 +96,6 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
         } finally {
             task.loadingWpp = false;
         }
-    }
-
-    public async details(customer: SocialMediaMatrixRfmResponse): Promise<void> {
-        this.router.navigate([Navigation.routes.customerSocialMedia, customer.customerId]);
     }
 
     public async call(task: TaskView): Promise<void> {
