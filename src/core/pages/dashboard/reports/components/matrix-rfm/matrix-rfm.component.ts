@@ -38,7 +38,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         return {
             pagination: {
                 page: 1,
-                pageSize: 20,
+                pageSize: 9,
                 totalPages: 0,
                 totalRecords: 0
             } as Pagination,
