@@ -2,6 +2,7 @@ import { AfterViewInit, Component, ElementRef, Input, OnDestroy, OnInit, ViewChi
 import { MapGeocoder, MapInfoWindow, MapMarker } from '@angular/google-maps';
 import { ToastService } from '@ZoppyTech/toast';
 import { environment } from 'src/environments/environment';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
 import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
 import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -16,7 +17,7 @@ import { ReportService } from 'src/shared/services/reports/report.service';
 export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewInit {
     @Input() public reportRequest?: GetReportRequest;
 
-    public addresses: Array<WcAddressEntity> = [];
+    public customers: Array<ViewCustomerEntity> = [];
     @ViewChild('mapContainer', { static: false }) public declare gmap: ElementRef;
     @ViewChild(MapInfoWindow) public infoWindow: MapInfoWindow | undefined;
     public declare map: google.maps.Map;
@@ -104,7 +105,7 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
 
     public async fetchData(): Promise<void> {
         try {
-            this.addresses = await this.reportsService.getAddresses(this.reportRequest as GetReportRequest);
+            this.customers = await this.reportsService.getCustomers(this.reportRequest as GetReportRequest);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');
@@ -156,10 +157,10 @@ export class GoogleMapsChartComponent implements OnInit, OnDestroy, AfterViewIni
     }
 
     public getPoints(): Array<google.maps.LatLng> {
-        const points: Array<google.maps.LatLng> = this.addresses
-            .filter((address: WcAddressEntity) => address.latitude && address.longitude)
-            .map((address: WcAddressEntity) => {
-                return new google.maps.LatLng(address.latitude, address.longitude);
+        const points: Array<google.maps.LatLng> = this.customers
+            .filter((customer: ViewCustomerEntity) => customer.latitude && customer.longitude)
+            .map((customer: ViewCustomerEntity) => {
+                return new google.maps.LatLng(customer.latitude, customer.longitude);
             });
         this.savedPoints = points;
         return [...points];

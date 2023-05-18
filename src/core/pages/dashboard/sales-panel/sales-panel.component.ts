@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
-import { TaskContactTypes, TaskConstants, MatrixRfmUtil, DateUtil, FirstAndLastDayOfWeek } from '@ZoppyTech/utilities';
+import { TaskContactTypes, TaskConstants, MatrixRfmUtil, DateUtil, FirstAndLastDayOfWeek, TaskStatus } from '@ZoppyTech/utilities';
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-panel-contact/sales-panel-contact.request';
@@ -9,14 +9,12 @@ import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
 import { CrmCustomerLinkResponse } from 'src/shared/models/responses/crm/crm-customer-link.response';
-import { SocialMediaMatrixRfmResponse } from 'src/shared/models/responses/social-media/social-media-matrix-rfm.response';
 import { SocialMediaSalesPanelResponse, TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
-import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { TaskUtil } from 'src/shared/utils/task.util';
 import { DashboardBasePage } from '../dashboard.base.page';
@@ -84,7 +82,11 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
     public async sendWppMessage(task: TaskView): Promise<void> {
         task.loadingWpp = true;
         try {
-            const data: CrmCustomerLinkResponse = await this.crmCustomerService.findWhatsappLink(task.customer.id, task.type);
+            const data: CrmCustomerLinkResponse = await this.crmCustomerService.findWhatsappLink({
+                customerId: task.customer.id,
+                linkTemplateId: task.type,
+                taskId: task.id
+            });
             window
                 ?.open(`https://api.whatsapp.com/send/?phone=${data.phoneNumber}&text=${encodeURIComponent(data.text)}`, '_blank')
                 ?.focus();
@@ -94,10 +96,6 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
         } finally {
             task.loadingWpp = false;
         }
-    }
-
-    public async details(customer: SocialMediaMatrixRfmResponse): Promise<void> {
-        this.router.navigate([Navigation.routes.customerSocialMedia, customer.customerId]);
     }
 
     public async call(task: TaskView): Promise<void> {
@@ -227,6 +225,14 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
         this.filter.maxDate = DateUtil.addDays(this.filter.maxDate, direction === 'forward' ? days : -days);
         this.filter.maxDate.setHours(23, 59, 59);
         await this.fetchData();
+    }
+
+    public getStatusLabel(task: TaskEntity): string {
+        return TaskUtil.getStatusLabel(task.status as TaskStatus);
+    }
+
+    public getStatusLabelExplanation(task: TaskEntity): string {
+        return TaskUtil.getStatusLabelExplanation(task.status as TaskStatus);
     }
 
     private setBreadcrumb(): void {

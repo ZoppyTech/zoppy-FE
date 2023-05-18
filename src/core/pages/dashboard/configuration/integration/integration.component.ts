@@ -56,15 +56,7 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
     }
 
     public isSupportProvider(): boolean {
-        return [
-            AppConstants.PROVIDERS.NUVEMSHOP,
-            AppConstants.PROVIDERS.DOOCA,
-            AppConstants.PROVIDERS.SHOPIFY,
-            AppConstants.PROVIDERS.MOVERE,
-            AppConstants.PROVIDERS.ONE_CHAT,
-            'bagy',
-            'whatsapp'
-        ].includes(this.provider);
+        return [AppConstants.PROVIDERS.NUVEMSHOP, AppConstants.PROVIDERS.SHOPIFY, AppConstants.PROVIDERS.WHATSAPP].includes(this.provider);
     }
 
     private setBreadcrumbItems(): void {
@@ -133,7 +125,7 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
                 image: './assets/svg/bagy_mini.svg',
                 description: 'Possui loja na Bagy? Faça a integração com a Zoppy agora mesmo!',
                 active: !!(this.company?.provider === 'bagy' && this.key?.id),
-                provider: 'bagy'
+                provider: AppConstants.PROVIDERS.BAGY
             },
             {
                 name: 'OneChat',
@@ -154,7 +146,7 @@ export class IntegrationComponent extends DashboardBasePage implements OnInit {
                 image: './assets/svg/wpp_mini.svg',
                 description: 'Gostaria de configurar o Whatsapp Business? Faça a integração com a Zoppy agora mesmo!',
                 active: this.company?.plan === AppConstants.PLANS.PREMIUM,
-                provider: 'whatsapp',
+                provider: AppConstants.PROVIDERS.WHATSAPP,
                 hidden: this.company?.provider === AppConstants.PROVIDERS.TRAY
             }
         ];

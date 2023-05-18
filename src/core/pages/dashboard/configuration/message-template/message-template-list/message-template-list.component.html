@@ -1,11 +1,12 @@
-<div class="container">
+<div class="container" *ngIf="!loading">
     <div class="header wide space-between">
-        <div class="padding-3">
-            <h6 class="text">Edição e adição de templates de mensagens.</h6>
+        <div class="labels">
+            <h6 class="text margin-bottom-1">Modelos de mensagem.</h6>
+            <span class="text text-14">Edição e adição de templates de mensagens.</span>
         </div>
         <div class="margin-right-3 tall flex flex-center">
             <ps-button (onClick)="createGroup()" [wide]="true" type="secondary">
-                <span class="text--100 text--bold text-14 margin-x-3">Criar novo</span>
+                <span class="text--100 text--bold text-14 margin-x-3">Criar novo modelo +</span>
             </ps-button>
         </div>
     </div>
@@ -13,8 +14,9 @@
     <div class="body padding-bottom-3">
         <table>
             <thead>
-                <th><span class="text-14 text--primary desktop">Nome</span></th>
-                <th class="desktop"><span class="text-14 text--primary">Descrição</span></th>
+                <th><span class="text-16 text--primary desktop">Identificador</span></th>
+                <th class="desktop"><span class="text-16 text--primary">Conteúdo</span></th>
+                <th class="desktop" *ngIf="wppAccount"><span class="text-16 text--primary">Status</span></th>
                 <th><span class="text-14 text--primary"></span></th>
             </thead>
             <tbody>
@@ -33,6 +35,21 @@
                             group.description || 'vazio'
                         }}</span>
                     </td>
+                    <td *ngIf="wppAccount">
+                        <div class="status flex flex-center padding-1">
+                            <span
+                                class="circle margin-right-1"
+                                [ngClass]="{
+                                    'bg-success': group?.wppMessageTemplate?.status === 'APPROVED',
+                                    'bg-warning': group?.wppMessageTemplate?.status === 'PENDING',
+                                    'bg-negative': group?.wppMessageTemplate?.status === 'REJECTED'
+                                }"
+                            ></span>
+                            <span *ngIf="group?.wppMessageTemplate?.status === 'APPROVED'" class="text-10 neutral-600">Aprovado</span>
+                            <span *ngIf="group?.wppMessageTemplate?.status === 'PENDING'" class="text-10 neutral-600">Em análise</span>
+                            <span *ngIf="group?.wppMessageTemplate?.status === 'REJECTED'" class="text-10 neutral-600">Reprovado</span>
+                        </div>
+                    </td>
                     <td>
                         <div class="actions">
                             <ps-icon
@@ -42,6 +59,16 @@
                                 icon="icon-edit_square"
                             ></ps-icon>
                             <ps-icon (click)="destroy(group)" class="primary font-18 clickable" icon="icon-delete"></ps-icon>
+                            <ps-switch
+                                class="margin-left-2"
+                                *ngIf="wppAccount && group?.wppMessageTemplate"
+                                [(active)]="group.wppMessageTemplate.visible"
+                                tooltipWidth="250"
+                                appTooltip
+                                tooltipText="Defina a visibilidade desse template na lista de templates no chat, deixe visível apenas os templates usados pra iniciar uma conversa"
+                                tooltipDirection="left"
+                                (onToggleSwitch)="updateVisibility(group)"
+                            ></ps-switch>
                         </div>
                     </td>
                 </tr>
@@ -49,3 +76,8 @@
         </table>
     </div>
 </div>
+
+<div *ngIf="loading" class="container flex flex-center">
+    <static-loading [isLoading]="true" class="loading"></static-loading>
+</div>
+<ps-tooltip></ps-tooltip>

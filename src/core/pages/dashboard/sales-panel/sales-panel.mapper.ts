@@ -1,4 +1,4 @@
-import { DateUtil } from '@ZoppyTech/utilities';
+import { DateUtil, TaskConstants } from '@ZoppyTech/utilities';
 import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
@@ -70,6 +70,7 @@ export class SalesPanelMapper {
         taskResponses.forEach((taskResponse: TaskView) => {
             taskResponse.route = `${Navigation.routes.customerSocialMedia}/${taskResponse.customer.id}`;
             taskResponse.concluded = TaskUtil.getTaskIsConcluded(taskResponse);
+            taskResponse.success = taskResponse.status === TaskConstants.STATUS.SUCCESS;
         });
         return taskResponses;
     }

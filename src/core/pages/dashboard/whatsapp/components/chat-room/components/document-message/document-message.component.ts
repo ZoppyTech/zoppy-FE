@@ -7,7 +7,7 @@ import { ThreadMediaMessage } from '../../../../models/thread-message';
     styleUrls: ['./document-message.component.scss']
 })
 export class DocumentMessageComponent {
-    @Input() public media?: ThreadMediaMessage;
+    @Input() public media?: ThreadMediaMessage | null = new ThreadMediaMessage();
     @Input() public isBusinessUser: boolean = true;
 
     protected fileUnits: Array<string> = ['KB', 'MB', 'GB', 'TB'];

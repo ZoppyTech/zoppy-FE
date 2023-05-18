@@ -1,0 +1,96 @@
+<div class="container" *ngIf="!loading">
+    <h4 class="text text--bold margin-bottom-1">Campanhas</h4>
+    <span class="text"> Edição e adição de modelos de mensagens a serem enviadas para seus clientes. </span>
+
+    <div class="flex flex-center space-between header">
+        <ps-search-bar
+            [searchStyle]="'border-bottom'"
+            class="margin-right-3"
+            [text]="filter.searchText"
+            (onChanged)="onSearchTextChanged($event)"
+        ></ps-search-bar>
+        <ps-pagination
+            [page]="filter.pagination.page"
+            [totalPages]="filter.pagination.totalPages"
+            (onPageChanged)="onPaginationChanged($event)"
+        ></ps-pagination>
+    </div>
+
+    <div class="flex flex-grow scroll wide flex-column">
+        <table class="wide">
+            <thead>
+                <th><span class="text-16 text--primary text--bold">Nome da campanha</span></th>
+                <th class="desktop"><span class="text-16 text--primary text--bold">Status</span></th>
+                <th class="desktop"><span class="text-16 text--primary text--bold">Enviados</span></th>
+                <th class="desktop"><span class="text-16 text--primary text--bold">Não enviados</span></th>
+                <th class="desktop"><span class="text-16 text--primary text--bold">Data de envio</span></th>
+            </thead>
+            <tbody>
+                <tr class="item" *ngFor="let campaign of campaigns">
+                    <td>
+                        <span [ngClass]="{ 'text--400': !campaign.name }" class="text-16 text--600">{{ campaign.name || 'vazio' }}</span>
+                    </td>
+                    <td class="desktop">
+                        <div class="status flex align-center padding-1">
+                            <span
+                                class="circle margin-right-1"
+                                [ngClass]="{
+                                    'bg-negative': campaign.attempts >= 4,
+                                    'bg-success': campaign.sentAt && campaign.attempts < 4,
+                                    'bg-warning': !campaign.sentAt && campaign.attempts < 4
+                                }"
+                            ></span>
+                            <span *ngIf="campaign.sentAt && campaign.attempts < 4" class="text-10 neutral-600">Enviado</span>
+                            <span *ngIf="!campaign.sentAt && campaign.attempts < 4" class="text-10 neutral-600">Aguardando</span>
+                            <span *ngIf="campaign.attempts >= 4" class="text-10 neutral-600">Falhou</span>
+                        </div>
+                    </td>
+                    <td class="desktop">
+                        <div class="flex align-center">
+                            <span [ngClass]="{ 'text--400': !campaign.sentAt }" class="text-16 text--600">{{
+                                campaign.success ? campaign.success.length + ' sucessos' : '0' + ' envios.' || 'vazio'
+                            }}</span>
+                            <div class="clickable flex flex-center margin-left-1" (click)="downloadResult(campaign, 'success')">
+                                <span class="text text--bold text--secondary">Ver</span>
+                                <ps-icon class="text--secondary" icon="icon-download"></ps-icon>
+                            </div>
+                        </div>
+                    </td>
+                    <td class="desktop">
+                        <div class="flex align-center">
+                            <span [ngClass]="{ 'text--400': !campaign.sentAt }" class="text-16 text--600">{{
+                                campaign.failed ? campaign.failed.length + ' falhas' : '0' + ' falhas.' || 'vazio'
+                            }}</span>
+                            <div class="clickable flex flex-center margin-left-1" (click)="downloadResult(campaign, 'error')">
+                                <span class="text text--bold text--secondary">Ver</span>
+                                <ps-icon class="text--secondary" icon="icon-download"></ps-icon>
+                            </div>
+                        </div>
+                    </td>
+
+                    <td class="desktop">
+                        <span [ngClass]="{ 'text--400': !campaign.sentAt }" class="text-16 text--600 desktop">{{
+                            (campaign.sentAt | date : 'dd/MM/yyyy') || 'vazio'
+                        }}</span>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+
+        <app-empty-list
+            *ngIf="!campaigns?.length"
+            [title]="'Lista vazia!'"
+            [subtitle]="'Clique em criar campanha para enviar mensagens para clientes existentes ou potenciais'"
+        ></app-empty-list>
+    </div>
+
+    <div class="padding-top-2">
+        <ps-button type="secondary" (onClick)="create()">
+            <span class="text neutral-100 text--bold margin-x-3">Criar campanha</span>
+        </ps-button>
+    </div>
+</div>
+
+<div class="container flex flex-center" *ngIf="loading">
+    <static-loading [isLoading]="true" class="loading"></static-loading>
+</div>

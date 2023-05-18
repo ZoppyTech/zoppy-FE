@@ -5,5 +5,5 @@ import { ThreadMessage } from './thread-message';
 export class ChatList {
     public declare manager: ChatManager;
     public declare contact: ChatContact;
-    public declare lastMessage: ThreadMessage;
+    public declare latestMessage: ThreadMessage;
 }

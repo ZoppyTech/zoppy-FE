@@ -52,6 +52,8 @@ export class Storage {
     }
 
     public clearAll(): void {
-        localStorage.clear();
+        localStorage.removeItem(Storage.keys.token);
+        localStorage.removeItem(Storage.keys.user);
+        localStorage.removeItem(Storage.keys.company);
     }
 }

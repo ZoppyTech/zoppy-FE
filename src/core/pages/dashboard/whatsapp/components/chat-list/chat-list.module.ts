@@ -6,10 +6,11 @@ import { ButtonModule } from '@ZoppyTech/button';
 import { IconModule } from '@ZoppyTech/icon';
 import { ContactModule } from '@ZoppyTech/contact';
 import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
+import { InfiniteScrollModule } from '@ZoppyTech/infinite-scroll';
 
 @NgModule({
     declarations: [ChatListComponent],
-    imports: [CommonModule, InputModule, ButtonModule, IconModule, ContactModule, StaticLoadingModule],
+    imports: [CommonModule, InputModule, ButtonModule, IconModule, ContactModule, StaticLoadingModule, ContactModule, InfiniteScrollModule],
     exports: [ChatListComponent],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

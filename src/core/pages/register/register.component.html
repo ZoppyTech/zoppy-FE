@@ -109,6 +109,13 @@
                         (onClick)="changeStep('about_you')"
                         [disabled]="secondStepDisabled()"
                         [loading]="loading"
+                        tooltipWidth="250"
+                        appTooltip
+                        [tooltipText]="
+                            'Esse botão está desabilitado pois existem erros de validação nos dados desse passo do formulário, favor conferir seus dados.'
+                        "
+                        [tooltipHidden]="!secondStepDisabled()"
+                        tooltipDirection="up"
                         [wide]="true"
                         type="secondary"
                         ><span class="text text--100 text--bold">Prosseguir</span>
@@ -251,6 +258,13 @@
                     <ps-button
                         (onClick)="changeStep('data')"
                         [disabled]="getThirdStepDisabled()"
+                        tooltipWidth="250"
+                        appTooltip
+                        [tooltipText]="
+                            'Esse botão está desabilitado pois existem erros de validação nos dados desse passo do formulário, favor conferir seus dados.'
+                        "
+                        [tooltipHidden]="!getThirdStepDisabled()"
+                        tooltipDirection="up"
                         [loading]="loading"
                         [loadingText]="'Criando a sua empresa...'"
                         [theme]="'light'"
@@ -285,6 +299,13 @@
                     <ps-button
                         (onClick)="changeStep('payment')"
                         [disabled]="disableRegisterData()"
+                        tooltipWidth="250"
+                        appTooltip
+                        [tooltipText]="
+                            'Esse botão está desabilitado pois existem erros de validação nos dados desse passo do formulário, favor conferir seus dados.'
+                        "
+                        [tooltipHidden]="!disableRegisterData()"
+                        tooltipDirection="up"
                         [loading]="loading"
                         [loadingText]="'Criando a sua empresa...'"
                         [theme]="'light'"
@@ -345,6 +366,13 @@
                     <ps-button
                         (onClick)="register()"
                         [disabled]="disablePaymentForm()"
+                        tooltipWidth="250"
+                        appTooltip
+                        [tooltipText]="
+                            'Esse botão está desabilitado pois existem erros de validação nos dados desse passo do formulário, favor conferir seus dados.'
+                        "
+                        [tooltipHidden]="!disablePaymentForm()"
+                        tooltipDirection="up"
                         [loadingText]="'Criando a sua empresa...'"
                         [loading]="loading"
                         [wide]="true"

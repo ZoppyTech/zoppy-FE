@@ -1,7 +1,6 @@
 <div class="container">
     <div class="header">
         <div class="flex-row chat-info">
-            <img src="./assets/imgs/mini-logo.png" class="clickable margin-right-1" alt="" />
             <span class="text-20 text--primary text--bold">Chat</span>
             <div (click)="newMessage()" class="new-message">
                 <ps-icon class="text-14 text--primary text--700" icon="icon-add"></ps-icon>
@@ -9,17 +8,17 @@
         </div>
         <div class="pull-customers-wrapper">
             <div class="display" [ngClass]="{ 'display--empty': queueCount <= 0 }">
-                <div class="flex-row flex-center wide">
+                <div class="counter_wrapper">
                     <span
-                        class="queue_customers_length text--bold text-18 margin-right-1"
+                        class="queue_customers_length text--bold text-20 margin-right-1"
                         [ngClass]="{ 'queue_customers_length--empty': queueCount <= 0 }"
                         >{{ queueCount }}</span
                     >
-                    <span class="text-info text-14">Clientes na fila de espera!</span>
+                    <span class="text-info" [ngClass]="{ 'text-info--empty': queueCount <= 0 }">Clientes na fila de espera!</span>
                 </div>
                 <div *ngIf="!isAdmin" (click)="pullNewConversation()" class="button" [ngClass]="{ 'button--empty': queueCount <= 0 }">
-                    <span *ngIf="!pullLoading" class="text-14">Puxar</span>
-                    <span *ngIf="pullLoading" class="text-14">Puxando...</span>
+                    <span *ngIf="!pullLoading" class="text-16">Puxar</span>
+                    <span *ngIf="pullLoading" class="text-16">Puxando...</span>
                 </div>
             </div>
         </div>
@@ -35,18 +34,32 @@
     </div>
 
     <div class="filters" [ngClass]="{ 'filters--close': isCollapsedFilter }">
-        <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
-            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">não lidas</span>
-        </div>
-        <div
-            (click)="selectFilter('in-progress')"
-            class="flex-row item clickable"
-            [ngClass]="{ 'item--in-progress': filters.get('in-progress') }"
-        >
-            <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12 margin-right-1">em andamento</span>
-        </div>
-        <div (click)="selectFilter('finished')" class="flex-row item clickable" [ngClass]="{ 'item--finished': filters.get('finished') }">
-            <span class="label text-500 text-12 margin-right-1">concluídas</span>
+        <div class="filter-item">
+            <div
+                *ngIf="isAdmin"
+                (click)="selectFilter('waiting')"
+                class="flex-row item clickable"
+                [ngClass]="{ 'item--waiting': filters.get('waiting') }"
+            >
+                <span class="label text-500 text-12">esperando</span>
+            </div>
+            <div
+                (click)="selectFilter('in-progress')"
+                class="flex-row item clickable"
+                [ngClass]="{ 'item--in-progress': filters.get('in-progress') }"
+            >
+                <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12">em andamento</span>
+            </div>
+            <div
+                (click)="selectFilter('finished')"
+                class="flex-row item clickable"
+                [ngClass]="{ 'item--finished': filters.get('finished') }"
+            >
+                <span class="label text-500 text-12">concluídas</span>
+            </div>
+            <div (click)="selectFilter('unread')" class="flex-row item clickable" [ngClass]="{ 'item--unread': filters.get('unread') }">
+                <span [ngStyle]="{ 'min-width': 'max-content' }" class="label text-500 text-12">não lidas</span>
+            </div>
         </div>
     </div>
 
@@ -59,92 +72,120 @@
         </div>
     </div>
 
-    <div *ngIf="!filterLoading && conversations.length <= 0" class="empty-list">
-        <img [src]="EMPTY_lIST_IMAGE_DIR" alt="" class="margin-y-3" />
-        <span class="text--primary text-14"
-            >Você não tem um histórico de mensagens. <br />
-            Clique em <img [src]="NEW_MESSAGE_IMAGE_DIR" alt="" /> para iniciar uma conversa.</span
-        >
-    </div>
-
-    <div *ngIf="filterLoading" class="empty-list">
-        <static-loading [isLoading]="true" [label]="'Filtrando conversas...'"></static-loading>
-    </div>
-
-    <div *ngIf="!filterLoading && conversations.length > 0" class="conversations">
-        <div *ngFor="let conversation of conversations">
+    <div class="conversations">
+        <ps-infinite-scroll [loading]="filterLoading" (scrolled)="onScroll()">
             <div
-                class="item clickable"
-                (click)="onConversationSelected(conversation[1])"
+                *ngFor="let conversation of conversations"
+                class="thread clickable"
                 [ngClass]="{ 'item-actived': conversation[1].actived }"
             >
-                <div class="item-header">
-                    <div class="flex-row">
-                        <span class="text--bold text--800 text-14 truncate">{{ conversation[1].contact.displayName }}</span>
-                        <ps-icon
-                            *ngIf="conversation[1].contact.isBlocked"
-                            class="font-14 block-icon margin-x-1"
-                            icon="icon-block"
-                        ></ps-icon>
-                    </div>
-                    <div class="flex-row">
-                        <span
-                            *ngIf="conversation[1].threads.length > 0"
-                            class="text-12 text--400 margin-x-1"
-                            [ngClass]="{
-                                'text--bold text--700 text--secondary':
-                                    !conversation[1].threads[conversation[1].threads.length - 1].readByManager
-                            }"
-                        >
-                            {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date : 'h:mm a' }}
-                        </span>
-                        <ps-icon class="font-12 reply-icon" icon="icon-reply"></ps-icon>
-                    </div>
-                </div>
-                <div class="item-content" *ngIf="conversation[1].threads.length > 0">
-                    <span
-                        class="viewed-icon"
-                        [ngClass]="{
-                            'viewed-icon--business-user': conversation[1].threads[conversation[1].threads.length - 1].isBusiness,
-                            'viewed-icon--customer-user': !conversation[1].threads[conversation[1].threads.length - 1].isBusiness
-                        }"
-                    >
-                        <span class="margin-right-1">
+                <ps-contact
+                    [tooltip]="false"
+                    [name]="conversation[1].contact.firstName"
+                    class="margin-right-1"
+                    [size]="'3rem'"
+                    [email]="conversation[1].contact.firstName"
+                ></ps-contact>
+                <div class="item" (click)="onConversationSelected(conversation[1])">
+                    <div class="item-header">
+                        <div class="flex-row">
+                            <span class="display-name text-14 truncate">{{ conversation[1].contact.displayName }}</span>
                             <ps-icon
-                                *ngIf="
-                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered' ||
-                                    conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
-                                "
+                                *ngIf="conversation[1].contact.isBlocked"
+                                class="font-14 block-icon margin-x-1"
+                                icon="icon-block"
+                            ></ps-icon>
+                        </div>
+                        <div class="flex-row flex-center">
+                            <span
+                                *ngIf="conversation[1].threads.length > 0"
+                                class="text-12 text--500 margin-x-1"
                                 [ngClass]="{
-                                    'viewed-icon--status-delivered text--500':
-                                        conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered',
-                                    'viewed-icon--status-read':
-                                        conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
+                                    'text--bold text--700 text--secondary':
+                                        !conversation[1].threads[conversation[1].threads.length - 1].readByManager
                                 }"
-                                icon="icon-done_all"
-                            ></ps-icon>
-                            <ps-icon
-                                *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status === 'sent'"
-                                class="viewed-icon--status-sent text--500"
-                                icon="icon-approval"
-                            ></ps-icon>
-                            <ps-icon
-                                *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status === 'failed'"
-                                class="viewed-icon--status-failed"
-                                icon="icon-error"
-                            ></ps-icon>
-                        </span>
-                    </span>
-                    <span
-                        class="text-message text-14 truncate"
-                        [ngClass]="{ 'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager }"
-                        >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
-                    </span>
-                    <div *ngIf="conversation[1].unreadThreads.length > 0" class="unread-counter">
-                        <span class="text-12 text--bold text--100">{{ conversation[1].unreadThreads.length }}</span>
+                            >
+                                {{ conversation[1].threads[conversation[1].threads.length - 1].createdAt | date : 'h:mm a' }}
+                            </span>
+                            <ps-icon class="font-12 reply-icon" icon="icon-reply"></ps-icon>
+                        </div>
+                    </div>
+                    <div class="item-content" *ngIf="conversation[1].threads.length > 0">
+                        <div class="flex-row">
+                            <span
+                                class="viewed-icon"
+                                [ngClass]="{
+                                    'viewed-icon--business-user': conversation[1].threads[conversation[1].threads.length - 1].isBusiness,
+                                    'viewed-icon--customer-user': !conversation[1].threads[conversation[1].threads.length - 1].isBusiness
+                                }"
+                            >
+                                <span *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status !== 'forwarded'">
+                                    <ps-icon
+                                        *ngIf="
+                                            conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered' ||
+                                            conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
+                                        "
+                                        [ngClass]="{
+                                            'viewed-icon--status-delivered text--500':
+                                                conversation[1].threads[conversation[1].threads.length - 1].status === 'delivered',
+                                            'viewed-icon--status-read':
+                                                conversation[1].threads[conversation[1].threads.length - 1].status === 'read'
+                                        }"
+                                        icon="icon-done_all"
+                                    ></ps-icon>
+                                    <ps-icon
+                                        *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status === 'sent'"
+                                        class="viewed-icon--status-sent text--500"
+                                        icon="icon-approval"
+                                    ></ps-icon>
+                                    <ps-icon
+                                        *ngIf="conversation[1].threads[conversation[1].threads.length - 1].status === 'failed'"
+                                        class="viewed-icon--status-failed"
+                                        icon="icon-error"
+                                    ></ps-icon>
+                                </span>
+                            </span>
+                            <span
+                                class="text-message text-14 truncate"
+                                [ngClass]="{
+                                    'text-message--unread': !conversation[1].threads[conversation[1].threads.length - 1].readByManager
+                                }"
+                                >{{ conversation[1].threads[conversation[1].threads.length - 1].content }}
+                            </span>
+                        </div>
+                        <div *ngIf="conversation[1].getUnreadThreads().length > 0" class="unread-counter">
+                            <span class="text--bold text--100">{{ conversation[1].getUnreadThreads().length }}</span>
+                        </div>
+                    </div>
+                    <div class="item-content" *ngIf="conversation[1].threads.length <= 0">
+                        <div class="flex-row">
+                            <span class="text-message text-14 truncate">{{ 'Conversa não iniciada!' }} </span>
+                        </div>
+                    </div>
+
+                    <div class="item-footer">
+                        <div *ngIf="!isAdmin" class="item-footer--is-common"></div>
+                        <div *ngIf="isAdmin">
+                            <div *ngIf="!conversation[1].manager?.name" class="item-footer__status">
+                                <ps-icon icon="icon-waiting_event_fill"></ps-icon>
+                                <span>aguardando</span>
+                            </div>
+                            <div *ngIf="conversation[1].manager?.name" class="item-footer__support-agent">
+                                <ps-icon icon="icon-support"></ps-icon>
+                                <span>{{ conversation[1].manager?.name }}</span>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+            <div *ngIf="!filterLoading && conversations.length <= 0" class="empty-list">
+                <img class="margin-y-3" src="./assets/svg/search_customer.svg" alt="" />
+                <span class="text--primary margin-y-1 text--bold text-16">Nenhuma mensagem!</span>
+                <span class="text--primary text-14"
+                    >Você não tem um histórico de mensagens. <br />
+                    Clique em <img [src]="NEW_MESSAGE_IMAGE_DIR" alt="" /> para iniciar uma conversa.</span
+                >
+            </div>
+        </ps-infinite-scroll>
     </div>
 </div>

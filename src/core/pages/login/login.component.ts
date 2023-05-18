@@ -55,6 +55,11 @@ export class LoginComponent implements OnInit {
         }
     }
 
+    public iconClicked(field: Field): void {
+        field.type = field.type === 'password' ? 'text' : 'password';
+        field.icon = field.type === 'password' ? 'icon-visibility' : 'icon-visibility_off';
+    }
+
     private initFields(): void {
         this.fields = [
             {
@@ -68,7 +73,7 @@ export class LoginComponent implements OnInit {
             {
                 errors: [],
                 model: '',
-                icon: 'icon-lock',
+                icon: 'icon-visibility_off',
                 title: 'Senha',
                 placeholder: 'Digite sua senha',
                 type: 'password'

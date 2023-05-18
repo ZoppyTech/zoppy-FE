@@ -9,6 +9,10 @@ export class TextMessageComponent implements OnInit {
     @Input() public text: string = '';
     @Input() public isBusiness: boolean = true;
     @Input() public hasDeleted: boolean = false;
+    @Input() public headerText: string = '';
+    @Input() public footerText: string = '';
+    @Input() public ctaLink: string = '';
+    @Input() public ctaLabel: string = '';
 
     public truncateEnable: boolean = false;
     public hideButtonVisible: boolean = false;
@@ -17,7 +21,5 @@ export class TextMessageComponent implements OnInit {
         //no content
     }
 
-    public ngOnInit(): void {
-        //console.log('init');
-    }
+    public ngOnInit(): void {}
 }

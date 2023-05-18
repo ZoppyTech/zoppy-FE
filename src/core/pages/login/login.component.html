@@ -21,6 +21,7 @@
                     [ngClass]="{ 'text--negative': field.errors.length > 0 }"
                     [type]="field.type"
                     [icon]="field.icon"
+                    (onIconClicked)="iconClicked(field)"
                 ></ps-input>
             </div>
             <div class="forgot-password">

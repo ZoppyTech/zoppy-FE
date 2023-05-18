@@ -20,6 +20,37 @@ export class Pagination {
             maxLimit: pagination.page * pagination.pageSize
         };
     }
+
+    public updatePagination(pagination: Pagination): void {
+        this.page = pagination.page;
+        this.pageSize = pagination.pageSize;
+        this.totalPages = pagination.totalPages;
+        this.totalRecords = pagination.totalRecords;
+    }
+
+    public endOfPage(): boolean {
+        return this.page > this.totalPages;
+    }
+
+    public increasePage(): void {
+        if (this.page > this.totalPages) {
+            return;
+        }
+        this.page = this.page + 1;
+    }
+
+    public decreasePage(): void {
+        if (this.page > this.totalPages) {
+            return;
+        }
+        this.page = this.page - 1;
+    }
+
+    public reset(): void {
+        this.page = 1;
+        this.totalPages = 1;
+        this.totalRecords = 1;
+    }
 }
 
 export type OrderByDirection = 'ASC' | 'DESC';
@@ -28,6 +59,15 @@ export class ZoppyFilter<T> {
     public searchText: string = '';
     public searchFields: Array<string> = [];
     public orderBy: OrderBy[] = new Array<OrderBy>();
+    public filterable?: Filterable[] = new Array<Filterable>();
     public pagination: Pagination = new Pagination();
     public data: Array<T> = [];
 }
+
+export class Filterable {
+    public declare field: string;
+    public declare value: any;
+    public declare operation: FilterableTypes;
+}
+
+export type FilterableTypes = 'between' | 'eq' | 'gt' | 'gte' | 'lt' | 'lte' | 'ne' | 'not';

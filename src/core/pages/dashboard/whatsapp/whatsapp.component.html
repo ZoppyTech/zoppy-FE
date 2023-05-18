@@ -12,7 +12,8 @@
             [(selectedFilter)]="selectedFilter"
             (selectedConversationEvent)="onConversationSelected($event)"
             (pullNewConversationEvent)="onPullNewConversationButtonClicked()"
-            [conversations]="latestMessages"
+            (onScrollEvent)="onScroll()"
+            [rooms]="rooms"
             [queueCount]="queueCount"
         ></chat-list>
         <contact-list
@@ -20,22 +21,18 @@
             [(currentSubcomponent)]="currentSubcomponent"
             (selectedContactEvent)="onContactSelected($event)"
         ></contact-list>
-        <unregistered-contact-list
-            *ngIf="currentSubcomponent === subcomponents.UnregisteredContactList"
-            [(currentSubcomponent)]="currentSubcomponent"
-            (selectedContactEvent)="onContactSelected($event)"
-        ></unregistered-contact-list>
     </div>
     <div *ngIf="!whatsappLoading" class="right-panel" [ngClass]="{ 'right-panel--show': openConversationMobile }">
-        <welcome-chat *ngIf="!isChatRoomVisible$.getValue()"></welcome-chat>
+        <welcome-chat *ngIf="!isChatRoomVisible"></welcome-chat>
         <chat-room
             #chatRoom
-            *ngIf="isChatRoomVisible$.getValue()"
+            *ngIf="isChatRoomVisible"
             [events]="scrollDownEvent.asObservable()"
-            [(chatRoom)]="chatRoomSelected"
+            [chathandler]="chathandler"
+            [(room)]="roomSelected"
             (sendMessageEvent)="onSendingMessage($event)"
             (goBackToChatList)="openConversationMobile = false"
-            (finishChatRoom)="onFinishChatRoom($event)"
+            (finishRoom)="onFinishRoom($event)"
         ></chat-room>
     </div>
 </div>

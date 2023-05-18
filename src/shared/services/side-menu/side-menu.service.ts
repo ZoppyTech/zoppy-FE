@@ -41,15 +41,13 @@ export type SideMenu =
     | 'reports'
     | 'salesPanel'
     | 'whatsappConfig'
-    | 'whatsappTemplateList'
     | `accessKeys`
     | `accessTokens`
     | `configurations`
     | `giftback`
-    | `letalk`
-    | `messageConfig`
     | `messageTemplate`
     | `messageTemplateList`
+    | `campaigns`
     | `myCompany`
     | `myProfile`
     | `signature`

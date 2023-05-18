@@ -24,10 +24,14 @@
 
         .items {
             display: flex;
-            grid-gap: 2rem;
+            grid-gap: 1.5rem;
             .item {
                 padding: 0rem;
                 padding-bottom: 0.5rem;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                text-align: center;
             }
             .selected {
                 border-bottom: 0.25rem solid var(--primary);

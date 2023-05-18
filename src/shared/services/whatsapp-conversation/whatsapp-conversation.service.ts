@@ -6,6 +6,7 @@ import { WhatsappConversationEntity } from 'src/shared/models/entities/whatsapp-
 import { WhatsappConversationRequest } from 'src/shared/models/requests/whatsapp-conversation/whatsapp-conversation.request';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, BooleanResponse, ZoppyException } from '../api.service';
+import { ZoppyFilter } from 'src/shared/models/filter';
 
 @Injectable({
     providedIn: 'root'
@@ -50,10 +51,47 @@ export class WhatsappConversationService extends ApiService {
         return promise;
     }
 
-    public async findInProgressByManagerId(managerId: string): Promise<WhatsappConversationEntity[]> {
-        const promise: Promise<WhatsappConversationEntity[]> = new Promise((resolve: any, reject: any) => {
-            this.get<WhatsappConversationEntity[]>(`${this.url}/in-progress/from-manager/${managerId}`).subscribe(
-                (response: WhatsappConversationEntity[]) => resolve(response),
+    public async findInProgressByManagerId(
+        managerId: string,
+        filter: ZoppyFilter<WhatsappConversationEntity>
+    ): Promise<ZoppyFilter<WhatsappConversationEntity>> {
+        const promise: Promise<ZoppyFilter<WhatsappConversationEntity>> = new Promise((resolve: any, reject: any) => {
+            this.post<ZoppyFilter<WhatsappConversationEntity>, ZoppyFilter<WhatsappConversationEntity>>(
+                `${this.url}/in-progress/from-manager/${managerId}`,
+                filter
+            ).subscribe(
+                (response: ZoppyFilter<WhatsappConversationEntity>) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async findFinishedByManagerId(
+        managerId: string,
+        filter: ZoppyFilter<WhatsappConversationEntity>
+    ): Promise<ZoppyFilter<WhatsappConversationEntity>> {
+        const promise: Promise<ZoppyFilter<WhatsappConversationEntity>> = new Promise((resolve: any, reject: any) => {
+            this.post<ZoppyFilter<WhatsappConversationEntity>, ZoppyFilter<WhatsappConversationEntity>>(
+                `${this.url}/finished/from-manager/${managerId}`,
+                filter
+            ).subscribe(
+                (response: ZoppyFilter<WhatsappConversationEntity>) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async findUnstartedConversations(
+        filter: ZoppyFilter<WhatsappConversationEntity>
+    ): Promise<ZoppyFilter<WhatsappConversationEntity>> {
+        const promise: Promise<ZoppyFilter<WhatsappConversationEntity>> = new Promise((resolve: any, reject: any) => {
+            this.post<ZoppyFilter<WhatsappConversationEntity>, ZoppyFilter<WhatsappConversationEntity>>(
+                `${this.url}/unstarted`,
+                filter
+            ).subscribe(
+                (response: ZoppyFilter<WhatsappConversationEntity>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

@@ -48,7 +48,7 @@ td {
 }
 
 td {
-    padding: 2rem;
+    padding: 1.25rem;
     height: 100%;
     border: none;
 }
@@ -62,7 +62,7 @@ tr {
 }
 
 th {
-    padding: 1rem 2rem;
+    padding: 1rem 1.25rem;
     background-color: #fafbff;
     border-radius: 0.5rem 0.5rem 0px 0px;
     border: none;
@@ -194,6 +194,18 @@ th {
     border: 1px solid var(--negative);
 }
 
+.border--success {
+    border: 2px solid var(--success) !important;
+}
+
+.border--alert {
+    border: 2px solid var(--warning) !important;
+}
+
+.border--negative {
+    border: 2px solid var(--negative) !important;
+}
+
 h1,
 h2,
 h3,
@@ -271,6 +283,11 @@ $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
     background-color: var(--neutral-100);
 }
 
+.border {
+    border: 1px solid var(--neutral-300);
+    border-radius: 0.75rem;
+}
+
 .margin-top-unset {
     margin-top: unset;
 }
@@ -327,7 +344,7 @@ $box-shadow-1: 0px 1rem 2.5rem -0.5px rgba(29, 29, 38, 0.08);
 @media screen and (max-width: 1368px) {
     html,
     body {
-        font-size: 68.75%;
+        font-size: 75%;
     }
 }
 

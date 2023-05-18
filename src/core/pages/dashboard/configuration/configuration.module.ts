@@ -29,17 +29,28 @@ const routes: Routes = [
                 loadChildren: () => import('./message-template/message-template.module').then((m: any) => m.MessageTemplateModule)
             },
             {
+                path: 'campaigns',
+                loadChildren: () => import('./campaign/campaign.module').then((m: any) => m.CampaignModule)
+            },
+            {
                 path: 'whatsapp-setup',
                 loadChildren: () => import('./whatsapp-config/whatsapp-config.module').then((m: any) => m.WhatsappConfigModule)
             },
             {
-                path: 'whatsapp-template-list',
-                loadChildren: () =>
-                    import('./whatsapp-template-list/whatsapp-template-list.module').then((m: any) => m.WhatsappTemplateListModule)
-            },
-            {
                 path: 'giftbacks',
                 loadChildren: () => import('./giftbacks/giftbacks.module').then((m: any) => m.GiftbacksModule)
+            },
+            {
+                path: 'batch-upload',
+                loadChildren: () => import('./batch-upload-orders/batch-upload-orders.module').then((m: any) => m.BatchUploadOrdersModule)
+            },
+            {
+                path: 'sync-data',
+                loadChildren: () => import('./sync-data/sync-data.module').then((m: any) => m.SyncDataModule)
+            },
+            {
+                path: 'access-keys',
+                loadChildren: () => import('./access-keys/access-keys.module').then((m: any) => m.AccessKeysModule)
             }
         ]
     }

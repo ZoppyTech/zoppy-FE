@@ -1,0 +1,17 @@
+@import 'src/styles.scss';
+
+:host {
+    width: 100%;
+    height: 100%;
+    margin-top: -1px;
+}
+
+.empty-list {
+    border: 1px solid var(--neutral-300);
+    width: 100%;
+    height: 100%;
+
+    .labels {
+        max-width: 25rem;
+    }
+}

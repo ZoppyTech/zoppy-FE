@@ -13,20 +13,7 @@ export class WhatsappConversationEntity {
     public declare finishedAt: Date;
     public declare deletedAt: Date;
     public declare companyId: string;
-
-    /** INCLUDES */
-    public declare wppAccountManager: WhatsappAccountManagerEntity;
-    public declare wppContact: WhatsappContactEntity;
-    public declare messages: WhatsappMessageEntity[];
-
-    public static validateSessionExpiration(entity: WhatsappConversationEntity): WhatsappConversationEntity {
-        if (!entity.sessionExpiration) {
-            return entity;
-        }
-        if (new Date(Number.parseInt(entity.sessionExpiration)).getTime() > new Date().getTime()) {
-            return entity;
-        }
-        entity.sessionExpiration = null;
-        return entity;
-    }
+    public manager: WhatsappAccountManagerEntity | null = null;
+    public declare contact: WhatsappContactEntity;
+    public messages: WhatsappMessageEntity[] = [];
 }

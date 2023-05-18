@@ -16,6 +16,8 @@ import { Navigation } from 'src/shared/utils/navigation';
     styleUrls: ['./my-company-user-config.component.scss']
 })
 export class MyCompanyUserConfigComponent implements OnInit {
+    public fields: Field[] = [];
+
     public constructor(
         public sideMenuService: SideMenuService,
         public breadcrumb: BreadcrumbService,
@@ -38,6 +40,7 @@ export class MyCompanyUserConfigComponent implements OnInit {
             if (!this.id) this.loaded = true;
             else await this.fetchUser();
             this.setBreadcrumb();
+            this.setFields();
         });
         this.sideMenuService.change(`myCompany`);
         this.sideMenuService.changeSub(`myCompanyUsers`);
@@ -45,8 +48,12 @@ export class MyCompanyUserConfigComponent implements OnInit {
 
     public getSaveDisabled(): boolean {
         const invalidCreate: boolean =
-            !this.user.name || !this.user.phone || !this.user.email || !this.user.password || this.user.password !== this.confirmPassword;
-        const invalidUpdate: boolean = !this.user.name || !this.user.phone || !this.user.email;
+            !this.getById('name').model ||
+            !this.getById('phone').model ||
+            !this.getById('email').model ||
+            !this.getById('password').model ||
+            this.getById('password').model !== this.getById('confirmPassword').model;
+        const invalidUpdate: boolean = !this.getById('name').model || !this.getById('phone').model || !this.getById('email').model;
         return this.id ? invalidUpdate : invalidCreate;
     }
 
@@ -67,14 +74,14 @@ export class MyCompanyUserConfigComponent implements OnInit {
         try {
             this.loading = true;
             const request: UserRequest = {
-                email: this.user.email,
-                name: this.user.name,
-                phone: this.user.phone,
-                revenueRecord: this.user.revenueRecord,
-                nickName: this.user.nickName,
-                birthDate: this.user.birthDate
+                email: this.getById('email').model,
+                name: this.getById('name').model,
+                phone: this.getById('phone').model,
+                revenueRecord: this.getById('revenueRecord').model,
+                nickName: this.getById('nickName').model,
+                birthDate: this.getById('birthDate').model
             };
-            if (!this.id) request.password = this.user.password;
+            if (!this.id) request.password = this.getById('password').model;
             const response: UserEntity = this.id ? await this.userService.update(this.id, request) : await this.userService.create(request);
             this.user = response;
             this.toast.success(`Informações atualizadas com sucesso`, `Sucesso!`);
@@ -86,6 +93,11 @@ export class MyCompanyUserConfigComponent implements OnInit {
         } finally {
             this.loading = false;
         }
+    }
+
+    public iconClicked(field: Field): void {
+        field.type = field.type === 'password' ? 'text' : 'password';
+        field.icon = field.type === 'password' ? 'icon-visibility' : 'icon-visibility_off';
     }
 
     private setBreadcrumb(): void {
@@ -108,4 +120,124 @@ export class MyCompanyUserConfigComponent implements OnInit {
             }
         ];
     }
+
+    private getById(id: FieldType): Field {
+        return this.fields.find((field: Field) => field.id === id) as Field;
+    }
+
+    private setFields(): void {
+        this.fields = [
+            {
+                errors: [],
+                model: this.user.name,
+                id: 'name',
+                title: 'Nome*',
+                type: 'text',
+                inputType: 'input',
+                onChange: () => {},
+                placeholder: 'Digite o nome',
+                visible: true
+            },
+            {
+                errors: [],
+                model: this.user.phone,
+                id: 'phone',
+                title: 'Telefone Celular*',
+                type: 'text',
+                inputType: 'input',
+                onChange: () => {},
+                mask: '(00) 00000-0000',
+                placeholder: 'Digite o telefone',
+                visible: true
+            },
+            {
+                errors: [],
+                model: this.user.email,
+                id: 'email',
+                title: 'Email*',
+                type: 'email',
+                inputType: 'input',
+                onChange: () => {},
+                placeholder: 'Digite o email',
+                visible: true
+            },
+            {
+                errors: [],
+                model: this.user.revenueRecord,
+                id: 'revenueRecord',
+                title: 'CPF*',
+                type: 'text',
+                inputType: 'input',
+                mask: '000.000.000-00',
+                onChange: () => {},
+                placeholder: 'Digite o seu CPF',
+                visible: true
+            },
+            {
+                errors: [],
+                model: this.user.nickName,
+                id: 'nickName',
+                title: 'Apelido',
+                type: 'text',
+                inputType: 'input',
+                onChange: () => {},
+                placeholder: 'Digite o apelido',
+                visible: true
+            },
+            {
+                errors: [],
+                model: this.user.birthDate,
+                id: 'birthDate',
+                title: 'Data de nascimento',
+                type: 'input',
+                inputType: 'datepicker',
+                onChange: () => {},
+                placeholder: 'DD/MM/YYYY',
+                visible: true
+            },
+            {
+                errors: [],
+                model: this.user.password,
+                id: 'password',
+                title: 'Senha*',
+                type: 'password',
+                inputType: 'input',
+                onChange: () => {},
+                placeholder: 'Digite a senha do usuário',
+                icon: 'icon-visibility_off',
+                visible: !this.id
+            },
+            {
+                errors: [],
+                model: this.confirmPassword,
+                id: 'confirmPassword',
+                title: 'Confirmar Senha*',
+                type: 'password',
+                inputType: 'input',
+                onChange: () => {},
+                placeholder: 'Confirme a senha do usuário',
+                icon: 'icon-visibility_off',
+                visible: !this.id
+            }
+        ];
+    }
 }
+
+class Field {
+    public errors: string[] = [];
+    public model: any = '';
+    public icon?: string = '';
+    public placeholder: string = '';
+    public title: string = '';
+    public type: string = '';
+    public mask?: string = '';
+    public class?: string = '';
+    public id?: FieldType = undefined;
+    public declare inputType: InputType;
+    public options?: Array<any> = [];
+    public onChange: any;
+    public visible: boolean = true;
+}
+
+type FieldType = 'name' | 'phone' | 'email' | 'revenueRecord' | 'nickName' | 'birthDate' | 'password' | 'confirmPassword';
+type InputType = 'input' | 'datepicker';

@@ -16,7 +16,8 @@ export class ReportsComponent implements OnInit {
     public view: View = '1';
     public period: GetReportRequest = {
         startPeriod: DateUtil.addDays(new Date(), -30),
-        finishPeriod: new Date()
+        finishPeriod: new Date(),
+        position: 'all'
     };
 
     public items: Array<Item> = [

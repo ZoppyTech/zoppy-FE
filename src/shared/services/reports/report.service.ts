@@ -13,9 +13,11 @@ import { GetReportRequest } from 'src/shared/models/requests/report/get-report.r
 import { Position } from 'src/shared/models/responses/reports/matrix-rfm.response';
 import { ShoppingFrequencyResponse } from 'src/shared/models/responses/reports/shopping-frequency.response';
 import { BuyerAgeResponse } from 'src/shared/models/responses/reports/buyer-age.response';
-import { ReportCustomerResponse } from 'src/shared/models/responses/reports/report-customer.response';
 import { AbcResponse } from 'src/shared/models/responses/reports/abc.response';
 import { WcAddressEntity } from 'src/shared/models/entities/wc-address.entity';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
+import { RfmRequest } from 'src/shared/models/requests/report/rfm.request';
+import { RfmResponse } from 'src/shared/models/responses/reports/rfm.response';
 
 @Injectable({
     providedIn: 'root'
@@ -29,30 +31,6 @@ export class ReportService extends ApiService {
         public override readonly storage: Storage
     ) {
         super(http, router, storage);
-    }
-
-    public async getCustomers(request: GetReportRequest): Promise<Array<ReportCustomerResponse>> {
-        const promise: Promise<Array<ReportCustomerResponse>> = new Promise((resolve: any, reject: any) => {
-            this.get<Array<ReportCustomerResponse>>(
-                `${this.url}/customers/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
-            ).subscribe(
-                (response: Array<ReportCustomerResponse>) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
-
-    public async getAddresses(request: GetReportRequest): Promise<Array<WcAddressEntity>> {
-        const promise: Promise<Array<WcAddressEntity>> = new Promise((resolve: any, reject: any) => {
-            this.get<Array<WcAddressEntity>>(
-                `${this.url}/addresses/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
-            ).subscribe(
-                (response: Array<WcAddressEntity>) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
     }
 
     public async getBuyersAge(request: GetReportRequest): Promise<BuyerAgeResponse[]> {
@@ -199,12 +177,36 @@ export class ReportService extends ApiService {
         return promise;
     }
 
-    public async downloadCustomers(startPeriod: Date, finishPeriod: Date, position: Position): Promise<any> {
+    public async downloadCustomers(request: GetReportRequest): Promise<any> {
         const promise: Promise<any> = new Promise((resolve: any, reject: any) => {
             this.download<any>(
-                `${this.url}/customers/download/${startPeriod?.toISOString()}/${finishPeriod?.toISOString()}/${position}`
+                `${this.url}/customers/download/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}/${
+                    request.position
+                }`
             ).subscribe(
                 (response: any) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getRfm(request: RfmRequest): Promise<RfmResponse> {
+        const promise: Promise<RfmResponse> = new Promise((resolve: any, reject: any) => {
+            this.post<RfmResponse, RfmRequest>(`${this.url}/rfm`, request).subscribe(
+                (response: RfmResponse) => resolve(response),
+                (error: ZoppyException) => reject(error)
+            );
+        });
+        return promise;
+    }
+
+    public async getCustomers(request: GetReportRequest): Promise<Array<ViewCustomerEntity>> {
+        const promise: Promise<Array<ViewCustomerEntity>> = new Promise((resolve: any, reject: any) => {
+            this.get<Array<ViewCustomerEntity>>(
+                `${this.url}/customers/${request.startPeriod?.toISOString()}/${request.finishPeriod?.toISOString()}`
+            ).subscribe(
+                (response: Array<ViewCustomerEntity>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

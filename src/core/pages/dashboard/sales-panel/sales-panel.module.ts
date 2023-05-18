@@ -13,6 +13,7 @@ import { RadioButtonModule } from '@ZoppyTech/radio-button';
 import { SwitchModule } from '@ZoppyTech/switch';
 import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
+import { TooltipModule } from '@ZoppyTech/tooltip';
 
 const routes: Routes = [
     {
@@ -35,7 +36,8 @@ const routes: Routes = [
         DatepickerModule,
         MultiSelectModule,
         RadioButtonModule,
-        PipesModule
+        PipesModule,
+        TooltipModule
     ],
     declarations: [SalesPanelComponent],
     exports: [SalesPanelComponent]

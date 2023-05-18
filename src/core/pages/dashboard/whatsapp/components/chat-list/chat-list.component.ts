@@ -19,34 +19,41 @@ export class ChatListComponent implements OnInit, OnChanges {
     @Output() public filterChangeEvent: EventEmitter<string> = new EventEmitter<string>();
     @Output() public selectedConversationEvent: EventEmitter<any> = new EventEmitter<any>();
     @Output() public pullNewConversationEvent: EventEmitter<any> = new EventEmitter<any>();
-    @Input() public conversations: Array<[string, ChatRoom]> = new Array<[string, ChatRoom]>();
+    @Output() public onScrollEvent: EventEmitter<void> = new EventEmitter<void>();
+    @Input() public rooms: Map<string, ChatRoom> = new Map<string, ChatRoom>();
     @Input() public queueCount: number = 0;
     public readonly EMPTY_lIST_IMAGE_DIR: string = './../../../../../../assets/imgs/empty-chat-list.png';
     public readonly NEW_MESSAGE_IMAGE_DIR: string = './../../../../../../assets/imgs/new-message.png';
 
+    public conversations: Array<[string, ChatRoom]> = [];
     public isCollapsedFilter: boolean = false;
     public filters: Map<string, boolean> = new Map([
         [ChatFilters.InProgress, true],
         [ChatFilters.Finished, false],
-        [ChatFilters.Unread, false]
+        [ChatFilters.Unread, false],
+        [ChatFilters.Waiting, false]
     ]);
 
     public ngOnInit(): void {
-        //console.log('Start Chat List Component');
+        //no content
     }
 
     public ngOnChanges(changes: SimpleChanges): void {
-        if (!changes['selectedFilter']) return;
-        this.selectedFilter = changes['selectedFilter'].currentValue;
-        this.selectFilter(this.selectedFilter, false);
+        if (!!changes['rooms']) {
+            this.conversations = Array.from(changes['rooms'].currentValue);
+        }
+        if (!!changes['selectedFilter']) {
+            this.selectedFilter = changes['selectedFilter'].currentValue;
+            this.selectFilter(this.selectedFilter, false);
+        }
     }
 
     public newMessage(): void {
         this.currentSubcomponentChange.emit(Subcomponents.ContactList);
     }
 
-    public onConversationSelected(chatRoomSelected: ChatRoom): void {
-        this.selectedConversationEvent.emit(chatRoomSelected);
+    public onConversationSelected(roomSelected: ChatRoom): void {
+        this.selectedConversationEvent.emit(roomSelected);
     }
 
     public selectFilter(filterName: string, propagateEvent: boolean = true): void {
@@ -66,6 +73,11 @@ export class ChatListComponent implements OnInit, OnChanges {
         this.selectedFilter = filterName;
         this.selectedFilterChange.emit(this.selectedFilter);
         this.filterChangeEvent.emit(filterName);
+    }
+
+    public onScroll(): boolean {
+        this.onScrollEvent.emit();
+        return true;
     }
 
     public pullNewConversation(): void {
