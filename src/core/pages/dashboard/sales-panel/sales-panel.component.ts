@@ -47,7 +47,7 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
     }
 
     public async ngOnInit() {
-        this.filter.pagination.pageSize = 5;
+        this.filter.pagination.pageSize = 10;
         this.filter.pagination.page = 1;
         this.sideMenuService.change('salesPanel');
         this.setBreadcrumb();
@@ -87,13 +87,12 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
         const component: any = document.getElementById(day.id);
         if (component.offsetHeight + component.scrollTop < component.scrollHeight) return;
         if (day.filter.pagination.page === day.filter.pagination.totalPages) return;
-
         day.filter.pagination.page++;
         day.loading = true;
-        const response: ZoppyFilter<TaskEntity> = await this.socialMediaService.listSalesPanel(day.filter);
-        day.filter.pagination = response.pagination;
-        day.filter.data = day.filter.data.concat(response.data.map((task: TaskEntity) => SalesPanelMapper.mapTask(task as TaskView)));
-        setTimeout(() => {
+        setTimeout(async () => {
+            const response: ZoppyFilter<TaskEntity> = await this.socialMediaService.listSalesPanel(day.filter);
+            day.filter.pagination = response.pagination;
+            day.filter.data = day.filter.data.concat(response.data.map((task: TaskEntity) => SalesPanelMapper.mapTask(task as TaskView)));
             day.loading = false;
         });
     }

@@ -56,8 +56,9 @@ export class SocialMediaService extends ApiService {
     }
 
     public async listSalesPanel(request: SalesPanelRequest): Promise<ZoppyFilter<TaskEntity>> {
+        const cleanRequest: SalesPanelRequest = { ...request, data: [] };
         const promise: Promise<ZoppyFilter<TaskEntity>> = new Promise((resolve: any, reject: any) => {
-            this.post<ZoppyFilter<TaskEntity>, SalesPanelRequest>(`${this.url}/sales-panel`, request).subscribe(
+            this.post<ZoppyFilter<TaskEntity>, SalesPanelRequest>(`${this.url}/sales-panel`, cleanRequest).subscribe(
                 (response: ZoppyFilter<TaskEntity>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
