@@ -60,6 +60,13 @@ main {
             .column {
                 min-width: 14rem;
                 width: 14.28%;
+
+                .loading-column {
+                    img {
+                        height: 2rem;
+                    }
+                }
+
                 .items {
                     display: flex;
                     flex-direction: column;

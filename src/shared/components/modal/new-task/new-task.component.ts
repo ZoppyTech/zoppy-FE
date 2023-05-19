@@ -9,6 +9,7 @@ import { ZoppyException } from 'src/shared/services/api.service';
 import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.service';
 import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
 import { ModalService } from '../modal.service';
+import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
 
 @Component({
     selector: 'new-task',
@@ -72,6 +73,14 @@ export class NewTaskComponent implements OnInit {
 
     public async addTask(): Promise<void> {
         this.loading = true;
+        if (!this.task.description) {
+            BroadcastService.emit('send-error', {
+                message: 'A descrição é obrigatória',
+                title: 'Houveram erros de validação'
+            });
+            return;
+        }
+
         const request: SocialMediaRequest = {
             taskType: this.task.type,
             description: this.task.description,
