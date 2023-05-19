@@ -103,6 +103,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
             else if (position) this.reportRequest.position = position;
             this.rfm = await this.reportsService.getRfm({
                 ...this.filter,
+                data: [],
                 startPeriod: (this.reportRequest as GetReportRequest).startPeriod,
                 finishPeriod: (this.reportRequest as GetReportRequest).finishPeriod,
                 position: this.reportRequest?.position as string
