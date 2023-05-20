@@ -9,7 +9,7 @@ import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales-panel.request';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
 import { CrmCustomerLinkResponse } from 'src/shared/models/responses/crm/crm-customer-link.response';
-import { SocialMediaSalesPanelResponse, TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
+import { TaskView } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
 import { ZoppyException } from 'src/shared/services/api.service';
 import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.service';
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
@@ -19,6 +19,7 @@ import { Storage } from 'src/shared/utils/storage';
 import { TaskUtil } from 'src/shared/utils/task.util';
 import { DashboardBasePage } from '../dashboard.base.page';
 import { Day, SalesPanelMapper } from './sales-panel.mapper';
+import { ZoppyFilter } from 'src/shared/models/filter';
 
 @Component({
     selector: 'app-sales-panel',
@@ -28,8 +29,9 @@ import { Day, SalesPanelMapper } from './sales-panel.mapper';
 export class SalesPanelComponent extends DashboardBasePage implements OnInit {
     public days: Day[] = [];
     public loading: boolean = false;
-    public filter: SalesPanelRequest = new SalesPanelRequest();
+    public filter: SalesPanelRequest = { ...new SalesPanelRequest() };
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
+    public darkLoading: string = `${environment.publicBucket}/imgs/loading.svg`;
 
     public constructor(
         public modal: ModalService,
@@ -45,6 +47,8 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
     }
 
     public async ngOnInit() {
+        this.filter.pagination.pageSize = 10;
+        this.filter.pagination.page = 1;
         this.sideMenuService.change('salesPanel');
         this.setBreadcrumb();
         this.initFilter();
@@ -54,13 +58,8 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
     public async fetchData(): Promise<void> {
         this.loading = true;
         try {
-            const salesPanel: SocialMediaSalesPanelResponse = await await this.socialMediaService.listSalesPanel(
-                this.filter as SalesPanelRequest
-            );
-            salesPanel.tasks.forEach((task: TaskEntity) => {
-                task.scheduledDate = new Date(task.scheduledDate);
-            });
-            this.days = SalesPanelMapper.mapDays(salesPanel.tasks, this.filter, this.isMobile);
+            this.days = SalesPanelMapper.mapDays(this.filter, this.isMobile);
+            await this.initDays();
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os dados');
@@ -69,6 +68,33 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
                 this.loading = false;
             });
         }
+    }
+
+    public async initDays(): Promise<void> {
+        const promises: any[] = this.days.map((day: Day) => {
+            return this.socialMediaService.listSalesPanel(day.filter);
+        });
+
+        const response: ZoppyFilter<TaskEntity>[] = await Promise.all(promises);
+
+        for (let i: number = 0; i < response.length; i++) {
+            this.days[i].filter.pagination = response[i].pagination;
+            this.days[i].filter.data = response[i].data.map((task: TaskEntity) => SalesPanelMapper.mapTask(task as TaskView));
+        }
+    }
+
+    public async onScroll(day: Day): Promise<void> {
+        const component: any = document.getElementById(day.id);
+        if (component.offsetHeight + component.scrollTop < component.scrollHeight) return;
+        if (day.filter.pagination.page === day.filter.pagination.totalPages) return;
+        day.filter.pagination.page++;
+        day.loading = true;
+        setTimeout(async () => {
+            const response: ZoppyFilter<TaskEntity> = await this.socialMediaService.listSalesPanel(day.filter);
+            day.filter.pagination = response.pagination;
+            day.filter.data = day.filter.data.concat(response.data.map((task: TaskEntity) => SalesPanelMapper.mapTask(task as TaskView)));
+            day.loading = false;
+        });
     }
 
     public getTaskTypeLabel(task: TaskView): string {

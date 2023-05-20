@@ -7,9 +7,9 @@ import { SalesPanelRequest } from 'src/shared/models/requests/social-media/sales
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
 import { SocialMediaCustomerDetailResponse } from 'src/shared/models/responses/social-media/social-media-customer-detail.response';
 import { SocialMediaCustomerTaskResponse } from 'src/shared/models/responses/social-media/social-media-customer-task.response';
-import { SocialMediaSalesPanelResponse } from 'src/shared/models/responses/social-media/social-media-sales-panel.response';
 import { Storage } from 'src/shared/utils/storage';
 import { ApiService, ZoppyException } from '../api.service';
+import { ZoppyFilter } from 'src/shared/models/filter';
 
 @Injectable({
     providedIn: 'root'
@@ -55,10 +55,11 @@ export class SocialMediaService extends ApiService {
         return promise;
     }
 
-    public async listSalesPanel(request: SalesPanelRequest): Promise<SocialMediaSalesPanelResponse> {
-        const promise: Promise<SocialMediaSalesPanelResponse> = new Promise((resolve: any, reject: any) => {
-            this.post<SocialMediaSalesPanelResponse, SalesPanelRequest>(`${this.url}/sales-panel`, request).subscribe(
-                (response: SocialMediaSalesPanelResponse) => resolve(response),
+    public async listSalesPanel(request: SalesPanelRequest): Promise<ZoppyFilter<TaskEntity>> {
+        const cleanRequest: SalesPanelRequest = { ...request, data: [] };
+        const promise: Promise<ZoppyFilter<TaskEntity>> = new Promise((resolve: any, reject: any) => {
+            this.post<ZoppyFilter<TaskEntity>, SalesPanelRequest>(`${this.url}/sales-panel`, cleanRequest).subscribe(
+                (response: ZoppyFilter<TaskEntity>) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

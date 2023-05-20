@@ -169,7 +169,8 @@
                     <tbody *ngIf="!isLoading">
                         <tr *ngFor="let customer of rfm.customers.data">
                             <td>
-                                <span class="text-14">{{ customer.fullName | zoppyName }}</span>
+                                <span class="text-14" *ngIf="customer.fullName">{{ customer.fullName | zoppyName }}</span>
+                                <span class="text-14 text--500" *ngIf="!customer.fullName">vazio</span>
                             </td>
                             <td>
                                 <span class="text-14">{{ customer.phone | zoppyPhone }}</span>
@@ -191,6 +192,11 @@
                     </tbody>
                 </table>
             </div>
+            <static-loading
+                *ngIf="loadingData"
+                class="padding-3 padding-top-1 flex flex-center wide"
+                [isLoading]="loadingData"
+            ></static-loading>
         </div>
     </div>
 </div>

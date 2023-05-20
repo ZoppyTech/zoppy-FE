@@ -26,6 +26,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         salesByState: {}
     };
     public isLoading: boolean = true;
+    public loadingData: boolean = false;
     public filter: ZoppyFilter<ViewCustomerEntity> = this.initFilter();
 
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
@@ -42,7 +43,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
                 totalPages: 0,
                 totalRecords: 0
             } as Pagination,
-            searchFields: ['firstName', 'lastName', 'fullName'],
+            searchFields: ['firstName', 'lastName', 'fullName', 'phone'],
             searchText: '',
             orderBy: [
                 {
@@ -99,10 +100,12 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
 
     public async fetchData(position?: Position): Promise<void> {
         try {
+            this.loadingData = true;
             if (position && this.reportRequest.position === position) this.reportRequest.position = MatrixRfmConstants.STATE.ALL;
             else if (position) this.reportRequest.position = position;
             this.rfm = await this.reportsService.getRfm({
                 ...this.filter,
+                data: [],
                 startPeriod: (this.reportRequest as GetReportRequest).startPeriod,
                 finishPeriod: (this.reportRequest as GetReportRequest).finishPeriod,
                 position: this.reportRequest?.position as string
@@ -113,6 +116,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
             this.toast.error(ex.message, 'Não foi possível obter os clientes');
         } finally {
             this.isLoading = false;
+            this.loadingData = false;
         }
     }
 

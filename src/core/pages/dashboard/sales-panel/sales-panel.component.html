@@ -18,7 +18,7 @@
         </div>
 
         <div class="body flex">
-            <div class="column flex-column flex-grow" *ngFor="let day of days" [ngClass]="{ hidden: isMobile && !day.isSelected }">
+            <div class="column flex-column flex-grow" *ngFor="let day of days">
                 <div class="header padding-2 flex align-center">
                     <div class="day" [ngClass]="{ today: day.isToday }">
                         <span class="text--bold" [ngClass]="{ 'text--500': !day.isToday, 'text--secondary': day.isToday }">{{
@@ -29,8 +29,9 @@
                         {{ day.date | date : 'dd/MM' }}
                     </span>
                 </div>
-                <div class="items padding-2">
-                    <div class="card flex flex-column flex-center padding-2" *ngIf="!day.tasks || day.tasks.length === 0">
+
+                <div id="{{ day.id }}" class="items padding-2" (scroll)="onScroll(day)">
+                    <div class="card flex flex-column flex-center padding-2" *ngIf="day.filter.data.length === 0 && !day.loading">
                         <img class="margin-y-2 search-customer" src="./assets/svg/search_customer.svg" alt="" />
                         <p class="text text--bold margin-y-2 text--center">Nenhuma tarefa registrada!</p>
                         <span class="text--600 text-12 text--center margin-bottom-1"
@@ -46,7 +47,7 @@
                             'border--negative': task.status === 'negative',
                             'border--alert': task.status === 'warn'
                         }"
-                        *ngFor="let task of day.tasks; let index = index"
+                        *ngFor="let task of day.filter.data; let index = index"
                     >
                         <div class="flex align-center">
                             <ps-checkbox [(active)]="task.success" [disabled]="true"></ps-checkbox>
@@ -107,6 +108,11 @@
                         </a>
                     </div>
                 </div>
+
+                <div *ngIf="day.loading" class="loading-column flex flex-center">
+                    <img [src]="darkLoading" />
+                </div>
+
                 <div class="padding-2">
                     <ps-button [wide]="true" [type]="day.isToday ? 'secondary' : 'secondary-border'" (onClick)="addTask(day)">
                         <span class="text--bold" [ngClass]="{ 'text--100': day.isToday, 'text--secondary': !day.isToday }">

@@ -14,6 +14,7 @@ import { SwitchModule } from '@ZoppyTech/switch';
 import { VisualIdentityModule } from '@ZoppyTech/visual-identity';
 import { PipesModule } from 'src/shared/pipes/pipes.module';
 import { TooltipModule } from '@ZoppyTech/tooltip';
+import { InfiniteScrollModule } from '@ZoppyTech/infinite-scroll';
 
 const routes: Routes = [
     {
@@ -37,7 +38,8 @@ const routes: Routes = [
         MultiSelectModule,
         RadioButtonModule,
         PipesModule,
-        TooltipModule
+        TooltipModule,
+        InfiniteScrollModule
     ],
     declarations: [SalesPanelComponent],
     exports: [SalesPanelComponent]
