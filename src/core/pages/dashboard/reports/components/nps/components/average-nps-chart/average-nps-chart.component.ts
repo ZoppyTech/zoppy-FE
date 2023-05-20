@@ -72,7 +72,7 @@ export class AverageNpsChartComponent implements OnInit {
                     {
                         label: 'NPS médio',
                         data: [50, 25, 12.5, 12.5],
-                        backgroundColor: ['#EB0000', '#FFAD4E', '#4D7EFF', '#30E1A1'],
+                        backgroundColor: ['#EB0000', '#FFAD4E', '#30E1A1', '#009d88'],
                         cutout: '95%'
                     }
                 ],
@@ -148,9 +148,9 @@ export class AverageNpsChartComponent implements OnInit {
         } else if (value < 75) {
             return '#FFAD4E';
         } else if (value < 86.5) {
-            return '#4D7EFF';
-        } else {
             return '#30E1A1';
+        } else {
+            return '#009d88';
         }
     }
 }
