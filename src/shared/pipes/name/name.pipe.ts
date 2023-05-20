@@ -5,7 +5,8 @@ import { Pipe, PipeTransform } from '@angular/core';
 })
 export class NamePipe implements PipeTransform {
     public transform(value: string, args?: any): any {
-        if (!value) return '';
+        if (!value) return 'vazio';
+        if (value.trim() === '') return 'vazio';
         const names: string[] = value.split(' ');
         const response: string[] = [];
 
