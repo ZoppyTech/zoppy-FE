@@ -4,12 +4,12 @@ import { TaskConstants } from '@ZoppyTech/utilities';
 import { TaskEntity } from 'src/shared/models/entities/task.entity';
 import { ZoppyFilter } from 'src/shared/models/filter';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
-import { CrmAddressResponse } from 'src/shared/models/responses/crm/crm-address.response';
 import { ZoppyException } from 'src/shared/services/api.service';
-import { CrmAddressService } from 'src/shared/services/crm-address/crm-address.service';
 import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
 import { ModalService } from '../modal.service';
 import { BroadcastService } from 'src/shared/services/broadcast/broadcast.service';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
+import { ViewCustomerService } from 'src/shared/services/view-customer/view-customer.service';
 
 @Component({
     selector: 'new-task',
@@ -17,8 +17,8 @@ import { BroadcastService } from 'src/shared/services/broadcast/broadcast.servic
     styleUrls: ['./new-task.component.scss']
 })
 export class NewTaskComponent implements OnInit {
-    public customers: Array<CrmAddressResponse> = [];
-    public filter: ZoppyFilter<CrmAddressResponse> = new ZoppyFilter<CrmAddressResponse>();
+    public customers: Array<ViewCustomerEntity> = [];
+    public filter: ZoppyFilter<ViewCustomerEntity> = new ZoppyFilter<ViewCustomerEntity>();
     public task: TaskEntity = new TaskEntity();
     public hasCustomer: boolean = false;
     public loading: boolean = false;
@@ -36,7 +36,7 @@ export class NewTaskComponent implements OnInit {
     ];
 
     public constructor(
-        public crmAddressService: CrmAddressService,
+        public viewCustomerService: ViewCustomerService,
         public toast: ToastService,
         public modal: ModalService,
         private readonly socialMediaService: SocialMediaService
@@ -53,13 +53,13 @@ export class NewTaskComponent implements OnInit {
         try {
             this.filter.searchText = this.searchText;
             this.filter.searchFields = ['firstName', 'lastName', 'phone'];
-            const response: ZoppyFilter<CrmAddressResponse> = await this.crmAddressService.findAllPaginated(this.filter);
-            response.data = response.data.map((address: CrmAddressResponse) => {
+            const response: ZoppyFilter<ViewCustomerEntity> = await this.viewCustomerService.findAllPaginated(this.filter);
+            response.data = response.data.map((address: ViewCustomerEntity) => {
                 address.fullName = `${address.firstName} ${address.lastName ?? ''}`;
                 return address;
             });
             this.filter.pagination = response.pagination;
-            this.customers = (response.data as CrmAddressResponse[]) ?? [];
+            this.customers = (response.data as ViewCustomerEntity[]) ?? [];
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');

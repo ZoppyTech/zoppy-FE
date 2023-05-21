@@ -47,33 +47,40 @@
                 <tbody>
                     <tr class="item" *ngFor="let customer of customers">
                         <td>
-                            <span [ngClass]="{ 'text--400': !customer.firstName }" class="text-16 text--600"
-                                >{{ customer.firstName ?? '' | zoppyName }} {{ customer.lastName ?? '' | zoppyName }}</span
-                            >
+                            <span [ngClass]="{ 'text--400': !customer.firstName }" class="text-16 text--600">{{
+                                customer.fullName | zoppyName
+                            }}</span>
                         </td>
                         <td class="desktop">
                             <span [ngClass]="{ 'text--400': !customer.phone }" class="text-16 text--600 desktop">{{
-                                customer.phone || 'vazio'
+                                (customer.phone | zoppyPhone) || 'vazio'
                             }}</span>
                         </td>
                         <td class="desktop">
-                            <span [ngClass]="{ 'text--400': !customer.lastPurchaseDate }" class="text-16 text--600 desktop">{{
-                                (customer.lastPurchaseDate | date : 'dd/MM/yyyy') || 'vazio'
+                            <span [ngClass]="{ 'text--400': !customer.lastPurchase }" class="text-16 text--600 desktop">{{
+                                (customer.lastPurchase | date : 'dd/MM/yyyy') || 'vazio'
                             }}</span>
                         </td>
                         <td class="desktop">
-                            <span [ngClass]="{ 'text--400': !customer.countPurchases }" class="text-16 text--600 desktop">{{
-                                customer.countPurchases || 'vazio'
+                            <span [ngClass]="{ 'text--400': !customer.totalSales }" class="text-16 text--600 desktop">{{
+                                customer.totalSales || 'vazio'
                             }}</span>
                         </td>
                         <td class="desktop">
-                            <span [ngClass]="{ 'text--400': !customer.totalSpent }" class="text-16 text--600 desktop">{{
-                                customer.totalSpent || 'vazio'
+                            <span [ngClass]="{ 'text--400': !customer.totalAmount }" class="text-16 text--600 desktop">{{
+                                (customer.totalAmount | zoppyCurrency) || 'vazio'
                             }}</span>
                         </td>
                         <td class="desktop">
-                            <span [ngClass]="{ 'text--400': !customer.birthDate }" class="text-16 text--600 desktop">{{
-                                (customer.birthDate | date : 'dd/MM/yyyy') || 'vazio'
+                            <span
+                                *ngIf="customer.birthDate?.toString() !== 'Invalid date'"
+                                [ngClass]="{ 'text--400': !customer.birthDate }"
+                                class="text-16 text--600 desktop"
+                                >{{ (customer.birthDate | date : 'dd/MM/yyyy') || 'vazio' }}</span
+                            >
+
+                            <span *ngIf="customer.birthDate?.toString() === 'Invalid date'" class="text-16 text--400 desktop">{{
+                                'vazio'
                             }}</span>
                         </td>
                         <td class="actions">
@@ -98,7 +105,10 @@
                     </tr>
                 </tbody>
             </table>
-            <div class="wide flex-center no-content flex-column padding-3" *ngIf="customers.length === 0">
+            <div class="flex flex-center flex-grow" *ngIf="loadingData">
+                <static-loading [isLoading]="true" class="loading"></static-loading>
+            </div>
+            <div class="wide flex-center no-content flex-column padding-3" *ngIf="customers.length === 0 && !loadingData">
                 <h5 class="text--primary text--bold text-24 margin-bottom-2">Nenhum cliente cadastrado!</h5>
                 <span class="text-16">
                     Você ainda não cadastrou nenhum cliente. Para cadastrar, clique no botão abaixo para baixar a planilha. Após, abra-a em
@@ -137,7 +147,11 @@
         </div>
 
         <div *ngIf="customerDetail" class="flex flex-center flex-column">
-            <app-giftback-alert-box [giftback]="customerDetail.coupon" [name]="customerDetail.name" layout="alert"></app-giftback-alert-box>
+            <app-giftback-alert-box
+                [giftback]="customerDetail.coupon"
+                [name]="customerDetail.fullName"
+                layout="alert"
+            ></app-giftback-alert-box>
             <div class="flex flex-grow flex-center">
                 <img class="margin-top-3" *ngIf="!customerDetail.coupon" src="./assets/svg/giftback_unavailable.svg" alt="" />
             </div>
@@ -157,7 +171,7 @@
                 </span>
                 <span class="flex flex-center space-between wide">
                     <p class="text-16 text--bold">Data da última compra:</p>
-                    <p class="text-16">{{ customerDetail.lastPurchaseDate | date : 'dd/MM/yyyy' }}</p>
+                    <p class="text-16">{{ customerDetail.lastPurchase | date : 'dd/MM/yyyy' }}</p>
                 </span>
                 <span class="flex flex-center space-between wide">
                     <p class="text-16 text--bold">Código:</p>
