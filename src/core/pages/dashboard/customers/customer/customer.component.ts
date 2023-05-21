@@ -8,6 +8,7 @@ import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.ser
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { PublicService } from 'src/shared/services/public/public.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
+import { ViewCustomerService } from 'src/shared/services/view-customer/view-customer.service';
 import { Navigation } from 'src/shared/utils/navigation';
 
 @Component({
@@ -37,6 +38,7 @@ export class CustomerComponent implements OnInit {
         public breadcrumb: BreadcrumbService,
         public sideMenuService: SideMenuService,
         private readonly crmCustomerService: CrmCustomerService,
+        private readonly viewCustomerService: ViewCustomerService,
         private readonly publicService: PublicService,
         private readonly route: ActivatedRoute,
         private readonly router: Router,
@@ -56,7 +58,7 @@ export class CustomerComponent implements OnInit {
             return;
         }
         try {
-            const customer: CrmCustomerRequest = await this.crmCustomerService.findById(this.id);
+            const customer: CrmCustomerRequest = await this.viewCustomerService.findById(this.id);
             if (customer) this.customer = customer;
         } catch (ex: any) {
             ex = ex as ZoppyException;

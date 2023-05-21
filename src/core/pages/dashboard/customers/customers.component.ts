@@ -16,6 +16,8 @@ import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service
 import { Navigation } from 'src/shared/utils/navigation';
 import { Storage } from 'src/shared/utils/storage';
 import { DashboardBasePage } from '../dashboard.base.page';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
+import { ViewCustomerService } from 'src/shared/services/view-customer/view-customer.service';
 
 @Component({
     selector: 'app-customers',
@@ -24,9 +26,10 @@ import { DashboardBasePage } from '../dashboard.base.page';
 })
 export class CustomersComponent extends DashboardBasePage implements OnInit {
     public loading: boolean = false;
-    public customers: Array<CrmAddressResponse> = [];
-    public filter: ZoppyFilter<CrmAddressResponse> = new ZoppyFilter<CrmAddressResponse>();
-    public customerDetail: CrmCustomerDetailResponse | undefined = undefined;
+    public loadingData: boolean = true;
+    public customers: Array<ViewCustomerEntity> = [];
+    public filter: ZoppyFilter<ViewCustomerEntity> = new ZoppyFilter<ViewCustomerEntity>();
+    public customerDetail: ViewCustomerEntity | undefined = undefined;
 
     public constructor(
         public override storage: Storage,
@@ -35,7 +38,7 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
         public modal: ModalService,
         public toast: ToastService,
         public router: Router,
-        public crmAddressService: CrmAddressService,
+        public viewCustomerService: ViewCustomerService,
         public crmCustomerService: CrmCustomerService,
         public downloadService: DownloadService,
         public confirmActionService: ConfirmActionService
@@ -46,7 +49,13 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
     @ViewChild('inputFile') public input: any;
 
     public async ngOnInit() {
-        this.filter.searchFields = ['firstName', 'email', 'phone'];
+        this.filter.searchFields = ['fullName', 'email', 'phone'];
+        this.filter.orderBy = [
+            {
+                property: 'firstName',
+                direction: 'ASC'
+            }
+        ];
         this.sideMenuService.change('customers');
         this.setBreadcrumb();
         await this.fetchData();
@@ -54,12 +63,15 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
 
     public async fetchData(): Promise<void> {
         try {
-            const response: ZoppyFilter<CrmAddressResponse> = await this.crmAddressService.findAllPaginated(this.filter);
+            this.loadingData = true;
+            const response: ZoppyFilter<ViewCustomerEntity> = await this.viewCustomerService.findAllPaginated(this.filter);
             this.filter.pagination = response.pagination;
-            this.customers = (response.data as CrmAddressResponse[]) ?? [];
+            this.customers = (response.data as ViewCustomerEntity[]) ?? [];
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');
+        } finally {
+            this.loadingData = false;
         }
     }
 
@@ -78,7 +90,7 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
         }
 
         try {
-            this.customerDetail = await this.crmCustomerService.findByPhone(searchText);
+            this.customerDetail = await this.viewCustomerService.findByPhone(searchText);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Erro!');
@@ -158,12 +170,12 @@ export class CustomersComponent extends DashboardBasePage implements OnInit {
         );
     }
 
-    public async update(address: CrmAddressResponse): Promise<void> {
-        this.router.navigate([Navigation.routes.customers, address.customerId]);
+    public async update(customer: ViewCustomerEntity): Promise<void> {
+        this.router.navigate([Navigation.routes.customers, customer.id]);
     }
 
-    public async details(address: CrmAddressResponse): Promise<void> {
-        this.router.navigate([Navigation.routes.customerSocialMedia, address.customerId]);
+    public async details(customer: ViewCustomerEntity): Promise<void> {
+        this.router.navigate([Navigation.routes.customerSocialMedia, customer.id]);
     }
 
     private setBreadcrumb(): void {

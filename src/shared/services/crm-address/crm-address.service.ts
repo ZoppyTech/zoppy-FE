@@ -30,14 +30,4 @@ export class CrmAddressService extends ApiService {
         });
         return promise;
     }
-
-    public async findAllPaginated(filter: ZoppyFilter<CrmAddressResponse>): Promise<ZoppyFilter<CrmAddressResponse>> {
-        const promise: Promise<ZoppyFilter<CrmAddressResponse>> = new Promise((resolve: any, reject: any) => {
-            this.post<ZoppyFilter<CrmAddressResponse>, ZoppyFilter<CrmAddressResponse>>(`${this.url}/list`, filter).subscribe(
-                (response: ZoppyFilter<CrmAddressResponse>) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
 }
