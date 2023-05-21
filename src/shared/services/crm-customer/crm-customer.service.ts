@@ -36,30 +36,10 @@ export class CrmCustomerService extends ApiService {
         return promise;
     }
 
-    public async findByPhone(phone: string): Promise<CrmCustomerDetailResponse> {
-        const promise: Promise<CrmCustomerDetailResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<CrmCustomerDetailResponse>(`${this.url}/phones/${phone}`).subscribe(
-                (response: CrmCustomerDetailResponse) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
-
     public async findWhatsappLink(request: CrmWppLink): Promise<CrmCustomerLinkResponse> {
         const promise: Promise<CrmCustomerLinkResponse> = new Promise((resolve: any, reject: any) => {
             this.post<CrmCustomerLinkResponse, CrmWppLink>(`${this.url}/whatsapp-link`, request).subscribe(
                 (response: CrmCustomerLinkResponse) => resolve(response),
-                (error: ZoppyException) => reject(error)
-            );
-        });
-        return promise;
-    }
-
-    public async findById(id: string): Promise<CrmCustomerDetailResponse> {
-        const promise: Promise<CrmCustomerDetailResponse> = new Promise((resolve: any, reject: any) => {
-            this.get<CrmCustomerDetailResponse>(`${this.url}/${id}`).subscribe(
-                (response: CrmCustomerDetailResponse) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
         });

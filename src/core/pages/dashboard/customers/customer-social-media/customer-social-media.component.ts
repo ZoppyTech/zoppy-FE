@@ -24,6 +24,7 @@ import { BreadcrumbService } from 'src/shared/services/breadcrumb/breadcrumb.ser
 import { CrmCustomerService } from 'src/shared/services/crm-customer/crm-customer.service';
 import { SideMenuService } from 'src/shared/services/side-menu/side-menu.service';
 import { SocialMediaService } from 'src/shared/services/social-media/social-media.service';
+import { ViewCustomerService } from 'src/shared/services/view-customer/view-customer.service';
 import { Navigation } from 'src/shared/utils/navigation';
 import { TaskUtil } from 'src/shared/utils/task.util';
 
@@ -110,6 +111,7 @@ export class CustomerSocialMediaComponent implements OnInit {
         private fb: FormBuilder,
         private readonly socialMediaService: SocialMediaService,
         private readonly crmCustomerService: CrmCustomerService,
+        private readonly viewCustomerService: ViewCustomerService,
         private readonly router: Router,
         private readonly route: ActivatedRoute,
         private readonly toast: ToastService,
@@ -276,7 +278,7 @@ export class CustomerSocialMediaComponent implements OnInit {
         try {
             this.tasks = await this.socialMediaService.list(this.id);
             this.details = await this.socialMediaService.details(this.id);
-            this.customer = await this.crmCustomerService.findById(this.id);
+            this.customer = await this.viewCustomerService.findById(this.id);
             for (const task of this.tasks) {
                 task.createdAt = new Date(task.createdAt);
             }

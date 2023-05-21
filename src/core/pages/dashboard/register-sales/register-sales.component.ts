@@ -28,6 +28,8 @@ import { Storage } from 'src/shared/utils/storage';
 import { UserEntity } from 'src/shared/models/entities/user.entity';
 import { DashboardBasePage } from '../dashboard.base.page';
 import { FormatUtils } from '@ZoppyTech/utilities';
+import { ViewCustomerService } from 'src/shared/services/view-customer/view-customer.service';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
 
 @Component({
     selector: 'app-register-sales',
@@ -124,6 +126,7 @@ export class RegisterSalesComponent extends DashboardBasePage implements OnInit 
         private readonly crmCouponService: CrmCouponService,
         private readonly crmAddressService: CrmAddressService,
         private readonly crmCustomerService: CrmCustomerService,
+        private readonly viewCustomerService: ViewCustomerService,
         private readonly crmProductService: CrmProductService,
         private readonly crmOrderService: CrmOrderService,
         private readonly publicService: PublicService,
@@ -233,8 +236,8 @@ export class RegisterSalesComponent extends DashboardBasePage implements OnInit 
             this.resetOrder();
             this.state = 1;
             if (this.phone) {
-                const customer: CrmCustomerDetailResponse = await this.crmCustomerService.findByPhone(this.phone);
-                this.router.navigate([Navigation.routes.customerSocialMedia, customer.customerId]);
+                const customer: ViewCustomerEntity = await this.viewCustomerService.findByPhone(this.phone);
+                this.router.navigate([Navigation.routes.customerSocialMedia, customer.id]);
             }
         } catch (ex: any) {
             ex = ex as ZoppyException;

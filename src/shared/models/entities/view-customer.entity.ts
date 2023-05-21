@@ -1,3 +1,5 @@
+import { WcCouponEntity } from './wc-coupon.entity';
+
 export class ViewCustomerEntity {
     public declare id: string;
     public declare externalId: string;
@@ -31,4 +33,7 @@ export class ViewCustomerEntity {
     public declare companyId: string;
     public declare addressId: string;
     public declare userId: string;
+
+    //computed field
+    public declare coupon: WcCouponEntity;
 }
