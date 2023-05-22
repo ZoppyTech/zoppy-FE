@@ -41,9 +41,9 @@ export class ViewCustomerService extends ApiService {
         return promise;
     }
 
-    public async findByPhone(id: string): Promise<ViewCustomerEntity> {
+    public async findByPhone(phone: string): Promise<ViewCustomerEntity> {
         const promise: Promise<ViewCustomerEntity> = new Promise((resolve: any, reject: any) => {
-            this.get<ViewCustomerEntity>(`${this.url}/${id}`).subscribe(
+            this.get<ViewCustomerEntity>(`${this.url}/phones/${phone}`).subscribe(
                 (response: ViewCustomerEntity) => resolve(response),
                 (error: ZoppyException) => reject(error)
             );
