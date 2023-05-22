@@ -14,9 +14,10 @@ import {
 import { environment } from 'src/environments/environment';
 import { Modal, ModalService } from 'src/shared/components/modal/modal.service';
 import { SalesPanelContactRequest } from 'src/shared/components/modal/sales-panel-contact/sales-panel-contact.request';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
+import { CrmCustomerRequest } from 'src/shared/models/requests/crm/crm-customer.request';
 import { SocialMediaRequest } from 'src/shared/models/requests/social-media/social-media.request';
 import { CrmCustomerLinkResponse } from 'src/shared/models/responses/crm/crm-customer-link.response';
-import { CrmCustomerResponse } from 'src/shared/models/responses/crm/crm-customer.response';
 import { SocialMediaCustomerDetailResponse } from 'src/shared/models/responses/social-media/social-media-customer-detail.response';
 import { SocialMediaCustomerTaskResponse } from 'src/shared/models/responses/social-media/social-media-customer-task.response';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -43,7 +44,7 @@ export class CustomerSocialMediaComponent implements OnInit {
     public today: Date = new Date();
     public task: SocialMediaRequest = new SocialMediaRequest();
     public tasks: SocialMediaCustomerTaskResponse[] = [];
-    public customer?: CrmCustomerResponse;
+    public customer?: ViewCustomerEntity;
     public details: SocialMediaCustomerDetailResponse = new SocialMediaCustomerDetailResponse();
     public statuses: TypeItem[] = [
         {
@@ -130,7 +131,26 @@ export class CustomerSocialMediaComponent implements OnInit {
     public async updateCustomer(block: boolean): Promise<void> {
         if (!this.customer) return;
         try {
-            this.customer = await this.crmCustomerService.update(this.id, { ...this.customer, block: block });
+            const request: CrmCustomerRequest = {
+                id: this.id,
+                billingId: this.customer.addressId,
+                firstName: this.customer.firstName,
+                lastName: this.customer.lastName,
+                companyName: '',
+                address1: this.customer.address1,
+                address2: this.customer.address2,
+                city: this.customer.city,
+                state: this.customer.state,
+                postcode: this.customer.postcode,
+                country: this.customer.country,
+                email: this.customer.email,
+                phone: this.customer.phone,
+                birthDate: this.customer.birthDate,
+                gender: this.customer.gender,
+                block: block
+            };
+
+            await this.crmCustomerService.update(this.id, request);
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Houve um erro');

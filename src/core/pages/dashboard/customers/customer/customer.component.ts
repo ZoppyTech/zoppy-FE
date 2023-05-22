@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastService } from '@ZoppyTech/toast';
+import { ViewCustomerEntity } from 'src/shared/models/entities/view-customer.entity';
 import { CrmCustomerRequest } from 'src/shared/models/requests/crm/crm-customer.request';
 import { ZipcodeResponse } from 'src/shared/models/responses/zipcode/zipcode.response';
 import { ZoppyException } from 'src/shared/services/api.service';
@@ -30,9 +31,7 @@ export class CustomerComponent implements OnInit {
     public loading: boolean = false;
     public loaded: boolean = false;
     public id: string = '';
-    public customer: CrmCustomerRequest = {
-        block: false
-    };
+    public customer: ViewCustomerEntity = new ViewCustomerEntity();
 
     public constructor(
         public breadcrumb: BreadcrumbService,
@@ -58,7 +57,7 @@ export class CustomerComponent implements OnInit {
             return;
         }
         try {
-            const customer: CrmCustomerRequest = await this.viewCustomerService.findById(this.id);
+            const customer: ViewCustomerEntity = await this.viewCustomerService.findById(this.id);
             if (customer) this.customer = customer;
         } catch (ex: any) {
             ex = ex as ZoppyException;
@@ -71,7 +70,26 @@ export class CustomerComponent implements OnInit {
     public async save(): Promise<void> {
         this.loading = true;
         try {
-            this.id ? await this.crmCustomerService.update(this.id, this.customer) : await this.crmCustomerService.create(this.customer);
+            const request: CrmCustomerRequest = {
+                id: this.id,
+                billingId: this.customer.addressId,
+                firstName: this.customer.firstName,
+                lastName: this.customer.lastName,
+                companyName: '',
+                address1: this.customer.address1,
+                address2: this.customer.address2,
+                city: this.customer.city,
+                state: this.customer.state,
+                postcode: this.customer.postcode,
+                country: this.customer.country,
+                email: this.customer.email,
+                phone: this.customer.phone,
+                birthDate: this.customer.birthDate,
+                gender: this.customer.gender,
+                block: this.customer.block
+            };
+
+            this.id ? await this.crmCustomerService.update(this.id, request) : await this.crmCustomerService.create(request);
             this.toast.success('Sucesso', 'Informações atualizadas');
             this.router.navigate([Navigation.routes.customers]);
         } catch (ex: any) {
