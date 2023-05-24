@@ -54,10 +54,6 @@ export class NewTaskComponent implements OnInit {
             this.filter.searchText = this.searchText;
             this.filter.searchFields = ['firstName', 'lastName', 'phone'];
             const response: ZoppyFilter<ViewCustomerEntity> = await this.viewCustomerService.findAllPaginated(this.filter);
-            response.data = response.data.map((address: ViewCustomerEntity) => {
-                address.fullName = `${address.firstName} ${address.lastName ?? ''}`;
-                return address;
-            });
             this.filter.pagination = response.pagination;
             this.customers = (response.data as ViewCustomerEntity[]) ?? [];
         } catch (ex: any) {
