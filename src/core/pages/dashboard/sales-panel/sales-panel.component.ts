@@ -125,7 +125,9 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
     }
 
     public async call(task: TaskView): Promise<void> {
-        window.open(`tel:+55${task.customer.address.phone}`, '_self');
+        setTimeout(async () => {
+            window.open(`tel:+55${task.customer.address.phone}`, '_self');
+        });
     }
 
     public getTaskIsConcluded(task: TaskView): boolean {
