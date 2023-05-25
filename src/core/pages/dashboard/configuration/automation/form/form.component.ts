@@ -28,11 +28,12 @@ export class FormComponent extends DashboardBasePage implements OnInit {
     public fields: string = '';
     public loading: boolean = true;
     public config: WcGiftbackConfigEntity = new WcGiftbackConfigEntity();
-    public groups: MessageTemplateGroupEntity[] = [];
-    public filteredGroups: MessageTemplateGroupEntity[] = [];
+    public groups: GroupView[] = [];
+    public filteredGroups: GroupView[] = [];
     public filterCategories: boolean = false;
     public categories: Array<GiftbackCategoryRequest> = [];
     public selectedCategories: Array<any> = [];
+    public identifiers: any = MessageTemplateConstants.DEFAULT_IDENTIFIERS;
 
     public constructor(
         public sideMenuService: SideMenuService,
@@ -56,14 +57,14 @@ export class FormComponent extends DashboardBasePage implements OnInit {
             this.sideMenuService.change('configurations');
             this.sideMenuService.changeSub(`automations`);
             this.config = await this.giftbackService.find();
-            this.groups = await this.messageTemplateService.listGroups(WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.ALL);
+            this.groups = (await this.messageTemplateService.listGroups(WhatsappConstants.MESSAGE_TEMPLATES_VISIBILITY.ALL)) as GroupView[];
             await this.fetchCategories();
             await this.filterGroups();
             this.loading = false;
         });
     }
 
-    public async updateEnabled(active: boolean): Promise<void> {
+    public async updateEnabled(active: boolean, message?: string): Promise<void> {
         const request: GiftbackRequest = {
             id: this.config.id,
             percentValue: this.config.percentValue,
@@ -80,11 +81,15 @@ export class FormComponent extends DashboardBasePage implements OnInit {
             enableAfterSale: this.config.enableAfterSale,
             enableNPS: this.config.enableNPS,
             enableBirthday: this.config.enableBirthday,
-            enableAbandonedCart: this.config.enableAbandonedCart
+            enableAbandonedCart: this.config.enableAbandonedCart,
+            sendCloseReminder: this.config.sendCloseReminder,
+            sendReminder: this.config.sendReminder
         };
 
         await this.giftbackService.update(request);
-        active ? this.toast.success('Fluxo ativado com sucesso!', 'Sucesso') : this.toast.alert('Fluxo desativado com sucesso!', 'Sucesso');
+        active
+            ? this.toast.success(message ?? 'Fluxo ativado com sucesso!', 'Sucesso')
+            : this.toast.alert(message ?? 'Fluxo desativado com sucesso!', 'Sucesso');
     }
 
     public acumulativeVisible(): boolean {
@@ -145,34 +150,55 @@ export class FormComponent extends DashboardBasePage implements OnInit {
         window.open(`${environment.appUrl}/dashboard/configurations/templates/config/${group.id}/${this.tab}`, '_blank');
     }
 
+    public async updateMessageSent(active: boolean, template: string): Promise<void> {
+        switch (template) {
+            case MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_MISSED_REMINDER:
+                this.config.sendReminder = active;
+                break;
+            case MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_MISSED_CLOSE_REMINDER:
+                this.config.sendCloseReminder = active;
+                break;
+        }
+        await this.updateEnabled(active, 'Configuração de envio de mensagem atualizada!');
+    }
+
     public filterGroups(): void {
         switch (this.tab) {
             case 'giftback':
-                this.filteredGroups = this.groups.filter((group: MessageTemplateGroupEntity) => {
-                    return [
-                        MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_SEND,
-                        MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_MISSED_REMINDER,
-                        MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_MISSED_CLOSE_REMINDER
-                    ].includes(group.identifier);
-                });
+                this.filteredGroups = this.groups
+                    .filter((group: GroupView) => {
+                        return [
+                            MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_SEND,
+                            MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_MISSED_REMINDER,
+                            MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_MISSED_CLOSE_REMINDER
+                        ].includes(group.identifier);
+                    })
+                    .map((group: GroupView) => {
+                        if (group.identifier === MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_MISSED_REMINDER)
+                            group.sendReminder = this.config.sendReminder;
+                        else if (group.identifier === MessageTemplateConstants.DEFAULT_IDENTIFIERS.GIFTBACK_MISSED_CLOSE_REMINDER)
+                            group.sendCloseReminder = this.config.sendCloseReminder;
+                        return group;
+                    });
+
                 break;
             case 'after_sale':
-                this.filteredGroups = this.groups.filter((group: MessageTemplateGroupEntity) => {
+                this.filteredGroups = this.groups.filter((group: GroupView) => {
                     return [MessageTemplateConstants.DEFAULT_IDENTIFIERS.AFTER_SALE].includes(group.identifier);
                 });
                 break;
             case 'nps':
-                this.filteredGroups = this.groups.filter((group: MessageTemplateGroupEntity) => {
+                this.filteredGroups = this.groups.filter((group: GroupView) => {
                     return [MessageTemplateConstants.DEFAULT_IDENTIFIERS.NPS_RATING].includes(group.identifier);
                 });
                 break;
             case 'birthday':
-                this.filteredGroups = this.groups.filter((group: MessageTemplateGroupEntity) => {
+                this.filteredGroups = this.groups.filter((group: GroupView) => {
                     return [MessageTemplateConstants.DEFAULT_IDENTIFIERS.BIRTHDAY].includes(group.identifier);
                 });
                 break;
             case 'abandoned_cart':
-                this.filteredGroups = this.groups.filter((group: MessageTemplateGroupEntity) => {
+                this.filteredGroups = this.groups.filter((group: GroupView) => {
                     return [MessageTemplateConstants.DEFAULT_IDENTIFIERS.ABANDONED_CART].includes(group.identifier);
                 });
                 break;
@@ -198,6 +224,8 @@ export class FormComponent extends DashboardBasePage implements OnInit {
                 enableBirthday: this.config.enableBirthday,
                 enableAbandonedCart: this.config.enableAbandonedCart,
                 excludeSaleItems: this.config.excludeSaleItems,
+                sendCloseReminder: this.config.sendCloseReminder,
+                sendReminder: this.config.sendReminder,
                 allowedCategories: this.mapAllowedCategories()
             };
             const response: WcGiftbackConfigEntity = this.config.id
@@ -244,4 +272,9 @@ export class FormComponent extends DashboardBasePage implements OnInit {
             }
         ];
     }
+}
+
+class GroupView extends MessageTemplateGroupEntity {
+    public declare sendReminder: boolean;
+    public declare sendCloseReminder: boolean;
 }

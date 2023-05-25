@@ -26,7 +26,9 @@ export class GiftbackConfigComponent implements OnInit {
         enableAfterSale: true,
         enableNPS: true,
         enableBirthday: true,
-        enableAbandonedCart: true
+        enableAbandonedCart: true,
+        sendReminder: true,
+        sendCloseReminder: true
     };
     public loading: boolean = false;
     public npsRatingDaysActive: boolean = false;
@@ -121,6 +123,8 @@ export class GiftbackConfigComponent implements OnInit {
                 enableBirthday: this.giftback.enableBirthday,
                 enableAbandonedCart: this.giftback.enableAbandonedCart,
                 excludeSaleItems: this.giftback.excludeSaleItems,
+                sendCloseReminder: this.giftback.sendCloseReminder,
+                sendReminder: this.giftback.sendReminder,
                 allowedCategories: this.mapAllowedCategories()
             };
             const response: WcGiftbackConfigEntity = this.giftback.id
