@@ -155,7 +155,25 @@
                         }}</span>
                     </td>
                     <td>
-                        <div class="actions">
+                        <div class="actions flex grid-gap-1 justify-content-end">
+                            <ps-switch
+                                *ngIf="group.identifier === identifiers.GIFTBACK_MISSED_REMINDER"
+                                [(active)]="group.sendReminder"
+                                (onToggleSwitch)="updateMessageSent($event, identifiers.GIFTBACK_MISSED_REMINDER)"
+                                tooltipWidth="150"
+                                appTooltip
+                                [tooltipText]="'Desabilite essa mensagem de ser enviada'"
+                                tooltipDirection="left"
+                            ></ps-switch>
+                            <ps-switch
+                                *ngIf="group.identifier === identifiers.GIFTBACK_MISSED_CLOSE_REMINDER"
+                                [(active)]="group.sendCloseReminder"
+                                (onToggleSwitch)="updateMessageSent($event, identifiers.GIFTBACK_MISSED_CLOSE_REMINDER)"
+                                tooltipWidth="150"
+                                appTooltip
+                                [tooltipText]="'Desabilite essa mensagem de ser enviada'"
+                                tooltipDirection="left"
+                            ></ps-switch>
                             <ps-icon (click)="updateGroup(group)" class="icon-large primary clickable" icon="icon-edit_square"></ps-icon>
                         </div>
                     </td>
@@ -170,3 +188,4 @@
         <static-loading [isLoading]="true" class="loading"></static-loading>
     </div>
 </main>
+<ps-tooltip></ps-tooltip>

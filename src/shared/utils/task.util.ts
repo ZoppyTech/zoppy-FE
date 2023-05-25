@@ -50,11 +50,14 @@ export class TaskUtil {
                 return 'icon-sentiment_neutral';
             case TaskConstants.STATUS.SUCCESS:
                 return 'icon-mood';
+            case TaskConstants.STATUS.NONE:
+                return 'icon-time_count';
         }
         return '';
     }
 
     public static getStatusLabelExplanation(status: TaskStatus): string {
+        debugger;
         switch (status) {
             case TaskConstants.STATUS.NEGATIVE:
                 return 'O cliente pediu para não receber mais mensagens';
@@ -62,6 +65,8 @@ export class TaskUtil {
                 return 'Houve tentativa de contato, porém sem sucesso';
             case TaskConstants.STATUS.SUCCESS:
                 return 'O contato foi feito com sucesso';
+            case TaskConstants.STATUS.NONE:
+                return 'Tarefa agendada';
         }
         return '';
     }

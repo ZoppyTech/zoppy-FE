@@ -51,6 +51,7 @@ export class BaseComponent extends DashboardBasePage implements OnInit {
 
     public async updateEnabled(active: boolean, provider: ProviderCard): Promise<void> {
         (this.config as any)[provider.id] = active;
+        debugger;
         const request: GiftbackRequest = {
             id: this.config.id,
             percentValue: this.config.percentValue,
@@ -67,7 +68,9 @@ export class BaseComponent extends DashboardBasePage implements OnInit {
             enableAfterSale: this.config.enableAfterSale,
             enableNPS: this.config.enableNPS,
             enableBirthday: this.config.enableBirthday,
-            enableAbandonedCart: this.config.enableAbandonedCart
+            enableAbandonedCart: this.config.enableAbandonedCart,
+            sendCloseReminder: this.config.sendCloseReminder,
+            sendReminder: this.config.sendReminder
         };
 
         await this.giftbackService.update(request);
