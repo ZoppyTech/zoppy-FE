@@ -14,6 +14,7 @@ import { ReportService } from 'src/shared/services/reports/report.service';
 })
 export class ReportCardComponent implements OnInit, OnDestroy {
     public isLoading: boolean = true;
+    public hasData: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public data: ReportOverviewCardResponse = new ReportOverviewCardResponse();
     @Input() public reportRequest?: GetReportRequest;
@@ -33,6 +34,7 @@ export class ReportCardComponent implements OnInit, OnDestroy {
         try {
             this.isLoading = true;
             this.data = await this.reportService.getOverviewCard(this.reportRequest as GetReportRequest);
+            this.hasData = this.data?.totalSales > 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o card de informações');
