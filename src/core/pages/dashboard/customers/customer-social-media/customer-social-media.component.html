@@ -228,11 +228,7 @@
                     </div>
                     <div
                         class="margin-top-2 flex align-center classification"
-                        *ngIf="
-                            (task.status && !task.order?.products && task.type !== 'observation' && task.status === 'success') ||
-                            task.status === 'warn' ||
-                            task.status === 'negative'
-                        "
+                        *ngIf="task.status && !task.order?.products && task.type !== 'observation' && task.status"
                     >
                         <span class="text text--500">Classificação da atividade: </span>
                         <ps-icon

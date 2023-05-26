@@ -12,6 +12,8 @@ export interface GiftbackRequest extends WcGiftbackConfigEntity {
     excludeSaleItems: boolean;
     allowedCategories: Array<GiftbackCategoryRequest>;
     acumulative: boolean;
+    sendReminder: boolean;
+    sendCloseReminder: boolean;
 }
 
 export interface GiftbackCategoryRequest {

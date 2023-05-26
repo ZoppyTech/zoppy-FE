@@ -67,7 +67,9 @@ export class BaseComponent extends DashboardBasePage implements OnInit {
             enableAfterSale: this.config.enableAfterSale,
             enableNPS: this.config.enableNPS,
             enableBirthday: this.config.enableBirthday,
-            enableAbandonedCart: this.config.enableAbandonedCart
+            enableAbandonedCart: this.config.enableAbandonedCart,
+            sendCloseReminder: this.config.sendCloseReminder,
+            sendReminder: this.config.sendReminder
         };
 
         await this.giftbackService.update(request);

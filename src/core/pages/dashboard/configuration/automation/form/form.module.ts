@@ -13,6 +13,7 @@ import { StaticLoadingModule } from 'src/shared/components/static-loading/static
 import { PipesModule } from 'src/shared/pipes/pipes.module';
 import { RouterModule, Routes } from '@angular/router';
 import { MultiSelectModule } from '@ZoppyTech/multi-select';
+import { TooltipModule } from '@ZoppyTech/tooltip';
 
 const routes: Routes = [
     {
@@ -35,7 +36,8 @@ const routes: Routes = [
         StaticLoadingModule,
         CheckboxModule,
         MultiSelectModule,
-        PipesModule
+        PipesModule,
+        TooltipModule
     ],
     declarations: [FormComponent],
     exports: [FormComponent]

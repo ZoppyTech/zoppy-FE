@@ -16,6 +16,8 @@ export class WcGiftbackConfigEntity {
     public declare enableNPS: boolean;
     public declare enableBirthday: boolean;
     public declare enableAbandonedCart: boolean;
+    public declare sendReminder: boolean;
+    public declare sendCloseReminder: boolean;
     public declare createdAt?: Date;
     public declare updatedAt?: Date | null;
     public declare deletedAt?: Date | null;
