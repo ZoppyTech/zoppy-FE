@@ -57,7 +57,6 @@ export class TaskUtil {
     }
 
     public static getStatusLabelExplanation(status: TaskStatus): string {
-        debugger;
         switch (status) {
             case TaskConstants.STATUS.NEGATIVE:
                 return 'O cliente pediu para não receber mais mensagens';
