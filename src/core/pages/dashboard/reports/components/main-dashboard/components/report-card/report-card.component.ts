@@ -35,6 +35,7 @@ export class ReportCardComponent implements OnInit, OnDestroy {
             this.isLoading = true;
             this.data = await this.reportService.getOverviewCard(this.reportRequest as GetReportRequest);
             this.hasData = this.data?.totalSales > 0;
+            debugger;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o card de informações');

@@ -15,6 +15,7 @@ import { ReportService } from 'src/shared/services/reports/report.service';
 export class DailySalesComponent implements OnInit, OnDestroy {
     public constructor(private readonly reportService: ReportService, private readonly toast: ToastService) {}
 
+    public hasData: boolean = false;
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
     public legends: Legend[] = [];
@@ -113,6 +114,8 @@ export class DailySalesComponent implements OnInit, OnDestroy {
                 this.chartData[1].data.push(invoice.sales);
                 this.chartData[0].data.push(invoice.avgTicket);
             });
+            let total: number = 0;
+            for (const invoice of this.data.invoices) total += invoice.total ?? 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o card de informações');

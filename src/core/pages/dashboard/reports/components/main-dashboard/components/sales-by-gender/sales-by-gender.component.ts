@@ -21,6 +21,7 @@ export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
     public legends: Legend[] = [];
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
+    public hasData: boolean = false;
 
     public canvas: any;
     public ctx: any;
@@ -44,6 +45,9 @@ export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
     public async fetchChartData(): Promise<void> {
         try {
             this.data = await this.reportsService.getGenderDistribuion(this.reportRequest as GetReportRequest);
+            debugger;
+            this.hasData = this.data.female + this.data.male + this.data.notRegisted > 0;
+            this.hasData = false;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de compras por gênero');
