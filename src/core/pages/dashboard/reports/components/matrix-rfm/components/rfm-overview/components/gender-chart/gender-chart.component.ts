@@ -23,6 +23,7 @@ export class GenderChartComponent implements OnInit {
     public declare chart: any;
     public chartLabels: Array<string> = [];
     public chartData: Array<any> = [];
+    public hasData: boolean = false;
 
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
@@ -48,6 +49,8 @@ export class GenderChartComponent implements OnInit {
         const male: number = this.data.gender.male;
         const female: number = this.data.gender.female;
         const other: number = this.data.gender.other;
+        this.hasData = total > 0;
+        debugger;
         this.chartData = [this.ruleOfThree(male, total), this.ruleOfThree(female, total), this.ruleOfThree(other, total)];
         this.chartLabels = ['Masculino', 'Feminino', 'Não registrado'];
     }

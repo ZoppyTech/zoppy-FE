@@ -2,12 +2,12 @@
     <div class="header">
         <div class="flex-column">
             <span class="text--bold text--primary text-18 margin-bottom-1">Compras por estado</span>
-            <div class="region-row">
+            <div class="region-row" *ngIf="hasData">
                 <span class="text-12 text--800">Região:</span>
                 <span class="text-12 text--600 margin-left-1">{{ currentRegionTitle }}</span>
             </div>
         </div>
-        <div class="pagination">
+        <div class="pagination" *ngIf="hasData">
             <div class="back" (click)="navigateBackwards()">
                 <ps-icon class="text-16 text--primary clickable" icon="icon-navigate_backwards"></ps-icon>
             </div>
@@ -18,8 +18,9 @@
     </div>
     <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
         <img [src]="logo" alt="" *ngIf="isLoading" />
-        <div class="chart-content" *ngIf="!isLoading">
+        <div class="chart-content" *ngIf="!isLoading && hasData">
             <canvas id="rfmStateChart" width="100%" height="100%" #rfmStateChart></canvas>
         </div>
+        <app-empty-chart *ngIf="!hasData" class="wide tall"></app-empty-chart>
     </div>
 </div>

@@ -138,7 +138,7 @@
                             </span>
                         </div>
                     </div>
-                    <div class="flex align-center flex-end grid-gap-2">
+                    <div class="flex align-center flex-end grid-gap-2" *ngIf="hasData">
                         <div class="flex flex-center clickable" (click)="downloadCustomers()">
                             <span class="text--secondary text-14 text--bold">Exportar CSV</span> &nbsp;
                             <ps-icon class="text--secondary text-24" icon="icon-download"></ps-icon>
@@ -153,12 +153,13 @@
                 <ps-search-bar
                     [searchStyle]="'border-bottom'"
                     [text]="filter.searchText"
+                    *ngIf="hasData"
                     (onChanged)="onSearchTextChanged($event)"
                 ></ps-search-bar>
             </div>
 
             <div class="table">
-                <table>
+                <table *ngIf="hasData">
                     <thead>
                         <th><span class="text--primary text--bold text-14">Nome</span></th>
                         <th><span class="text--primary text--bold text-14">Telefone</span></th>
@@ -191,6 +192,10 @@
                         </tr>
                     </tbody>
                 </table>
+
+                <div *ngIf="!hasData" class="flex flex-center flex-grow tall">
+                    <app-empty-chart class="wide tall"></app-empty-chart>
+                </div>
             </div>
             <static-loading
                 *ngIf="loadingData"
