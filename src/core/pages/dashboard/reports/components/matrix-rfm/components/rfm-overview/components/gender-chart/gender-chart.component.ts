@@ -50,7 +50,6 @@ export class GenderChartComponent implements OnInit {
         const female: number = this.data.gender.female;
         const other: number = this.data.gender.other;
         this.hasData = total > 0;
-        debugger;
         this.chartData = [this.ruleOfThree(male, total), this.ruleOfThree(female, total), this.ruleOfThree(other, total)];
         this.chartLabels = ['Masculino', 'Feminino', 'Não registrado'];
     }

@@ -29,6 +29,8 @@ export class SalesByGenderChartComponent implements OnInit {
     public chartLabels: Array<string> = [];
     public chartData: Array<any> = [];
 
+    public hasData: boolean = false;
+
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
     public ngOnInit(): void {
@@ -44,6 +46,7 @@ export class SalesByGenderChartComponent implements OnInit {
     public async fetchChartData(): Promise<void> {
         try {
             this.data = await this.reportsService.getGenderDistribuion(this.reportRequest as GetReportRequest);
+            this.hasData = this.data.female + this.data.male + this.data.notRegisted > 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de compras por gênero');
