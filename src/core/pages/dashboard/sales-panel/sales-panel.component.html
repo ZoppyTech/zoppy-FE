@@ -79,7 +79,8 @@
 
                         <div class="align-center margin-y-1">
                             <span class="text text--bold" [ngClass]="{ 'text-decoration-line-through': task.status === 'success' }">
-                                {{ task.customer.address.firstName | zoppyName }} {{ task.customer.address.lastName | zoppyName }}
+                                {{ task.customer.address.firstName | zoppyName : 'notEmpty' }}
+                                {{ task.customer.address.lastName | zoppyName : 'notEmpty' }}
                             </span>
                             <ps-icon
                                 class="margin-left-1 text--500"
