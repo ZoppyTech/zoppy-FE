@@ -116,6 +116,7 @@ export class DailySalesComponent implements OnInit, OnDestroy {
             });
             let total: number = 0;
             for (const invoice of this.data.invoices) total += invoice.total ?? 0;
+            this.hasData = total > 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o card de informações');

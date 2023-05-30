@@ -7,6 +7,6 @@
         <div class="chart-content" *ngIf="!isLoading && hasData">
             <canvas id="MainDashStateChart" #MainDashStateChart></canvas>
         </div>
-        <app-empty-chart *ngIf="!hasData" class="wide tall"></app-empty-chart>
+        <app-empty-chart *ngIf="!hasData && !isLoading" class="wide tall"></app-empty-chart>
     </div>
 </div>

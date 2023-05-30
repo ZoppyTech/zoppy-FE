@@ -206,6 +206,7 @@ export class SalesByGenderComponent implements AfterViewInit, OnDestroy {
         BroadcastService.subscribe(this, 'refresh-report', async (period: GetReportRequest) => {
             (this.reportRequest as GetReportRequest).startPeriod = period.startPeriod;
             (this.reportRequest as GetReportRequest).finishPeriod = period.finishPeriod;
+            await this.fetchChartData();
             await this.initializeChart();
         });
     }

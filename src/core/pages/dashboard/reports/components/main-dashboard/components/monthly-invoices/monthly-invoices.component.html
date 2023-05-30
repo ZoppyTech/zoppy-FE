@@ -17,6 +17,6 @@
                 <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend"></canvas>
             </div>
         </div>
-        <app-empty-chart *ngIf="!hasData" class="wide tall"></app-empty-chart>
+        <app-empty-chart *ngIf="!hasData && !isLoading" class="wide tall"></app-empty-chart>
     </div>
 </div>
