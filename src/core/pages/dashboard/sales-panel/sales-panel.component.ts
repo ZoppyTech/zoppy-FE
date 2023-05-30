@@ -85,7 +85,7 @@ export class SalesPanelComponent extends DashboardBasePage implements OnInit {
 
     public async onScroll(day: Day): Promise<void> {
         const component: any = document.getElementById(day.id);
-        if (component.offsetHeight + component.scrollTop < component.scrollHeight) return;
+        if (component.offsetHeight + component.scrollTop < 0.9 * component.scrollHeight || day.loading) return;
         if (day.filter.pagination.page === day.filter.pagination.totalPages) return;
         day.filter.pagination.page++;
         day.loading = true;

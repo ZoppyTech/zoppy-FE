@@ -4,11 +4,13 @@ import { Pipe, PipeTransform } from '@angular/core';
     name: 'zoppyName'
 })
 export class NamePipe implements PipeTransform {
-    public transform(value: string, args?: any): any {
-        if (!value) return 'vazio';
-        if (value.trim() === '') return 'vazio';
-        const names: string[] = value.split(' ');
+    public transform(value: string, hideEmptyLabel?: any): any {
+        if (!value && !hideEmptyLabel) return 'vazio';
+        if (value?.trim() === '' && !hideEmptyLabel) return 'vazio';
+        const names: string[] = value?.split(' ');
         const response: string[] = [];
+
+        if (!Array.isArray(names)) return '';
 
         for (const splitName of names) {
             if (!splitName[0]) continue;
