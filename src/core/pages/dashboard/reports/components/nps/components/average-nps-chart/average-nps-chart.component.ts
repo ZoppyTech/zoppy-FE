@@ -24,6 +24,8 @@ export class AverageNpsChartComponent implements OnInit {
     public average: number = -100;
     public declare chart: any;
 
+    public hasData: boolean = false;
+
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
     public ngOnInit(): void {
@@ -34,6 +36,7 @@ export class AverageNpsChartComponent implements OnInit {
     public async fetchChartData(): Promise<void> {
         try {
             this.average = await this.reportsService.getNpsAverage(this.reportRequest as GetReportRequest);
+            this.hasData = this.average > 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de média nível dos produtos');
