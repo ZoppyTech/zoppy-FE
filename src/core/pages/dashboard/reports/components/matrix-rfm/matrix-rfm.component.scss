@@ -148,15 +148,6 @@
             background-color: #7381d2;
         }
 
-        // .box {
-        //     //border: 1px solid var(--primary-500);
-        // }
-
-        // .box-champion {
-        //     //border-bottom: 0.125rem solid var(--primary-500);
-        //     //border-left: 0.125rem solid var(--primary-500);
-        // }
-
         .radius-top-left {
             border-top-left-radius: 0.75rem;
         }
@@ -199,7 +190,21 @@
                 height: 100%;
 
                 table {
-                    //height: 100%;
+                }
+            }
+        }
+    }
+}
+
+@media only screen and (max-width: 576px) {
+    .main-content {
+        .content-box {
+            .contact-list {
+                margin-bottom: 1rem;
+
+                .table {
+                    width: 100%;
+                    height: 100%;
                 }
             }
         }

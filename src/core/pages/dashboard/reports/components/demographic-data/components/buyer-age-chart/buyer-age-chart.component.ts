@@ -1,5 +1,6 @@
 import { Component, Input, ViewChild } from '@angular/core';
 import { ToastService } from '@ZoppyTech/toast';
+import { ArrayUtil } from '@ZoppyTech/utilities';
 import { Chart } from 'chart.js';
 import { environment } from 'src/environments/environment';
 import { GetReportRequest } from 'src/shared/models/requests/report/get-report.request';
@@ -29,6 +30,8 @@ export class BuyerAgeChartComponent {
     public chartLabels: Array<string> = [];
     public chartData: Array<any> = [];
 
+    public hasData: boolean = false;
+
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
 
     public ngOnInit(): void {
@@ -43,6 +46,7 @@ export class BuyerAgeChartComponent {
     public async fetchChartData(): Promise<void> {
         try {
             this.data = await this.reportsService.getBuyersAge(this.reportRequest as GetReportRequest);
+            this.hasData = ArrayUtil.sum(this.data, 'age') > 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de compras por gênero');

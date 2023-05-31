@@ -26,6 +26,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
         salesByState: {}
     };
     public isLoading: boolean = true;
+    public hasData: boolean = false;
     public loadingData: boolean = false;
     public filter: ZoppyFilter<ViewCustomerEntity> = this.initFilter();
 
@@ -111,6 +112,7 @@ export class MatrixRfmComponent implements OnInit, OnDestroy {
                 position: this.reportRequest?.position as string
             });
             this.filter.pagination = this.rfm.customers.pagination;
+            this.hasData = this.rfm.customers.data.length > 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter os clientes');

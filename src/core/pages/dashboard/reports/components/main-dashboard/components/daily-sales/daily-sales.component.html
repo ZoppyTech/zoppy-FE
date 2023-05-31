@@ -6,7 +6,7 @@
     </div>
     <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
         <img [src]="logo" alt="" *ngIf="isLoading" />
-        <div *ngIf="!isLoading" class="chart-content">
+        <div *ngIf="!isLoading && hasData" class="chart-content">
             <div class="legends margin-y-2">
                 <div class="item" *ngFor="let legend of legends">
                     <div class="point" [ngStyle]="{ 'background-color': legend.color }"></div>
@@ -17,5 +17,6 @@
                 <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend"></canvas>
             </div>
         </div>
+        <app-empty-chart *ngIf="!hasData && !isLoading" class="wide tall"></app-empty-chart>
     </div>
 </div>

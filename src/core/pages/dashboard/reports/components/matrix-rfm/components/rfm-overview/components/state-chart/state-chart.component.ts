@@ -27,6 +27,7 @@ export class StateChartComponent implements OnInit, OnChanges {
     public declare chart: any;
     public chartLabels: Array<string> = [];
     public chartData: Array<any> = [];
+    public hasData: boolean = false;
 
     public constructor(private readonly toast: ToastService) {}
 
@@ -108,6 +109,11 @@ export class StateChartComponent implements OnInit, OnChanges {
     }
 
     public drawChart(newInstance: boolean = false): void {
+        let total: number = 0;
+        for (const state in this.data.salesByState) total += this.data.salesByState[state];
+        this.hasData = total > 0;
+        if (!this.hasData) return;
+
         setTimeout(() => {
             if (!this.chart || newInstance) this.chart = this.createNewChartInstance();
             this.updateChartDatasets();

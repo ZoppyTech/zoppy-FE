@@ -1,7 +1,7 @@
 <div class="chart-container flex-center">
     <img [src]="logo" alt="" *ngIf="isLoading" />
 
-    <div class="data" *ngIf="!isLoading">
+    <div class="data" *ngIf="!isLoading && hasData">
         <div class="item">
             <span class="text-14 label-1">Receita total</span>
             <div class="separator"></div>
@@ -43,6 +43,13 @@
             <div class="separator"></div>
             <span class="text--primary text--bold text-18">{{ data.averageClientFrequency }}</span>
         </div>
+    </div>
+
+    <div class="wide tall flex flex-column" *ngIf="!hasData && !isLoading">
+        <div class="header">
+            <span class="text--bold text--primary text-18 margin-bottom-1">Informações gerais</span>
+        </div>
+        <app-empty-chart class="flex-grow"></app-empty-chart>
     </div>
 </div>
 

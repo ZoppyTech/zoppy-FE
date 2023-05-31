@@ -1,7 +1,12 @@
 <div class="container">
     <div class="header">
-        <div class="margin-bottom-2 flex space-between">
-            <span class="text--bold text--primary text-18">Curva ABC por {{ type === 'categories' ? 'Categoria' : 'Produto' }}</span>
+        <div class="margin-bottom-2 flex space-between flex-wrap grid-gap-1">
+            <span class="text--bold text--primary text-18"
+                >Curva ABC
+                <span class="text text--bold text--primary text-18 desktop"
+                    >por {{ type === 'categories' ? 'Categoria' : 'Produto' }}</span
+                ></span
+            >
             <ps-dropdown
                 (valueChange)="fetchData($event)"
                 [propertyValue]="'value'"
@@ -14,8 +19,9 @@
     </div>
     <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
         <img [src]="logo" alt="" *ngIf="isLoading" />
-        <div class="chart-content" *ngIf="!isLoading">
+        <div class="chart-content" *ngIf="!isLoading && hasData">
             <canvas baseChart [datasets]="chartData" [labels]="chartLabels" [options]="chartOptions" [legend]="chartLegend"></canvas>
         </div>
+        <app-empty-chart *ngIf="!hasData && !isLoading" class="wide tall"></app-empty-chart>
     </div>
 </div>

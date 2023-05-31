@@ -30,6 +30,8 @@ export class SalesByStateChartComponent {
     public chartLabels: Array<string> = [];
     public chartData: Array<any> = [];
 
+    public hasData: boolean = false;
+
     @Input() public reportRequest?: GetReportRequest;
 
     public constructor(private readonly reportsService: ReportService, private readonly toast: ToastService) {}
@@ -81,6 +83,7 @@ export class SalesByStateChartComponent {
     public async fetchChartData(): Promise<void> {
         try {
             this.data = await this.reportsService.getSalesByState(this.reportRequest as GetReportRequest);
+            this.hasData = this.data.length > 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de vendas por estado');

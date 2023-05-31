@@ -16,6 +16,7 @@ import { ReportService } from 'src/shared/services/reports/report.service';
 export class SalesByStateComponent implements OnDestroy, AfterViewInit {
     public data: ReportSaleByStateResponse[] = [];
     public isLoading: boolean = true;
+    public hasData: boolean = false;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
 
     public states: Array<StateChartValues> = [];
@@ -80,6 +81,7 @@ export class SalesByStateComponent implements OnDestroy, AfterViewInit {
     public async fetchChartData(): Promise<void> {
         try {
             this.data = await this.reportsService.getSalesByState(this.reportRequest as GetReportRequest);
+            this.hasData = this.data.length > 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o gráfico de vendas por estado');
