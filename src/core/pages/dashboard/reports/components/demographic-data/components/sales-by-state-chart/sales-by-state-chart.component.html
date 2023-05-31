@@ -7,7 +7,7 @@
                 <span class="text-12 text--600 margin-left-1">{{ currentRegionTitle }}</span>
             </div>
         </div>
-        <div class="pagination">
+        <div class="pagination" *ngIf="hasData">
             <div class="back" (click)="navigateBackwards()">
                 <ps-icon class="text-16 text--primary clickable" icon="icon-navigate_backwards"></ps-icon>
             </div>
@@ -18,8 +18,9 @@
     </div>
     <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
         <img [src]="logo" alt="" *ngIf="isLoading" />
-        <div class="chart-content" *ngIf="!isLoading">
+        <div class="chart-content" *ngIf="!isLoading && hasData">
             <canvas id="DemographicDataStateChart" #DemographicDataStateChart></canvas>
         </div>
+        <app-empty-chart *ngIf="!hasData && !isLoading" class="wide tall"></app-empty-chart>
     </div>
 </div>

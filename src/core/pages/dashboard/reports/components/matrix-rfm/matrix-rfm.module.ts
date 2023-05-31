@@ -8,6 +8,7 @@ import { PipesModule } from 'src/shared/pipes/pipes.module';
 import { StaticLoadingModule } from 'src/shared/components/static-loading/static-loading.module';
 import { SearchBarModule } from '@ZoppyTech/search-bar';
 import { PaginationModule } from '@ZoppyTech/pagination';
+import { EmptyChartModule } from 'src/shared/components/empty-chart/empty-chart.module';
 
 @NgModule({
     imports: [
@@ -18,7 +19,8 @@ import { PaginationModule } from '@ZoppyTech/pagination';
         PipesModule,
         StaticLoadingModule,
         SearchBarModule,
-        PaginationModule
+        PaginationModule,
+        EmptyChartModule
     ],
     declarations: [MatrixRfmComponent],
     exports: [MatrixRfmComponent]

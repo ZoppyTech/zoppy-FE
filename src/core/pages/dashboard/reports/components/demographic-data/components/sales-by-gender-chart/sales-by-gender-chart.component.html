@@ -6,14 +6,15 @@
     </div>
     <div class="main-content" [ngClass]="{ 'flex-center': isLoading }">
         <img [src]="logo" alt="" *ngIf="isLoading" />
-        <div class="chart-content" *ngIf="!isLoading">
+        <div class="chart-content" *ngIf="!isLoading && hasData">
             <canvas id="DemographicDataGenderChart" #DemographicDataGenderChart></canvas>
         </div>
-        <div class="legends">
+        <div class="legends" *ngIf="hasData">
             <div class="item" *ngFor="let legend of legends">
                 <div class="point" [ngStyle]="{ 'background-color': legend.color }"></div>
                 <span class="text-14 text--700">{{ legend.value }}</span>
             </div>
         </div>
+        <app-empty-chart *ngIf="!hasData && !isLoading" class="wide tall"></app-empty-chart>
     </div>
 </div>

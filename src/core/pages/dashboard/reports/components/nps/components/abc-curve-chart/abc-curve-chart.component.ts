@@ -21,6 +21,8 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
     public legends: Legend[] = [];
     public type: ItemType = 'categories';
 
+    public hasData: boolean = false;
+
     public types: Item[] = [
         {
             label: 'Produto',
@@ -113,6 +115,7 @@ export class AbcCurveChartComponent implements OnInit, OnDestroy {
             this.type = type;
             this.data = await this.reportService.getAbc(this.reportRequest as GetReportRequest, this.type);
             this.processInformation();
+            this.hasData = this.data.categories.length + this.data.products.length > 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter a curva ABC');

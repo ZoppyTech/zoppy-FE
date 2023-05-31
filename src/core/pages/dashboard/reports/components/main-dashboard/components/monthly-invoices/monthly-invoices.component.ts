@@ -16,6 +16,7 @@ import { ReportService } from 'src/shared/services/reports/report.service';
 export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
     public constructor(private readonly reportService: ReportService, private readonly toast: ToastService) {}
 
+    public hasData: boolean = false;
     public data: MonthlyInvoiceResponse = new MonthlyInvoiceResponse();
     public isLoading: boolean = true;
     public logo: string = `${environment.publicBucket}/imgs/loading.svg`;
@@ -86,13 +87,16 @@ export class MonthlyInvoicesComponent implements OnInit, OnDestroy {
             this.chartData[1].data = [];
             this.chartLabels = [];
             this.data = await this.reportService.getMonthlyInvoices(this.reportRequest as GetReportRequest);
+            let total: number = 0;
             for (const invoice in this.data.invoices) {
                 const info: string[] = invoice.split(' / ');
                 const label: string = `${DateUtil.getMonthName(parseInt(info[1]) - 1).substring(0, 3)}/${info[0].substring(2, 4)}`;
                 this.chartLabels.push(label);
                 this.chartData[1].data.push(this.data.invoices[invoice].invoice);
                 this.chartData[0].data.push(this.data.invoices[invoice].zoppyInvoice as number);
+                total += this.data.invoices[invoice].invoice ?? 0;
             }
+            this.hasData = total > 0;
         } catch (ex: any) {
             ex = ex as ZoppyException;
             this.toast.error(ex.message, 'Não foi possível obter o card de informações');
