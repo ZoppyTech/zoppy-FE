@@ -13,6 +13,6 @@
         <div class="chart-content" *ngIf="!isLoading && hasData">
             <canvas id="productLevelChart" width="100%" height="100%" #productLevelChart></canvas>
         </div>
-        <app-empty-chart *ngIf="!hasData" class="wide tall"></app-empty-chart>
+        <app-empty-chart *ngIf="!hasData && !isLoading" class="wide tall"></app-empty-chart>
     </div>
 </div>

@@ -9,6 +9,6 @@
         <div class="chart-content flex flex-center" *ngIf="!isLoading && hasData">
             <canvas id="consumerNpsChart" #consumerNpsChart></canvas>
         </div>
-        <app-empty-chart *ngIf="!hasData" class="wide tall"></app-empty-chart>
+        <app-empty-chart *ngIf="!hasData && !isLoading" class="wide tall"></app-empty-chart>
     </div>
 </div>
